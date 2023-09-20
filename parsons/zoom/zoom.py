@@ -276,9 +276,9 @@ class Zoom:
         logger.info(f"Retrieved {tbl.num_rows} webinar registrants.")
         return tbl
 
-    def get_meeting_poll(self, meeting_id, poll_id) -> Table:
+    def get_meeting_poll_metadata(self, meeting_id, poll_id) -> Table:
         """
-        Get a specific poll for a given meeting ID
+        Get metadata about a specific poll for a given meeting ID
 
         `Args`:
             meeting_id: int
@@ -303,9 +303,9 @@ class Zoom:
 
         return tbl
 
-    def get_meeting_all_polls(self, meeting_id) -> Table:
+    def get_meeting_all_polls_metadata(self, meeting_id) -> Table:
         """
-        Get all polls for a given meeting ID
+        Get metadata for all polls for a given meeting ID
 
         `Args`:
             meeting_id: int
@@ -326,9 +326,9 @@ class Zoom:
 
         return tbl
 
-    def get_past_meeting_poll(self, meeting_id) -> Table:
+    def get_past_meeting_poll_metadata(self, meeting_id) -> Table:
         """
-        List poll results of a past meeting.
+        List poll metadata of a past meeting.
 
         `Args`:
             meeting_id: int
@@ -349,9 +349,9 @@ class Zoom:
 
         return tbl
 
-    def get_webinar_poll(self, webinar_id, poll_id) -> Table:
+    def get_webinar_poll_metadata(self, webinar_id, poll_id) -> Table:
         """
-        Get a specific poll for a given webinar ID
+        Get metadata for a specific poll for a given webinar ID
 
         `Args`:
             webinar_id: str
@@ -376,9 +376,9 @@ class Zoom:
 
         return tbl
 
-    def get_webinar_all_polls(self, webinar_id) -> Table:
+    def get_webinar_all_polls_metadata(self, webinar_id) -> Table:
         """
-        Get all polls for a given meeting ID
+        Get metadata for all polls for a given webinar ID
 
         `Args`:
             webinar_id: str
@@ -399,9 +399,9 @@ class Zoom:
 
         return tbl
 
-    def get_past_webinar_poll(self, webinar_id) -> Table:
+    def get_past_webinar_poll_metadata(self, webinar_id) -> Table:
         """
-        Retrieves the results for Webinar Polls of a specific Webinar
+        Retrieves the metadata for Webinar Polls of a specific Webinar
 
         `Args`:
             webinar_id: str
@@ -419,5 +419,37 @@ class Zoom:
             return Table(tbl)
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
+
+        return tbl
+
+    def get_meeting_poll_results(self, meeting_id) -> Table:
+        """
+        Get a report of poll results for a past meeting
+        """
+
+        endpoint = f"report/meetings/{meeting_id}/polls"
+        tbl = self._get_request(endpoint=endpoint, data_key="questions")
+
+        if type(tbl) == dict:
+            logger.debug(f"No poll data returned for meeting ID {meeting_id}")
+            return Table(tbl)
+
+        logger.info(f"Retrieved {tbl.num_rows} reults for meeting ID {meeting_id}")
+
+        return tbl
+
+    def get_webinar_poll_results(self, webinar_id) -> Table:
+        """
+        Get a report of poll results for a past webinar
+        """
+
+        endpoint = f"report/webinars/{webinar_id}/polls"
+        tbl = self._get_request(endpoint=endpoint, data_key="questions")
+
+        if type(tbl) == dict:
+            logger.debug(f"No poll data returned for webinar ID {webinar_id}")
+            return Table(tbl)
+
+        logger.info(f"Retrieved {tbl.num_rows} reults for webinar ID {webinar_id}")
 
         return tbl

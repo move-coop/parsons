@@ -510,7 +510,7 @@ class TestZoom(unittest.TestCase):
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "meetings/123/polls/1", json=poll)
-        assert_matching_tables(self.zoom.get_meeting_poll(123, 1), tbl)
+        assert_matching_tables(self.zoom.get_meeting_poll_metadata(123, 1), tbl)
 
     @requests_mock.Mocker()
     def test_get_meeting_all_polls(self, m):
@@ -648,7 +648,7 @@ class TestZoom(unittest.TestCase):
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "meetings/123/polls", json=polls)
-        assert_matching_tables(self.zoom.get_meeting_all_polls(123), tbl)
+        assert_matching_tables(self.zoom.get_meeting_all_polls_metadata(123), tbl)
 
     @requests_mock.Mocker()
     def test_get_past_meeting_poll(self, m):
@@ -716,7 +716,7 @@ class TestZoom(unittest.TestCase):
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "past_meetings/123/polls", json=poll)
-        assert_matching_tables(self.zoom.get_past_meeting_poll(123), tbl)
+        assert_matching_tables(self.zoom.get_past_meeting_poll_metadata(123), tbl)
 
     @requests_mock.Mocker()
     def test_get_webinar_poll(self, m):
@@ -779,7 +779,7 @@ class TestZoom(unittest.TestCase):
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "webinars/123/polls/456", json=poll)
-        assert_matching_tables(self.zoom.get_webinar_poll(123, 456), tbl)
+        assert_matching_tables(self.zoom.get_webinar_poll_metadata(123, 456), tbl)
 
     @requests_mock.Mocker()
     def test_get_webinar_all_polls(self, m):
@@ -856,7 +856,7 @@ class TestZoom(unittest.TestCase):
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "webinars/123/polls", json=polls)
-        assert_matching_tables(self.zoom.get_webinar_all_polls(123), tbl)
+        assert_matching_tables(self.zoom.get_webinar_all_polls_metadata(123), tbl)
 
     @requests_mock.Mocker()
     def test_get_past_webinar_poll(self, m):
@@ -919,4 +919,98 @@ class TestZoom(unittest.TestCase):
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "past_webinars/123/polls", json=poll)
-        assert_matching_tables(self.zoom.get_past_webinar_poll(123), tbl)
+        assert_matching_tables(self.zoom.get_past_webinar_poll_metadata(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_get_meeting_poll_results(self, m):
+        poll = {
+            "id": 123456,
+            "uuid": "4444AAAiAAAAAiAiAiiAii==",
+            "start_time": "2022-02-01T12:34:12.660Z",
+            "questions": [
+                {
+                    "email": "jchill@example.com",
+                    "name": "Jill Chill",
+                    "first_name": "Jill",
+                    "last_name": "Chill",
+                    "question_details": [
+                        {
+                            "answer": "I am wonderful.",
+                            "date_time": "2022-02-01T12:37:12.660Z",
+                            "polling_id": "798fGJEWrA",
+                            "question": "How are you?",
+                        }
+                    ],
+                }
+            ],
+        }
+
+        tbl = Table(
+            [
+                {
+                    "email": "jchill@example.com",
+                    "name": "Jill Chill",
+                    "first_name": "Jill",
+                    "last_name": "Chill",
+                    "question_details": [
+                        {
+                            "answer": "I am wonderful.",
+                            "date_time": "2022-02-01T12:37:12.660Z",
+                            "polling_id": "798fGJEWrA",
+                            "question": "How are you?",
+                        }
+                    ],
+                }
+            ]
+        )
+
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "report/meetings/123/polls", json=poll)
+        assert_matching_tables(self.zoom.get_meeting_poll_results(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_get_webinar_poll_results(self, m):
+        poll = {
+            "id": 123456,
+            "questions": [
+                {
+                    "email": "jchill@example.com",
+                    "name": "Jill Chill",
+                    "first_name": "Jill",
+                    "last_name": "Chill",
+                    "question_details": [
+                        {
+                            "answer": "I am wonderful.",
+                            "date_time": "2022-02-01T12:37:12.660Z",
+                            "polling_id": "798fGJEWrA",
+                            "question": "How are you?",
+                        }
+                    ],
+                }
+            ],
+            "start_time": "2022-02-01T12:34:12.660Z",
+            "uuid": "4444AAAiAAAAAiAiAiiAii==",
+        }
+
+        tbl = Table(
+            [
+                {
+                    "email": "jchill@example.com",
+                    "name": "Jill Chill",
+                    "first_name": "Jill",
+                    "last_name": "Chill",
+                    "question_details": [
+                        {
+                            "answer": "I am wonderful.",
+                            "date_time": "2022-02-01T12:37:12.660Z",
+                            "polling_id": "798fGJEWrA",
+                            "question": "How are you?",
+                        }
+                    ],
+                }
+            ]
+        )
+
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "report/webinars/123/polls", json=poll)
+        assert_matching_tables(self.zoom.get_webinar_poll_results(123), tbl)

@@ -239,13 +239,17 @@
         <span class="n">mobile_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mobile_status</span><span class="o">=</span><span class="s2">&quot;subscribed&quot;</span><span class="p">,</span>
         <span class="n">background_processing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">identifiers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates or updates a person record. In order to update an existing record instead of</span>
 <span class="sd">        creating a new one, you must supply an email or mobile number which matches a record</span>
 <span class="sd">        in the database.</span>
+
+<span class="sd">        Identifiers are intentionally not included as an option on</span>
+<span class="sd">        this method, because their use can cause buggy behavior if</span>
+<span class="sd">        they are not globally unique. ActionNetwork support strongly</span>
+<span class="sd">        encourages developers not to use custom identifiers.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            email_address:</span>
@@ -293,16 +297,6 @@
 <span class="sd">                an immediate success, with an empty JSON body, and send your request to the</span>
 <span class="sd">                background queue for eventual processing.</span>
 <span class="sd">                https://actionnetwork.org/docs/v2/#background-processing</span>
-<span class="sd">            identifiers:</span>
-<span class="sd">                List of strings to be used as globally unique</span>
-<span class="sd">                identifiers. Can be useful for matching contacts back</span>
-<span class="sd">                to other platforms and systems. If the identifier</span>
-<span class="sd">                provided is not globally unique in ActionNetwork, it will</span>
-<span class="sd">                simply be ignored and not added to the object. Action Network</span>
-<span class="sd">                also creates its own identifier for each new resouce.</span>
-<span class="sd">                https://actionnetwork.org/docs/v2/#resources</span>
-<span class="sd">                e.g.: [&quot;foreign_system:1&quot;, &quot;other_system:12345abcd&quot;]</span>
-
 <span class="sd">            **kwargs:</span>
 <span class="sd">                Any additional fields to store about the person. Action Network allows</span>
 <span class="sd">                any custom field.</span>
@@ -367,8 +361,7 @@
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;postal_addresses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">postal_addresses</span>
         <span class="k">if</span> <span class="n">tags</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;add_tags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tags</span>
-        <span class="k">if</span> <span class="n">identifiers</span><span class="p">:</span>
-            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;identifiers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">identifiers</span>
+
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;custom_fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/people&quot;</span>
         <span class="k">if</span> <span class="n">background_processing</span><span class="p">:</span>

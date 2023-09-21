@@ -431,6 +431,7 @@ class GoogleCloudStorage(object):
                 },
                 "gcs_data_sink": {
                     "bucket_name": gcs_sink_bucket,
+                    "path": destination_path,
                 },
             }
 

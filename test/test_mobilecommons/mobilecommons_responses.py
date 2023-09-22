@@ -137,6 +137,7 @@ Reply STOP to quit. Msg&amp;DataRatesMayApply</body>
   <tags>
   </tags>
 </broadcast>
+</broadcasts>
 </response>
 '''
 

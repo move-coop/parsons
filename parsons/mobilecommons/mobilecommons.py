@@ -70,42 +70,61 @@ class MobileCommons:
         final_table = Table()
         # Max page_limit is 1000 for MC
         page_limit = min((limit or 1000), 1000)
+
+        # Set get request params
         params = {'limit': page_limit, **self.default_params, **params}
 
         logger.info(f'Working on fetching first {page_limit} rows. This can take a long time.')
 
         # Make get call and parse XML into list of dicts
+        page = 1
         response_dict = self.parse_get_request(endpoint=endpoint, params=params)
 
-        # if there's only one row, then it is returned as a dict, otherwise as a list
+        # If there's only one row, then it is returned as a dict, otherwise as a list
         data = response_dict['response'][first_data_key][second_data_key]
         if isinstance(data, dict):
             data = [data]
+
+        # Convert to parsons table
         response_table = Table(data)
+
+        # empty_page used for pagination below
+        if response_table.num_rows > 0:
+            empty_page = False
+        else:
+            raise ValueError('There are no records for specified resource')
+
         # Unpack any specified elements
         if elements_to_unpack:
             for col in elements_to_unpack:
                 response_table.unpack_dict(col)
+
         # Append to final table
         final_table.concat(response_table)
         final_table.materialize()
 
-        # MC GET responses sometimes include a page_count parameter to indicate how many pages
-        # are left, but when the response doesn't it does include a 'num' parameter that, when
-        # you reach an empty page, equals 0. The following logic attempts to handle both cases
+        # Now must paginate to get more records
+        # MC GET responses sometimes includes a page_count parameter to indicate how many pages
+        # are available. Other times, the response includes a 'num' parameter that, when
+        # you reach an empty page, equals 0. In the first scenario we know to stop paginating when
+        # we reach the last page. In the second, we know to stop paginating when we encounter
+        # and empty page
+
+        # First scenario
         try:
             avail_pages = int(response_dict['response'][first_data_key]['page_count'])
             total_records = avail_pages * page_limit
             page_indicator = 'page_count'
 
+        # Second scenario
         except KeyError:
+            response_dict['response'][first_data_key]['num']
             page_indicator = 'num'
-            # If page_count is not available, we cannot calculate total_records
+            # If page_count is not available, we cannot calculate total_records and will paginate
+            # until we hit user defined limit or an empty page
             total_records = float('inf')
 
         # Go fetch other pages of data
-        page = 1
-        empty_page = False
         while final_table.num_rows < (limit or total_records) and not empty_page:
             page += 1
             page_params = {'page': str(page), **params}

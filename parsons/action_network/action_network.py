@@ -109,6 +109,11 @@ class ActionNetwork(object):
         creating a new one, you must supply an email or mobile number which matches a record
         in the database.
 
+        Identifiers are intentionally not included as an option on
+        this method, because their use can cause buggy behavior if
+        they are not globally unique. ActionNetwork support strongly
+        encourages developers not to use custom identifiers.
+
         `Args:`
             email_address:
                 Either email_address or mobile_number are required. Can be any of the following
@@ -171,39 +176,39 @@ class ActionNetwork(object):
         Adds a person to Action Network
         """
         email_addresses_field = None
-        if type(email_address) == str:
+        if isinstance(email_address, str):
             email_addresses_field = [{"address": email_address}]
-        elif type(email_address) == list:
-            if type(email_address[0]) == str:
+        elif isinstance(email_address, list):
+            if isinstance(email_address[0], str):
                 email_addresses_field = [{"address": email} for email in email_address]
                 email_addresses_field[0]["primary"] = True
-            if type(email_address[0]) == dict:
+            if isinstance(email_address[0], dict):
                 email_addresses_field = email_address
 
         mobile_numbers_field = None
-        if type(mobile_number) == str:
+        if isinstance(mobile_number, str):
             mobile_numbers_field = [
                 {"number": re.sub("[^0-9]", "", mobile_number), "status": mobile_status}
             ]
-        elif type(mobile_number) == int:
+        elif isinstance(mobile_number, int):
             mobile_numbers_field = [
                 {"number": str(mobile_number), "status": mobile_status}
             ]
-        elif type(mobile_number) == list:
+        elif isinstance(mobile_number, list):
             if len(mobile_number) > 1:
                 raise ("Action Network allows only 1 phone number per activist")
-            if type(mobile_number[0]) == str:
+            if isinstance(mobile_number[0], list):
                 mobile_numbers_field = [
                     {"number": re.sub("[^0-9]", "", cell), "status": mobile_status}
                     for cell in mobile_number
                 ]
                 mobile_numbers_field[0]["primary"] = True
-            if type(mobile_number[0]) == int:
+            if isinstance(mobile_number[0], int):
                 mobile_numbers_field = [
                     {"number": cell, "status": mobile_status} for cell in mobile_number
                 ]
                 mobile_numbers_field[0]["primary"] = True
-            if type(mobile_number[0]) == dict:
+            if isinstance(mobile_number[0], dict):
                 mobile_numbers_field = mobile_number
 
         if not email_addresses_field and not mobile_numbers_field:
@@ -242,7 +247,11 @@ class ActionNetwork(object):
             entry_id.split(":")[1]
             for entry_id in identifiers
             if "action_network:" in entry_id
-        ][0]
+        ]
+        if not person_id:
+            logger.error(f"Response gave no valid person_id: {identifiers}")
+        else:
+            person_id = person_id[0]
         if response["created_date"] == response["modified_date"]:
             logger.info(f"Entry {person_id} successfully added.")
         else:

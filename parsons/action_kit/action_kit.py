@@ -233,6 +233,63 @@ class ActionKit(object):
         )
         logger.info(f"{resp.status_code}: {event_id}")
 
+    def get_blackholed_email(self, email):
+        """
+        Get a blackholed email. A blackholed email is an email that has been prevented from
+        receiving bulk and transactional emails from ActionKit. `Documentation <https://\
+        docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole>`_.
+
+        `Args:`
+            email: str
+                Blackholed email of the record to get.
+        `Returns`:
+            Parsons.Table
+                The blackholed email data.
+        """
+
+        return self.paginated_get("blackholedemail", email=email)
+
+    def blackhole_email(self, email):
+        """
+        Prevent an email from receiving bulk and transactional emails from ActionKit.
+        `Documentation <https://docs.actionkit.com/docs/manual/guide/\
+        mailings_tools.html#blackhole>`_.
+
+        `Args:`
+            user_id: str
+                Email to blackhole
+        `Returns:`
+            API location of new resource
+        """
+
+        return self._base_post(
+            endpoint="blackholedemail",
+            exception_message="Could not blackhole email",
+            email=email,
+        )
+
+    def delete_user_data(self, email, **kwargs):
+        """
+        Delete user data.
+
+        `Args:`
+            email: str
+                Email of user to delete data
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://docs.actionkit.com/docs/manual/api/\
+                rest/users.html>`_.
+        `Returns:`
+            API location of anonymized user
+        """
+
+        return self._base_post(
+            endpoint="eraser",
+            exception_message="Could not delete user data",
+            email=email,
+            **kwargs,
+        )
+
     def delete_user(self, user_id):
         """
         Delete a user.
@@ -857,7 +914,7 @@ class ActionKit(object):
                     ak.get_orders(import_id="my-import-123")
         `Returns:`
             Parsons.Table
-                The events data.
+                The orders data.
         """
         return self.paginated_get("order", limit=limit, **kwargs)
 
@@ -1034,7 +1091,7 @@ class ActionKit(object):
                     ak.get_transactions(order="order-1")
         `Returns:`
             Parsons.Table
-                The events data.
+                The transactions data.
         """
         return self.paginated_get("transaction", limit=limit, **kwargs)
 

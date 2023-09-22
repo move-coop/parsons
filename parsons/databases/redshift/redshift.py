@@ -296,6 +296,7 @@ class Redshift(
         bucket_region=None,
         strict_length=True,
         template_table=None,
+        line_delimited=False,
     ):
         """
         Copy a file from s3 to Redshift.
@@ -414,6 +415,8 @@ class Redshift(
                     local_path = s3.get_file(bucket, key)
                     if data_type == "csv":
                         tbl = Table.from_csv(local_path, delimiter=csv_delimiter)
+                    elif data_type == "json":
+                        tbl = Table.from_json(local_path, line_delimited=line_delimited)
                     else:
                         raise TypeError("Invalid data type provided")
 
@@ -433,6 +436,7 @@ class Redshift(
                 logger.info(f"{table_name} created.")
 
             # Copy the table
+            logger.info(f"Data type is {data_type}")
             copy_sql = self.copy_statement(
                 table_name,
                 bucket,
@@ -708,6 +712,7 @@ class Redshift(
         allow_overwrite=True,
         parallel=True,
         max_file_size="6.2 GB",
+        extension=None,
         aws_region=None,
         aws_access_key_id=None,
         aws_secret_access_key=None,
@@ -753,6 +758,8 @@ class Redshift(
         max_file_size: str
             The maximum size of files UNLOAD creates in Amazon S3. Specify a decimal value between
             5 MB and 6.2 GB.
+        extension: str
+            This extension will be added to the end of file names loaded to S3
         region: str
             The AWS Region where the target Amazon S3 bucket is located. REGION is required for
             UNLOAD to an Amazon S3 bucket that is not in the same AWS Region as the Amazon Redshift
@@ -792,6 +799,8 @@ class Redshift(
             statement += "ESCAPE \n"
         if allow_overwrite:
             statement += "ALLOWOVERWRITE \n"
+        if extension:
+            statement += f"EXTENSION '{extension}' \n"
         if aws_region:
             statement += f"REGION {aws_region} \n"
 

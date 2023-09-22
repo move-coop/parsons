@@ -42,7 +42,7 @@ class MobileCommons:
         self.client = APIConnector(uri=MC_URI, auth=(self.username,self.password))
 
     def mc_get_request(self, endpoint, first_data_key, second_data_key, params,
-                       elements_to_unpack=None, limit=None):
+                       elements_to_unpack=None, limit=1000):
         """
         A function for GET requests that handles MobileCommons xml responses and pagination
 

@@ -42,7 +42,7 @@ class MobileCommons:
         self.client = APIConnector(uri=MC_URI, auth=(self.username,self.password))
 
     def mc_get_request(self, endpoint, first_data_key, second_data_key, params,
-                       elements_to_unpack=None, limit=1000):
+                       elements_to_unpack=None, limit=None):
         """
         A function for GET requests that handles MobileCommons xml responses and pagination
 
@@ -89,27 +89,24 @@ class MobileCommons:
         # Append to final table
         final_table.concat(response_table)
         final_table.materialize()
-        # Calculate how many more pages we need to get in order to reach user set record limit
-        req_pages = math.ceil(limit/1000)
-        # Calculate how many records we need from last page to match limit exactly
-        final_page_limit = limit % 1000
+
         # MC GET responses sometimes include a page_count parameter to indicate how many pages
         # are left, but when the response doesn't it does include a 'num' parameter that, when
-        # no records exist for a requested page, equals 0. The following attempts to deal handle
-        # both cases
+        # you reach an empty page, equals 0. The following logic attempts to handle both cases
         try:
-            num = int(response_dict['response'][first_data_key]['num'])
-            page_indicator = 'num'
-        except KeyError:
             avail_pages = int(response_dict['response'][first_data_key]['page_count'])
+            total_records = avail_pages * page_limit
             page_indicator = 'page_count'
-            # Determine which page to finish on
-            req_pages = min(avail_pages, req_pages)
-            # Following assignment is arbitrary, just cannot be 0
-            num = 1
+
+        except KeyError:
+            page_indicator = 'num'
+            # If page_count is not available, we cannot calculate total_records
+            total_records = float('inf')
+
         # Go fetch other pages of data
         page = 1
-        while page < req_pages and num > 0:
+        empty_page = False
+        while final_table.num_rows < (limit or total_records) and not empty_page:
             page += 1
             page_params = {'page': str(page), **params}
             logger.info(f'Fetching rows {(page - 1) * page_limit + 1} - {(page)*page_limit} '
@@ -118,18 +115,16 @@ class MobileCommons:
             response_dict = self.parse_get_request(endpoint=endpoint, params=page_params)
             # Check to see if page was empty if num parameter is available
             if page_indicator == 'num':
-                num = int(response_dict['response'][first_data_key]['num'])
-            if num > 0:
+                empty_page = int(response_dict['response'][first_data_key]['num']) > 0
+
+            if not empty_page:
                 # Extract data
                 response_table = Table(response_dict['response'][first_data_key][second_data_key])
-                # If this is the last page, grab only subset of data
-                if page == req_pages:
-                    response_table = Table(response_table.table.rowslice(final_page_limit))
                 # Append to final table
                 final_table.concat(response_table)
                 final_table.materialize()
 
-        return final_table
+        return Table(final_table[:limit])
 
     def check_response_status_code(self, response):
         if response.status_code != 200:

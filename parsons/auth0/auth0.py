@@ -66,13 +66,11 @@ class Auth0(object):
         `Returns:`
             Table Class
         """
-        return Table(
-            requests.get(
-                f"{self.base_url}/api/v2/users-by-email",
-                headers=self.headers,
-                params={"email": email},
-            ).json()
-        )
+        url = f"{self.base_url}/api/v2/users-by-email"
+        val = requests.get(url, headers=self.headers, params={"email": email})
+        if val.status_code == 429:
+            raise requests.exceptions.ConnectionError(val.json()["message"])
+        return Table(val.json())
 
     def upsert_user(
         self,

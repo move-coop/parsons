@@ -151,12 +151,15 @@ class Slack(object):
                 The `ts` value of the parent message. If used, this will thread the message.
             username: str
                 The username associated with the message post. If none set, user defaults to slack's
-                rules on message authentication.
+                rules on message authentication. This setting will be ignored if authenticated user does
+                not have `chat:write.customize` permission.
             icon_url: str
                 Url link to user image associated with message. If none set, user image defaults to
-                slack's rules on message authentication.
+                slack's rules on message authentication. This setting will be ignored if authenticated user does
+                not have `chat:write.customize` permission.
             icon_emoji: str
-                colon shortcode for slack emoji to be used alongside user message.
+                colon shortcode for slack emoji to be used alongside user message. This setting will be ignored
+                if authenticated user does not have `chat:write.customize` permission.
 
 
         `Returns:`

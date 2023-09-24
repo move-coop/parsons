@@ -148,7 +148,7 @@ class Slack(object):
                 more information about legacy authorship
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
-            \**kwargs: kwargs
+            **kwargs: kwargs
                 Additional arguments for chat.postMessage API call. See documentation
                 <https://api.slack.com/methods/chat.postMessage>` for more info.
 

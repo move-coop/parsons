@@ -1,5 +1,6 @@
 import os
 import time
+import warnings
 
 from parsons.etl.table import Table
 from parsons.utilities.check_env import check
@@ -141,6 +142,7 @@ class Slack(object):
             text: str
                 Text of the message to send.
             as_user: str
+                This is a deprecated argument.
                 Pass true to post the message as the authenticated user,
                 instead of as a bot. Defaults to false. See
                 https://api.slack.com/methods/chat.postMessage#authorship for
@@ -151,11 +153,16 @@ class Slack(object):
             `dict`:
                 A response json
         """
+        if as_user:
+            warnings.warn(
+                "as_user is a deprecated argument on message_channel()",
+                DeprecationWarning,
+                stacklevel=2,
+            )
         resp = self.client.api_call(
             "chat.postMessage",
             channel=channel,
             text=text,
-            as_user=as_user,
             thread_ts=parent_message_id,
         )
 
@@ -165,7 +172,7 @@ class Slack(object):
                 time.sleep(int(resp["headers"]["Retry-After"]))
 
                 resp = self.client.api_call(
-                    "chat.postMessage", channel=channel, text=text, as_user=as_user
+                    "chat.postMessage", channel=channel, text=text
                 )
 
             raise SlackClientError(resp["error"])

@@ -131,7 +131,8 @@ class Slack(object):
             payload["thread_ts"] = parent_message_id
         return requests.post(webhook, json=payload)
 
-    def message_channel(self, channel, text, as_user=False, parent_message_id=None):
+    def message_channel(self, channel, text, as_user=False, parent_message_id=None, username=None,
+                        icon_url=None, icon_emoji=None):
         """
         Send a message to a Slack channel
 
@@ -142,20 +143,30 @@ class Slack(object):
             text: str
                 Text of the message to send.
             as_user: str
-                This is a deprecated argument.
-                Pass true to post the message as the authenticated user,
-                instead of as a bot. Defaults to false. See
-                https://api.slack.com/methods/chat.postMessage#authorship for
+                This is a deprecated argument. Use optional username, icon_url, and icon_emoji
+                args to customize the user posting the message.
+                See https://api.slack.com/methods/chat.postMessage#authorship for
                 more information about Slack authorship.
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
+            username: str
+                The username associated with the message post. If none set, user defaults to slack's
+                rules on message authentication.
+            icon_url: str
+                Url link to user image associated with message. If none set, user image defaults to
+                slack's rules on message authentication.
+            icon_emoji: str
+                colon shortcode for slack emoji to be used alongside user message.
+
+
         `Returns:`
             `dict`:
                 A response json
         """
         if as_user:
             warnings.warn(
-                "as_user is a deprecated argument on message_channel()",
+                "as_user is a deprecated argument on message_channel(). \
+                For message user customization, use the username, icon_url, and icon_emoji arguments.",
                 DeprecationWarning,
                 stacklevel=2,
             )
@@ -164,6 +175,9 @@ class Slack(object):
             channel=channel,
             text=text,
             thread_ts=parent_message_id,
+            username=username,
+            icon_emoji=icon_emoji,
+            icon_url=icon_url,
         )
 
         if not resp["ok"]:

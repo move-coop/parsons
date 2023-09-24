@@ -179,7 +179,7 @@ class Slack(object):
                 time.sleep(int(resp["headers"]["Retry-After"]))
 
                 resp = self.client.api_call(
-                    "chat.postMessage", channel=channel, text=text
+                    "chat.postMessage", channel=channel, text=text, **kwargs
                 )
 
             resp.pop('headers', None)

@@ -180,7 +180,9 @@ class Slack(object):
                     "chat.postMessage", channel=channel, text=text
                 )
 
-            raise SlackClientError(resp["error"])
+            resp.pop('headers', None)
+
+            raise SlackClientError(resp)
 
         return resp
 

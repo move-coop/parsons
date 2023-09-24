@@ -131,7 +131,7 @@ class Slack(object):
             payload["thread_ts"] = parent_message_id
         return requests.post(webhook, json=payload)
 
-    def message_channel(self, channel, text, as_user=False, parent_message_id=None, **kwargs):
+    def message_channel(self, channel, text, parent_message_id=None, **kwargs):
         """
         Send a message to a Slack channel
 
@@ -157,12 +157,14 @@ class Slack(object):
             `dict`:
                 A response json
         """
-        if as_user:
+
+        if kwargs.get('as_user', None) is not None:
             warnings.warn(
                 "as_user is a deprecated argument on message_channel().",
                 DeprecationWarning,
                 stacklevel=2,
             )
+
         resp = self.client.api_call(
             "chat.postMessage",
             channel=channel,

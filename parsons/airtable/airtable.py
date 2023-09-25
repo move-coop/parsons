@@ -103,7 +103,6 @@ class Airtable(object):
             "view": view,
             "formula": formula,
         }
-
         if sort:
             kwargs["sort"] = sort
 

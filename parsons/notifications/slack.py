@@ -155,7 +155,7 @@ class Slack(object):
                 A response json
         """
 
-        if kwargs.get("as_user", None) is not None:
+        if "as_user" in kwargs:
             warnings.warn(
                 "as_user is a deprecated argument on message_channel().",
                 DeprecationWarning,

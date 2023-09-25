@@ -161,6 +161,13 @@ class Slack(object):
                 DeprecationWarning,
                 stacklevel=2,
             )
+        if "thread_ts" in kwargs:
+            warnings.warn(
+                "thread_ts argument on message_channel() will be ignored. Use parent_message_id.",
+                Warning,
+                stacklevel=2,
+            )
+            kwargs.pop("thread_ts", None)
 
         resp = self.client.api_call(
             "chat.postMessage",

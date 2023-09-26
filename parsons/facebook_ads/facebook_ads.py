@@ -390,7 +390,7 @@ class FacebookAds(object):
                 self.access_token,
                 audience_id,
                 schema,
-                data[i : i + batch_size],
+                data[i: i + batch_size],
                 i,
                 num_rows,
             )

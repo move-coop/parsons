@@ -348,6 +348,61 @@ class TestActionNetwork(unittest.TestCase):
             },
             "event_id": "fake-id",
         }
+        self.fake_fundraising_pages = {
+            "total_pages": 1,
+            "per_page": 1,
+            "page": 1,
+            "total_records": 1,
+            "_links": {
+                "next": {"href": f"{self.api_url}/fundraising_pages?page=2"},
+                "osdi:fundraising_pages": [
+                    {"href": f"{self.api_url}/fundraising_pages/{self.fake_tag_id_1}"},
+                ],
+                "curies": [
+                    {"name": "osdi", "templated": True},
+                    {"name": "action_network", "templated": True},
+                ],
+                "self": {"href": f"{self.api_url}/fundraising_pages"},
+            },
+            "_embedded": {
+                "osdi:fundraising_pages": [
+                    {
+                        "identifiers": [
+                            ""
+                        ],
+                        "created_date": self.fake_date,
+                        "total_donations": 0,
+                        "total_amount": "0.00",
+                        "currency": "USD",
+                        "action_network:sponsor": {
+                            "title": "",
+                            "browser_url": ""
+                        },
+                        "_links": {
+                            "self": {
+                                "href": f"{self.api_url}/fundraising_pages"
+                            },
+                            "osdi:creator": {
+                                "href": "fake_url"
+                            },
+                            "osdi:donations": {
+                                "href": "fake_url"
+                            },
+                            "osdi:record_donation_helper": {
+                                "href": "fake_url"
+                            }
+                        },
+                        "modified_date": self.fake_date,
+                        "origin_system": "Test",
+                        "title": "Hello",
+                        "_embedded": {
+                            "osdi:creator": ""
+                        },
+                        "action_network:hidden": False
+                    }
+                ]
+            },
+        }
 
     @requests_mock.Mocker()
     def test_get_page(self, m):
@@ -502,3 +557,13 @@ class TestActionNetwork(unittest.TestCase):
             self.an._get_entry_list("tags", filter=self.fake_tag_filter),
             Table(self.fake_tag_list["_embedded"]["osdi:tags"]),
         )
+
+    @requests_mock.Mocker()
+    def test_get_fundraising_pages(self, m):
+        m.get(
+            f"{self.api_url}/fundraising_pages",
+            text=json.dumps(self.fake_fundraising_pages),
+        )
+        assert_matching_tables(
+            self.an._get_entry_list("fundraising_pages", 1, 1),
+            self.fake_fundraising_pages["_embedded"]["osdi:fundraising_pages"])

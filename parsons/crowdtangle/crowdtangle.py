@@ -25,30 +25,29 @@ class CrowdTangle(object):
 
     def __init__(self, api_key=None):
 
-        self.api_key = check_env.check('CT_API_KEY', api_key)
+        self.api_key = check_env.check("CT_API_KEY", api_key)
         self.uri = CT_URI
 
-    def _base_request(self, endpoint, req_type='GET', args=None):
+    def _base_request(self, endpoint, req_type="GET", args=None):
 
-        url = f'{self.uri}/{endpoint}'
-        base_args = {'token': self.api_key,
-                     'count': PAGE_SIZE}
+        url = f"{self.uri}/{endpoint}"
+        base_args = {"token": self.api_key, "count": PAGE_SIZE}
 
         # Add any args passed through to the base args
         if args is not None:
             base_args.update(args)
 
         r = request(req_type, url, params=base_args).json()
-        json = r['result']
+        json = r["result"]
         keys = list(json.keys())
         data = json[keys[0]]
 
-        while 'nextPage' in list(json['pagination'].keys()):
+        while "nextPage" in list(json["pagination"].keys()):
             logger.info(f"Retrieving {PAGE_SIZE} rows.")
             time.sleep(REQUEST_SLEEP)
-            next_url = json['pagination']['nextPage']
+            next_url = json["pagination"]["nextPage"]
             r = request(req_type, next_url).json()
-            json = r['result']
+            json = r["result"]
             data.extend(json[keys[0]])
 
         logger.info(f"Retrieved {len(data)} rows.")
@@ -58,7 +57,7 @@ class CrowdTangle(object):
     def _base_unpack(self, ParsonsTable):
 
         logger.debug("Working to unpack the Parsons Table...")
-        logger.debug(f'Starting with {len(ParsonsTable.columns)} columns...')
+        logger.debug(f"Starting with {len(ParsonsTable.columns)} columns...")
         sample = ParsonsTable[0]
 
         col_dict = {}
@@ -71,7 +70,7 @@ class CrowdTangle(object):
             elif col_dict[x] == "<class 'list'>":
                 ParsonsTable.unpack_list(col)
 
-        logger.info(f'There are now {len(ParsonsTable.columns)} columns...')
+        logger.info(f"There are now {len(ParsonsTable.columns)} columns...")
         return ParsonsTable
 
     def _unpack(self, ParsonsTable):
@@ -92,12 +91,20 @@ class CrowdTangle(object):
     def _list_to_string(self, list_arg):
 
         if list_arg:
-            return ','.join(list_arg)
+            return ",".join(list_arg)
         else:
             return None
 
-    def get_posts(self, start_date=None, end_date=None, language=None, list_ids=None,
-                  min_interations=None, search_term=None, types=None):
+    def get_posts(
+        self,
+        start_date=None,
+        end_date=None,
+        language=None,
+        list_ids=None,
+        min_interations=None,
+        search_term=None,
+        types=None,
+    ):
         """
         Return a set of posts for the given parameters.
 
@@ -154,21 +161,25 @@ class CrowdTangle(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        args = {'startDate': start_date,
-                'endDate': end_date,
-                'language': language,
-                'listIds': self._list_to_string(list_ids),
-                'minInteractions': min_interations,
-                'searchTerm': search_term,
-                'types': types}
+        args = {
+            "startDate": start_date,
+            "endDate": end_date,
+            "language": language,
+            "listIds": self._list_to_string(list_ids),
+            "minInteractions": min_interations,
+            "searchTerm": search_term,
+            "types": types,
+        }
 
         logger.info("Retrieving posts.")
-        pt = Table(self._base_request('posts', args=args))
-        logger.info(f'Retrieved {pt.num_rows} posts.')
+        pt = Table(self._base_request("posts", args=args))
+        logger.info(f"Retrieved {pt.num_rows} posts.")
         self._unpack(pt)
         return pt
 
-    def get_leaderboard(self, start_date=None, end_date=None, list_ids=None, account_ids=None):
+    def get_leaderboard(
+        self, start_date=None, end_date=None, list_ids=None, account_ids=None
+    ):
         """
         Return leaderboard data.
 
@@ -196,18 +207,21 @@ class CrowdTangle(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        args = {'startDate': start_date,
-                'endDate': end_date,
-                'listIds': self._list_to_string(list_ids),
-                'accountIds': self._list_to_string(account_ids)}
+        args = {
+            "startDate": start_date,
+            "endDate": end_date,
+            "listIds": self._list_to_string(list_ids),
+            "accountIds": self._list_to_string(account_ids),
+        }
 
-        pt = Table(self._base_request('leaderboard', args=args))
-        logger.info(f'Retrieved {pt.num_rows} records from the leaderbooard.')
+        pt = Table(self._base_request("leaderboard", args=args))
+        logger.info(f"Retrieved {pt.num_rows} records from the leaderbooard.")
         self._unpack(pt)
         return pt
 
-    def get_links(self, link, start_date=None, end_date=None, include_summary=None,
-                  platforms=None):
+    def get_links(
+        self, link, start_date=None, end_date=None, include_summary=None, platforms=None
+    ):
         """
         Return up to 100 posts based on a specific link. It is strongly recommended to
         use the ``start_date`` parameter to limit queries to relevant dates.
@@ -240,14 +254,16 @@ class CrowdTangle(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        args = {'link': link,
-                'startDate': start_date,
-                'endDate': end_date,
-                'includeSummary': str(include_summary),
-                'platforms': self._list_to_string(platforms)}
+        args = {
+            "link": link,
+            "startDate": start_date,
+            "endDate": end_date,
+            "includeSummary": str(include_summary),
+            "platforms": self._list_to_string(platforms),
+        }
 
         logger.info("Retrieving posts based on link.")
-        pt = Table(self._base_request('links', args=args))
-        logger.info(f'Retrieved {pt.num_rows} links.')
+        pt = Table(self._base_request("links", args=args))
+        logger.info(f"Retrieved {pt.num_rows} links.")
         self._unpack(pt)
         return pt

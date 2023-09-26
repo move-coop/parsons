@@ -10,7 +10,6 @@ RETRY_RATE = 10
 
 
 class ChangedEntities(object):
-
     def __init__(self):
 
         pass
@@ -23,8 +22,8 @@ class ChangedEntities(object):
             list
         """
 
-        r = self.connection.get_request('changedEntityExportJobs/resources')
-        logger.info(f'Found {len(r)} changed entity resources.')
+        r = self.connection.get_request("changedEntityExportJobs/resources")
+        logger.info(f"Found {len(r)} changed entity resources.")
         return r
 
     def get_changed_entity_resource_fields(self, resource_type):
@@ -38,12 +37,23 @@ class ChangedEntities(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request(f'changedEntityExportJobs/fields/{resource_type}'))
-        logger.info(f'Found {tbl.num_rows} fields for {resource_type}.')
+        tbl = Table(
+            self.connection.get_request(
+                f"changedEntityExportJobs/fields/{resource_type}"
+            )
+        )
+        logger.info(f"Found {tbl.num_rows} fields for {resource_type}.")
         return tbl
 
-    def get_changed_entities(self, resource_type, date_from, date_to=None, include_inactive=False,
-                             requested_fields=None, custom_fields=None):
+    def get_changed_entities(
+        self,
+        resource_type,
+        date_from,
+        date_to=None,
+        include_inactive=False,
+        requested_fields=None,
+        custom_fields=None,
+    ):
         """
         Get modified records for VAN from up to 90 days in the past.
 
@@ -78,22 +88,22 @@ class ChangedEntities(object):
             "requestedFields": requested_fields,
             "requestedCustomFieldIds": custom_fields,
             "fileSizeKbLimit": 100000,
-            "includeInactive": include_inactive
+            "includeInactive": include_inactive,
         }
 
-        r = self.connection.post_request('changedEntityExportJobs', json=json)
+        r = self.connection.post_request("changedEntityExportJobs", json=json)
 
         while True:
-            status = self._get_changed_entity_job(r['exportJobId'])
-            if status['jobStatus'] in ['Pending', 'InProcess']:
-                logger.info('Waiting on export file.')
+            status = self._get_changed_entity_job(r["exportJobId"])
+            if status["jobStatus"] in ["Pending", "InProcess"]:
+                logger.info("Waiting on export file.")
                 time.sleep(RETRY_RATE)
-            elif status['jobStatus'] == 'Complete':
-                return Table.from_csv(status['files'][0]['downloadUrl'])
+            elif status["jobStatus"] == "Complete":
+                return Table.from_csv(status["files"][0]["downloadUrl"])
             else:
-                raise ValueError(status['message'])
+                raise ValueError(status["message"])
 
     def _get_changed_entity_job(self, job_id):
 
-        r = self.connection.get_request(f'changedEntityExportJobs/{job_id}')
+        r = self.connection.get_request(f"changedEntityExportJobs/{job_id}")
         return r

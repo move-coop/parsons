@@ -4,6 +4,7 @@ from parsons import Table
 
 from contextlib import contextmanager
 from requests.exceptions import HTTPError
+
 # import json
 import pytest
 
@@ -58,8 +59,7 @@ def create_temp_flag_id():
 def test_get_flag_ids(live_pdi, limit):
     flag_ids = live_pdi.get_flag_ids(limit=limit)
 
-    expected_columns = [
-        "id", "flagId", "flagIdDescription", "compile", "isDefault"]
+    expected_columns = ["id", "flagId", "flagIdDescription", "compile", "isDefault"]
     expected_num_rows = limit or QA_NUM_FLAG_IDS
 
     assert isinstance(flag_ids, Table)
@@ -70,14 +70,15 @@ def test_get_flag_ids(live_pdi, limit):
 @mark_live_test
 @pytest.mark.parametrize(
     "id",
-    [pytest.param(QA_REAL_FLAG_ID),
-     pytest.param(QA_INVALID_FLAG_ID, marks=[xfail_http_error]),
-     ])
+    [
+        pytest.param(QA_REAL_FLAG_ID),
+        pytest.param(QA_INVALID_FLAG_ID, marks=[xfail_http_error]),
+    ],
+)
 def test_get_flag_id(live_pdi, id):
     flag_id = live_pdi.get_flag_id(id)
 
-    expected_keys = [
-        "id", "flagId", "flagIdDescription", "compile", "isDefault"]
+    expected_keys = ["id", "flagId", "flagIdDescription", "compile", "isDefault"]
 
     assert isinstance(flag_id, dict)
     assert list(flag_id.keys()) == expected_keys
@@ -86,10 +87,12 @@ def test_get_flag_id(live_pdi, id):
 @mark_live_test
 @pytest.mark.parametrize(
     ["flag_id", "is_default"],
-    [pytest.param(None, True, marks=[xfail_http_error]),
-     pytest.param("amm", None, marks=[xfail_http_error]),
-     pytest.param("amm", True),
-     ])
+    [
+        pytest.param(None, True, marks=[xfail_http_error]),
+        pytest.param("amm", None, marks=[xfail_http_error]),
+        pytest.param("amm", True),
+    ],
+)
 def test_create_flag_id(live_pdi, cleanup_flag_id, flag_id, is_default):
     flag_id = live_pdi.create_flag_id(flag_id, is_default)
 
@@ -99,10 +102,12 @@ def test_create_flag_id(live_pdi, cleanup_flag_id, flag_id, is_default):
 @mark_live_test
 @pytest.mark.parametrize(
     ["my_flag_id"],
-    [pytest.param(None),
-     pytest.param(QA_INVALID_FLAG_ID),
-     pytest.param(QA_MALFORMED_FLAG_ID, marks=[xfail_http_error]),
-     ])
+    [
+        pytest.param(None),
+        pytest.param(QA_INVALID_FLAG_ID),
+        pytest.param(QA_MALFORMED_FLAG_ID, marks=[xfail_http_error]),
+    ],
+)
 def test_delete_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
     with create_temp_flag_id(live_pdi, my_flag_id) as flag_id:
         did_delete = live_pdi.delete_flag_id(flag_id)
@@ -113,10 +118,12 @@ def test_delete_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
 @mark_live_test
 @pytest.mark.parametrize(
     ["my_flag_id"],
-    [pytest.param(None),
-     pytest.param(QA_INVALID_FLAG_ID, marks=[xfail_http_error]),
-     pytest.param(QA_MALFORMED_FLAG_ID, marks=[xfail_http_error]),
-     ])
+    [
+        pytest.param(None),
+        pytest.param(QA_INVALID_FLAG_ID, marks=[xfail_http_error]),
+        pytest.param(QA_MALFORMED_FLAG_ID, marks=[xfail_http_error]),
+    ],
+)
 def test_update_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
     with create_temp_flag_id(live_pdi, my_flag_id) as flag_id:
         # flag initial state:
@@ -129,7 +136,8 @@ def test_update_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
             "flagId": "bnh",
             "flagIdDescription": None,
             "compile": "",
-            "isDefault": True}
+            "isDefault": True,
+        }
 
         flag_id_dict = live_pdi.get_flag_id(flag_id)
 

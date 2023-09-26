@@ -6,7 +6,6 @@ logger = logging.getLogger(__name__)
 
 
 class Signups(object):
-
     def __init__(self, van_connection):
 
         self.connection = van_connection
@@ -28,18 +27,18 @@ class Signups(object):
         """
 
         if event_id is None and event_type_id is None:
-            raise ValueError('One of event_id or event_type_id must be populated')
+            raise ValueError("One of event_id or event_type_id must be populated")
 
         if event_id is not None and event_type_id is not None:
-            raise ValueError('Event Id and Event Type ID may not BOTH be populated')
+            raise ValueError("Event Id and Event Type ID may not BOTH be populated")
 
         if event_id:
-            params = {'eventId': event_id}
+            params = {"eventId": event_id}
         if event_type_id:
-            params = {'eventTypeId': event_type_id}
+            params = {"eventTypeId": event_type_id}
 
-        tbl = Table(self.connection.get_request('signups/statuses', params=params))
-        logger.info(f'Found {tbl.num_rows} signups.')
+        tbl = Table(self.connection.get_request("signups/statuses", params=params))
+        logger.info(f"Found {tbl.num_rows} signups.")
         return tbl
 
     def get_person_signups(self, vanid):
@@ -54,8 +53,8 @@ class Signups(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request('signups', params={'vanID': vanid}))
-        logger.info(f'Found {tbl.num_rows} signups for {vanid}.')
+        tbl = Table(self.connection.get_request("signups", params={"vanID": vanid}))
+        logger.info(f"Found {tbl.num_rows} signups for {vanid}.")
         return self._unpack_signups(tbl)
 
     def get_event_signups(self, event_id):
@@ -70,8 +69,10 @@ class Signups(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request('signups', params={'eventId': event_id}))
-        logger.info(f'Found {tbl.num_rows} signups for event {event_id}.')
+        tbl = Table(
+            self.connection.get_request("signups", params={"eventId": event_id})
+        )
+        logger.info(f"Found {tbl.num_rows} signups for event {event_id}.")
         return self._unpack_signups(tbl)
 
     def get_signup(self, event_signup_id):
@@ -86,8 +87,8 @@ class Signups(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        r = self.connection.get_request(f'signups/{event_signup_id}')
-        logger.info(f'Found sign up {event_signup_id}.')
+        r = self.connection.get_request(f"signups/{event_signup_id}")
+        logger.info(f"Found sign up {event_signup_id}.")
         return r
 
     def create_signup(self, vanid, event_id, shift_id, role_id, status_id, location_id):
@@ -112,20 +113,27 @@ class Signups(object):
                 The event signup id
         """
 
-        signup = {'person': {'vanId': vanid},
-                  'event': {'eventId': event_id},
-                  'shift': {'eventShiftId': shift_id},
-                  'role': {'roleId': role_id},
-                  'status': {'statusId': status_id},
-                  'location': {'locationId': location_id}
-                  }
+        signup = {
+            "person": {"vanId": vanid},
+            "event": {"eventId": event_id},
+            "shift": {"eventShiftId": shift_id},
+            "role": {"roleId": role_id},
+            "status": {"statusId": status_id},
+            "location": {"locationId": location_id},
+        }
 
-        r = self.connection.post_request('signups', json=signup)
-        logger.info(f'Signup {r} created.')
+        r = self.connection.post_request("signups", json=signup)
+        logger.info(f"Signup {r} created.")
         return r
 
-    def update_signup(self, event_signup_id, shift_id=None, role_id=None, status_id=None,
-                      location_id=None):
+    def update_signup(
+        self,
+        event_signup_id,
+        shift_id=None,
+        role_id=None,
+        status_id=None,
+        location_id=None,
+    ):
         """
         Update a signup object. All of the kwargs will update the values associated
         with them.
@@ -146,19 +154,19 @@ class Signups(object):
         """
 
         #  Get the signup object
-        signup = self.connection.get_request(f'signups/{event_signup_id}')
+        signup = self.connection.get_request(f"signups/{event_signup_id}")
 
         # Update the signup object
         if shift_id:
-            signup['shift'] = {'eventShiftId': shift_id}
+            signup["shift"] = {"eventShiftId": shift_id}
         if role_id:
-            signup['role'] = {'roleId': role_id}
+            signup["role"] = {"roleId": role_id}
         if status_id:
-            signup['status'] = {'statusId': status_id}
+            signup["status"] = {"statusId": status_id}
         if location_id:
-            signup['location'] = {'locationId': location_id}
+            signup["location"] = {"locationId": location_id}
 
-        return self.connection.put_request(f'signups/{event_signup_id}', json=signup)
+        return self.connection.put_request(f"signups/{event_signup_id}", json=signup)
 
     def delete_signup(self, event_signup_id):
         """
@@ -171,18 +179,18 @@ class Signups(object):
             ``None``
         """
 
-        r = self.connection.delete_request(f'signups/{event_signup_id}')
-        logger.info(f'Signup {event_signup_id} deleted.')
+        r = self.connection.delete_request(f"signups/{event_signup_id}")
+        logger.info(f"Signup {event_signup_id} deleted.")
         return r
 
     def _unpack_signups(self, table):
 
         # Unpack all of the nested jsons
-        table.unpack_dict('person', prepend=False)
-        table.unpack_dict('status')
-        table.unpack_dict('event')
-        table.unpack_dict('shift')
-        table.unpack_dict('role')
-        table.unpack_dict('location')
+        table.unpack_dict("person", prepend=False)
+        table.unpack_dict("status")
+        table.unpack_dict("event")
+        table.unpack_dict("shift")
+        table.unpack_dict("role")
+        table.unpack_dict("location")
 
         return table

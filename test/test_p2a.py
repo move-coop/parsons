@@ -1,9 +1,10 @@
 import unittest
 import requests_mock
 from test.utils import validate_list
-from parsons.phone2action import Phone2Action
+from parsons import Phone2Action
 import os
 import copy
+
 
 adv_json = {
     "data": [
@@ -32,13 +33,13 @@ adv_json = {
                 "zip4": 9534,
                 "county": "Tehama",
                 "latitude": "50.0632635",
-                "longitude": "-122.09654"
+                "longitude": "-122.09654",
             },
             "districts": {
                 "congressional": "1",
                 "stateSenate": "4",
                 "stateHouse": "3",
-                "cityCouncil": None
+                "cityCouncil": None,
             },
             "ids": [],
             "memberships": [
@@ -55,35 +56,24 @@ adv_json = {
                     "name": "20180524 March for America",
                     "source": None,
                     "created_at": "2018-05-24 21:09:49.000000",
-                }
+                },
             ],
             "fields": [],
             "phones": [
-                {
-                    "id": 10537860,
-                    "address": "+19995206447",
-                    "subscribed": 'false'
-                }
+                {"id": 10537860, "address": "+19995206447", "subscribed": "false"}
             ],
             "emails": [
-                {
-                    "id": 10537871,
-                    "address": "N@k.com",
-                    "subscribed": 'false'
-                },
-                {
-                    "id": 10950446,
-                    "address": "email@me.com",
-                    "subscribed": 'false'
-                }
-            ]
+                {"id": 10537871, "address": "N@k.com", "subscribed": "false"},
+                {"id": 10950446, "address": "email@me.com", "subscribed": "false"},
+            ],
         }
     ],
     "pagination": {
         "count": 1,
         "per_page": 100,
         "current_page": 1,
-        "next_url": "https://api.phone2action.com/2.0/advocates?page=2"}
+        "next_url": "https://api.phone2action.com/2.0/advocates?page=2",
+    },
 }
 
 camp_json = [
@@ -103,30 +93,26 @@ camp_json = [
             "call_to_action": "Contact your officials in one click!",
             "thank_you": "<p>Thanks for taking action. Please encourage others to act by "
             "sharing on social media.</p>",
-            "background_image": None
+            "background_image": None,
         },
         "updated_at": {
             "date": "2017-11-21 23:27:11.000000",
             "timezone_type": 3,
-            "timezone": "UTC"
-        }
+            "timezone": "UTC",
+        },
     }
 ]
 
 
 def parse_request_body(m):
-    kvs = m.split('&')
-    return {
-        kv.split('=')[0]: kv.split('=')[1]
-        for kv in kvs
-    }
+    kvs = m.split("&")
+    return {kv.split("=")[0]: kv.split("=")[1] for kv in kvs}
 
 
 class TestP2A(unittest.TestCase):
-
     def setUp(self):
 
-        self.p2a = Phone2Action(app_id='an_id', app_key='app_key')
+        self.p2a = Phone2Action(app_id="an_id", app_key="app_key")
 
     def tearDown(self):
 
@@ -141,146 +127,201 @@ class TestP2A(unittest.TestCase):
     def test_init_envs(self):
         # Test initilizing class with envs
 
-        os.environ['PHONE2ACTION_APP_ID'] = 'id'
-        os.environ['PHONE2ACTION_APP_KEY'] = 'key'
+        os.environ["PHONE2ACTION_APP_ID"] = "id"
+        os.environ["PHONE2ACTION_APP_KEY"] = "key"
 
         p2a_envs = Phone2Action()
-        self.assertEqual(p2a_envs.app_id, 'id')
-        self.assertEqual(p2a_envs.app_key, 'key')
+        self.assertEqual(p2a_envs.app_id, "id")
+        self.assertEqual(p2a_envs.app_key, "key")
 
     @requests_mock.Mocker()
     def test_get_advocates(self, m):
 
-        m.get(self.p2a.client.uri + 'advocates', json=adv_json)
+        m.get(self.p2a.client.uri + "advocates", json=adv_json)
 
-        adv_exp = ['id', 'prefix', 'firstname', 'middlename',
-                   'lastname', 'suffix', 'notes', 'stage', 'connections',
-                   'created_at', 'updated_at',
-                   'address_city', 'address_county', 'address_latitude',
-                   'address_longitude', 'address_state', 'address_street1',
-                   'address_street2', 'address_zip4', 'address_zip5',
-                   'districts_cityCouncil', 'districts_congressional',
-                   'districts_stateHouse', 'districts_stateSenate']
+        adv_exp = [
+            "id",
+            "prefix",
+            "firstname",
+            "middlename",
+            "lastname",
+            "suffix",
+            "notes",
+            "stage",
+            "connections",
+            "created_at",
+            "updated_at",
+            "address_city",
+            "address_county",
+            "address_latitude",
+            "address_longitude",
+            "address_state",
+            "address_street1",
+            "address_street2",
+            "address_zip4",
+            "address_zip5",
+            "districts_cityCouncil",
+            "districts_congressional",
+            "districts_stateHouse",
+            "districts_stateSenate",
+        ]
 
-        self.assertTrue(validate_list(adv_exp, self.p2a.get_advocates()['advocates']))
-        ids_exp = ['advocate_id', 'ids']
+        self.assertTrue(validate_list(adv_exp, self.p2a.get_advocates()["advocates"]))
+        ids_exp = ["advocate_id", "ids"]
 
-        self.assertTrue(validate_list(ids_exp, self.p2a.get_advocates()['ids']))
+        self.assertTrue(validate_list(ids_exp, self.p2a.get_advocates()["ids"]))
 
-        phone_exp = ['advocate_id', 'phones_address', 'phones_id', 'phones_subscribed']
-        self.assertTrue(validate_list(phone_exp, self.p2a.get_advocates()['phones']))
+        phone_exp = ["advocate_id", "phones_address", "phones_id", "phones_subscribed"]
+        self.assertTrue(validate_list(phone_exp, self.p2a.get_advocates()["phones"]))
 
-        tags_exp = ['advocate_id', 'tags']
-        self.assertTrue(validate_list(tags_exp, self.p2a.get_advocates()['tags']))
+        tags_exp = ["advocate_id", "tags"]
+        self.assertTrue(validate_list(tags_exp, self.p2a.get_advocates()["tags"]))
 
-        email_exp = ['advocate_id', 'emails_address', 'emails_id', 'emails_subscribed']
-        self.assertTrue(validate_list(email_exp, self.p2a.get_advocates()['emails']))
+        email_exp = ["advocate_id", "emails_address", "emails_id", "emails_subscribed"]
+        self.assertTrue(validate_list(email_exp, self.p2a.get_advocates()["emails"]))
 
-        member_exp = ['advocate_id', 'memberships_campaignid', 'memberships_created_at',
-                      'memberships_id', 'memberships_name', 'memberships_source']
-        self.assertTrue(validate_list(member_exp, self.p2a.get_advocates()['memberships']))
+        member_exp = [
+            "advocate_id",
+            "memberships_campaignid",
+            "memberships_created_at",
+            "memberships_id",
+            "memberships_name",
+            "memberships_source",
+        ]
+        self.assertTrue(
+            validate_list(member_exp, self.p2a.get_advocates()["memberships"])
+        )
 
-        fields_exp = ['advocate_id', 'fields']
-        self.assertTrue(validate_list(fields_exp, self.p2a.get_advocates()['fields']))
+        fields_exp = ["advocate_id", "fields"]
+        self.assertTrue(validate_list(fields_exp, self.p2a.get_advocates()["fields"]))
 
     @requests_mock.Mocker()
     def test_get_advocates__by_page(self, m):
 
         response = copy.deepcopy(adv_json)
         # Make it look like there's more data
-        response['pagination']['count'] = 100
+        response["pagination"]["count"] = 100
 
-        m.get(self.p2a.client.uri + 'advocates?page=1', json=adv_json)
-        m.get(self.p2a.client.uri + 'advocates?page=2', exc=Exception('Should only call once'))
+        m.get(self.p2a.client.uri + "advocates?page=1", json=adv_json)
+        m.get(
+            self.p2a.client.uri + "advocates?page=2",
+            exc=Exception("Should only call once"),
+        )
 
         results = self.p2a.get_advocates(page=1)
-        self.assertTrue(results['advocates'].num_rows, 1)
+        self.assertTrue(results["advocates"].num_rows, 1)
 
     @requests_mock.Mocker()
     def test_get_advocates__empty(self, m):
 
         response = copy.deepcopy(adv_json)
-        response['data'] = []
+        response["data"] = []
         # Make it look like there's more data
-        response['pagination']['count'] = 0
+        response["pagination"]["count"] = 0
 
-        m.get(self.p2a.client.uri + 'advocates', json=adv_json)
+        m.get(self.p2a.client.uri + "advocates", json=adv_json)
 
         results = self.p2a.get_advocates()
-        self.assertTrue(results['advocates'].num_rows, 0)
+        self.assertTrue(results["advocates"].num_rows, 0)
 
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):
 
-        camp_exp = ['id', 'name', 'display_name', 'subtitle',
-                    'public', 'topic', 'type', 'link', 'restrict_allow',
-                    'updated_at_date', 'updated_at_timezone',
-                    'updated_at_timezone_type', 'content_background_image',
-                    'content_call_to_action', 'content_introduction',
-                    'content_summary', 'content_thank_you']
+        camp_exp = [
+            "id",
+            "name",
+            "display_name",
+            "subtitle",
+            "public",
+            "topic",
+            "type",
+            "link",
+            "restrict_allow",
+            "updated_at_date",
+            "updated_at_timezone",
+            "updated_at_timezone_type",
+            "content_background_image",
+            "content_call_to_action",
+            "content_introduction",
+            "content_summary",
+            "content_thank_you",
+        ]
 
-        m.get(self.p2a.client.uri + 'campaigns', json=camp_json)
+        m.get(self.p2a.client.uri + "campaigns", json=camp_json)
 
         self.assertTrue(validate_list(camp_exp, self.p2a.get_campaigns()))
 
     @requests_mock.Mocker()
     def test_create_advocate(self, m):
 
-        m.post(self.p2a.client.uri + 'advocates', json={'advocateid': 1})
+        m.post(self.p2a.client.uri + "advocates", json={"advocateid": 1})
 
         # Test arg validation - create requires a phone or an email
-        self.assertRaises(ValueError,
-                          lambda: self.p2a.create_advocate(campaigns=[1],
-                                                           firstname='Foo',
-                                                           lastname='bar'))
+        self.assertRaises(
+            ValueError,
+            lambda: self.p2a.create_advocate(
+                campaigns=[1], firstname="Foo", lastname="bar"
+            ),
+        )
         # Test arg validation - sms opt in requires a phone
-        self.assertRaises(ValueError,
-                          lambda: self.p2a.create_advocate(campaigns=[1],
-                                                           email='foo@bar.com',
-                                                           sms_optin=True))
+        self.assertRaises(
+            ValueError,
+            lambda: self.p2a.create_advocate(
+                campaigns=[1], email="foo@bar.com", sms_optin=True
+            ),
+        )
 
         # Test arg validation - email opt in requires a email
-        self.assertRaises(ValueError,
-                          lambda: self.p2a.create_advocate(campaigns=[1],
-                                                           phone='1234567890',
-                                                           email_optin=True))
+        self.assertRaises(
+            ValueError,
+            lambda: self.p2a.create_advocate(
+                campaigns=[1], phone="1234567890", email_optin=True
+            ),
+        )
 
         # Test a successful call
-        advocateid = self.p2a.create_advocate(campaigns=[1],
-                                              email='foo@bar.com',
-                                              email_optin=True,
-                                              firstname='Test')
+        advocateid = self.p2a.create_advocate(
+            campaigns=[1], email="foo@bar.com", email_optin=True, firstname="Test"
+        )
         self.assertTrue(m.called)
         self.assertEqual(advocateid, 1)
 
         # Check that the properties were mapped
         data = parse_request_body(m.last_request.text)
-        self.assertEqual(data['firstname'], 'Test')
-        self.assertNotIn('lastname', data)
-        self.assertEqual(data['emailOptin'], '1')
-        self.assertEqual(data['email'], 'foo%40bar.com')
+        self.assertEqual(data["firstname"], "Test")
+        self.assertNotIn("lastname", data)
+        self.assertEqual(data["emailOptin"], "1")
+        self.assertEqual(data["email"], "foo%40bar.com")
 
     @requests_mock.Mocker()
     def test_update_advocate(self, m):
 
-        m.post(self.p2a.client.uri + 'advocates')
+        m.post(self.p2a.client.uri + "advocates")
 
         # Test arg validation - sms opt in requires a phone
-        self.assertRaises(ValueError,
-                          lambda: self.p2a.update_advocate(advocate_id=1, sms_optin=True))
+        self.assertRaises(
+            ValueError, lambda: self.p2a.update_advocate(advocate_id=1, sms_optin=True)
+        )
 
         # Test arg validation - email opt in requires a email
-        self.assertRaises(ValueError,
-                          lambda: self.p2a.update_advocate(advocate_id=1, email_optin=True))
+        self.assertRaises(
+            ValueError,
+            lambda: self.p2a.update_advocate(advocate_id=1, email_optin=True),
+        )
 
         # Test a successful call
-        self.p2a.update_advocate(advocate_id=1, campaigns=[1], email='foo@bar.com',
-                                 email_optin=True, firstname='Test')
+        self.p2a.update_advocate(
+            advocate_id=1,
+            campaigns=[1],
+            email="foo@bar.com",
+            email_optin=True,
+            firstname="Test",
+        )
         self.assertTrue(m.called)
 
         # Check that the properties were mapped
         data = parse_request_body(m.last_request.text)
-        self.assertEqual(data['firstname'], 'Test')
-        self.assertNotIn('lastname', data)
-        self.assertEqual(data['emailOptin'], '1')
-        self.assertEqual(data['email'], 'foo%40bar.com')
+        self.assertEqual(data["firstname"], "Test")
+        self.assertNotIn("lastname", data)
+        self.assertEqual(data["emailOptin"], "1")
+        self.assertEqual(data["email"], "foo%40bar.com")

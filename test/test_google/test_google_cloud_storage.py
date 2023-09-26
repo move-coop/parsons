@@ -1,19 +1,19 @@
 import unittest
-from parsons.google.google_cloud_storage import GoogleCloudStorage
-from parsons.etl import Table
+from parsons import GoogleCloudStorage, Table
 from test.utils import assert_matching_tables
 from parsons.utilities import files
 from google.cloud import storage
 import os
 
 
-TEMP_BUCKET_NAME = 'parsons_test'
-TEMP_FILE_NAME = 'tmp_file_01.txt'
+TEMP_BUCKET_NAME = "parsons_test"
+TEMP_FILE_NAME = "tmp_file_01.txt"
 
 
-@unittest.skipIf(not os.environ.get('LIVE_TEST'), 'Skipping because not running live test')
+@unittest.skipIf(
+    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
+)
 class TestGoogleStorageBuckets(unittest.TestCase):
-
     def setUp(self):
 
         self.cloud = GoogleCloudStorage()
@@ -24,7 +24,7 @@ class TestGoogleStorageBuckets(unittest.TestCase):
             self.cloud.create_bucket(TEMP_BUCKET_NAME)
 
             # Upload a file
-            tmp_file_path = files.string_to_temp_file('A little string', suffix='.txt')
+            tmp_file_path = files.string_to_temp_file("A little string", suffix=".txt")
             self.cloud.put_blob(TEMP_BUCKET_NAME, TEMP_FILE_NAME, tmp_file_path)
 
     def test_list_buckets(self):
@@ -41,12 +41,14 @@ class TestGoogleStorageBuckets(unittest.TestCase):
         self.assertTrue(self.cloud.bucket_exists(TEMP_BUCKET_NAME))
 
         # Assert doesn't find a bucket that doesn't exist
-        self.assertFalse(self.cloud.bucket_exists('NOT_A_REAL_BUCKET'))
+        self.assertFalse(self.cloud.bucket_exists("NOT_A_REAL_BUCKET"))
 
     def test_get_bucket(self):
 
         # Assert that a bucket object is returned
-        self.assertIsInstance(self.cloud.get_bucket(TEMP_BUCKET_NAME), storage.bucket.Bucket)
+        self.assertIsInstance(
+            self.cloud.get_bucket(TEMP_BUCKET_NAME), storage.bucket.Bucket
+        )
 
     def test_create_bucket(self):
 
@@ -57,9 +59,9 @@ class TestGoogleStorageBuckets(unittest.TestCase):
     def test_delete_bucket(self):
 
         # Create another bucket, delete it and make sure it doesn't exist
-        self.cloud.create_bucket(TEMP_BUCKET_NAME + '_2')
-        self.cloud.delete_bucket(TEMP_BUCKET_NAME + '_2')
-        self.assertFalse(self.cloud.bucket_exists(TEMP_BUCKET_NAME + '_2'))
+        self.cloud.create_bucket(TEMP_BUCKET_NAME + "_2")
+        self.cloud.delete_bucket(TEMP_BUCKET_NAME + "_2")
+        self.assertFalse(self.cloud.bucket_exists(TEMP_BUCKET_NAME + "_2"))
 
     def test_list_blobs(self):
 
@@ -77,7 +79,7 @@ class TestGoogleStorageBuckets(unittest.TestCase):
         self.assertTrue(self.cloud.blob_exists(TEMP_BUCKET_NAME, TEMP_FILE_NAME))
 
         # Assert that it thinks that a non-existent blob doesn't exist
-        self.assertFalse(self.cloud.blob_exists(TEMP_BUCKET_NAME, 'FAKE_BLOB'))
+        self.assertFalse(self.cloud.blob_exists(TEMP_BUCKET_NAME, "FAKE_BLOB"))
 
     def test_put_blob(self):
 
@@ -88,21 +90,22 @@ class TestGoogleStorageBuckets(unittest.TestCase):
 
         # Assert that a blob object is returned
         self.assertIsInstance(
-            self.cloud.get_blob(TEMP_BUCKET_NAME, TEMP_FILE_NAME), storage.blob.Blob)
+            self.cloud.get_blob(TEMP_BUCKET_NAME, TEMP_FILE_NAME), storage.blob.Blob
+        )
 
     def test_download_blob(self):
 
         # Download blob and ensure that it is the expected file
         path = self.cloud.download_blob(TEMP_BUCKET_NAME, TEMP_FILE_NAME)
-        with open(path, 'r') as f:
-            self.assertEqual(f.read(), 'A little string')
+        with open(path, "r") as f:
+            self.assertEqual(f.read(), "A little string")
 
     def test_delete_blob(self):
 
-        file_name = 'delete_me.txt'
+        file_name = "delete_me.txt"
 
         # Upload a file
-        tmp_file_path = files.string_to_temp_file('A little string', suffix='.txt')
+        tmp_file_path = files.string_to_temp_file("A little string", suffix=".txt")
         self.cloud.put_blob(TEMP_BUCKET_NAME, file_name, tmp_file_path)
 
         # Check that it was deleted.
@@ -111,8 +114,8 @@ class TestGoogleStorageBuckets(unittest.TestCase):
 
     def test_get_url(self):
 
-        file_name = 'delete_me.csv'
-        input_tbl = Table([['a'], ['1']])
+        file_name = "delete_me.csv"
+        input_tbl = Table([["a"], ["1"]])
         self.cloud.upload_table(input_tbl, TEMP_BUCKET_NAME, file_name)
         url = self.cloud.get_url(TEMP_BUCKET_NAME, file_name)
         download_tbl = Table.from_csv(url)

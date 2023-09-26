@@ -12,6 +12,12 @@ BUILDDIR      = .
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
+deploy_docs:
+	git branch latest
+	git branch stable $$(git tag -l --sort=creatordate | tail -1)
+	sphinx-multiversion . html
+	cp ./index-redirect.html html/index.html
+
 .PHONY: help Makefile
 
 # Catch-all target: route all unknown targets to Sphinx using the new

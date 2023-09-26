@@ -3,6 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. image:: /_static/parsons_logo.png
+   :width: 250px
+   :height: 250px
+   :alt: Parsons logo
+   :align: center
+
 About
 =====
 
@@ -17,15 +23,23 @@ The Movement Cooperative is a member led organization focused on providing data,
 
 License and Usage
 =================
-Usage of Parsons is governed by the `TMC Parsons License <https://github.com/move-coop/parsons/blob/master/LICENSE.md>`_, a modified Apache License with author attribution statement.
+Usage of Parsons is governed by a `modified Apache License with author attribution statement <https://github.com/move-coop/parsons/blob/main/LICENSE.md>`_.
 
-Design Goals
+Resources
+=========
+* Documentation: `<https://move-coop.github.io/parsons/html/index.html>`_
+* Source Code: `<https://github.com/move-coop/parsons>`_
+* Project Website: `<https://www.parsonsproject.org/>`_
+* Docker Image: `<https://hub.docker.com/r/movementcooperative/parsons>`_
+
+Installation
 ============
-The goal of Parsons is to make the movement of data between systems as easy and straightforward as possible. Simply put, we seek to reduce the lines of code that are written by the progressive community. Not only is this a waste of time, but we rarely have the capacity and resources to fully unittest our scripts.
 
-.. image:: /_static/parsons_diagram.png
+You can install Parsons using ``pip install parsons``. We recommend using a `virtual environment <https://www.parsonsproject.org/pub/installation#setting-up-your-virtual-environment>`_.
 
-Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is **always** messy. Central to this concept is the :ref:`parsons-table` the table-like object that most methods return.
+Need more detail? We have a `detailed, beginner-friendly guide to installing Parsons <https://www.parsonsproject.org/pub/installation/>`_ on our website.
+
+We also have a Parsons Docker container hosted on `DockerHub <https://hub.docker.com/r/movementcooperative/parsons>`_ for each release of Parsons.
 
 QuickStart
 ==========
@@ -66,73 +80,13 @@ QuickStart
   ts = TargetSmart(api_key='MY_KEY')
   record = ts.data_enhance(231231231, state='DC')
 
-Sources
-=======
-* Documentation: `<https://move-coop.github.io/parsons/html/index.html>`_
-* Source Code: `<https://github.com/move-coop/parsons>`_
-
-Virtual Environments
-====================
-
-Normally, tools like `pip` install Python libraries directly to your system. Python scripts
-or libraries look for their dependencies in your system. This can cause problems when you
-have two scripts/libraries installed that require different versions of the same library.
-
-To solve this problem, we recommend you use *virtual environments* to install Parsons.
-Virtual environments allow you to keep different sets of installed libraries so that you can
-use different versions of the same libraries for different purposes.
-
-Windows
-------------------------------
-
-`Source <https://pypi.org/project/virtualenvwrapper-win/>`_
-
-1. Install virtualenvwrappers from source::
-
-      git clone git://github.com/davidmarble/virtualenvwrapper-win.git
-      cd virtualenvwrapper-win
-      python setup.py install
-
-2. Find the ``Scripts\`` directory for your Python installation, such as ``C:\Users\<User>\AppData\Local\Programs\Python\Python37\Scripts\``.
-
-3. Add the ``Scripts\`` directory to your Path.
-
-4. To create a virtual environment for Parsons, execute: ``mkvirtualenv parsons``
-
-5. To use this virtual environment, execute: ``workon parsons``
-
-
-Linux / Mac OS
-------------------------------
-
-<Coming Soon>
-
-Installation
+Design Goals
 ============
+The goal of Parsons is to make the movement of data between systems as easy and straightforward as possible. Simply put, we seek to reduce the lines of code that are written by the progressive community. Not only is this a waste of time, but we rarely have the capacity and resources to fully unittest our scripts.
 
-There are two ways to install Parsons: Using pip and from source. Use pip if you just want to install Parsons and start using it. Install from source if you might want to patch Parsons to customize its behavior.
+.. image:: /_static/parsons_diagram.png
 
-Installing Parsons (pip)
------------------------------
-
-1. Make sure you're in your parsons virtual environment: ``workon parsons``.
-
-2. Execute: ``pip install parsons``
-
-Installing Parsons from Source
-----------------------------------
-
-
-1. Make sure you're in your parsons virtual environment: ``workon parsons``.
-
-2. Execute these commands::
-
-      git clone https://github.com/move-coop/parsons.git
-      pip install -r requirements.txt
-      python setup.py install
-
-
-3. To update your installation, pull the most recent branch from the Parsons GitHub repo (``git pull origin master``) and rerun ``python setup.py install``.
+Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is **always** messy. Central to this concept is the :ref:`parsons-table` the table-like object that most methods return.
 
 Logging
 =======
@@ -152,65 +106,65 @@ In your scripts that use Parsons, if you want to override the default Parsons lo
    # parsons_logger.addHandler(...)
    # parsons_logger.setFormatter(...)
 
-Minimizing Resource Utilization
-===============================
+Integrating Parsons
+===================
 
-A primary goal of Parsons is to make installing and using the library as easy as possible. Many
-of the patterns and examples that we document are meant to show how easy it can be to use Parsons,
-but sometimes these patterns trade accessibility for performance.
+A primary goal of Parsons is to make installing and use as easy as possible. Many of the patterns
+and examples that we document are meant to show how easy it can be to use Parsons, but sometimes
+these patterns trade immediate accessibility against ease of integration.
 
-In environments where efficiency is important, we recommend users take the following steps to
-minimize resource utilization:
+In environments where Parsons is not the primary application, or in scenarios where Parsons must
+run with limited resources, we recommend users install only the dependencies they need at loose
+version constraints. To do this, simply set two environment variables before installing Parsons
+and keep one while running:
 
-  1. Don't import classes from the root Parsons package
-  2. Install only the dependencies you need
+```
+export PIP_NO_BINARY=parsons
+export PARSONS_LIMITED_DEPENDENCIES=true
+pip install parsons
+```
+
+```
+export PARSONS_LIMITED_DEPENDENCIES=true
+python myparsons_script.py
+```
+
+`PIP_NO_BINARY` tells pip to use the source distribution of Parsons, which then allows
+`PARSONS_LIMITED_DEPENDENCIES` to dynamically limit to the bare minimum dependencies needed to
+run Parsons.  Users may also install extra dependencies appropriate to their environment, e.g.
+
+```
+export PIP_NO_BINARY=parsons
+export PARSONS_LIMITED_DEPENDENCIES=true
+pip install parsons[google]
+```
+
+or
+
+```
+export PIP_NO_BINARY=parsons
+export PARSONS_LIMITED_DEPENDENCIES=true
+pip install parsons[google,ngpvan]
+```
+
 
 *** Don't import from the root Parsons package ***
 
 Throughout the Parsons documentation, users are encouraged to load Parsons classes like so:
 
-```python
-from parsons import Table
-```
+.. code-block:: python
+
+   from parsons import Table
 
 In order to support this pattern, Parsons imports all of its classes into the root `parsons`
 package. Due to how Python loads modules and packages, importing even one Parsons class results
-in ALL of them being loaded. In order to avoid the resource consumption associated with loading all
-of Parsons, we have created a mechanism to skip loading of call of the Parsons classes.
+in ALL of them being loaded. The `PARSONS_LIMITED_DEPENDENCIES` variable tells Parsons to skip
+this; it will not import all of its classes into the root `parsons` package. Setting this
+environment variable means you will **NOT** be able to import using the `from parsons import X`
+pattern. Instead, you will need to import directly from the package where a class is defined
+(e.g. `from parsons.etl import Table`). Using this method, you may see as much as an 8x
+decrease in memory usage for Parsons!
 
-If you set `PARSONS_SKIP_IMPORT_ALL` in your environment, Parsons will not import all of its classes
-into the root `parsons` package. Setting this environment variable means you will **NOT** be able to
-import using the `from parsons import X` pattern. Instead, you will need to import directly from the
-package where a class is defined (e.g. `from parsons.etl import Table`).
-
-If you use the `PARSONS_SKIP_IMPORT_ALL` and import directly from the appropriate sub-package,
-you will only load the classes that you need and will not consume extra resources. Using this
-method, you may see as much as an 8x decrease in memory usage for Parsons.
-
-*** Install only the dependencies you need ***
-
-Since Parsons needs to talk to so many different API's, it has a number of dependencies on other
-Python libraries. It may be preferable to only install those external dependencies that you will
-use.
-
-For example, if you are running on Google Cloud, you might not need to use any of Parsons' AWS
-connectors. If you don't use any of Parsons' AWS connectors, then you won't need to install the
-Amazon Boto3 library that Parsons uses to access the Amazon APIs.
-
-By default, installing Parsons will install all of its external dependencies. You can prevent
-these dependencies from being installed with Parsons by passing the `--no-deps` flag to pip
-when you install Parsons.
-
-```
-> pip install --no-deps parsons
-```
-
-Once you have Parsons installed without these external dependencies, you can then install
-the libraries as you need them. You can use the requirements.txt as a reference to figure
-out which version you need. At a minimum you will need to install the following libraries
-for Parsons to work at all:
-
-* petl
 
 Indices and tables
 ==================
@@ -226,9 +180,11 @@ Indices and tables
 
    actblue
    action_kit
+   action_builder
    action_network
    airtable
    alchemer
+   auth0
    aws
    azure
    bill_com
@@ -236,11 +192,13 @@ Indices and tables
    bluelink
    box
    braintree
+   capitolcanary
    civis
    controlshift
    copper
    crowdtangle
    databases
+   donorbox
    facebook_ads
    freshdesk
    github
@@ -249,14 +207,16 @@ Indices and tables
    mailchimp
    mobilize_america
    mobilecommons
+   nation_builder
    newmode
    ngpvan
-   pdi
    p2a
+   pdi
    quickbase
    redash
    rockthevote
    salesforce
+   scytl
    sftp
    shopify
    sisense
@@ -297,3 +257,13 @@ Indices and tables
    :name: use_cases_and_sample_scripts
 
    use_cases/contribute_use_cases
+   use_cases/civis_job_status_slack_alert
+   use_cases/mysql_to_googlesheets
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Training Guides
+   :name: training_guides
+
+   training_guides/getting_set_up
+   training_guides/etl_best_practices

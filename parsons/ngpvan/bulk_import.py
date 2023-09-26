@@ -10,9 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class BulkImport(object):
-
     def __init__(self):
-
         pass
 
     def get_bulk_import_resources(self):
@@ -26,8 +24,8 @@ class BulkImport(object):
                 A list of resources.
         """
 
-        r = self.connection.get_request('bulkImportJobs/resources')
-        logger.info(f'Found {len(r)} bulk import resources.')
+        r = self.connection.get_request("bulkImportJobs/resources")
+        logger.info(f"Found {len(r)} bulk import resources.")
         return r
 
     def get_bulk_import_job(self, job_id):
@@ -42,8 +40,8 @@ class BulkImport(object):
                 The bulk import job
         """
 
-        r = self.connection.get_request(f'bulkImportJobs/{job_id}')
-        logger.info(f'Found bulk import job {job_id}.')
+        r = self.connection.get_request(f"bulkImportJobs/{job_id}")
+        logger.info(f"Found bulk import job {job_id}.")
         return r
 
     def get_bulk_import_job_results(self, job_id):
@@ -64,8 +62,8 @@ class BulkImport(object):
 
         r = self.get_bulk_import_job(job_id)
         logger.info(f"Bulk Import Job Status: {r['status']}")
-        if r['status'] == 'Completed':
-            return Table.from_csv(r['resultFiles'][0]['url'])
+        if r["status"] == "Completed":
+            return Table.from_csv(r["resultFiles"][0]["url"])
 
         return None
 
@@ -78,8 +76,8 @@ class BulkImport(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request('bulkImportMappingTypes'))
-        logger.info(f'Found {tbl.num_rows} bulk import mapping types.')
+        tbl = Table(self.connection.get_request("bulkImportMappingTypes"))
+        logger.info(f"Found {tbl.num_rows} bulk import mapping types.")
         return tbl
 
     def get_bulk_import_mapping_type(self, type_name):
@@ -93,8 +91,8 @@ class BulkImport(object):
                 A mapping type json
         """
 
-        r = self.connection.get_request(f'bulkImportMappingTypes/{type_name}')
-        logger.info(f'Found {type_name} bulk import mapping type.')
+        r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}")
+        logger.info(f"Found {type_name} bulk import mapping type.")
         return r
 
     def get_bulk_import_mapping_type_fields(self, type_name, field_name):
@@ -111,45 +109,63 @@ class BulkImport(object):
                 A mapping type fields json
         """
 
-        r = self.connection.get_request(f'bulkImportMappingTypes/{type_name}/{field_name}/values')
-        logger.info(f'Found {type_name} bulk import mapping type field values.')
+        r = self.connection.get_request(
+            f"bulkImportMappingTypes/{type_name}/{field_name}/values"
+        )
+        logger.info(f"Found {type_name} bulk import mapping type field values.")
         return r
 
-    def post_bulk_import(self, tbl, url_type, resource_type, mapping_types,
-                         description, result_fields=None, **url_kwargs):
+    def post_bulk_import(
+        self,
+        tbl,
+        url_type,
+        resource_type,
+        mapping_types,
+        description,
+        result_fields=None,
+        **url_kwargs,
+    ):
         # Internal method to post bulk imports.
 
         # Move to cloud storage
         file_name = str(uuid.uuid1())
-        url = cloud_storage.post_file(tbl,
-                                      url_type,
-                                      file_path=file_name + '.zip',
-                                      quoting=csv.QUOTE_ALL,
-                                      **url_kwargs)
-        logger.info(f'Table uploaded to {url_type}.')
+        url = cloud_storage.post_file(
+            tbl,
+            url_type,
+            file_path=file_name + ".zip",
+            quoting=csv.QUOTE_ALL,
+            **url_kwargs,
+        )
+        logger.info(f"Table uploaded to {url_type}.")
 
         # Generate request json
-        json = {"description": description,
-                "file": {
-                    "columnDelimiter": 'csv',
-                    "columns": [{'name': c} for c in tbl.columns],
-                    "fileName": file_name + '.csv',
-                    "hasHeader": "True",
-                    "hasQuotes": "True",
-                    "sourceUrl": url},
-                "actions": [{"resultFileSizeKbLimit": 5000,
-                             "resourceType": resource_type,
-                             "actionType": "loadMappedFile",
-                             "mappingTypes": mapping_types}]
+        json = {
+            "description": description,
+            "file": {
+                "columnDelimiter": "csv",
+                "columns": [{"name": c} for c in tbl.columns],
+                "fileName": file_name + ".csv",
+                "hasHeader": "True",
+                "hasQuotes": "True",
+                "sourceUrl": url,
+            },
+            "actions": [
+                {
+                    "resultFileSizeKbLimit": 5000,
+                    "resourceType": resource_type,
+                    "actionType": "loadMappedFile",
+                    "mappingTypes": mapping_types,
                 }
+            ],
+        }
 
         if result_fields:
-            result_fields = [{'name': c} for c in result_fields]
-            json['actions'][0]['columnsToIncludeInResultsFile'] = result_fields
+            result_fields = [{"name": c} for c in result_fields]
+            json["actions"][0]["columnsToIncludeInResultsFile"] = result_fields
 
-        r = self.connection.post_request('bulkImportJobs', json=json)
+        r = self.connection.post_request("bulkImportJobs", json=json)
         logger.info(f"Bulk upload {r['jobId']} created.")
-        return r['jobId']
+        return r["jobId"]
 
     def bulk_apply_activist_codes(self, tbl, url_type, **url_kwargs):
         """
@@ -192,12 +208,14 @@ class BulkImport(object):
                 The bulk import job id
         """
 
-        return self.post_bulk_import(tbl,
-                                     url_type,
-                                     'ContactsActivistCodes',
-                                     [{"name": "ActivistCode"}],
-                                     'Activist Code Upload',
-                                     **url_kwargs)
+        return self.post_bulk_import(
+            tbl,
+            url_type,
+            "ContactsActivistCodes",
+            [{"name": "ActivistCode"}],
+            "Activist Code Upload",
+            **url_kwargs,
+        )
 
     def bulk_upsert_contacts(self, tbl, url_type, result_fields=None, **url_kwargs):
         """
@@ -310,53 +328,80 @@ class BulkImport(object):
 
         tbl = tbl.map_columns(COLUMN_MAP, exact_match=False)
 
-        return self.post_bulk_import(tbl,
-                                     url_type,
-                                     'Contacts',
-                                     [{'name': 'CreateOrUpdateContact'}],
-                                     'Create Or Update Contact Records',
-                                     result_fields=result_fields,
-                                     **url_kwargs)
+        return self.post_bulk_import(
+            tbl,
+            url_type,
+            "Contacts",
+            [{"name": "CreateOrUpdateContact"}],
+            "Create Or Update Contact Records",
+            result_fields=result_fields,
+            **url_kwargs,
+        )
 
-    def create_mapping_types(self, tbl):
-        # Internal method to generate the correct mapping types based on
-        # the columns passed in the table. Not in use yet.
+    def bulk_apply_suppressions(self, tbl, url_type, **url_kwargs):
+        """
+        Bulk apply contact suppressions codes.
 
-        mapping_types = []
+        The table may include the following columns. The first column
+        must be ``vanid``.
 
-        # If one of the following columns is found in the table, then add
-        # that mapping type.
-        mp = [('firstname', '')
-              ('Email', 'Email'),
-              ('MailingAddress', 'MailingAddress'),
-              ('Phone', 'Phones'),
-              ('ApplyContactCustomFields', 'CustomFieldGroupId')]
+        .. list-table::
+            :widths: 25 25
+            :header-rows: 1
 
-        for col in tbl.columns:
-            for i in mp:
-                if col.lower() == i[0].lower():
-                    mapping_types.append({'name': i[1]})
+            * - Column Name
+              - Required
+              - Description
+            * - ``vanid``
+              - Yes
+              - A valid VANID primary key
+            * - ``suppressionid``
+              - Yes
+              - A valid suppression id
 
-        return mapping_types
+        `Args:`
+            table: Parsons table
+                A Parsons table.
+            url_type: str
+                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+                See :ref:`Cloud Storage <cloud-storage>` for more details.
+            **url_kwargs: kwargs
+                Arguments to configure your cloud storage url type. See
+                :ref:`Cloud Storage <cloud-storage>` for more details.
+        `Returns:`
+            int
+                The bulk import job id
+        """
+
+        return self.post_bulk_import(
+            tbl,
+            url_type,
+            "Contacts",
+            [{"name": "Suppressions"}],
+            "Apply Suppressions",
+            **url_kwargs,
+        )
 
 
 # This is a column mapper that is used to accept additional column names and provide
 # flexibility for the user.
 
-COLUMN_MAP = {'firstname': ['fn', 'first'],
-              'middlename': ['mn', 'middle'],
-              'lastname': ['ln', 'last'],
-              'dob': ['dateofbirth', 'birthdate'],
-              'sex': ['gender'],
-              'addressline1': ['address', 'addressline1', 'address1'],
-              'addressline2': ['addressline2', 'address2'],
-              'addressline3': ['addressline3', 'address3'],
-              'city': [],
-              'stateorprovince': ['state', 'st'],
-              'countrycode': ['country'],
-              'displayasentered': [],
-              'cellphone': ['cell'],
-              'cellphonecountrycode': ['cellcountrycode'],
-              'phone': ['home', 'homephone'],
-              'phonecountrycode': ['phonecountrycode'],
-              'email': ['emailaddress']}
+COLUMN_MAP = {
+    "firstname": ["fn", "first"],
+    "middlename": ["mn", "middle"],
+    "lastname": ["ln", "last"],
+    "dob": ["dateofbirth", "birthdate"],
+    "sex": ["gender"],
+    "addressline1": ["address", "addressline1", "address1"],
+    "addressline2": ["addressline2", "address2"],
+    "addressline3": ["addressline3", "address3"],
+    "city": [],
+    "stateorprovince": ["state", "st"],
+    "countrycode": ["country"],
+    "displayasentered": [],
+    "cellphone": ["cell"],
+    "cellphonecountrycode": ["cellcountrycode"],
+    "phone": ["home", "homephone"],
+    "phonecountrycode": ["phonecountrycode"],
+    "email": ["emailaddress"],
+}

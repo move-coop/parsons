@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 class PostgresCreateStatement(DatabaseCreateStatement):
-
     def __init__(self):
         super().__init__()
 
@@ -43,15 +42,24 @@ class PostgresCreateStatement(DatabaseCreateStatement):
         """
         return f"col_{index}"
 
-    def create_statement(self, tbl, table_name, padding=None, distkey=None, sortkey=None,
-                         varchar_max=None, varchar_truncate=True, columntypes=None,
-                         strict_length=True):
+    def create_statement(
+        self,
+        tbl,
+        table_name,
+        padding=None,
+        distkey=None,
+        sortkey=None,
+        varchar_max=None,
+        varchar_truncate=True,
+        columntypes=None,
+        strict_length=True,
+    ):
         # Generate a table create statement. Distkeys and sortkeys are only used by
         # Redshift and should not be passed when generating a create statement for
         # Postgres.
 
         if tbl.num_rows == 0:
-            raise ValueError('Table is empty. Must have 1 or more rows.')
+            raise ValueError("Table is empty. Must have 1 or more rows.")
 
         # Validate and rename column names if needed
         tbl.table = petl.setheader(tbl.table, self.column_name_validate(tbl.columns))
@@ -59,27 +67,27 @@ class PostgresCreateStatement(DatabaseCreateStatement):
         mapping = self.generate_data_types(tbl)
 
         if padding:
-            mapping['longest'] = self.vc_padding(mapping, padding)
+            mapping["longest"] = self.vc_padding(mapping, padding)
         elif not strict_length:
-            mapping['longest'] = self.vc_step(mapping)
+            mapping["longest"] = self.vc_step(mapping)
 
         if varchar_max:
-            mapping['longest'] = self.vc_max(mapping, varchar_max)
+            mapping["longest"] = self.vc_max(mapping, varchar_max)
 
         if varchar_truncate:
-            mapping['longest'] = self.vc_trunc(mapping)
+            mapping["longest"] = self.vc_trunc(mapping)
 
-        mapping['longest'] = self.vc_validate(mapping)
+        mapping["longest"] = self.vc_validate(mapping)
 
         # Add any provided column type overrides
         if columntypes:
-            for i in range(len(mapping['headers'])):
-                col = mapping['headers'][i]
+            for i in range(len(mapping["headers"])):
+                col = mapping["headers"][i]
                 if columntypes.get(col):
-                    mapping['type_list'][i] = columntypes[col]
+                    mapping["type_list"][i] = columntypes[col]
 
         # Enclose in quotes
-        mapping['headers'] = [f'"{h}"'for h in mapping['headers']]
+        mapping["headers"] = [f'"{h}"' for h in mapping["headers"]]
 
         return self.create_sql(table_name, mapping, distkey=distkey, sortkey=sortkey)
 
@@ -101,19 +109,19 @@ class PostgresCreateStatement(DatabaseCreateStatement):
         # Populate empty values for the columns
         for col in table.columns:
             longest.append(0)
-            type_list.append('')
+            type_list.append("")
 
         for row in cont:
             for i in range(len(row)):
                 # NA is the csv null value
-                if type_list[i] == 'varchar' or row[i] in ['NA', '']:
+                if type_list[i] == "varchar" or row[i] in ["NA", ""]:
                     pass
                 else:
                     var_type = self.data_type(row[i], type_list[i])
                     type_list[i] = var_type
 
                 # Calculate width
-                width = len(str(row[i]).encode('utf-8'))
+                width = len(str(row[i]).encode("utf-8"))
                 if width > longest[i]:
                     longest[i] = width
 
@@ -121,19 +129,17 @@ class PostgresCreateStatement(DatabaseCreateStatement):
         # If the entire column is either one of those (or a mix of the two)
         # the type will be empty.
         # Fill with a default varchar
-        type_list = [typ or 'varchar' for typ in type_list]
+        type_list = [typ or "varchar" for typ in type_list]
 
-        return {'longest': longest,
-                'headers': table.columns,
-                'type_list': type_list}
+        return {"longest": longest, "headers": table.columns, "type_list": type_list}
 
     def vc_padding(self, mapping, padding):
         # Pad the width of a varchar column
 
-        return [int(c + (c * padding)) for c in mapping['longest']]
+        return [int(c + (c * padding)) for c in mapping["longest"]]
 
     def vc_step(self, mapping):
-        return [self.round_longest(c) for c in mapping['longest']]
+        return [self.round_longest(c) for c in mapping["longest"]]
 
     def vc_max(self, mapping, columns):
         # Set the varchar width of a column to the maximum
@@ -141,47 +147,49 @@ class PostgresCreateStatement(DatabaseCreateStatement):
         for c in columns:
 
             try:
-                idx = mapping['headers'].index(c)
-                mapping['longest'][idx] = self.VARCHAR_MAX
+                idx = mapping["headers"].index(c)
+                mapping["longest"][idx] = self.VARCHAR_MAX
 
             except KeyError as error:
-                logger.error('Could not find column name provided.')
+                logger.error("Could not find column name provided.")
                 raise error
 
-        return mapping['longest']
+        return mapping["longest"]
 
     def vc_trunc(self, mapping):
 
-        return [self.VARCHAR_MAX if c > self.VARCHAR_MAX else c for c in mapping['longest']]
+        return [
+            self.VARCHAR_MAX if c > self.VARCHAR_MAX else c for c in mapping["longest"]
+        ]
 
     def vc_validate(self, mapping):
 
-        return [1 if c == 0 else c for c in mapping['longest']]
+        return [1 if c == 0 else c for c in mapping["longest"]]
 
     def create_sql(self, table_name, mapping, distkey=None, sortkey=None):
         # Generate the sql to create the table
 
-        statement = f'create table {table_name} ('
+        statement = f"create table {table_name} ("
 
-        for i in range(len(mapping['headers'])):
-            if mapping['type_list'][i] == 'varchar':
-                statement = (statement + '\n  {} varchar({}),').format(str(mapping['headers'][i])
-                                                                       .lower(),
-                                                                       str(mapping['longest'][i]))
+        for i in range(len(mapping["headers"])):
+            if mapping["type_list"][i] == "varchar":
+                statement = (statement + "\n  {} varchar({}),").format(
+                    str(mapping["headers"][i]).lower(), str(mapping["longest"][i])
+                )
             else:
-                statement = (statement + '\n  ' + '{} {}' + ',').format(str(mapping['headers'][i])
-                                                                        .lower(),
-                                                                        mapping['type_list'][i])
+                statement = (statement + "\n  " + "{} {}" + ",").format(
+                    str(mapping["headers"][i]).lower(), mapping["type_list"][i]
+                )
 
-        statement = statement[:-1] + ') '
+        statement = statement[:-1] + ") "
 
         if distkey:
-            statement += f'\ndistkey({distkey}) '
+            statement += f"\ndistkey({distkey}) "
 
         if sortkey:
-            statement += f'\nsortkey({sortkey})'
+            statement += f"\nsortkey({sortkey})"
 
-        statement += ';'
+        statement += ";"
 
         return statement
 

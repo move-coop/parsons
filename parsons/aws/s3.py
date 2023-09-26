@@ -1,5 +1,6 @@
 import re
 import boto3
+from botocore.client import ClientError
 from parsons.utilities import files
 import logging
 import os
@@ -8,11 +9,13 @@ logger = logging.getLogger(__name__)
 
 
 class AWSConnection(object):
-
-    def __init__(self, aws_access_key_id=None,
-                 aws_secret_access_key=None,
-                 aws_session_token=None):
-
+    def __init__(
+        self,
+        aws_access_key_id=None,
+        aws_secret_access_key=None,
+        aws_session_token=None,
+        use_env_token=True,
+    ):
         # Order of operations for searching for keys:
         #   1. Look for keys passed as kwargs
         #   2. Look for env variables
@@ -24,12 +27,15 @@ class AWSConnection(object):
             # The AWS session token isn't needed most of the time, so we'll check
             # for the env variable here instead of requiring it to be passed
             # whenever the aws_access_key_id and aws_secret_access_key are passed.
-            if aws_session_token is None:
-                aws_session_token = os.getenv('AWS_SESSION_TOKEN')
 
-            self.session = boto3.Session(aws_access_key_id=aws_access_key_id,
-                                         aws_secret_access_key=aws_secret_access_key,
-                                         aws_session_token=aws_session_token)
+            if aws_session_token is None and use_env_token:
+                aws_session_token = os.getenv("AWS_SESSION_TOKEN")
+
+            self.session = boto3.Session(
+                aws_access_key_id=aws_access_key_id,
+                aws_secret_access_key=aws_secret_access_key,
+                aws_session_token=aws_session_token,
+            )
 
         else:
             self.session = boto3.Session()
@@ -49,20 +55,30 @@ class S3(object):
         aws_session_token: str
             The AWS session token. Optional. Can also be stored in the ``AWS_SESSION_TOKEN``
             env variable. Used for accessing S3 with temporary credentials.
+        use_env_token: boolean
+            Controls use of the ``AWS_SESSION_TOKEN`` environment variable. Defaults
+            to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
+            variable even if the ``aws_session_token`` argument was not passed in.
+
     `Returns:`
         S3 class.
     """
 
-    def __init__(self,
-                 aws_access_key_id=None,
-                 aws_secret_access_key=None,
-                 aws_session_token=None):
+    def __init__(
+        self,
+        aws_access_key_id=None,
+        aws_secret_access_key=None,
+        aws_session_token=None,
+        use_env_token=True,
+    ):
+        self.aws = AWSConnection(
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            aws_session_token=aws_session_token,
+            use_env_token=use_env_token,
+        )
 
-        self.aws = AWSConnection(aws_access_key_id=aws_access_key_id,
-                                 aws_secret_access_key=aws_secret_access_key,
-                                 aws_session_token=aws_session_token)
-
-        self.s3 = self.aws.session.resource('s3')
+        self.s3 = self.aws.session.resource("s3")
         """Boto3 API Session Resource object. Use for more advanced boto3 features."""
 
         self.client = self.s3.meta.client
@@ -101,9 +117,16 @@ class S3(object):
 
         return bucket in self.list_buckets()
 
-    def list_keys(self, bucket, prefix=None, suffix=None, regex=None,
-                  date_modified_before=None, date_modified_after=None,
-                  **kwargs):
+    def list_keys(
+        self,
+        bucket,
+        prefix=None,
+        suffix=None,
+        regex=None,
+        date_modified_before=None,
+        date_modified_after=None,
+        **kwargs,
+    ):
         """
         List the keys in a bucket, along with extra info about each one.
 
@@ -131,50 +154,73 @@ class S3(object):
         """
 
         keys_dict = dict()
-        logger.debug(f'Fetching keys in {bucket} bucket')
+        logger.debug(f"Fetching keys in {bucket} bucket")
 
         continuation_token = None
 
         while True:
-            args = {'Bucket': bucket}
+            args = {"Bucket": bucket}
+
             if prefix:
-                args['Prefix'] = prefix
+                args["Prefix"] = prefix
+
             if continuation_token:
-                args['ContinuationToken'] = continuation_token
+                args["ContinuationToken"] = continuation_token
+
             args.update(kwargs)
 
-            resp = self.client.list_objects_v2(**args)
+            try:
+                resp = self.client.list_objects_v2(**args)
 
-            for key in resp.get('Contents', []):
+            except ClientError as e:
+                error_message = """Unable to list bucket objects!
+                This may be due to a lack of permission on the requested
+                bucket. Double-check that you have sufficient READ permissions
+                on the bucket you've requested. If you only have permissions for
+                keys within a specific prefix, make sure you include a trailing '/' in
+                in prefix."""
 
+                logger.error(error_message)
+
+                raise e
+
+            for key in resp.get("Contents", []):
                 # Match suffix
-                if suffix and not key['Key'].endswith(suffix):
+                if suffix and not key["Key"].endswith(suffix):
                     continue
 
                 # Regex matching
-                if regex and not bool(re.search(regex, key['Key'])):
+                if regex and not bool(re.search(regex, key["Key"])):
                     continue
 
                 # Match timestamp parsing
-                if date_modified_before and not key['LastModified'] < date_modified_before:
+                if (
+                    date_modified_before
+                    and not key["LastModified"] < date_modified_before
+                ):
                     continue
 
-                if date_modified_after and not key['LastModified'] > date_modified_after:
+                if (
+                    date_modified_after
+                    and not key["LastModified"] > date_modified_after
+                ):
                     continue
 
                 # Convert date to iso string
-                key['LastModified'] = key['LastModified'].isoformat()
+                key["LastModified"] = key["LastModified"].isoformat()
 
                 # Add to output dict
-                keys_dict[key.get('Key')] = key
+                keys_dict[key.get("Key")] = key
 
             # If more than 1000 results, continue with token
-            if resp.get('NextContinuationToken'):
-                continuation_token = resp['NextContinuationToken']
+            if resp.get("NextContinuationToken"):
+                continuation_token = resp["NextContinuationToken"]
+
             else:
                 break
 
-        logger.debug(f'Retrieved {len(keys_dict)} keys')
+        logger.debug(f"Retrieved {len(keys_dict)} keys")
+
         return keys_dict
 
     def key_exists(self, bucket, key):
@@ -194,10 +240,10 @@ class S3(object):
         key_count = len(self.list_keys(bucket, prefix=key))
 
         if key_count > 0:
-            logger.debug(f'Found {key} in {bucket}.')
+            logger.debug(f"Found {key} in {bucket}.")
             return True
         else:
-            logger.debug(f'Did not find {key} in {bucket}.')
+            logger.debug(f"Did not find {key} in {bucket}.")
             return False
 
     def create_bucket(self, bucket):
@@ -228,7 +274,9 @@ class S3(object):
 
         self.client.create_bucket(Bucket=bucket)
 
-    def put_file(self, bucket, key, local_path, acl='bucket-owner-full-control', **kwargs):
+    def put_file(
+        self, bucket, key, local_path, acl="bucket-owner-full-control", **kwargs
+    ):
         """
         Uploads an object to an S3 bucket
 
@@ -247,7 +295,9 @@ class S3(object):
                 info.
         """
 
-        self.client.upload_file(local_path, bucket, key, ExtraArgs={'ACL': acl, **kwargs})
+        self.client.upload_file(
+            local_path, bucket, key, ExtraArgs={"ACL": acl, **kwargs}
+        )
 
     def remove_file(self, bucket, key):
         """
@@ -310,15 +360,26 @@ class S3(object):
                 A link to download the object
         """
 
-        return self.client.generate_presigned_url(ClientMethod='get_object',
-                                                  Params={'Bucket': bucket,
-                                                          'Key': key},
-                                                  ExpiresIn=expires_in)
+        return self.client.generate_presigned_url(
+            ClientMethod="get_object",
+            Params={"Bucket": bucket, "Key": key},
+            ExpiresIn=expires_in,
+        )
 
-    def transfer_bucket(self, origin_bucket, origin_key, destination_bucket,
-                        destination_key=None, suffix=None, regex=None,
-                        date_modified_before=None, date_modified_after=None,
-                        public_read=False, remove_original=False, **kwargs):
+    def transfer_bucket(
+        self,
+        origin_bucket,
+        origin_key,
+        destination_bucket,
+        destination_key=None,
+        suffix=None,
+        regex=None,
+        date_modified_before=None,
+        date_modified_after=None,
+        public_read=False,
+        remove_original=False,
+        **kwargs,
+    ):
         """
         Transfer files between s3 buckets
 
@@ -353,22 +414,22 @@ class S3(object):
         """
 
         # If prefix, get all files for the prefix
-        if origin_key.endswith('/'):
+        if origin_key.endswith("/"):
             resp = self.list_keys(
                 origin_bucket,
                 prefix=origin_key,
                 suffix=suffix,
                 regex=regex,
                 date_modified_before=date_modified_before,
-                date_modified_after=date_modified_after
+                date_modified_after=date_modified_after,
             )
-            key_list = [value['Key'] for value in resp.values()]
+            key_list = [value["Key"] for value in resp.values()]
         else:
             key_list = [origin_key]
 
         for key in key_list:
             # If destination_key is prefix, replace
-            if destination_key and destination_key.endswith('/'):
+            if destination_key and destination_key.endswith("/"):
                 dest_key = key.replace(origin_key, destination_key)
 
             # If single destination, use destination key
@@ -379,16 +440,18 @@ class S3(object):
             else:
                 dest_key = key
 
-            copy_source = {'Bucket': origin_bucket, 'Key': key}
-            self.client.copy(copy_source, destination_bucket, dest_key, ExtraArgs=kwargs)
+            copy_source = {"Bucket": origin_bucket, "Key": key}
+            self.client.copy(
+                copy_source, destination_bucket, dest_key, ExtraArgs=kwargs
+            )
             if remove_original:
                 try:
                     self.remove_file(origin_bucket, origin_key)
                 except Exception as e:
-                    logger.error('Failed to delete original key: ' + str(e))
+                    logger.error("Failed to delete original key: " + str(e))
 
             if public_read:
                 object_acl = self.s3.ObjectAcl(destination_bucket, destination_key)
-                object_acl.put(ACL='public-read')
+                object_acl.put(ACL="public-read")
 
-        logger.info(f'Finished syncing {len(key_list)} keys')
+        logger.info(f"Finished syncing {len(key_list)} keys")

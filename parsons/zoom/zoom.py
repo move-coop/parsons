@@ -119,6 +119,26 @@ class Zoom:
                 data.extend(self.client.data_parse(r))
             return Table(data)
 
+    def __handle_nested_json(self, table: Table, column: str) -> Table:
+        """
+        This function unpacks JSON values from Zoom's API, which are often
+        objects nested in lists
+
+        `Args`:
+            table: parsons.Table
+                Parsons Table of Zoom API responses
+
+            column: str
+                Column name of nested JSON
+
+        `Returns`:
+            Parsons Table
+        """
+
+        return Table(table.unpack_list(column=column)).unpack_dict(
+            column=f"{column}_0", prepend_value=f"{column}_"
+        )
+
     def get_users(self, status="active", role_id=None):
         """
         Get users.
@@ -301,7 +321,7 @@ class Zoom:
             f"Retrieved {tbl.num_rows} rows of metadata [meeting={meeting_id} poll={poll_id}]"
         )
 
-        return tbl
+        return self.__handle_nested_json(table=tbl, column="prompts")
 
     def get_meeting_all_polls_metadata(self, meeting_id) -> Table:
         """
@@ -324,7 +344,7 @@ class Zoom:
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
 
-        return tbl
+        return self.__handle_nested_json(table=tbl, column="questions")
 
     def get_past_meeting_poll_metadata(self, meeting_id) -> Table:
         """
@@ -347,7 +367,7 @@ class Zoom:
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
 
-        return tbl
+        return self.__handle_nested_json(table=tbl, column="prompts")
 
     def get_webinar_poll_metadata(self, webinar_id, poll_id) -> Table:
         """
@@ -374,7 +394,7 @@ class Zoom:
             f"Retrieved {tbl.num_rows} rows of metadata [meeting={webinar_id} poll={poll_id}]"
         )
 
-        return tbl
+        return self.__handle_nested_json(table=tbl, column="prompts")
 
     def get_webinar_all_polls_metadata(self, webinar_id) -> Table:
         """
@@ -397,7 +417,7 @@ class Zoom:
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
 
-        return tbl
+        return self.__handle_nested_json(table=tbl, column="questions")
 
     def get_past_webinar_poll_metadata(self, webinar_id) -> Table:
         """
@@ -420,7 +440,7 @@ class Zoom:
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
 
-        return tbl
+        return self.__handle_nested_json(table=tbl, column="prompts")
 
     def get_meeting_poll_results(self, meeting_id) -> Table:
         """
@@ -436,7 +456,7 @@ class Zoom:
 
         logger.info(f"Retrieved {tbl.num_rows} reults for meeting ID {meeting_id}")
 
-        return tbl
+        return self.__handle_nested_json(table=tbl, column="question_details")
 
     def get_webinar_poll_results(self, webinar_id) -> Table:
         """
@@ -452,4 +472,4 @@ class Zoom:
 
         logger.info(f"Retrieved {tbl.num_rows} reults for webinar ID {webinar_id}")
 
-        return tbl
+        return self.__handle_nested_json(table=tbl, column="question_details")

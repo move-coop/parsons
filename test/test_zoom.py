@@ -445,7 +445,7 @@ class TestZoom(unittest.TestCase):
         assert_matching_tables(self.zoom.get_webinar_registrants(123), tbl)
 
     @requests_mock.Mocker()
-    def test_get_meeting_poll(self, m):
+    def test_get_meeting_poll_metadata(self, m):
         poll = {
             "id": 1,
             "status": "started",
@@ -488,14 +488,10 @@ class TestZoom(unittest.TestCase):
                     "answers": "Larry David's Curb Your Enthusiasm",
                     "case_sensitive": "True",
                     "name": "Secret Truth",
-                    "prompts": [
-                        {
-                            "prompt_question": "What's the secret truth of the universe?",
-                            "prompt_right_answers": [
-                                "Pizza delivery",
-                                "Larry David's Curb Your Enthusiasm",
-                            ],
-                        }
+                    "prompts__prompt_question": "What's the secret truth of the universe?",
+                    "prompts__prompt_right_answers": [
+                        "Pizza delivery",
+                        "Larry David's Curb Your Enthusiasm",
                     ],
                     "rating_max_label": "",
                     "rating_max_value": 1,
@@ -505,7 +501,7 @@ class TestZoom(unittest.TestCase):
                     "show_as_dropdown": False,
                     "type": "short_answer",
                 }
-            ]
+            ],
         )
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
@@ -513,7 +509,7 @@ class TestZoom(unittest.TestCase):
         assert_matching_tables(self.zoom.get_meeting_poll_metadata(123, 1), tbl)
 
     @requests_mock.Mocker()
-    def test_get_meeting_all_polls(self, m):
+    def test_get_meeting_all_polls_metadata(self, m):
         polls = {
             "polls": [
                 {
@@ -587,61 +583,53 @@ class TestZoom(unittest.TestCase):
                     "status": "started",
                     "anonymous": "False",
                     "poll_type": 1,
-                    "questions": [
+                    "questions__answer_max_character": 1,
+                    "questions__answer_min_character": 1,
+                    "questions__answer_required": "False",
+                    "questions__answers": "Larry David's Curb Your Enthusiasm",
+                    "questions__case_sensitive": "True",
+                    "questions__name": "Secret Truth",
+                    "questions__prompts": [
                         {
-                            "answer_max_character": 1,
-                            "answer_min_character": 1,
-                            "answer_required": "False",
-                            "answers": "Larry David's Curb Your Enthusiasm",
-                            "case_sensitive": "True",
-                            "name": "Secret Truth",
-                            "prompts": [
-                                {
-                                    "prompt_question": "What's the secret truth of the universe?",
-                                    "prompt_right_answers": [
-                                        "Pizza delivery",
-                                        "Larry David's Curb Your Enthusiasm",
-                                    ],
-                                }
+                            "prompt_question": "What's the secret truth of the universe?",
+                            "prompt_right_answers": [
+                                "questions__Pizza delivery",
+                                "questions__Larry David's Curb Your Enthusiasm",
                             ],
-                            "rating_max_label": "",
-                            "rating_max_value": 1,
-                            "rating_min_label": "",
-                            "rating_min_value": 0,
-                            "right_answers": "",
-                            "show_as_dropdown": False,
-                            "type": "short_answer",
                         }
                     ],
+                    "questions__rating_max_label": "",
+                    "questions__rating_max_value": 1,
+                    "questions__rating_min_label": "",
+                    "questions__rating_min_value": 0,
+                    "questions__right_answers": "",
+                    "questions__show_as_dropdown": False,
+                    "questions__type": "short_answer",
                 },
                 {
                     "id": 2,
                     "status": "started",
                     "anonymous": "False",
                     "poll_type": 1,
-                    "questions": [
+                    "questions__answer_max_character": 1,
+                    "questions__answer_min_character": 1,
+                    "questions__answer_required": "False",
+                    "questions__answers": "Mets",
+                    "questions__case_sensitive": "True",
+                    "questions__name": "Play ball",
+                    "questions__prompts": [
                         {
-                            "answer_max_character": 1,
-                            "answer_min_character": 1,
-                            "answer_required": "False",
-                            "answers": "Mets",
-                            "case_sensitive": "True",
-                            "name": "Play ball",
-                            "prompts": [
-                                {
-                                    "prompt_question": "Best NY baseball team?",
-                                    "prompt_right_answers": ["Mets"],
-                                }
-                            ],
-                            "rating_max_label": "",
-                            "rating_max_value": 1,
-                            "rating_min_label": "",
-                            "rating_min_value": 0,
-                            "right_answers": "",
-                            "show_as_dropdown": True,
-                            "type": "short_answer",
+                            "prompt_question": "Best NY baseball team?",
+                            "prompt_right_answers": ["Mets"],
                         }
                     ],
+                    "questions__rating_max_label": "",
+                    "questions__rating_max_value": 1,
+                    "questions__rating_min_label": "",
+                    "questions__rating_min_value": 0,
+                    "questions__right_answers": "",
+                    "questions__show_as_dropdown": True,
+                    "questions__type": "short_answer",
                 },
             ]
         )
@@ -651,7 +639,7 @@ class TestZoom(unittest.TestCase):
         assert_matching_tables(self.zoom.get_meeting_all_polls_metadata(123), tbl)
 
     @requests_mock.Mocker()
-    def test_get_past_meeting_poll(self, m):
+    def test_get_past_meeting_poll_metadata(self, m):
         poll = {
             "id": 1,
             "status": "started",
@@ -694,15 +682,6 @@ class TestZoom(unittest.TestCase):
                     "answers": "Larry David's Curb Your Enthusiasm",
                     "case_sensitive": "True",
                     "name": "Secret Truth",
-                    "prompts": [
-                        {
-                            "prompt_question": "What's the secret truth of the universe?",
-                            "prompt_right_answers": [
-                                "Pizza delivery",
-                                "Larry David's Curb Your Enthusiasm",
-                            ],
-                        }
-                    ],
                     "rating_max_label": "",
                     "rating_max_value": 1,
                     "rating_min_label": "",
@@ -710,6 +689,11 @@ class TestZoom(unittest.TestCase):
                     "right_answers": "",
                     "show_as_dropdown": False,
                     "type": "short_answer",
+                    "prompts__prompt_question": "What's the secret truth of the universe?",
+                    "prompts__prompt_right_answers": [
+                        "Pizza delivery",
+                        "Larry David's Curb Your Enthusiasm",
+                    ],
                 }
             ]
         )
@@ -719,7 +703,7 @@ class TestZoom(unittest.TestCase):
         assert_matching_tables(self.zoom.get_past_meeting_poll_metadata(123), tbl)
 
     @requests_mock.Mocker()
-    def test_get_webinar_poll(self, m):
+    def test_get_webinar_poll_metadata(self, m):
         poll = {
             "id": "QalIoKWLTJehBJ8e1xRrbQ",
             "status": "notstart",
@@ -760,12 +744,6 @@ class TestZoom(unittest.TestCase):
                     "answers": ["Extremely useful"],
                     "case_sensitive": False,
                     "name": "How useful was this meeting?",
-                    "prompts": [
-                        {
-                            "prompt_question": "How are you?",
-                            "prompt_right_answers": ["Good"],
-                        }
-                    ],
                     "rating_max_label": "Extremely Likely",
                     "rating_max_value": 4,
                     "rating_min_label": "Not likely",
@@ -773,6 +751,8 @@ class TestZoom(unittest.TestCase):
                     "right_answers": ["Good"],
                     "show_as_dropdown": False,
                     "type": "single",
+                    "prompts__prompt_question": "How are you?",
+                    "prompts__prompt_right_answers": ["Good"],
                 }
             ]
         )
@@ -782,7 +762,7 @@ class TestZoom(unittest.TestCase):
         assert_matching_tables(self.zoom.get_webinar_poll_metadata(123, 456), tbl)
 
     @requests_mock.Mocker()
-    def test_get_webinar_all_polls(self, m):
+    def test_get_webinar_all_polls_metadata(self, m):
         polls = {
             "polls": [
                 {
@@ -820,38 +800,32 @@ class TestZoom(unittest.TestCase):
         }
 
         tbl = Table(
-            [
-                {
-                    "id": "QalIoKWLTJehBJ8e1xRrbQ",
-                    "status": "notstart",
-                    "anonymous": True,
-                    "poll_type": 2,
-                    "questions": [
-                        {
-                            "answer_max_character": 200,
-                            "answer_min_character": 1,
-                            "answer_required": False,
-                            "answers": ["Extremely useful"],
-                            "case_sensitive": False,
-                            "name": "How useful was this meeting?",
-                            "prompts": [
-                                {
-                                    "prompt_question": "How are you?",
-                                    "prompt_right_answers": ["Good"],
-                                }
-                            ],
-                            "rating_max_label": "Extremely Likely",
-                            "rating_max_value": 4,
-                            "rating_min_label": "Not likely",
-                            "rating_min_value": 0,
-                            "right_answers": ["Good"],
-                            "show_as_dropdown": False,
-                            "type": "single",
-                        }
-                    ],
-                    "title": "Learn something new",
-                }
-            ]
+            {
+                "id": "QalIoKWLTJehBJ8e1xRrbQ",
+                "status": "notstart",
+                "anonymous": True,
+                "poll_type": 2,
+                "title": "Learn something new",
+                "questions__answer_max_character": 200,
+                "questions__answer_min_character": 1,
+                "questions__answer_required": False,
+                "questions__answers": ["Extremely useful"],
+                "questions__case_sensitive": False,
+                "questions__name": "How useful was this meeting?",
+                "questions__prompts": [
+                    {
+                        "prompt_question": "How are you?",
+                        "prompt_right_answers": ["Good"],
+                    }
+                ],
+                "questions__rating_max_label": "Extremely Likely",
+                "questions__rating_max_value": 4,
+                "questions__rating_min_label": "Not likely",
+                "questions__rating_min_value": 0,
+                "questions__right_answers": ["Good"],
+                "questions__show_as_dropdown": False,
+                "questions__type": "single",
+            }
         )
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
@@ -859,7 +833,7 @@ class TestZoom(unittest.TestCase):
         assert_matching_tables(self.zoom.get_webinar_all_polls_metadata(123), tbl)
 
     @requests_mock.Mocker()
-    def test_get_past_webinar_poll(self, m):
+    def test_get_past_webinar_poll_metadata(self, m):
         poll = {
             "id": "QalIoKWLTJehBJ8e1xRrbQ",
             "status": "notstart",
@@ -900,12 +874,8 @@ class TestZoom(unittest.TestCase):
                     "answers": ["Extremely useful"],
                     "case_sensitive": False,
                     "name": "How useful was this meeting?",
-                    "prompts": [
-                        {
-                            "prompt_question": "How are you?",
-                            "prompt_right_answers": ["Good"],
-                        }
-                    ],
+                    "prompts__prompt_question": "How are you?",
+                    "prompts__prompt_right_answers": ["Good"],
                     "rating_max_label": "Extremely Likely",
                     "rating_max_value": 4,
                     "rating_min_label": "Not likely",
@@ -914,7 +884,7 @@ class TestZoom(unittest.TestCase):
                     "show_as_dropdown": False,
                     "type": "single",
                 }
-            ]
+            ],
         )
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
@@ -952,14 +922,10 @@ class TestZoom(unittest.TestCase):
                     "name": "Jill Chill",
                     "first_name": "Jill",
                     "last_name": "Chill",
-                    "question_details": [
-                        {
-                            "answer": "I am wonderful.",
-                            "date_time": "2022-02-01T12:37:12.660Z",
-                            "polling_id": "798fGJEWrA",
-                            "question": "How are you?",
-                        }
-                    ],
+                    "question_details__answer": "I am wonderful.",
+                    "question_details__date_time": "2022-02-01T12:37:12.660Z",
+                    "question_details__polling_id": "798fGJEWrA",
+                    "question_details__question": "How are you?",
                 }
             ]
         )
@@ -999,14 +965,10 @@ class TestZoom(unittest.TestCase):
                     "name": "Jill Chill",
                     "first_name": "Jill",
                     "last_name": "Chill",
-                    "question_details": [
-                        {
-                            "answer": "I am wonderful.",
-                            "date_time": "2022-02-01T12:37:12.660Z",
-                            "polling_id": "798fGJEWrA",
-                            "question": "How are you?",
-                        }
-                    ],
+                    "question_details__answer": "I am wonderful.",
+                    "question_details__date_time": "2022-02-01T12:37:12.660Z",
+                    "question_details__polling_id": "798fGJEWrA",
+                    "question_details__question": "How are you?",
                 }
             ]
         )

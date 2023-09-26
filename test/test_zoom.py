@@ -488,11 +488,6 @@ class TestZoom(unittest.TestCase):
                     "answers": "Larry David's Curb Your Enthusiasm",
                     "case_sensitive": "True",
                     "name": "Secret Truth",
-                    "prompts__prompt_question": "What's the secret truth of the universe?",
-                    "prompts__prompt_right_answers": [
-                        "Pizza delivery",
-                        "Larry David's Curb Your Enthusiasm",
-                    ],
                     "rating_max_label": "",
                     "rating_max_value": 1,
                     "rating_min_label": "",
@@ -500,6 +495,11 @@ class TestZoom(unittest.TestCase):
                     "right_answers": "",
                     "show_as_dropdown": False,
                     "type": "short_answer",
+                    "prompts__prompt_question": "What's the secret truth of the universe?",
+                    "prompts__prompt_right_answers": [
+                        "Pizza delivery",
+                        "Larry David's Curb Your Enthusiasm",
+                    ],
                 }
             ],
         )
@@ -593,8 +593,8 @@ class TestZoom(unittest.TestCase):
                         {
                             "prompt_question": "What's the secret truth of the universe?",
                             "prompt_right_answers": [
-                                "questions__Pizza delivery",
-                                "questions__Larry David's Curb Your Enthusiasm",
+                                "Pizza delivery",
+                                "Larry David's Curb Your Enthusiasm",
                             ],
                         }
                     ],
@@ -636,7 +636,9 @@ class TestZoom(unittest.TestCase):
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "meetings/123/polls", json=polls)
-        assert_matching_tables(self.zoom.get_meeting_all_polls_metadata(123), tbl)
+        assert_matching_tables(
+            self.zoom.get_meeting_all_polls_metadata(123), tbl, print_headers=True
+        )
 
     @requests_mock.Mocker()
     def test_get_past_meeting_poll_metadata(self, m):
@@ -800,37 +802,41 @@ class TestZoom(unittest.TestCase):
         }
 
         tbl = Table(
-            {
-                "id": "QalIoKWLTJehBJ8e1xRrbQ",
-                "status": "notstart",
-                "anonymous": True,
-                "poll_type": 2,
-                "title": "Learn something new",
-                "questions__answer_max_character": 200,
-                "questions__answer_min_character": 1,
-                "questions__answer_required": False,
-                "questions__answers": ["Extremely useful"],
-                "questions__case_sensitive": False,
-                "questions__name": "How useful was this meeting?",
-                "questions__prompts": [
-                    {
-                        "prompt_question": "How are you?",
-                        "prompt_right_answers": ["Good"],
-                    }
-                ],
-                "questions__rating_max_label": "Extremely Likely",
-                "questions__rating_max_value": 4,
-                "questions__rating_min_label": "Not likely",
-                "questions__rating_min_value": 0,
-                "questions__right_answers": ["Good"],
-                "questions__show_as_dropdown": False,
-                "questions__type": "single",
-            }
+            [
+                {
+                    "id": "QalIoKWLTJehBJ8e1xRrbQ",
+                    "status": "notstart",
+                    "anonymous": True,
+                    "poll_type": 2,
+                    "title": "Learn something new",
+                    "questions__answer_max_character": 200,
+                    "questions__answer_min_character": 1,
+                    "questions__answer_required": False,
+                    "questions__answers": ["Extremely useful"],
+                    "questions__case_sensitive": False,
+                    "questions__name": "How useful was this meeting?",
+                    "questions__prompts": [
+                        {
+                            "prompt_question": "How are you?",
+                            "prompt_right_answers": ["Good"],
+                        }
+                    ],
+                    "questions__rating_max_label": "Extremely Likely",
+                    "questions__rating_max_value": 4,
+                    "questions__rating_min_label": "Not likely",
+                    "questions__rating_min_value": 0,
+                    "questions__right_answers": ["Good"],
+                    "questions__show_as_dropdown": False,
+                    "questions__type": "single",
+                }
+            ]
         )
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "webinars/123/polls", json=polls)
-        assert_matching_tables(self.zoom.get_webinar_all_polls_metadata(123), tbl)
+        assert_matching_tables(
+            self.zoom.get_webinar_all_polls_metadata(123), tbl, print_headers=True
+        )
 
     @requests_mock.Mocker()
     def test_get_past_webinar_poll_metadata(self, m):
@@ -874,8 +880,6 @@ class TestZoom(unittest.TestCase):
                     "answers": ["Extremely useful"],
                     "case_sensitive": False,
                     "name": "How useful was this meeting?",
-                    "prompts__prompt_question": "How are you?",
-                    "prompts__prompt_right_answers": ["Good"],
                     "rating_max_label": "Extremely Likely",
                     "rating_max_value": 4,
                     "rating_min_label": "Not likely",
@@ -883,6 +887,8 @@ class TestZoom(unittest.TestCase):
                     "right_answers": ["Good"],
                     "show_as_dropdown": False,
                     "type": "single",
+                    "prompts__prompt_question": "How are you?",
+                    "prompts__prompt_right_answers": ["Good"],
                 }
             ],
         )

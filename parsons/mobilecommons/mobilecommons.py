@@ -25,7 +25,7 @@ class MobileCommons:
 
         `Args:`
             username: str
-                A valid email address connected toa  MobileCommons accouont. Not required if
+                A valid email address connected toa  MobileCommons account. Not required if
                 ``MOBILECOMMONS_USERNAME`` env variable is set.
             password: str
                 Password associated with zoom account. Not required if ``MOBILECOMMONS_PASSWORD``
@@ -41,7 +41,7 @@ class MobileCommons:
         self.default_params = {'company': company_id} if company_id else {}
         self.client = APIConnector(uri=MC_URI, auth=(self.username,self.password))
 
-    def mc_get_request(self, endpoint, first_data_key, second_data_key, params,
+    def _mc_get_request(self, endpoint, first_data_key, second_data_key, params,
                        elements_to_unpack=None, limit=None):
         """
         A function for GET requests that handles MobileCommons xml responses and pagination
@@ -78,7 +78,7 @@ class MobileCommons:
 
         # Make get call and parse XML into list of dicts
         page = 1
-        response_dict = self.parse_get_request(endpoint=endpoint, params=params)
+        response_dict = self._parse_get_request(endpoint=endpoint, params=params)
 
         # If there's only one row, then it is returned as a dict, otherwise as a list
         data = response_dict['response'][first_data_key][second_data_key]
@@ -131,7 +131,7 @@ class MobileCommons:
             logger.info(f'Fetching rows {(page - 1) * page_limit + 1} - {(page)*page_limit} '
                         f'of {limit}')
             # Send get request
-            response_dict = self.parse_get_request(endpoint=endpoint, params=page_params)
+            response_dict = self._parse_get_request(endpoint=endpoint, params=page_params)
             # Check to see if page was empty if num parameter is available
             if page_indicator == 'num':
                 empty_page = int(response_dict['response'][first_data_key]['num']) > 0
@@ -145,7 +145,14 @@ class MobileCommons:
 
         return Table(final_table[:limit])
 
-    def check_response_status_code(self, response):
+    def _check_response_status_code(self, response):
+        """
+        A helper function that checks the status code of a response and raises an error if the
+        response code is not 200
+
+        `Args:`
+            response: requests package response object
+        """
         if response.status_code != 200:
             error = f'Response Code {str(response.status_code)}'
             error_html = BeautifulSoup(response.text, features='html.parser')
@@ -153,11 +160,23 @@ class MobileCommons:
             error += '\n' + error_html.p.next
             raise HTTPError(error)
 
-    def parse_get_request(self, endpoint, params):
+    def _parse_get_request(self, endpoint, params):
+        """
+        A helper function that sends a get request to MobileCommons and then parses XML responses in
+        order to return the response as a dictionary
+
+        `Args:`
+            endpoint: str
+                The endpoint, which will be appended to the base URL for each request
+            params: dict
+                Parameters to be passed into GET request
+        `Returns:`
+            xml response parsed into list or dictionary
+        """
         response = self.client.request(endpoint, 'GET', params=params)
 
         # If there's an error with initial response, raise error
-        self.check_response_status_code(response)
+        self._check_response_status_code(response)
 
         # If good response, compile data into final_table
         # Parse xml to nested dictionary and load to parsons table
@@ -165,7 +184,7 @@ class MobileCommons:
                                         dict_constructor=dict)
         return response_dict
 
-    def mc_post_request(self, endpoint, params):
+    def _mc_post_request(self, endpoint, params):
         """
         A function for POST requests that handles MobileCommons xml responses
 
@@ -217,7 +236,7 @@ class MobileCommons:
             **self.default_params
         }
 
-        return self.mc_get_request(endpoint='broadcasts', first_data_key='broadcasts',
+        return self._mc_get_request(endpoint='broadcasts', first_data_key='broadcasts',
                                    second_data_key='broadcast', params=params,
                                    elements_to_unpack=['campaign'], limit=limit)
 
@@ -254,7 +273,7 @@ class MobileCommons:
             **self.default_params
         }
 
-        return self.mc_get_request(endpoint='campaign_subscribers', first_data_key='subscriptions',
+        return self._mc_get_request(endpoint='campaign_subscribers', first_data_key='subscriptions',
                                    second_data_key='sub', params=params, limit=limit)
 
 
@@ -297,7 +316,7 @@ class MobileCommons:
             **self.default_params
         }
 
-        return self.mc_get_request(endpoint='profiles', first_data_key='profiles',
+        return self._mc_get_request(endpoint='profiles', first_data_key='profiles',
                                    second_data_key='profile',
                                    elements_to_unpack=['source', 'address'], params=params,
                                    limit=limit)
@@ -316,7 +335,7 @@ class MobileCommons:
             last_name: str
                 Profile last name
             zip: str
-                Profile 5 digit postal code
+                Profile 5-digit postal code
             addressline1: str
                 Profile address line 1
             addressline2: str
@@ -346,5 +365,5 @@ class MobileCommons:
             **self.default_params
         }
         
-        response = self.mc_post_request('profile_update', params=params)
+        response = self._mc_post_request('profile_update', params=params)
         return response['profile']['id']

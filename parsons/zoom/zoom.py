@@ -300,6 +300,8 @@ class Zoom:
         """
         Get metadata about a specific poll for a given meeting ID
 
+        Required scopes: `meeting:read`
+
         `Args`:
             meeting_id: int
                 Unique identifier for Zoom meeting
@@ -327,6 +329,8 @@ class Zoom:
         """
         Get metadata for all polls for a given meeting ID
 
+        Required scopes: `meeting:read`
+
         `Args`:
             meeting_id: int
                 Unique identifier for Zoom meeting
@@ -350,6 +354,8 @@ class Zoom:
         """
         List poll metadata of a past meeting.
 
+        Required scopes: `meeting:read`
+
         `Args`:
             meeting_id: int
                 The meeting's ID or universally unique ID (UUID).
@@ -372,6 +378,8 @@ class Zoom:
     def get_webinar_poll_metadata(self, webinar_id, poll_id) -> Table:
         """
         Get metadata for a specific poll for a given webinar ID
+
+        Required scopes: `webinar:read`
 
         `Args`:
             webinar_id: str
@@ -400,6 +408,8 @@ class Zoom:
         """
         Get metadata for all polls for a given webinar ID
 
+        Required scopes: `webinar:read`
+
         `Args`:
             webinar_id: str
                 Unique identifier for Zoom webinar
@@ -423,6 +433,8 @@ class Zoom:
         """
         Retrieves the metadata for Webinar Polls of a specific Webinar
 
+        Required scopes: `webinar:read`
+
         `Args`:
             webinar_id: str
                 The webinar's ID or universally unique ID (UUID).
@@ -445,6 +457,8 @@ class Zoom:
     def get_meeting_poll_results(self, meeting_id) -> Table:
         """
         Get a report of poll results for a past meeting
+
+        Required scopes: `report:read:admin`
         """
 
         endpoint = f"report/meetings/{meeting_id}/polls"
@@ -461,6 +475,8 @@ class Zoom:
     def get_webinar_poll_results(self, webinar_id) -> Table:
         """
         Get a report of poll results for a past webinar
+
+        Required scopes: `report:read:admin`
         """
 
         endpoint = f"report/webinars/{webinar_id}/polls"

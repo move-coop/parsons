@@ -29,7 +29,7 @@ class MobileCommons:
             A valid email address connected toa  MobileCommons account. Not required if
             ``MOBILECOMMONS_USERNAME`` env variable is set.
         password: str
-            Password associated with zoom account. Not required if ``MOBILECOMMONS_PASSWORD``
+            Password associated with Zoom account. Not required if ``MOBILECOMMONS_PASSWORD``
             env variable set.
         company_id: str
             The company id of the MobileCommons organization to connect to. Not required if

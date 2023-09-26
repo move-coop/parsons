@@ -42,18 +42,36 @@ class get_profiles_response:
         <custom_column name="Birthday"/>
         <custom_column name="Caregiver"/>
         <custom_column name="Contact Frequency"/>
-        <custom_column name="f_name" created_at="2022-07-01T15:19:18Z" updated_at="2022-07-01T15:19:18Z">
-Cormac        </custom_column>
+        <custom_column 
+            name="f_name" 
+            created_at="2022-07-01T15:19:18Z" 
+            updated_at="2022-07-01T15:19:18Z">
+            Cormac        
+        </custom_column>
         <custom_column name="Interest"/>
-        <custom_column name="l_name" created_at="2022-07-01T15:19:30Z" updated_at="2022-07-01T15:19:30Z">
-Martinez del Rio        </custom_column>
+        <custom_column 
+            name="l_name" 
+            created_at="2022-07-01T15:19:30Z" 
+            updated_at="2022-07-01T15:19:30Z">
+            Martinez del Rio        
+        </custom_column>
         <custom_column name="MoneyConcerns"/>
         <custom_column name="PantryType"/>
         <custom_column name="Parent"/>
         <custom_column name="PersonalFlex"/>
       </custom_columns>
       <subscriptions>
-        <subscription campaign_id="22345" campaign_name="Test Campaign " campaign_description="This is just a test babe" opt_in_path_id="22233" status="Opted-Out" opt_in_source="JOIN" created_at="2022-06-29T17:28:24Z" activated_at="2022-06-29T17:28:24Z" opted_out_at="2022-07-01T15:18:59Z" opt_out_source="Texted a STOP word"/>
+        <subscription 
+            campaign_id="22345" 
+            campaign_name="Test Campaign " 
+            campaign_description="This is just a test babe" 
+            opt_in_path_id="22233" 
+            status="Opted-Out" 
+            opt_in_source="JOIN" 
+            created_at="2022-06-29T17:28:24Z" 
+            activated_at="2022-06-29T17:28:24Z" 
+            opted_out_at="2022-07-01T15:18:59Z" 
+            opt_out_source="Texted a STOP word"/>
       </subscriptions>
       <integrations>
       </integrations>
@@ -117,7 +135,8 @@ Reply STOP to quit. Msg&amp;DataRatesMayApply</body>
 </broadcast>
 <broadcast id="2536296" status="draft">
   <name>Broadcast 04/10/2023 01:34PM test</name>
-  <body>hi name, what's your email? Recurring Msgs. Reply STOP to quit, HELP for info. Msg&amp;DataRatesMayApply</body>
+  <body>hi name, what's your email? Recurring Msgs. Reply STOP to quit, HELP for info. 
+    Msg&amp;DataRatesMayApply</body>
   <campaign id="228634" active="true">
     <name>Dog King 2024</name>
   </campaign>
@@ -157,7 +176,12 @@ class post_profile_response:
     <updated_at>2023-03-14 21:46:58 UTC</updated_at>
     <opted_out_at>2022-09-16 01:07:50 UTC</opted_out_at>
     <opted_out_source>Opt-out from API</opted_out_source>
-    <source type="Keyword" name="JOIN" id="8657035" opt_in_path_id="328887" message_id="1776761263"/>
+    <source 
+        type="Keyword" 
+        name="JOIN" id="8657035" 
+        opt_in_path_id="328887" 
+        message_id="1776761263"
+    />
     <address>
       <street1>2430 Douglas Dr</street1>
       <street2/>
@@ -186,18 +210,36 @@ class post_profile_response:
       <custom_column name="Birthday"/>
       <custom_column name="Caregiver"/>
       <custom_column name="Contact Frequency"/>
-      <custom_column name="f_name" created_at="2022-07-01T15:19:18Z" updated_at="2022-07-01T15:19:18Z">
-Cormac      </custom_column>
+      <custom_column name="f_name" 
+        created_at="2022-07-01T15:19:18Z" 
+        updated_at="2022-07-01T15:19:18Z">
+        Cormac      
+      </custom_column>
       <custom_column name="Interest"/>
-      <custom_column name="l_name" created_at="2022-07-01T15:19:30Z" updated_at="2022-07-01T15:19:30Z">
-Martinez del Rio      </custom_column>
+      <custom_column 
+        name="l_name" 
+        created_at="2022-07-01T15:19:30Z" 
+        updated_at="2022-07-01T15:19:30Z">
+        Martinez del Rio      
+      </custom_column>
       <custom_column name="MoneyConcerns"/>
       <custom_column name="PantryType"/>
       <custom_column name="Parent"/>
       <custom_column name="PersonalFlex"/>
     </custom_columns>
     <subscriptions>
-      <subscription campaign_id="227047" campaign_name="Primary Campaign " campaign_description="Campaigntest" opt_in_path_id="328887" status="Opted-Out" opt_in_source="JOIN" created_at="2022-06-29T17:28:24Z" activated_at="2022-06-29T17:28:24Z" opted_out_at="2022-07-01T15:18:59Z" opt_out_source="Texted a STOP word"/>
+      <subscription 
+        campaign_id="227047" 
+        campaign_name="Primary Campaign " 
+        campaign_description="Campaigntest" 
+        opt_in_path_id="328887" 
+        status="Opted-Out" 
+        opt_in_source="JOIN" 
+        created_at="2022-06-29T17:28:24Z" 
+        activated_at="2022-06-29T17:28:24Z" 
+        opted_out_at="2022-07-01T15:18:59Z" 
+        opt_out_source="Texted a STOP word"
+      />
     </subscriptions>
     <integrations>
     </integrations>

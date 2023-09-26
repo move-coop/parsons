@@ -4,6 +4,7 @@ from parsons import Table
 import logging
 import jwt
 import datetime
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -138,6 +139,41 @@ class Zoom:
         return Table(table.unpack_list(column=column)).unpack_dict(
             column=f"{column}_0", prepend_value=f"{column}_"
         )
+
+    def __process_poll_results(self, tbl: Table) -> Table:
+        """
+        Unpacks nested poll results values from the Zoom reports endpoint
+
+        `Args`:
+            tbl: parsons.Table
+                Table of poll results derived from Zoom API request
+
+        `Returns`:
+            Parsons Table
+        """
+
+        # Add surrogate key
+        tbl.add_column("poll_taker_id", lambda _: str(uuid.uuid4()))
+
+        # Unpack values
+        tbl = tbl.unpack_nested_columns_as_rows(
+            "question_details", key="poll_taker_id", expand_original=True
+        )
+
+        # Remove extraneous columns
+        tbl.remove_column("poll_taker_id")
+        tbl.remove_column("question_details")
+
+        # Unpack question values
+        tbl = tbl.unpack_dict(
+            "question_details_value", include_original=True, prepend=False
+        )
+
+        # Remove column from API response
+        tbl.remove_column("question_details_value")
+        tbl.remove_column("uid")
+
+        return tbl
 
     def get_users(self, status="active", role_id=None):
         """
@@ -470,7 +506,7 @@ class Zoom:
 
         logger.info(f"Retrieved {tbl.num_rows} reults for meeting ID {meeting_id}")
 
-        return self.__handle_nested_json(table=tbl, column="question_details")
+        return self.__process_poll_results(tbl=tbl)
 
     def get_webinar_poll_results(self, webinar_id) -> Table:
         """
@@ -488,4 +524,4 @@ class Zoom:
 
         logger.info(f"Retrieved {tbl.num_rows} reults for webinar ID {webinar_id}")
 
-        return self.__handle_nested_json(table=tbl, column="question_details")
+        return self.__process_poll_results(tbl=tbl)

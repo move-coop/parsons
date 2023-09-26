@@ -924,10 +924,10 @@ class TestZoom(unittest.TestCase):
                     "name": "Jill Chill",
                     "first_name": "Jill",
                     "last_name": "Chill",
-                    "question_details__answer": "I am wonderful.",
-                    "question_details__date_time": "2022-02-01T12:37:12.660Z",
-                    "question_details__polling_id": "798fGJEWrA",
-                    "question_details__question": "How are you?",
+                    "answer": "I am wonderful.",
+                    "date_time": "2022-02-01T12:37:12.660Z",
+                    "polling_id": "798fGJEWrA",
+                    "question": "How are you?",
                 }
             ]
         )
@@ -967,10 +967,10 @@ class TestZoom(unittest.TestCase):
                     "name": "Jill Chill",
                     "first_name": "Jill",
                     "last_name": "Chill",
-                    "question_details__answer": "I am wonderful.",
-                    "question_details__date_time": "2022-02-01T12:37:12.660Z",
-                    "question_details__polling_id": "798fGJEWrA",
-                    "question_details__question": "How are you?",
+                    "answer": "I am wonderful.",
+                    "date_time": "2022-02-01T12:37:12.660Z",
+                    "polling_id": "798fGJEWrA",
+                    "question": "How are you?",
                 }
             ]
         )

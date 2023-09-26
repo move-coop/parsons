@@ -142,6 +142,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">jwt</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -257,6 +258,61 @@
                 <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">data_parse</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">__handle_nested_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function unpacks JSON values from Zoom&#39;s API, which are often</span>
+<span class="sd">        objects nested in lists</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            table: parsons.Table</span>
+<span class="sd">                Parsons Table of Zoom API responses</span>
+
+<span class="sd">            column: str</span>
+<span class="sd">                Column name of nested JSON</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">column</span><span class="p">))</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span>
+            <span class="n">column</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">_0&quot;</span><span class="p">,</span> <span class="n">prepend_value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">_&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__process_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unpacks nested poll results values from the Zoom reports endpoint</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            tbl: parsons.Table</span>
+<span class="sd">                Table of poll results derived from Zoom API request</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Add surrogate key</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;poll_taker_id&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()))</span>
+
+        <span class="c1"># Unpack values</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_nested_columns_as_rows</span><span class="p">(</span>
+            <span class="s2">&quot;question_details&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;poll_taker_id&quot;</span><span class="p">,</span> <span class="n">expand_original</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Remove extraneous columns</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="s2">&quot;poll_taker_id&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="s2">&quot;question_details&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Unpack question values</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span>
+            <span class="s2">&quot;question_details_value&quot;</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Remove column from API response</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="s2">&quot;question_details_value&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="s2">&quot;uid&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">tbl</span>
+
 <div class="viewcode-block" id="Zoom.get_users"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_users">[docs]</a>    <span class="k">def</span> <span class="nf">get_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;active&quot;</span><span class="p">,</span> <span class="n">role_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get users.</span>
@@ -319,7 +375,7 @@
 <span class="sd">        Get metadata regarding a past meeting.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            meeting_id: str</span>
+<span class="sd">            meeting_id: int</span>
 <span class="sd">                The meeting id</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
@@ -335,7 +391,7 @@
 <span class="sd">        Get past meeting participants.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            meeting_id: str</span>
+<span class="sd">            meeting_id: int</span>
 <span class="sd">                The meeting id</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
@@ -353,7 +409,7 @@
 <span class="sd">        Get meeting registrants.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            meeting_id: str</span>
+<span class="sd">            meeting_id: int</span>
 <span class="sd">                The meeting id</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
@@ -412,7 +468,201 @@
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/registrants&quot;</span><span class="p">,</span> <span class="s2">&quot;registrants&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinar registrants.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">tbl</span></div></div>
+        <span class="k">return</span> <span class="n">tbl</span></div>
+
+<div class="viewcode-block" id="Zoom.get_meeting_poll_metadata"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meeting_poll_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">get_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get metadata about a specific poll for a given meeting ID</span>
+
+<span class="sd">        Required scopes: `meeting:read`</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            meeting_id: int</span>
+<span class="sd">                Unique identifier for Zoom meeting</span>
+<span class="sd">            poll_id: int</span>
+<span class="sd">                Unique identifier for poll</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Parsons Table of all polling responses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/polls/</span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for poll ID </span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows of metadata [meeting=</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2"> poll=</span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">]&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;prompts&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Zoom.get_meeting_all_polls_metadata"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meeting_all_polls_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">get_meeting_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get metadata for all polls for a given meeting ID</span>
+
+<span class="sd">        Required scopes: `meeting:read`</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            meeting_id: int</span>
+<span class="sd">                Unique identifier for Zoom meeting</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Parsons Table of all polling responses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;polls&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Zoom.get_past_meeting_poll_metadata"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_meeting_poll_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">get_past_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List poll metadata of a past meeting.</span>
+
+<span class="sd">        Required scopes: `meeting:read`</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            meeting_id: int</span>
+<span class="sd">                The meeting&#39;s ID or universally unique ID (UUID).</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Parsons Table of poll results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;past_meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;prompts&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Zoom.get_webinar_poll_metadata"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_webinar_poll_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">get_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get metadata for a specific poll for a given webinar ID</span>
+
+<span class="sd">        Required scopes: `webinar:read`</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            webinar_id: str</span>
+<span class="sd">                Unique identifier for Zoom webinar</span>
+<span class="sd">            poll_id: int</span>
+<span class="sd">                Unique identifier for poll</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Parsons Table of all polling responses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/polls/</span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for poll ID </span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows of metadata [meeting=</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2"> poll=</span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">]&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;prompts&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Zoom.get_webinar_all_polls_metadata"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_webinar_all_polls_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">get_webinar_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get metadata for all polls for a given webinar ID</span>
+
+<span class="sd">        Required scopes: `webinar:read`</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            webinar_id: str</span>
+<span class="sd">                Unique identifier for Zoom webinar</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Parsons Table of all polling responses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;polls&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for meeting ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Zoom.get_past_webinar_poll_metadata"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_webinar_poll_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">get_past_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the metadata for Webinar Polls of a specific Webinar</span>
+
+<span class="sd">        Required scopes: `webinar:read`</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            webinar_id: str</span>
+<span class="sd">                The webinar&#39;s ID or universally unique ID (UUID).</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Parsons Table of all polling responses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;past_webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for meeting ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;prompts&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Zoom.get_meeting_poll_results"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meeting_poll_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_meeting_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a report of poll results for a past meeting</span>
+
+<span class="sd">        Required scopes: `report:read:admin`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;report/meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> reults for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__process_poll_results</span><span class="p">(</span><span class="n">tbl</span><span class="o">=</span><span class="n">tbl</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Zoom.get_webinar_poll_results"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_webinar_poll_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_webinar_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a report of poll results for a past webinar</span>
+
+<span class="sd">        Required scopes: `report:read:admin`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;report/webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> reults for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__process_poll_results</span><span class="p">(</span><span class="n">tbl</span><span class="o">=</span><span class="n">tbl</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

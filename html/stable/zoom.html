@@ -149,22 +149,24 @@
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
 <p><a class="reference external" href="https://zoom.us">Zoom</a> is a video conferencing platform. This connector supports
 fetching users, fetching meetings, fetching metadata for past meetings, and fetching
-participants of past meetings via the <a class="reference external" href="https://marketplace.zoom.us/docs/api-reference/zoom-api/">Zoom API</a>.</p>
+participants of past meetings via the <a class="reference external" href="https://developers.zoom.us/docs/api/">Zoom API</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <dl class="simple">
-<dt>Authentication</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Zoom</span></code> class supports <a class="reference external" href="https://marketplace.zoom.us/docs/guides/auth/jwt">JSON Web Token Authentication</a>.
-You must <a class="reference external" href="https://marketplace.zoom.us/docs/guides/build/jwt-app">Create a JWT App</a> to obtain
-an API Key and API Secret for authentication.</p>
+<dt>Authentication</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Zoom</span></code> class uses server-to-server <cite>OAuth &lt;https://developers.zoom.us/docs/internal-apps/s2s-oauth/&gt;</cite>
+to authenticate queries to the Zoom API. You must create a server-to-server application in
+<cite>Zoom’s app marketplace &lt;https://marketplace.zoom.us/develop/create&gt;</cite> to obtain an
+<code class="docutils literal notranslate"><span class="pre">account_id</span></code>, <code class="docutils literal notranslate"><span class="pre">client_id</span></code>, and <code class="docutils literal notranslate"><span class="pre">client_secret</span></code> key. You will use this OAuth application to define your scopes,
+which gives your <code class="docutils literal notranslate"><span class="pre">Zoom</span></code> connector read permission on endpoints of your choosing (<cite>meetings</cite>, <cite>webinars</cite>, etc.)</p>
 </dd>
 </dl>
 </div>
 </section>
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline"></a></h2>
-<p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Zoom</span></code> class, you can either store your Zoom API
-key and secret as environmental variables (<code class="docutils literal notranslate"><span class="pre">ZOOM_API_KEY</span></code> and <code class="docutils literal notranslate"><span class="pre">ZOOM_API_SECRET</span></code>,
-respectively) or pass them in as arguments:</p>
+<p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Zoom</span></code> class, you can either store your Zoom account ID, client ID, and client secret
+as environmental variables (<code class="docutils literal notranslate"><span class="pre">ZOOM_ACCOUNT_ID</span></code>, <code class="docutils literal notranslate"><span class="pre">ZOOM_CLIENT_ID</span></code>, <code class="docutils literal notranslate"><span class="pre">ZOOM_CLIENT_SECRET</span></code>)
+or pass them in as arguments.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Zoom</span>
 
 <span class="c1"># If environmental variables ZOOM_API_KEY and ZOOM_API_SECRET</span>
@@ -172,7 +174,11 @@ respectively) or pass them in as arguments:</p>
 <span class="n">zoom</span> <span class="o">=</span> <span class="n">Zoom</span><span class="p">()</span>
 
 <span class="c1"># If providing authentication credentials via arguments</span>
-<span class="n">zoom</span> <span class="o">=</span> <span class="n">Zoom</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;my_api_key&#39;</span><span class="p">,</span> <span class="n">api_secret</span><span class="o">=</span><span class="s1">&#39;my_api_secret&#39;</span><span class="p">)</span>
+<span class="n">zoom</span> <span class="o">=</span> <span class="n">Zoom</span><span class="p">(</span>
+  <span class="n">account_id</span><span class="o">=</span><span class="s2">&quot;my_account_id&quot;</span><span class="p">,</span>
+  <span class="n">client_id</span><span class="o">=</span><span class="s2">&quot;my_client_id&quot;</span><span class="p">,</span>
+  <span class="n">client_secret</span><span class="o">=</span><span class="s2">&quot;my_client_secret&quot;</span>
+<span class="p">)</span>
 
 <span class="c1"># Get a table of host&#39;s meetings via their email or user id</span>
 <span class="n">meetings_tbl</span> <span class="o">=</span> <span class="n">zoom</span><span class="o">.</span><span class="n">get_meetings</span><span class="p">(</span><span class="s1">&#39;my_name@mail.com&#39;</span><span class="p">)</span>

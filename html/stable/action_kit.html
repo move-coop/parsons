@@ -353,6 +353,59 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionKit.get_blackholed_email">
+<span class="sig-name descname"><span class="pre">get_blackholed_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_blackholed_email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionKit.get_blackholed_email" title="Permalink to this definition"></a></dt>
+<dd><p>Get a blackholed email. A blackholed email is an email that has been prevented from
+receiving bulk and transactional emails from ActionKit. <a class="reference external" href="https://docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole">Documentation</a>.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>email: str</dt><dd><p>Blackholed email of the record to get.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><dl class="simple">
+<dt>Parsons.Table</dt><dd><p>The blackholed email data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionKit.blackhole_email">
+<span class="sig-name descname"><span class="pre">blackhole_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.blackhole_email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionKit.blackhole_email" title="Permalink to this definition"></a></dt>
+<dd><p>Prevent an email from receiving bulk and transactional emails from ActionKit.
+<a class="reference external" href="https://docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole">Documentation</a>.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>user_id: str</dt><dd><p>Email to blackhole</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>API location of new resource</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionKit.delete_user_data">
+<span class="sig-name descname"><span class="pre">delete_user_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.delete_user_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionKit.delete_user_data" title="Permalink to this definition"></a></dt>
+<dd><p>Delete user data.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>email: str</dt><dd><p>Email of user to delete data</p>
+</dd>
+<dt><a href="#id14"><span class="problematic" id="id15">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://docs.actionkit.com/docs/manual/api/rest/users.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>API location of anonymized user</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionKit.delete_user">
 <span class="sig-name descname"><span class="pre">delete_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.delete_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionKit.delete_user" title="Permalink to this definition"></a></dt>
 <dd><p>Delete a user.</p>
@@ -401,7 +454,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>name: str</dt><dd><p>The name of the campaign to create</p>
 </dd>
-<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -449,7 +502,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 </dd>
 <dt>title: str</dt><dd><p>The title of the page to create</p>
 </dd>
-<dt><a href="#id16"><span class="problematic" id="id17">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id20"><span class="problematic" id="id21">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -495,7 +548,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 </dd>
 <dt>thank_you_text: str</dt><dd><p>Free form thank you text</p>
 </dd>
-<dt><a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -543,7 +596,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 </dd>
 <dt>title: str</dt><dd><p>The title of the page to create</p>
 </dd>
-<dt><a href="#id22"><span class="problematic" id="id23">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id26"><span class="problematic" id="id27">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -589,7 +642,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 </dd>
 <dt>thank_you_text: str</dt><dd><p>Free form thank you text</p>
 </dd>
-<dt><a href="#id25"><span class="problematic" id="id26">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id29"><span class="problematic" id="id30">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -609,7 +662,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 </dd>
 <dt>event_signup_dict: dict</dt><dd><p>A dictionary of fields to update for the event signup.</p>
 </dd>
-<dt><a href="#id28"><span class="problematic" id="id29">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id32"><span class="problematic" id="id33">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -640,7 +693,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 <dd><p>Create a mailer.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt><a href="#id31"><span class="problematic" id="id32">**</span></a>kwargs:</dt><dd><p>Arguments and fields to pass to the client. A full list can be found in the
+<dt><a href="#id35"><span class="problematic" id="id36">**</span></a>kwargs:</dt><dd><p>Arguments and fields to pass to the client. A full list can be found in the
 <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/mailer.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -665,7 +718,7 @@ returns new copy of mailer which should be updatable.</p>
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>mailing_id: int</dt><dd><p>The id of the mailing to update</p>
 </dd>
-<dt><a href="#id34"><span class="problematic" id="id35">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id38"><span class="problematic" id="id39">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -715,7 +768,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 </dd>
 <dt>limit: int</dt><dd><p>The number of objects to return. If omitted, all objects are returned.</p>
 </dd>
-<dt><a href="#id37"><span class="problematic" id="id38">**</span></a>kwargs:</dt><dd><p>Optional arguments to pass to the client. A full list can be found
+<dt><a href="#id41"><span class="problematic" id="id42">**</span></a>kwargs:</dt><dd><p>Optional arguments to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 <p>Additionally, expressions to filter the data can also be provided. For addition
 info, visit <a class="reference external" href="https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups">Django’s docs on field lookups</a>.</p>
@@ -753,7 +806,7 @@ Must be one of the options for ordering by.</p>
 <dt>ascdesc: string</dt><dd><p>If “asc” (the default), return all objects below the threshold value.
 If “desc”, return all objects above the threshold value.</p>
 </dd>
-<dt><a href="#id41"><span class="problematic" id="id42">**</span></a>kwargs:</dt><dd><p>You can also add expressions to filter the data beyond the limit/threshold values
+<dt><a href="#id45"><span class="problematic" id="id46">**</span></a>kwargs:</dt><dd><p>You can also add expressions to filter the data beyond the limit/threshold values
 above. For additional info, visit <a class="reference external" href="https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups">Django’s docs on field lookups</a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ak</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="n">name__contains</span><span class="o">=</span><span class="s2">&quot;FirstName&quot;</span><span class="p">)</span>
 </pre></div>
@@ -792,7 +845,7 @@ above. For additional info, visit <a class="reference external" href="https://do
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>order_id: int</dt><dd><p>The id of the order to update</p>
 </dd>
-<dt><a href="#id44"><span class="problematic" id="id45">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id48"><span class="problematic" id="id49">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -840,7 +893,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>orderrecurring_id: int</dt><dd><p>The id of the orderrecurring to update</p>
 </dd>
-<dt><a href="#id47"><span class="problematic" id="id48">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id51"><span class="problematic" id="id52">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -858,7 +911,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 <dt><cite>Args:</cite></dt><dd><dl>
 <dt>limit: int</dt><dd><p>The number of orders to return. If omitted, all orders are returned.</p>
 </dd>
-<dt><a href="#id50"><span class="problematic" id="id51">**</span></a>kwargs:</dt><dd><p>Optional arguments to pass to the client. A full list can be found
+<dt><a href="#id54"><span class="problematic" id="id55">**</span></a>kwargs:</dt><dd><p>Optional arguments to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 <p>Additionally, expressions to filter the data can also be provided. For addition
 info, visit <a class="reference external" href="https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups">Django’s docs on field lookups</a>.</p>
@@ -869,7 +922,7 @@ info, visit <a class="reference external" href="https://docs.djangoproject.com/e
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Parsons.Table</dt><dd><p>The events data.</p>
+<dt>Parsons.Table</dt><dd><p>The orders data.</p>
 </dd>
 </dl>
 </dd>
@@ -884,7 +937,7 @@ info, visit <a class="reference external" href="https://docs.djangoproject.com/e
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>paymenttoken_id: int</dt><dd><p>The id of the payment token to update</p>
 </dd>
-<dt><a href="#id54"><span class="problematic" id="id55">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id58"><span class="problematic" id="id59">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -930,7 +983,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 </dd>
 <dt>url: str</dt><dd><p>URL of the folloup page</p>
 </dd>
-<dt><a href="#id57"><span class="problematic" id="id58">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id61"><span class="problematic" id="id62">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -965,7 +1018,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 </dd>
 <dt>survey_question_dict: dict</dt><dd><p>A dictionary of fields to update for the survey question.</p>
 </dd>
-<dt><a href="#id60"><span class="problematic" id="id61">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id64"><span class="problematic" id="id65">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -981,7 +1034,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 <dd><p>Create a transaction.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt><a href="#id63"><span class="problematic" id="id64">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client.</p>
+<dt><a href="#id67"><span class="problematic" id="id68">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client.</p>
 </dd>
 </dl>
 </dd>
@@ -998,7 +1051,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>transaction_id: int</dt><dd><p>The id of the transaction to update</p>
 </dd>
-<dt><a href="#id65"><span class="problematic" id="id66">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id69"><span class="problematic" id="id70">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -1016,7 +1069,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 <dt><cite>Args:</cite></dt><dd><dl>
 <dt>limit: int</dt><dd><p>The number of transactions to return. If omitted, all transactions are returned.</p>
 </dd>
-<dt><a href="#id68"><span class="problematic" id="id69">**</span></a>kwargs:</dt><dd><p>Optional arguments to pass to the client. A full list can be found
+<dt><a href="#id72"><span class="problematic" id="id73">**</span></a>kwargs:</dt><dd><p>Optional arguments to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 <p>Additionally, expressions to filter the data can also be provided. For addition
 info, visit <a class="reference external" href="https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups">Django’s docs on field lookups</a>.</p>
@@ -1027,7 +1080,7 @@ info, visit <a class="reference external" href="https://docs.djangoproject.com/e
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Parsons.Table</dt><dd><p>The events data.</p>
+<dt>Parsons.Table</dt><dd><p>The transactions data.</p>
 </dd>
 </dl>
 </dd>
@@ -1046,7 +1099,7 @@ info, visit <a class="reference external" href="https://docs.djangoproject.com/e
 </dd>
 <dt>ak_id:</dt><dd><p>The action kit id of the record.</p>
 </dd>
-<dt><a href="#id72"><span class="problematic" id="id73">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+<dt><a href="#id76"><span class="problematic" id="id77">**</span></a>kwargs:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
 </dd>
 </dl>
@@ -1076,10 +1129,10 @@ which is more likely to return the proper 400 with a useful error message</p>
 A user_id or email column is required.
 ActionKit rejects files that are larger than 128M</p>
 </dd>
-<dt>autocreate_user_fields: bool</dt><dd><p>When True columns starting with “<a href="#id77"><span class="problematic" id="id78">user_</span></a>” will be uploaded as user fields.
+<dt>autocreate_user_fields: bool</dt><dd><p>When True columns starting with “<a href="#id82"><span class="problematic" id="id83">user_</span></a>” will be uploaded as user fields.
 See the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request">autocreate_user_fields documentation</a>.</p>
 </dd>
-<dt>user_fields_only: bool</dt><dd><p>When uploading only an email/user_id column and <a href="#id79"><span class="problematic" id="id80">user_</span></a> user fields,
+<dt>user_fields_only: bool</dt><dd><p>When uploading only an email/user_id column and <a href="#id84"><span class="problematic" id="id85">user_</span></a> user fields,
 ActionKit has a fast processing path.
 This doesn’t work, if you upload a zipped csv though.</p>
 </dd>
@@ -1101,7 +1154,7 @@ res: requests http response object</p>
 <dd><p>Bulk upload a table of new users or user updates.
 See <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html">ActionKit User Upload Documentation</a>
 Be careful that blank values in columns will overwrite existing data.</p>
-<p>Tables with only an identifying column (user_id/email) and <a href="#id81"><span class="problematic" id="id82">user_</span></a> user fields
+<p>Tables with only an identifying column (user_id/email) and <a href="#id86"><span class="problematic" id="id87">user_</span></a> user fields
 will be fast-processed – this is useful for setting/updating user fields.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1115,7 +1168,7 @@ which is more likely to return the proper 400 with a useful error message</p>
 <dt>table: Table Class</dt><dd><p>A Table of user data to bulk upload
 A user_id or email column is required.</p>
 </dd>
-<dt>autocreate_user_fields: bool</dt><dd><p>When True columns starting with “<a href="#id83"><span class="problematic" id="id84">user_</span></a>” will be uploaded as user fields.
+<dt>autocreate_user_fields: bool</dt><dd><p>When True columns starting with “<a href="#id88"><span class="problematic" id="id89">user_</span></a>” will be uploaded as user fields.
 <a class="reference external" href="https://actionkit.com/">ActionKit</a>.
 See the autocreate_user_fields <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request">documentation</a>.</p>
 </dd>

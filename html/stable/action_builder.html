@@ -363,6 +363,42 @@ retrieved or edited. Not necessary if supplied when instantiating the class.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionBuilder.remove_tagging">
+<span class="sig-name descname"><span class="pre">remove_tagging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tagging_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.remove_tagging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.remove_tagging" title="Permalink to this definition"></a></dt>
+<dd><p>Remove one or more tags (i.e. custom field value) from an existing entity or connection
+record in Action Builder. The basis for this end point is the combination of the tag’s
+interact ID and that of the specific tagging. The tag ID can usually be determined from
+the tag’s name, and the tagging ID can be derived if the identifier of the entity or
+connection record is supplied instead.
+<cite>Args:</cite></p>
+<blockquote>
+<div><dl class="simple">
+<dt>identifier: str</dt><dd><p>Optional. The unique identifier for an entity or connection record being updated.
+If omitted, <cite>tagging_id</cite> must be provided.</p>
+</dd>
+<dt>tag_id: str</dt><dd><p>Optional. The unique identifier for the tag being removed. If omitted, <cite>tag_name</cite>
+must be provided.</p>
+</dd>
+<dt>tag_name: str</dt><dd><p>Optional. The exact name of the tag being removed. May result in an error if
+multiple tags (in different fields/sections) have the same name. If omitted,
+<cite>tag_id</cite> must be provided.</p>
+</dd>
+<dt>tagging_id: str</dt><dd><p>Optional. The unique identifier for the specific application of the tag to an
+individual entity or connection record. If omitted, <cite>identifier</cite> must be provided.</p>
+</dd>
+<dt>campaign: str</dt><dd><p>Optional. The 36-character “interact ID” of the campaign whose data is to be
+retrieved or edited. Not necessary if supplied when instantiating the class.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt><cite>Returns:</cite></dt><dd><p>API response JSON which contains <cite>{‘message’: ‘Tag has been removed from Taggable
+Logbook’}</cite> if successful.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionBuilder.upsert_connection">
 <span class="sig-name descname"><span class="pre">upsert_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifiers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.upsert_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.upsert_connection" title="Permalink to this definition"></a></dt>
 <dd><p>Load or update a connection record in Action Builder between two existing entity records.

@@ -326,12 +326,11 @@
 <span class="sd">            Dict containing Action Builder entity data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
+        <span class="n">name_keys</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;action_builder:name&quot;</span><span class="p">,</span> <span class="s2">&quot;given_name&quot;</span><span class="p">)</span>
         <span class="n">error</span> <span class="o">=</span> <span class="s2">&quot;Must provide data with name or given_name when inserting new record&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
-        <span class="n">name_check</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;person&quot;</span><span class="p">,</span> <span class="p">{})</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;given_name&quot;</span><span class="p">)</span>
-        <span class="p">]</span>
+        <span class="n">name_check</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;person&quot;</span><span class="p">,</span> <span class="p">{})</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">name_keys</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">name_check</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
 
@@ -426,6 +425,87 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_entity_record</span><span class="p">(</span>
             <span class="n">identifier</span><span class="o">=</span><span class="n">identifier</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="n">campaign</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionBuilder.remove_tagging"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.remove_tagging">[docs]</a>    <span class="k">def</span> <span class="nf">remove_tagging</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">identifier</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">tag_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">tag_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">tagging_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove one or more tags (i.e. custom field value) from an existing entity or connection</span>
+<span class="sd">        record in Action Builder. The basis for this end point is the combination of the tag&#39;s</span>
+<span class="sd">        interact ID and that of the specific tagging. The tag ID can usually be determined from</span>
+<span class="sd">        the tag&#39;s name, and the tagging ID can be derived if the identifier of the entity or</span>
+<span class="sd">        connection record is supplied instead.</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            identifier: str</span>
+<span class="sd">                Optional. The unique identifier for an entity or connection record being updated.</span>
+<span class="sd">                If omitted, `tagging_id` must be provided.</span>
+<span class="sd">            tag_id: str</span>
+<span class="sd">                Optional. The unique identifier for the tag being removed. If omitted, `tag_name`</span>
+<span class="sd">                must be provided.</span>
+<span class="sd">            tag_name: str</span>
+<span class="sd">                Optional. The exact name of the tag being removed. May result in an error if</span>
+<span class="sd">                multiple tags (in different fields/sections) have the same name. If omitted,</span>
+<span class="sd">                `tag_id` must be provided.</span>
+<span class="sd">            tagging_id: str</span>
+<span class="sd">                Optional. The unique identifier for the specific application of the tag to an</span>
+<span class="sd">                individual entity or connection record. If omitted, `identifier` must be provided.</span>
+<span class="sd">            campaign: str</span>
+<span class="sd">                Optional. The 36-character &quot;interact ID&quot; of the campaign whose data is to be</span>
+<span class="sd">                retrieved or edited. Not necessary if supplied when instantiating the class.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            API response JSON which contains `{&#39;message&#39;: &#39;Tag has been removed from Taggable</span>
+<span class="sd">            Logbook&#39;}` if successful.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="p">{</span><span class="n">tag_name</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">}</span> <span class="o">==</span> <span class="p">{</span><span class="kc">None</span><span class="p">}:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please supply a tag_name or tag_id!&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">{</span><span class="n">identifier</span><span class="p">,</span> <span class="n">tagging_id</span><span class="p">}</span> <span class="o">==</span> <span class="p">{</span><span class="kc">None</span><span class="p">}:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Please supply an entity or connection identifier, or a tagging id!&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">campaign</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_campaign_check</span><span class="p">(</span><span class="n">campaign</span><span class="p">)</span>
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;tags/</span><span class="si">{}</span><span class="s2">/taggings&quot;</span>
+
+        <span class="k">if</span> <span class="n">tag_name</span> <span class="ow">and</span> <span class="p">{</span><span class="n">tag_id</span><span class="p">,</span> <span class="n">tagging_id</span><span class="p">}</span> <span class="o">==</span> <span class="p">{</span><span class="kc">None</span><span class="p">}:</span>
+            <span class="n">tag_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tag_by_name</span><span class="p">(</span><span class="n">tag_name</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="n">campaign</span><span class="p">)</span>
+            <span class="n">tag_count</span> <span class="o">=</span> <span class="n">tag_data</span><span class="o">.</span><span class="n">num_rows</span>
+
+            <span class="k">if</span> <span class="n">tag_count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">error_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tag_count</span><span class="si">}</span><span class="s2"> tags with this name. &quot;</span>
+                <span class="n">error_msg</span> <span class="o">+=</span> <span class="s2">&quot;Try with using the unique interact ID&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+
+            <span class="n">tag_id</span> <span class="o">=</span> <span class="n">tag_data</span><span class="p">[</span><span class="s2">&quot;identifiers&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tag </span><span class="si">{</span><span class="n">tag_name</span><span class="si">}</span><span class="s2"> has ID </span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tagging_id</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tag_id</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot search based on tagging ID alone.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tag_id</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tagging_id</span><span class="p">:</span>
+            <span class="n">taggings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_all_records</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">campaign</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag_id</span><span class="p">))</span>
+            <span class="n">taggings_filtered</span> <span class="o">=</span> <span class="n">taggings</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">identifier</span>
+                <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;_links&quot;</span><span class="p">][</span><span class="s2">&quot;action_builder:connection&quot;</span><span class="p">][</span><span class="s2">&quot;href&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;item_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;connection&quot;</span>
+                <span class="k">else</span> <span class="n">identifier</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;osdi:person&quot;</span><span class="p">][</span><span class="s2">&quot;href&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">tagging_id</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">taggings_filtered</span><span class="p">[</span><span class="s2">&quot;identifiers&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s2">&quot;action_builder&quot;</span> <span class="ow">in</span> <span class="n">x</span>
+            <span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removing tag </span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">identifier</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">tagging_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;campaigns/</span><span class="si">{</span><span class="n">campaign</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag_id</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">tagging_id</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionBuilder.upsert_connection"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.upsert_connection">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifiers</span><span class="p">,</span> <span class="n">tag_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

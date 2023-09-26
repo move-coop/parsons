@@ -2,79 +2,33 @@
 #
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
+
+version: 2
+
 workflows:
   version: 2
   build:
     jobs:
-      - test
-      - docs-build:
-          filters:
-            branches:
-              ignore: master
+      - docs-build
       - docs-build-deploy:
           filters:
-            tags:
-              only: /^v.*/
             branches:
-              ignore: /.*/
+              only: main
 
-version: 2
 jobs:
-  test:
-    docker:
-      - image: circleci/python:3.7
 
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-python3.7-{{ checksum "requirements.txt" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-python3.7-
-
-      - run:
-          name: install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
-
-      - save_cache:
-          paths:
-            - ./venv
-          key: v1-dependencies-python3.7-{{ checksum "requirements.txt" }}
-
-      - run:
-          name: run tests
-          command: |
-            . venv/bin/activate
-            TESTING=1 pytest -rf test/
-
-      - run:
-          name: check linting
-          command: |
-            . venv/bin/activate
-            flake8 parsons/ test/ useful_resources/
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
-
+  # Documentation CI
   docs-build:
     docker:
-      - image: circleci/python:3.7
+      - image: cimg/python:3.10
     steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-python3.7-{{ checksum "./docs/requirements.txt" }}
+            - v2-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-python3.7-
+            - v2-dependencies-python3.10-
       - run:
           name: Install dependencies
           # Note that we the circleci node image installs stuff with a user "circleci", rather
@@ -86,24 +40,26 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-python3.7-{{ checksum "./docs/requirements.txt" }}
+          key: v2-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
       - run:
           name: Build docs
           command: |
             . venv/bin/activate
-            cd docs/ && make html && cd ..
+            cd docs/
+            make deploy_docs
+            cd ..
 
   docs-build-deploy:
     docker:
-      - image: circleci/python:3.7-node
+      - image: cimg/python:3.10-node
     steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-python3.7-{{ checksum "./docs/requirements.txt" }}
+            - v2-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-python3.7-
+            - v2-dependencies-python3.10-
       - run:
           name: Install dependencies
           # Note that we the circleci node image installs stuff with a user "circleci", rather
@@ -117,12 +73,12 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-python3.7-{{ checksum "./docs/requirements.txt" }}
+          key: v2-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
       - add_ssh_keys:
           # This SSH key is "CircleCI Docs" in https://github.com/move-coop/parsons/settings/keys
           # We need write access to the Parsons repo, so we can push the "gh-pages" branch.
           fingerprints:
-            - 'a6:b1:ec:19:86:19:8b:98:1e:b1:41:b2:e1:4a:4f:3d'
+            - '9a:ec:4d:2b:c3:45:b2:f5:55:ca:0b:2b:36:e2:7f:df'
       - run:
           name: Build and deploy docs
           # When running gh-pages, we specify to include dotfiles, so we pick up the .nojerkyll file.
@@ -130,7 +86,9 @@ jobs:
           # that start with an underscore like _static/).
           command: |
             . venv/bin/activate
-            cd docs/ && make html && cd ..
+            cd docs/
+            make deploy_docs
+            cd ..
             git config user.email "ci-build@movementcooperative.org"
             git config user.name "ci-build"
             export PATH=/home/circleci/npm/bin:$PATH

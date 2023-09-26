@@ -1,0 +1,641 @@
+state,county_name,county_id,office,ballots_cast,reg_voters,vote_method,candidate_name,candidate_party,precinct_name,recorded_votes,voter_turnout,percent_reporting,timestamp_last_updated
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Absentee by Mail Votes,Jessica Allison Fore,DEM,01,3,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Absentee by Mail Votes,Jessica Allison Fore,DEM,02,2,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Absentee by Mail Votes,Jessica Allison Fore,DEM,03,4,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Absentee by Mail Votes,Jessica Allison Fore,DEM,04,0,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Absentee by Mail Votes,Jessica Allison Fore,DEM,05,3,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Absentee by Mail Votes,Jessica Allison Fore,DEM,08,4,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Absentee by Mail Votes,Jessica Allison Fore,DEM,13,12,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Absentee by Mail Votes,Jessica Allison Fore,DEM,16,8,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Advance Voting Votes,Jessica Allison Fore,DEM,01,9,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Advance Voting Votes,Jessica Allison Fore,DEM,02,13,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Advance Voting Votes,Jessica Allison Fore,DEM,03,18,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Advance Voting Votes,Jessica Allison Fore,DEM,04,9,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Advance Voting Votes,Jessica Allison Fore,DEM,05,22,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Advance Voting Votes,Jessica Allison Fore,DEM,08,22,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Advance Voting Votes,Jessica Allison Fore,DEM,13,30,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Advance Voting Votes,Jessica Allison Fore,DEM,16,43,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Election Day Votes,Jessica Allison Fore,DEM,01,11,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Election Day Votes,Jessica Allison Fore,DEM,02,25,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Election Day Votes,Jessica Allison Fore,DEM,03,17,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Election Day Votes,Jessica Allison Fore,DEM,04,14,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Election Day Votes,Jessica Allison Fore,DEM,05,42,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Election Day Votes,Jessica Allison Fore,DEM,08,19,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Election Day Votes,Jessica Allison Fore,DEM,13,43,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Election Day Votes,Jessica Allison Fore,DEM,16,62,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Provisional Votes,Jessica Allison Fore,DEM,01,0,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Provisional Votes,Jessica Allison Fore,DEM,02,0,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Provisional Votes,Jessica Allison Fore,DEM,03,0,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Provisional Votes,Jessica Allison Fore,DEM,04,0,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Provisional Votes,Jessica Allison Fore,DEM,05,0,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Provisional Votes,Jessica Allison Fore,DEM,08,0,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Provisional Votes,Jessica Allison Fore,DEM,13,0,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Provisional Votes,Jessica Allison Fore,DEM,16,0,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,01,3,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,02,7,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,03,6,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,04,7,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,05,9,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,08,7,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,13,8,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,16,12,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Advance Voting Votes,Tabitha Johnson-Green,DEM,01,16,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Advance Voting Votes,Tabitha Johnson-Green,DEM,02,27,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Advance Voting Votes,Tabitha Johnson-Green,DEM,03,21,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Advance Voting Votes,Tabitha Johnson-Green,DEM,04,14,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Advance Voting Votes,Tabitha Johnson-Green,DEM,05,46,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Advance Voting Votes,Tabitha Johnson-Green,DEM,08,51,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Advance Voting Votes,Tabitha Johnson-Green,DEM,13,78,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Advance Voting Votes,Tabitha Johnson-Green,DEM,16,63,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Election Day Votes,Tabitha Johnson-Green,DEM,01,26,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Election Day Votes,Tabitha Johnson-Green,DEM,02,35,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Election Day Votes,Tabitha Johnson-Green,DEM,03,46,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Election Day Votes,Tabitha Johnson-Green,DEM,04,22,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Election Day Votes,Tabitha Johnson-Green,DEM,05,107,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Election Day Votes,Tabitha Johnson-Green,DEM,08,44,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Election Day Votes,Tabitha Johnson-Green,DEM,13,93,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Election Day Votes,Tabitha Johnson-Green,DEM,16,106,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Provisional Votes,Tabitha Johnson-Green,DEM,01,0,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Provisional Votes,Tabitha Johnson-Green,DEM,02,0,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Provisional Votes,Tabitha Johnson-Green,DEM,03,0,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Provisional Votes,Tabitha Johnson-Green,DEM,04,0,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Provisional Votes,Tabitha Johnson-Green,DEM,05,0,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Provisional Votes,Tabitha Johnson-Green,DEM,08,0,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Provisional Votes,Tabitha Johnson-Green,DEM,13,0,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Provisional Votes,Tabitha Johnson-Green,DEM,16,0,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Absentee by Mail Votes,Phyllis Hatcher,DEM,01,0,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Absentee by Mail Votes,Phyllis Hatcher,DEM,02,2,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Absentee by Mail Votes,Phyllis Hatcher,DEM,03,9,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Absentee by Mail Votes,Phyllis Hatcher,DEM,04,5,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Absentee by Mail Votes,Phyllis Hatcher,DEM,05,7,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Absentee by Mail Votes,Phyllis Hatcher,DEM,08,5,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Absentee by Mail Votes,Phyllis Hatcher,DEM,13,3,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Absentee by Mail Votes,Phyllis Hatcher,DEM,16,1,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Advance Voting Votes,Phyllis Hatcher,DEM,01,6,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Advance Voting Votes,Phyllis Hatcher,DEM,02,8,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Advance Voting Votes,Phyllis Hatcher,DEM,03,11,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Advance Voting Votes,Phyllis Hatcher,DEM,04,4,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Advance Voting Votes,Phyllis Hatcher,DEM,05,34,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Advance Voting Votes,Phyllis Hatcher,DEM,08,18,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Advance Voting Votes,Phyllis Hatcher,DEM,13,29,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Advance Voting Votes,Phyllis Hatcher,DEM,16,25,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Election Day Votes,Phyllis Hatcher,DEM,01,10,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Election Day Votes,Phyllis Hatcher,DEM,02,10,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Election Day Votes,Phyllis Hatcher,DEM,03,17,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Election Day Votes,Phyllis Hatcher,DEM,04,4,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Election Day Votes,Phyllis Hatcher,DEM,05,29,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Election Day Votes,Phyllis Hatcher,DEM,08,18,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Election Day Votes,Phyllis Hatcher,DEM,13,23,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Election Day Votes,Phyllis Hatcher,DEM,16,32,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Provisional Votes,Phyllis Hatcher,DEM,01,0,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Provisional Votes,Phyllis Hatcher,DEM,02,0,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Provisional Votes,Phyllis Hatcher,DEM,03,0,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Provisional Votes,Phyllis Hatcher,DEM,04,0,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Provisional Votes,Phyllis Hatcher,DEM,05,0,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Provisional Votes,Phyllis Hatcher,DEM,08,1,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Provisional Votes,Phyllis Hatcher,DEM,13,0,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Provisional Votes,Phyllis Hatcher,DEM,16,0,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Absentee by Mail Votes,Femi Oduwole,DEM,01,2,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Absentee by Mail Votes,Femi Oduwole,DEM,02,0,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Absentee by Mail Votes,Femi Oduwole,DEM,03,0,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Absentee by Mail Votes,Femi Oduwole,DEM,04,0,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Absentee by Mail Votes,Femi Oduwole,DEM,05,0,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Absentee by Mail Votes,Femi Oduwole,DEM,08,1,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Absentee by Mail Votes,Femi Oduwole,DEM,13,0,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Absentee by Mail Votes,Femi Oduwole,DEM,16,9,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Advance Voting Votes,Femi Oduwole,DEM,01,4,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Advance Voting Votes,Femi Oduwole,DEM,02,7,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Advance Voting Votes,Femi Oduwole,DEM,03,9,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Advance Voting Votes,Femi Oduwole,DEM,04,5,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Advance Voting Votes,Femi Oduwole,DEM,05,18,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Advance Voting Votes,Femi Oduwole,DEM,08,9,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Advance Voting Votes,Femi Oduwole,DEM,13,23,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Advance Voting Votes,Femi Oduwole,DEM,16,23,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Election Day Votes,Femi Oduwole,DEM,01,15,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Election Day Votes,Femi Oduwole,DEM,02,14,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Election Day Votes,Femi Oduwole,DEM,03,10,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Election Day Votes,Femi Oduwole,DEM,04,7,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Election Day Votes,Femi Oduwole,DEM,05,35,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Election Day Votes,Femi Oduwole,DEM,08,14,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Election Day Votes,Femi Oduwole,DEM,13,40,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Election Day Votes,Femi Oduwole,DEM,16,38,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Provisional Votes,Femi Oduwole,DEM,01,0,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Provisional Votes,Femi Oduwole,DEM,02,0,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Provisional Votes,Femi Oduwole,DEM,03,0,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Provisional Votes,Femi Oduwole,DEM,04,0,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Provisional Votes,Femi Oduwole,DEM,05,0,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Provisional Votes,Femi Oduwole,DEM,08,0,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Provisional Votes,Femi Oduwole,DEM,13,0,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Provisional Votes,Femi Oduwole,DEM,16,0,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Absentee by Mail Votes,Paul Walton,DEM,01,0,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Absentee by Mail Votes,Paul Walton,DEM,02,2,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Absentee by Mail Votes,Paul Walton,DEM,03,0,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Absentee by Mail Votes,Paul Walton,DEM,04,0,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Absentee by Mail Votes,Paul Walton,DEM,05,2,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Absentee by Mail Votes,Paul Walton,DEM,08,2,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Absentee by Mail Votes,Paul Walton,DEM,13,5,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Absentee by Mail Votes,Paul Walton,DEM,16,3,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Advance Voting Votes,Paul Walton,DEM,01,2,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Advance Voting Votes,Paul Walton,DEM,02,5,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Advance Voting Votes,Paul Walton,DEM,03,7,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Advance Voting Votes,Paul Walton,DEM,04,4,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Advance Voting Votes,Paul Walton,DEM,05,7,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Advance Voting Votes,Paul Walton,DEM,08,12,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Advance Voting Votes,Paul Walton,DEM,13,21,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Advance Voting Votes,Paul Walton,DEM,16,11,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Election Day Votes,Paul Walton,DEM,01,7,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Election Day Votes,Paul Walton,DEM,02,6,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Election Day Votes,Paul Walton,DEM,03,10,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Election Day Votes,Paul Walton,DEM,04,1,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Election Day Votes,Paul Walton,DEM,05,7,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Election Day Votes,Paul Walton,DEM,08,12,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Election Day Votes,Paul Walton,DEM,13,9,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Election Day Votes,Paul Walton,DEM,16,14,4.78,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,122,3338,Provisional Votes,Paul Walton,DEM,01,0,3.65,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,180,6752,Provisional Votes,Paul Walton,DEM,02,0,2.67,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,192,6178,Provisional Votes,Paul Walton,DEM,03,0,3.11,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,106,3735,Provisional Votes,Paul Walton,DEM,04,0,2.84,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,403,8518,Provisional Votes,Paul Walton,DEM,05,0,4.73,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,255,7095,Provisional Votes,Paul Walton,DEM,08,0,3.59,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,439,9374,Provisional Votes,Paul Walton,DEM,13,0,4.68,4,2022-06-10 13:34:02+00:00
+GA,Barrow,114737,US House of Representatives - District 10 - Dem,485,10137,Provisional Votes,Paul Walton,DEM,16,0,4.78,4,2022-06-10 13:34:02+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Absentee by Mail Votes,Jessica Allison Fore,DEM,1A,1,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Absentee by Mail Votes,Jessica Allison Fore,DEM,1B,5,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Absentee by Mail Votes,Jessica Allison Fore,DEM,1C,12,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Absentee by Mail Votes,Jessica Allison Fore,DEM,1D,16,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Absentee by Mail Votes,Jessica Allison Fore,DEM,2A,8,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Absentee by Mail Votes,Jessica Allison Fore,DEM,2B,4,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Absentee by Mail Votes,Jessica Allison Fore,DEM,3A,3,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Absentee by Mail Votes,Jessica Allison Fore,DEM,3B,6,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Absentee by Mail Votes,Jessica Allison Fore,DEM,4A,0,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Absentee by Mail Votes,Jessica Allison Fore,DEM,4B,3,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Absentee by Mail Votes,Jessica Allison Fore,DEM,5A,10,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Absentee by Mail Votes,Jessica Allison Fore,DEM,5B,3,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Absentee by Mail Votes,Jessica Allison Fore,DEM,5C,8,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Absentee by Mail Votes,Jessica Allison Fore,DEM,5D,3,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Absentee by Mail Votes,Jessica Allison Fore,DEM,6A,6,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Absentee by Mail Votes,Jessica Allison Fore,DEM,6B,14,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Absentee by Mail Votes,Jessica Allison Fore,DEM,6C,6,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Absentee by Mail Votes,Jessica Allison Fore,DEM,6D,1,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Absentee by Mail Votes,Jessica Allison Fore,DEM,7A,9,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Absentee by Mail Votes,Jessica Allison Fore,DEM,7B,18,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Absentee by Mail Votes,Jessica Allison Fore,DEM,7C,5,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Absentee by Mail Votes,Jessica Allison Fore,DEM,8A,16,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Absentee by Mail Votes,Jessica Allison Fore,DEM,8B,7,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Absentee by Mail Votes,Jessica Allison Fore,DEM,8C,8,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Advance Voting Votes,Jessica Allison Fore,DEM,1A,43,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Advance Voting Votes,Jessica Allison Fore,DEM,1B,57,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Advance Voting Votes,Jessica Allison Fore,DEM,1C,49,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Advance Voting Votes,Jessica Allison Fore,DEM,1D,63,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Advance Voting Votes,Jessica Allison Fore,DEM,2A,29,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Advance Voting Votes,Jessica Allison Fore,DEM,2B,45,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Advance Voting Votes,Jessica Allison Fore,DEM,3A,34,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Advance Voting Votes,Jessica Allison Fore,DEM,3B,43,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Advance Voting Votes,Jessica Allison Fore,DEM,4A,21,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Advance Voting Votes,Jessica Allison Fore,DEM,4B,49,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Advance Voting Votes,Jessica Allison Fore,DEM,5A,74,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Advance Voting Votes,Jessica Allison Fore,DEM,5B,43,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Advance Voting Votes,Jessica Allison Fore,DEM,5C,85,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Advance Voting Votes,Jessica Allison Fore,DEM,5D,29,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Advance Voting Votes,Jessica Allison Fore,DEM,6A,38,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Advance Voting Votes,Jessica Allison Fore,DEM,6B,63,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Advance Voting Votes,Jessica Allison Fore,DEM,6C,45,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Advance Voting Votes,Jessica Allison Fore,DEM,6D,28,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Advance Voting Votes,Jessica Allison Fore,DEM,7A,33,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Advance Voting Votes,Jessica Allison Fore,DEM,7B,57,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Advance Voting Votes,Jessica Allison Fore,DEM,7C,47,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Advance Voting Votes,Jessica Allison Fore,DEM,8A,60,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Advance Voting Votes,Jessica Allison Fore,DEM,8B,36,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Advance Voting Votes,Jessica Allison Fore,DEM,8C,34,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Election Day Votes,Jessica Allison Fore,DEM,1A,49,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Election Day Votes,Jessica Allison Fore,DEM,1B,44,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Election Day Votes,Jessica Allison Fore,DEM,1C,62,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Election Day Votes,Jessica Allison Fore,DEM,1D,91,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Election Day Votes,Jessica Allison Fore,DEM,2A,50,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Election Day Votes,Jessica Allison Fore,DEM,2B,60,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Election Day Votes,Jessica Allison Fore,DEM,3A,25,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Election Day Votes,Jessica Allison Fore,DEM,3B,47,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Election Day Votes,Jessica Allison Fore,DEM,4A,25,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Election Day Votes,Jessica Allison Fore,DEM,4B,51,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Election Day Votes,Jessica Allison Fore,DEM,5A,107,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Election Day Votes,Jessica Allison Fore,DEM,5B,61,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Election Day Votes,Jessica Allison Fore,DEM,5C,101,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Election Day Votes,Jessica Allison Fore,DEM,5D,48,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Election Day Votes,Jessica Allison Fore,DEM,6A,45,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Election Day Votes,Jessica Allison Fore,DEM,6B,62,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Election Day Votes,Jessica Allison Fore,DEM,6C,50,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Election Day Votes,Jessica Allison Fore,DEM,6D,47,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Election Day Votes,Jessica Allison Fore,DEM,7A,39,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Election Day Votes,Jessica Allison Fore,DEM,7B,33,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Election Day Votes,Jessica Allison Fore,DEM,7C,41,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Election Day Votes,Jessica Allison Fore,DEM,8A,74,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Election Day Votes,Jessica Allison Fore,DEM,8B,44,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Election Day Votes,Jessica Allison Fore,DEM,8C,50,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Provisional Votes,Jessica Allison Fore,DEM,1A,0,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Provisional Votes,Jessica Allison Fore,DEM,1B,0,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Provisional Votes,Jessica Allison Fore,DEM,1C,0,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Provisional Votes,Jessica Allison Fore,DEM,1D,0,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Provisional Votes,Jessica Allison Fore,DEM,2A,0,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Provisional Votes,Jessica Allison Fore,DEM,2B,0,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Provisional Votes,Jessica Allison Fore,DEM,3A,0,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Provisional Votes,Jessica Allison Fore,DEM,3B,0,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Provisional Votes,Jessica Allison Fore,DEM,4A,0,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Provisional Votes,Jessica Allison Fore,DEM,4B,0,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Provisional Votes,Jessica Allison Fore,DEM,5A,0,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Provisional Votes,Jessica Allison Fore,DEM,5B,1,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Provisional Votes,Jessica Allison Fore,DEM,5C,0,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Provisional Votes,Jessica Allison Fore,DEM,5D,0,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Provisional Votes,Jessica Allison Fore,DEM,6A,0,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Provisional Votes,Jessica Allison Fore,DEM,6B,0,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Provisional Votes,Jessica Allison Fore,DEM,6C,0,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Provisional Votes,Jessica Allison Fore,DEM,6D,0,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Provisional Votes,Jessica Allison Fore,DEM,7A,0,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Provisional Votes,Jessica Allison Fore,DEM,7B,1,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Provisional Votes,Jessica Allison Fore,DEM,7C,0,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Provisional Votes,Jessica Allison Fore,DEM,8A,0,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Provisional Votes,Jessica Allison Fore,DEM,8B,0,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Provisional Votes,Jessica Allison Fore,DEM,8C,0,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,1A,1,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,1B,14,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,1C,12,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,1D,11,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,2A,20,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,2B,20,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,3A,24,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,3B,11,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,4A,5,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,4B,6,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,5A,13,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,5B,17,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,5C,4,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,5D,9,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,6A,13,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,6B,28,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,6C,19,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,6D,8,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,7A,17,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,7B,14,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,7C,7,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,8A,14,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,8B,5,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Absentee by Mail Votes,Tabitha Johnson-Green,DEM,8C,9,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Advance Voting Votes,Tabitha Johnson-Green,DEM,1A,64,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Advance Voting Votes,Tabitha Johnson-Green,DEM,1B,144,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Advance Voting Votes,Tabitha Johnson-Green,DEM,1C,87,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Advance Voting Votes,Tabitha Johnson-Green,DEM,1D,92,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Advance Voting Votes,Tabitha Johnson-Green,DEM,2A,91,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Advance Voting Votes,Tabitha Johnson-Green,DEM,2B,140,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Advance Voting Votes,Tabitha Johnson-Green,DEM,3A,69,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Advance Voting Votes,Tabitha Johnson-Green,DEM,3B,79,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Advance Voting Votes,Tabitha Johnson-Green,DEM,4A,38,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Advance Voting Votes,Tabitha Johnson-Green,DEM,4B,69,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Advance Voting Votes,Tabitha Johnson-Green,DEM,5A,117,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Advance Voting Votes,Tabitha Johnson-Green,DEM,5B,83,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Advance Voting Votes,Tabitha Johnson-Green,DEM,5C,81,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Advance Voting Votes,Tabitha Johnson-Green,DEM,5D,69,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Advance Voting Votes,Tabitha Johnson-Green,DEM,6A,100,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Advance Voting Votes,Tabitha Johnson-Green,DEM,6B,100,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Advance Voting Votes,Tabitha Johnson-Green,DEM,6C,80,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Advance Voting Votes,Tabitha Johnson-Green,DEM,6D,58,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Advance Voting Votes,Tabitha Johnson-Green,DEM,7A,80,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Advance Voting Votes,Tabitha Johnson-Green,DEM,7B,105,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Advance Voting Votes,Tabitha Johnson-Green,DEM,7C,56,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Advance Voting Votes,Tabitha Johnson-Green,DEM,8A,91,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Advance Voting Votes,Tabitha Johnson-Green,DEM,8B,57,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Advance Voting Votes,Tabitha Johnson-Green,DEM,8C,92,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Election Day Votes,Tabitha Johnson-Green,DEM,1A,98,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Election Day Votes,Tabitha Johnson-Green,DEM,1B,108,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Election Day Votes,Tabitha Johnson-Green,DEM,1C,74,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Election Day Votes,Tabitha Johnson-Green,DEM,1D,131,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Election Day Votes,Tabitha Johnson-Green,DEM,2A,136,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Election Day Votes,Tabitha Johnson-Green,DEM,2B,181,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Election Day Votes,Tabitha Johnson-Green,DEM,3A,106,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Election Day Votes,Tabitha Johnson-Green,DEM,3B,74,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Election Day Votes,Tabitha Johnson-Green,DEM,4A,34,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Election Day Votes,Tabitha Johnson-Green,DEM,4B,78,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Election Day Votes,Tabitha Johnson-Green,DEM,5A,141,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Election Day Votes,Tabitha Johnson-Green,DEM,5B,142,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Election Day Votes,Tabitha Johnson-Green,DEM,5C,130,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Election Day Votes,Tabitha Johnson-Green,DEM,5D,136,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Election Day Votes,Tabitha Johnson-Green,DEM,6A,93,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Election Day Votes,Tabitha Johnson-Green,DEM,6B,120,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Election Day Votes,Tabitha Johnson-Green,DEM,6C,86,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Election Day Votes,Tabitha Johnson-Green,DEM,6D,101,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Election Day Votes,Tabitha Johnson-Green,DEM,7A,95,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Election Day Votes,Tabitha Johnson-Green,DEM,7B,64,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Election Day Votes,Tabitha Johnson-Green,DEM,7C,59,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Election Day Votes,Tabitha Johnson-Green,DEM,8A,101,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Election Day Votes,Tabitha Johnson-Green,DEM,8B,69,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Election Day Votes,Tabitha Johnson-Green,DEM,8C,115,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Provisional Votes,Tabitha Johnson-Green,DEM,1A,0,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Provisional Votes,Tabitha Johnson-Green,DEM,1B,0,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Provisional Votes,Tabitha Johnson-Green,DEM,1C,0,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Provisional Votes,Tabitha Johnson-Green,DEM,1D,0,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Provisional Votes,Tabitha Johnson-Green,DEM,2A,0,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Provisional Votes,Tabitha Johnson-Green,DEM,2B,1,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Provisional Votes,Tabitha Johnson-Green,DEM,3A,0,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Provisional Votes,Tabitha Johnson-Green,DEM,3B,0,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Provisional Votes,Tabitha Johnson-Green,DEM,4A,0,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Provisional Votes,Tabitha Johnson-Green,DEM,4B,0,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Provisional Votes,Tabitha Johnson-Green,DEM,5A,0,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Provisional Votes,Tabitha Johnson-Green,DEM,5B,0,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Provisional Votes,Tabitha Johnson-Green,DEM,5C,0,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Provisional Votes,Tabitha Johnson-Green,DEM,5D,0,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Provisional Votes,Tabitha Johnson-Green,DEM,6A,0,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Provisional Votes,Tabitha Johnson-Green,DEM,6B,0,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Provisional Votes,Tabitha Johnson-Green,DEM,6C,0,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Provisional Votes,Tabitha Johnson-Green,DEM,6D,0,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Provisional Votes,Tabitha Johnson-Green,DEM,7A,0,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Provisional Votes,Tabitha Johnson-Green,DEM,7B,1,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Provisional Votes,Tabitha Johnson-Green,DEM,7C,0,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Provisional Votes,Tabitha Johnson-Green,DEM,8A,0,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Provisional Votes,Tabitha Johnson-Green,DEM,8B,0,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Provisional Votes,Tabitha Johnson-Green,DEM,8C,0,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Absentee by Mail Votes,Phyllis Hatcher,DEM,1A,3,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Absentee by Mail Votes,Phyllis Hatcher,DEM,1B,4,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Absentee by Mail Votes,Phyllis Hatcher,DEM,1C,6,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Absentee by Mail Votes,Phyllis Hatcher,DEM,1D,7,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Absentee by Mail Votes,Phyllis Hatcher,DEM,2A,6,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Absentee by Mail Votes,Phyllis Hatcher,DEM,2B,5,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Absentee by Mail Votes,Phyllis Hatcher,DEM,3A,1,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Absentee by Mail Votes,Phyllis Hatcher,DEM,3B,5,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Absentee by Mail Votes,Phyllis Hatcher,DEM,4A,0,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Absentee by Mail Votes,Phyllis Hatcher,DEM,4B,11,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Absentee by Mail Votes,Phyllis Hatcher,DEM,5A,3,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Absentee by Mail Votes,Phyllis Hatcher,DEM,5B,14,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Absentee by Mail Votes,Phyllis Hatcher,DEM,5C,0,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Absentee by Mail Votes,Phyllis Hatcher,DEM,5D,7,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Absentee by Mail Votes,Phyllis Hatcher,DEM,6A,5,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Absentee by Mail Votes,Phyllis Hatcher,DEM,6B,22,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Absentee by Mail Votes,Phyllis Hatcher,DEM,6C,4,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Absentee by Mail Votes,Phyllis Hatcher,DEM,6D,4,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Absentee by Mail Votes,Phyllis Hatcher,DEM,7A,6,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Absentee by Mail Votes,Phyllis Hatcher,DEM,7B,4,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Absentee by Mail Votes,Phyllis Hatcher,DEM,7C,3,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Absentee by Mail Votes,Phyllis Hatcher,DEM,8A,8,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Absentee by Mail Votes,Phyllis Hatcher,DEM,8B,11,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Absentee by Mail Votes,Phyllis Hatcher,DEM,8C,11,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Advance Voting Votes,Phyllis Hatcher,DEM,1A,26,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Advance Voting Votes,Phyllis Hatcher,DEM,1B,48,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Advance Voting Votes,Phyllis Hatcher,DEM,1C,30,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Advance Voting Votes,Phyllis Hatcher,DEM,1D,31,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Advance Voting Votes,Phyllis Hatcher,DEM,2A,36,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Advance Voting Votes,Phyllis Hatcher,DEM,2B,37,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Advance Voting Votes,Phyllis Hatcher,DEM,3A,17,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Advance Voting Votes,Phyllis Hatcher,DEM,3B,30,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Advance Voting Votes,Phyllis Hatcher,DEM,4A,10,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Advance Voting Votes,Phyllis Hatcher,DEM,4B,38,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Advance Voting Votes,Phyllis Hatcher,DEM,5A,24,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Advance Voting Votes,Phyllis Hatcher,DEM,5B,27,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Advance Voting Votes,Phyllis Hatcher,DEM,5C,23,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Advance Voting Votes,Phyllis Hatcher,DEM,5D,15,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Advance Voting Votes,Phyllis Hatcher,DEM,6A,31,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Advance Voting Votes,Phyllis Hatcher,DEM,6B,47,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Advance Voting Votes,Phyllis Hatcher,DEM,6C,30,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Advance Voting Votes,Phyllis Hatcher,DEM,6D,14,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Advance Voting Votes,Phyllis Hatcher,DEM,7A,29,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Advance Voting Votes,Phyllis Hatcher,DEM,7B,30,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Advance Voting Votes,Phyllis Hatcher,DEM,7C,18,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Advance Voting Votes,Phyllis Hatcher,DEM,8A,28,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Advance Voting Votes,Phyllis Hatcher,DEM,8B,17,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Advance Voting Votes,Phyllis Hatcher,DEM,8C,36,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Election Day Votes,Phyllis Hatcher,DEM,1A,29,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Election Day Votes,Phyllis Hatcher,DEM,1B,29,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Election Day Votes,Phyllis Hatcher,DEM,1C,32,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Election Day Votes,Phyllis Hatcher,DEM,1D,39,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Election Day Votes,Phyllis Hatcher,DEM,2A,47,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Election Day Votes,Phyllis Hatcher,DEM,2B,28,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Election Day Votes,Phyllis Hatcher,DEM,3A,29,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Election Day Votes,Phyllis Hatcher,DEM,3B,25,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Election Day Votes,Phyllis Hatcher,DEM,4A,19,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Election Day Votes,Phyllis Hatcher,DEM,4B,29,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Election Day Votes,Phyllis Hatcher,DEM,5A,29,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Election Day Votes,Phyllis Hatcher,DEM,5B,35,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Election Day Votes,Phyllis Hatcher,DEM,5C,32,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Election Day Votes,Phyllis Hatcher,DEM,5D,39,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Election Day Votes,Phyllis Hatcher,DEM,6A,28,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Election Day Votes,Phyllis Hatcher,DEM,6B,40,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Election Day Votes,Phyllis Hatcher,DEM,6C,31,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Election Day Votes,Phyllis Hatcher,DEM,6D,29,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Election Day Votes,Phyllis Hatcher,DEM,7A,30,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Election Day Votes,Phyllis Hatcher,DEM,7B,18,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Election Day Votes,Phyllis Hatcher,DEM,7C,18,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Election Day Votes,Phyllis Hatcher,DEM,8A,32,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Election Day Votes,Phyllis Hatcher,DEM,8B,31,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Election Day Votes,Phyllis Hatcher,DEM,8C,29,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Provisional Votes,Phyllis Hatcher,DEM,1A,0,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Provisional Votes,Phyllis Hatcher,DEM,1B,0,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Provisional Votes,Phyllis Hatcher,DEM,1C,0,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Provisional Votes,Phyllis Hatcher,DEM,1D,0,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Provisional Votes,Phyllis Hatcher,DEM,2A,0,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Provisional Votes,Phyllis Hatcher,DEM,2B,0,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Provisional Votes,Phyllis Hatcher,DEM,3A,0,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Provisional Votes,Phyllis Hatcher,DEM,3B,0,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Provisional Votes,Phyllis Hatcher,DEM,4A,0,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Provisional Votes,Phyllis Hatcher,DEM,4B,0,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Provisional Votes,Phyllis Hatcher,DEM,5A,0,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Provisional Votes,Phyllis Hatcher,DEM,5B,0,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Provisional Votes,Phyllis Hatcher,DEM,5C,0,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Provisional Votes,Phyllis Hatcher,DEM,5D,0,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Provisional Votes,Phyllis Hatcher,DEM,6A,0,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Provisional Votes,Phyllis Hatcher,DEM,6B,0,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Provisional Votes,Phyllis Hatcher,DEM,6C,0,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Provisional Votes,Phyllis Hatcher,DEM,6D,0,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Provisional Votes,Phyllis Hatcher,DEM,7A,0,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Provisional Votes,Phyllis Hatcher,DEM,7B,0,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Provisional Votes,Phyllis Hatcher,DEM,7C,0,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Provisional Votes,Phyllis Hatcher,DEM,8A,0,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Provisional Votes,Phyllis Hatcher,DEM,8B,0,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Provisional Votes,Phyllis Hatcher,DEM,8C,0,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Absentee by Mail Votes,Femi Oduwole,DEM,1A,1,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Absentee by Mail Votes,Femi Oduwole,DEM,1B,0,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Absentee by Mail Votes,Femi Oduwole,DEM,1C,2,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Absentee by Mail Votes,Femi Oduwole,DEM,1D,0,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Absentee by Mail Votes,Femi Oduwole,DEM,2A,1,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Absentee by Mail Votes,Femi Oduwole,DEM,2B,3,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Absentee by Mail Votes,Femi Oduwole,DEM,3A,1,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Absentee by Mail Votes,Femi Oduwole,DEM,3B,1,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Absentee by Mail Votes,Femi Oduwole,DEM,4A,2,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Absentee by Mail Votes,Femi Oduwole,DEM,4B,1,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Absentee by Mail Votes,Femi Oduwole,DEM,5A,2,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Absentee by Mail Votes,Femi Oduwole,DEM,5B,2,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Absentee by Mail Votes,Femi Oduwole,DEM,5C,1,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Absentee by Mail Votes,Femi Oduwole,DEM,5D,3,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Absentee by Mail Votes,Femi Oduwole,DEM,6A,1,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Absentee by Mail Votes,Femi Oduwole,DEM,6B,3,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Absentee by Mail Votes,Femi Oduwole,DEM,6C,2,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Absentee by Mail Votes,Femi Oduwole,DEM,6D,1,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Absentee by Mail Votes,Femi Oduwole,DEM,7A,3,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Absentee by Mail Votes,Femi Oduwole,DEM,7B,0,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Absentee by Mail Votes,Femi Oduwole,DEM,7C,0,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Absentee by Mail Votes,Femi Oduwole,DEM,8A,2,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Absentee by Mail Votes,Femi Oduwole,DEM,8B,1,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Absentee by Mail Votes,Femi Oduwole,DEM,8C,3,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Advance Voting Votes,Femi Oduwole,DEM,1A,13,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Advance Voting Votes,Femi Oduwole,DEM,1B,21,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Advance Voting Votes,Femi Oduwole,DEM,1C,7,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Advance Voting Votes,Femi Oduwole,DEM,1D,15,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Advance Voting Votes,Femi Oduwole,DEM,2A,14,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Advance Voting Votes,Femi Oduwole,DEM,2B,19,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Advance Voting Votes,Femi Oduwole,DEM,3A,15,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Advance Voting Votes,Femi Oduwole,DEM,3B,23,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Advance Voting Votes,Femi Oduwole,DEM,4A,5,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Advance Voting Votes,Femi Oduwole,DEM,4B,11,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Advance Voting Votes,Femi Oduwole,DEM,5A,20,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Advance Voting Votes,Femi Oduwole,DEM,5B,18,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Advance Voting Votes,Femi Oduwole,DEM,5C,18,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Advance Voting Votes,Femi Oduwole,DEM,5D,16,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Advance Voting Votes,Femi Oduwole,DEM,6A,20,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Advance Voting Votes,Femi Oduwole,DEM,6B,11,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Advance Voting Votes,Femi Oduwole,DEM,6C,17,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Advance Voting Votes,Femi Oduwole,DEM,6D,6,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Advance Voting Votes,Femi Oduwole,DEM,7A,21,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Advance Voting Votes,Femi Oduwole,DEM,7B,15,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Advance Voting Votes,Femi Oduwole,DEM,7C,8,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Advance Voting Votes,Femi Oduwole,DEM,8A,19,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Advance Voting Votes,Femi Oduwole,DEM,8B,9,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Advance Voting Votes,Femi Oduwole,DEM,8C,17,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Election Day Votes,Femi Oduwole,DEM,1A,17,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Election Day Votes,Femi Oduwole,DEM,1B,30,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Election Day Votes,Femi Oduwole,DEM,1C,20,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Election Day Votes,Femi Oduwole,DEM,1D,27,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Election Day Votes,Femi Oduwole,DEM,2A,21,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Election Day Votes,Femi Oduwole,DEM,2B,34,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Election Day Votes,Femi Oduwole,DEM,3A,18,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Election Day Votes,Femi Oduwole,DEM,3B,10,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Election Day Votes,Femi Oduwole,DEM,4A,5,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Election Day Votes,Femi Oduwole,DEM,4B,28,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Election Day Votes,Femi Oduwole,DEM,5A,38,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Election Day Votes,Femi Oduwole,DEM,5B,25,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Election Day Votes,Femi Oduwole,DEM,5C,25,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Election Day Votes,Femi Oduwole,DEM,5D,24,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Election Day Votes,Femi Oduwole,DEM,6A,12,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Election Day Votes,Femi Oduwole,DEM,6B,20,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Election Day Votes,Femi Oduwole,DEM,6C,15,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Election Day Votes,Femi Oduwole,DEM,6D,18,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Election Day Votes,Femi Oduwole,DEM,7A,19,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Election Day Votes,Femi Oduwole,DEM,7B,25,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Election Day Votes,Femi Oduwole,DEM,7C,14,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Election Day Votes,Femi Oduwole,DEM,8A,27,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Election Day Votes,Femi Oduwole,DEM,8B,18,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Election Day Votes,Femi Oduwole,DEM,8C,27,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Provisional Votes,Femi Oduwole,DEM,1A,0,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Provisional Votes,Femi Oduwole,DEM,1B,0,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Provisional Votes,Femi Oduwole,DEM,1C,0,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Provisional Votes,Femi Oduwole,DEM,1D,0,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Provisional Votes,Femi Oduwole,DEM,2A,0,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Provisional Votes,Femi Oduwole,DEM,2B,0,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Provisional Votes,Femi Oduwole,DEM,3A,0,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Provisional Votes,Femi Oduwole,DEM,3B,0,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Provisional Votes,Femi Oduwole,DEM,4A,0,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Provisional Votes,Femi Oduwole,DEM,4B,0,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Provisional Votes,Femi Oduwole,DEM,5A,0,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Provisional Votes,Femi Oduwole,DEM,5B,0,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Provisional Votes,Femi Oduwole,DEM,5C,0,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Provisional Votes,Femi Oduwole,DEM,5D,0,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Provisional Votes,Femi Oduwole,DEM,6A,0,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Provisional Votes,Femi Oduwole,DEM,6B,0,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Provisional Votes,Femi Oduwole,DEM,6C,0,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Provisional Votes,Femi Oduwole,DEM,6D,0,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Provisional Votes,Femi Oduwole,DEM,7A,0,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Provisional Votes,Femi Oduwole,DEM,7B,0,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Provisional Votes,Femi Oduwole,DEM,7C,0,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Provisional Votes,Femi Oduwole,DEM,8A,0,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Provisional Votes,Femi Oduwole,DEM,8B,0,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Provisional Votes,Femi Oduwole,DEM,8C,0,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Absentee by Mail Votes,Paul Walton,DEM,1A,0,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Absentee by Mail Votes,Paul Walton,DEM,1B,6,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Absentee by Mail Votes,Paul Walton,DEM,1C,5,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Absentee by Mail Votes,Paul Walton,DEM,1D,5,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Absentee by Mail Votes,Paul Walton,DEM,2A,8,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Absentee by Mail Votes,Paul Walton,DEM,2B,4,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Absentee by Mail Votes,Paul Walton,DEM,3A,5,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Absentee by Mail Votes,Paul Walton,DEM,3B,6,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Absentee by Mail Votes,Paul Walton,DEM,4A,3,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Absentee by Mail Votes,Paul Walton,DEM,4B,2,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Absentee by Mail Votes,Paul Walton,DEM,5A,3,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Absentee by Mail Votes,Paul Walton,DEM,5B,2,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Absentee by Mail Votes,Paul Walton,DEM,5C,1,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Absentee by Mail Votes,Paul Walton,DEM,5D,1,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Absentee by Mail Votes,Paul Walton,DEM,6A,3,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Absentee by Mail Votes,Paul Walton,DEM,6B,5,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Absentee by Mail Votes,Paul Walton,DEM,6C,5,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Absentee by Mail Votes,Paul Walton,DEM,6D,0,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Absentee by Mail Votes,Paul Walton,DEM,7A,5,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Absentee by Mail Votes,Paul Walton,DEM,7B,3,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Absentee by Mail Votes,Paul Walton,DEM,7C,3,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Absentee by Mail Votes,Paul Walton,DEM,8A,3,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Absentee by Mail Votes,Paul Walton,DEM,8B,4,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Absentee by Mail Votes,Paul Walton,DEM,8C,3,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Advance Voting Votes,Paul Walton,DEM,1A,22,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Advance Voting Votes,Paul Walton,DEM,1B,20,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Advance Voting Votes,Paul Walton,DEM,1C,15,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Advance Voting Votes,Paul Walton,DEM,1D,28,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Advance Voting Votes,Paul Walton,DEM,2A,17,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Advance Voting Votes,Paul Walton,DEM,2B,21,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Advance Voting Votes,Paul Walton,DEM,3A,16,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Advance Voting Votes,Paul Walton,DEM,3B,7,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Advance Voting Votes,Paul Walton,DEM,4A,9,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Advance Voting Votes,Paul Walton,DEM,4B,4,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Advance Voting Votes,Paul Walton,DEM,5A,14,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Advance Voting Votes,Paul Walton,DEM,5B,17,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Advance Voting Votes,Paul Walton,DEM,5C,18,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Advance Voting Votes,Paul Walton,DEM,5D,13,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Advance Voting Votes,Paul Walton,DEM,6A,12,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Advance Voting Votes,Paul Walton,DEM,6B,27,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Advance Voting Votes,Paul Walton,DEM,6C,21,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Advance Voting Votes,Paul Walton,DEM,6D,10,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Advance Voting Votes,Paul Walton,DEM,7A,14,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Advance Voting Votes,Paul Walton,DEM,7B,20,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Advance Voting Votes,Paul Walton,DEM,7C,9,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Advance Voting Votes,Paul Walton,DEM,8A,16,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Advance Voting Votes,Paul Walton,DEM,8B,8,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Advance Voting Votes,Paul Walton,DEM,8C,15,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Election Day Votes,Paul Walton,DEM,1A,25,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Election Day Votes,Paul Walton,DEM,1B,17,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Election Day Votes,Paul Walton,DEM,1C,11,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Election Day Votes,Paul Walton,DEM,1D,28,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Election Day Votes,Paul Walton,DEM,2A,34,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Election Day Votes,Paul Walton,DEM,2B,26,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Election Day Votes,Paul Walton,DEM,3A,11,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Election Day Votes,Paul Walton,DEM,3B,11,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Election Day Votes,Paul Walton,DEM,4A,6,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Election Day Votes,Paul Walton,DEM,4B,17,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Election Day Votes,Paul Walton,DEM,5A,17,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Election Day Votes,Paul Walton,DEM,5B,21,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Election Day Votes,Paul Walton,DEM,5C,18,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Election Day Votes,Paul Walton,DEM,5D,18,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Election Day Votes,Paul Walton,DEM,6A,11,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Election Day Votes,Paul Walton,DEM,6B,18,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Election Day Votes,Paul Walton,DEM,6C,15,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Election Day Votes,Paul Walton,DEM,6D,21,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Election Day Votes,Paul Walton,DEM,7A,21,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Election Day Votes,Paul Walton,DEM,7B,25,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Election Day Votes,Paul Walton,DEM,7C,14,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Election Day Votes,Paul Walton,DEM,8A,21,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Election Day Votes,Paul Walton,DEM,8B,13,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Election Day Votes,Paul Walton,DEM,8C,17,15.92,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,459,2963,Provisional Votes,Paul Walton,DEM,1A,0,15.49,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,613,3515,Provisional Votes,Paul Walton,DEM,1B,0,17.44,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,486,2249,Provisional Votes,Paul Walton,DEM,1C,0,21.61,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,668,2639,Provisional Votes,Paul Walton,DEM,1D,0,25.31,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,596,4148,Provisional Votes,Paul Walton,DEM,2A,0,14.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,736,4720,Provisional Votes,Paul Walton,DEM,2B,0,15.59,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,430,2611,Provisional Votes,Paul Walton,DEM,3A,0,16.47,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,439,3319,Provisional Votes,Paul Walton,DEM,3B,0,13.23,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,202,2056,Provisional Votes,Paul Walton,DEM,4A,0,9.82,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,467,3387,Provisional Votes,Paul Walton,DEM,4B,0,13.79,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,725,2841,Provisional Votes,Paul Walton,DEM,5A,0,25.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,565,2912,Provisional Votes,Paul Walton,DEM,5B,0,19.40,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,648,1886,Provisional Votes,Paul Walton,DEM,5C,0,34.36,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3020,Provisional Votes,Paul Walton,DEM,5D,0,16.42,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,480,3854,Provisional Votes,Paul Walton,DEM,6A,0,12.45,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,660,3768,Provisional Votes,Paul Walton,DEM,6B,0,17.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,496,3072,Provisional Votes,Paul Walton,DEM,6C,0,16.15,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,415,1639,Provisional Votes,Paul Walton,DEM,6D,0,25.32,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,493,2740,Provisional Votes,Paul Walton,DEM,7A,0,17.99,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,515,2965,Provisional Votes,Paul Walton,DEM,7B,0,17.37,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,387,2342,Provisional Votes,Paul Walton,DEM,7C,0,16.52,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,570,3088,Provisional Votes,Paul Walton,DEM,8A,0,18.46,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,380,2162,Provisional Votes,Paul Walton,DEM,8B,0,17.58,4,2022-06-13 17:52:28+00:00
+GA,Clarke,114759,US House of Representatives - District 10 - Dem,550,3454,Provisional Votes,Paul Walton,DEM,8C,1,15.92,4,2022-06-13 17:52:28+00:00

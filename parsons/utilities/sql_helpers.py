@@ -1,6 +1,6 @@
 import re
 
-__all__ = ['redact_credentials']
+__all__ = ["redact_credentials"]
 
 
 def redact_credentials(sql):
@@ -9,6 +9,6 @@ def redact_credentials(sql):
     """
 
     pattern = "credentials\s+'(.+\n?)+[^(\\)]'"  # noqa: W605
-    sql_censored = re.sub(pattern, 'CREDENTIALS REDACTED', sql, flags=re.IGNORECASE)
+    sql_censored = re.sub(pattern, "CREDENTIALS REDACTED", sql, flags=re.IGNORECASE)
 
     return sql_censored

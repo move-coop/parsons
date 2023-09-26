@@ -19,21 +19,19 @@ class BillCom(object):
     """
 
     def __init__(self, user_name, password, org_id, dev_key, api_url):
-        self.headers = {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
+        self.headers = {"Content-Type": "application/x-www-form-urlencoded"}
         params = {
             "userName": user_name,
             "password": password,
             "orgId": org_id,
-            "devKey": dev_key
+            "devKey": dev_key,
         }
-        response = requests.post(url="%sLogin.json" % api_url,
-                                 data=params,
-                                 headers=self.headers)
+        response = requests.post(
+            url="%sLogin.json" % api_url, data=params, headers=self.headers
+        )
         self.dev_key = dev_key
         self.api_url = api_url
-        self.session_id = response.json()['response_data']['sessionId']
+        self.session_id = response.json()["response_data"]["sessionId"]
 
     def _get_payload(self, data):
         """
@@ -47,9 +45,11 @@ class BillCom(object):
             A dictionary of the payload to be sent in the request with the
             dev_key and sessionId added.
         """
-        return {"devKey": self.dev_key,
-                "sessionId": self.session_id,
-                "data": json.dumps(data)}
+        return {
+            "devKey": self.dev_key,
+            "sessionId": self.session_id,
+            "data": json.dumps(data),
+        }
 
     def _post_request(self, data, action, object_name):
         """
@@ -68,10 +68,10 @@ class BillCom(object):
             A dictionary containing the JSON response from the post request.
         """
 
-        if action == 'Read':
+        if action == "Read":
             url = "%sCrud/%s/%s.json" % (self.api_url, action, object_name)
-        elif action == 'Create':
-            data['obj']['entity'] = object_name
+        elif action == "Create":
+            data["obj"]["entity"] = object_name
             url = "%sCrud/%s/%s.json" % (self.api_url, action, object_name)
         elif action == "Send":
             url = "%s%s%s.json" % (self.api_url, action, object_name)
@@ -119,10 +119,10 @@ class BillCom(object):
         """
 
         r_table = Table(response)
-        max_ct = data['max']
+        max_ct = data["max"]
 
         while len(response) == max_ct:
-            data['start'] += max_ct
+            data["start"] += max_ct
             response = self._post_request(data, "List", object_name)[field]
             r_table.concat(Table(response))
 
@@ -141,11 +141,7 @@ class BillCom(object):
         `Returns:`
             A Parsons Table of user information for every user from start_user to max_user.
         """
-        data = {
-           "start": start_user,
-           "max": max_user,
-           **kwargs
-        }
+        data = {"start": start_user, "max": max_user, **kwargs}
 
         return self._get_request_response(data, "List", "User")
 
@@ -163,11 +159,7 @@ class BillCom(object):
             A Parsons Table of customer information for every user from start_customer
             to max_customer.
         """
-        data = {
-           "start": start_customer,
-           "max": max_customer,
-           **kwargs
-        }
+        data = {"start": start_customer, "max": max_customer, **kwargs}
 
         return self._get_request_response(data, "List", "Customer")
 
@@ -185,11 +177,7 @@ class BillCom(object):
             A list of dictionaries of invoice information for every invoice from start_invoice
             to max_invoice.
         """
-        data = {
-           "start": start_invoice,
-           "max": max_invoice,
-           **kwargs
-        }
+        data = {"start": start_invoice, "max": max_invoice, **kwargs}
 
         return self._get_request_response(data, "List", "Invoice")
 
@@ -202,9 +190,7 @@ class BillCom(object):
         `Returns:`
             A dictionary of the customer's information.
         """
-        data = {
-            'id': customer_id
-        }
+        data = {"id": customer_id}
         return self._get_request_response(data, "Read", "Customer")
 
     def read_invoice(self, invoice_id):
@@ -216,9 +202,7 @@ class BillCom(object):
         `Returns:`
             A dictionary of the invoice information.
         """
-        data = {
-           "id": invoice_id
-        }
+        data = {"id": invoice_id}
         return self._get_request_response(data, "Read", "Invoice")
 
     def check_customer(self, customer1, customer2):
@@ -240,8 +224,8 @@ class BillCom(object):
         if "id" in customer1.keys():
             if customer1["id"] == customer2["id"]:
                 return True
-        if "id" not in customer1.keys() and customer2['email']:
-            if customer1['email'].lower() == customer2['email'].lower():
+        if "id" not in customer1.keys() and customer2["email"]:
+            if customer1["email"].lower() == customer2["email"].lower():
                 return True
         return False
 
@@ -261,9 +245,7 @@ class BillCom(object):
             If the customer already exists, this function will not
             create a new id and instead use the existing id.
         """
-        customer = {"name": customer_name,
-                    "email": customer_email,
-                    **kwargs}
+        customer = {"name": customer_name, "email": customer_email, **kwargs}
 
         # check if customer already exists
         customer_list = self.get_customer_list()
@@ -271,13 +253,18 @@ class BillCom(object):
             if self.check_customer(customer, existing_customer):
                 return existing_customer
         # customer doesn't exist, create
-        data = {
-            "obj": customer
-        }
+        data = {"obj": customer}
         return self._get_request_response(data, "Create", "Customer")
 
-    def create_invoice(self, customer_id, invoice_number, invoice_date,
-                       due_date, invoice_line_items, **kwargs):
+    def create_invoice(
+        self,
+        customer_id,
+        invoice_number,
+        invoice_date,
+        due_date,
+        invoice_line_items,
+        **kwargs
+    ):
         """
         `Args:`
             customer_id: str
@@ -301,20 +288,28 @@ class BillCom(object):
         """
         for invoice_line_item in invoice_line_items:
             if "entity" not in invoice_line_item:
-                invoice_line_item['entity'] = 'InvoiceLineItem'
+                invoice_line_item["entity"] = "InvoiceLineItem"
         data = {
-            "obj": {"customerId": customer_id,
-                    "invoiceNumber": invoice_number,
-                    "invoiceDate": invoice_date,
-                    "dueDate": due_date,
-                    "invoiceLineItems": invoice_line_items,
-                    **kwargs
-                    }
+            "obj": {
+                "customerId": customer_id,
+                "invoiceNumber": invoice_number,
+                "invoiceDate": invoice_date,
+                "dueDate": due_date,
+                "invoiceLineItems": invoice_line_items,
+                **kwargs,
+            }
         }
         return self._get_request_response(data, "Create", "Invoice")
 
-    def send_invoice(self, invoice_id, from_user_id, to_email_addresses,
-                     message_subject, message_body, **kwargs):
+    def send_invoice(
+        self,
+        invoice_id,
+        from_user_id,
+        to_email_addresses,
+        message_subject,
+        message_body,
+        **kwargs
+    ):
         """
         `Args:`
             invoice_id: str
@@ -334,15 +329,13 @@ class BillCom(object):
             A dictionary of the sent invoice.
         """
         data = {
-          "invoiceId": invoice_id,
-          "headers": {
-            "fromUserId": from_user_id,
-            "toEmailAddresses": to_email_addresses,
-            "subject": message_subject,
-            **kwargs
-          },
-          "content": {
-            "body": message_body
-          }
+            "invoiceId": invoice_id,
+            "headers": {
+                "fromUserId": from_user_id,
+                "toEmailAddresses": to_email_addresses,
+                "subject": message_subject,
+                **kwargs,
+            },
+            "content": {"body": message_body},
         }
         return self._get_request_response(data, "Send", "Invoice")

@@ -2,7 +2,7 @@ from parsons.utilities import check_env
 import requests
 from parsons.etl import Table
 
-URI = 'https://www.googleapis.com/civicinfo/v2/'
+URI = "https://www.googleapis.com/civicinfo/v2/"
 
 
 class GoogleCivic(object):
@@ -17,7 +17,7 @@ class GoogleCivic(object):
 
     def __init__(self, api_key=None):
 
-        self.api_key = check_env.check('GOOGLE_CIVIC_API_KEY', api_key)
+        self.api_key = check_env.check("GOOGLE_CIVIC_API_KEY", api_key)
         self.uri = URI
 
     def request(self, url, args=None):
@@ -26,7 +26,7 @@ class GoogleCivic(object):
         if not args:
             args = {}
 
-        args['key'] = self.api_key
+        args["key"] = self.api_key
 
         r = requests.get(url, params=args)
 
@@ -41,17 +41,17 @@ class GoogleCivic(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.uri + 'elections'
+        url = self.uri + "elections"
 
-        return Table((self.request(url))['elections'])
+        return Table((self.request(url))["elections"])
 
     def _get_voter_info(self, election_id, address):
         # Internal method to call voter info end point. Portions of this are
         # parsed for other methods.
 
-        url = self.uri + 'voterinfo'
+        url = self.uri + "voterinfo"
 
-        args = {'address': address, 'electionId': election_id}
+        args = {"address": address, "electionId": election_id}
 
         return self.request(url, args=args)
 
@@ -72,9 +72,9 @@ class GoogleCivic(object):
 
         r = self._get_voter_info(election_id, address)
 
-        return r['pollingLocations']
+        return r["pollingLocations"]
 
-    def get_polling_locations(self, election_id, table, address_field='address'):
+    def get_polling_locations(self, election_id, table, address_field="address"):
         """
         Get polling location information for a table of addresses.
 
@@ -97,22 +97,22 @@ class GoogleCivic(object):
         for row in table:
             loc = self.get_polling_location(election_id, row[address_field])
             # Insert original passed address
-            loc[0]['passed_address'] = row[address_field]
+            loc[0]["passed_address"] = row[address_field]
 
             # Add to list of lists
             polling_locations.append(loc[0])
 
         # Unpack values
         tbl = Table(polling_locations)
-        tbl.unpack_dict('address', prepend_value='polling')
-        tbl.unpack_list('sources', replace=True)
-        tbl.unpack_dict('sources_0', prepend_value='source')
-        tbl.rename_column('polling_line1', 'polling_address')
+        tbl.unpack_dict("address", prepend_value="polling")
+        tbl.unpack_list("sources", replace=True)
+        tbl.unpack_dict("sources_0", prepend_value="source")
+        tbl.rename_column("polling_line1", "polling_address")
 
         # Resort columns
-        tbl.move_column('pollingHours', len(tbl.columns))
-        tbl.move_column('notes', len(tbl.columns))
-        tbl.move_column('polling_locationName', 1)
-        tbl.move_column('polling_address', 2)
+        tbl.move_column("pollingHours", len(tbl.columns))
+        tbl.move_column("notes", len(tbl.columns))
+        tbl.move_column("polling_locationName", 1)
+        tbl.move_column("polling_address", 2)
 
         return tbl

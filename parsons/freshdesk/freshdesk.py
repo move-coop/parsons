@@ -26,26 +26,26 @@ class Freshdesk:
 
     def __init__(self, domain, api_key):
 
-        self.api_key = check_env.check('FRESHDESK_API_KEY', api_key)
-        self.domain = check_env.check('FRESHDESK_DOMAIN', domain)
-        self.uri = f'https://{self.domain}.freshdesk.com/api/v2/'
-        self.client = APIConnector(self.uri, auth=(self.api_key, 'x'))
+        self.api_key = check_env.check("FRESHDESK_API_KEY", api_key)
+        self.domain = check_env.check("FRESHDESK_DOMAIN", domain)
+        self.uri = f"https://{self.domain}.freshdesk.com/api/v2/"
+        self.client = APIConnector(self.uri, auth=(self.api_key, "x"))
 
     def _get_request(self, endpoint, params=None):
-        base_params = {'per_page': PAGE_SIZE}
+        base_params = {"per_page": PAGE_SIZE}
 
         if params:
             base_params.update(params)
 
-        r = self.client.request(endpoint, 'GET', params=base_params)
+        r = self.client.request(endpoint, "GET", params=base_params)
         self.client.validate_response(r)
         data = r.json()
 
         # Paginate
-        while 'link' in r.headers.keys():
-            logger.info(f'Retrieving another page of {PAGE_SIZE} records.')
-            url = re.search('<(.*)>', r.headers['link']).group(1)
-            r = self.client.request(url, 'GET', params=params)
+        while "link" in r.headers.keys():
+            logger.info(f"Retrieving another page of {PAGE_SIZE} records.")
+            url = re.search("<(.*)>", r.headers["link"]).group(1)
+            r = self.client.request(url, "GET", params=params)
             self.client.validate_response(r)
             data.extend(r.json())
 
@@ -54,15 +54,22 @@ class Freshdesk:
     @staticmethod
     def _transform_table(tbl, expand_custom_fields=None):
         if tbl.num_rows > 0:
-            tbl.move_column('id', 0)
+            tbl.move_column("id", 0)
             tbl.sort()
             if expand_custom_fields:
-                tbl.unpack_dict('custom_fields', prepend=False)
+                tbl.unpack_dict("custom_fields", prepend=False)
 
         return tbl
 
-    def get_tickets(self, ticket_type=None, requester_id=None, requester_email=None,
-                    company_id=None, updated_since='2016-01-01', expand_custom_fields=False):
+    def get_tickets(
+        self,
+        ticket_type=None,
+        requester_id=None,
+        requester_email=None,
+        company_id=None,
+        updated_since="2016-01-01",
+        expand_custom_fields=False,
+    ):
         """
         List tickets.
 
@@ -97,18 +104,28 @@ class Freshdesk:
                 See :ref:`parsons-table` for output options.
         """
 
-        params = {'filter': ticket_type,
-                  'requester_id': requester_id,
-                  'requester_email': requester_email,
-                  'company_id': company_id,
-                  'updated_since': updated_since}
+        params = {
+            "filter": ticket_type,
+            "requester_id": requester_id,
+            "requester_email": requester_email,
+            "company_id": company_id,
+            "updated_since": updated_since,
+        }
 
-        tbl = Table(self._get_request('tickets', params=params))
-        logger.info(f'Found {tbl.num_rows} tickets.')
+        tbl = Table(self._get_request("tickets", params=params))
+        logger.info(f"Found {tbl.num_rows} tickets.")
         return self._transform_table(tbl, expand_custom_fields)
 
-    def get_contacts(self, email=None, mobile=None, phone=None, company_id=None,
-                     state=None, updated_since=None, expand_custom_fields=None):
+    def get_contacts(
+        self,
+        email=None,
+        mobile=None,
+        phone=None,
+        company_id=None,
+        state=None,
+        updated_since=None,
+        expand_custom_fields=None,
+    ):
         """
         Get contacts.
 
@@ -135,15 +152,17 @@ class Freshdesk:
                 See :ref:`parsons-table` for output options.
         """
 
-        params = {'email': email,
-                  'mobile': mobile,
-                  'phone': phone,
-                  'company_id': company_id,
-                  'state': state,
-                  '_updated_since': updated_since}
+        params = {
+            "email": email,
+            "mobile": mobile,
+            "phone": phone,
+            "company_id": company_id,
+            "state": state,
+            "_updated_since": updated_since,
+        }
 
-        tbl = Table(self._get_request('contacts', params=params))
-        logger.info(f'Found {tbl.num_rows} contacts.')
+        tbl = Table(self._get_request("contacts", params=params))
+        logger.info(f"Found {tbl.num_rows} contacts.")
         return self._transform_table(tbl, expand_custom_fields)
 
     def get_companies(self, expand_custom_fields=False):
@@ -161,8 +180,8 @@ class Freshdesk:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self._get_request('companies'))
-        logger.info(f'Found {tbl.num_rows} companies.')
+        tbl = Table(self._get_request("companies"))
+        logger.info(f"Found {tbl.num_rows} companies.")
         return self._transform_table(tbl, expand_custom_fields)
 
     def get_agents(self, email=None, mobile=None, phone=None, state=None):
@@ -186,14 +205,11 @@ class Freshdesk:
                 See :ref:`parsons-table` for output options.
         """
 
-        params = {'email': email,
-                  'mobile': mobile,
-                  'phone': phone,
-                  'state': state}
-        tbl = Table(self._get_request('agents', params=params))
-        logger.info(f'Found {tbl.num_rows} agents.')
+        params = {"email": email, "mobile": mobile, "phone": phone, "state": state}
+        tbl = Table(self._get_request("agents", params=params))
+        logger.info(f"Found {tbl.num_rows} agents.")
         tbl = self._transform_table(tbl)
-        tbl = tbl.unpack_dict('contact', prepend=False)
-        tbl.remove_column('signature')  # Removing since raw HTML might cause issues.
+        tbl = tbl.unpack_dict("contact", prepend=False)
+        tbl.remove_column("signature")  # Removing since raw HTML might cause issues.
 
         return tbl

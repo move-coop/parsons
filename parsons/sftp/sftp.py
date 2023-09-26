@@ -68,7 +68,7 @@ class SFTP(object):
         conn.close()
         transport.close()
 
-    def list_directory(self, remote_path='.', connection=None):
+    def list_directory(self, remote_path=".", connection=None):
         """
         List the contents of a directory
 
@@ -151,8 +151,14 @@ class SFTP(object):
         return local_path
 
     @connect
-    def get_files(self, files_to_download=None, remote=None, connection=None, pattern=None,
-                  local_paths=None):
+    def get_files(
+        self,
+        files_to_download=None,
+        remote=None,
+        connection=None,
+        pattern=None,
+        local_paths=None,
+    ):
         """
         Download a list of files, either by providing the list explicitly, providing directories
         that contain files to download, or both.
@@ -176,8 +182,10 @@ class SFTP(object):
         """
 
         if not (files_to_download or remote):
-            raise ValueError("You must provide either `files_to_download`, `remote`, or both, as "
-                             "an argument to `get_files`.")
+            raise ValueError(
+                "You must provide either `files_to_download`, `remote`, or both, as "
+                "an argument to `get_files`."
+            )
 
         if not files_to_download:
             files_to_download = []
@@ -187,15 +195,20 @@ class SFTP(object):
                 files_to_download.extend(self.list_files(remote, connection, pattern))
             except TypeError:  # if it's not a str it's a list
                 files_to_download.extend(
-                    f for file_list in [self.list_files(directory, connection, pattern)
-                                        for directory in remote]
+                    f
+                    for file_list in [
+                        self.list_files(directory, connection, pattern)
+                        for directory in remote
+                    ]
                     for f in file_list
                 )
 
         if local_paths and len(local_paths) != len(files_to_download):
-            logger.warning("You provided a list of local paths for your files but it was not "
-                           "the same length as the files you are going to download.\nDefaulting to "
-                           "temporary files.")
+            logger.warning(
+                "You provided a list of local paths for your files but it was not "
+                "the same length as the files you are going to download.\nDefaulting to "
+                "temporary files."
+            )
             local_paths = []
 
         if local_paths:
@@ -228,7 +241,7 @@ class SFTP(object):
         """
 
         if not file_utilities.valid_table_suffix(remote_path):
-            raise ValueError('File type cannot be converted to a Parsons table.')
+            raise ValueError("File type cannot be converted to a Parsons table.")
 
         return Table.from_csv(self.get_file(remote_path, connection=connection))
 
@@ -281,10 +294,10 @@ class SFTP(object):
         """
 
         if connection:
-            size = connection.file(remote_path, 'r')._get_size()
+            size = connection.file(remote_path, "r")._get_size()
         else:
             with self.create_connection() as connection:
-                size = connection.file(remote_path, 'r')._get_size()
+                size = connection.file(remote_path, "r")._get_size()
 
         return size / 1024
 
@@ -293,15 +306,19 @@ class SFTP(object):
 
         dirs_to_return = []
         files_to_return = []
-        dirs_and_files = [(S_ISDIR, dir_pattern, True, dirs_to_return),
-                          (S_ISREG, file_pattern, False, files_to_return)]
+        dirs_and_files = [
+            (S_ISDIR, dir_pattern, True, dirs_to_return),
+            (S_ISREG, file_pattern, False, files_to_return),
+        ]
 
         try:
             for entry in connection.listdir_attr(remote_path):
                 entry_pathname = remote_path + "/" + entry.filename
                 for method, pattern, do_search_full_path, paths in dirs_and_files:
                     string = entry_pathname if do_search_full_path else entry.filename
-                    if method(entry.st_mode) and (not pattern or re.search(pattern, string)):
+                    if method(entry.st_mode) and (
+                        not pattern or re.search(pattern, string)
+                    ):
                         paths.append(entry_pathname)
         except FileNotFoundError:  # This error is raised when a directory is empty
             pass
@@ -346,8 +363,15 @@ class SFTP(object):
         return self._list_contents(remote_path, connection, file_pattern=pattern)[1]
 
     @connect
-    def walk_tree(self, remote_path, connection=None, download=False, dir_pattern=None,
-                  file_pattern=None, max_depth=2):
+    def walk_tree(
+        self,
+        remote_path,
+        connection=None,
+        download=False,
+        dir_pattern=None,
+        file_pattern=None,
+        max_depth=2,
+    ):
         """
         Recursively walks a directory, fetching all subdirectories and files (as long as
         they match `dir_pattern` and `file_pattern`, respectively) and the maximum directory
@@ -376,24 +400,42 @@ class SFTP(object):
         """
 
         if max_depth > 3:
-            logger.warning("Calling `walk_tree` with `max_depth` {}.  "
-                           "Recursively walking a remote directory will be much slower than a "
-                           "similar operation on a local file system.".format(max_depth))
+            logger.warning(
+                "Calling `walk_tree` with `max_depth` {}.  "
+                "Recursively walking a remote directory will be much slower than a "
+                "similar operation on a local file system.".format(max_depth)
+            )
 
-        to_return = self._walk_tree(remote_path, connection, download, dir_pattern, file_pattern,
-                                    max_depth=max_depth)
+        to_return = self._walk_tree(
+            remote_path,
+            connection,
+            download,
+            dir_pattern,
+            file_pattern,
+            max_depth=max_depth,
+        )
 
         return to_return
 
-    def _walk_tree(self, remote_path, connection, download=False, dir_pattern=None,
-                   file_pattern=None, depth=0, max_depth=2):
+    def _walk_tree(
+        self,
+        remote_path,
+        connection,
+        download=False,
+        dir_pattern=None,
+        file_pattern=None,
+        depth=0,
+        max_depth=2,
+    ):
 
         dir_list = []
         file_list = []
 
         depth += 1
 
-        dirs, files = self._list_contents(remote_path, connection, dir_pattern, file_pattern)
+        dirs, files = self._list_contents(
+            remote_path, connection, dir_pattern, file_pattern
+        )
 
         if download:
             self.get_files(files_to_download=files)
@@ -401,7 +443,13 @@ class SFTP(object):
         if depth < max_depth:
             for directory in dirs:
                 deeper_dirs, deeper_files = self._walk_tree(
-                    directory, connection, download, dir_pattern, file_pattern, depth, max_depth
+                    directory,
+                    connection,
+                    download,
+                    dir_pattern,
+                    file_pattern,
+                    depth,
+                    max_depth,
                 )
                 dir_list.extend(deeper_dirs)
                 file_list.extend(deeper_files)

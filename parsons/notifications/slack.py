@@ -138,14 +138,14 @@ class Slack(object):
                 an `im` (aka 1-1 message).
             text: str
                 Text of the message to send.
-            as_user: str
-                This is a deprecated argument. Use optional username, icon_url, and icon_emoji
-                args to customize the attributes of the user posting the message.
-                See https://api.slack.com/methods/chat.postMessage#legacy_authorship for
-                more information about legacy authorship
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
             **kwargs: kwargs
+                as_user: str
+                    This is a deprecated argument. Use optional username, icon_url, and icon_emoji
+                    args to customize the attributes of the user posting the message.
+                    See https://api.slack.com/methods/chat.postMessage#legacy_authorship for
+                    more information about legacy authorship
                 Additional arguments for chat.postMessage API call. See documentation
                 <https://api.slack.com/methods/chat.postMessage>` for more info.
 

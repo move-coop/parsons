@@ -15,7 +15,7 @@ participants of past meetings via the `Zoom API <https://developers.zoom.us/docs
     to authenticate queries to the Zoom API. You must create a server-to-server application in 
     `Zoom's app marketplace <https://marketplace.zoom.us/develop/create>` to obtain an 
     ``account_id``, ``client_id``, and ``client_secret`` key. You will use this OAuth application to define your scopes,
-    which gives your ``Zoom`` connector read permission on endpoints of your choosing (`meetings`, `webinars`, etc.)
+    which gives your ``Zoom`` connector read permission on endpoints of your choosing (`meetings`, `webinars`, `reports`, etc.)
 
 ***********
 Quick Start

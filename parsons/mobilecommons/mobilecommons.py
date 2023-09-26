@@ -15,34 +15,43 @@ import math
 
 logger = logging.getLogger(__name__)
 
-MC_URI = 'https://secure.mcommons.com/api/'
-DATE_FMT = '%Y-%m-%d'
+MC_URI = "https://secure.mcommons.com/api/"
+DATE_FMT = "%Y-%m-%d"
 format_date = lambda x: parse_date(x).strftime(DATE_FMT) if x is not None else None
+
 
 class MobileCommons:
     """
-        Instantiate the MobileCommons class.
+    Instantiate the MobileCommons class.
 
-        `Args:`
-            username: str
-                A valid email address connected toa  MobileCommons account. Not required if
-                ``MOBILECOMMONS_USERNAME`` env variable is set.
-            password: str
-                Password associated with zoom account. Not required if ``MOBILECOMMONS_PASSWORD``
-                env variable set.
-            company_id: str
-                The company id of the MobileCommons organization to connect to. Not required if
-                username and password are for an account associated with only one MobileCommons
-                organization.
-        """
+    `Args:`
+        username: str
+            A valid email address connected toa  MobileCommons account. Not required if
+            ``MOBILECOMMONS_USERNAME`` env variable is set.
+        password: str
+            Password associated with zoom account. Not required if ``MOBILECOMMONS_PASSWORD``
+            env variable set.
+        company_id: str
+            The company id of the MobileCommons organization to connect to. Not required if
+            username and password are for an account associated with only one MobileCommons
+            organization.
+    """
+
     def __init__(self, username=None, password=None, company_id=None):
-        self.username = check_env.check('MOBILECOMMONS_USERNAME', username)
-        self.password = check_env.check('MOBILECOMMONS_PASSWORD', password)
-        self.default_params = {'company': company_id} if company_id else {}
-        self.client = APIConnector(uri=MC_URI, auth=(self.username,self.password))
+        self.username = check_env.check("MOBILECOMMONS_USERNAME", username)
+        self.password = check_env.check("MOBILECOMMONS_PASSWORD", password)
+        self.default_params = {"company": company_id} if company_id else {}
+        self.client = APIConnector(uri=MC_URI, auth=(self.username, self.password))
 
-    def _mc_get_request(self, endpoint, first_data_key, second_data_key, params,
-                       elements_to_unpack=None, limit=None):
+    def _mc_get_request(
+        self,
+        endpoint,
+        first_data_key,
+        second_data_key,
+        params,
+        elements_to_unpack=None,
+        limit=None,
+    ):
         """
         A function for GET requests that handles MobileCommons xml responses and pagination
 
@@ -72,16 +81,18 @@ class MobileCommons:
         page_limit = min((limit or 1000), 1000)
 
         # Set get request params
-        params = {'limit': page_limit, **self.default_params, **params}
+        params = {"limit": page_limit, **self.default_params, **params}
 
-        logger.info(f'Working on fetching first {page_limit} rows. This can take a long time.')
+        logger.info(
+            f"Working on fetching first {page_limit} rows. This can take a long time."
+        )
 
         # Make get call and parse XML into list of dicts
         page = 1
         response_dict = self._parse_get_request(endpoint=endpoint, params=params)
 
         # If there's only one row, then it is returned as a dict, otherwise as a list
-        data = response_dict['response'][first_data_key][second_data_key]
+        data = response_dict["response"][first_data_key][second_data_key]
         if isinstance(data, dict):
             data = [data]
 
@@ -92,7 +103,7 @@ class MobileCommons:
         if response_table.num_rows > 0:
             empty_page = False
         else:
-            raise ValueError('There are no records for specified resource')
+            raise ValueError("There are no records for specified resource")
 
         # Unpack any specified elements
         if elements_to_unpack:
@@ -112,33 +123,39 @@ class MobileCommons:
 
         # First scenario
         try:
-            avail_pages = int(response_dict['response'][first_data_key]['page_count'])
+            avail_pages = int(response_dict["response"][first_data_key]["page_count"])
             total_records = avail_pages * page_limit
-            page_indicator = 'page_count'
+            page_indicator = "page_count"
 
         # Second scenario
         except KeyError:
-            response_dict['response'][first_data_key]['num']
-            page_indicator = 'num'
+            response_dict["response"][first_data_key]["num"]
+            page_indicator = "num"
             # If page_count is not available, we cannot calculate total_records and will paginate
             # until we hit user defined limit or an empty page
-            total_records = float('inf')
+            total_records = float("inf")
 
         # Go fetch other pages of data
         while final_table.num_rows < (limit or total_records) and not empty_page:
             page += 1
-            page_params = {'page': str(page), **params}
-            logger.info(f'Fetching rows {(page - 1) * page_limit + 1} - {(page)*page_limit} '
-                        f'of {limit}')
+            page_params = {"page": str(page), **params}
+            logger.info(
+                f"Fetching rows {(page - 1) * page_limit + 1} - {(page)*page_limit} "
+                f"of {limit}"
+            )
             # Send get request
-            response_dict = self._parse_get_request(endpoint=endpoint, params=page_params)
+            response_dict = self._parse_get_request(
+                endpoint=endpoint, params=page_params
+            )
             # Check to see if page was empty if num parameter is available
-            if page_indicator == 'num':
-                empty_page = int(response_dict['response'][first_data_key]['num']) > 0
+            if page_indicator == "num":
+                empty_page = int(response_dict["response"][first_data_key]["num"]) > 0
 
             if not empty_page:
                 # Extract data
-                response_table = Table(response_dict['response'][first_data_key][second_data_key])
+                response_table = Table(
+                    response_dict["response"][first_data_key][second_data_key]
+                )
                 # Append to final table
                 final_table.concat(response_table)
                 final_table.materialize()
@@ -154,10 +171,10 @@ class MobileCommons:
             response: requests package response object
         """
         if response.status_code != 200:
-            error = f'Response Code {str(response.status_code)}'
-            error_html = BeautifulSoup(response.text, features='html.parser')
-            error += '\n' + error_html.h4.next
-            error += '\n' + error_html.p.next
+            error = f"Response Code {str(response.status_code)}"
+            error_html = BeautifulSoup(response.text, features="html.parser")
+            error += "\n" + error_html.h4.next
+            error += "\n" + error_html.p.next
             raise HTTPError(error)
 
     def _parse_get_request(self, endpoint, params):
@@ -173,15 +190,16 @@ class MobileCommons:
         `Returns:`
             xml response parsed into list or dictionary
         """
-        response = self.client.request(endpoint, 'GET', params=params)
+        response = self.client.request(endpoint, "GET", params=params)
 
         # If there's an error with initial response, raise error
         self._check_response_status_code(response)
 
         # If good response, compile data into final_table
         # Parse xml to nested dictionary and load to parsons table
-        response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
-                                        dict_constructor=dict)
+        response_dict = xmltodict.parse(
+            response.text, attr_prefix="", cdata_key="", dict_constructor=dict
+        )
         return response_dict
 
     def _mc_post_request(self, endpoint, params):
@@ -197,18 +215,19 @@ class MobileCommons:
             xml response parsed into list or dictionary
         """
 
-        response = self.client.request(endpoint, 'POST', params=params)
+        response = self.client.request(endpoint, "POST", params=params)
 
-        response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
-                                        dict_constructor=dict)
-        if response_dict['response']['success'] == 'true':
-            return response_dict['response']
+        response_dict = xmltodict.parse(
+            response.text, attr_prefix="", cdata_key="", dict_constructor=dict
+        )
+        if response_dict["response"]["success"] == "true":
+            return response_dict["response"]
         else:
-            raise HTTPError(response_dict['response']['error'])
+            raise HTTPError(response_dict["response"]["error"])
 
-
-    def get_broadcasts(self, first_date=None, last_date=None, status=None, campaign_id=None,
-                       limit=None):
+    def get_broadcasts(
+        self, first_date=None, last_date=None, status=None, campaign_id=None, limit=None
+    ):
         """
         A function for get broadcasts
 
@@ -229,20 +248,30 @@ class MobileCommons:
         """
 
         params = {
-            'start_time': format_date(first_date),
-            'end_time': format_date(last_date),
-            'campaign_id': campaign_id,
-            'status': status,
-            **self.default_params
+            "start_time": format_date(first_date),
+            "end_time": format_date(last_date),
+            "campaign_id": campaign_id,
+            "status": status,
+            **self.default_params,
         }
 
-        return self._mc_get_request(endpoint='broadcasts', first_data_key='broadcasts',
-                                   second_data_key='broadcast', params=params,
-                                   elements_to_unpack=['campaign'], limit=limit)
+        return self._mc_get_request(
+            endpoint="broadcasts",
+            first_data_key="broadcasts",
+            second_data_key="broadcast",
+            params=params,
+            elements_to_unpack=["campaign"],
+            limit=limit,
+        )
 
-
-    def get_campaign_subscribers(self, campaign_id: int, first_date: str=None, last_date: str=None,
-                                 opt_in_path_id: int=None, limit: int=None):
+    def get_campaign_subscribers(
+        self,
+        campaign_id: int,
+        first_date: str = None,
+        last_date: str = None,
+        opt_in_path_id: int = None,
+        limit: int = None,
+    ):
         """
         A function for getting subscribers of a specified campaign
 
@@ -266,20 +295,30 @@ class MobileCommons:
         """
 
         params = {
-            'campaign_id': campaign_id,
-            'from': format_date(first_date),
-            'to': format_date(last_date),
-            'opt_in_path_id': opt_in_path_id,
-            **self.default_params
+            "campaign_id": campaign_id,
+            "from": format_date(first_date),
+            "to": format_date(last_date),
+            "opt_in_path_id": opt_in_path_id,
+            **self.default_params,
         }
 
-        return self._mc_get_request(endpoint='campaign_subscribers', first_data_key='subscriptions',
-                                   second_data_key='sub', params=params, limit=limit)
+        return self._mc_get_request(
+            endpoint="campaign_subscribers",
+            first_data_key="subscriptions",
+            second_data_key="sub",
+            params=params,
+            limit=limit,
+        )
 
-
-    def get_profiles(self, phones: list=None, first_date: str = None, last_date: str = None,
-                     include_custom_columns: bool=False, include_subscriptions: bool=False,
-                     limit: int = None):
+    def get_profiles(
+        self,
+        phones: list = None,
+        first_date: str = None,
+        last_date: str = None,
+        include_custom_columns: bool = False,
+        include_subscriptions: bool = False,
+        limit: int = None,
+    ):
         """
         A function for getting profiles, which are MobileCommons people records
 
@@ -304,26 +343,39 @@ class MobileCommons:
             Parsons table with requested broadcasts
         """
 
-        custom_cols = 'true' if include_custom_columns == True else 'false'
-        subscriptions='true' if include_subscriptions == True else 'false'
+        custom_cols = "true" if include_custom_columns == True else "false"
+        subscriptions = "true" if include_subscriptions == True else "false"
 
         params = {
-            'phone_number': phones,
-            'from': format_date(first_date),
-            'to': format_date(last_date),
-            'include_custom_columns': custom_cols,
-            'include_subscriptions': subscriptions,
-            **self.default_params
+            "phone_number": phones,
+            "from": format_date(first_date),
+            "to": format_date(last_date),
+            "include_custom_columns": custom_cols,
+            "include_subscriptions": subscriptions,
+            **self.default_params,
         }
 
-        return self._mc_get_request(endpoint='profiles', first_data_key='profiles',
-                                   second_data_key='profile',
-                                   elements_to_unpack=['source', 'address'], params=params,
-                                   limit=limit)
+        return self._mc_get_request(
+            endpoint="profiles",
+            first_data_key="profiles",
+            second_data_key="profile",
+            elements_to_unpack=["source", "address"],
+            params=params,
+            limit=limit,
+        )
 
-
-    def create_profile(self, phone, first_name=None, last_name=None, zip=None, addressline1=None,
-                       addressline2=None, city=None, state=None, opt_in_path_id=None):
+    def create_profile(
+        self,
+        phone,
+        first_name=None,
+        last_name=None,
+        zip=None,
+        addressline1=None,
+        addressline2=None,
+        city=None,
+        state=None,
+        opt_in_path_id=None,
+    ):
         """
         A function for creating a single MobileCommons profile
 
@@ -353,17 +405,17 @@ class MobileCommons:
         """
 
         params = {
-            'phone_number': phone,
-            'first_name': first_name,
-            'last_name': last_name,
-            'postal_code': zip,
-            'street1': addressline1,
-            'street2': addressline2,
-            'city': city,
-            'state': state,
-            'opt_in_path_id': opt_in_path_id,
-            **self.default_params
+            "phone_number": phone,
+            "first_name": first_name,
+            "last_name": last_name,
+            "postal_code": zip,
+            "street1": addressline1,
+            "street2": addressline2,
+            "city": city,
+            "state": state,
+            "opt_in_path_id": opt_in_path_id,
+            **self.default_params,
         }
-        
-        response = self._mc_post_request('profile_update', params=params)
-        return response['profile']['id']
+
+        response = self._mc_post_request("profile_update", params=params)
+        return response["profile"]["id"]

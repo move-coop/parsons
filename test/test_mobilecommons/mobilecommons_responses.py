@@ -1,6 +1,6 @@
 class get_profiles_response:
     status_code = 200
-    text = '''<?xml version="1.0" encoding="UTF-8"?>
+    text = """<?xml version="1.0" encoding="UTF-8"?>
 <response success="true">
   <profiles num="1" page="1">
     <profile id="12345">
@@ -62,11 +62,12 @@ Martinez del Rio        </custom_column>
     </profile>
   </profiles>
 </response>
-'''
+"""
+
 
 class get_broadcasts_response:
     status_code = 200
-    text = '''<?xml version="1.0" encoding="UTF-8"?>
+    text = """<?xml version="1.0" encoding="UTF-8"?>
 <response success="true">
   <broadcasts page="1" limit="23" page_count="2">
 <broadcast id="2543129" status="generated">
@@ -139,11 +140,12 @@ Reply STOP to quit. Msg&amp;DataRatesMayApply</body>
 </broadcast>
 </broadcasts>
 </response>
-'''
+"""
+
 
 class post_profile_response:
     status_code = 200
-    text = '''<?xml version="1.0" encoding="UTF-8"?>
+    text = """<?xml version="1.0" encoding="UTF-8"?>
 <response success="true">
   <profile id="602169563">
     <first_name>Hardcoremac</first_name>
@@ -203,4 +205,4 @@ Martinez del Rio      </custom_column>
     </clicks>
   </profile>
 </response>
-'''
+"""

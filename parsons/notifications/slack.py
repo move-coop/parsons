@@ -11,6 +11,7 @@ import requests
 
 
 class Slack(object):
+
     def __init__(self, api_key=None):
 
         if api_key is None:
@@ -19,10 +20,8 @@ class Slack(object):
                 self.api_key = os.environ["SLACK_API_TOKEN"]
 
             except KeyError:
-                raise KeyError(
-                    "Missing api_key. It must be passed as an "
-                    "argument or stored as environmental variable"
-                )
+                raise KeyError('Missing api_key. It must be passed as an '
+                               'argument or stored as environmental variable')
 
         else:
 
@@ -30,9 +29,8 @@ class Slack(object):
 
         self.client = SlackClient(self.api_key)
 
-    def channels(
-        self, fields=["id", "name"], exclude_archived=False, types=["public_channel"]
-    ):
+    def channels(self, fields=['id', 'name'], exclude_archived=False,
+                 types=['public_channel']):
         """
         Return a list of all channels in a Slack team.
 
@@ -54,34 +52,21 @@ class Slack(object):
                 See :ref:`parsons-table` for output options.
         """
         tbl = self._paginate_request(
-            "conversations.list",
-            "channels",
-            types=types,
-            exclude_archived=exclude_archived,
-        )
+            "conversations.list", "channels", types=types,
+            exclude_archived=exclude_archived)
 
-        tbl.unpack_dict(
-            "topic", include_original=False, prepend=True, prepend_value="topic"
-        )
-        tbl.unpack_dict(
-            "purpose", include_original=False, prepend=True, prepend_value="purpose"
-        )
+        tbl.unpack_dict("topic", include_original=False, prepend=True,
+                        prepend_value="topic")
+        tbl.unpack_dict("purpose", include_original=False,
+                        prepend=True, prepend_value="purpose")
 
         rm_cols = [x for x in tbl.columns if x not in fields]
         tbl.remove_column(*rm_cols)
 
         return tbl
 
-    def users(
-        self,
-        fields=[
-            "id",
-            "name",
-            "deleted",
-            "profile_real_name_normalized",
-            "profile_email",
-        ],
-    ):
+    def users(self, fields=['id', 'name', 'deleted', 'profile_real_name_normalized',
+                            'profile_email']):
         """
         Return a list of all users in a Slack team.
 
@@ -98,9 +83,8 @@ class Slack(object):
 
         tbl = self._paginate_request("users.list", "members", include_locale=True)
 
-        tbl.unpack_dict(
-            "profile", include_original=False, prepend=True, prepend_value="profile"
-        )
+        tbl.unpack_dict("profile", include_original=False, prepend=True,
+                        prepend_value="profile")
 
         rm_cols = [x for x in tbl.columns if x not in fields]
         tbl.remove_column(*rm_cols)
@@ -124,10 +108,10 @@ class Slack(object):
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
         """
-        webhook = check("SLACK_API_WEBHOOK", webhook, optional=True)
-        payload = {"channel": channel, "text": text}
+        webhook = check('SLACK_API_WEBHOOK', webhook, optional=True)
+        payload = {'channel': channel, 'text': text}
         if parent_message_id:
-            payload["thread_ts"] = parent_message_id
+            payload['thread_ts'] = parent_message_id
         return requests.post(webhook, json=payload)
 
     def message_channel(self, channel, text, as_user=False, parent_message_id=None):
@@ -152,35 +136,24 @@ class Slack(object):
                 A response json
         """
         resp = self.client.api_call(
-            "chat.postMessage",
-            channel=channel,
-            text=text,
-            as_user=as_user,
-            thread_ts=parent_message_id,
-        )
+            "chat.postMessage", channel=channel, text=text,
+            as_user=as_user, thread_ts=parent_message_id)
 
-        if not resp["ok"]:
+        if not resp['ok']:
 
-            if resp["error"] == "ratelimited":
-                time.sleep(int(resp["headers"]["Retry-After"]))
+            if resp['error'] == 'ratelimited':
+                time.sleep(int(resp['headers']['Retry-After']))
 
                 resp = self.client.api_call(
-                    "chat.postMessage", channel=channel, text=text, as_user=as_user
-                )
+                    "chat.postMessage",
+                    channel=channel, text=text, as_user=as_user)
 
-            raise SlackClientError(resp["error"])
+            raise SlackClientError(resp['error'])
 
         return resp
 
-    def upload_file(
-        self,
-        channels,
-        filename,
-        filetype=None,
-        initial_comment=None,
-        title=None,
-        is_binary=False,
-    ):
+    def upload_file(self, channels, filename, filetype=None,
+                    initial_comment=None, title=None, is_binary=False):
         """
         Upload a file to Slack channel(s).
 
@@ -206,35 +179,27 @@ class Slack(object):
             `dict`:
                 A response json
         """
-        if filetype is None and "." in filename:
-            filetype = filename.split(".")[-1]
+        if filetype is None and '.' in filename:
+            filetype = filename.split('.')[-1]
 
-        mode = "rb" if is_binary else "r"
+        mode = 'rb' if is_binary else 'r'
         with open(filename, mode) as file_content:
             resp = self.client.api_call(
-                "files.upload",
-                channels=channels,
-                file=file_content,
-                filetype=filetype,
-                initial_comment=initial_comment,
-                title=title,
-            )
+                "files.upload", channels=channels, file=file_content,
+                filetype=filetype, initial_comment=initial_comment,
+                title=title)
 
-            if not resp["ok"]:
+            if not resp['ok']:
 
-                if resp["error"] == "ratelimited":
-                    time.sleep(int(resp["headers"]["Retry-After"]))
+                if resp['error'] == 'ratelimited':
+                    time.sleep(int(resp['headers']['Retry-After']))
 
                     resp = self.client.api_call(
-                        "files.upload",
-                        channels=channels,
-                        file=file_content,
-                        filetype=filetype,
-                        initial_comment=initial_comment,
-                        title=title,
-                    )
+                        "files.upload", channels=channels, file=file_content,
+                        filetype=filetype, initial_comment=initial_comment,
+                        title=title)
 
-                raise SlackClientError(resp["error"])
+                raise SlackClientError(resp['error'])
 
         return resp
 
@@ -247,15 +212,16 @@ class Slack(object):
         next_page = True
         cursor = None
         while next_page:
-            resp = self.client.api_call(endpoint, cursor=cursor, limit=LIMIT, **kwargs)
+            resp = self.client.api_call(
+                endpoint, cursor=cursor, limit=LIMIT, **kwargs)
 
-            if not resp["ok"]:
+            if not resp['ok']:
 
-                if resp["error"] == "ratelimited":
-                    time.sleep(int(resp["headers"]["Retry-After"]))
+                if resp['error'] == 'ratelimited':
+                    time.sleep(int(resp['headers']['Retry-After']))
                     continue
 
-                raise SlackClientError(resp["error"])
+                raise SlackClientError(resp['error'])
 
             items.extend(resp[collection])
 

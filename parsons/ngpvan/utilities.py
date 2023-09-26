@@ -1,3 +1,5 @@
+
+
 def action_parse(action):
     """
     Internal method to parse and validate actions, which are required for some methods
@@ -6,7 +8,7 @@ def action_parse(action):
 
     action = action.capitalize()
 
-    if action not in ("Apply", "Remove"):
+    if action not in ('Apply', 'Remove'):
 
         raise ValueError("Action must be either 'Apply' or 'Remove'")
 
@@ -19,6 +21,6 @@ def list_to_string(string_arg):
     """
 
     if string_arg:
-        return ".".join(string_arg)
+        return '.'.join(string_arg)
     else:
         return string_arg

@@ -1,3 +1,5 @@
 from parsons.databases.postgres.postgres import Postgres
 
-__all__ = ["Postgres"]
+__all__ = [
+    'Postgres'
+]

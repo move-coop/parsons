@@ -1,7 +1,7 @@
 import os
 import unittest
 import unittest.mock as mock
-from parsons import Alchemer
+from parsons.alchemer.alchemer import Alchemer
 import logging
 
 logger = logging.getLogger(__name__)
@@ -12,9 +12,9 @@ logger = logging.getLogger(__name__)
 
 class TestAlchemErGetSurveys(unittest.TestCase):
     def setUp(self):
-        os.environ["ALCHEMER_API_TOKEN"] = "MYFAKEAPITOKEN"
-        os.environ["ALCHEMER_API_TOKEN_SECRET"] = "MYFAKETOKENSECRET"
-        os.environ["ALCHEMER_API_VERSION"] = "MYFAKEVERSION"
+        os.environ['ALCHEMER_API_TOKEN'] = 'MYFAKEAPITOKEN'
+        os.environ['ALCHEMER_API_TOKEN_SECRET'] = 'MYFAKETOKENSECRET'
+        os.environ['ALCHEMER_API_VERSION'] = 'MYFAKEVERSION'
 
         self.alchemer = Alchemer()
         self.alchemer._client = mock.MagicMock()
@@ -39,41 +39,46 @@ class TestAlchemErGetSurveys(unittest.TestCase):
 
     def _get_surveys_return_single_page(self):
         return {
-            "result_ok": True,
-            "total_count": "1461",
-            "page": 1,
-            "total_pages": 1,
-            "results_per_page": 50,
-            "data": [
-                {
-                    "id": "1234567",
-                    "team": "433737",
-                    "type": "Standard Survey",
-                    "status": "Launched",
-                    "created_on": "2017-04-24 10:44:23",
-                    "modified_on": "2017-04-24 10:58:20",
-                    "title": "Survey",
-                    "statistics": {"Partial": 4, "Complete": 2},
-                    "links": {
-                        "edit": "[Link to Build Tab]",
-                        "publish": "[Link to Share Tab]",
-                        "default": "[Default Share Link]",
-                    },
-                },
-                {
-                    "id": "1234568",
-                    "team": "433737",
-                    "type": "Standard Survey",
-                    "status": "Launched",
-                    "created_on": "2017-04-24 09:53:01",
-                    "modified_on": "2017-04-24 09:53:55",
-                    "title": "Survey",
-                    "statistics": {"Partial": 1},
-                    "links": {
-                        "edit": "[Link to Build Tab]",
-                        "publish": "[Link to Share Tab]",
-                        "default": "[Default Share Link]",
-                    },
-                },
-            ],
-        }
+                "result_ok": True,
+                "total_count": "1461",
+                "page": 1,
+                "total_pages": 1,
+                "results_per_page": 50,
+                "data": [
+                    {
+                        "id": "1234567",
+                        "team": "433737",
+                        "type": "Standard Survey",
+                        "status": "Launched",
+                        "created_on": "2017-04-24 10:44:23",
+                        "modified_on": "2017-04-24 10:58:20",
+                        "title": "Survey",
+                        "statistics": {
+                            "Partial": 4,
+                            "Complete": 2
+                            },
+                        "links": {
+                            "edit": "[Link to Build Tab]",
+                            "publish": "[Link to Share Tab]",
+                            "default": "[Default Share Link]"
+                            }
+                        },
+                    {
+                        "id": "1234568",
+                        "team": "433737",
+                        "type": "Standard Survey",
+                        "status": "Launched",
+                        "created_on": "2017-04-24 09:53:01",
+                        "modified_on": "2017-04-24 09:53:55",
+                        "title": "Survey",
+                        "statistics": {
+                            "Partial": 1
+                            },
+                        "links": {
+                            "edit": "[Link to Build Tab]",
+                            "publish": "[Link to Share Tab]",
+                            "default": "[Default Share Link]"
+                            }
+                        }
+                    ]
+                }

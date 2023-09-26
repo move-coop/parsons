@@ -1,3 +1,4 @@
+
 def arg_format(arg):
     """
     Many APIs require arguments to formatted like this 'thisTypeConfig' which is not the standard
@@ -5,11 +6,11 @@ def arg_format(arg):
     'thisTypeConfig'
     """
 
-    arg_list = arg.split("_")
+    arg_list = arg.split('_')
     arg_list = [a.capitalize() for a in arg_list]
     arg_list[0] = arg_list[0].lower()
 
-    return "".join(arg_list)
+    return ''.join(arg_list)
 
 
 def remove_empty_keys(dirty_dict):
@@ -35,14 +36,14 @@ def flatten_json(json):
     """
     out = {}
 
-    def flatten(x, name=""):
+    def flatten(x, name=''):
         if type(x) is dict:
             for k, v in x.items():
                 flatten(v, k)
         elif type(x) is list:
             for a in x:
                 flatten(a)
-        elif name != "" and name not in out:
+        elif name != '' and name not in out:
             out[name] = x
 
     flatten(json)

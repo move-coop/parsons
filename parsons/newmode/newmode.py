@@ -7,6 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 class Newmode:
+
     def __init__(self, api_user=None, api_password=None, api_version=None):
         """
         Args:
@@ -22,13 +23,13 @@ class Newmode:
         Returns:
             Newmode class
         """
-        self.api_user = check_env.check("NEWMODE_API_USER", api_user)
-        self.api_password = check_env.check("NEWMODE_API_PASSWORD", api_password)
+        self.api_user = check_env.check('NEWMODE_API_USER', api_user)
+        self.api_password = check_env.check('NEWMODE_API_PASSWORD', api_password)
 
         if api_version is None:
             api_version = "v1.0"
 
-        self.api_version = check_env.check("NEWMODE_API_VERSION", api_version)
+        self.api_version = check_env.check('NEWMODE_API_VERSION', api_version)
 
         self.client = Client(api_user, api_password, api_version)
 
@@ -98,7 +99,7 @@ class Newmode:
         if targets:
             data = []
             for key in targets:
-                if key != "_links":
+                if key != '_links':
                     data.append(targets[key])
             return self.convert_to_table(data)
         else:
@@ -139,10 +140,10 @@ class Newmode:
         """
         action = self.client.runAction(tool_id, payload, params=params)
         if action:
-            if "link" in action:
-                return action["link"]
+            if 'link' in action:
+                return action['link']
             else:
-                return action["sid"]
+                return action['sid']
         else:
             logging.warning("Error in response")
             return None
@@ -163,27 +164,6 @@ class Newmode:
             return target
         else:
             logging.warning("Empty target returned")
-            return None
-
-    def get_targets(self, params={}):
-        """
-        Get all targets
-
-        Args:
-            params dict:
-                Extra paramaters sent to New/Mode library
-
-        Returns:
-            Target information
-        """
-
-        targets = self.client.getTargets(params=params)
-
-        if targets:
-            return self.convert_to_table(targets)
-
-        else:
-            logging.warning("No targets returned")
             return None
 
     def get_campaigns(self, params={}):

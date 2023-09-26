@@ -7,7 +7,6 @@ from parsons.utilities import files
 import pickle
 import logging
 import os
-from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
 from parsons.databases.mysql.create_table import MySQLCreateTable
 from parsons.databases.alchemy import Alchemy
@@ -20,7 +19,7 @@ QUERY_BATCH_SIZE = 100000
 logger = logging.getLogger(__name__)
 
 
-class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
+class MySQL(MySQLCreateTable, Alchemy):
     """
     Connect to a MySQL database.
 
@@ -40,11 +39,11 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
     def __init__(self, host=None, username=None, password=None, db=None, port=3306):
         super().__init__()
 
-        self.username = check_env.check("MYSQL_USERNAME", username)
-        self.password = check_env.check("MYSQL_PASSWORD", password)
-        self.host = check_env.check("MYSQL_HOST", host)
-        self.db = check_env.check("MYSQL_DB", db)
-        self.port = port or os.environ.get("MYSQL_PORT")
+        self.username = check_env.check('MYSQL_USERNAME', username)
+        self.password = check_env.check('MYSQL_PASSWORD', password)
+        self.host = check_env.check('MYSQL_HOST', host)
+        self.db = check_env.check('MYSQL_DB', db)
+        self.port = port or os.environ.get('MYSQL_PORT')
 
     @contextmanager
     def connection(self):
@@ -62,13 +61,11 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         """
 
         # Create a mysql connection and cursor
-        connection = mysql.connect(
-            host=self.host,
-            user=self.username,
-            passwd=self.password,
-            database=self.db,
-            port=self.port,
-        )
+        connection = mysql.connect(host=self.host,
+                                   user=self.username,
+                                   passwd=self.password,
+                                   database=self.db,
+                                   port=self.port)
 
         try:
             yield connection
@@ -152,11 +149,12 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 See :ref:`parsons-table` for output options.
         """
         with self.cursor(connection) as cursor:
+
             # The python connector can only execute a single sql statement, so we will
             # break up each statement and execute them separately.
-            for s in sql.strip().split(";"):
+            for s in sql.strip().split(';'):
                 if len(s) != 0:
-                    logger.debug(f"SQL Query: {sql}")
+                    logger.debug(f'SQL Query: {sql}')
                     cursor.execute(s, parameters)
 
             if commit:
@@ -164,7 +162,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
 
             # If the SQL query provides no response, then return None
             if not cursor.description:
-                logger.debug("Query returned 0 rows")
+                logger.debug('Query returned 0 rows')
                 return None
 
             else:
@@ -173,7 +171,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 # all the type information for each field.)
                 temp_file = files.create_temp_file()
 
-                with open(temp_file, "wb") as f:
+                with open(temp_file, 'wb') as f:
                     # Grab the header
                     pickle.dump(cursor.column_names, f)
 
@@ -182,24 +180,17 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                         if len(batch) == 0:
                             break
 
-                        logger.debug(f"Fetched {len(batch)} rows.")
+                        logger.debug(f'Fetched {len(batch)} rows.')
                         for row in batch:
                             pickle.dump(row, f)
 
                 # Load a Table from the file
                 final_tbl = Table(petl.frompickle(temp_file))
 
-                logger.debug(f"Query returned {final_tbl.num_rows} rows.")
+                logger.debug(f'Query returned {final_tbl.num_rows} rows.')
                 return final_tbl
 
-    def copy(
-        self,
-        tbl: Table,
-        table_name: str,
-        if_exists: str = "fail",
-        chunk_size: int = 1000,
-        strict_length: bool = True,
-    ):
+    def copy(self, tbl, table_name, if_exists='fail', chunk_size=1000, strict_length=True):
         """
         Copy a :ref:`parsons-table` to the database.
 
@@ -226,17 +217,16 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         """
 
         if tbl.num_rows == 0:
-            logger.info("Parsons table is empty. Table will not be created.")
+            logger.info('Parsons table is empty. Table will not be created.')
             return None
 
         with self.connection() as connection:
+
             # Create table if not exists
             if self._create_table_precheck(connection, table_name, if_exists):
-                sql = self.create_statement(
-                    tbl, table_name, strict_length=strict_length
-                )
+                sql = self.create_statement(tbl, table_name, strict_length=strict_length)
                 self.query_with_connection(sql, connection, commit=False)
-                logger.info(f"Table {table_name} created.")
+                logger.info(f'Table {table_name} created.')
 
             # Chunk tables in batches of 1K rows, though this can be tuned and
             # optimized further.
@@ -281,21 +271,22 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 True if the table needs to be created, False otherwise.
         """
 
-        if if_exists not in ["fail", "truncate", "append", "drop"]:
+        if if_exists not in ['fail', 'truncate', 'append', 'drop']:
             raise ValueError("Invalid value for `if_exists` argument")
 
         # If the table exists, evaluate the if_exists argument for next steps.
         if self.table_exists(table_name):
-            if if_exists == "fail":
-                raise ValueError("Table already exists.")
 
-            if if_exists == "truncate":
+            if if_exists == 'fail':
+                raise ValueError('Table already exists.')
+
+            if if_exists == 'truncate':
                 sql = f"TRUNCATE TABLE {table_name}"
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"{table_name} truncated.")
                 return False
 
-            if if_exists == "drop":
+            if if_exists == 'drop':
                 sql = f"DROP TABLE {table_name}"
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"{table_name} dropped.")
@@ -304,13 +295,15 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         else:
             return True
 
-    def table_exists(self, table_name: str) -> bool:
+    def table_exists(self, table_name):
         """
         Check if a table or view exists in the database.
 
         `Args:`
             table_name: str
                 The table name
+            view: boolean
+                Check to see if a view exists by the same name
 
         `Returns:`
             boolean

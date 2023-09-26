@@ -1,3 +1,5 @@
 from parsons.actblue.actblue import ActBlue
 
-__all__ = ["ActBlue"]
+__all__ = [
+    'ActBlue'
+]

@@ -35,7 +35,8 @@ class FlagIDs:
         """
         return self._request(f"{self.url_flag_ids}/{id}")
 
-    def create_flag_id(self, flag_id, is_default, flag_description=None, compile=None):
+    def create_flag_id(self, flag_id, is_default, flag_description=None,
+                       compile=None):
         """Save a new flag id.
 
         `Args:`
@@ -62,7 +63,8 @@ class FlagIDs:
             "compile": compile,
             "isDefault": is_default,
         }
-        data = self._request(self.url_flag_ids, req_type="POST", post_data=payload)
+        data = self._request(
+            self.url_flag_ids, req_type="POST", post_data=payload)
 
         return data["id"]
 
@@ -84,9 +86,8 @@ class FlagIDs:
 
         return True
 
-    def update_flag_id(
-        self, id, flag_id, is_default, flag_description=None, compile=None
-    ):
+    def update_flag_id(self, id, flag_id, is_default, flag_description=None,
+                       compile=None):
         """Update a flag id.
 
         `Args:`
@@ -115,7 +116,6 @@ class FlagIDs:
             "isDefault": is_default,
         }
         data = self._request(
-            f"{self.url_flag_ids}/{id}", req_type="PUT", post_data=payload
-        )
+            f"{self.url_flag_ids}/{id}", req_type="PUT", post_data=payload)
 
         return data["id"]

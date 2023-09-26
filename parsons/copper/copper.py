@@ -28,8 +28,8 @@ class Copper(object):
 
     def __init__(self, user_email=None, api_key=None):
 
-        self.api_key = check_env.check("COPPER_API_KEY", api_key)
-        self.user_email = check_env.check("COPPER_USER_EMAIL", user_email)
+        self.api_key = check_env.check('COPPER_API_KEY', api_key)
+        self.user_email = check_env.check('COPPER_USER_EMAIL', user_email)
         self.uri = COPPER_URI
 
     def base_request(self, endpoint, req_type, page=1, page_size=200, filters=None):
@@ -39,10 +39,10 @@ class Copper(object):
 
         # Authentication must be done through headers, requests HTTPBasicAuth doesn't work
         headers = {
-            "X-PW-AccessToken": self.api_key,
-            "X-PW-Application": "developer_api",
-            "X-PW-UserEmail": self.user_email,
-            "Content-Type": "application/json",
+            'X-PW-AccessToken': self.api_key,
+            'X-PW-Application': "developer_api",
+            'X-PW-UserEmail': self.user_email,
+            'Content-Type': "application/json"
         }
 
         payload = {}
@@ -51,7 +51,7 @@ class Copper(object):
                 payload.update(filters)
 
         # GET request with non-None data arg is malformed
-        if req_type == "GET":
+        if req_type == 'GET':
             return request(req_type, url, params=json.dumps(payload), headers=headers)
         else:
             payload["page_number"] = page
@@ -69,11 +69,11 @@ class Copper(object):
 
         if isinstance(filters, dict):
             # Assume user wants just that page if page_number specified in filters
-            if "page_number" in filters:
-                page = filters["page_number"]
+            if 'page_number' in filters:
+                page = filters['page_number']
                 # Ensure exactly one loop
                 total_pages = page
-                rows = f"{str(page_size)} or less"
+                rows = f'{str(page_size)} or less'
                 only_page = True
         else:
             filters = {}
@@ -81,15 +81,19 @@ class Copper(object):
         while page <= total_pages:
 
             r = self.base_request(
-                endpoint, req_type, page_size=page_size, page=page, filters=filters
+                endpoint,
+                req_type,
+                page_size=page_size,
+                page=page,
+                filters=filters
             )
 
             if page == 1:
-                if "X-Pw-Total" in r.headers and not only_page:
-                    rows = r.headers["X-Pw-Total"]
-                    total_pages = int(math.ceil(int(rows) / float(page_size)))
+                if 'X-Pw-Total' in r.headers and not only_page:
+                    rows = r.headers['X-Pw-Total']
+                    total_pages = int(math.ceil(int(rows)/float(page_size)))
                 else:
-                    rows = f"{str(page_size)} or less"
+                    rows = f'{str(page_size)} or less'
                     total_pages = 1
             logger.info(f"Retrieving page {page} of {total_pages}, total rows: {rows}")
             page += 1
@@ -128,7 +132,7 @@ class Copper(object):
                 * people_custom_fields
                 * people_socials
                 * people_websites
-        """  # noqa: E501,E261
+        """ # noqa: E501,E261
 
         return self.get_standard_object("people", filters=filters, tidy=tidy)
 
@@ -153,7 +157,7 @@ class Copper(object):
                 * companies_custom_fields
                 * companies_socials
                 * companies_websites
-        """  # noqa: E501,E261
+        """ # noqa: E501,E261
 
         return self.get_standard_object("companies", filters=filters, tidy=tidy)
 
@@ -173,7 +177,7 @@ class Copper(object):
         `Returns:`
             List of dicts of Parsons Tables:
                 * activities
-        """  # noqa: E501,E261
+        """ # noqa: E501,E261
 
         return self.get_standard_object("activities", filters=filters, tidy=tidy)
 
@@ -194,7 +198,7 @@ class Copper(object):
             List of dicts of Parsons Tables:
                 * opportunities
                 * opportunities_custom_fields
-        """  # noqa: E501,E261
+        """ # noqa: E501,E261
 
         return self.get_standard_object("opportunities", filters=filters, tidy=tidy)
 
@@ -202,9 +206,7 @@ class Copper(object):
         # Retrieve and process a standard endpoint object (e.g. people, companies, etc.)
 
         logger.info(f"Retrieving {object_name} records.")
-        blob = self.paginate_request(
-            f"/{object_name}/search", req_type="POST", filters=filters
-        )
+        blob = self.paginate_request(f"/{object_name}/search", req_type='POST', filters=filters)
 
         return self.process_json(blob, object_name, tidy=tidy)
 
@@ -222,10 +224,10 @@ class Copper(object):
                 * custom_fields
                 * custom_fields_available
                 * custom_fields_options
-        """  # noqa: E501,E261
+        """ # noqa: E501,E261
 
         logger.info("Retrieving custom fields.")
-        blob = self.paginate_request("/custom_field_definitions/", req_type="GET")
+        blob = self.paginate_request('/custom_field_definitions/', req_type='GET')
         return self.process_custom_fields(blob)
 
     def get_activity_types(self):
@@ -240,17 +242,17 @@ class Copper(object):
         `Returns:`
             List of dicts of Parsons Tables:
                 * activitiy_types
-        """  # noqa: E501,E261
+        """ # noqa: E501,E261
 
         logger.info("Retrieving activity types.")
 
-        response = self.paginate_request("/activity_types/", req_type="GET")
+        response = self.paginate_request('/activity_types/', req_type='GET')
         orig_table = Table(response)
-        at_user = orig_table.long_table([], "user", prepend=False)
-        at_sys = orig_table.long_table([], "system", prepend=False)
+        at_user = orig_table.long_table([], 'user', prepend=False)
+        at_sys = orig_table.long_table([], 'system', prepend=False)
         Table.concat(at_sys, at_user)
 
-        return [{"name": "activity_types", "tbl": at_sys}]
+        return [{'name': 'activity_types', 'tbl': at_sys}]
 
     def get_contact_types(self):
         """
@@ -264,9 +266,9 @@ class Copper(object):
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """  # noqa: E501,E261
+        """ # noqa: E501,E261
 
-        response = self.paginate_request("/contact_types/", req_type="GET")
+        response = self.paginate_request('/contact_types/', req_type='GET')
         return Table(response)
 
     def process_json(self, json_blob, obj_type, tidy=False):
@@ -278,8 +280,8 @@ class Copper(object):
         # Original table & columns
         obj_table = Table(json_blob)
         cols = obj_table.get_columns_type_stats()
-        list_cols = [x["name"] for x in cols if "list" in x["type"]]
-        dict_cols = [x["name"] for x in cols if "dict" in x["type"]]
+        list_cols = [x['name'] for x in cols if 'list' in x['type']]
+        dict_cols = [x['name'] for x in cols if 'dict' in x['type']]
 
         # Unpack all list columns
         if len(list_cols) > 0:
@@ -291,49 +293,46 @@ class Copper(object):
                 )
                 # Add separate long table for each column with nested data
                 if list_rows.num_rows > 0:
-                    logger.debug(l, "is a nested column")
-                    if len([x for x in cols if x["name"] == l]) == 1:
-                        table_list.append(
-                            {
-                                "name": f"{obj_type}_{l}",
-                                "tbl": obj_table.long_table(["id"], l),
-                            }
-                        )
+                    logger.debug(l, 'is a nested column')
+                    if len([x for x in cols if x['name'] == l]) == 1:
+                        table_list.append({
+                            'name': f'{obj_type}_{l}',
+                            'tbl': obj_table.long_table(['id'], l)
+                        })
                     else:
                         # Ignore if column doesn't exist (or has multiples)
                         continue
                 else:
                     if tidy is False:
-                        logger.debug(l, "is a normal list column")
+                        logger.debug(l, 'is a normal list column')
                         obj_table.unpack_list(l)
 
         # Unpack all dict columns
         if len(dict_cols) > 0 and tidy is False:
             for d in dict_cols:
-                logger.debug(d, "is a dict column")
+                logger.debug(d, 'is a dict column')
                 obj_table.unpack_dict(d)
 
         if tidy is not False:
             packed_cols = list_cols + dict_cols
             for p in packed_cols:
                 if p in obj_table.columns:
-                    logger.debug(p, "needs to be unpacked into rows")
+                    logger.debug(p, 'needs to be unpacked into rows')
 
                     # Determine whether or not to expand based on tidy
-                    unpacked_tidy = obj_table.unpack_nested_columns_as_rows(
-                        p, expand_original=tidy
-                    )
+                    unpacked_tidy = obj_table.unpack_nested_columns_as_rows(p, expand_original=tidy)
                     # Check if column was removed as sign it was unpacked into separate table
                     if p not in obj_table.columns:
-                        table_list.append(
-                            {"name": f"{obj_type}_{p}", "tbl": unpacked_tidy}
-                        )
+                        table_list.append({
+                            'name': f'{obj_type}_{p}',
+                            'tbl': unpacked_tidy
+                        })
                     else:
                         obj_table = unpacked_tidy
 
         # Original table will have had all nested columns removed
         if len(obj_table.columns) > 1:
-            table_list.append({"name": obj_type, "tbl": obj_table})
+            table_list.append({'name': obj_type, 'tbl': obj_table})
 
         return table_list
 
@@ -344,13 +343,11 @@ class Copper(object):
         custom_fields = Table(json_blob)
 
         # Available On
-        available_on = custom_fields.long_table(["id"], "available_on")
+        available_on = custom_fields.long_table(['id'], 'available_on')
 
         # Options
-        options = custom_fields.long_table(["id", "name"], "options")
+        options = custom_fields.long_table(['id', 'name'], 'options')
 
-        return [
-            {"name": "custom_fields", "tbl": custom_fields},
-            {"name": "custom_fields_available", "tbl": available_on},
-            {"name": "custom_fields_options", "tbl": options},
-        ]
+        return [{'name': 'custom_fields', 'tbl': custom_fields},
+                {'name': 'custom_fields_available', 'tbl': available_on},
+                {'name': 'custom_fields_options', 'tbl': options}]

@@ -32,7 +32,7 @@ from parsons import Redshift, S3, utilities, logger  # noqa E402
 
 # Setup
 
-for name, value in config_vars.items():  # sets variables if provided in this script
+for name, value in config_vars.items():    # sets variables if provided in this script
     if value.strip() != "":
         os.environ[name] = value
 
@@ -41,7 +41,7 @@ rs = Redshift()
 
 # Code
 
-bucket = os.environ["BUCKET"]
+bucket = os.environ['BUCKET']
 keys = s3.list_keys(bucket)
 files = keys.keys()
 
@@ -56,7 +56,7 @@ else:
         table = Table.from_csv(file, encoding="ISO-8859-1")
         table_name = f"schema.{x.replace('.csv', '')}"
         try:
-            table.to_redshift(table_name, if_exists="truncate")
+            table.to_redshift(table_name, if_exists='truncate')
         except Exception:
-            table.to_redshift(table_name, if_exists="drop")
+            table.to_redshift(table_name, if_exists='drop')
         utilities.files.close_temp_file(file)

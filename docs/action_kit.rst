@@ -50,7 +50,7 @@ You can then call various endpoints:
     # Update user fields
     ak.update_user(user_id='123', city='New York')
 
-    # Delete user
+    # Delete uer
     ak.delete_user(user_id='123')
 
 ***

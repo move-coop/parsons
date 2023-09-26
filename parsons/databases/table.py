@@ -32,14 +32,12 @@ class BaseTable:
         Get the maximum primary key in the table.
         """
 
-        return self.db.query(
-            f"""
+        return self.db.query(f"""
             SELECT {primary_key}
             FROM {self.table}
             ORDER BY {primary_key} DESC
             LIMIT 1
-        """
-        ).first
+        """).first
 
     def distinct_primary_key(self, primary_key):
         """
@@ -127,7 +125,7 @@ class BaseTable:
             where_clause = f"WHERE {primary_key} > %s"
             parameters = [cutoff_value]
         else:
-            where_clause = ""
+            where_clause = ''
             parameters = []
 
         sql = f"""
@@ -150,17 +148,17 @@ class BaseTable:
         Drop the table.
         """
 
-        sql = f"DROP TABLE {self.table}"
+        sql = f'DROP TABLE {self.table}'
         if cascade:
-            sql += " CASCADE"
+            sql += ' CASCADE'
 
         self.db.query(sql)
-        logger.info(f"{self.table} dropped.")
+        logger.info(f'{self.table} dropped.')
 
     def truncate(self):
         """
         Truncate the table.
         """
 
-        self.db.query(f"TRUNCATE TABLE {self.table}")
-        logger.info(f"{self.table} truncated.")
+        self.db.query(f'TRUNCATE TABLE {self.table}')
+        logger.info(f'{self.table} truncated.')

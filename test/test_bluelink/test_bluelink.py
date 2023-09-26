@@ -1,10 +1,11 @@
 import unittest
 import requests_mock
-from parsons import Table, Bluelink
-from parsons.bluelink import BluelinkPerson, BluelinkIdentifier, BluelinkEmail
+from parsons import Table
+from parsons.bluelink import Bluelink, BluelinkPerson, BluelinkIdentifier, BluelinkEmail
 
 
 class TestBluelink(unittest.TestCase):
+
     @requests_mock.Mocker()
     def setUp(self, m):
         self.bluelink = Bluelink("fake_user", "fake_password")
@@ -28,20 +29,10 @@ class TestBluelink(unittest.TestCase):
 
     @staticmethod
     def get_table():
-        return Table(
-            [
-                {
-                    "given_name": "Bart",
-                    "family_name": "Simpson",
-                    "email": "bart@springfield.net",
-                },
-                {
-                    "given_name": "Homer",
-                    "family_name": "Simpson",
-                    "email": "homer@springfield.net",
-                },
-            ]
-        )
+        return Table([
+            {"given_name": "Bart", "family_name": "Simpson", "email": "bart@springfield.net"},
+            {"given_name": "Homer", "family_name": "Simpson", "email": "homer@springfield.net"},
+        ])
 
     @requests_mock.Mocker()
     def test_bulk_upsert_person(self, m):
@@ -73,12 +64,10 @@ class TestBluelink(unittest.TestCase):
         # create a BluelinkPerson object
         # The BluelinkIdentifier is pretending that the user can be
         # identified in SALESFORCE with FAKE_ID as her id
-        person = BluelinkPerson(
-            identifiers=[BluelinkIdentifier(source="SALESFORCE", identifier="FAKE_ID")],
-            given_name="Jane",
-            family_name="Doe",
-            emails=[BluelinkEmail(address="jdoe@example.com", primary=True)],
-        )
+        person = BluelinkPerson(identifiers=[BluelinkIdentifier(source="SALESFORCE",
+                                                                identifier="FAKE_ID")],
+                                given_name="Jane", family_name="Doe",
+                                emails=[BluelinkEmail(address="jdoe@example.com", primary=True)])
 
         # String to identify that the data came from your system. For example, your company name.
         source = "BLUELINK-PARSONS-TEST"
@@ -98,24 +87,14 @@ class TestBluelink(unittest.TestCase):
 
         # expected:
         person1 = BluelinkPerson(
-            identifiers=[
-                BluelinkIdentifier(
-                    source="FAKESOURCE", identifier="bart@springfield.net"
-                )
-            ],
+            identifiers=[BluelinkIdentifier(source="FAKESOURCE",
+                                            identifier="bart@springfield.net")],
             emails=[BluelinkEmail(address="bart@springfield.net", primary=True)],
-            family_name="Simpson",
-            given_name="Bart",
-        )
+            family_name="Simpson", given_name="Bart")
         person2 = BluelinkPerson(
-            identifiers=[
-                BluelinkIdentifier(
-                    source="FAKESOURCE", identifier="homer@springfield.net"
-                )
-            ],
+            identifiers=[BluelinkIdentifier(source="FAKESOURCE",
+                                            identifier="homer@springfield.net")],
             emails=[BluelinkEmail(address="homer@springfield.net", primary=True)],
-            family_name="Simpson",
-            given_name="Homer",
-        )
+            family_name="Simpson", given_name="Homer")
         expected_people = [person1, person2]
         self.assertEqual(actual_people, expected_people)

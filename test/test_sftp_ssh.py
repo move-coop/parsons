@@ -1,33 +1,29 @@
 import pytest
 import os
-from parsons import Table, SFTP
+from parsons.etl import Table
+from parsons.sftp import SFTP
 from parsons.utilities import files
 from test.utils import mark_live_test, assert_matching_tables
-from test.fixtures import (  # noqa: F401
-    simple_table,
-    simple_csv_path,
-    simple_compressed_csv_path,
-)
-
+from test.fixtures import simple_table, simple_csv_path, simple_compressed_csv_path  # noqa: F401
 
 #
 # Fixtures and constants
 #
 
-REMOTE_DIR = "parsons-test"
-REMOTE_CSV = "test.csv"
-REMOTE_CSV_PATH = f"{REMOTE_DIR}/{REMOTE_CSV}"
-REMOTE_COMPRESSED_CSV = "test.csv.gz"
-REMOTE_COMPRESSED_CSV_PATH = f"{REMOTE_DIR}/{REMOTE_COMPRESSED_CSV}"
+REMOTE_DIR = 'parsons-test'
+REMOTE_CSV = 'test.csv'
+REMOTE_CSV_PATH = f'{REMOTE_DIR}/{REMOTE_CSV}'
+REMOTE_COMPRESSED_CSV = 'test.csv.gz'
+REMOTE_COMPRESSED_CSV_PATH = f'{REMOTE_DIR}/{REMOTE_COMPRESSED_CSV}'
 
 
 @pytest.fixture
 def live_sftp(simple_table, simple_csv_path, simple_compressed_csv_path):  # noqa: F811
     # Generate a live SFTP connection based on these env vars
-    host = os.environ["SFTP_HOST"]
-    username = os.environ["SFTP_USERNAME"]
+    host = os.environ['SFTP_HOST']
+    username = os.environ['SFTP_USERNAME']
     password = None
-    rsa_private_key_file = os.environ["SFTP_RSA_PRIVATE_KEY_FILE"]
+    rsa_private_key_file = os.environ['SFTP_RSA_PRIVATE_KEY_FILE']
 
     sftp = SFTP(host, username, password, rsa_private_key_file=rsa_private_key_file)
 
@@ -44,7 +40,6 @@ def live_sftp(simple_table, simple_csv_path, simple_compressed_csv_path):  # noq
     sftp.remove_file(REMOTE_COMPRESSED_CSV_PATH)
     sftp.remove_directory(REMOTE_DIR)
 
-
 #
 # Tests
 #
@@ -56,27 +51,19 @@ def test_credential_validation():
 
     with pytest.raises(ValueError):
         SFTP(
-            host=None,
-            username="sam",
-            password="abc123",
-            rsa_private_key_file="/path/to/key/file",
-        )
+            host=None, username='sam', password='abc123', rsa_private_key_file='/path/to/key/file')
 
     with pytest.raises(ValueError):
         SFTP(
-            host="host",
-            username=None,
-            password="abc123",
-            rsa_private_key_file="/path/to/key/file",
-        )
+            host='host', username=None, password='abc123', rsa_private_key_file='/path/to/key/file')
 
     with pytest.raises(ValueError):
-        SFTP(host="host", username="sam", password=None, rsa_private_key_file=None)
+        SFTP(host='host', username='sam', password=None, rsa_private_key_file=None)
 
 
 @mark_live_test
 def test_list_non_existent_directory(live_sftp):
-    file_list = live_sftp.list_directory("abc123")
+    file_list = live_sftp.list_directory('abc123')
     assert len(file_list) == 0
 
 
@@ -91,7 +78,7 @@ def test_list_directory_with_files(live_sftp):
 @mark_live_test
 def test_get_non_existent_file(live_sftp):
     with pytest.raises(FileNotFoundError):
-        live_sftp.get_file("abc123")
+        live_sftp.get_file('abc123')
 
 
 # Helper function
@@ -114,25 +101,21 @@ def test_get_temp_file(live_sftp, simple_table):  # noqa: F811
 
 
 @mark_live_test
-@pytest.mark.parametrize("compression", [None, "gzip"])
+@pytest.mark.parametrize('compression', [None, 'gzip'])
 def test_table_to_sftp_csv(live_sftp, simple_table, compression):  # noqa: F811
-    host = os.environ["SFTP_HOST"]
-    username = os.environ["SFTP_USERNAME"]
-    password = os.environ["SFTP_PASSWORD"]
-    rsa_private_key_file = os.environ["SFTP_RSA_PRIVATE_KEY_FILE"]
+    host = os.environ['SFTP_HOST']
+    username = os.environ['SFTP_USERNAME']
+    password = os.environ['SFTP_PASSWORD']
+    rsa_private_key_file = os.environ['SFTP_RSA_PRIVATE_KEY_FILE']
 
-    remote_path = f"{REMOTE_DIR}/test_to_sftp.csv"
-    if compression == "gzip":
-        remote_path += ".gz"
+    remote_path = f'{REMOTE_DIR}/test_to_sftp.csv'
+    if compression == 'gzip':
+        remote_path += '.gz'
 
     simple_table.to_sftp_csv(
-        remote_path,
-        host,
-        username,
-        password,
+        remote_path, host, username, password,
         rsa_private_key_file=rsa_private_key_file,
-        compression=compression,
-    )
+        compression=compression)
 
     local_path = live_sftp.get_file(remote_path)
     assert_file_matches_table(local_path, simple_table)
@@ -142,26 +125,20 @@ def test_table_to_sftp_csv(live_sftp, simple_table, compression):  # noqa: F811
 
 
 @mark_live_test
-@pytest.mark.parametrize("compression", [None, "gzip"])
-def test_table_to_sftp_csv_no_password(
-    live_sftp, simple_table, compression  # noqa: F811
-):
-    host = os.environ.get("SFTP_HOST")
-    username = os.environ.get("SFTP_USERNAME")
-    rsa_private_key_file = os.environ.get("SFTP_RSA_PRIVATE_KEY_FILE")
+@pytest.mark.parametrize('compression', [None, 'gzip'])
+def test_table_to_sftp_csv_no_password(live_sftp, simple_table, compression):  # noqa: F811
+    host = os.environ.get('SFTP_HOST')
+    username = os.environ.get('SFTP_USERNAME')
+    rsa_private_key_file = os.environ.get('SFTP_RSA_PRIVATE_KEY_FILE')
 
-    remote_path = f"{REMOTE_DIR}/test_to_sftp.csv"
-    if compression == "gzip":
-        remote_path += ".gz"
+    remote_path = f'{REMOTE_DIR}/test_to_sftp.csv'
+    if compression == 'gzip':
+        remote_path += '.gz'
 
     simple_table.to_sftp_csv(
-        remote_path,
-        host,
-        username,
-        None,
+        remote_path, host, username, None,
         rsa_private_key_file=rsa_private_key_file,
-        compression=compression,
-    )
+        compression=compression)
 
     local_path = live_sftp.get_file(remote_path)
     assert_file_matches_table(local_path, simple_table)

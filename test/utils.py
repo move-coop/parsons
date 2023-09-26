@@ -13,15 +13,14 @@ def test_something():
     ...
 """
 mark_live_test = pytest.mark.skipif(
-    not os.environ.get("LIVE_TEST"), reason="Skipping because not running live test"
-)
+    not os.environ.get('LIVE_TEST'), reason='Skipping because not running live test')
 
 
 # Tests whether a table has the expected structure
 def validate_list(expected_keys, table):
 
     if set(expected_keys) != set(table.columns):
-        raise KeyError("Not all expected keys found.")
+        raise KeyError('Not all expected keys found.')
 
     return True
 
@@ -38,11 +37,5 @@ def assert_matching_tables(table1, table2, ignore_headers=False):
         assert data1.num_rows == data2.num_rows
 
     for r1, r2 in zip(data1, data2):
-        # Cast both rows to lists, in case they are different types of collections. Must call
-        # .items() on dicts to compare content of collections
-        if isinstance(r1, dict):
-            r1 = r1.items()
-        if isinstance(r2, dict):
-            r2 = r2.items()
-
+        # Cast both rows to lists, in case they are different types of collections
         assert list(r1) == list(r2)

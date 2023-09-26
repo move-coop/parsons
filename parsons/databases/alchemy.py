@@ -5,6 +5,7 @@ logger = logging.getLogger(__name__)
 
 
 class Alchemy:
+
     def generate_engine(self):
         """
         Generate a SQL Alchemy engine.
@@ -19,20 +20,18 @@ class Alchemy:
         https://docs.sqlalchemy.org/en/14/core/engines.html#
         """
 
-        if self.dialect == "redshift" or self.dialect == "postgres":
-            connection_schema = "postgresql+psycopg2"
-        elif self.dialect == "mysql":
-            connection_schema = "mysql+mysqlconnector"
+        if self.dialect == 'redshift' or self.dialect == 'postgres':
+            connection_schema = 'postgresql+psycopg2'
+        elif self.dialect == 'mysql':
+            connection_schema = 'mysql+mysqlconnector'
 
-        params = [
-            (self.username, self.username),
-            (self.password, f":{self.password}"),
-            (self.host, f"@{self.host}"),
-            (self.port, f":{self.port}"),
-            (self.db, f"/{self.db}"),
-        ]
+        params = [(self.username, self.username),
+                  (self.password, f':{self.password}'),
+                  (self.host, f'@{self.host}'),
+                  (self.port, f':{self.port}'),
+                  (self.db, f'/{self.db}')]
 
-        url = f"{connection_schema}://"
+        url = f'{connection_schema}://'
 
         for i in params:
             if i[0]:

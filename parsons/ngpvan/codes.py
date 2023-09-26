@@ -6,13 +6,13 @@ logger = logging.getLogger(__name__)
 
 
 class Codes(object):
+
     def __init__(self, van_connection):
 
         self.connection = van_connection
 
-    def get_codes(
-        self, name=None, supported_entities=None, parent_code_id=None, code_type=None
-    ):
+    def get_codes(self, name=None, supported_entities=None, parent_code_id=None,
+                  code_type=None):
         """
         Get codes.
 
@@ -30,16 +30,15 @@ class Codes(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        params = {
-            "name": name,
-            "supportedEntities": supported_entities,
-            "parentCodeId": parent_code_id,
-            "codeType": code_type,
-            "$top": 200,
-        }
+        params = {'name': name,
+                  'supportedEntities': supported_entities,
+                  'parentCodeId': parent_code_id,
+                  'codeType': code_type,
+                  '$top': 200
+                  }
 
-        tbl = Table(self.connection.get_request("codes", params=params))
-        logger.info(f"Found {tbl.num_rows} codes.")
+        tbl = Table(self.connection.get_request('codes', params=params))
+        logger.info(f'Found {tbl.num_rows} codes.')
         return tbl
 
     def get_code(self, code_id):
@@ -54,9 +53,9 @@ class Codes(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        c = self.connection.get_request(f"codes/{code_id}")
+        c = self.connection.request(f'codes/{code_id}')
         logger.debug(c)
-        logger.info(f"Found code {code_id}.")
+        logger.info(f'Found code {code_id}.')
         return c
 
     def get_code_types(self):
@@ -68,18 +67,12 @@ class Codes(object):
                 A list of code types.
         """
 
-        lst = self.connection.get_request("codeTypes")
-        logger.info(f"Found {len(lst)} code types.")
+        lst = self.connection.get_request('codeTypes')
+        logger.info(f'Found {len(lst)} code types.')
         return lst
 
-    def create_code(
-        self,
-        name=None,
-        parent_code_id=None,
-        description=None,
-        code_type="SourceCode",
-        supported_entities=None,
-    ):
+    def create_code(self, name=None, parent_code_id=None, description=None,
+                    code_type='SourceCode', supported_entities=None):
         """
         Create a code.
 
@@ -113,39 +106,25 @@ class Codes(object):
                     ]
         """
 
-        json = {
-            "parentCodeId": parent_code_id,
-            "name": name,
-            "codeType": code_type,
-            "description": description,
-        }
+        json = {"parentCodeId": parent_code_id,
+                "name": name,
+                "codeType": code_type,
+                "description": description}
 
         if supported_entities:
 
-            se = [
-                {
-                    "name": s["name"],
-                    "isSearchable": s["is_searchable"],
-                    "isApplicable": s["is_applicable"],
-                }
-                for s in supported_entities
-            ]
+            se = [{'name': s['name'],
+                   'isSearchable': s['is_searchable'],
+                   'is_applicable': s['is_applicable']} for s in supported_entities]
 
-            json["supportedEntities"] = se
+            json['supportedEntities'] = se
 
-        r = self.connection.post_request("codes", json=json)
-        logger.info(f"Code {r} created.")
+        r = self.connection.post_request('codes', json=json)
+        logger.info(f'Code {r} created.')
         return r
 
-    def update_code(
-        self,
-        code_id,
-        name=None,
-        parent_code_id=None,
-        description=None,
-        code_type="SourceCode",
-        supported_entities=None,
-    ):
+    def update_code(self, code_id, name=None, parent_code_id=None, description=None,
+                    code_type='SourceCode', supported_entities=None):
         """
         Update a code.
 
@@ -184,28 +163,23 @@ class Codes(object):
         post_data = {}
 
         if name:
-            post_data["name"] = name
+            post_data['name'] = name
         if parent_code_id:
-            post_data["parentCodeId"] = parent_code_id
+            post_data['parentCodeId'] = parent_code_id
         if code_type:
-            post_data["codeType"] = code_type
+            post_data['codeType'] = code_type
         if description:
-            post_data["description"] = description
+            post_data['description'] = description
 
         if supported_entities:
 
-            se = [
-                {
-                    "name": s["name"],
-                    "isSearchable": s["is_searchable"],
-                    "isApplicable": s["is_applicable"],
-                }
-                for s in supported_entities
-            ]
-            post_data["supportedEntities"] = se
+            se = [{'name': s['name'],
+                   'isSearchable': s['is_searchable'],
+                   'is_applicable': s['is_applicable']} for s in supported_entities]
+            post_data['supportedEntities'] = se
 
-        r = self.connection.put_request(f"codes/{code_id}", json=post_data)
-        logger.info(f"Code {code_id} updated.")
+        r = self.connection.put_request(f'codes/{code_id}', json=post_data)
+        logger.info(f'Code {code_id} updated.')
         return r
 
     def delete_code(self, code_id):
@@ -219,8 +193,8 @@ class Codes(object):
             ``None``
         """
 
-        r = self.connection.delete_request(f"codes/{code_id}")
-        logger.info(f"Code {code_id} deleted.")
+        r = self.connection.delete_request(f'codes/{code_id}')
+        logger.info(f'Code {code_id} deleted.')
         return r
 
     def get_code_supported_entities(self):
@@ -232,6 +206,6 @@ class Codes(object):
                 A list of code supported entities.
         """
 
-        lst = self.connection.get_request("codes/supportedEntities")
-        logger.info(f"Found {len(lst)} code supported entities.")
+        lst = self.connection.get_request('codes/supportedEntities')
+        logger.info(f'Found {len(lst)} code supported entities.')
         return lst

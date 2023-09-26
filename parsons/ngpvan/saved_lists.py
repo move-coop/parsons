@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class SavedLists(object):
+
     def __init__(self, van_connection):
 
         self.connection = van_connection
@@ -27,10 +28,8 @@ class SavedLists(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(
-            self.connection.get_request("savedLists", params={"folderId": folder_id})
-        )
-        logger.info(f"Found {tbl.num_rows} saved lists.")
+        tbl = Table(self.connection.get_request('savedLists', params={'folderId': folder_id}))
+        logger.info(f'Found {tbl.num_rows} saved lists.')
         return tbl
 
     def get_saved_list(self, saved_list_id):
@@ -44,8 +43,8 @@ class SavedLists(object):
             dict
         """
 
-        r = self.connection.get_request(f"savedLists/{saved_list_id}")
-        logger.info(f"Found saved list {saved_list_id}.")
+        r = self.connection.get_request(f'savedLists/{saved_list_id}')
+        logger.info(f'Found saved list {saved_list_id}.')
         return r
 
     def download_saved_list(self, saved_list_id):
@@ -66,24 +65,12 @@ class SavedLists(object):
         if isinstance(job, tuple):
             return job
         else:
-            return Table.from_csv(job["downloadUrl"])
+            return Table.from_csv(job['downloadUrl'])
 
-    def upload_saved_list_rest(
-        self,
-        tbl,
-        url_type,
-        folder_id,
-        list_name,
-        description,
-        callback_url,
-        columns,
-        id_column,
-        delimiter="csv",
-        header=True,
-        quotes=True,
-        overwrite=None,
-        **url_kwargs,
-    ):
+    def upload_saved_list_rest(self, tbl, url_type, folder_id, list_name,
+                               description, callback_url, columns, id_column,
+                               delimiter='csv', header=True, quotes=True,
+                               overwrite=None, **url_kwargs):
         """
         Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
         must be shared on the target folder.
@@ -115,8 +102,7 @@ class SavedLists(object):
                  Whether or not fields are enclosed in quotation marks within each
                  column of the file.
             overwrite: int
-                Replace saved list if already exists. Pass in the list id of the
-                existing list that you would like to overwrite.
+                Replace saved list if already exists.
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
@@ -126,79 +112,60 @@ class SavedLists(object):
                 records in your list.
         """
         rando = str(uuid.uuid1())
-        file_name = rando + ".csv"
-        url = cloud_storage.post_file(
-            tbl, url_type, file_path=rando + ".zip", **url_kwargs
-        )
-        logger.info(f"Table uploaded to {url_type}.")
+        file_name = rando + '.csv'
+        url = cloud_storage.post_file(tbl, url_type, file_path=rando + '.zip', **url_kwargs)
+        url_for_van = url.split('?')[0]  # hack around github.com/move-coop/parsons/issues/513
+        logger.info(f'Table uploaded to {url_type}.')
 
         # VAN errors for this method are not particularly useful or helpful. For that reason, we
         # will check that the folder exists and if the list already exists.
-        logger.info("Validating folder id and list name.")
-        if folder_id not in [x["folderId"] for x in self.get_folders()]:
+        logger.info('Validating folder id and list name.')
+        if folder_id not in [x['folderId'] for x in self.get_folders()]:
             raise ValueError("Folder does not exist or is not shared with API user.")
 
-        if (
-            list_name in [x["name"] for x in self.get_saved_lists(folder_id)]
-            and not overwrite
-        ):
-            raise ValueError(
-                "Saved list already exists. Set overwrite "
-                "argument to list ID or change list name."
-            )
+        if list_name in [x['name'] for x in self.get_saved_lists(folder_id)]:
+            raise ValueError("Saved list already exists. Set overwrite "
+                             "argument to list ID or change list name.")
 
-        if delimiter not in ["csv", "tab", "pipe"]:
+        if delimiter not in ['csv', 'tab', 'pipe']:
             raise ValueError("Delimiter must be one of 'csv', 'tab' or 'pipe'")
 
-        columns = [{"name": c} for c in columns]
+        columns = [{'name': c} for c in columns]
         delimiter = delimiter.capitalize()
 
-        json = {
-            "description": description,
-            "file": {
-                "columnDelimiter": delimiter,
-                "columns": columns,
-                "fileName": file_name,
-                "hasHeader": header,
-                "hasQuotes": quotes,
-                "sourceUrl": url,
-            },
-            "actions": [
-                {
-                    "actionType": "LoadSavedListFile",
-                    "listDescription": description,
-                    "listName": list_name,
-                    "personIdColumn": id_column,
-                    "folderId": folder_id,
-                    "personIdType": "VANID",
+        json = {"description": description,
+                "file": {
+                    "columnDelimiter": delimiter,
+                    "columns": columns,
+                    "fileName": file_name,
+                    "hasHeader": header,
+                    "hasQuotes": quotes,
+                    "sourceUrl": url_for_van
+                },
+                "actions": [
+                    {"actionType": "LoadSavedListFile",
+                     "listDescription": description,
+                     "listName": list_name,
+                     "personIdColumn": id_column,
+                     "folderId": folder_id,
+                     "personIdType": "VANID"}],
+                "listeners": [
+                    {"type": "URL",
+                     "value": callback_url}]
                 }
-            ],
-            "listeners": [{"type": "URL", "value": callback_url}],
-        }
 
         if overwrite:
             json["actions"][0]["overwriteExistingListId"] = overwrite
 
-        file_load_job_response = self.connection.post_request(
-            "fileLoadingJobs", json=json
-        )
-        job_id = file_load_job_response["jobId"]
-        logger.info(
-            f"Saved list job {job_id} created. Reference "
-            "callback url to check for job status"
-        )
+        logger.info(json)
+        file_load_job_response = self.connection.post_request('fileLoadingJobs', json=json)
+        job_id = file_load_job_response['jobId']
+        logger.info(f'Score loading job {job_id} created. Reference '
+                    'callback url to check for job status')
         return file_load_job_response
 
-    def upload_saved_list(
-        self,
-        tbl,
-        list_name,
-        folder_id,
-        url_type,
-        id_type="vanid",
-        replace=False,
-        **url_kwargs,
-    ):
+    def upload_saved_list(self, tbl, list_name, folder_id, url_type, id_type='vanid', replace=False,
+                          **url_kwargs):
         """
             .. warning::
                .. deprecated:: 0.X Use :func:`parsons.VAN.upload_saved_list_rest` instead.
@@ -231,69 +198,58 @@ class SavedLists(object):
         """
         # Move to cloud storage
         file_name = str(uuid.uuid1())
-        url = cloud_storage.post_file(
-            tbl, url_type, file_path=file_name + ".zip", **url_kwargs
-        )
-        logger.info(f"Table uploaded to {url_type}.")
+        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + '.zip', **url_kwargs)
+        logger.info(f'Table uploaded to {url_type}.')
 
         # VAN errors for this method are not particularly useful or helpful. For that reason, we
         # will check that the folder exists and if the list already exists.
-        logger.info("Validating folder id and list name.")
-        if folder_id not in [x["folderId"] for x in self.get_folders()]:
+        logger.info('Validating folder id and list name.')
+        if folder_id not in [x['folderId'] for x in self.get_folders()]:
             raise ValueError("Folder does not exist or is not shared with API user.")
 
         if not replace:
-            if list_name in [x["name"] for x in self.get_saved_lists(folder_id)]:
-                raise ValueError(
-                    "Saved list already exists. Set to replace argument to True or "
-                    "change list name."
-                )
+            if list_name in [x['name'] for x in self.get_saved_lists(folder_id)]:
+                raise ValueError("Saved list already exists. Set to replace argument to True or "
+                                 "change list name.")
 
         # i think we dont need this if we have the warning in the funciton description,
         # perhapse a style/standanrds decision
-        if id_type == "vanid":
-            logger.warning(
-                "The NVPVAN SOAP API is deprecated, consider using "
-                "parsons.VAN.upload_saved_list_rest if you are "
-                "uploading a list of vanids."
-            )
+        if id_type == 'vanid':
+            logger.warning('The NVPVAN SOAP API is deprecated, consider using '
+                           'parsons.VAN.upload_saved_list_rest if you are '
+                           'uploading a list of vanids.')
         # Create XML
-        xml = self.connection.soap_client.factory.create(
-            "CreateAndStoreSavedListMetaData"
-        )
+        xml = self.connection.soap_client.factory.create('CreateAndStoreSavedListMetaData')
         xml.SavedList._Name = list_name
         xml.DestinationFolder._ID = folder_id
-        xml.SourceFile.FileName = file_name + ".csv"
+        xml.SourceFile.FileName = file_name + '.csv'
         xml.SourceFile.FileUrl = url
-        xml.SourceFile.FileCompression = "zip"
+        xml.SourceFile.FileCompression = 'zip'
         xml.Options.OverwriteExistingList = replace
 
         # Describe file
-        file_desc = self.connection.soap_client.factory.create(
-            "SeparatedFileFormatDescription"
-        )
-        file_desc._name = "csv"
+        file_desc = self.connection.soap_client.factory.create('SeparatedFileFormatDescription')
+        file_desc._name = 'csv'
         file_desc.HasHeaderRow = True
 
         # Only support single column for now
-        col = self.connection.soap_client.factory.create("Column")
+        col = self.connection.soap_client.factory.create('Column')
         col.Name = id_type
-        col.RefersTo._Path = f"Person[@PersonIDType='{id_type}']"
-        col._Index = "0"
+        col.RefersTo._Path = f"Person[@PersonIDType=\'{id_type}\']"
+        col._Index = '0'
 
         # Assemble request
         file_desc.Columns.Column.append(col)
         xml.SourceFile.Format = file_desc
 
-        r = Client.dict(
-            self.connection.soap_client.service.CreateAndStoreSavedList(xml)
-        )
+        r = Client.dict(self.connection.soap_client.service.CreateAndStoreSavedList(xml))
         if r:
             logger.info(f"Uploaded {r['ListSize']} records to {r['_Name']} saved list.")
         return r
 
 
 class Folders(object):
+
     def __init__(self, van_connection):
 
         # Some sort of test if the van_connection is not present.
@@ -309,8 +265,8 @@ class Folders(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("folders"))
-        logger.info(f"Found {tbl.num_rows} folders.")
+        tbl = Table(self.connection.get_request('folders'))
+        logger.info(f'Found {tbl.num_rows} folders.')
         return tbl
 
     def get_folder(self, folder_id):
@@ -325,12 +281,13 @@ class Folders(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        r = self.connection.get_request(f"folders/{folder_id}")
-        logger.info(f"Found folder {folder_id}.")
+        r = self.connection.get_request(f'folders/{folder_id}')
+        logger.info(f'Found folder {folder_id}.')
         return r
 
 
 class ExportJobs(object):
+
     def __init__(self, van_connection):
 
         self.connection = van_connection
@@ -344,13 +301,12 @@ class ExportJobs(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("exportJobTypes"))
-        logger.info(f"Found {tbl.num_rows} export job types.")
+        tbl = Table(self.connection.get_request('exportJobTypes'))
+        logger.info(f'Found {tbl.num_rows} export job types.')
         return tbl
 
-    def export_job_create(
-        self, list_id, export_type=4, webhookUrl="https://www.nothing.com"
-    ):
+    def export_job_create(self, list_id, export_type=4,
+                          webhookUrl="https://www.nothing.com"):
         """
         Creates an export job
 
@@ -370,14 +326,13 @@ class ExportJobs(object):
                 The export job object
         """
 
-        json = {
-            "savedListId": str(list_id),
-            "type": str(export_type),
-            "webhookUrl": webhookUrl,
-        }
+        json = {"savedListId": str(list_id),
+                "type": str(export_type),
+                "webhookUrl": webhookUrl
+                }
 
-        r = self.connection.post_request("exportJobs", json=json)
-        logger.info("Retrieved export job.")
+        r = self.connection.post_request('exportJobs', json=json)
+        logger.info('Retrieved export job.')
         return r
 
     def get_export_job(self, export_job_id):
@@ -392,6 +347,6 @@ class ExportJobs(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        r = self.connection.get_request(f"exportJobs/{export_job_id}")
-        logger.info(f"Found export job {export_job_id}.")
+        r = self.connection.get_request(f'exportJobs/{export_job_id}')
+        logger.info(f'Found export job {export_job_id}.')
         return r

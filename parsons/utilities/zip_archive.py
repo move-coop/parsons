@@ -3,7 +3,7 @@ import zipfile
 from parsons.utilities.files import create_temp_directory
 
 
-def create_archive(archive_path, file_path, file_name=None, if_exists="replace"):
+def create_archive(archive_path, file_path, file_name=None, if_exists='replace'):
     """
     Create and fill an archive.
 
@@ -20,13 +20,13 @@ def create_archive(archive_path, file_path, file_name=None, if_exists="replace")
         Zip archive path
     """
 
-    if if_exists == "append":
-        write_type = "a"
+    if if_exists == 'append':
+        write_type = 'a'
     else:
-        write_type = "w"
+        write_type = 'w'
 
     if not file_name:
-        file_name = file_path.split("/")[-1]
+        file_name = file_path.split('/')[-1]
 
     with zipfile.ZipFile(archive_path, write_type) as z:
         z.write(file_path, arcname=file_name, compress_type=zipfile.ZIP_STORED)
@@ -49,7 +49,7 @@ def unzip_archive(archive_path, destination=None):
     """
     destination = destination or create_temp_directory()
 
-    with zipfile.ZipFile(archive_path, "r") as z:
+    with zipfile.ZipFile(archive_path, 'r') as z:
         file_name = z.namelist()[0]
         z.extractall(path=destination)
         return os.path.join(destination, file_name)

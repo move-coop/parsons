@@ -21,23 +21,13 @@ class SMTP(SendMail):
         close_manually: bool
             When set to True, send_message will not close the connection
     """
-
-    def __init__(
-        self,
-        host=None,
-        port=None,
-        username=None,
-        password=None,
-        tls=None,
-        close_manually=False,
-    ):
-        self.host = check("SMTP_HOST", host)
-        self.port = check("SMTP_PORT", port, optional=True) or 587
-        self.username = check("SMTP_USER", username)
-        self.password = check("SMTP_PASSWORD", password)
-        self.tls = not (
-            check("SMTP_TLS", tls, optional=True) in ("false", "False", "0", False)
-        )
+    def __init__(self, host=None, port=None, username=None, password=None, tls=None,
+                 close_manually=False):
+        self.host = check('SMTP_HOST', host)
+        self.port = check('SMTP_PORT', port, optional=True) or 587
+        self.username = check('SMTP_USER', username)
+        self.password = check('SMTP_PASSWORD', password)
+        self.tls = not (check('SMTP_TLS', tls, optional=True) in ('false', 'False', '0', False))
         self.close_manually = close_manually
 
         self.conn = None
@@ -63,19 +53,16 @@ class SMTP(SendMail):
         self.log.info("Sending a message...")
         try:
             conn = self.get_connection()
-            result = conn.sendmail(
-                message["From"],
-                [x.strip() for x in message["To"].split(",")],
-                message.as_string(),
-            )
+            result = conn.sendmail(message['From'],
+                                   [x.strip() for x in message['To'].split(',')],
+                                   message.as_string())
         except Exception:
-            self.log.exception("An error occurred: while attempting to send a message.")
+            self.log.exception(
+                'An error occurred: while attempting to send a message.')
             raise
 
         if result:
-            self.log.warning(
-                "Message failed to send to some recipients: " + str(result)
-            )
+            self.log.warning("Message failed to send to some recipients: " + str(result))
         if not self.close_manually:
             conn.quit()
             self.conn = None

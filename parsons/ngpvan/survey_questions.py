@@ -6,13 +6,13 @@ logger = logging.getLogger(__name__)
 
 
 class SurveyQuestions(object):
+
     def __init__(self, van_connection):
 
         self.connection = van_connection
 
-    def get_survey_questions(
-        self, statuses=["Active"], name=None, sq_type=None, question=None, cycle=None
-    ):
+    def get_survey_questions(self, statuses=['Active'], name=None, sq_type=None, question=None,
+                             cycle=None):
         """
         Get survey questions.
 
@@ -33,17 +33,15 @@ class SurveyQuestions(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        params = {
-            "statuses": statuses,
-            "$top": self.page_size,
-            "name": name,
-            "type": sq_type,
-            "question": question,
-            "cycle": cycle,
-        }
+        params = {'statuses': statuses,
+                  '$top': self.page_size,
+                  'name': name,
+                  'type': sq_type,
+                  'question': question,
+                  'cycle': cycle}
 
-        tbl = Table(self.connection.get_request("surveyQuestions", params=params))
-        logger.info(f"Found {tbl.num_rows} survey questions.")
+        tbl = Table(self.connection.get_request('surveyQuestions', params=params))
+        logger.info(f'Found {tbl.num_rows} survey questions.')
         return tbl
 
     def get_survey_question(self, survey_question_id):
@@ -58,21 +56,13 @@ class SurveyQuestions(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        r = self.connection.get_request(f"surveyQuestions/{survey_question_id}")
-        logger.info(f"Found survey question {survey_question_id}.")
+        r = self.connection.get_request(f'surveyQuestions/{survey_question_id}')
+        logger.info(f'Found survey question {survey_question_id}.')
         return r
 
-    def apply_survey_response(
-        self,
-        id,
-        survey_question_id,
-        survey_response_id,
-        id_type="vanid",
-        result_code_id=None,
-        contact_type_id=None,
-        input_type_id=None,
-        date_canvassed=None,
-    ):
+    def apply_survey_response(self, id, survey_question_id, survey_response_id,
+                              id_type='vanid', result_code_id=None, contact_type_id=None,
+                              input_type_id=None, date_canvassed=None):
         """
         Apply a single survey response to a person.
 
@@ -99,19 +89,11 @@ class SurveyQuestions(object):
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
         """
 
-        response = {
-            "surveyQuestionId": survey_question_id,
-            "surveyResponseId": survey_response_id,
-            "type": "surveyResponse",
-        }
+        response = {"surveyQuestionId": survey_question_id,
+                    "surveyResponseId": survey_response_id,
+                    "type": "surveyResponse"}
 
-        logger.info(f"Applying survey question {survey_question_id} to {id_type} {id}")
-        self.apply_response(
-            id,
-            response,
-            id_type,
-            result_code_id=result_code_id,
-            contact_type_id=contact_type_id,
-            input_type_id=input_type_id,
-            date_canvassed=date_canvassed,
-        )
+        logger.info(f'Applying survey question {survey_question_id} to {id_type} {id}')
+        self.apply_response(id, response, id_type, result_code_id=result_code_id,
+                            contact_type_id=contact_type_id, input_type_id=input_type_id,
+                            date_canvassed=date_canvassed)

@@ -39,29 +39,13 @@ class BluelinkPerson(object):
         details: dict
             additional custom data. must be json serializable.
     """
-
-    def __init__(
-        self,
-        identifiers,
-        given_name=None,
-        family_name=None,
-        phones=None,
-        emails=None,
-        addresses=None,
-        tags=None,
-        employer=None,
-        employer_address=None,
-        occupation=None,
-        scores=None,
-        birthdate=None,
-        details=None,
-    ):
+    def __init__(self, identifiers, given_name=None, family_name=None, phones=None, emails=None,
+                 addresses=None, tags=None, employer=None, employer_address=None,
+                 occupation=None, scores=None, birthdate=None, details=None):
 
         if not identifiers:
-            raise Exception(
-                "BluelinkPerson requires list of BluelinkIdentifiers with "
-                "at least 1 BluelinkIdentifier"
-            )
+            raise Exception("BluelinkPerson requires list of BluelinkIdentifiers with "
+                            "at least 1 BluelinkIdentifier")
 
         self.identifiers = identifiers
         self.addresses = addresses
@@ -127,7 +111,6 @@ class BluelinkIdentifier(object):
         details: dict
             dictionary of custom fields. must be serializable to json.
     """
-
     def __init__(self, source, identifier, details=None):
         self.source = source
         self.identifier = identifier
@@ -148,7 +131,6 @@ class BluelinkEmail(object):
         status: str
             One of "Potential", "Subscribed", "Unsubscribed", "Bouncing", or "Spam Complaints"
     """
-
     def __init__(self, address, primary=None, type=None, status=None):
         self.address = address
         self.primary = primary
@@ -178,18 +160,10 @@ class BluelinkAddress(object):
         status: str
             A value representing the status of the address. "Potential", "Verified" or "Bad"
     """
-
-    def __init__(
-        self,
-        address_lines=None,
-        city=None,
-        state=None,
-        postal_code=None,
-        country=None,
-        type=None,
-        venue=None,
-        status=None,
-    ):
+    def __init__(self,
+                 address_lines=None,
+                 city=None, state=None, postal_code=None, country=None,
+                 type=None, venue=None, status=None):
 
         self.address_lines = address_lines or []
         self.city = city
@@ -224,18 +198,8 @@ class BluelinkPhone(object):
         details: dict
             Additional data dictionary. Must be json serializable.
     """
-
-    def __init__(
-        self,
-        number,
-        primary=None,
-        description=None,
-        type=None,
-        country=None,
-        sms_capable=None,
-        do_not_call=None,
-        details=None,
-    ):
+    def __init__(self, number, primary=None, description=None, type=None, country=None,
+                 sms_capable=None, do_not_call=None, details=None):
         self.number = number
         self.primary = primary
         self.description = description
@@ -255,7 +219,6 @@ class BluelinkTag(object):
             A tag string; convention is either a simple string
             or a string with a prefix separated by a colon, e.g., “DONOR:GRASSROOTS”
     """
-
     def __init__(self, tag):
         self.tag = tag
 
@@ -273,7 +236,6 @@ class BluelinkScore(object):
         source: str
             Original source of this score.
     """
-
     def __init__(self, score, score_type, source):
         self.score = score
         self.score_type = score_type

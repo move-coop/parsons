@@ -21,8 +21,8 @@ class CivisClient(object):
 
     def __init__(self, db=None, api_key=None, **kwargs):
 
-        self.db = check_env.check("CIVIS_DATABASE", db)
-        self.api_key = check_env.check("CIVIS_API_KEY", api_key)
+        self.db = check_env.check('CIVIS_DATABASE', db)
+        self.api_key = check_env.check('CIVIS_API_KEY', api_key)
         self.client = civis.APIClient(api_key=api_key, **kwargs)
         """
         The Civis API client. Utilize this attribute to access to lower level and more
@@ -30,9 +30,7 @@ class CivisClient(object):
         can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`_.
         """  # noqa: E501
 
-    def query(
-        self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True
-    ):
+    def query(self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True):
         """
         Execute a SQL statement as a Civis query.
 
@@ -58,39 +56,24 @@ class CivisClient(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        fut = civis.io.query_civis(
-            sql,
-            self.db,
-            preview_rows=preview_rows,
-            polling_interval=polling_interval,
-            hidden=hidden,
-        )
+        fut = civis.io.query_civis(sql, self.db, preview_rows=preview_rows,
+                                   polling_interval=polling_interval, hidden=hidden)
 
         if not wait:
             return fut
 
         result = fut.result()
 
-        if result["result_rows"] is None:
+        if result['result_rows'] is None:
             return None
 
-        result["result_rows"].insert(0, result["result_columns"])
+        result['result_rows'].insert(0, result['result_columns'])
 
-        return Table(result["result_rows"])
+        return Table(result['result_rows'])
 
-    def table_import(
-        self,
-        table_obj,
-        table,
-        max_errors=None,
-        existing_table_rows="fail",
-        diststyle=None,
-        distkey=None,
-        sortkey1=None,
-        sortkey2=None,
-        wait=True,
-        **civisargs
-    ):
+    def table_import(self, table_obj, table, max_errors=None,
+                     existing_table_rows='fail', diststyle=None, distkey=None,
+                     sortkey1=None, sortkey2=None, wait=True, **civisargs):
         """
         Write the table to a Civis Redshift cluster. Additional key word
         arguments can passed to `civis.io.dataframe_to_civis()  <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_ # noqa: E501
@@ -124,19 +107,12 @@ class CivisClient(object):
             ``None`` or ``civis.CivisFuture``
         """  # noqa: E501,E261
 
-        fut = civis.io.dataframe_to_civis(
-            table_obj.to_dataframe(),
-            database=self.db,
-            table=table,
-            max_errors=max_errors,
-            existing_table_rows=existing_table_rows,
-            diststyle=diststyle,
-            distkey=distkey,
-            sortkey1=sortkey1,
-            sortkey2=sortkey2,
-            headers=True,
-            **civisargs
-        )
+        fut = civis.io.dataframe_to_civis(table_obj.to_dataframe(), database=self.db,
+                                          table=table, max_errors=max_errors,
+                                          existing_table_rows=existing_table_rows,
+                                          diststyle=diststyle, distkey=distkey,
+                                          sortkey1=sortkey1, sortkey2=sortkey2,
+                                          headers=True, **civisargs)
 
         if wait:
             return fut.result()

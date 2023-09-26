@@ -11,12 +11,12 @@
 # these with empty strings.  We recommend using environmental variables if possible.
 
 config_vars = {
-    # S3 (source)
-    "AWS_SOURCE_ACCESS_KEY_ID": "",
-    "AWS_SOURCE_SECRET_ACCESS_KEY": "",
-    # S3 (destination)
-    "AWS_DESTINATION_SECRET_ACCESS_KEY": "",
-    "AWS_DESTINATION_ACCESS_KEY_ID": "",
+        # S3 (source)
+        "AWS_SOURCE_ACCESS_KEY_ID": "",
+        "AWS_SOURCE_SECRET_ACCESS_KEY": "",
+        # S3 (destination)
+        'AWS_DESTINATION_SECRET_ACCESS_KEY': "",
+        'AWS_DESTINATION_ACCESS_KEY_ID': ""
 }
 
 DESTINATION_BUCKET = None
@@ -29,17 +29,13 @@ from parsons import S3, utilities, logger  # noqa: E402
 
 # Setup
 
-for name, value in config_vars.items():  # sets variables if provided in this script
+for name, value in config_vars.items():    # sets variables if provided in this script
     if value.strip() != "":
         os.environ[name] = value
 
-s3_source = S3(
-    os.environ["AWS_SOURCE_ACCESS_KEY_ID"], os.environ["AWS_SOURCE_SECRET_ACCESS_KEY"]
-)
+s3_source = S3(os.environ['AWS_SOURCE_ACCESS_KEY_ID'], os.environ['AWS_SOURCE_SECRET_ACCESS_KEY'])
 s3_destination = S3(
-    os.environ["AWS_DESTINATION_ACCESS_KEY_ID"],
-    os.environ["AWS_DESTINATION_SECRET_ACCESS_KEY"],
-)
+    os.environ['AWS_DESTINATION_ACCESS_KEY_ID'], os.environ['AWS_DESTINATION_SECRET_ACCESS_KEY'])
 
 # Let's write some code!
 

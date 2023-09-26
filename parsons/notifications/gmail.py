@@ -5,7 +5,7 @@ from httplib2 import Http
 from oauth2client import file, client, tools
 from parsons.notifications.sendmail import SendMail
 
-SCOPES = "https://www.googleapis.com/auth/gmail.send"
+SCOPES = 'https://www.googleapis.com/auth/gmail.send'
 
 
 class Gmail(SendMail):
@@ -21,7 +21,7 @@ class Gmail(SendMail):
             "me" which is used to indicate the authenticated user.
     """
 
-    def __init__(self, creds_path=None, token_path=None, user_id="me"):
+    def __init__(self, creds_path=None, token_path=None, user_id='me'):
 
         self.user_id = user_id
 
@@ -44,13 +44,13 @@ class Gmail(SendMail):
             # BUG-1
             # self.creds = self.run_flow(flow, self.store, http=http)
 
-        self.service = build("gmail", "v1", http=self.creds.authorize(Http()))
+        self.service = build('gmail', 'v1', http=self.creds.authorize(Http()))
 
         # BUG-1
         # self.service = build('gmail', 'v1', http=self.creds.authorize(http))
 
     def _encode_raw_message(self, message):
-        return {"raw": base64.urlsafe_b64encode(message.as_bytes()).decode()}
+        return {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
 
     def _send_message(self, msg):
         """Send an email message.
@@ -71,17 +71,15 @@ class Gmail(SendMail):
         self.log.debug(message)
 
         try:
-            message = (
-                self.service.users()
-                .messages()
-                .send(userId=self.user_id, body=message)
-                .execute()
-            )
+            message = (self.service.users().messages()
+                       .send(userId=self.user_id, body=message).execute())
         except errors.HttpError:
-            self.log.exception("An error occurred: while attempting to send a message.")
+            self.log.exception(
+                'An error occurred: while attempting to send a message.')
             raise
         else:
             self.log.debug(message)
-            self.log.info(f"Message sent succesfully (Message Id: {message['id']})")
+            self.log.info(
+                f"Message sent succesfully (Message Id: {message['id']})")
 
             return message

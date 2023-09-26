@@ -13,36 +13,15 @@ from parsons.ngpvan.signups import Signups
 from parsons.ngpvan.locations import Locations
 from parsons.ngpvan.bulk_import import BulkImport
 from parsons.ngpvan.changed_entities import ChangedEntities
-from parsons.ngpvan.contact_notes import ContactNotes
 from parsons.ngpvan.custom_fields import CustomFields
 from parsons.ngpvan.targets import Targets
-from parsons.ngpvan.printed_lists import PrintedLists
 
 logger = logging.getLogger(__name__)
 
 
-class VAN(
-    People,
-    Events,
-    SavedLists,
-    PrintedLists,
-    Folders,
-    ExportJobs,
-    ActivistCodes,
-    CanvassResponses,
-    SurveyQuestions,
-    Codes,
-    Scores,
-    FileLoadingJobs,
-    SupporterGroups,
-    Signups,
-    Locations,
-    BulkImport,
-    ChangedEntities,
-    ContactNotes,
-    CustomFields,
-    Targets,
-):
+class VAN(People, Events, SavedLists, Folders, ExportJobs, ActivistCodes, CanvassResponses,
+          SurveyQuestions, Codes, Scores, FileLoadingJobs, SupporterGroups, Signups, Locations,
+          BulkImport, ChangedEntities, CustomFields, Targets):
     """
     Returns the VAN class
 
@@ -61,9 +40,7 @@ class VAN(
         VAN object
     """
 
-    def __init__(
-        self, api_key=None, auth_name="default", db=None, raise_for_status=True
-    ):
+    def __init__(self, api_key=None, auth_name='default', db=None, raise_for_status=True):
 
         self.connection = VANConnector(api_key=api_key, db=db)
         self.api_key = api_key

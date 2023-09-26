@@ -89,5 +89,5 @@ expected_table_columns = [
     "Shipping Country",
     "Weekly Recurring Amount",
     "Smart Boost Amount",
-    "Smart Boost Shown",
+    "Smart Boost Shown"
 ]

@@ -3,7 +3,7 @@ import click
 import json
 import os
 
-PREFIX = "PRSNSENV"
+PREFIX = 'PRSNSENV'
 
 
 def decode_credential(credential, save_path=None, export=True, echo=False):
@@ -27,14 +27,13 @@ def decode_credential(credential, save_path=None, export=True, echo=False):
     if credential[:x] != PREFIX:
         raise ValueError("Invalid Parsons variable.")
 
-    decoded_str = b64decode(bytes(credential.replace(PREFIX, ""), "utf-8")).decode(
-        "utf-8"
-    )
+    decoded_str = b64decode(
+        bytes(credential.replace(PREFIX, ""), "utf-8")).decode("utf-8")
 
     decoded_dict = json.loads(decoded_str)
 
     if save_path:
-        with open(save_path, "w") as f:
+        with open(save_path, 'w') as f:
             f.write(json.dumps(decoded_dict))
 
     if export:
@@ -75,7 +74,7 @@ def encode_from_json_file(credential_file):
         str
             The encoded credential.
     """
-    with open(credential_file, "r") as f:
+    with open(credential_file, 'r') as f:
         data = json.load(f)
 
     json_str = json.dumps(data)
@@ -120,45 +119,23 @@ def encode_from_dict(credential):
     return encoded_str
 
 
-@click.command(options_metavar="[-e [-f] | -d [-xp] [-o <file>]]")
-@click.argument("credential", metavar="credential")
-@click.option(
-    "--encode",
-    "-e",
-    "fn",
-    flag_value="encode",
-    default=True,
-    help="Endcode a credential.",
-)
-@click.option(
-    "--decode", "-d", "fn", flag_value="decode", help="Decode an encoded credential."
-)
-@click.option(
-    "-f",
-    "is_file",
-    is_flag=True,
-    help=("Treat <credential> as a " "path to a file. Only valid with --encode."),
-)
-@click.option(
-    "-o",
-    "save_path",
-    default="",
-    metavar="<file>",
-    help="The path for where to save the decoded credential.",
-)
-@click.option(
-    "-x",
-    "no_export",
-    is_flag=True,
-    default=False,
-    help=(
-        "Do not export the variable to the environment. Only " "valid with --decode."
-    ),
-)
-@click.option(
-    "-s", "suppress", is_flag=True, default=False, help=("Suppress " "the output.")
-)
-def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=False):
+@click.command(options_metavar='[-e [-f] | -d [-xp] [-o <file>]]')
+@click.argument('credential', metavar='credential')
+@click.option('--encode', '-e', 'fn', flag_value='encode',
+              default=True, help="Endcode a credential.")
+@click.option('--decode', '-d', 'fn', flag_value='decode',
+              help='Decode an encoded credential.')
+@click.option('-f', 'is_file', is_flag=True, help=("Treat <credential> as a "
+              "path to a file. Only valid with --encode."))
+@click.option('-o', 'save_path', default='', metavar='<file>',
+              help="The path for where to save the decoded credential.")
+@click.option('-x', 'no_export', is_flag=True, default=False,
+              help=("Do not export the variable to the environment. Only "
+                    "valid with --decode."))
+@click.option('-s', 'suppress', is_flag=True, default=False, help=("Suppress "
+              "the output."))
+def main(credential, fn, is_file=False, save_path="", no_export=False,
+         suppress=False):
     """A command line tool to encode and decode credentials.
 
     Use this tool when the credentials for a service are split into multiple
@@ -186,7 +163,7 @@ def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=
     # Encoding a list currenct environment variables.
     `python env_tools.py -e env_var1,env_var2,env_ var3`
     """
-    if fn == "encode":
+    if fn == 'encode':
         if is_file:
             enc_cred = encode_from_json_file(credential)
         else:
@@ -194,15 +171,15 @@ def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=
                 cred = json.loads(credential)
                 enc_cred = encode_from_dict(cred)
             except json.decoder.JSONDecodeError:
-                cred = credential.split(",")
+                cred = credential.split(',')
                 enc_cred = encode_from_env(cred)
         if not suppress:
             print(enc_cred)
-    elif fn == "decode":
+    elif fn == 'decode':
         decode_credential(credential, save_path, not no_export, not suppress)
     else:
         raise ValueError("Invalid function selected. Use --help for help.")
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

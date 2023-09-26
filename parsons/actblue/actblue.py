@@ -31,27 +31,18 @@ class ActBlue(object):
         visit https://secure.actblue.com/docs/csv_api#authentication.
     """
 
-    def __init__(
-        self, actblue_client_uuid=None, actblue_client_secret=None, actblue_uri=None
-    ):
-        self.actblue_client_uuid = check_env.check(
-            "ACTBLUE_CLIENT_UUID", actblue_client_uuid
-        )
-        self.actblue_client_secret = check_env.check(
-            "ACTBLUE_CLIENT_SECRET", actblue_client_secret
-        )
-        self.uri = (
-            check_env.check("ACTBLUE_URI", actblue_uri, optional=True)
-            or ACTBLUE_API_ENDPOINT
-        )
+    def __init__(self, actblue_client_uuid=None, actblue_client_secret=None, actblue_uri=None):
+        self.actblue_client_uuid = check_env.check('ACTBLUE_CLIENT_UUID', actblue_client_uuid)
+        self.actblue_client_secret = check_env.check('ACTBLUE_CLIENT_SECRET', actblue_client_secret)
+        self.uri = check_env.check(
+            'ACTBLUE_URI', actblue_uri, optional=True
+        ) or ACTBLUE_API_ENDPOINT
         self.headers = {
             "accept": "application/json",
         }
-        self.client = APIConnector(
-            self.uri,
-            auth=(self.actblue_client_uuid, self.actblue_client_secret),
-            headers=self.headers,
-        )
+        self.client = APIConnector(self.uri,
+                                   auth=(self.actblue_client_uuid, self.actblue_client_secret),
+                                   headers=self.headers)
 
     def post_request(self, csv_type=None, date_range_start=None, date_range_end=None):
         """
@@ -84,11 +75,9 @@ class ActBlue(object):
         body = {
             "csv_type": csv_type,
             "date_range_start": date_range_start,
-            "date_range_end": date_range_end,
+            "date_range_end": date_range_end
         }
-        logger.info(
-            f"Requesting {csv_type} from {date_range_start} up to {date_range_end}."
-        )
+        logger.info(f'Requesting {csv_type} from {date_range_start} up to {date_range_end}.')
         response = self.client.post_request(url="csvs", json=body)
         return response
 
@@ -106,7 +95,7 @@ class ActBlue(object):
         """
         response = self.client.get_request(url=f"csvs/{csv_id}")
 
-        return response["download_url"]
+        return response['download_url']
 
     def poll_for_download_url(self, csv_id):
         """
@@ -123,14 +112,14 @@ class ActBlue(object):
             it expires, it could be used by anyone to download the CSV.
         """
 
-        logger.info("Request received. Please wait while ActBlue generates this data.")
+        logger.info('Request received. Please wait while ActBlue generates this data.')
         download_url = None
         while download_url is None:
             download_url = self.get_download_url(csv_id)
             time.sleep(POLLING_DELAY)
 
-        logger.info("Completed data generation.")
-        logger.info("Beginning conversion to Parsons Table.")
+        logger.info('Completed data generation.')
+        logger.info('Beginning conversion to Parsons Table.')
         return download_url
 
     def get_contributions(self, csv_type, date_range_start, date_range_end):
@@ -160,11 +149,9 @@ class ActBlue(object):
             Contents of the generated contribution CSV as a Parsons table.
         """
 
-        post_request_response = self.post_request(
-            csv_type, date_range_start, date_range_end
-        )
+        post_request_response = self.post_request(csv_type, date_range_start, date_range_end)
         csv_id = post_request_response["id"]
         download_url = self.poll_for_download_url(csv_id)
         table = Table.from_csv(download_url)
-        logger.info("Completed conversion to Parsons Table.")
+        logger.info('Completed conversion to Parsons Table.')
         return table

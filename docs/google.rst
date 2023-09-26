@@ -1,56 +1,11 @@
 Google
 ======
 
-Google Cloud services allow you to upload and manipulate Tables as spreadsheets (via GoogleSheets) or query them as SQL database tables (via GoogleBigQuery). You can also upload/store/download them as binary objects (via GoogleCloudStorage). Google also offers an API for civic information using GoogleCivic and admin information using the Google Workspace Admin SDK.
+Google Cloud services allow you to upload and manipulate Tables as spreadsheets (via GoogleSheets) or query them as SQL database tables (via GoogleBigQuery). You can also upload/store/download them as binary objects (via GoogleCloudStorage). Finally, Google offers an API for civic information using GoogleCivic.
 
-For all of these services you will need to enable the APIs for your Google Cloud account and obtain authentication tokens or other credentials to access them from your scripts. If you are the administrator of your Google Cloud account, you can do both of these at `Google Cloud Console APIs and Services <https://console.cloud.google.com/apis/dashboard>`_. The connectors below have more specific information about how to authenticate.
+For all of these services you will need to enable the APIs for your Google Cloud account and obtain authentication tokens to access them from your scripts. If you are the administrator of your Google Cloud account, you can do both of these at `Google Cloud Console APIs and Services <https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288>`_.
 
 .. _gbq:
-
-*************
-Google Admin
-*************
-
-========
-Overview
-========
-
-The GoogleAdmin class allows you to get information about groups and members in Google Admin.
-
-In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON string in the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable. You must also provide an email address for `domain-wide delegation <https://developers.google.com/admin-sdk/directory/v1/guides/delegation>`_.
-
-==========
-Quickstart
-==========
-
-To instantiate the GoogleAdmin class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to contain a JSON encoding of the dict.
-
-.. code-block:: python
-
-   from parsons import GoogleAdmin
-
-   # First approach: Use API credentials via environmental variables
-   admin = GoogleAdmin(None, 'fakeemail@fakedomain.com')
-
-   # Second approach: Pass API credentials as argument
-   credential_filename = 'google_application_credentials.json'
-   credentials = json.load(open(credential_filename))
-   sheets = GoogleSheets(credentials, 'fakeemail@fakedomain.com')
-
-You can then get information about groups and members using instance methods:
-
-.. code-block:: python
-
-   members = admin.get_all_group_members('group_key')
-   groups = admin.get_all_groups(domain='fakedomain.com')
-
-===
-API
-===
-
-.. autoclass:: parsons.google.google_admin.GoogleAdmin
-   :inherited-members:
-
 
 ********
 BigQuery
@@ -252,21 +207,13 @@ Overview
 
 The GoogleSheets class allows you to interact with Google service account spreadsheets, called "Google Sheets." You can create, modify, read, format, share and delete sheets with this connector.
 
-In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON file locally and pass the path to the file as a string in the ``GOOGLE_DRIVE_CREDENTIALS`` environment variable. You can follow these steps:
-
-- Go to the `Google Developer Console <https://console.cloud.google.com/apis/dashboard>`_ and make sure the "Google Drive API" and the "Google Sheets API" are both enabled.
-- Go to the credentials page via the lefthand sidebar. On the credentials page, click "create credentials".
-- Choose the "Service Account" option and fill out the form provided. This should generate your credentials.
-- Select your newly created Service Account on the credentials main page.
-- select "keys", then "add key", then "create new key". Pick the key type JSON. The credentials should start to automatically download.
-
-You can now copy and paste the data from the key into your script or (recommended) save it locally as a JSON file.
+In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON string in the ``GOOGLE_DRIVE_CREDENTIALS`` environment variable. Typically you'll get the credentials from the Google Developer Console (look for the "Google Drive API").
 
 ==========
 Quickstart
 ==========
 
-To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable ``GOOGLE_DRIVE_CREDENTIALS`` to contain a path to the JSON file containing the dict.
+To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable ``GOOGLE_DRIVE_CREDENTIALS`` to contain a JSON encoding of the dict.
 
 .. code-block:: python
 
@@ -287,8 +234,6 @@ You can then create/modify/retrieve documents using instance methods:
    sheet_id = sheets.create_spreadsheet('Voter Cell Phones')
    sheets.append_to_sheet(sheet_id, people_with_cell_phones)
    parsons_table = sheets.get_worksheet(sheet_id)
-
-You may also want to share the document with your service or user account.
 
 ===
 API

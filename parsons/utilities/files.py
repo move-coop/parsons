@@ -5,13 +5,13 @@ import shutil
 import tempfile
 
 __all__ = [
-    "create_temp_file",
-    "create_temp_file_for_path",
-    "is_gzip_path",
-    "suffix_for_compression_type",
-    "compression_type_for_path",
-    "string_to_temp_file",
-]
+    'create_temp_file',
+    'create_temp_file_for_path',
+    'is_gzip_path',
+    'suffix_for_compression_type',
+    'compression_type_for_path',
+    'string_to_temp_file'
+    ]
 
 
 # Maximum number of times to try to open a new temp file before giving up.
@@ -77,7 +77,7 @@ def create_temp_file_for_path(path):
     # Add the appropriate compression suffix to the file, so other libraries that check the
     # file's extension will know that it is compressed.
     # TODO Make this more robust, maybe even using the entire remote file name as the suffix.
-    suffix = ".gz" if is_gzip_path(path) else None
+    suffix = '.gz' if is_gzip_path(path) else None
     return create_temp_file(suffix=suffix)
 
 
@@ -153,30 +153,30 @@ def track_temp_file(path):
 
 
 def is_gzip_path(path):
-    return path[-3:] == ".gz"
+    return (path[-3:] == '.gz')
 
 
 def is_zip_path(path):
-    return path[-4:] == ".zip"
+    return (path[-4:] == '.zip')
 
 
 def is_csv_path(path):
-    return path[-4:].lower() == ".csv"
+    return (path[-4:].lower() == '.csv')
 
 
 def suffix_for_compression_type(compression):
-    if compression == "gzip":
-        return ".gz"
+    if compression == 'gzip':
+        return '.gz'
 
-    return ""
+    return ''
 
 
 def compression_type_for_path(path):
     if is_gzip_path(path):
-        return "gzip"
+        return 'gzip'
 
     if is_zip_path(path):
-        return "zip"
+        return 'zip'
 
     return None
 
@@ -204,10 +204,10 @@ def read_file(path):
     compression = compression_type_for_path(path)
 
     open_func = {
-        "gzip": gzip.open,
+        'gzip': gzip.open,
         None: open,
     }
-    with open_func[compression](path, "r") as fp:
+    with open_func[compression](path, 'r') as fp:
         return fp.read()
 
 
@@ -219,7 +219,7 @@ def string_to_temp_file(string, suffix=None):
 
     temp_file_path = create_temp_file(suffix=suffix)
 
-    with open(temp_file_path, "w") as f:
+    with open(temp_file_path, 'w') as f:
         f.write(string)
 
     return temp_file_path
@@ -232,10 +232,10 @@ def zip_check(file_path, compression_type):
     """
 
     if file_path:
-        if file_path.split("/")[-1].split(".")[-1] == "zip":
+        if file_path.split('/')[-1].split('.')[-1] == 'zip':
             return True
 
-    if compression_type == "zip":
+    if compression_type == 'zip':
         return True
 
     else:
@@ -257,9 +257,9 @@ def extract_file_name(file_path=None, include_suffix=True):
         return None
 
     if include_suffix:
-        return file_path.split("/")[-1]
+        return file_path.split('/')[-1]
 
-    return file_path.split("/")[-1].split(".")[0]
+    return file_path.split('/')[-1].split('.')[0]
 
 
 def has_data(file_path):
@@ -303,7 +303,7 @@ def generate_tempfile(suffix=None, create=False):
     for _ in range(TMP_MAX):
         name = next(names)
         if suffix:
-            name = f"{name}{suffix}"
+            name = f'{name}{suffix}'
         path = os.path.join(temp_dir, name)
 
         # Check to see if the path already exists.
@@ -319,14 +319,15 @@ def generate_tempfile(suffix=None, create=False):
             # open it in read mode later, they won't get an error about the file not existing.
             # Also, use mode='x' (exclusive create) to make sure we get an error if the file already
             # exists
-            with open(path, mode="x") as _:
+            with open(path, mode='x') as _:
                 pass
             return path
         # PermissionError can be Windows' way of saying the file exists
         except (FileExistsError, PermissionError):
-            continue  # try again with another filename if we got an error
+            continue    # try again with another filename if we got an error
 
-    raise FileExistsError(errno.EEXIST, "No usable temporary directory name found")
+    raise FileExistsError(errno.EEXIST,
+                          "No usable temporary directory name found")
 
 
 class TempDirectory:

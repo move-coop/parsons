@@ -8,9 +8,9 @@ import pytest
 def live_pdi():
     # Generate a live PDI connection based on these env vars
 
-    username = os.environ["PDI_USERNAME"]
-    password = os.environ["PDI_PASSWORD"]
-    api_token = os.environ["PDI_API_TOKEN"]
+    username = os.environ['PDI_USERNAME']
+    password = os.environ['PDI_PASSWORD']
+    api_token = os.environ['PDI_API_TOKEN']
 
     pdi = PDI(username, password, api_token, qa_url=True)
 
@@ -22,12 +22,10 @@ def mock_pdi(requests_mock):
     # Not meant to hit live api servers
 
     requests_mock.post(
-        "https://apiqa.bluevote.com/sessions",
-        json={
+        "https://apiqa.bluevote.com/sessions", json={
             "AccessToken": "AccessToken",
             "ExpirationDate": "2100-01-01",
-        },
-    )
+        })
 
     username = "PDI_USERNAME"
     password = "PDI_PASSWORD"

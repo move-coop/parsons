@@ -3,10 +3,6 @@ from parsons.pdi.flags import Flags
 from parsons.pdi.universes import Universes
 from parsons.pdi.questions import Questions
 from parsons.pdi.acquisition_types import AcquisitionTypes
-from parsons.pdi.events import Events
-from parsons.pdi.locations import Locations
-from parsons.pdi.contacts import Contacts
-from parsons.pdi.activities import Activities
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -21,18 +17,10 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-class PDI(
-    FlagIDs,
-    Universes,
-    Questions,
-    AcquisitionTypes,
-    Flags,
-    Events,
-    Locations,
-    Contacts,
-    Activities,
-):
-    def __init__(self, username=None, password=None, api_token=None, qa_url=False):
+class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags):
+
+    def __init__(self, username=None, password=None, api_token=None,
+                 qa_url=False):
         """
         Instantiate the PDI class
 
@@ -48,7 +36,7 @@ class PDI(
                 can be set as `PDI_API_TOKEN` environment variable.
             qa_url: bool
                 Defaults to False. If True, requests will be made to a sandbox
-                account. This requires separate qa credentials and api
+                account. NOTE: This requires separate qa credentials and api
                 token.
         """
         if qa_url:
@@ -56,9 +44,9 @@ class PDI(
         else:
             self.base_url = "https://api.bluevote.com"
 
-        self.username = check_env.check("PDI_USERNAME", username)
-        self.password = check_env.check("PDI_PASSWORD", password)
-        self.api_token = check_env.check("PDI_API_TOKEN", api_token)
+        self.username = check_env.check('PDI_USERNAME', username)
+        self.password = check_env.check('PDI_PASSWORD', password)
+        self.api_token = check_env.check('PDI_API_TOKEN', api_token)
 
         super().__init__()
 
@@ -73,9 +61,14 @@ class PDI(
             "Password": self.password,
             "ApiToken": self.api_token,
         }
-        res = requests.post(f"{self.base_url}/sessions", json=login, headers=headers)
+        res = requests.post(
+            f"{self.base_url}/sessions",
+            json=login,
+            headers=headers)
+
         logger.debug(f"{res.status_code} - {res.url}")
         res.raise_for_status()
+
         # status_code == 200
         data = res.json()
         self.session_token = data["AccessToken"]
@@ -90,7 +83,8 @@ class PDI(
 
         return dct
 
-    def _request(self, url, req_type="GET", post_data=None, args=None, limit=None):
+    def _request(self, url, req_type='GET', post_data=None, args=None,
+                 limit=None):
         # Make sure to have a current token before we make another request
         now = datetime.now(timezone.utc)
         if now > self.session_exp:
@@ -118,7 +112,10 @@ class PDI(
 
         args = self._clean_dict(args) if args else args
         post_data = self._clean_dict(post_data) if post_data else post_data
-        res = request_fn[req_type](url, headers=headers, json=post_data, params=args)
+
+        res = request_fn[req_type](
+            url, headers=headers, json=post_data, params=args)
+
         logger.debug(f"{res.url} - {res.status_code}")
         logger.debug(res.request.body)
 
@@ -137,7 +134,8 @@ class PDI(
         if "data" not in res_json:
             return res_json
 
-        total_count = 0 if "totalCount" not in res_json else res_json["totalCount"]
+        total_count = (0 if "totalCount" not in res_json
+                       else res_json["totalCount"])
         data = res_json["data"]
 
         if not limit:
@@ -149,8 +147,7 @@ class PDI(
                 args["cursor"] = cursor
                 args["limit"] = LIMIT_MAX
                 res = request_fn[req_type](
-                    url, headers=headers, json=post_data, params=args
-                )
+                    url, headers=headers, json=post_data, params=args)
 
                 data.extend(res.json()["data"])
 
@@ -167,8 +164,7 @@ class PDI(
                 args["cursor"] = cursor
                 args["limit"] = min(LIMIT_MAX, total_need - len(data))
                 res = request_fn[req_type](
-                    url, headers=headers, json=post_data, params=args
-                )
+                    url, headers=headers, json=post_data, params=args)
 
                 data.extend(res.json()["data"])
 

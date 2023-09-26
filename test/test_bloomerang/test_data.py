@@ -1,12 +1,16 @@
 ENV_PARAMETERS = {
-    "BLOOMERANG_API_KEY": "env_api_key",
-    "BLOOMERANG_CLIENT_ID": "env_client_id",
-    "BLOOMERANG_CLIENT_SECRET": "env_client_secret",
+    'BLOOMERANG_API_KEY': 'env_api_key',
+    'BLOOMERANG_CLIENT_ID': 'env_client_id',
+    'BLOOMERANG_CLIENT_SECRET': 'env_client_secret'
 }
 
 ID = 123
 
-TEST_DELETE = {"Id": 0, "Type": "string", "Deleted": "true"}
+TEST_DELETE = {
+    "Id": 0,
+    "Type": "string",
+    "Deleted": 'true'
+}
 
 TEST_CREATE_CONSTITUENT = {
     "Type": "Individual",
@@ -35,8 +39,8 @@ TEST_CREATE_CONSTITUENT = {
         "AccountId": 0,
         "Type": "Home",
         "Value": "user@example.com",
-        "IsPrimary": "true",
-        "IsBad": "true",
+        "IsPrimary": 'true',
+        "IsBad": 'true'
     },
     "PrimaryPhone": {
         "Id": 0,
@@ -44,7 +48,7 @@ TEST_CREATE_CONSTITUENT = {
         "Type": "Home",
         "Extension": "string",
         "Number": "string",
-        "IsPrimary": "true",
+        "IsPrimary": 'true'
     },
     "PrimaryAddress": {
         "Id": 0,
@@ -55,17 +59,17 @@ TEST_CREATE_CONSTITUENT = {
         "State": "string",
         "PostalCode": "string",
         "Country": "string",
-        "IsPrimary": "true",
-        "IsBad": "true",
-    },
+        "IsPrimary": 'true',
+        "IsBad": 'true'
+    }
 }
 
 TEST_GET_CONSTITUENT = {
     "Id": 0,
     "AccountNumber": 0,
-    "IsInHousehold": "true",
-    "IsHeadOfHousehold": "true",
-    "IsFavorite": "true",
+    "IsInHousehold": 'true',
+    "IsHeadOfHousehold": 'true',
+    "IsFavorite": 'true',
     "FullCustomProfileImageId": 0,
     "FullCustomProfileImageUrl": "string",
     "CroppedCustomProfileImageId": 0,
@@ -96,8 +100,8 @@ TEST_GET_CONSTITUENT = {
         "AccountId": 0,
         "Type": "Home",
         "Value": "user@example.com",
-        "IsPrimary": "true",
-        "IsBad": "true",
+        "IsPrimary": 'true',
+        "IsBad": 'true'
     },
     "PrimaryPhone": {
         "Id": 0,
@@ -105,14 +109,21 @@ TEST_GET_CONSTITUENT = {
         "Type": "Home",
         "Extension": "string",
         "Number": "string",
-        "IsPrimary": "true",
+        "IsPrimary": 'true'
     },
     "HouseholdId": 0,
     "PreferredCommunicationChannel": "Email",
-    "CommunicationRestrictions": ["DoNotCall"],
+    "CommunicationRestrictions": [
+        "DoNotCall"
+    ],
     "CommunicationRestrictionsUpdateReason": "string",
     "EmailInterestType": "All",
-    "CustomEmailInterests": [{"Id": 0, "Name": "string"}],
+    "CustomEmailInterests": [
+        {
+            "Id": 0,
+            "Name": "string"
+        }
+    ],
     "EmailInterestsUpdateReason": "string",
     "PrimaryAddress": {
         "Id": 0,
@@ -123,10 +134,10 @@ TEST_GET_CONSTITUENT = {
         "State": "string",
         "PostalCode": "string",
         "Country": "string",
-        "IsPrimary": "true",
-        "IsBad": "true",
+        "IsPrimary": 'true',
+        "IsBad": 'true',
         "StateAbbreviation": "string",
-        "CountryCode": "string",
+        "CountryCode": "string"
     },
     "EngagementScore": "Low",
     "DonorSearchInfo": {
@@ -140,23 +151,43 @@ TEST_GET_CONSTITUENT = {
         "LargestGiftMax": 0,
         "WealthAskMin": 0,
         "WealthAskMax": 0,
-        "BusinessExecutive": "true",
+        "BusinessExecutive": 'true',
         "NamesScreened": "string",
-        "DateTimeScreenedUtc": "string",
+        "DateTimeScreenedUtc": "string"
     },
-    "AddressIds": [0],
-    "EmailIds": [0],
-    "PhoneIds": [0],
+    "AddressIds": [
+        0
+    ],
+    "EmailIds": [
+        0
+    ],
+    "PhoneIds": [
+        0
+    ],
     "CustomValues": [
-        {"FieldId": 0, "Value": {"Id": 0, "Value": "string"}},
-        {"FieldId": 0, "Values": [{"Id": 0, "Value": "string"}]},
+        {
+            "FieldId": 0,
+            "Value": {
+                "Id": 0,
+                "Value": "string"
+            }
+        },
+        {
+            "FieldId": 0,
+            "Values": [
+                {
+                    "Id": 0,
+                    "Value": "string"
+                }
+            ]
+        }
     ],
     "AuditTrail": {
         "CreatedDate": "2020-09-08T16:06:59.945Z",
         "CreatedName": "string",
         "LastModifiedDate": "2020-09-08T16:06:59.945Z",
-        "LastModifiedName": "string",
-    },
+        "LastModifiedName": "string"
+    }
 }
 
 TEST_GET_CONSTITUENTS = {
@@ -168,9 +199,9 @@ TEST_GET_CONSTITUENTS = {
         {
             "Id": 0,
             "AccountNumber": 0,
-            "IsInHousehold": "true",
-            "IsHeadOfHousehold": "true",
-            "IsFavorite": "true",
+            "IsInHousehold": 'true',
+            "IsHeadOfHousehold": 'true',
+            "IsFavorite": 'true',
             "FullCustomProfileImageId": 0,
             "FullCustomProfileImageUrl": "string",
             "CroppedCustomProfileImageId": 0,
@@ -201,8 +232,8 @@ TEST_GET_CONSTITUENTS = {
                 "AccountId": 0,
                 "Type": "Home",
                 "Value": "user@example.com",
-                "IsPrimary": "true",
-                "IsBad": "true",
+                "IsPrimary": 'true',
+                "IsBad": 'true'
             },
             "PrimaryPhone": {
                 "Id": 0,
@@ -210,14 +241,21 @@ TEST_GET_CONSTITUENTS = {
                 "Type": "Home",
                 "Extension": "string",
                 "Number": "string",
-                "IsPrimary": "true",
+                "IsPrimary": 'true'
             },
             "HouseholdId": 0,
             "PreferredCommunicationChannel": "Email",
-            "CommunicationRestrictions": ["DoNotCall"],
+            "CommunicationRestrictions": [
+                "DoNotCall"
+            ],
             "CommunicationRestrictionsUpdateReason": "string",
             "EmailInterestType": "All",
-            "CustomEmailInterests": [{"Id": 0, "Name": "string"}],
+            "CustomEmailInterests": [
+                {
+                    "Id": 0,
+                    "Name": "string"
+                }
+            ],
             "EmailInterestsUpdateReason": "string",
             "EngagementScore": "Low",
             "DonorSearchInfo": {
@@ -231,25 +269,45 @@ TEST_GET_CONSTITUENTS = {
                 "LargestGiftMax": 0,
                 "WealthAskMin": 0,
                 "WealthAskMax": 0,
-                "BusinessExecutive": "true",
+                "BusinessExecutive": 'true',
                 "NamesScreened": "string",
-                "DateTimeScreenedUtc": "string",
+                "DateTimeScreenedUtc": "string"
             },
-            "AddressIds": [0],
-            "EmailIds": [0],
-            "PhoneIds": [0],
+            "AddressIds": [
+                0
+            ],
+            "EmailIds": [
+                0
+            ],
+            "PhoneIds": [
+                0
+            ],
             "CustomValues": [
-                {"FieldId": 0, "Value": {"Id": 0, "Value": "string"}},
-                {"FieldId": 0, "Values": [{"Id": 0, "Value": "string"}]},
+                {
+                    "FieldId": 0,
+                    "Value": {
+                        "Id": 0,
+                        "Value": "string"
+                    }
+                },
+                {
+                    "FieldId": 0,
+                    "Values": [
+                        {
+                            "Id": 0,
+                            "Value": "string"
+                        }
+                    ]
+                }
             ],
             "AuditTrail": {
                 "CreatedDate": "2020-09-05T01:40:43.035Z",
                 "CreatedName": "string",
                 "LastModifiedDate": "2020-09-05T01:40:43.035Z",
-                "LastModifiedName": "string",
-            },
+                "LastModifiedName": "string"
+            }
         }
-    ],
+    ]
 }
 
 TEST_CREATE_TRANSACTION = {
@@ -275,8 +333,10 @@ TEST_CREATE_TRANSACTION = {
         {
             "Amount": 0,
             "Note": "string",
-            "AcknowledgementStatus": "true",
-            "AcknowledgementInteractionIds": [0],
+            "AcknowledgementStatus": 'true',
+            "AcknowledgementInteractionIds": [
+                0
+            ],
             "Type": "Donation",
             "NonDeductibleAmount": 0,
             "FundId": 0,
@@ -284,34 +344,68 @@ TEST_CREATE_TRANSACTION = {
             "CampaignId": 0,
             "AppealId": 0,
             "TributeId": 0,
-            "SoftCredits": ["null"],
-            "CustomValues": [
-                {"FieldId": 0, "Value": "string"},
-                {"FieldId": 0, "ValueId": 0},
-                {"FieldId": 0, "ValueIds": [0]},
+            "SoftCredits": [
+                'null'
             ],
-            "Attachments": ["null", "null"],
+            "CustomValues": [
+                {
+                    "FieldId": 0,
+                    "Value": "string"
+                },
+                {
+                    "FieldId": 0,
+                    "ValueId": 0
+                },
+                {
+                    "FieldId": 0,
+                    "ValueIds": [
+                        0
+                    ]
+                }
+            ],
+            "Attachments": [
+                'null',
+                'null'
+            ]
         },
         {
             "Amount": 0,
             "Note": "string",
-            "AcknowledgementStatus": "true",
-            "AcknowledgementInteractionIds": [0],
+            "AcknowledgementStatus": 'true',
+            "AcknowledgementInteractionIds": [
+                0
+            ],
             "Type": "PledgePayment",
             "PledgeId": 0,
             "CustomValues": [
-                {"FieldId": 0, "Value": "string"},
-                {"FieldId": 0, "ValueId": 0},
-                {"FieldId": 0, "ValueIds": [0]},
+                {
+                    "FieldId": 0,
+                    "Value": "string"
+                },
+                {
+                    "FieldId": 0,
+                    "ValueId": 0
+                },
+                {
+                    "FieldId": 0,
+                    "ValueIds": [
+                        0
+                    ]
+                }
             ],
-            "Attachments": ["null", "null"],
+            "Attachments": [
+                'null',
+                'null'
+            ]
         },
         {
             "RecurringDonationEndDate": "2020-09-08",
             "Amount": 0,
             "Note": "string",
-            "AcknowledgementStatus": "true",
-            "AcknowledgementInteractionIds": [0],
+            "AcknowledgementStatus": 'true',
+            "AcknowledgementInteractionIds": [
+                0
+            ],
             "RecurringDonationFrequency": "Weekly",
             "RecurringDonationDay1": 0,
             "RecurringDonationDay2": 0,
@@ -322,38 +416,80 @@ TEST_CREATE_TRANSACTION = {
             "CampaignId": 0,
             "AppealId": 0,
             "TributeId": 0,
-            "SoftCredits": ["null"],
-            "CustomValues": [
-                {"FieldId": 0, "Value": "string"},
-                {"FieldId": 0, "ValueId": 0},
-                {"FieldId": 0, "ValueIds": [0]},
+            "SoftCredits": [
+                'null'
             ],
-            "Attachments": ["null", "null"],
+            "CustomValues": [
+                {
+                    "FieldId": 0,
+                    "Value": "string"
+                },
+                {
+                    "FieldId": 0,
+                    "ValueId": 0
+                },
+                {
+                    "FieldId": 0,
+                    "ValueIds": [
+                        0
+                    ]
+                }
+            ],
+            "Attachments": [
+                'null',
+                'null'
+            ]
         },
         {
             "Amount": 0,
             "Note": "string",
-            "AcknowledgementStatus": "true",
-            "AcknowledgementInteractionIds": [0],
+            "AcknowledgementStatus": 'true',
+            "AcknowledgementInteractionIds": [
+                0
+            ],
             "Type": "RecurringDonationPayment",
             "RecurringDonationId": 0,
             "FundId": 0,
             "QuickbooksAccountId": 0,
             "CampaignId": 0,
             "AppealId": 0,
-            "IsExtraPayment": "true",
+            "IsExtraPayment": 'true',
             "CustomValues": [
-                {"FieldId": 0, "Value": "string"},
-                {"FieldId": 0, "ValueId": 0},
-                {"FieldId": 0, "ValueIds": [0]},
+                {
+                    "FieldId": 0,
+                    "Value": "string"
+                },
+                {
+                    "FieldId": 0,
+                    "ValueId": 0
+                },
+                {
+                    "FieldId": 0,
+                    "ValueIds": [
+                        0
+                    ]
+                }
             ],
-            "Attachments": ["null", "null"],
-        },
+            "Attachments": [
+                'null',
+                'null'
+            ]
+        }
     ],
     "Attachments": [
-        {"Guid": "string", "Name": "string", "Extension": "string", "Url": "string"},
-        {"Id": 0, "Name": "string", "Extension": "string", "Url": "string"},
-    ],
+        {
+            "Guid": "string",
+            "Name": "string",
+            "Extension": "string",
+            "Url": "string"
+        },
+        {
+            "Id": 0,
+            "Name": "string",
+            "Extension": "string",
+            "Url": "string"
+        }
+    ]
 }
 
 TEST_GET_TRANSACTION = {
@@ -385,27 +521,62 @@ TEST_GET_TRANSACTION = {
             "Amount": 0,
             "NonDeductibleAmount": 0,
             "Note": "string",
-            "AcknowledgementStatus": "true",
-            "AcknowledgementInteractionIds": [0],
-            "Fund": {"Id": 0, "Name": "string"},
-            "QuickbooksAccount": {"Id": 0, "Name": "string"},
-            "Campaign": {"Id": 0, "Name": "string"},
-            "Appeal": {"Id": 0, "Name": "string"},
-            "Tribute": {"Id": 0, "Name": "string"},
+            "AcknowledgementStatus": 'true',
+            "AcknowledgementInteractionIds": [
+                0
+            ],
+            "Fund": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "QuickbooksAccount": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Campaign": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Appeal": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Tribute": {
+                "Id": 0,
+                "Name": "string"
+            },
             "TributeType": "InHonorOf",
-            "SoftCreditIds": [0],
-            "AttachmentIds": [0],
+            "SoftCreditIds": [
+                0
+            ],
+            "AttachmentIds": [
+                0
+            ],
             "CustomValues": [
-                {"FieldId": 0, "Value": {"Id": 0, "Value": "string"}},
-                {"FieldId": 0, "Values": [{"Id": 0, "Value": "string"}]},
+                {
+                    "FieldId": 0,
+                    "Value": {
+                        "Id": 0,
+                        "Value": "string"
+                    }
+                },
+                {
+                    "FieldId": 0,
+                    "Values": [
+                        {
+                            "Id": 0,
+                            "Value": "string"
+                        }
+                    ]
+                }
             ],
             "AuditTrail": {
                 "CreatedDate": "2020-09-08T14:15:24.293Z",
                 "CreatedName": "string",
                 "LastModifiedDate": "2020-09-08T14:15:24.293Z",
-                "LastModifiedName": "string",
+                "LastModifiedName": "string"
             },
-            "Type": "Donation",
+            "Type": "Donation"
         },
         {
             "Id": 0,
@@ -414,35 +585,77 @@ TEST_GET_TRANSACTION = {
             "Amount": 0,
             "NonDeductibleAmount": 0,
             "Note": "string",
-            "AcknowledgementStatus": "true",
-            "AcknowledgementInteractionIds": [0],
-            "Fund": {"Id": 0, "Name": "string"},
-            "QuickbooksAccount": {"Id": 0, "Name": "string"},
-            "Campaign": {"Id": 0, "Name": "string"},
-            "Appeal": {"Id": 0, "Name": "string"},
-            "Tribute": {"Id": 0, "Name": "string"},
+            "AcknowledgementStatus": 'true',
+            "AcknowledgementInteractionIds": [
+                0
+            ],
+            "Fund": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "QuickbooksAccount": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Campaign": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Appeal": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Tribute": {
+                "Id": 0,
+                "Name": "string"
+            },
             "TributeType": "InHonorOf",
-            "SoftCreditIds": [0],
-            "AttachmentIds": [0],
+            "SoftCreditIds": [
+                0
+            ],
+            "AttachmentIds": [
+                0
+            ],
             "CustomValues": [
-                {"FieldId": 0, "Value": {"Id": 0, "Value": "string"}},
-                {"FieldId": 0, "Values": [{"Id": 0, "Value": "string"}]},
+                {
+                    "FieldId": 0,
+                    "Value": {
+                        "Id": 0,
+                        "Value": "string"
+                    }
+                },
+                {
+                    "FieldId": 0,
+                    "Values": [
+                        {
+                            "Id": 0,
+                            "Value": "string"
+                        }
+                    ]
+                }
             ],
             "AuditTrail": {
                 "CreatedDate": "2020-09-08T14:15:24.293Z",
                 "CreatedName": "string",
                 "LastModifiedDate": "2020-09-08T14:15:24.293Z",
-                "LastModifiedName": "string",
+                "LastModifiedName": "string"
             },
             "Type": "Pledge",
-            "PledgePaymentIds": [0],
+            "PledgePaymentIds": [
+                0
+            ],
             "PledgeInstallments": [
-                {"Id": 0, "PledgeId": 0, "Date": "2020-09-08", "Amount": 0}
+                {
+                    "Id": 0,
+                    "PledgeId": 0,
+                    "Date": "2020-09-08",
+                    "Amount": 0
+                }
             ],
             "PledgeBalance": 0,
             "PledgeStatus": "InGoodStanding",
             "PledgeAmountInArrears": 0,
-            "PledgeNextInstallmentDate": "2020-09-08",
+            "PledgeNextInstallmentDate": "2020-09-08"
         },
         {
             "Id": 0,
@@ -451,28 +664,63 @@ TEST_GET_TRANSACTION = {
             "Amount": 0,
             "NonDeductibleAmount": 0,
             "Note": "string",
-            "AcknowledgementStatus": "true",
-            "AcknowledgementInteractionIds": [0],
-            "Fund": {"Id": 0, "Name": "string"},
-            "QuickbooksAccount": {"Id": 0, "Name": "string"},
-            "Campaign": {"Id": 0, "Name": "string"},
-            "Appeal": {"Id": 0, "Name": "string"},
-            "Tribute": {"Id": 0, "Name": "string"},
+            "AcknowledgementStatus": 'true',
+            "AcknowledgementInteractionIds": [
+                0
+            ],
+            "Fund": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "QuickbooksAccount": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Campaign": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Appeal": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Tribute": {
+                "Id": 0,
+                "Name": "string"
+            },
             "TributeType": "InHonorOf",
-            "SoftCreditIds": [0],
-            "AttachmentIds": [0],
+            "SoftCreditIds": [
+                0
+            ],
+            "AttachmentIds": [
+                0
+            ],
             "CustomValues": [
-                {"FieldId": 0, "Value": {"Id": 0, "Value": "string"}},
-                {"FieldId": 0, "Values": [{"Id": 0, "Value": "string"}]},
+                {
+                    "FieldId": 0,
+                    "Value": {
+                        "Id": 0,
+                        "Value": "string"
+                    }
+                },
+                {
+                    "FieldId": 0,
+                    "Values": [
+                        {
+                            "Id": 0,
+                            "Value": "string"
+                        }
+                    ]
+                }
             ],
             "AuditTrail": {
                 "CreatedDate": "2020-09-08T14:15:24.293Z",
                 "CreatedName": "string",
                 "LastModifiedDate": "2020-09-08T14:15:24.293Z",
-                "LastModifiedName": "string",
+                "LastModifiedName": "string"
             },
             "Type": "PledgePayment",
-            "PledgeId": 0,
+            "PledgeId": 0
         },
         {
             "Id": 0,
@@ -481,25 +729,60 @@ TEST_GET_TRANSACTION = {
             "Amount": 0,
             "NonDeductibleAmount": 0,
             "Note": "string",
-            "AcknowledgementStatus": "true",
-            "AcknowledgementInteractionIds": [0],
-            "Fund": {"Id": 0, "Name": "string"},
-            "QuickbooksAccount": {"Id": 0, "Name": "string"},
-            "Campaign": {"Id": 0, "Name": "string"},
-            "Appeal": {"Id": 0, "Name": "string"},
-            "Tribute": {"Id": 0, "Name": "string"},
+            "AcknowledgementStatus": 'true',
+            "AcknowledgementInteractionIds": [
+                0
+            ],
+            "Fund": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "QuickbooksAccount": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Campaign": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Appeal": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Tribute": {
+                "Id": 0,
+                "Name": "string"
+            },
             "TributeType": "InHonorOf",
-            "SoftCreditIds": [0],
-            "AttachmentIds": [0],
+            "SoftCreditIds": [
+                0
+            ],
+            "AttachmentIds": [
+                0
+            ],
             "CustomValues": [
-                {"FieldId": 0, "Value": {"Id": 0, "Value": "string"}},
-                {"FieldId": 0, "Values": [{"Id": 0, "Value": "string"}]},
+                {
+                    "FieldId": 0,
+                    "Value": {
+                        "Id": 0,
+                        "Value": "string"
+                    }
+                },
+                {
+                    "FieldId": 0,
+                    "Values": [
+                        {
+                            "Id": 0,
+                            "Value": "string"
+                        }
+                    ]
+                }
             ],
             "AuditTrail": {
                 "CreatedDate": "2020-09-08T14:15:24.293Z",
                 "CreatedName": "string",
                 "LastModifiedDate": "2020-09-08T14:15:24.293Z",
-                "LastModifiedName": "string",
+                "LastModifiedName": "string"
             },
             "RecurringDonationEndDate": "2020-09-08",
             "RecurringDonationFrequency": "Weekly",
@@ -507,10 +790,12 @@ TEST_GET_TRANSACTION = {
             "RecurringDonationDay2": 0,
             "RecurringDonationStartDate": "2020-09-08",
             "Type": "RecurringDonation",
-            "RecurringDonationPaymentIds": [0],
+            "RecurringDonationPaymentIds": [
+                0
+            ],
             "RecurringDonationNextInstallmentDate": "2020-09-08",
             "RecurringDonationLastPaymentStatus": "AtRisk",
-            "RecurringDonationStatus": "Active",
+            "RecurringDonationStatus": "Active"
         },
         {
             "Id": 0,
@@ -519,39 +804,78 @@ TEST_GET_TRANSACTION = {
             "Amount": 0,
             "NonDeductibleAmount": 0,
             "Note": "string",
-            "AcknowledgementStatus": "true",
-            "AcknowledgementInteractionIds": [0],
-            "Fund": {"Id": 0, "Name": "string"},
-            "QuickbooksAccount": {"Id": 0, "Name": "string"},
-            "Campaign": {"Id": 0, "Name": "string"},
-            "Appeal": {"Id": 0, "Name": "string"},
-            "Tribute": {"Id": 0, "Name": "string"},
+            "AcknowledgementStatus": 'true',
+            "AcknowledgementInteractionIds": [
+                0
+            ],
+            "Fund": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "QuickbooksAccount": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Campaign": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Appeal": {
+                "Id": 0,
+                "Name": "string"
+            },
+            "Tribute": {
+                "Id": 0,
+                "Name": "string"
+            },
             "TributeType": "InHonorOf",
-            "SoftCreditIds": [0],
-            "AttachmentIds": [0],
+            "SoftCreditIds": [
+                0
+            ],
+            "AttachmentIds": [
+                0
+            ],
             "CustomValues": [
-                {"FieldId": 0, "Value": {"Id": 0, "Value": "string"}},
-                {"FieldId": 0, "Values": [{"Id": 0, "Value": "string"}]},
+                {
+                    "FieldId": 0,
+                    "Value": {
+                        "Id": 0,
+                        "Value": "string"
+                    }
+                },
+                {
+                    "FieldId": 0,
+                    "Values": [
+                        {
+                            "Id": 0,
+                            "Value": "string"
+                        }
+                    ]
+                }
             ],
             "AuditTrail": {
                 "CreatedDate": "2020-09-08T14:15:24.293Z",
                 "CreatedName": "string",
                 "LastModifiedDate": "2020-09-08T14:15:24.293Z",
-                "LastModifiedName": "string",
+                "LastModifiedName": "string"
             },
             "Type": "RecurringDonationPayment",
-            "RecurringDonationId": 0,
-        },
+            "RecurringDonationId": 0
+        }
     ],
-    "AttachmentIds": [0],
-    "IsRefunded": "true",
-    "RefundIds": [0],
+    "AttachmentIds": [
+        0
+    ],
+    "IsRefunded": 'true',
+    "RefundIds": [
+        0
+    ],
     "AuditTrail": {
         "CreatedDate": "2020-09-08T14:15:24.293Z",
         "CreatedName": "string",
         "LastModifiedDate": "2020-09-08T14:15:24.293Z",
-        "LastModifiedName": "string",
-    },
+        "LastModifiedName": "string"
+    }
 }
 
 TEST_GET_TRANSACTIONS = {
@@ -581,18 +905,28 @@ TEST_GET_TRANSACTIONS = {
             "InKindType": "Goods",
             "InKindMarketValue": 0,
             "IntegrationUrl": "string",
-            "Designations": ["null", "null", "null", "null", "null"],
-            "AttachmentIds": [0],
-            "IsRefunded": "true",
-            "RefundIds": [0],
+            "Designations": [
+                'null',
+                'null',
+                'null',
+                'null',
+                'null'
+            ],
+            "AttachmentIds": [
+                0
+            ],
+            "IsRefunded": 'true',
+            "RefundIds": [
+                0
+            ],
             "AuditTrail": {
                 "CreatedDate": "2020-09-08T16:11:30.821Z",
                 "CreatedName": "string",
                 "LastModifiedDate": "2020-09-08T16:11:30.821Z",
-                "LastModifiedName": "string",
-            },
+                "LastModifiedName": "string"
+            }
         }
-    ],
+    ]
 }
 
 TEST_CREATE_INTERACTION = {
@@ -602,16 +936,37 @@ TEST_CREATE_INTERACTION = {
     "Channel": "Email",
     "Purpose": "Acknowledgement",
     "Subject": "string",
-    "IsInbound": "true",
+    "IsInbound": 'true',
     "CustomValues": [
-        {"FieldId": 0, "Value": "string"},
-        {"FieldId": 0, "ValueId": 0},
-        {"FieldId": 0, "ValueIds": [0]},
+        {
+            "FieldId": 0,
+            "Value": "string"
+        },
+        {
+            "FieldId": 0,
+            "ValueId": 0
+        },
+        {
+            "FieldId": 0,
+            "ValueIds": [
+                0
+            ]
+        }
     ],
     "Attachments": [
-        {"Guid": "string", "Name": "string", "Extension": "string", "Url": "string"},
-        {"Id": 0, "Name": "string", "Extension": "string", "Url": "string"},
-    ],
+        {
+            "Guid": "string",
+            "Name": "string",
+            "Extension": "string",
+            "Url": "string"
+        },
+        {
+            "Id": 0,
+            "Name": "string",
+            "Extension": "string",
+            "Url": "string"
+        }
+    ]
 }
 
 TEST_GET_INTERACTION = {
@@ -621,26 +976,46 @@ TEST_GET_INTERACTION = {
     "Channel": "Email",
     "Purpose": "Acknowledgement",
     "Subject": "string",
-    "IsInbound": "true",
+    "IsInbound": 'true',
     "AccountId": 0,
     "TweetId": "string",
-    "IsBcc": "true",
+    "IsBcc": 'true',
     "EmailAddress": "user@example.com",
-    "AttachmentIds": [0],
-    "LetterAttachmentIds": [0],
-    "SurveyLapsedResponses": ["string"],
+    "AttachmentIds": [
+        0
+    ],
+    "LetterAttachmentIds": [
+        0
+    ],
+    "SurveyLapsedResponses": [
+        "string"
+    ],
     "SurveyEmailInteractionId": 0,
     "SurveyResponseInteractionId": 0,
     "CustomValues": [
-        {"FieldId": 0, "Value": {"Id": 0, "Value": "string"}},
-        {"FieldId": 0, "Values": [{"Id": 0, "Value": "string"}]},
+        {
+            "FieldId": 0,
+            "Value": {
+                "Id": 0,
+                "Value": "string"
+            }
+        },
+        {
+            "FieldId": 0,
+            "Values": [
+                {
+                    "Id": 0,
+                    "Value": "string"
+                }
+            ]
+        }
     ],
     "AuditTrail": {
         "CreatedDate": "2020-09-08T15:27:32.767Z",
         "CreatedName": "string",
         "LastModifiedDate": "2020-09-08T15:27:32.767Z",
-        "LastModifiedName": "string",
-    },
+        "LastModifiedName": "string"
+    }
 }
 
 TEST_GET_INTERACTIONS = {
@@ -656,26 +1031,46 @@ TEST_GET_INTERACTIONS = {
             "Channel": "Email",
             "Purpose": "Acknowledgement",
             "Subject": "string",
-            "IsInbound": "true",
+            "IsInbound": 'true',
             "AccountId": 0,
             "TweetId": "string",
-            "IsBcc": "true",
+            "IsBcc": 'true',
             "EmailAddress": "user@example.com",
-            "AttachmentIds": [0],
-            "LetterAttachmentIds": [0],
-            "SurveyLapsedResponses": ["string"],
+            "AttachmentIds": [
+                0
+            ],
+            "LetterAttachmentIds": [
+                0
+            ],
+            "SurveyLapsedResponses": [
+                "string"
+            ],
             "SurveyEmailInteractionId": 0,
             "SurveyResponseInteractionId": 0,
             "CustomValues": [
-                {"FieldId": 0, "Value": {"Id": 0, "Value": "string"}},
-                {"FieldId": 0, "Values": [{"Id": 0, "Value": "string"}]},
+                {
+                    "FieldId": 0,
+                    "Value": {
+                        "Id": 0,
+                        "Value": "string"
+                    }
+                },
+                {
+                    "FieldId": 0,
+                    "Values": [
+                        {
+                            "Id": 0,
+                            "Value": "string"
+                        }
+                    ]
+                }
             ],
             "AuditTrail": {
                 "CreatedDate": "2020-09-08T16:10:36.389Z",
                 "CreatedName": "string",
                 "LastModifiedDate": "2020-09-08T16:10:36.389Z",
-                "LastModifiedName": "string",
-            },
+                "LastModifiedName": "string"
+            }
         }
-    ],
+    ]
 }

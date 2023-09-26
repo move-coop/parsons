@@ -22,10 +22,9 @@ additional details and information.
    VANIDs
       VANIDs are unique to each state and instance of the VAN. VANIDs used for the AV VAN **will not** match
       those of the SmartVAN or VoteBuilder.
-      
-   Maintenance & Support
+   Maintenance & Suppoort
       VAN/EveryAction is not responsible for support of Parsons. Their support team cannot answer questions
-      about Parsons. Please direct any questions to the Parsons team via the issue tracker or Slack.
+      about Parsons. Please direct any questions
 
 .. toctree::
 	:maxdepth: 1
@@ -394,16 +393,6 @@ Folders
 Locations
 =========
 .. autoclass:: parsons.ngpvan.van.Locations
-   :inherited-members:
-   
-===========
-Printed Lists
-===========
-.. note::
-   A printed list must be shared with the user associated with your API key to
-   be listed.
-
-.. autoclass:: parsons.ngpvan.van.PrintedLists
    :inherited-members:
 
 ===========

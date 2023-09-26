@@ -25,17 +25,11 @@ class TestMobileCommons(unittest.TestCase):
 
         self.mc = MobileCommons(username=MOBILECOMMONS_USERNAME, password=MOBILECOMMONS_PASSWORD)
 
-    # @requests_mock.Mocker()
-    # def test_check_response_status_code(self, m):
-    #     m.get(self.base_uri + 'profiles', status_code=400, text='There was a 400 error, oh no!')
-    #     error = self.check_response_status_code()
-    #     self.assertEqual(error, 'There was a 400 error, oh no!')
-
     @requests_mock.Mocker()
     def test_parse_get_request(self, m):
         m.get(self.base_uri + DEFAULT_GET_ENDPOINT, status_code=get_profiles_response.status_code,
               text=get_profiles_response.text)
-        parsed_get_request_text = self.mc.parse_get_request(endpoint=DEFAULT_GET_ENDPOINT,
+        parsed_get_request_text = self.mc._parse_get_request(endpoint=DEFAULT_GET_ENDPOINT,
                                                             params=DEFAULT_GET_PARAMS)
         self.assertIsInstance(parsed_get_request_text, dict)
 
@@ -43,7 +37,7 @@ class TestMobileCommons(unittest.TestCase):
     def test_mc_get_request(self, m):
         m.get(self.base_uri + DEFAULT_GET_ENDPOINT, status_code=get_broadcasts_response.status_code,
               text=get_broadcasts_response.text)
-        parsed_get_response_text = self.mc.mc_get_request(params=DEFAULT_GET_PARAMS,
+        parsed_get_response_text = self.mc._mc_get_request(params=DEFAULT_GET_PARAMS,
                                                           endpoint=DEFAULT_GET_ENDPOINT,
                                                           first_data_key=DEFAULT_FIRST_KEY,
                                                           second_data_key=DEFAULT_SECOND_KEY)
@@ -75,7 +69,7 @@ class TestMobileCommons(unittest.TestCase):
     @requests_mock.Mocker()
     def test_mc_post_request(self, m):
         m.post(self.base_uri + 'profile_update', text=post_profile_response.text)
-        response_dict = self.mc.mc_post_request(endpoint=DEFAULT_POST_ENDPOINT,
+        response_dict = self.mc._mc_post_request(endpoint=DEFAULT_POST_ENDPOINT,
                                                 params=DEFAULT_POST_PARAMS)
         self.assertIsInstance(response_dict, dict, 'MobileCommons.mc_post_request output '
                                                    'not expected type dictionary')

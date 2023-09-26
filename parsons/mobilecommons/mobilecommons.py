@@ -11,14 +11,12 @@ from bs4 import BeautifulSoup
 from requests import HTTPError
 import xmltodict
 import logging
-import math
 
 logger = logging.getLogger(__name__)
 
 MC_URI = "https://secure.mcommons.com/api/"
 DATE_FMT = "%Y-%m-%d"
 format_date = lambda x: parse_date(x).strftime(DATE_FMT) if x is not None else None
-
 
 class MobileCommons:
     """
@@ -343,8 +341,8 @@ class MobileCommons:
             Parsons table with requested broadcasts
         """
 
-        custom_cols = "true" if include_custom_columns == True else "false"
-        subscriptions = "true" if include_subscriptions == True else "false"
+        custom_cols = "true" if include_custom_columns else "false"
+        subscriptions = "true" if include_subscriptions else "false"
 
         params = {
             "phone_number": phones,

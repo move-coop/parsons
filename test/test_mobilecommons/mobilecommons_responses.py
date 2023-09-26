@@ -42,18 +42,18 @@ class get_profiles_response:
         <custom_column name="Birthday"/>
         <custom_column name="Caregiver"/>
         <custom_column name="Contact Frequency"/>
-        <custom_column 
-            name="f_name" 
-            created_at="2022-07-01T15:19:18Z" 
+        <custom_column
+            name="f_name"
+            created_at="2022-07-01T15:19:18Z"
             updated_at="2022-07-01T15:19:18Z">
-            Cormac        
+            Cormac
         </custom_column>
         <custom_column name="Interest"/>
-        <custom_column 
-            name="l_name" 
-            created_at="2022-07-01T15:19:30Z" 
+        <custom_column
+            name="l_name"
+            created_at="2022-07-01T15:19:30Z"
             updated_at="2022-07-01T15:19:30Z">
-            Martinez del Rio        
+            Martinez del Rio
         </custom_column>
         <custom_column name="MoneyConcerns"/>
         <custom_column name="PantryType"/>
@@ -61,16 +61,16 @@ class get_profiles_response:
         <custom_column name="PersonalFlex"/>
       </custom_columns>
       <subscriptions>
-        <subscription 
-            campaign_id="22345" 
-            campaign_name="Test Campaign " 
-            campaign_description="This is just a test babe" 
-            opt_in_path_id="22233" 
-            status="Opted-Out" 
-            opt_in_source="JOIN" 
-            created_at="2022-06-29T17:28:24Z" 
-            activated_at="2022-06-29T17:28:24Z" 
-            opted_out_at="2022-07-01T15:18:59Z" 
+        <subscription
+            campaign_id="22345"
+            campaign_name="Test Campaign"
+            campaign_description="This is just a test babe"
+            opt_in_path_id="22233"
+            status="Opted-Out"
+            opt_in_source="JOIN"
+            created_at="2022-06-29T17:28:24Z"
+            activated_at="2022-06-29T17:28:24Z"
+            opted_out_at="2022-07-01T15:18:59Z"
             opt_out_source="Texted a STOP word"/>
       </subscriptions>
       <integrations>
@@ -112,7 +112,7 @@ class get_broadcasts_response:
 </broadcast>
 <broadcast id="2541464" status="generated">
   <name>Test 6/6 DD DH </name>
-  <body>Hey {{first_name}}!! On a scale of 1-5, how is your day going? 
+  <body>Hey {{first_name}}!! On a scale of 1-5, how is your day going?
 Reply STOP to quit. Msg&amp;DataRatesMayApply</body>
   <campaign id="233056" active="true">
     <name>TEST DH DD</name>
@@ -135,7 +135,7 @@ Reply STOP to quit. Msg&amp;DataRatesMayApply</body>
 </broadcast>
 <broadcast id="2536296" status="draft">
   <name>Broadcast 04/10/2023 01:34PM test</name>
-  <body>hi name, what's your email? Recurring Msgs. Reply STOP to quit, HELP for info. 
+  <body>hi name, what's your email? Recurring Msgs. Reply STOP to quit, HELP for info.
     Msg&amp;DataRatesMayApply</body>
   <campaign id="228634" active="true">
     <name>Dog King 2024</name>
@@ -176,10 +176,10 @@ class post_profile_response:
     <updated_at>2023-03-14 21:46:58 UTC</updated_at>
     <opted_out_at>2022-09-16 01:07:50 UTC</opted_out_at>
     <opted_out_source>Opt-out from API</opted_out_source>
-    <source 
-        type="Keyword" 
-        name="JOIN" id="8657035" 
-        opt_in_path_id="328887" 
+    <source
+        type="Keyword"
+        name="JOIN" id="8657035"
+        opt_in_path_id="328887"
         message_id="1776761263"
     />
     <address>
@@ -210,17 +210,17 @@ class post_profile_response:
       <custom_column name="Birthday"/>
       <custom_column name="Caregiver"/>
       <custom_column name="Contact Frequency"/>
-      <custom_column name="f_name" 
-        created_at="2022-07-01T15:19:18Z" 
+      <custom_column name="f_name"
+        created_at="2022-07-01T15:19:18Z"
         updated_at="2022-07-01T15:19:18Z">
-        Cormac      
+        Cormac
       </custom_column>
       <custom_column name="Interest"/>
-      <custom_column 
-        name="l_name" 
-        created_at="2022-07-01T15:19:30Z" 
+      <custom_column
+        name="l_name"
+        created_at="2022-07-01T15:19:30Z"
         updated_at="2022-07-01T15:19:30Z">
-        Martinez del Rio      
+        Martinez del Rio
       </custom_column>
       <custom_column name="MoneyConcerns"/>
       <custom_column name="PantryType"/>
@@ -228,16 +228,16 @@ class post_profile_response:
       <custom_column name="PersonalFlex"/>
     </custom_columns>
     <subscriptions>
-      <subscription 
-        campaign_id="227047" 
-        campaign_name="Primary Campaign " 
-        campaign_description="Campaigntest" 
-        opt_in_path_id="328887" 
-        status="Opted-Out" 
-        opt_in_source="JOIN" 
-        created_at="2022-06-29T17:28:24Z" 
-        activated_at="2022-06-29T17:28:24Z" 
-        opted_out_at="2022-07-01T15:18:59Z" 
+      <subscription
+        campaign_id="227047"
+        campaign_name="Primary Campaign "
+        campaign_description="Campaigntest"
+        opt_in_path_id="328887"
+        status="Opted-Out"
+        opt_in_source="JOIN"
+        created_at="2022-06-29T17:28:24Z"
+        activated_at="2022-06-29T17:28:24Z"
+        opted_out_at="2022-07-01T15:18:59Z"
         opt_out_source="Texted a STOP word"
       />
     </subscriptions>

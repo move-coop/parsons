@@ -50,13 +50,13 @@ class MobileCommons:
         self.client = APIConnector(uri=MC_URI, auth=(self.username, self.password))
 
     def _mc_get_request(
-            self,
-            endpoint,
-            first_data_key,
-            second_data_key,
-            params,
-            elements_to_unpack=None,
-            limit=None,
+        self,
+        endpoint,
+        first_data_key,
+        second_data_key,
+        params,
+        elements_to_unpack=None,
+        limit=None,
     ):
         """
         A function for GET requests that handles MobileCommons xml responses and pagination
@@ -232,7 +232,7 @@ class MobileCommons:
             raise HTTPError(response_dict["response"]["error"])
 
     def get_broadcasts(
-            self, first_date=None, last_date=None, status=None, campaign_id=None, limit=None
+        self, first_date=None, last_date=None, status=None, campaign_id=None, limit=None
     ):
         """
         A function for get broadcasts
@@ -271,12 +271,12 @@ class MobileCommons:
         )
 
     def get_campaign_subscribers(
-            self,
-            campaign_id: int,
-            first_date: str = None,
-            last_date: str = None,
-            opt_in_path_id: int = None,
-            limit: int = None,
+        self,
+        campaign_id: int,
+        first_date: str = None,
+        last_date: str = None,
+        opt_in_path_id: int = None,
+        limit: int = None,
     ):
         """
         A function for getting subscribers of a specified campaign
@@ -317,13 +317,13 @@ class MobileCommons:
         )
 
     def get_profiles(
-            self,
-            phones: list = None,
-            first_date: str = None,
-            last_date: str = None,
-            include_custom_columns: bool = False,
-            include_subscriptions: bool = False,
-            limit: int = None,
+        self,
+        phones: list = None,
+        first_date: str = None,
+        last_date: str = None,
+        include_custom_columns: bool = False,
+        include_subscriptions: bool = False,
+        limit: int = None,
     ):
         """
         A function for getting profiles, which are MobileCommons people records
@@ -371,16 +371,16 @@ class MobileCommons:
         )
 
     def create_profile(
-            self,
-            phone,
-            first_name=None,
-            last_name=None,
-            zip=None,
-            addressline1=None,
-            addressline2=None,
-            city=None,
-            state=None,
-            opt_in_path_id=None,
+        self,
+        phone,
+        first_name=None,
+        last_name=None,
+        zip=None,
+        addressline1=None,
+        addressline2=None,
+        city=None,
+        state=None,
+        opt_in_path_id=None,
     ):
         """
         A function for creating a single MobileCommons profile

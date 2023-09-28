@@ -108,7 +108,7 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
 
     # TODO - Better way to test for this
     if type(schema_definition[0]) == bigquery.SchemaField:
-        logger.info("User supplied list of SchemaField objects")
+        logger.debug("User supplied list of SchemaField objects")
         return schema_definition
 
     return [bigquery.SchemaField(**x) for x in schema_definition]
@@ -321,11 +321,11 @@ class BigQuery(DatabaseConnector):
         data_type: str = "csv",
         csv_delimiter: str = ",",
         ignoreheader: int = 1,
-        nullas: str = None,
+        nullas: Optional[str] = None,
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
-        quote: str = None,
-        schema: list = None,
+        quote: Optional[str] = None,
+        schema: Optional[List[dict]] = None,
         job_config: Optional[LoadJobConfig] = None,
         **load_kwargs,
     ):
@@ -420,7 +420,7 @@ class BigQuery(DatabaseConnector):
             load_job.result()
         except exceptions.BadRequest as e:
             if "one of the files is larger than the maximum allowed size." in str(e):
-                logger.info(
+                logger.debug(
                     f"{gcs_blob_uri.split('/')[-1]} exceeds max size ... running decompression function..."
                 )
                 self.copy_large_compressed_file_from_gcs(
@@ -462,11 +462,11 @@ class BigQuery(DatabaseConnector):
         data_type: str = "csv",
         csv_delimiter: str = ",",
         ignoreheader: int = 1,
-        nullas: str = None,
+        nullas: Optional[str] = None,
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
-        quote: str = None,
-        schema: list = None,
+        quote: Optional[str] = None,
+        schema: Optional[List[dict]] = None,
         job_config: Optional[LoadJobConfig] = None,
         **load_kwargs,
     ):
@@ -591,9 +591,9 @@ class BigQuery(DatabaseConnector):
         data_type: str = "csv",
         csv_delimiter: str = ",",
         ignoreheader: int = 1,
-        nullas: str = None,
-        aws_access_key_id=None,
-        aws_secret_access_key=None,
+        nullas: Optional[str] = None,
+        aws_access_key_id: Optional[str] = None,
+        aws_secret_access_key: Optional[str] = None,
         gcs_client: Optional[GoogleCloudStorage] = None,
         tmp_gcs_bucket: Optional[str] = None,
         job_config: Optional[LoadJobConfig] = None,
@@ -919,7 +919,7 @@ class BigQuery(DatabaseConnector):
 
         return True
 
-    def get_tables(self, schema, table_name=None):
+    def get_tables(self, schema, table_name: Optional[str] = None):
         """
         List the tables in a schema including metadata.
 
@@ -939,7 +939,7 @@ class BigQuery(DatabaseConnector):
             sql += f" where table_name = '{table_name}'"
         return self.query(sql)
 
-    def get_views(self, schema, view=None):
+    def get_views(self, schema, view: Optional[str] = None):
         """
         List views.
 

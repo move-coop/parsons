@@ -433,7 +433,15 @@ class ActionNetwork(object):
     def get_events(self,limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
+            limit:
+                The number of entries to return. When None, returns all entries.
+            per_page
+                The number of entries per page to return. 25 maximum.
+            page
+                Which page of results to return
+            filter
+                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
              `Returns:`
                  A  JSON with all the events entries
          """
@@ -444,7 +452,6 @@ class ActionNetwork(object):
     def get_event(self,event_id):
         """
              `Args:`
-                 self:
                  event_id: the unique id of the event
              `Returns:`
                  A  JSON with event entry
@@ -453,61 +460,44 @@ class ActionNetwork(object):
     def get_event_attendances(self,event_id,limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
                  event_id: the unique id of the event
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page
+                    The number of entries per page to return. 25 maximum.
+                page
+                    Which page of results to return
+                filter
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
              `Returns:`
-                 A  JSON with all the attendances related to the event entry
+                 A  JSON with the attendances entries related to the event
          """
         if (page):
             return self._get_page(f"events/{event_id}/attendances", page, per_page, filter)
         return self._get_entry_list(f"events/{event_id}/attendances", limit, per_page, filter)
-    def create_fundraising_page(self, title, origin_system, description=None):
-        """
-             `Args:`
-                 self:
-                 title: The title of the fundraising page
-                 origin_system: The origin system for the fundraiser
-                 description (optional): A description about the fundraising page
-             `Returns:`
-                 A  JSON with all the attendances related to the event entry
-         """
-        data = {"title": title,"origin_system": origin_system}
-        if (description):
-            data["description"] = description
-        return self.api.post_request(url=f"{self.api_url}/fundraising_pages",params={"headers":{"Content-Type":"application/json"}},data=json.dumps(data))
-
-    def update_fundraising_page(self, fundraising_page_id ,title=None, origin_system=None, description=None):
-        """
-             `Args:`
-                 self:
-                 title: The title of the fundraising page
-                 origin_system: The origin system for the fundraiser
-                 description (optional): A description about the fundraising page
-             `Returns:`
-                 A  JSON with all the attendances related to the event entry
-         """
-        data = {}
-        if (description):
-            data["description"] = description
-        if(title):
-            data["title"]=title
-        if(origin_system):
-            data["origin_system"]=origin_system
-        return self.api.put_request(url=f"{self.api_url}/fundraising_pages/{fundraising_page_id}",params={"headers":{"Content-Type":"application/json"}},data=json.dumps(data))
 
     def get_fundraising_page(self, fundraising_page_id):
         """
             `Args:`
-                self:
                 fundraising_page_id: The id of the fundraiser
             `Returns:`
-                A  JSON with fundraising_page data or an error
+                A  JSON with fundraising_page entry or an error
         """
         return self.api.get_request(url=f"fundraising_pages/{fundraising_page_id}")
     def get_fundraising_pages(self, limit=None, per_page=25, page=None, filter=None):
         """
             `Args:`
-                self
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page
+                    The number of entries per page to return. 25 maximum.
+                page
+                    Which page of results to return
+                filter
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
+
             `Returns:`
                 A  JSON with all the fundraising_pages entries
             """
@@ -518,10 +508,19 @@ class ActionNetwork(object):
     def get_fundraising_page_donations(self,fundraising_page_id,limit=None, per_page=25, page=None, filter=None):
         """
             `Args:`
-                self:
-                fundraising_page_id: The id of the fundraiser
+                 fundraising_page_id: The id of the fundraiser
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page
+                    The number of entries per page to return. 25 maximum.
+                page
+                    Which page of results to return
+                filter
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
+
             `Returns:`
-                A  JSON with fundraising_page data or an error
+                A  JSON with fundraising_page entry or an error
         """
         if(page):
             return self._get_page(f"fundraising_pages/{fundraising_page_id}/donations",page,per_page,filter)
@@ -530,7 +529,6 @@ class ActionNetwork(object):
     def get_donation(self,donation_id):
         """
             `Args:`
-                self:
                 donation_id: The unique id of the donation
             `Returns:`
                 A  JSON with donation data or an error
@@ -539,9 +537,17 @@ class ActionNetwork(object):
     def get_donations(self,limit=None, per_page=25, page=None, filter=None):
         """
             `Args:`
-                self:
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page:
+                    The number of entries per page to return. 25 maximum.
+                page:
+                    Which page of results to return
+                filter:
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
             `Returns:`
-                A  JSON with all of the donations entries
+                A  JSON with all the donations entries
         """
         if (page):
             return self._get_page(f"donations", page, per_page, filter)
@@ -550,9 +556,17 @@ class ActionNetwork(object):
     def get_forms(self,limit=None, per_page=25, page=None, filter=None):
         """
             `Args:`
-                self:
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page
+                    The number of entries per page to return. 25 maximum.
+                page
+                    Which page of results to return
+                filter
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
             `Returns:`
-                A  JSON with all of the forms entries
+                A  JSON with all the forms entries
         """
         if (page):
             return self._get_page(f"forms", page, per_page, filter)
@@ -561,8 +575,8 @@ class ActionNetwork(object):
     def get_form(self,form_id):
         """
              `Args:`
-                 self:
-                 form_id: the unique id of the form
+                 form_id:
+                    The unique id of the form
              `Returns:`
                  A  JSON with form entry
          """
@@ -570,7 +584,18 @@ class ActionNetwork(object):
     def get_form_submissions(self, form_id, limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
+                 form_id:
+                    The unique id of the form
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page:
+                    The number of entries per page to return. 25 maximum.
+                page:
+                    Which page of results to return
+                filter:
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
+
              `Returns:`
                  A  JSON with all the submissions entries related to the form
          """
@@ -581,7 +606,17 @@ class ActionNetwork(object):
     def get_person_submissions(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
+                 person_id:
+                    The unique id of the person
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page:
+                    The number of entries per page to return. 25 maximum.
+                page:
+                    Which page of results to return
+                filter:
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
              `Returns:`
                  A  JSON with all the submissions entries related with our group
          """
@@ -592,8 +627,10 @@ class ActionNetwork(object):
     def get_form_submission(self, form_id, submission_id):
         """
              `Args:`
-                 self:
-                 submission_id: the unique id of the submission
+                 form_id:
+                    The unique id of the form
+                 submission_id:
+                    The unique id of the submission
              `Returns:`
                  A  JSON with the submission entry
          """
@@ -602,8 +639,10 @@ class ActionNetwork(object):
     def get_person_submission(self, person_id, submission_id):
         """
              `Args:`
-                 self:
-                 submission_id: the unique id of the submission
+                 person_id:
+                    The unique id of the submission
+                 submission_id:
+                    The unique id of the submission
              `Returns:`
                  A  JSON with the submission entry
          """
@@ -612,7 +651,16 @@ class ActionNetwork(object):
     def get_advocacy_campaigns(self,limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page:
+                    The number of entries per page to return. 25 maximum.
+                page:
+                    Which page of results to return
+                filter:
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
+
              `Returns:`
                  A  JSON with all of the advocacy_campaigns (letters) entries
          """
@@ -622,8 +670,8 @@ class ActionNetwork(object):
     def get_advocacy_campaign(self,advocacy_campaign_id):
         """
              `Args:`
-                 self:
-                 advocacy_campaign_id: the unique id of the advocacy_campaign
+                 advocacy_campaign_id:
+                    The unique id of the advocacy_campaign
              `Returns:`
                  A  JSON with advocacy_campaign entry
          """
@@ -631,10 +679,20 @@ class ActionNetwork(object):
     def get_advocacy_campaign_outreaches(self,advocacy_campaign_id,limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
-                 advocacy_campaign_id: the unique id of the advocacy_campaign
+                 advocacy_campaign_id:
+                    The unique id of the advocacy_campaign
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page:
+                    The number of entries per page to return. 25 maximum.
+                page:
+                    Which page of results to return
+                filter:
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
+
              `Returns:`
-                 A  JSON with all the outreaches entries related to the advocacy_campaign_id
+                A  JSON with all the outreaches entries related to the advocacy_campaign_id
          """
         if (page):
             return self._get_page(f"advocacy_campaigns/{advocacy_campaign_id}/outreaches", page, per_page, filter)
@@ -642,7 +700,18 @@ class ActionNetwork(object):
     def get_person_outreaches(self,person_id, limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
+                 person_id:
+                    The unique id of the person
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page:
+                    The number of entries per page to return. 25 maximum.
+                page:
+                    Which page of results to return
+                filter:
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
+
              `Returns:`
                  A  JSON with all the outreaches entries related to our group
          """
@@ -653,8 +722,10 @@ class ActionNetwork(object):
     def get_advocacy_campaign_outreach(self, advocacy_campaign_id , outreach_id):
         """
              `Args:`
-                 self:
-                 outreach_id: the unique id of the outreach
+                 advocacy_campaign_id:
+                    The uniqe id of the campaign
+                 outreach_id:
+                    The unique id of the outreach
              `Returns:`
                  A  JSON with the outreach entry
          """
@@ -663,7 +734,15 @@ class ActionNetwork(object):
     def get_campaigns(self,limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page:
+                    The number of entries per page to return. 25 maximum.
+                page:
+                    Which page of results to return
+                filter:
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
              `Returns:`
                  A  JSON with all of the campaigns entries
          """
@@ -673,8 +752,8 @@ class ActionNetwork(object):
     def get_campaign(self,campaign_id):
         """
              `Args:`
-                 self:
-                 campaign_id: the unique id of the campaign
+                 campaign_id:
+                    The unique id of the campaign
              `Returns:`
                  A  JSON with the campaign entry
          """
@@ -682,7 +761,15 @@ class ActionNetwork(object):
     def get_event_campaigns(self,limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page:
+                    The number of entries per page to return. 25 maximum.
+                page:
+                    Which page of results to return
+                filter:
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
              `Returns:`
                  A  JSON with all the event_campaigns entries
          """
@@ -693,8 +780,8 @@ class ActionNetwork(object):
     def get_event_campaign(self,event_campaign_id):
         """
              `Args:`
-                 self:
-                 event_campaign_id: the unique id of the event_campaign
+                 event_campaign_id:
+                    The unique id of the event_campaign
              `Returns:`
                  A  JSON with event_campaign entry
          """
@@ -702,8 +789,8 @@ class ActionNetwork(object):
     def get_event_campaign_events(self,event_campaign_id):
         """
              `Args:`
-                 self:
-                 event_campaign_id: the unique id of the event_campaign
+                 event_campaign_id:
+                    The unique id of the event_campaign
              `Returns:`
                  A  JSON with all the eventes related to the event_campaign entry
          """
@@ -711,7 +798,17 @@ class ActionNetwork(object):
     def get_person_attendances(self,person_id,limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
+                 person_id:
+                    The unique id of the person
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page:
+                    The number of entries per page to return. 25 maximum.
+                page:
+                    Which page of results to return
+                filter:
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
              `Returns:`
                  A  JSON with all the attendances entries
          """
@@ -723,8 +820,10 @@ class ActionNetwork(object):
     def get_event_attendance(self,event_id,attendance_id):
         """
              `Args:`
-                 self:
-                 attendance_id: the unique id of the attendance
+                 event_id:
+                    The unique id of the event
+                 attendance_id:
+                    The unique id of the attendance
              `Returns:`
                  A  JSON with the attendance entry
          """
@@ -732,8 +831,10 @@ class ActionNetwork(object):
     def get_person_attendance(self,person_id,attendance_id):
         """
              `Args:`
-                 self:
-                 attendance_id: the unique id of the attendance
+                 person_id:
+                    The unique id of the person
+                 attendance_id:
+                    The unique id of the attendance
              `Returns:`
                  A  JSON with the attendance entry
          """
@@ -742,7 +843,15 @@ class ActionNetwork(object):
     def get_petitions(self,limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page:
+                    The number of entries per page to return. 25 maximum.
+                page:
+                    Which page of results to return
+                filter:
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
              `Returns:`
                  A  JSON with all of the petitions entries
          """
@@ -753,8 +862,8 @@ class ActionNetwork(object):
     def get_petition(self,petition_id):
         """
              `Args:`
-                 self:
-                 petition_id: the unique id of the petition
+                 petition_id:
+                    The unique id of the petition
              `Returns:`
                  A  JSON with the petition entry
          """
@@ -762,8 +871,17 @@ class ActionNetwork(object):
     def get_petition_signatures(self,petition_id,limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
-                 petition_id: the unique id of the petition
+                 petition_id:
+                    The unique id of the petition
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page:
+                    The number of entries per page to return. 25 maximum.
+                page:
+                    Which page of results to return
+                filter:
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
              `Returns:`
                  A  JSON with all the signatures related to the petition entry
          """
@@ -773,8 +891,19 @@ class ActionNetwork(object):
     def get_person_signatures(self,person_id,limit=None, per_page=25, page=None, filter=None):
         """
              `Args:`
-                 self:
-                 petition_id: the unique id of the petition
+                 person_id:
+                    The unique id of the person
+                 limit:
+                    The number of entries to return. When None, returns all entries.
+                per_page:
+                    The number of entries per page to return. 25 maximum.
+                page:
+                    Which page of results to return
+                filter:
+                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                    When None, no filter is applied.
+
+
              `Returns:`
                  A  JSON with all the signatures related to the petition entry
          """
@@ -785,8 +914,10 @@ class ActionNetwork(object):
     def get_petition_signature(self,petition_id,signature_id):
         """
              `Args:`
-                 self:
-                 signature_id: the unique id of the signature
+                 petition_id:
+                    The unique id of the petition
+                 signature_id:
+                    The unique id of the signature
              `Returns:`
                  A  JSON with the signature entry
          """
@@ -794,8 +925,10 @@ class ActionNetwork(object):
     def get_person_signature(self,person_id,signature_id):
         """
              `Args:`
-                 self:
-                 signature_id: the unique id of the signature
+                 person_id:
+                    The unique id of the person
+                 signature_id:
+                    The unique id of the signature
              `Returns:`
                  A  JSON with the signature entry
          """

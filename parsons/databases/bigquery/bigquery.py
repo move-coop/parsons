@@ -1108,16 +1108,5 @@ class BigQueryTable(BaseTable):
         """
         Truncate the table.
         """
-        # BigQuery does not support truncate natively, so we will "load" an empty dataset
-        # with write disposition of "truncate"
-        table_ref = get_table_ref(self.db.client, self.table)
-        bq_table = self.db.client.get_table(table_ref)
 
-        # BigQuery wants the schema when we load the data, so we will grab it from the table
-        job_config = bigquery.LoadJobConfig()
-        job_config.schema = bq_table.schema
-
-        empty_table = Table([])
-        self.db.copy(
-            empty_table, self.table, if_exists="truncate", job_config=job_config
-        )
+        self.db.query(f"TRUNCATE TABLE {self.table}")

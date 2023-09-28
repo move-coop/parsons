@@ -800,10 +800,10 @@ class BigQuery(DatabaseConnector):
                 A temp table is dropped by default on cleanup. You can set to False for debugging.
             from_s3: boolean
                 Instead of specifying a table_obj (set the first argument to None),
-                set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments
+                set this to True and include :func:`~parsons.databases.bigquery.Bigquery.copy_s3` arguments
                 to upsert a pre-existing s3 file into the target_table
             \**copy_args: kwargs
-                See :func:`~parsons.databases.Redshift.copy` for options.
+                See :func:`~parsons.databases.bigquery.BigQuery.copy` for options.
         """  # noqa: W605
         if not self.table_exists(target_table):
             logger.info(

@@ -10,6 +10,7 @@ import uuid
 from grpc import StatusCode
 import gzip
 import shutil
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -77,10 +78,10 @@ class GoogleCloudStorage(object):
         """
 
         if bucket_name in self.list_buckets():
-            logger.info(f"{bucket_name} exists.")
+            logger.debug(f"{bucket_name} exists.")
             return True
         else:
-            logger.info(f"{bucket_name} does not exist.")
+            logger.debug(f"{bucket_name} does not exist.")
             return False
 
     def get_bucket(self, bucket_name):
@@ -99,7 +100,7 @@ class GoogleCloudStorage(object):
         else:
             raise google.cloud.exceptions.NotFound("Bucket not found")
 
-        logger.info(f"Returning {bucket_name} object")
+        logger.debug(f"Returning {bucket_name} object")
         return bucket
 
     def create_bucket(self, bucket_name):
@@ -177,10 +178,10 @@ class GoogleCloudStorage(object):
         """
 
         if blob_name in self.list_blobs(bucket_name):
-            logger.info(f"{blob_name} exists.")
+            logger.debug(f"{blob_name} exists.")
             return True
         else:
-            logger.info(f"{blob_name} does not exist.")
+            logger.debug(f"{blob_name} does not exist.")
             return False
 
     def get_blob(self, bucket_name, blob_name):
@@ -248,10 +249,10 @@ class GoogleCloudStorage(object):
         bucket = storage.Bucket(self.client, name=bucket_name)
         blob = storage.Blob(blob_name, bucket)
 
-        logger.info(f"Downloading {blob_name} from {bucket_name} bucket.")
+        logger.debug(f"Downloading {blob_name} from {bucket_name} bucket.")
         with open(local_path, "wb") as f:
             blob.download_to_file(f, client=self.client)
-        logger.info(f"{blob_name} saved to {local_path}.")
+        logger.debug(f"{blob_name} saved to {local_path}.")
 
         return local_path
 
@@ -457,7 +458,7 @@ class GoogleCloudStorage(object):
                 operation = client.get_operation({"name": latest_operation_name})
 
                 if not operation.done:
-                    logger.info("Operation still running...")
+                    logger.debug("Operation still running...")
 
                 else:
                     if int(operation.error.code) not in StatusCode["OK"].value:
@@ -517,9 +518,33 @@ class GoogleCloudStorage(object):
         self,
         bucket_name: str,
         blob_name: str,
-        new_filename: str = None,
-        new_file_extension: str = None,
-    ):
+        new_filename: Optional[str] = None,
+        new_file_extension: Optional[str] = None,
+    ) -> str:
+        """
+        Downloads and decompresses a blob. The decompressed blob
+        is re-uploaded with the same filename if no `new_filename`
+        parameter is provided.
+
+        `Args`:
+            bucket_name: str
+                GCS bucket name
+
+            blob_name: str
+                Blob name in GCS bucket
+
+            new_filename: str
+                If provided, replaces the existing blob name
+                when the decompressed file is uploaded
+
+            new_file_extension: str
+                If provided, replaces the file extension
+                when the decompressed file is uploaded
+
+        `Returns`:
+            String representation of decompressed GCS URI
+        """
+
         compressed_filepath = self.download_blob(
             bucket_name=bucket_name, blob_name=blob_name
         )
@@ -532,11 +557,11 @@ class GoogleCloudStorage(object):
             decompressed_filepath += f".{new_file_extension}"
             decompressed_blob_name += f".{new_file_extension}"
 
-        logger.info("Decompressing file...")
+        logger.debug("Decompressing file...")
         with gzip.open(compressed_filepath, "rb") as f_in:
             with open(decompressed_filepath, "wb") as f_out:
                 shutil.copyfileobj(f_in, f_out)
-                logger.info(
+                logger.debug(
                     f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
                 )
                 self.put_blob(

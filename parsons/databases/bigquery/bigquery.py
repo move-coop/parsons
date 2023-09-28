@@ -438,7 +438,7 @@ class BigQuery(DatabaseConnector):
                     job_config=job_config,
                 )
             elif "Schema has no field" in str(e):
-                logger.info(f"{gcs_blob_uri.split('/')[-1]} is empty, skipping file")
+                logger.debug(f"{gcs_blob_uri.split('/')[-1]} is empty, skipping file")
                 return "Empty file"
 
             elif "encountered too many errors, giving up" in str(e):
@@ -555,14 +555,14 @@ class BigQuery(DatabaseConnector):
 
         uncompressed_gcs_uri = None
         try:
-            logger.info("Unzipping large file")
+            logger.debug("Unzipping large file")
             uncompressed_gcs_uri = gcs.unzip_blob(
                 bucket_name=old_bucket_name,
                 blob_name=old_blob_name,
                 new_file_extension="csv",
             )
 
-            logger.info(
+            logger.debug(
                 f"Loading uncompressed uri into BigQuery {uncompressed_gcs_uri}..."
             )
             table_ref = get_table_ref(self.client, table_name)
@@ -579,7 +579,7 @@ class BigQuery(DatabaseConnector):
                     gcs_uri=uncompressed_gcs_uri
                 )
                 gcs.delete_blob(new_bucket_name, new_blob_name)
-                logger.info("Successfully dropped uncompressed blob")
+                logger.debug("Successfully dropped uncompressed blob")
 
     def copy_s3(
         self,
@@ -933,7 +933,7 @@ class BigQuery(DatabaseConnector):
                 See :ref:`parsons-table` for output options.
         """
 
-        logger.info("Retrieving tables info.")
+        logger.debug("Retrieving tables info.")
         sql = f"select * from {schema}.INFORMATION_SCHEMA.TABLES"
         if table_name:
             sql += f" where table_name = '{table_name}'"
@@ -953,7 +953,7 @@ class BigQuery(DatabaseConnector):
                 See :ref:`parsons-table` for output options.
         """
 
-        logger.info("Retrieving views info.")
+        logger.debug("Retrieving views info.")
         sql = f"""
               select 
                 table_schema as schema_name,
@@ -996,11 +996,11 @@ class BigQuery(DatabaseConnector):
             job_config = bigquery.LoadJobConfig()
 
         if not job_config.schema and kwargs["schema"]:
-            logger.info("Using user-supplied schema definition...")
+            logger.debug("Using user-supplied schema definition...")
             job_config.schema = map_column_headers_to_schema_field(kwargs["schema"])
             job_config.autodetect = False
         else:
-            logger.info("Autodetecting schema definition...")
+            logger.debug("Autodetecting schema definition...")
             job_config.autodetect = True
 
         if not job_config.create_disposition:

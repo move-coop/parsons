@@ -101,13 +101,17 @@ class ActionNetwork(object):
         mobile_number=None,
         mobile_status="subscribed",
         background_processing=False,
-        identifiers=None,
         **kwargs,
     ):
         """
         Creates or updates a person record. In order to update an existing record instead of
         creating a new one, you must supply an email or mobile number which matches a record
         in the database.
+
+        Identifiers are intentionally not included as an option on
+        this method, because their use can cause buggy behavior if
+        they are not globally unique. ActionNetwork support strongly
+        encourages developers not to use custom identifiers.
 
         `Args:`
             email_address:
@@ -155,16 +159,6 @@ class ActionNetwork(object):
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
                 https://actionnetwork.org/docs/v2/#background-processing
-            identifiers:
-                List of strings to be used as globally unique
-                identifiers. Can be useful for matching contacts back
-                to other platforms and systems. If the identifier
-                provided is not globally unique in ActionNetwork, it will
-                simply be ignored and not added to the object. Action Network
-                also creates its own identifier for each new resouce.
-                https://actionnetwork.org/docs/v2/#resources
-                e.g.: ["foreign_system:1", "other_system:12345abcd"]
-
             **kwargs:
                 Any additional fields to store about the person. Action Network allows
                 any custom field.
@@ -229,8 +223,7 @@ class ActionNetwork(object):
             data["person"]["postal_addresses"] = postal_addresses
         if tags is not None:
             data["add_tags"] = tags
-        if identifiers:
-            data["person"]["identifiers"] = identifiers
+
         data["person"]["custom_fields"] = {**kwargs}
         url = f"{self.api_url}/people"
         if background_processing:

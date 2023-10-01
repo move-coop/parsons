@@ -51,8 +51,6 @@ class ActionNetwork(object):
         while True:
             response = self._get_page(object_name, page, per_page, filter=filter)
             page = page + 1
-            print(list(response["_embedded"]))
-            # response_list = response["_embedded"][f"osdi:{object_name.split('/')[-1]}"]
             response_list = response["_embedded"][list(response["_embedded"])[0]]
             if not response_list:
                 return Table(return_list)
@@ -430,10 +428,73 @@ class ActionNetwork(object):
 
         return event_dict
 
-    def get_events(self,limit=None, per_page=25, page=None, filter=None):
+    def get_events(self, limit=None, per_page=25, page=None, filter=None):
         """
-             `Args:`
+         `Args:`
+        limit:
+            The number of entries to return. When None, returns all entries.
+        per_page
+            The number of entries per page to return. 25 maximum.
+        page
+            Which page of results to return
+        filter
+            The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+            When None, no filter is applied.
+         `Returns:`
+             A  JSON with all the events entries
+        """
+        if page:
+            return self._get_page("events", page, per_page, filter)
+        return self._get_entry_list("events", limit, per_page, filter)
+
+    def get_event(self, event_id):
+        """
+        `Args:`
+            event_id: the unique id of the event
+        `Returns:`
+            A  JSON with event entry
+        """
+        return self.api.get_request(f"events/{event_id}")
+
+    def get_event_attendances(
+        self, event_id, limit=None, per_page=25, page=None, filter=None
+    ):
+        """
+        `Args:`
+            event_id: the unique id of the event
             limit:
+               The number of entries to return. When None, returns all entries.
+           per_page
+               The number of entries per page to return. 25 maximum.
+           page
+               Which page of results to return
+           filter
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+        `Returns:`
+            A  JSON with the attendances entries related to the event
+        """
+        if page:
+            return self._get_page(
+                f"events/{event_id}/attendances", page, per_page, filter
+            )
+        return self._get_entry_list(
+            f"events/{event_id}/attendances", limit, per_page, filter
+        )
+
+    def get_fundraising_page(self, fundraising_page_id):
+        """
+        `Args:`
+            fundraising_page_id: The id of the fundraiser
+        `Returns:`
+            A  JSON with fundraising_page entry
+        """
+        return self.api.get_request(url=f"fundraising_pages/{fundraising_page_id}")
+
+    def get_fundraising_pages(self, limit=None, per_page=25, page=None, filter=None):
+        """
+        `Args:`
+             limit:
                 The number of entries to return. When None, returns all entries.
             per_page
                 The number of entries per page to return. 25 maximum.
@@ -442,494 +503,518 @@ class ActionNetwork(object):
             filter
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
-             `Returns:`
-                 A  JSON with all the events entries
-         """
-        if (page):
-            return self._get_page("events", page, per_page, filter)
-        return self._get_entry_list("events", limit, per_page, filter)
 
-    def get_event(self,event_id):
+        `Returns:`
+            A  JSON with all the fundraising_pages entries
         """
-             `Args:`
-                 event_id: the unique id of the event
-             `Returns:`
-                 A  JSON with event entry
-         """
-        return self.api.get_request(f"events/{event_id}")
-    def get_event_attendances(self,event_id,limit=None, per_page=25, page=None, filter=None):
-        """
-             `Args:`
-                 event_id: the unique id of the event
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page
-                    The number of entries per page to return. 25 maximum.
-                page
-                    Which page of results to return
-                filter
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
-             `Returns:`
-                 A  JSON with the attendances entries related to the event
-         """
-        if (page):
-            return self._get_page(f"events/{event_id}/attendances", page, per_page, filter)
-        return self._get_entry_list(f"events/{event_id}/attendances", limit, per_page, filter)
-
-    def get_fundraising_page(self, fundraising_page_id):
-        """
-            `Args:`
-                fundraising_page_id: The id of the fundraiser
-            `Returns:`
-                A  JSON with fundraising_page entry or an error
-        """
-        return self.api.get_request(url=f"fundraising_pages/{fundraising_page_id}")
-    def get_fundraising_pages(self, limit=None, per_page=25, page=None, filter=None):
-        """
-            `Args:`
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page
-                    The number of entries per page to return. 25 maximum.
-                page
-                    Which page of results to return
-                filter
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
-
-            `Returns:`
-                A  JSON with all the fundraising_pages entries
-            """
-        if(page):
+        if page:
             return self._get_page("fundraising_pages", page, per_page, filter)
-        return self._get_entry_list("fundraising_pages", limit,)
+        return self._get_entry_list(
+            "fundraising_pages",
+            limit,
+        )
 
-    def get_fundraising_page_donations(self,fundraising_page_id,limit=None, per_page=25, page=None, filter=None):
+    def get_fundraising_page_donations(
+        self, fundraising_page_id, limit=None, per_page=25, page=None, filter=None
+    ):
         """
-            `Args:`
-                 fundraising_page_id: The id of the fundraiser
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page
-                    The number of entries per page to return. 25 maximum.
-                page
-                    Which page of results to return
-                filter
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
+        `Args:`
+             fundraising_page_id: The id of the fundraiser
+             limit:
+                The number of entries to return. When None, returns all entries.
+            per_page
+                The number of entries per page to return. 25 maximum.
+            page
+                Which page of results to return
+            filter
+                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
-            `Returns:`
-                A  JSON with fundraising_page entry or an error
+        `Returns:`
+            A  JSON with fundraising_page entry
         """
-        if(page):
-            return self._get_page(f"fundraising_pages/{fundraising_page_id}/donations",page,per_page,filter)
-        return self._get_entry_list(f"fundraising_pages/{fundraising_page_id}/donations",limit,per_page,filter)
+        if page:
+            return self._get_page(
+                f"fundraising_pages/{fundraising_page_id}/donations",
+                page,
+                per_page,
+                filter,
+            )
+        return self._get_entry_list(
+            f"fundraising_pages/{fundraising_page_id}/donations",
+            limit,
+            per_page,
+            filter,
+        )
 
-    def get_donation(self,donation_id):
+    def get_donation(self, donation_id):
         """
-            `Args:`
-                donation_id: The unique id of the donation
-            `Returns:`
-                A  JSON with donation data or an error
+        `Args:`
+            donation_id: The unique id of the donation
+        `Returns:`
+            A  JSON with donation data
         """
         return self.api.get_request(url=f"donations/{donation_id}")
-    def get_donations(self,limit=None, per_page=25, page=None, filter=None):
-        """
-            `Args:`
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page:
-                    The number of entries per page to return. 25 maximum.
-                page:
-                    Which page of results to return
-                filter:
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
-            `Returns:`
-                A  JSON with all the donations entries
-        """
-        if (page):
-            return self._get_page(f"donations", page, per_page, filter)
-        return self._get_entry_list(f"donations", limit, per_page, filter)
 
-    def get_forms(self,limit=None, per_page=25, page=None, filter=None):
+    def get_donations(self, limit=None, per_page=25, page=None, filter=None):
         """
-            `Args:`
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page
-                    The number of entries per page to return. 25 maximum.
-                page
-                    Which page of results to return
-                filter
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
-            `Returns:`
-                A  JSON with all the forms entries
+        `Args:`
+             limit:
+                The number of entries to return. When None, returns all entries.
+            per_page:
+                The number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
+        `Returns:`
+            A  JSON with all the donations entries
         """
-        if (page):
-            return self._get_page(f"forms", page, per_page, filter)
-        return self._get_entry_list(f"forms", limit, per_page, filter)
+        if page:
+            return self._get_page("donations", page, per_page, filter)
+        return self._get_entry_list("donations", limit, per_page, filter)
 
-    def get_form(self,form_id):
+    def get_forms(self, limit=None, per_page=25, page=None, filter=None):
         """
-             `Args:`
-                 form_id:
-                    The unique id of the form
-             `Returns:`
-                 A  JSON with form entry
-         """
+        `Args:`
+             limit:
+                The number of entries to return. When None, returns all entries.
+            per_page
+                The number of entries per page to return. 25 maximum.
+            page
+                Which page of results to return
+            filter
+                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
+        `Returns:`
+            A  JSON with all the forms entries
+        """
+        if page:
+            return self._get_page("forms", page, per_page, filter)
+        return self._get_entry_list("forms", limit, per_page, filter)
+
+    def get_form(self, form_id):
+        """
+        `Args:`
+            form_id:
+               The unique id of the form
+        `Returns:`
+            A  JSON with form entry
+        """
         return self.api.get_request(f"forms/{form_id}")
-    def get_form_submissions(self, form_id, limit=None, per_page=25, page=None, filter=None):
-        """
-             `Args:`
-                 form_id:
-                    The unique id of the form
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page:
-                    The number of entries per page to return. 25 maximum.
-                page:
-                    Which page of results to return
-                filter:
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
 
-             `Returns:`
-                 A  JSON with all the submissions entries related to the form
-         """
-        if (page):
-            return self._get_page(f"forms/{form_id}/submissions", page, per_page, filter)
-        return self._get_entry_list(f"forms/{form_id}/submissions", limit, per_page, filter)
-
-    def get_person_submissions(self, person_id, limit=None, per_page=25, page=None, filter=None):
+    def get_form_submissions(
+        self, form_id, limit=None, per_page=25, page=None, filter=None
+    ):
         """
-             `Args:`
-                 person_id:
-                    The unique id of the person
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page:
-                    The number of entries per page to return. 25 maximum.
-                page:
-                    Which page of results to return
-                filter:
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
-             `Returns:`
-                 A  JSON with all the submissions entries related with our group
-         """
-        if (page):
-            return self._get_page(f"people/{person_id}/submissions", page, per_page, filter)
-        return self._get_entry_list(f"people/{person_id}/submissions", limit, per_page, filter)
+        `Args:`
+            form_id:
+               The unique id of the form
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+
+        `Returns:`
+            A  JSON with all the submissions entries related to the form
+        """
+        if page:
+            return self._get_page(
+                f"forms/{form_id}/submissions", page, per_page, filter
+            )
+        return self._get_entry_list(
+            f"forms/{form_id}/submissions", limit, per_page, filter
+        )
+
+    def get_person_submissions(
+        self, person_id, limit=None, per_page=25, page=None, filter=None
+    ):
+        """
+        `Args:`
+            person_id:
+               The unique id of the person
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+        `Returns:`
+            A  JSON with all the submissions entries related with our group
+        """
+        if page:
+            return self._get_page(
+                f"people/{person_id}/submissions", page, per_page, filter
+            )
+        return self._get_entry_list(
+            f"people/{person_id}/submissions", limit, per_page, filter
+        )
 
     def get_form_submission(self, form_id, submission_id):
         """
-             `Args:`
-                 form_id:
-                    The unique id of the form
-                 submission_id:
-                    The unique id of the submission
-             `Returns:`
-                 A  JSON with the submission entry
-         """
+        `Args:`
+            form_id:
+               The unique id of the form
+            submission_id:
+               The unique id of the submission
+        `Returns:`
+            A  JSON with the submission entry
+        """
         return self.api.get_request(f"forms/{form_id}/submissions/{submission_id}")
 
     def get_person_submission(self, person_id, submission_id):
         """
-             `Args:`
-                 person_id:
-                    The unique id of the submission
-                 submission_id:
-                    The unique id of the submission
-             `Returns:`
-                 A  JSON with the submission entry
-         """
+        `Args:`
+            person_id:
+               The unique id of the submission
+            submission_id:
+               The unique id of the submission
+        `Returns:`
+            A  JSON with the submission entry
+        """
         return self.api.get_request(f"people/{person_id}/submissions/{submission_id}")
 
-    def get_advocacy_campaigns(self,limit=None, per_page=25, page=None, filter=None):
+    def get_advocacy_campaigns(self, limit=None, per_page=25, page=None, filter=None):
         """
-             `Args:`
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page:
-                    The number of entries per page to return. 25 maximum.
-                page:
-                    Which page of results to return
-                filter:
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
+        `Args:`
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
 
-             `Returns:`
-                 A  JSON with all of the advocacy_campaigns (letters) entries
-         """
-        if (page):
-            return self._get_page(f"advocacy_campaigns", page, per_page, filter)
-        return self._get_entry_list(f"advocacy_campaigns", limit, per_page, filter)
-    def get_advocacy_campaign(self,advocacy_campaign_id):
+        `Returns:`
+            A  JSON with all of the advocacy_campaigns (letters) entries
         """
-             `Args:`
-                 advocacy_campaign_id:
-                    The unique id of the advocacy_campaign
-             `Returns:`
-                 A  JSON with advocacy_campaign entry
-         """
+        if page:
+            return self._get_page("advocacy_campaigns", page, per_page, filter)
+        return self._get_entry_list("advocacy_campaigns", limit, per_page, filter)
+
+    def get_advocacy_campaign(self, advocacy_campaign_id):
+        """
+        `Args:`
+            advocacy_campaign_id:
+               The unique id of the advocacy_campaign
+        `Returns:`
+            A  JSON with advocacy_campaign entry
+        """
         return self.api.get_request(f"advocacy_campaigns/{advocacy_campaign_id}")
-    def get_advocacy_campaign_outreaches(self,advocacy_campaign_id,limit=None, per_page=25, page=None, filter=None):
-        """
-             `Args:`
-                 advocacy_campaign_id:
-                    The unique id of the advocacy_campaign
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page:
-                    The number of entries per page to return. 25 maximum.
-                page:
-                    Which page of results to return
-                filter:
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
 
-             `Returns:`
-                A  JSON with all the outreaches entries related to the advocacy_campaign_id
-         """
-        if (page):
-            return self._get_page(f"advocacy_campaigns/{advocacy_campaign_id}/outreaches", page, per_page, filter)
-        return self._get_entry_list(f"advocacy_campaigns/{advocacy_campaign_id}/outreaches", limit, per_page, filter)
-    def get_person_outreaches(self,person_id, limit=None, per_page=25, page=None, filter=None):
+    def get_advocacy_campaign_outreaches(
+        self, advocacy_campaign_id, limit=None, per_page=25, page=None, filter=None
+    ):
         """
-             `Args:`
-                 person_id:
-                    The unique id of the person
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page:
-                    The number of entries per page to return. 25 maximum.
-                page:
-                    Which page of results to return
-                filter:
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
+        `Args:`
+            advocacy_campaign_id:
+               The unique id of the advocacy_campaign
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
 
-             `Returns:`
-                 A  JSON with all the outreaches entries related to our group
-         """
-        if (page):
-            return self._get_page(f"people/{person_id}/outreaches", page, per_page, filter)
-        return self._get_entry_list(f"people/{person_id}/outreaches", limit, per_page, filter)
-
-    def get_advocacy_campaign_outreach(self, advocacy_campaign_id , outreach_id):
+        `Returns:`
+           A  JSON with all the outreaches entries related to the advocacy_campaign_id
         """
-             `Args:`
-                 advocacy_campaign_id:
-                    The uniqe id of the campaign
-                 outreach_id:
-                    The unique id of the outreach
-             `Returns:`
-                 A  JSON with the outreach entry
-         """
-        return self.api.get_request(f"advocacy_campaigns/{advocacy_campaign_id}/outreaches/{outreach_id}")
+        if page:
+            return self._get_page(
+                f"advocacy_campaigns/{advocacy_campaign_id}/outreaches",
+                page,
+                per_page,
+                filter,
+            )
+        return self._get_entry_list(
+            f"advocacy_campaigns/{advocacy_campaign_id}/outreaches",
+            limit,
+            per_page,
+            filter,
+        )
 
-    def get_campaigns(self,limit=None, per_page=25, page=None, filter=None):
+    def get_person_outreaches(
+        self, person_id, limit=None, per_page=25, page=None, filter=None
+    ):
         """
-             `Args:`
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page:
-                    The number of entries per page to return. 25 maximum.
-                page:
-                    Which page of results to return
-                filter:
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
-             `Returns:`
-                 A  JSON with all of the campaigns entries
-         """
-        if (page):
+        `Args:`
+            person_id:
+               The unique id of the person
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+
+        `Returns:`
+            A  JSON with all the outreaches entries related to our group
+        """
+        if page:
+            return self._get_page(
+                f"people/{person_id}/outreaches", page, per_page, filter
+            )
+        return self._get_entry_list(
+            f"people/{person_id}/outreaches", limit, per_page, filter
+        )
+
+    def get_advocacy_campaign_outreach(self, advocacy_campaign_id, outreach_id):
+        """
+        `Args:`
+            advocacy_campaign_id:
+               The uniqe id of the campaign
+            outreach_id:
+               The unique id of the outreach
+        `Returns:`
+            A  JSON with the outreach entry
+        """
+        return self.api.get_request(
+            f"advocacy_campaigns/{advocacy_campaign_id}/outreaches/{outreach_id}"
+        )
+
+    def get_campaigns(self, limit=None, per_page=25, page=None, filter=None):
+        """
+        `Args:`
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+        `Returns:`
+            A  JSON with all of the campaigns entries
+        """
+        if page:
             return self._get_page("campaigns", page, per_page, filter)
         return self._get_entry_list("campaigns", limit, per_page, filter)
-    def get_campaign(self,campaign_id):
+
+    def get_campaign(self, campaign_id):
         """
-             `Args:`
-                 campaign_id:
-                    The unique id of the campaign
-             `Returns:`
-                 A  JSON with the campaign entry
-         """
+        `Args:`
+            campaign_id:
+               The unique id of the campaign
+        `Returns:`
+            A  JSON with the campaign entry
+        """
         return self.api.get_request(f"campaigns/{campaign_id}")
-    def get_event_campaigns(self,limit=None, per_page=25, page=None, filter=None):
+
+    def get_event_campaigns(self, limit=None, per_page=25, page=None, filter=None):
         """
-             `Args:`
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page:
-                    The number of entries per page to return. 25 maximum.
-                page:
-                    Which page of results to return
-                filter:
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
-             `Returns:`
-                 A  JSON with all the event_campaigns entries
-         """
-        if (page):
+        `Args:`
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+        `Returns:`
+            A  JSON with all the event_campaigns entries
+        """
+        if page:
             return self._get_page("event_campaigns", page, per_page, filter)
         return self._get_entry_list("event_campaigns", limit, per_page, filter)
 
-    def get_event_campaign(self,event_campaign_id):
+    def get_event_campaign(self, event_campaign_id):
         """
-             `Args:`
-                 event_campaign_id:
-                    The unique id of the event_campaign
-             `Returns:`
-                 A  JSON with event_campaign entry
-         """
+        `Args:`
+            event_campaign_id:
+               The unique id of the event_campaign
+        `Returns:`
+            A  JSON with event_campaign entry
+        """
         return self.api.get_request(f"event_campaigns/{event_campaign_id}")
-    def get_event_campaign_events(self,event_campaign_id):
+
+    def get_event_campaign_events(self, event_campaign_id):
         """
-             `Args:`
-                 event_campaign_id:
-                    The unique id of the event_campaign
-             `Returns:`
-                 A  JSON with all the eventes related to the event_campaign entry
-         """
+        `Args:`
+            event_campaign_id:
+               The unique id of the event_campaign
+        `Returns:`
+            A  JSON with all the eventes related to the event_campaign entry
+        """
         return self.api.get_request(f"event_campaigns/{event_campaign_id}/events")
-    def get_person_attendances(self,person_id,limit=None, per_page=25, page=None, filter=None):
-        """
-             `Args:`
-                 person_id:
-                    The unique id of the person
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page:
-                    The number of entries per page to return. 25 maximum.
-                page:
-                    Which page of results to return
-                filter:
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
-             `Returns:`
-                 A  JSON with all the attendances entries
-         """
-        if (page):
-            return self._get_page(f"people/{person_id}/attendances", page, per_page, filter)
-        return self._get_entry_list(f"people/{person_id}/attendances", limit, per_page, filter)
 
-
-    def get_event_attendance(self,event_id,attendance_id):
+    def get_person_attendances(
+        self, person_id, limit=None, per_page=25, page=None, filter=None
+    ):
         """
-             `Args:`
-                 event_id:
-                    The unique id of the event
-                 attendance_id:
-                    The unique id of the attendance
-             `Returns:`
-                 A  JSON with the attendance entry
-         """
+        `Args:`
+            person_id:
+               The unique id of the person
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+        `Returns:`
+            A  JSON with all the attendances entries
+        """
+        if page:
+            return self._get_page(
+                f"people/{person_id}/attendances", page, per_page, filter
+            )
+        return self._get_entry_list(
+            f"people/{person_id}/attendances", limit, per_page, filter
+        )
+
+    def get_event_attendance(self, event_id, attendance_id):
+        """
+        `Args:`
+            event_id:
+               The unique id of the event
+            attendance_id:
+               The unique id of the attendance
+        `Returns:`
+            A  JSON with the attendance entry
+        """
         return self.api.get_request(f"events/{event_id}/attendances/{attendance_id}")
-    def get_person_attendance(self,person_id,attendance_id):
+
+    def get_person_attendance(self, person_id, attendance_id):
         """
-             `Args:`
-                 person_id:
-                    The unique id of the person
-                 attendance_id:
-                    The unique id of the attendance
-             `Returns:`
-                 A  JSON with the attendance entry
-         """
+        `Args:`
+            person_id:
+               The unique id of the person
+            attendance_id:
+               The unique id of the attendance
+        `Returns:`
+            A  JSON with the attendance entry
+        """
         return self.api.get_request(f"people/{person_id}/attendances/{attendance_id}")
 
-    def get_petitions(self,limit=None, per_page=25, page=None, filter=None):
+    def get_petitions(self, limit=None, per_page=25, page=None, filter=None):
         """
-             `Args:`
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page:
-                    The number of entries per page to return. 25 maximum.
-                page:
-                    Which page of results to return
-                filter:
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
-             `Returns:`
-                 A  JSON with all of the petitions entries
-         """
-        if (page):
-            return self._get_page(f"petitions", page, per_page, filter)
-        return self._get_entry_list(f"petitions", limit, per_page, filter)
+        `Args:`
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+        `Returns:`
+            A  JSON with all of the petitions entries
+        """
+        if page:
+            return self._get_page("petitions", page, per_page, filter)
+        return self._get_entry_list("petitions", limit, per_page, filter)
 
-    def get_petition(self,petition_id):
+    def get_petition(self, petition_id):
         """
-             `Args:`
-                 petition_id:
-                    The unique id of the petition
-             `Returns:`
-                 A  JSON with the petition entry
-         """
+        `Args:`
+            petition_id:
+               The unique id of the petition
+        `Returns:`
+            A  JSON with the petition entry
+        """
         return self.api.get_request(f"petitions/{petition_id}")
-    def get_petition_signatures(self,petition_id,limit=None, per_page=25, page=None, filter=None):
+
+    def get_petition_signatures(
+        self, petition_id, limit=None, per_page=25, page=None, filter=None
+    ):
         """
-             `Args:`
-                 petition_id:
-                    The unique id of the petition
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page:
-                    The number of entries per page to return. 25 maximum.
-                page:
-                    Which page of results to return
-                filter:
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
-             `Returns:`
-                 A  JSON with all the signatures related to the petition entry
-         """
-        if (page):
-            return self._get_page(f"petitions/{petition_id}/signatures", page, per_page, filter)
-        return self._get_entry_list(f"petitions/{petition_id}/signatures", limit, per_page, filter)
-    def get_person_signatures(self,person_id,limit=None, per_page=25, page=None, filter=None):
+        `Args:`
+            petition_id:
+               The unique id of the petition
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+        `Returns:`
+            A  JSON with all the signatures related to the petition entry
         """
-             `Args:`
-                 person_id:
-                    The unique id of the person
-                 limit:
-                    The number of entries to return. When None, returns all entries.
-                per_page:
-                    The number of entries per page to return. 25 maximum.
-                page:
-                    Which page of results to return
-                filter:
-                    The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                    When None, no filter is applied.
+        if page:
+            return self._get_page(
+                f"petitions/{petition_id}/signatures", page, per_page, filter
+            )
+        return self._get_entry_list(
+            f"petitions/{petition_id}/signatures", limit, per_page, filter
+        )
+
+    def get_person_signatures(
+        self, person_id, limit=None, per_page=25, page=None, filter=None
+    ):
+        """
+        `Args:`
+            person_id:
+               The unique id of the person
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
 
 
-             `Returns:`
-                 A  JSON with all the signatures related to the petition entry
-         """
-        if (page):
-            return self._get_page(f"people/{person_id}/signatures", page, per_page, filter)
-        return self._get_entry_list(f"people/{person_id}/signatures", limit, per_page, filter)
+        `Returns:`
+            A  JSON with all the signatures related to the petition entry
+        """
+        if page:
+            return self._get_page(
+                f"people/{person_id}/signatures", page, per_page, filter
+            )
+        return self._get_entry_list(
+            f"people/{person_id}/signatures", limit, per_page, filter
+        )
 
-    def get_petition_signature(self,petition_id,signature_id):
+    def get_petition_signature(self, petition_id, signature_id):
         """
-             `Args:`
-                 petition_id:
-                    The unique id of the petition
-                 signature_id:
-                    The unique id of the signature
-             `Returns:`
-                 A  JSON with the signature entry
-         """
-        return self.api.get_request(f"petitions/{petition_id}/signatures/{signature_id}")
-    def get_person_signature(self,person_id,signature_id):
+        `Args:`
+            petition_id:
+               The unique id of the petition
+            signature_id:
+               The unique id of the signature
+        `Returns:`
+            A  JSON with the signature entry
         """
-             `Args:`
-                 person_id:
-                    The unique id of the person
-                 signature_id:
-                    The unique id of the signature
-             `Returns:`
-                 A  JSON with the signature entry
-         """
+        return self.api.get_request(
+            f"petitions/{petition_id}/signatures/{signature_id}"
+        )
+
+    def get_person_signature(self, person_id, signature_id):
+        """
+        `Args:`
+            person_id:
+               The unique id of the person
+            signature_id:
+               The unique id of the signature
+        `Returns:`
+            A  JSON with the signature entry
+        """
         return self.api.get_request(f"people/{person_id}/signatures/{signature_id}")

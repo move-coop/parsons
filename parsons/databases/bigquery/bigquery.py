@@ -33,6 +33,7 @@ BIGQUERY_TYPE_MAP = {
     "dict": "RECORD",
     "NoneType": "STRING",
     "UUID": "STRING",
+    "datetime": "DATETIME",
 }
 
 # Max number of rows that we query at a time, so we can avoid loading huge
@@ -1087,7 +1088,6 @@ class BigQuery(DatabaseConnector):
 
     @staticmethod
     def _bigquery_type(tp):
-        print("type", tp)
         return BIGQUERY_TYPE_MAP[tp]
 
     def table(self, table_name):

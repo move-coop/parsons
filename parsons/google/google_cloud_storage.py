@@ -375,9 +375,9 @@ class GoogleCloudStorage(object):
                 Secret key to authenticate storage transfer
         """
 
-        if source not in ["gcs", "aws"]:
+        if source not in ["gcs", "s3"]:
             raise ValueError(
-                f"Blob transfer only supports gcs and aws sources [source={source}]"
+                f"Blob transfer only supports gcs and s3 sources [source={source}]"
             )
 
         client = storage_transfer.StorageTransferServiceClient()

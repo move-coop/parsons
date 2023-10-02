@@ -1,10 +1,6 @@
-import logging
 import unittest
-
-import requests
 import requests_mock
 import json
-import os
 from parsons import Table, ActionNetwork
 from test.utils import assert_matching_tables
 

@@ -116,7 +116,7 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
     return [bigquery.SchemaField(**x) for x in schema_definition]
 
 
-class BigQuery(DatabaseConnector):
+class GoogleBigQuery(DatabaseConnector):
     """
     Class for querying BigQuery table and returning the data as Parsons tables.
 

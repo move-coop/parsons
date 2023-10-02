@@ -2,6 +2,7 @@ import petl
 import json
 import io
 import gzip
+from typing import Optional
 from parsons.utilities import files, zip_archive
 
 
@@ -620,14 +621,18 @@ class ToFrom(object):
         pg.copy(self, table_name, **copy_args)
 
     def to_bigquery(
-        self, table_name: str, app_creds: str = None, project: str = None, **kwargs
+        self,
+        table_name: str,
+        app_creds: Optional[str] = None,
+        project: Optional[str] = None,
+        **kwargs,
     ):
         """
         Write a table to BigQuery
 
         `Args`:
             table_name: str
-                TODO - Does this need project.dataset.table name?
+                Table name to write to in BigQuery; this should be in `schema.table` format
             app_creds: str
                 A credentials json string or a path to a json file. Not required
                 if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
@@ -992,9 +997,9 @@ class ToFrom(object):
 
         # Mimic behavior of S3 -> Table helper
         if from_manifest:
-            with open(gcs.get_blob(bucket_name=bucket, blob_name=key)) as fd:
-                manifest = json.load(fd)
-            gcs_keys = [x["url"] for x in manifest["entries"]]
+            with open(gcs.get_blob(bucket_name=bucket, blob_name=key)) as file_stream:
+                manifest = json.load(file_stream)
+            gcs_keys = [entry["url"] for entry in manifest["entries"]]
         else:
             gcs_keys = [f"gs://{bucket}/{key}"]
 

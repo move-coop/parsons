@@ -352,14 +352,13 @@ class GoogleCloudStorage(object):
         source_bucket: str,
         destination_path: str = "",
         source_path: str = "",
-        aws_access_key_id: str = None,
-        aws_secret_access_key: str = None,
+        aws_access_key_id: Optional[str] = None,
+        aws_secret_access_key: Optional[str] = None,
     ):
         """
         Creates a one-time transfer job from Amazon S3 to Google Cloud
         Storage. Copies all blobs within the bucket unless a key or prefix
         is passed.
-        source_path (str)
 
         `Args`:
             gcs_sink_bucket (str):
@@ -376,9 +375,6 @@ class GoogleCloudStorage(object):
                 Secret key to authenticate storage transfer
         """
 
-        # TODO: Personally I [ Ian ] think we should accept "S3" here too
-        # When I think GCS I think "cloud storage" not "cloud services"
-        # AWS doesn't seem like an intuitive option
         if source not in ["gcs", "aws"]:
             raise ValueError(
                 f"Blob transfer only supports gcs and aws sources [source={source}]"

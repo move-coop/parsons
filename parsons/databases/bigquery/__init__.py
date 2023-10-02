@@ -1,3 +1,3 @@
-from parsons.databases.bigquery.bigquery import BigQuery
+from parsons.google.google_bigquery import BigQuery
 
 __all__ = ["BigQuery"]

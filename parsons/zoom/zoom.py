@@ -151,6 +151,8 @@ class Zoom:
         `Returns`:
             Parsons Table
         """
+        if tbl.num_rows == 0:
+            return tbl
 
         # Add surrogate key
         tbl.add_column("poll_taker_id", lambda _: str(uuid.uuid4()))

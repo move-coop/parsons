@@ -960,62 +960,6 @@ class ToFrom(object):
         return bq.query(sql=sql)
 
     @classmethod
-    def from_gcs_csv(
-        cls,
-        bucket: str,
-        key: str,
-        app_creds: str = None,
-        project: str = None,
-        from_manifest: bool = False,
-        **csvargs,
-    ):
-        """
-        Create a ``parsons table`` from a GoogleCloudStorage CSV file.
-
-        `Args`:
-            bucket: str
-                The GCS bucket.
-            key: str
-                The GCS key.
-            app_creds: str
-                A credentials json string or a path to a json file. Not required
-                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
-            project: str
-                The project which the client is acting on behalf of. If not passed
-                then will use the default inferred environment.
-            \**csvargs: kwargs
-                ``csv_reader`` optional arguments
-
-        `Returns`:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
-
-        from parsons.google.google_cloud_storage import GoogleCloudStorage
-
-        gcs = GoogleCloudStorage(app_creds=app_creds, project=project)
-
-        # Mimic behavior of S3 -> Table helper
-        if from_manifest:
-            with open(gcs.get_blob(bucket_name=bucket, blob_name=key)) as file_stream:
-                manifest = json.load(file_stream)
-            gcs_keys = [entry["url"] for entry in manifest["entries"]]
-        else:
-            gcs_keys = [f"gs://{bucket}/{key}"]
-
-        tbls = []
-        for key in gcs_keys:
-            _, _, bucket_, key_ = key.split("/", 3)
-            file_ = gcs.get_blob(bucket_name=bucket_, blob_name=key_)
-
-            # TODO - Confirm this can handle gzip
-            if files.compression_type_for_path(key_) == "zip":
-                file_ = zip_archive.unzip_archive(file_)
-            tbls.append(petl.fromcsv(file_, **csvargs))
-
-        return cls(petl.cat(*tbls))
-
-    @classmethod
     def from_dataframe(cls, dataframe, include_index=False):
         """
         Create a ``parsons table`` from a Pandas dataframe.

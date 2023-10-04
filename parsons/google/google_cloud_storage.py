@@ -368,7 +368,7 @@ class GoogleCloudStorage(object):
             source_bucket (str):
                 Source bucket name
             source_path (str):
-                Path in the source system pointing to the relevant keys / files to sync
+                Path in the source system pointing to the relevant keys / files to sync. Must end in a '/'
             aws_access_key_id (str):
                 Access key to authenticate storage transfer
             aws_secret_access_key (str):
@@ -379,6 +379,8 @@ class GoogleCloudStorage(object):
             raise ValueError(
                 f"Blob transfer only supports gcs and s3 sources [source={source}]"
             )
+        if source_path[-1] != "/":
+            raise ValueError("Source path much end in a '/'")
 
         client = storage_transfer.StorageTransferServiceClient()
 
@@ -403,7 +405,7 @@ class GoogleCloudStorage(object):
         }
 
         # Setup transfer job configuration based on user imput
-        if source == "aws":
+        if source == "s3":
             blob_storage = "S3"
             transfer_job_config["transfer_spec"] = {
                 "aws_s3_data_source": {

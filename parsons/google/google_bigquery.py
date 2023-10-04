@@ -305,11 +305,6 @@ class GoogleBigQuery(DatabaseConnector):
             {queries_on_newlines}
 
             COMMIT TRANSACTION;
-
-            EXCEPTION WHEN ERROR THEN
-            -- Roll back the transaction inside the exception handler.
-            SELECT @@error.message;
-            ROLLBACK TRANSACTION;
         END;
         """
         self.query(sql=queries_wrapped, parameters=parameters, return_values=False)

@@ -389,7 +389,7 @@ class GoogleCloudStorage(object):
 
         if source == "gcs":
             description = f"One time GCS to GCS Transfer [{source_bucket} -> {gcs_sink_bucket}] - {uuid.uuid4()}"
-        elif source == "aws":
+        elif source == "s3":
             description = f"One time S3 to GCS Transfer [{source_bucket} -> {gcs_sink_bucket}] - {uuid.uuid4()}"
 
         transfer_job_config = {

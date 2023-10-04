@@ -379,7 +379,7 @@ class GoogleCloudStorage(object):
             raise ValueError(
                 f"Blob transfer only supports gcs and s3 sources [source={source}]"
             )
-        if source_path[-1] != "/":
+        if source_path and source_path[-1] != "/":
             raise ValueError("Source path much end in a '/'")
 
         client = storage_transfer.StorageTransferServiceClient()

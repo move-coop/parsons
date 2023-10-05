@@ -53,7 +53,6 @@ for module_path, connector_name in (
     ("parsons.databases.mysql.mysql", "MySQL"),
     ("parsons.databases.postgres.postgres", "Postgres"),
     ("parsons.databases.redshift.redshift", "Redshift"),
-    ("parsons.databases.bigquery.bigquery", "BigQuery"),
     ("parsons.donorbox.donorbox", "Donorbox"),
     ("parsons.facebook_ads.facebook_ads", "FacebookAds"),
     ("parsons.freshdesk.freshdesk", "Freshdesk"),

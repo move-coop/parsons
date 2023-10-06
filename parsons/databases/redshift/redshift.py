@@ -724,7 +724,7 @@ class Redshift(
 
         sql: str
             The SQL string to execute to generate the data to unload.
-        buckey: str
+        bucket: str
            The destination S3 bucket
         key_prefix: str
             The prefix of the key names that will be written

@@ -2,7 +2,6 @@ import re
 import boto3
 from botocore.client import ClientError
 
-# from parsons.databases.redshift.redshift import Redshift
 from parsons.utilities import files
 import logging
 import os

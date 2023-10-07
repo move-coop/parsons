@@ -75,8 +75,8 @@ dummy_data = {
         {
             "id": 8156,
             "name": "Let's get started!",
-            "description": "This is where you will get actions you can take to make change. Can you let us know how you want to get involved?",
-            "instructionsHtml": '<p>To get started, please answer the question below to complete your first action!</p><p></p><p>If you have any questions about using Empower, please use the "Have a question?" button below to contact your organizer.</p>',
+            "description": "This is where...",
+            "instructionsHtml": '<p>To get started...',
             "prompts": [
                 {
                     "id": 16719,
@@ -187,7 +187,7 @@ dummy_data = {
             "id": 8311,
             "name": "TEST",
             "description": "Please test this for us!",
-            "instructionsHtml": "<p>Please load at least 25 contacts and mark random responses for them all.</p>",
+            "instructionsHtml": "<p>Please load at least 25",
             "prompts": [],
             "shareables": [
                 {
@@ -213,7 +213,7 @@ dummy_data = {
             "spokeCampaignId": None,
             "textCanvassingType": "manual",
             "turfCuttingType": None,
-            "conversationStarter": "Hey {recipientname} -- it's {sendername}. Have you considered voting yet this year?",
+            "conversationStarter": "Hey {recipientname} -- it's {sendername}.",
             "isPersonal": False,
             "isGeocodingDone": True,
             "customRecruitmentPromptText": None,
@@ -324,7 +324,7 @@ dummy_data = {
             "inviteCodeCreatedMts": None,
             "ctaId": 8311,
             "organizationId": 1095,
-            "description": "Volunteers who sign up using the organization's inviteCode will be sent here",
+            "description": "Volunteers who...",
         }
     ],
     "outreachEntries": [],
@@ -332,6 +332,5 @@ dummy_data = {
         {"profileEid": "ah9xl5wlv3i2t3", "tagId": 456196},
         {"profileEid": "akwimque10cov3", "tagId": 456196},
         {"profileEid": "aq0dx4hm8esd7u", "tagId": 456196},
-
     ],
 }

@@ -76,7 +76,7 @@ dummy_data = {
             "id": 8156,
             "name": "Let's get started!",
             "description": "This is where...",
-            "instructionsHtml": '<p>To get started...',
+            "instructionsHtml": "<p>To get started...",
             "prompts": [
                 {
                     "id": 16719,

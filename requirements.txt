@@ -24,7 +24,7 @@ google-cloud-storage==2.10.0
 google-cloud-storage-transfer==1.9.1
 google-cloud-bigquery==3.4.0
 docutils<0.18,>=0.14
-urllib3==1.26.5
+urllib3==1.26.17
 simplejson==3.16.0
 twilio==8.2.1
 simple-salesforce==1.11.6

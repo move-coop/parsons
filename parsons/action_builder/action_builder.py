@@ -419,3 +419,50 @@ class ActionBuilder(object):
             data["add_tags"] = tag_data
 
         return self.api.post_request(url=url, data=json.dumps(data))
+
+    def deactivate_connection(
+        self, from_identifier, connection_identifier=None, to_identifier=None
+    ):
+        """
+        Deactivate an existing connection record in Action Builder between two existing entity
+        records. Only one connection record is allowed per pair of entities, so this can be done 
+        by supplying the ID for the connection record, or for the two connected entity records.
+        `Args:`
+            from_identifier: str
+                Unique identifier for one of the two entities with a connection.
+            connection_identifier: str
+                Optional. The unique identifier for an entity or connection record being updated.
+                If omitted, `to_identifier` must be provided.
+            to_identifier: str
+                Optional. The second entity with a connection to `from_entity`. If omitted, 
+                `connection_identifier` must be provided.
+        `Returns:`
+            Dict containing Action Builder connection data.
+        """
+
+        # Check that there are exactly two identifiers and that campaign is provided first
+        if {identifier, to_identifier} == {None}:
+            raise ValueError("Must provide a connection ID or an ID for the second entity")
+
+        campaign = self._campaign_check(campaign)
+
+        url = f"campaigns/{campaign}/people/{from_identifier}/connections"
+
+        data = {
+            "connection": {
+                "inactive": True
+            }
+        }
+
+        # Prioritize connection ID to avoid potential confusion if to_identifier is also provided
+        # to_identifier entity could have duplicates, connection ID is more specific
+        if connection_identifier:
+
+            url += f'/{connection_identifier}'
+            return self.api.post_request(url=url, data=json.dumps(data))
+
+        # If no connection ID then there must be a to_identifier not to have errored by now
+        else:
+
+            data['person_id'] = to_identifier
+            return self.api.put_request(url=url, data=json.dumps(data))

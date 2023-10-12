@@ -448,7 +448,7 @@ class ActionBuilder(object):
         """
 
         # Check that there are exactly two identifiers and that campaign is provided first
-        if {identifier, to_identifier} == {None}:
+        if {connection_identifier, to_identifier} == {None}:
             raise ValueError("Must provide a connection ID or an ID for the second entity")
 
         campaign = self._campaign_check(campaign)

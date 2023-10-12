@@ -471,5 +471,5 @@ class ActionBuilder(object):
         # If no connection ID then there must be a to_identifier not to have errored by now
         else:
 
-            data['person_id'] = to_identifier
+            data['connection']['person_id'] = to_identifier
             return self.api.post_request(url=url, data=json.dumps(data))

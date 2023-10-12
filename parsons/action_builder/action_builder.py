@@ -466,10 +466,10 @@ class ActionBuilder(object):
         if connection_identifier:
 
             url += f'/{connection_identifier}'
-            return self.api.post_request(url=url, data=json.dumps(data))
+            return self.api.put_request(url=url, data=json.dumps(data))
 
         # If no connection ID then there must be a to_identifier not to have errored by now
         else:
 
             data['person_id'] = to_identifier
-            return self.api.put_request(url=url, data=json.dumps(data))
+            return self.api.post_request(url=url, data=json.dumps(data))

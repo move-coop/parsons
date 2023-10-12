@@ -213,7 +213,11 @@ class TestActionBuilder(unittest.TestCase):
             "message": "Tag has been removed from Taggable Logbook"
         }
 
-        self.fake_connection = {"person_id": "fake-entity-id-2"}
+        # self.fake_connection = {"person_id": "fake-entity-id-2"}
+        self.fake_connection = {
+            "person_id": "fake-entity-id-2",
+            "identifiers": ["action_builder:fake-connection-id"]
+        }
 
     @requests_mock.Mocker()
     def test_get_page(self, m):
@@ -395,4 +399,22 @@ class TestActionBuilder(unittest.TestCase):
         connect_response = self.bldr.upsert_connection(
             [self.fake_entity_id, "fake-entity-id-2"]
         )
-        self.assertEqual(connect_response, self.fake_connection)
+        self.assertEqual(
+            connect_response,
+            {k:v for k,v in self.fake_connection.items() if k != 'identifiers'}
+        )
+
+    @requests_mock.Mocker()
+    def test_deactivate_connection_post(self, m):
+        m.post(
+            f"{self.api_url}/people/{self.fake_entity_id}/connections",
+            json=self.connect_callback,
+        )
+        connect_response = self.bldr.deactivate_connection(
+            self.fake_entity_id, to_identifier = "fake-entity-id-2"
+        )
+        self.assertEqual(
+            connect_response,
+            {**{k:v for k,v in self.fake_connection.items() if k != 'identifiers'},
+             **{"inactive": True}}
+        )

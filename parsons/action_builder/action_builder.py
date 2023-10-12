@@ -421,7 +421,11 @@ class ActionBuilder(object):
         return self.api.post_request(url=url, data=json.dumps(data))
 
     def deactivate_connection(
-        self, from_identifier, connection_identifier=None, to_identifier=None
+        self,
+        from_identifier,
+        connection_identifier=None,
+        to_identifier=None,
+        campaign=None
     ):
         """
         Deactivate an existing connection record in Action Builder between two existing entity
@@ -436,6 +440,9 @@ class ActionBuilder(object):
             to_identifier: str
                 Optional. The second entity with a connection to `from_entity`. If omitted, 
                 `connection_identifier` must be provided.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
         `Returns:`
             Dict containing Action Builder connection data.
         """

@@ -388,6 +388,12 @@ class TestActionBuilder(unittest.TestCase):
 
         post_data = request.json()
         connection_data = post_data["connection"]
+
+        url_pieces = [x for x in request.url.split('/') if x]
+        
+        # Grab ID if connections is penultimate in url path
+        if url_pieces.index('connections') == len(url_pieces) - 2:
+            connection_data['identifiers'] = [f'action_builder:{url_pieces[-1]}']
         return connection_data
 
     @requests_mock.Mocker()
@@ -416,5 +422,22 @@ class TestActionBuilder(unittest.TestCase):
         self.assertEqual(
             connect_response,
             {**{k:v for k,v in self.fake_connection.items() if k != 'identifiers'},
+             **{"inactive": True}}
+        )
+
+    @requests_mock.Mocker()
+    def test_deactivate_connection_put(self, m):
+        conn_endpoint = f"{self.api_url}/people/{self.fake_entity_id}/connections"
+        conn_endpoint += "/fake-connection-id"
+        m.put(
+            conn_endpoint,
+            json=self.connect_callback,
+        )
+        connect_response = self.bldr.deactivate_connection(
+            self.fake_entity_id, connection_identifier = "fake-connection-id"
+        )
+        self.assertEqual(
+            connect_response,
+            {**{k:v for k,v in self.fake_connection.items() if k != 'person_id'},
              **{"inactive": True}}
         )

@@ -425,11 +425,11 @@ class ActionBuilder(object):
         from_identifier,
         connection_identifier=None,
         to_identifier=None,
-        campaign=None
+        campaign=None,
     ):
         """
         Deactivate an existing connection record in Action Builder between two existing entity
-        records. Only one connection record is allowed per pair of entities, so this can be done 
+        records. Only one connection record is allowed per pair of entities, so this can be done
         by supplying the ID for the connection record, or for the two connected entity records.
         `Args:`
             from_identifier: str
@@ -438,7 +438,7 @@ class ActionBuilder(object):
                 Optional. The unique identifier for an entity or connection record being updated.
                 If omitted, `to_identifier` must be provided.
             to_identifier: str
-                Optional. The second entity with a connection to `from_entity`. If omitted, 
+                Optional. The second entity with a connection to `from_entity`. If omitted,
                 `connection_identifier` must be provided.
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
@@ -449,27 +449,23 @@ class ActionBuilder(object):
 
         # Check that either connection or second entity identifier are provided
         if {connection_identifier, to_identifier} == {None}:
-            raise ValueError("Must provide a connection ID or an ID for the second entity")
+            raise ValueError(
+                "Must provide a connection ID or an ID for the second entity"
+            )
 
         campaign = self._campaign_check(campaign)
 
         url = f"campaigns/{campaign}/people/{from_identifier}/connections"
 
-        data = {
-            "connection": {
-                "inactive": True
-            }
-        }
+        data = {"connection": {"inactive": True}}
 
         # Prioritize connection ID to avoid potential confusion if to_identifier is also provided
         # to_identifier entity could have duplicates, connection ID is more specific
         if connection_identifier:
-
-            url += f'/{connection_identifier}'
+            url += f"/{connection_identifier}"
             return self.api.put_request(url=url, data=json.dumps(data))
 
         # If no connection ID then there must be a to_identifier not to have errored by now
         else:
-
-            data['connection']['person_id'] = to_identifier
+            data["connection"]["person_id"] = to_identifier
             return self.api.post_request(url=url, data=json.dumps(data))

@@ -216,7 +216,7 @@ class TestActionBuilder(unittest.TestCase):
         # self.fake_connection = {"person_id": "fake-entity-id-2"}
         self.fake_connection = {
             "person_id": "fake-entity-id-2",
-            "identifiers": ["action_builder:fake-connection-id"]
+            "identifiers": ["action_builder:fake-connection-id"],
         }
 
     @requests_mock.Mocker()
@@ -389,11 +389,11 @@ class TestActionBuilder(unittest.TestCase):
         post_data = request.json()
         connection_data = post_data["connection"]
 
-        url_pieces = [x for x in request.url.split('/') if x]
-        
+        url_pieces = [x for x in request.url.split("/") if x]
+
         # Grab ID if connections is penultimate in url path
-        if url_pieces.index('connections') == len(url_pieces) - 2:
-            connection_data['identifiers'] = [f'action_builder:{url_pieces[-1]}']
+        if url_pieces.index("connections") == len(url_pieces) - 2:
+            connection_data["identifiers"] = [f"action_builder:{url_pieces[-1]}"]
         return connection_data
 
     @requests_mock.Mocker()
@@ -407,7 +407,7 @@ class TestActionBuilder(unittest.TestCase):
         )
         self.assertEqual(
             connect_response,
-            {k:v for k,v in self.fake_connection.items() if k != 'identifiers'}
+            {k: v for k, v in self.fake_connection.items() if k != "identifiers"},
         )
 
     @requests_mock.Mocker()
@@ -417,12 +417,14 @@ class TestActionBuilder(unittest.TestCase):
             json=self.connect_callback,
         )
         connect_response = self.bldr.deactivate_connection(
-            self.fake_entity_id, to_identifier = "fake-entity-id-2"
+            self.fake_entity_id, to_identifier="fake-entity-id-2"
         )
         self.assertEqual(
             connect_response,
-            {**{k:v for k,v in self.fake_connection.items() if k != 'identifiers'},
-             **{"inactive": True}}
+            {
+                **{k: v for k, v in self.fake_connection.items() if k != "identifiers"},
+                **{"inactive": True},
+            },
         )
 
     @requests_mock.Mocker()
@@ -434,10 +436,12 @@ class TestActionBuilder(unittest.TestCase):
             json=self.connect_callback,
         )
         connect_response = self.bldr.deactivate_connection(
-            self.fake_entity_id, connection_identifier = "fake-connection-id"
+            self.fake_entity_id, connection_identifier="fake-connection-id"
         )
         self.assertEqual(
             connect_response,
-            {**{k:v for k,v in self.fake_connection.items() if k != 'person_id'},
-             **{"inactive": True}}
+            {
+                **{k: v for k, v in self.fake_connection.items() if k != "person_id"},
+                **{"inactive": True},
+            },
         )

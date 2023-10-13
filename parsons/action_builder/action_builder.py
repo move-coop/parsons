@@ -447,7 +447,7 @@ class ActionBuilder(object):
             Dict containing Action Builder connection data.
         """
 
-        # Check that there are exactly two identifiers and that campaign is provided first
+        # Check that either connection or second entity identifier are provided
         if {connection_identifier, to_identifier} == {None}:
             raise ValueError("Must provide a connection ID or an ID for the second entity")
 

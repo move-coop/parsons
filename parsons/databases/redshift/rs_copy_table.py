@@ -148,6 +148,7 @@ class RedshiftCopyTable(object):
         aws_access_key_id=None,
         aws_secret_access_key=None,
         csv_encoding="utf-8",
+        temp_file_key=None,
     ):
         if not self.s3_temp_bucket:
             raise KeyError(
@@ -168,7 +169,11 @@ class RedshiftCopyTable(object):
         )
 
         hashed_name = hash(time.time())
-        key = f"{S3_TEMP_KEY_PREFIX}/{hashed_name}.csv.gz"
+        if temp_file_key:
+            key = f"{S3_TEMP_KEY_PREFIX}/{temp_file_key}-{hashed_name}.csv.gz"
+        else:
+            key = f"{S3_TEMP_KEY_PREFIX}/{hashed_name}.csv.gz"
+
         if self.s3_temp_bucket_prefix:
             key = self.s3_temp_bucket_prefix + "/" + key
 

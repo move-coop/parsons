@@ -498,6 +498,7 @@ class Redshift(
         temp_bucket_region: Optional[str] = None,
         strict_length: bool = True,
         csv_encoding: str = "utf-8",
+        temp_file_key: str = None,
     ):
         """
         Copy a :ref:`parsons-table` to Redshift.
@@ -657,6 +658,7 @@ class Redshift(
                 aws_access_key_id=aws_access_key_id,
                 aws_secret_access_key=aws_secret_access_key,
                 csv_encoding=csv_encoding,
+                temp_file_key=temp_file_key,
             )
 
             try:

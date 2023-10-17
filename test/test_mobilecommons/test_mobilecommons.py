@@ -8,7 +8,6 @@ from mobilecommons_responses import (
     post_profile_response,
 )
 
-# from airtable_responses import insert_response, insert_responses
 
 MOBILECOMMONS_USERNAME = "MOBILECOMMONS_USERNAME"
 MOBILECOMMONS_PASSWORD = "MOBILECOMMONS_PASSWORD"

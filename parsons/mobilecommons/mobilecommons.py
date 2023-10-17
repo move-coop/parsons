@@ -234,9 +234,11 @@ class MobileCommons:
 
         `Args:`
             first_date: str
-                The date of the earliest possible broadcast you'd like returned.
+                The date of the earliest possible broadcast you'd like returned. All common date
+                format should work (e.g. mm/dd/yy or yyyy-mm-dd)
             last_date: str
-                The date of the latest possible broadcast you'd like returned.
+                The date of the latest possible broadcast you'd like returned. All common date
+                format should work (e.g. mm/dd/yy or yyyy-mm-dd)
             status: str
                 'draft', 'scheduled', or 'generated'
             campaign_id: int
@@ -282,9 +284,11 @@ class MobileCommons:
                 of the campaign's page after select a campaign at
                 https://secure.mcommons.com/campaigns
             first_date: str
-                The date of the earliest possible subscription returned.
+                The date of the earliest possible subscription returned. All common date
+                format should work (e.g. mm/dd/yy or yyyy-mm-dd)
             last_date: str
-                The date of the latest possible subscription you'd like returned.
+                The date of the latest possible subscription you'd like returned. All common date
+                format should work (e.g. mm/dd/yy or yyyy-mm-dd)
             opt_in_path_id: int
                 Optional parameter to narrow results to on particular opt-in path. You can get this
                 from the url of the opt in paths page https://secure.mcommons.com/opt_in_paths
@@ -328,9 +332,11 @@ class MobileCommons:
                 A list of phone numbers including country codes for which you want profiles returned
                 MobileCommons claims to recognize most formats.
             first_date: str
-                The date of the earliest possible subscription returned.
+                The date of the earliest possible subscription returned. All common date
+                format should work (e.g. mm/dd/yy or yyyy-mm-dd).
             last_date: str
-                The date of the latest possible subscription you'd like returned.
+                The date of the latest possible subscription you'd like returned. All common date
+                format should work (e.g. mm/dd/yy or yyyy-mm-dd).
             include_custom_columns: bool
                 Optional parameter to that, if set to True, will return custom column values for
                 profiles as a list of dictionaries contained within a column.

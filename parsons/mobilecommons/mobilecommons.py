@@ -1,8 +1,3 @@
-"""
-Figure out what to do about campaign subscribers, which has page_count key. Also find out
-if limit is a page count limit, or a limit on the total number of rows returned.
-"""
-
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 from parsons.utilities.datetime import parse_date

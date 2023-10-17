@@ -4,7 +4,9 @@ import json
 from parsons import Table, ActionNetwork
 from test.utils import assert_matching_tables
 
+
 class TestActionNetwork(unittest.TestCase):
+
     @requests_mock.Mocker()
     def setUp(self, m):
 
@@ -558,7 +560,7 @@ class TestActionNetwork(unittest.TestCase):
         )
 
     @requests_mock.Mocker()
-    def test_get_fundraising_pages(self,m):
+    def test_get_fundraising_pages(self, m):
         m.get(
             f"{self.api_url}/fundraising_pages",
             text=json.dumps(self.fake_fundraising_pages),
@@ -567,4 +569,3 @@ class TestActionNetwork(unittest.TestCase):
         assert_matching_tables(
             self.an._get_entry_list("fundraising_pages", 1, 1),
             self.fake_fundraising_pages["_embedded"]["osdi:fundraising_pages"])
-

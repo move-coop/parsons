@@ -56,7 +56,7 @@ class TestMobileCommons(unittest.TestCase):
         self.assertIsInstance(
             parsed_get_response_text,
             Table,
-            "MobileCommons.mc_get_request" "does output parsons table",
+            "MobileCommons.mc_get_request does output parsons table",
         )
 
     @requests_mock.Mocker()
@@ -70,7 +70,7 @@ class TestMobileCommons(unittest.TestCase):
         self.assertIsInstance(
             profiles,
             Table,
-            "MobileCommons.get_profiles method did not " "return a parsons Table",
+            "MobileCommons.get_profiles method did not return a parsons Table",
         )
         self.assertEqual(
             profiles[0]["first_name"],
@@ -90,7 +90,7 @@ class TestMobileCommons(unittest.TestCase):
         self.assertIsInstance(
             broadcasts,
             Table,
-            "MobileCommons.get_broadcasts method did not " "return a parsons Table",
+            "MobileCommons.get_broadcasts method did not return a parsons Table",
         )
         self.assertEqual(
             broadcasts[0]["id"],
@@ -108,7 +108,7 @@ class TestMobileCommons(unittest.TestCase):
         self.assertIsInstance(
             response_dict,
             dict,
-            "MobileCommons.mc_post_request output " "not expected type dictionary",
+            "MobileCommons.mc_post_request output not expected type dictionary",
         )
         self.assertEqual(
             response_dict["profile"]["id"],
@@ -123,5 +123,5 @@ class TestMobileCommons(unittest.TestCase):
         self.assertEqual(
             profile_id,
             "602169563",
-            "MobileCommons.create_profile does not return " "expected profile_id",
+            "MobileCommons.create_profile does not return expected profile_id",
         )

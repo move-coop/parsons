@@ -32,7 +32,7 @@ class MobileCommons:
 
     `Args:`
         username: str
-            A valid email address connected toa  MobileCommons account. Not required if
+            A valid email address connected to a  MobileCommons account. Not required if
             ``MOBILECOMMONS_USERNAME`` env variable is set.
         password: str
             Password associated with Zoom account. Not required if ``MOBILECOMMONS_PASSWORD``

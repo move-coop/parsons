@@ -30,7 +30,7 @@ with by specifying the Company ID in the ``company_id`` parameter. To find the C
     mc = MobileCommons(company_id='EXAMPLE78363BOCA483954419EB70986A68888')
 
     # Pass credentials via argument for account has access to only one MobileCommons company
-    mc = MobileCommons(MOBILECOMMONS_USERNAME='octavia.b@scifi.net', MOBILECOMMONS_PASSWORD='badpassword123')
+    mc = MobileCommons(username='octavia.b@scifi.net', password='badpassword123')
 
 Then you can call various endpoints:
 

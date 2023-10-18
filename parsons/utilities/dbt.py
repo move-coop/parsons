@@ -6,9 +6,6 @@ or `pip install parsons[dbt-postgres]`
 or `pip install parsons[dbt-snowflake]`
 or `pip install parsons[dbt-bigquery]`
 
-For the slack integration to work, you'll need to include the slack extra:
-`pip install parsons[dbt-redshift,slack]`, etc.
-
 To run dbt commands, you will need to have a dbt project directory
 somewhere on the local filesystem.
 

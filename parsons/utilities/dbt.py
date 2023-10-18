@@ -59,6 +59,7 @@ class dbtLogger:
         self.start = time.time()
         self.log_messages = []
         self.error_messages = []
+        self.warn_messages = []
         self.done_messages = []
         self.slack_channel = slack_channel
         self.slack_webhook = slack_webhook
@@ -86,7 +87,14 @@ class dbtLogger:
 
         return time_str
 
-    def record_result(self, command: str, error_messages: list[str], done_message: str):
+    def record_result(
+        self,
+        command: str,
+        error_messages: list[str],
+        warn_messages: list[str],
+        skip_messages: list[str],
+        done_message: str,
+    ):
         command_seconds = int(
             self._command_times[command]["end"] - self._command_times[command]["start"]
         )
@@ -95,6 +103,9 @@ class dbtLogger:
         if error_messages:
             log_message += ":red_circle:"
             status = "Error"
+        elif warn_messages:
+            log_message += ":large_orange_circle:"
+            status = "Warning"
         else:
             log_message += ":large_green_circle:"
             status = "Success"
@@ -106,8 +117,21 @@ class dbtLogger:
 
         if error_messages:
             log_message += "\nError messages:\n```{}```".format(
-                "\n".join(error_messages)
+                "\n\n".join(error_messages)
             )
+
+        if warn_messages:
+            log_message += "\nWarning messages:\n```{}```".format(
+                "\n\n".join(warn_messages)
+            )
+
+        if skip_messages:
+            skips = [
+                msg.split(" ")[5].split(".")[1]
+                for msg in skip_messages
+                if msg.split(" ")[4] == "relation"
+            ]
+            log_message += "\nSkipped:\n```{}```".format(", ".join(skips))
 
         self.log_messages.append(log_message)
 
@@ -153,6 +177,8 @@ class dbtLogger:
 
         log_messages = []
         error_messages = []
+        warn_messages = []
+        skip_messages = []
 
         for row in parsed_rows:
             if not row["info"]["msg"]:
@@ -164,6 +190,12 @@ class dbtLogger:
             if row["info"]["level"] == "error":
                 logger.error(log_message)
                 error_messages.append(log_message)
+            elif row["info"]["level"] == "warn":
+                logger.warning(log_message)
+                warn_messages.append(log_message)
+            elif "SKIP " in row["info"]["msg"]:
+                logger.warning(log_message)
+                skip_messages.append(log_message)
             else:
                 logger.info(log_message)
 
@@ -173,7 +205,9 @@ class dbtLogger:
         else:
             done_message = ""
 
-        self.record_result(command_str, error_messages, done_message)
+        self.record_result(
+            command_str, error_messages, warn_messages, skip_messages, done_message
+        )
 
 
 class dbtRunner:

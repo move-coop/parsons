@@ -283,11 +283,11 @@ class dbtRunner:
         """
         self.commands = commands
         self.dbt_schema = check_env.check("DBT_SCHEMA", dbt_schema)
-        self.username = check_env.check(username, "REDSHIFT_USERNAME")
-        self.password = check_env.check(password, "REDSHIFT_PASSWORD")
-        self.host = check_env.check(host, "REDSHIFT_HOST")
-        self.port = check_env.check(port, "REDSHIFT_PORT")
-        self.db = check_env.check(db, "REDSHIFT_DB")
+        self.username = check_env.check("REDSHIFT_USERNAME", username)
+        self.password = check_env.check("REDSHIFT_PASSWORD", password)
+        self.host = check_env.check("REDSHIFT_HOST", host)
+        self.port = check_env.check("REDSHIFT_PORT", port)
+        self.db = check_env.check("REDSHIFT_DB", db)
         self.dbt_project_directory = dbt_project_directory
         self.raise_errors = raise_errors
         self.dbt_logger = dbtLogger(

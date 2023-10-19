@@ -147,15 +147,17 @@ class Airtable(object):
         order of the columns is irrelevant.
 
         `Args:`
-            table: A Parsons Table
-                Insert a Parsons table
+            table: A Parsons Table or list of dicts
+                Insert a Parsons table or list
             typecast: boolean
                 Automatic data conversion from string values.
         `Returns:`
             List of dictionaries of inserted rows
         """
-
+        if isinstance(table, Table):
+            table = table.to_dicts()
         resp = self.client.batch_insert(table, typecast=typecast)
+        resp = Table(resp)
         logger.info(f"{table.num_rows} records inserted.")
         return resp
 

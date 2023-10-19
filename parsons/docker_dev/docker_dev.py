@@ -21,13 +21,13 @@ class Dev(object):
 
     def make_all_columns_reversed(self):
         def reverse_string(x):
-            return x
+            return x[::-1]
 
         reversed_columns = [reverse_string(x) for x in self.table.columns]
         return self.table.set_header(reversed_columns)
 
     def run(self):
         # NOTE - Toggle between these return statements
-        return self.table
+        # return self.table
         # return self.make_all_columns_uppercase()
-        # return self.make_all_columns_reversed()
+        return self.make_all_columns_reversed()

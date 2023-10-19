@@ -158,7 +158,7 @@ class Airtable(object):
             table = table.to_dicts()
         resp = self.client.batch_insert(table, typecast=typecast)
         resp = Table(resp)
-        logger.info(f"{table.num_rows} records inserted.")
+        logger.info(f"{resp.num_rows} records inserted.")
         return resp
 
     def update_record(self, record_id, fields, typecast=False):

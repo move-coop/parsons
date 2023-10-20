@@ -187,7 +187,10 @@ class dbtLogger:
             if row["info"]["level"] == "error":
                 logger.error(log_message)
                 error_messages.append(log_message)
-            elif row["info"]["level"] == "warn":
+            # Capture model/test warnings but exclude verbose top-level warnings
+            elif (
+                row["info"]["level"] == "warn" and "[WARNING]" not in row["info"]["msg"]
+            ):
                 logger.warning(log_message)
                 warn_messages.append(log_message)
             elif "SKIP " in row["info"]["msg"]:

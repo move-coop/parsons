@@ -96,6 +96,7 @@ class ActionNetwork(object):
         given_name=None,
         family_name=None,
         tags=None,
+        remove_tags=None,
         languages_spoken=None,
         postal_addresses=None,
         mobile_number=None,
@@ -134,6 +135,8 @@ class ActionNetwork(object):
                 The person's family name
             tags:
                 Optional field. A list of strings of pre-existing tags to be applied to the person.
+            remove_tags:
+                Optional field. A list of strings of pre-existing tags to be removed from the person
             languages_spoken:
                 Optional field. A list of strings of the languages spoken by the person
             postal_addresses:
@@ -223,6 +226,8 @@ class ActionNetwork(object):
             data["person"]["postal_addresses"] = postal_addresses
         if tags is not None:
             data["add_tags"] = tags
+        if remove_tags is not None:
+            data["remove_tags"] = remove_tags
 
         data["person"]["custom_fields"] = {**kwargs}
         url = f"{self.api_url}/people"

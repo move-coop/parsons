@@ -1018,3 +1018,229 @@ class ActionNetwork(object):
             A  JSON with the signature entry
         """
         return self.api.get_request(f"people/{person_id}/signatures/{signature_id}")
+
+    def get_messages(self, limit=None, per_page=25, page=None, filter=None):
+        """
+        `Args:`
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+
+
+        `Returns:`
+            A  JSON with all the messages related entries
+        """
+        if page:
+            return self._get_page("messages", page, per_page, filter)
+        return self._get_entry_list("messages", limit, per_page, filter)
+
+    def get_message(self, message_id):
+        """
+        `Args:`
+            message_id:
+               The unique id of the message
+        `Returns:`
+            A  JSON with the signature entry.
+        """
+        return self.api.get_request(f"messages/{message_id}")
+
+    def get_custom_fields(self):
+        """
+        `Args:`
+            None
+        `Returns:`
+            A  JSON with the custom_fields associated with your API key.
+        """
+        return self.api.get_request("metadata/custom_fields")
+
+    def get_embeds(self, action_type, action_id):
+        """
+        `Args:`
+            action_type:
+              The action type (petition, events, etc.)
+            action_id:
+              The unique id of the action
+        `Returns:`
+            A  JSON with the embeds (for you to be able to embed action outside of ActionNetwork).
+        """
+        return self.api.get_request(f"{action_type}/{action_id}/embed")
+
+    def get_items(self, list_id, limit=None, per_page=25, page=None, filter=None):
+        """
+        `Args:`
+            list_id:
+                The unique id of the list
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+
+
+        `Returns:`
+            A  JSON with all the list item entries
+        """
+        if page:
+            return self._get_page(f"lists/{list_id}/items", page, per_page, filter)
+        return self._get_entry_list(f"lists/{list_id}/items", limit, per_page, filter)
+
+    def get_item(self, list_id, item_id):
+        """
+        `Args:`
+           list_id:
+              The unique id of the list
+            item_id:
+              The unique id of the item
+        `Returns:`
+            A  JSON with the item entry
+        """
+        return self.api.get_request(f"lists/{list_id}/items/{item_id}")
+
+    def get_lists(self, limit=None, per_page=25, page=None, filter=None):
+        """
+        `Args:`
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+
+
+        `Returns:`
+            A  JSON with all the list entries
+        """
+        if page:
+            return self._get_page("lists", page, per_page, filter)
+        return self._get_entry_list("lists", limit, per_page, filter)
+
+    def get_list(self, list_id):
+        """
+        `Args:`
+           list_id:
+              The unique id of the list
+        `Returns:`
+            A  JSON with the list entry
+        """
+        return self.api.get_request(f"lists/{list_id}")
+
+    def get_metadata(self):
+        """
+        `Args:`
+           None
+        `Returns:`
+            A  JSON with the metadata entry
+        """
+        return self.api.get_request("metadata")
+
+    def get_queries(self, limit=None, per_page=25, page=None, filter=None):
+        """
+        `Args:`
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+
+
+        `Returns:`
+            A  JSON with all the query entries
+        """
+        if page:
+            return self._get_page("queries", page, per_page, filter)
+        return self._get_entry_list("queries", limit, per_page, filter)
+
+    def get_query(self, query_id):
+        """
+        `Args:`
+           query_id:
+              The unique id of the query
+        `Returns:`
+            A  JSON with the query entry
+        """
+        return self.api.get_request(f"queries/{query_id}")
+
+    def get_taggings(self, tag_id, limit=None, per_page=25, page=None, filter=None):
+        """
+        `Args:`
+            tag_id:
+                The unique id of the tag
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+
+
+        `Returns:`
+            A  JSON with all the tagging entries associated with the tag_id
+        """
+        if page:
+            return self._get_page(f"tags/{tag_id}/taggings", page, per_page, filter)
+        return self._get_entry_list(f"tag/{tag_id}/taggings", limit, per_page, filter)
+
+    def get_tagging(self, tag_id, tagging_id):
+        """
+        `Args:`
+           tag_id:
+              The unique id of the tag
+           tagging_id:
+              The unique id of the tagging
+        `Returns:`
+            A  JSON with the tagging entry
+        """
+        return self.api.get_request(f"tag/{tag_id}/taggings/{tagging_id}")
+
+    def get_wrappers(self, limit=None, per_page=25, page=None, filter=None):
+        """
+        `Args:`
+            limit:
+               The number of entries to return. When None, returns all entries.
+           per_page:
+               The number of entries per page to return. 25 maximum.
+           page:
+               Which page of results to return
+           filter:
+               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+               When None, no filter is applied.
+
+
+        `Returns:`
+            A  JSON with all the wrapper entries
+        """
+        if page:
+            return self._get_page("wrappers", page, per_page, filter)
+        return self._get_entry_list("wrappers", limit, per_page, filter)
+
+    def get_wrapper(self, wrapper_id):
+        """
+        `Args:`
+           wrapper_id:
+              The unique id of the wrapper
+           tagging_id:
+              The unique id of the tagging
+        `Returns:`
+            A  JSON with the wrapper entry
+        """
+        return self.api.get_request(f"wrappers/{wrapper_id}")

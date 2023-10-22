@@ -6,7 +6,6 @@ from test.utils import assert_matching_tables
 
 
 class TestActionNetwork(unittest.TestCase):
-
     @requests_mock.Mocker()
     def setUp(self, m):
 
@@ -368,38 +367,23 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "osdi:fundraising_pages": [
                     {
-                        "identifiers": [
-                            ""
-                        ],
+                        "identifiers": [""],
                         "created_date": self.fake_date,
                         "total_donations": 0,
                         "total_amount": "0.00",
                         "currency": "USD",
-                        "action_network:sponsor": {
-                            "title": "",
-                            "browser_url": ""
-                        },
+                        "action_network:sponsor": {"title": "", "browser_url": ""},
                         "_links": {
-                            "self": {
-                                "href": f"{self.api_url}/fundraising_pages"
-                            },
-                            "osdi:creator": {
-                                "href": "fake_url"
-                            },
-                            "osdi:donations": {
-                                "href": "fake_url"
-                            },
-                            "osdi:record_donation_helper": {
-                                "href": "fake_url"
-                            }
+                            "self": {"href": f"{self.api_url}/fundraising_pages"},
+                            "osdi:creator": {"href": "fake_url"},
+                            "osdi:donations": {"href": "fake_url"},
+                            "osdi:record_donation_helper": {"href": "fake_url"},
                         },
                         "modified_date": self.fake_date,
                         "origin_system": "Test",
                         "title": "Hello",
-                        "_embedded": {
-                            "osdi:creator": ""
-                        },
-                        "action_network:hidden": False
+                        "_embedded": {"osdi:creator": ""},
+                        "action_network:hidden": False,
                     }
                 ]
             },
@@ -568,4 +552,5 @@ class TestActionNetwork(unittest.TestCase):
 
         assert_matching_tables(
             self.an._get_entry_list("fundraising_pages", 1, 1),
-            self.fake_fundraising_pages["_embedded"]["osdi:fundraising_pages"])
+            self.fake_fundraising_pages["_embedded"]["osdi:fundraising_pages"],
+        )

@@ -98,7 +98,7 @@ class FakeTable:
         if order_by:
             data.sort(order_by)
 
-        return Table(data[offset: chunk_size + offset])
+        return Table(data[offset : chunk_size + offset])
 
     def get_new_rows_count(self, primary_key_col, start_value=None):
         data = self.data.select_rows(lambda row: row[primary_key_col] > start_value)
@@ -108,4 +108,4 @@ class FakeTable:
         data = self.data.select_rows(lambda row: row[primary_key] > cutoff_value)
         data.sort(primary_key)
 
-        return Table(data[offset: chunk_size + offset])
+        return Table(data[offset : chunk_size + offset])

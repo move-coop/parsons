@@ -289,10 +289,10 @@ class Hustle(object):
         """
         return self._request(
             f"groups/{group_id}/memberships",
-            req_type="POST", 
+            req_type="POST",
             payload={"leadId": lead_id}
         )
-        
+
     def get_lead(self, lead_id):
         """
         Get a single lead.

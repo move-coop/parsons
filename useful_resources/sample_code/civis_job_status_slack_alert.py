@@ -140,7 +140,7 @@ def main():
     message = f"*{project_name} Status*\n{line_items}"
     logger.info(f"Posting message to Slack channel {SLACK_CHANNEL}")
     # Post message
-    slack.message_channel(SLACK_CHANNEL, message, as_user=True)
+    slack.message_channel(SLACK_CHANNEL, message)
     logger.info("Slack message posted")
 
 

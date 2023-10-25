@@ -206,6 +206,7 @@ Indices and tables
    google
    hustle
    mailchimp
+   mobilecommons
    mobilize_america
    nation_builder
    newmode

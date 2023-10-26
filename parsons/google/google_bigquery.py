@@ -962,6 +962,60 @@ class GoogleBigQuery(DatabaseConnector):
             sql += f" where table_name = '{view}'"
         return self.query(sql)
 
+    def get_columns(self, schema: str, table_name: str):
+        """
+        Gets the column names (and other column metadata) for a table. If you
+        need just the column names run ``get_columns_list()``, as it is faster.
+
+        `Args:`
+            schema: str
+                The schema name
+            table_name: str
+                The table name
+
+        `Returns:`
+            A dictionary mapping column name to a dictionary with extra info. The
+            keys of the dictionary are ordered just liked the columns in the table.
+            The extra info is a dict with format
+        """
+
+        base_query = f"""
+        SELECT 
+            * 
+        FROM `{self.project}.{schema}.INFORMATION_SCHEMA.COLUMNS`
+        WHERE 
+            table_name = '{table_name}'
+        """
+
+        return {
+            row["column_name"]: {
+                "data_type": row["data_type"],
+                "is_nullable": row["is_nullable"],
+                "is_updatable": row["is_updatable"],
+                "is_partioning_column": row["is_partitioning_column"],
+                "rounding_mode": row["rounding_mode"],
+            }
+            for row in self.query(base_query)
+        }
+
+    def get_columns_list(self, schema: str, table_name: str) -> list:
+        """
+        Gets the column names for a table.
+
+        `Args:`
+            schema: str
+                The schema name
+            table_name: str
+                The table name
+
+        `Returns:`
+            A list of column names
+        """
+
+        first_row = self.query(f"SELECT * FROM {schema}.{table_name} LIMIT 1;")
+
+        return [x for x in first_row.columns]
+
     def _generate_schema_from_parsons_table(self, tbl):
         stats = tbl.get_columns_type_stats()
         fields = []

@@ -344,7 +344,7 @@ class TestActionNetwork(unittest.TestCase):
             "start_date": self.fake_date,
             "location": self.fake_location,
             "_links": {
-                "self": {"href": "https://actionnetwork.org/api/v2/events/fake-id"},
+                "self": {"href": f"{self.api_url}/events/fake-id"},
             },
             "event_id": "fake-id",
         }
@@ -356,17 +356,11 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 3,
             "_links": {
-                "next": {
-                    "href": "https://actionnetwork.org/api/v2/advocacy_campaigns?page=2"
-                },
-                "self": {"href": "https://actionnetwork.org/api/v2/advocacy_campaigns"},
+                "next": {"href": f"{self.api_url}/advocacy_campaigns?page=2"},
+                "self": {"href": f"{self.api_url}/advocacy_campaigns"},
                 "osdi:advocacy_campaigns": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/65345d7d-cd24-466a-a698-4a7686ef684f"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/adb951cb-51f9-420e-b7e6-de953195ec86"
-                    },
+                    {"href": f"{self.api_url}/advocacy_campaigns/fake_url"},
+                    {"href": f"{self.api_url}/advocacy_campaigns/fake_url"},
                 ],
                 "curies": [
                     {
@@ -400,9 +394,7 @@ class TestActionNetwork(unittest.TestCase):
                             "osdi:creator": {
                                 "given_name": "John",
                                 "family_name": "Doe",
-                                "identifiers": [
-                                    "action_network:c945d6fe-929e-11e3-a2e9-12313d316c29"
-                                ],
+                                "identifiers": ["action_network:fake_id"],
                                 "created_date": "2014-03-24T18:03:45Z",
                                 "modified_date": "2014-03-25T15:00:22Z",
                                 "email_addresses": [
@@ -438,52 +430,46 @@ class TestActionNetwork(unittest.TestCase):
                                 ],
                                 "languages_spoken": ["en"],
                                 "_links": {
-                                    "self": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                                    },
+                                    "self": {"href": f"{self.api_url}/people/fake_url"},
                                     "osdi:attendances": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/attendances"
+                                        "href": f"{self.api_url}/people/fake_url"
                                     },
                                     "osdi:signatures": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/signatures"
+                                        "href": f"{self.api_url}/people/fake_url"
                                     },
                                     "osdi:submissions": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/submissions"
+                                        "href": f"{self.api_url}/people/fake_url"
                                     },
                                     "osdi:donations": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/donations"
+                                        "href": f"{self.api_url}/people/fake_url"
                                     },
                                     "osdi:outreaches": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/outreaches"
+                                        "href": f"{self.api_url}/people/fake_url"
                                     },
                                     "osdi:taggings": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/taggings"
+                                        "href": f"{self.api_url}/people/fake_url"
                                     },
                                 },
                             }
                         },
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/65345d7d-cd24-466a-a698-4a7686ef684f"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
                             "osdi:outreaches": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/65345d7d-cd24-466a-a698-4a7686ef684f/outreaches"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
                             "osdi:record_outreach_helper": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/65345d7d-cd24-466a-a698-4a7686ef684f/outreaches"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
-                            "osdi:creator": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:creator": {"href": f"{self.api_url}/people/fake_url"},
                             "action_network:embed": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/65345d7d-cd24-466a-a698-4a7686ef684f/embed"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
                         },
                     },
                     {
-                        "identifiers": [
-                            "action_network:adb951cb-51f9-420e-b7e6-de953195ec86"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "created_date": "2014-03-21T23:39:53Z",
                         "modified_date": "2014-03-25T15:26:45Z",
                         "title": "Thank Acme's CEO for going green",
@@ -498,9 +484,7 @@ class TestActionNetwork(unittest.TestCase):
                             "osdi:creator": {
                                 "given_name": "John",
                                 "family_name": "Doe",
-                                "identifiers": [
-                                    "action_network:c945d6fe-929e-11e3-a2e9-12313d316c29"
-                                ],
+                                "identifiers": ["action_network:fake_id"],
                                 "created_date": "2014-03-24T18:03:45Z",
                                 "modified_date": "2014-03-25T15:00:22Z",
                                 "email_addresses": [
@@ -536,45 +520,41 @@ class TestActionNetwork(unittest.TestCase):
                                 ],
                                 "languages_spoken": ["en"],
                                 "_links": {
-                                    "self": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                                    },
+                                    "self": {"href": f"{self.api_url}/people/fake_url"},
                                     "osdi:attendances": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/attendances"
+                                        "href": f"{self.api_url}/people/fake_url"
                                     },
                                     "osdi:signatures": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/signatures"
+                                        "href": f"{self.api_url}/people/fake_url"
                                     },
                                     "osdi:submissions": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/submissions"
+                                        "href": f"{self.api_url}/people/fake_url"
                                     },
                                     "osdi:donations": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/donations"
+                                        "href": f"{self.api_url}/people/fake_url"
                                     },
                                     "osdi:outreaches": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/outreaches"
+                                        "href": f"{self.api_url}/people/fake_url"
                                     },
                                     "osdi:taggings": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/taggings"
+                                        "href": f"{self.api_url}/people/fake_url"
                                     },
                                 },
                             }
                         },
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/adb951cb-51f9-420e-b7e6-de953195ec86"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
                             "osdi:outreaches": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/adb951cb-51f9-420e-b7e6-de953195ec86/outreaches"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
                             "osdi:record_outreach_helper": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/adb951cb-51f9-420e-b7e6-de953195ec86/outreaches"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
-                            "osdi:creator": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                             "action_network:embed": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/adb951cb-51f9-420e-b7e6-de953195ec86/embed"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
                         },
                     },
@@ -605,16 +585,14 @@ class TestActionNetwork(unittest.TestCase):
                                 },
                             ],
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/44618be7-29cb-439e-bc68-70e6e85dda1b"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
                             "osdi:outreaches": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/44618be7-29cb-439e-bc68-70e6e85dda1b/outreaches"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
-                            "osdi:creator": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:creator": {"href": f"{self.api_url}/people/fake_url"},
                             "osdi:record_outreach_helper": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/44618be7-29cb-439e-bc68-70e6e85dda1b/outreaches"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
                         },
                     },
@@ -622,7 +600,7 @@ class TestActionNetwork(unittest.TestCase):
             },
         }
         self.fake_advocacy_campaign = {
-            "identifiers": ["action_network:adb951cb-51f9-420e-b7e6-de953195ec86"],
+            "identifiers": ["action_network:fake_id"],
             "created_date": "2014-03-21T23:39:53Z",
             "modified_date": "2014-03-25T15:26:45Z",
             "title": "Thank Acme's CEO for going green",
@@ -637,9 +615,7 @@ class TestActionNetwork(unittest.TestCase):
                 "osdi:creator": {
                     "given_name": "John",
                     "family_name": "Doe",
-                    "identifiers": [
-                        "action_network:c945d6fe-929e-11e3-a2e9-12313d316c29"
-                    ],
+                    "identifiers": ["action_network:fake_id"],
                     "created_date": "2014-03-24T18:03:45Z",
                     "modified_date": "2014-03-25T15:00:22Z",
                     "email_addresses": [
@@ -675,26 +651,24 @@ class TestActionNetwork(unittest.TestCase):
                     ],
                     "languages_spoken": ["en"],
                     "_links": {
-                        "self": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                        },
+                        "self": {"href": f"{self.api_url}/people/fake_id"},
                         "osdi:attendances": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/attendances"
+                            "href": f"{self.api_url}/people/fake_id/attendances"
                         },
                         "osdi:signatures": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/signatures"
+                            "href": f"{self.api_url}/people/fake_id/signatures"
                         },
                         "osdi:submissions": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/submissions"
+                            "href": f"{self.api_url}/people/fake_id/submissions"
                         },
                         "osdi:donations": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/donations"
+                            "href": f"{self.api_url}/people/fake_id/donations"
                         },
                         "osdi:outreaches": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/outreaches"
+                            "href": f"{self.api_url}/people/fake_id/outreaches"
                         },
                         "osdi:taggings": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/taggings"
+                            "href": f"{self.api_url}/people/fake_id/taggings"
                         },
                         "curies": [
                             {
@@ -712,20 +686,16 @@ class TestActionNetwork(unittest.TestCase):
                 }
             },
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/adb951cb-51f9-420e-b7e6-de953195ec86"
-                },
+                "self": {"href": f"{self.api_url}/advocacy_campaigns/fake_id"},
                 "osdi:outreaches": {
-                    "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/adb951cb-51f9-420e-b7e6-de953195ec86/outreaches"
+                    "href": f"{self.api_url}/advocacy_campaigns/fake_id/outreaches"
                 },
                 "osdi:record_outreach_helper": {
-                    "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/adb951cb-51f9-420e-b7e6-de953195ec86/outreaches"
+                    "href": f"{self.api_url}/advocacy_campaigns/fake_id/outreaches"
                 },
-                "osdi:creator": {
-                    "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                },
+                "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                 "action_network:embed": {
-                    "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/adb951cb-51f9-420e-b7e6-de953195ec86/embed"
+                    "href": f"{self.api_url}/advocacy_campaigns/fake_id/embed"
                 },
                 "curies": [
                     {
@@ -749,16 +719,10 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 20,
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/events/12c9a105-1ab6-472e-ac04-667c521a5968/attendances"
-                },
+                "self": {"href": f"{self.api_url}/events/fake_id/attendances"},
                 "osdi:attendance": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/events/12c9a105-1ab6-472e-ac04-667c521a5968/attendances/d51ca19e-9fe9-11e3-a2e9-12313d316c29"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/events/12c9a105-1ab6-472e-ac04-667c521a5968/attendances/d51c9b4a-9fe9-11e3-a2e9-12313d316c29"
-                    },
+                    {"href": f"{self.api_url}/events/fake_id/attendances/fake_id"},
+                    {"href": f"{self.api_url}/events/fake_id/attendances/fake_id"},
                 ],
                 "curies": [
                     {
@@ -782,39 +746,29 @@ class TestActionNetwork(unittest.TestCase):
                         "created_date": "2014-02-18T20:52:59Z",
                         "modified_date": "2014-02-18T20:53:00Z",
                         "status": "accepted",
-                        "action_network:person_id": "ceef7e23-4617-4af8-bd0f-60029299d8cd",
-                        "action_network:event_id": "12c9a105-1ab6-472e-ac04-667c521a5968",
+                        "action_network:person_id": "fake_id",
+                        "action_network:event_id": "fake_id",
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/events/12c9a105-1ab6-472e-ac04-667c521a5968/attendances/d51ca19e-9fe9-11e3-a2e9-12313d316c29"
+                                "href": f"{self.api_url}/events/fake_id/attendances/fake_id"
                             },
-                            "osdi:event": {
-                                "href": "https://actionnetwork.org/api/v2/events/12c9a105-1ab6-472e-ac04-667c521a5968"
-                            },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/ceef7e23-4617-4af8-bd0f-60029299d8cd"
-                            },
+                            "osdi:event": {"href": f"{self.api_url}/events/fake_id"},
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
                     },
                     {
-                        "identifiers": [
-                            "action_network:d51c9b4a-9fe9-11e3-a2e9-12313d316c29"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "created_date": "2014-02-18T20:23:42Z",
                         "modified_date": "2014-02-18T20:23:42Z",
                         "status": "accepted",
-                        "action_network:person_id": "06d13a33-6824-493b-a922-95e793f269d3",
-                        "action_network:event_id": "12c9a105-1ab6-472e-ac04-667c521a5968",
+                        "action_network:person_id": "fake_id",
+                        "action_network:event_id": "fake_id",
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/events/12c9a105-1ab6-472e-ac04-667c521a5968/attendances/d51c9b4a-9fe9-11e3-a2e9-12313d316c29"
+                                "href": f"{self.api_url}/events/fake_id/attendances/fake_id"
                             },
-                            "osdi:event": {
-                                "href": "https://actionnetwork.org/api/v2/events/12c9a105-1ab6-472e-ac04-667c521a5968"
-                            },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/06d13a33-6824-493b-a922-95e793f269d3"
-                            },
+                            "osdi:event": {"href": f"{self.api_url}/events/fake_id"},
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
                     },
                 ]
@@ -825,18 +779,12 @@ class TestActionNetwork(unittest.TestCase):
             "created_date": "2014-02-18T20:52:59Z",
             "modified_date": "2014-02-18T20:53:00Z",
             "status": "accepted",
-            "action_network:person_id": "ceef7e23-4617-4af8-bd0f-60029299d8cd",
-            "action_network:event_id": "12c9a105-1ab6-472e-ac04-667c521a5968",
+            "action_network:person_id": "fake_id",
+            "action_network:event_id": "fake_id",
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/events/12c9a105-1ab6-472e-ac04-667c521a5968/attendances/d51ca19e-9fe9-11e3-a2e9-12313d316c29"
-                },
-                "osdi:event": {
-                    "href": "https://actionnetwork.org/api/v2/events/12c9a105-1ab6-472e-ac04-667c521a5968"
-                },
-                "osdi:person": {
-                    "href": "https://actionnetwork.org/api/v2/people/ceef7e23-4617-4af8-bd0f-60029299d8cd"
-                },
+                "self": {"href": f"{self.api_url}/events/fake_id/attendances/fake_id"},
+                "osdi:event": {"href": f"{self.api_url}/events/fake_id"},
+                "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -859,15 +807,11 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 30,
             "_links": {
-                "next": {"href": "https://actionnetwork.org/api/v2/campaigns?page=2"},
-                "self": {"href": "https://actionnetwork.org/api/v2/campaigns"},
+                "next": {"href": f"{self.api_url}/campaigns?page=2"},
+                "self": {"href": f"{self.api_url}/campaigns"},
                 "action_network:campaigns": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/campaigns/e7b02e0a-a0a9-11e3-a2e9-12313d316c29"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/campaigns/e7b0287e-a0a9-11e3-a2e9-12313d316c29"
-                    },
+                    {"href": f"{self.api_url}/campaigns/fake_id"},
+                    {"href": f"{self.api_url}/campaigns/fake_id"},
                 ],
                 "curies": [
                     {
@@ -885,77 +829,72 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "action_network:campaigns": [
                     {
-                        "identifiers": [
-                            "action_network:e7b02e0a-a0a9-11e3-a2e9-12313d316c29"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2013-10-02T14:21:32Z",
                         "modified_date": "2013-10-02T14:22:06Z",
                         "title": "Join our week of actions!",
-                        "description": "<p>Our week of action is here -- click the links on the right to join in!</p>",
-                        "browser_url": "https://actionnetwork.org/campaigns/join-our-week-of-action",
-                        "featured_image_url": "https://actionnetwork.org/images/week-of-action.jpg",
+                        "description": "<p>Our week of action is here --"
+                        "click the links on the right to join in!</p>",
+                        "browser_url": "fake_url",
+                        "featured_image_url": "fake_url",
                         "action_network:hidden": False,
                         "action_network:sponsor": {
                             "title": "Progressive Action Now",
-                            "browser_url": "https://actionnetwork.org/groups/progressive-action-now",
+                            "browser_url": "fake_url",
                         },
                         "actions": [
                             {
                                 "title": "Sign the petition",
-                                "browser_url": "https://actionnetwork.org/petitions/sign-the-petition",
+                                "browser_url": "fake_url",
                             },
                             {
                                 "title": "Attend the rally",
-                                "browser_url": "https://actionnetwork.org/events/attend-the-rally",
+                                "browser_url": "fake_url",
                             },
                         ],
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/campaigns/e7b02e0a-a0a9-11e3-a2e9-12313d316c29"
-                            }
+                            "self": {"href": f"{self.api_url}/campaigns/fake_id"}
                         },
                     },
                     {
-                        "identifiers": [
-                            "action_network:e7b0287e-a0a9-11e3-a2e9-12313d316c29"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2013-09-30T15:55:44Z",
                         "modified_date": "2014-01-16T19:07:00Z",
                         "title": "Welcome to our Action Center",
-                        "description": "<p>Welcome to our Action Center. Take action on the right.</p>",
-                        "browser_url": "https://actionnetwork.org/campaigns/welcome-to-our-action-center",
+                        "description": "<p>Welcome to our Action Center."
+                        "Take action on the right.</p>",
+                        "browser_url": "fake_url",
                         "action_network:sponsor": {
                             "title": "Progressive Action Now",
-                            "browser_url": "https://actionnetwork.org/groups/progressive-action-now",
+                            "browser_url": "fake_url",
                         },
                         "actions": [
                             {
                                 "title": "Sign up for email updates",
-                                "browser_url": "https://actionnetwork.org/forms/sign-up-for-email-updates",
+                                "browser_url": "fake_url",
                             },
                             {
                                 "title": "Take our survey",
-                                "browser_url": "https://actionnetwork.org/forms/take-our-survey",
+                                "browser_url": "fake_url",
                             },
                         ],
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/campaigns/e7b0287e-a0a9-11e3-a2e9-12313d316c29"
-                            }
+                            "self": {"href": f"{self.api_url}/campaigns/fake_id"}
                         },
                     },
                 ]
             },
         }
         self.fake_campaign = {
-            "identifiers": ["action_network:e7b02e0a-a0a9-11e3-a2e9-12313d316c29"],
+            "identifiers": ["action_network:fake_id"],
             "origin_system": "Action Network",
             "created_date": "2013-10-02T14:21:32Z",
             "modified_date": "2013-10-02T14:22:06Z",
             "title": "Join our week of actions!",
-            "description": "<p>Our week of action is here -- click the links on the right to join in!</p>",
+            "description": "<p>Our week of action is here --"
+            "click the links on the right to join in!</p>",
             "browser_url": "https://actionnetwork.org/campaigns/join-our-week-of-action",
             "featured_image_url": "https://actionnetwork.org/images/week-of-action.jpg",
             "action_network:hidden": False,
@@ -974,9 +913,7 @@ class TestActionNetwork(unittest.TestCase):
                 },
             ],
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/campaigns/e7b02e0a-a0a9-11e3-a2e9-12313d316c29"
-                },
+                "self": {"href": f"{self.api_url}/campaigns/fake_id"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -1051,15 +988,13 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 6,
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f/donations"
-                },
+                "self": {"href": f"{self.api_url}/fundraising_pages/fake_id/donations"},
                 "osdi:donations": [
                     {
-                        "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f/donations/f1119c4e-b8ca-44ff-bfa7-f78f7ca3ec16"
+                        "href": f"{self.api_url}/fundraising_pages/fake_id/donations/fake_id"
                     },
                     {
-                        "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f/donations/d86538c1-e8f7-46e1-8320-552da81bd48d"
+                        "href": f"{self.api_url}/fundraising_pages/fake_id/donations/fake_id"
                     },
                 ],
                 "curies": [
@@ -1102,18 +1037,16 @@ class TestActionNetwork(unittest.TestCase):
                             "recurring": True,
                             "period": "Monthly",
                         },
-                        "action_network:person_id": "c945d6fe-929e-11e3-a2e9-12313d316c29",
-                        "action_network:fundraising_page_id": "049e9bda-cb79-420d-91ba-92e5a15ba62f",
+                        "action_network:person_id": "fake_id",
+                        "action_network:fundraising_page_id": "fake_id",
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f/donations/f1119c4e-b8ca-44ff-bfa7-f78f7ca3ec16"
+                                "href": f"{self.api_url}/fundraising_pages/fake_url"
                             },
                             "osdi:fundraising_page": {
-                                "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f"
+                                "href": f"{self.api_url}/fake_url"
                             },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_url"},
                         },
                     },
                     {
@@ -1137,18 +1070,16 @@ class TestActionNetwork(unittest.TestCase):
                             "authorization_stored": False,
                         },
                         "action_network:recurrence": {"recurring": False},
-                        "action_network:person_id": "c945d6fe-929e-11e3-a2e9-12313d316c29",
-                        "action_network:fundraising_page_id": "049e9bda-cb79-420d-91ba-92e5a15ba62f",
+                        "action_network:person_id": "fake_id",
+                        "action_network:fundraising_page_id": "fake_id",
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f/donations/d86538c1-e8f7-46e1-8320-552da81bd48d"
+                                "href": "fundraising_pages/fake_id/donations/fake_id"
                             },
                             "osdi:fundraising_page": {
-                                "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f"
+                                "href": f"{self.api_url}/fundraising_pages/fake_id"
                             },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
                     },
                 ]
@@ -1171,18 +1102,16 @@ class TestActionNetwork(unittest.TestCase):
                 "authorization_stored": False,
             },
             "action_network:recurrence": {"recurring": True, "period": "Monthly"},
-            "action_network:person_id": "c945d6fe-929e-11e3-a2e9-12313d316c29",
-            "action_network:fundraising_page_id": "049e9bda-cb79-420d-91ba-92e5a15ba62f",
+            "action_network:person_id": "fake_id",
+            "action_network:fundraising_page_id": "fake_id",
             "_links": {
                 "self": {
-                    "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f/donations/f1119c4e-b8ca-44ff-bfa7-f78f7ca3ec16"
+                    "href": f"{self.api_url}/fundraising_pages/fake_id/donations/fake_id"
                 },
                 "osdi:fundraising_page": {
-                    "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f"
+                    "href": f"{self.api_url}/fundraising_pages/fake_id"
                 },
-                "osdi:person": {
-                    "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                },
+                "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -1200,15 +1129,46 @@ class TestActionNetwork(unittest.TestCase):
 
         # Embeds
         self.fake_embed = {
-            "embed_standard_default_styles": "<link href='https://actionnetwork.org/css/style-embed.css' rel='stylesheet' type='text/css' /><script src='https://actionnetwork.org/widgets/event/my-free-event?format=js&source=widget'></script><div id='can-event-area-my-free-event' style='width: 100%'><!-- this div is the target for our HTML insertion --></div>",
-            "embed_standard_layout_only_styles": "<link href='https://actionnetwork.org/css/style-embed-whitelabel.css' rel='stylesheet' type='text/css' /><script src='https://actionnetwork.org/widgets/event/my-free-event?format=js&source=widget'></script><div id='can-event-area-my-free-event' style='width: undefined'><!-- this div is the target for our HTML insertion --></div>",
-            "embed_standard_no_styles": "<script src='https://actionnetwork.org/widgets/event/my-free-event?format=js&source=widget'></script><div id='can-event-area-my-free-event' style='width: undefined'><!-- this div is the target for our HTML insertion --></div>",
-            "embed_full_default_styles": "<link href='https://actionnetwork.org/css/style-embed.css' rel='stylesheet' type='text/css' /><script src='https://actionnetwork.org/widgets/event/my-free-event?format=js&source=widget&style=full'></script><div id='can-event-area-my-free-event' style='width: undefined'><!-- this div is the target for our HTML insertion --></div>",
-            "embed_full_layout_only_styles": "<link href='https://actionnetwork.org/css/style-embed-whitelabel.css' rel='stylesheet' type='text/css' /><script src='https://actionnetwork.org/widgets/event/my-free-event?format=js&source=widget&style=full'></script><div id='can-event-area-my-free-event' style='width: undefined'><!-- this div is the target for our HTML insertion --></div>",
-            "embed_full_no_styles": "<script src='https://actionnetwork.org/widgets/event/my-free-event?format=js&source=widget&style=full'></script><div id='can-event-area-my-free-event' style='width: undefined'><!-- this div is the target for our HTML insertion --></div>",
+            "embed_standard_default_styles": "<link href='fake_url'"
+            " rel='stylesheet' type='text/css' /><script "
+            "src='https://actionnetwork.org/widgets/event/my-free-event?"
+            "format=js&source=widget'></script><div id='can-event-area-my-free-event'"
+            " style='width: 100%'><!-- this div is the target for our HTML insertion -->"
+            "</div>",
+            "embed_standard_layout_only_styles": "<link href='√"
+            "-whitelabel.css' rel='stylesheet' type='text/css' "
+            "/><script"
+            " src='fake_url"
+            "ent?format=js&source=widget'>"
+            "</script><div id='can-event-area-my-free-event'"
+            " style='width: undefined'>"
+            "<!-- this div is the target for our HTML insertion --></div>",
+            "embed_standard_no_styles": "<script src='fake_url"
+            "&source=widget'></script>"
+            "<div id='can-event-area-my-free-event' "
+            "style='width: undefined'>"
+            "<!-- this div is "
+            "the target for our HTML insertion --></div>",
+            "embed_full_default_styles": "<link href='fake_url' rel='stylesheet'"
+            " type='text/css' /><script src='fake_url"
+            "/event/my-free-event?format=js&source=widget&style=full'></script>"
+            "<div id='can-event-area-my-free-event' style='width: undefined'>"
+            "<!-- this div is the target for our HTML insertion --></div>",
+            "embed_full_layout_only_styles": "<link href='fake_url' "
+            "rel='stylesheet' type='text/css' /><script "
+            "src='fake_url"
+            "&source=widget&style=full'>"
+            "</script><div id='can-event-area-my-free-event'"
+            " style='width: undefined'>"
+            "<!-- this div is the target for our HTML insertion -->"
+            "</div>",
+            "embed_full_no_styles": "<script src='fake_url'"
+            "&source=widget&style=full'></script><div id='can-event-area-my-free-event' "
+            "style='width: undefined'><!-- this div is the target for our HTML insertion -->"
+            "</div>",
             "_links": {
                 "self": {
-                    "href": "https://actionnetwork.org/api/v2/events/21789f03-0180-45d3-853c-91bd6fdc8c07/embed"
+                    "href": f"{self.api_url}/events/21789f03-0180-45d3-853c-91bd6fdc8c07/embed"
                 },
                 "curies": [
                     {
@@ -1232,17 +1192,11 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 237,
             "_links": {
-                "next": {
-                    "href": "https://actionnetwork.org/api/v2/event_campaigns?page=2"
-                },
-                "self": {"href": "https://actionnetwork.org/api/v2/event_campaigns"},
+                "next": {"href": f"{self.api_url}/event_campaigns?page=2"},
+                "self": {"href": f"{self.api_url}/event_campaigns"},
                 "action_network:event_campaigns": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/event_campaigns/874e7e97-973d-4683-b992-61e1ca120710"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/event_campaigns/e948ff6c-9f1e-11e3-a2e9-12313d316c29"
-                    },
+                    {"href": f"{self.api_url}/event_campaigns/fake_id"},
+                    {"href": f"{self.api_url}/event_campaigns/fake_id"},
                 ],
                 "curies": [
                     {
@@ -1260,66 +1214,63 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "action_network:event_campaigns": [
                     {
-                        "identifiers": [
-                            "action_network:874e7e97-973d-4683-b992-61e1ca120710"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2014-03-07T16:50:29Z",
                         "modified_date": "2014-03-07T16:51:16Z",
                         "title": "House parties to help us win!",
-                        "description": "<p>Host house parties next week to help us win our campaign!</p>",
-                        "host_pitch": "Hosting a house party is easy! Sign up and we'll give you what you need to know.",
-                        "host_instructions": "<p>Download our toolkit for all the instructions you need to host an event.</p>",
-                        "browser_url": "https://actionnetwork.org/event_campaigns/house-parties-to-help-us-win",
-                        "host_url": "https://actionnetwork.org/events/new?event_campaign_id=84",
-                        "featured_image_url": "https://actionnetwork.org/images/events.jpg",
+                        "description": "<p>Host house parties next "
+                        "week to help us win our campaign!</p>",
+                        "host_pitch": "Hosting a house party is easy! Sign up and we'll give "
+                        "you what you need to know.",
+                        "host_instructions": "<p>Download our toolkit for all the "
+                        "instructions you need to host an event.</p>",
+                        "browser_url": "fake_url",
+                        "host_url": "fake_url",
+                        "featured_image_url": "fake_url",
                         "total_events": 35,
                         "total_rsvps": 467,
                         "action_network:hidden": False,
                         "action_network:sponsor": {
                             "title": "Progressive Action Now",
-                            "url": "https://actionnetwork.org/groups/progressive-action-now",
+                            "url": "fake_url",
                         },
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/event_campaigns/874e7e97-973d-4683-b992-61e1ca120710"
-                            },
+                            "self": {"href": f"{self.api_url}/event_campaigns/fake_id"},
                             "osdi:events": {
-                                "href": "https://actionnetwork.org/api/v2/event_campaigns/874e7e97-973d-4683-b992-61e1ca120710/events"
+                                "href": f"{self.api_url}/event_campaigns/fake_id/events"
                             },
                             "action_network:embed": {
-                                "href": "https://actionnetwork.org/api/v2/event_campaigns/874e7e97-973d-4683-b992-61e1ca120710/embed"
+                                "href": f"{self.api_url}/event_campaigns/fake_id/embed"
                             },
                         },
                     },
                     {
-                        "identifiers": [
-                            "action_network:e948ff6c-9f1e-11e3-a2e9-12313d316c29"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2014-02-03T16:32:34Z",
                         "modified_date": "2014-02-03T16:42:10Z",
                         "title": "Protest the bad bill in your town",
-                        "description": "<p>Help us stop this bad bill from becoming law by joining a local protest.</p>",
+                        "description": "<p>Help us stop this bad bill from "
+                        "becoming law by joining a local protest.</p>",
                         "host_pitch": "Hosting is easy, we'll help you out, do it now!",
-                        "host_instructions": "<p>Here's everything you need to host a protest...</p>",
-                        "browser_url": "https://actionnetwork.org/event_campaigns/protest-the-bad-bill-in-your-town",
-                        "host_url": "https://actionnetwork.org/events/new?event_campaign_id=82",
+                        "host_instructions": "<p>Here's everything "
+                        "you need to host a protest...</p>",
+                        "browser_url": "fake_url",
+                        "host_url": "fake_url",
                         "total_events": 4,
                         "total_rsvps": 11,
                         "action_network:sponsor": {
                             "title": "Progressive Action Now",
-                            "url": "https://actionnetwork.org/groups/progressive-action-now",
+                            "url": "fake_url",
                         },
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/event_campaigns/e948ff6c-9f1e-11e3-a2e9-12313d316c29"
-                            },
+                            "self": {"href": f"{self.api_url}/event_campaigns/fake_id"},
                             "osdi:events": {
-                                "href": "https://actionnetwork.org/api/v2/event_campaigns/e948ff6c-9f1e-11e3-a2e9-12313d316c29/events"
+                                "href": f"{self.api_url}/event_campaigns/fake_id/events"
                             },
                             "action_network:embed": {
-                                "href": "https://actionnetwork.org/api/v2/event_campaigns/e948ff6c-9f1e-11e3-a2e9-12313d316c29/embed"
+                                "href": f"{self.api_url}/event_campaigns/fake_id/embed"
                             },
                         },
                     },
@@ -1327,33 +1278,32 @@ class TestActionNetwork(unittest.TestCase):
             },
         }
         self.fake_event_campaign = {
-            "identifiers": ["action_network:e948ff6c-9f1e-11e3-a2e9-12313d316c29"],
+            "identifiers": ["action_network:fake_id"],
             "origin_system": "Action Network",
             "created_date": "2014-02-03T16:32:34Z",
             "modified_date": "2014-02-03T16:42:10Z",
             "title": "Protest the bad bill in your town",
-            "description": "<p>Help us stop this bad bill from becoming law by joining a local protest.</p>",
+            "description": "<p>Help us stop this bad bill from becoming"
+            "law by joining a local protest.</p>",
             "host_pitch": "Hosting is easy, we'll help you out, do it now!",
             "host_instructions": "<p>Here's everything you need to host a protest...</p>",
-            "browser_url": "https://actionnetwork.org/event_campaigns/protest-the-bad-bill-in-your-town",
-            "host_url": "https://actionnetwork.org/events/new?event_campaign_id=82",
-            "featured_image_url": "https://actionnetwork.org/images/events.jpg",
+            "browser_url": "fake_url",
+            "host_url": "fake_url",
+            "featured_image_url": "fake_url",
             "total_events": 4,
             "total_rsvps": 11,
             "action_network:hidden": False,
             "action_network:sponsor": {
                 "title": "Progressive Action Now",
-                "url": "https://actionnetwork.org/groups/progressive-action-now",
+                "url": "fake_url",
             },
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/event_campaigns/e948ff6c-9f1e-11e3-a2e9-12313d316c29"
-                },
+                "self": {"href": f"{self.api_url}/event_campaigns/fake_id"},
                 "osdi:events": {
-                    "href": "https://actionnetwork.org/api/v2/event_campaigns/e948ff6c-9f1e-11e3-a2e9-12313d316c29/events"
+                    "href": f"{self.api_url}/event_campaigns/fake_id/events"
                 },
                 "action_network:embed": {
-                    "href": "https://actionnetwork.org/api/v2/event_campaigns/e948ff6c-9f1e-11e3-a2e9-12313d316c29/embed"
+                    "href": f"{self.api_url}/event_campaigns/fake_id/embed"
                 },
                 "curies": [
                     {
@@ -1377,15 +1327,11 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 250,
             "_links": {
-                "next": {"href": "https://actionnetwork.org/api/v2/events?page=2"},
-                "self": {"href": "https://actionnetwork.org/api/v2/events"},
+                "next": {"href": f"{self.api_url}/events?page=2"},
+                "self": {"href": f"{self.api_url}/events"},
                 "osdi:events": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/events/8a625981-67a4-4457-8b55-2e30b267b2c2"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/events/3f976089-4477-461f-9d2f-1d741aa9b7a8"
-                    },
+                    {"href": f"{self.api_url}/events/fake_id"},
+                    {"href": f"{self.api_url}/events/fake_id"},
                 ],
                 "curies": [
                     {
@@ -1405,7 +1351,7 @@ class TestActionNetwork(unittest.TestCase):
                     {
                         "origin_system": "FreeEvents.com",
                         "identifiers": [
-                            "action_network:8a625981-67a4-4457-8b55-2e30b267b2c2",
+                            "action_network:fake_id",
                             "free_events:1",
                         ],
                         "status": "confirmed",
@@ -1434,30 +1380,24 @@ class TestActionNetwork(unittest.TestCase):
                             },
                         },
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/events/8a625981-67a4-4457-8b55-2e30b267b2c2"
-                            },
+                            "self": {"href": f"{self.api_url}/events/fake_id"},
                             "osdi:attendances": {
-                                "href": "https://actionnetwork.org/api/v2/events/8a625981-67a4-4457-8b55-2e30b267b2c2/attendances"
+                                "href": f"{self.api_url}/events/fake_id/attendances"
                             },
                             "osdi:record_attendance_helper": {
-                                "href": "https://actionnetwork.org/api/v2/events/8a625981-67a4-4457-8b55-2e30b267b2c2/attendances"
+                                "href": f"{self.api_url}/events/fake_id/attendances"
                             },
                             "osdi:organizer": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
+                                "href": f"{self.api_url}/people/fake_id"
                             },
-                            "osdi:creator": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                             "action_network:embed": {
-                                "href": "https://actionnetwork.org/api/v2/events/8a625981-67a4-4457-8b55-2e30b267b2c2/embed"
+                                "href": f"{self.api_url}/events/fake_id/embed"
                             },
                         },
                     },
                     {
-                        "identifiers": [
-                            "action_network:3f976089-4477-461f-9d2f-1d741aa9b7a8"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "status": "confirmed",
                         "created_date": "2014-03-18T21:08:18Z",
                         "modified_date": "2014-03-18T22:15:11Z",
@@ -1476,7 +1416,7 @@ class TestActionNetwork(unittest.TestCase):
                         "action_network:hidden": False,
                         "action_network:sponsor": {
                             "title": "Progressive Action Now",
-                            "browser_url": "https://actionnetwork.org/groups/progressive-action-now",
+                            "browser_url": "fake_url",
                         },
                         "location": {
                             "venue": "My house",
@@ -1493,23 +1433,19 @@ class TestActionNetwork(unittest.TestCase):
                             },
                         },
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/events/3f976089-4477-461f-9d2f-1d741aa9b7a8"
-                            },
+                            "self": {"href": f"{self.api_url}/events/fake_id"},
                             "osdi:attendances": {
-                                "href": "https://actionnetwork.org/api/v2/events/3f976089-4477-461f-9d2f-1d741aa9b7a8/attendances"
+                                "href": f"{self.api_url}/events/fake_id/attendances"
                             },
                             "osdi:record_attendance_helper": {
-                                "href": "https://actionnetwork.org/api/v2/events/3f976089-4477-461f-9d2f-1d741aa9b7a8/attendances"
+                                "href": f"{self.api_url}/events/fake_id/attendances"
                             },
                             "osdi:organizer": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
+                                "href": f"{self.api_url}/people/fake_id"
                             },
-                            "osdi:creator": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                             "action_network:embed": {
-                                "href": "https://actionnetwork.org/api/v2/events/3f976089-4477-461f-9d2f-1d741aa9b7a8/embed"
+                                "href": f"{self.api_url}/events/fake_id/embed"
                             },
                         },
                     },
@@ -1519,7 +1455,7 @@ class TestActionNetwork(unittest.TestCase):
         self.fake_event2 = {
             "origin_system": "FreeEvents.com",
             "identifiers": [
-                "action_network:8a625981-67a4-4457-8b55-2e30b267b2c2",
+                "action_network:fake_id",
                 "free_events:1",
             ],
             "status": "confirmed",
@@ -1548,23 +1484,17 @@ class TestActionNetwork(unittest.TestCase):
                 },
             },
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/events/8a625981-67a4-4457-8b55-2e30b267b2c2"
-                },
+                "self": {"href": f"{self.api_url}/events/fake_id"},
                 "osdi:attendances": {
-                    "href": "https://actionnetwork.org/api/v2/events/8a625981-67a4-4457-8b55-2e30b267b2c2/attendances"
+                    "href": f"{self.api_url}/events/fake_id/attendances"
                 },
                 "osdi:record_attendance_helper": {
-                    "href": "https://actionnetwork.org/api/v2/events/8a625981-67a4-4457-8b55-2e30b267b2c2/attendances"
+                    "href": f"{self.api_url}/events/fake_id/attendances"
                 },
-                "osdi:organizer": {
-                    "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                },
-                "osdi:creator": {
-                    "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                },
+                "osdi:organizer": {"href": f"{self.api_url}/people/fake_id"},
+                "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                 "action_network:embed": {
-                    "href": "https://actionnetwork.org/api/v2/events/8a625981-67a4-4457-8b55-2e30b267b2c2/embed"
+                    "href": f"{self.api_url}/events/fake_id/embed"
                 },
                 "curies": [
                     {
@@ -1588,15 +1518,13 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 250,
             "_links": {
-                "next": {"href": "https://actionnetwork.org/api/v2/forms?page=2"},
-                "self": {"href": "https://actionnetwork.org/api/v2/forms"},
+                "next": {"href": f"{self.api_url}/forms?page=2"},
+                "self": {"href": f"{self.api_url}/forms"},
                 "osdi:forms": [
                     {
-                        "href": "https://actionnetwork.org/api/v2/forms/65345d7d-cd24-466a-a698-4a7686ef684f"
+                        "href": f"{self.api_url}/forms/65345d7d-cd24-466a-a698-4a7686ef684f"
                     },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86"
-                    },
+                    {"href": f"{self.api_url}/forms/fake_id"},
                 ],
                 "curies": [
                     {
@@ -1628,9 +1556,7 @@ class TestActionNetwork(unittest.TestCase):
                             "osdi:creator": {
                                 "given_name": "John",
                                 "family_name": "Doe",
-                                "identifiers": [
-                                    "action_network:c945d6fe-929e-11e3-a2e9-12313d316c29"
-                                ],
+                                "identifiers": ["action_network:fake_id"],
                                 "created_date": "2014-03-24T18:03:45Z",
                                 "modified_date": "2014-03-25T15:00:22Z",
                                 "email_addresses": [
@@ -1666,52 +1592,44 @@ class TestActionNetwork(unittest.TestCase):
                                 ],
                                 "languages_spoken": ["en"],
                                 "_links": {
-                                    "self": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                                    },
+                                    "self": {"href": f"{self.api_url}/people/fake_id"},
                                     "osdi:attendances": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/attendances"
+                                        "href": f"{self.api_url}/people/fake_id/attendances"
                                     },
                                     "osdi:signatures": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/signatures"
+                                        "href": f"{self.api_url}/people/fake_id/signatures"
                                     },
                                     "osdi:submissions": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/submissions"
+                                        "href": f"{self.api_url}/people/fake_id/submissions"
                                     },
                                     "osdi:donations": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/donations"
+                                        "href": f"{self.api_url}/people/fake_id/donations"
                                     },
                                     "osdi:outreaches": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/outreaches"
+                                        "href": f"{self.api_url}/people/fake_id/outreaches"
                                     },
                                     "osdi:taggings": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/taggings"
+                                        "href": f"{self.api_url}/people/fake_id/taggings"
                                     },
                                 },
                             }
                         },
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/forms/65345d7d-cd24-466a-a698-4a7686ef684f"
-                            },
+                            "self": {"href": f"{self.api_url}/forms/fake_id"},
                             "osdi:submissions": {
-                                "href": "https://actionnetwork.org/api/v2/forms/65345d7d-cd24-466a-a698-4a7686ef684f/submissions"
+                                "href": f"{self.api_url}/forms/fake_id/submissions"
                             },
                             "osdi:record_submission_helper": {
-                                "href": "https://actionnetwork.org/api/v2/forms/65345d7d-cd24-466a-a698-4a7686ef684f/submissions"
+                                "href": f"{self.api_url}/forms/fake_id/submissions"
                             },
-                            "osdi:creator": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                             "action_network:embed": {
-                                "href": "https://actionnetwork.org/api/v2/forms/65345d7d-cd24-466a-a698-4a7686ef684f/embed"
+                                "href": f"{self.api_url}/forms/fake_id/embed"
                             },
                         },
                     },
                     {
-                        "identifiers": [
-                            "action_network:adb951cb-51f9-420e-b7e6-de953195ec86"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "created_date": "2014-03-21T23:39:53Z",
                         "modified_date": "2014-03-25T15:26:45Z",
                         "title": "Take our end of year survey",
@@ -1725,9 +1643,7 @@ class TestActionNetwork(unittest.TestCase):
                             "osdi:creator": {
                                 "given_name": "John",
                                 "family_name": "Doe",
-                                "identifiers": [
-                                    "action_network:c945d6fe-929e-11e3-a2e9-12313d316c29"
-                                ],
+                                "identifiers": ["action_network:fake_id"],
                                 "created_date": "2014-03-24T18:03:45Z",
                                 "modified_date": "2014-03-25T15:00:22Z",
                                 "email_addresses": [
@@ -1763,45 +1679,39 @@ class TestActionNetwork(unittest.TestCase):
                                 ],
                                 "languages_spoken": ["en"],
                                 "_links": {
-                                    "self": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                                    },
+                                    "self": {"href": f"{self.api_url}/people/fake_id"},
                                     "osdi:attendances": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/attendances"
+                                        "href": f"{self.api_url}/people/fake_id/attendances"
                                     },
                                     "osdi:signatures": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/signatures"
+                                        "href": f"{self.api_url}/people/fake_id/signatures"
                                     },
                                     "osdi:submissions": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/submissions"
+                                        "href": f"{self.api_url}/people/fake_id/submissions"
                                     },
                                     "osdi:donations": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/donations"
+                                        "href": f"{self.api_url}/people/fake_id/donations"
                                     },
                                     "osdi:outreaches": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/outreaches"
+                                        "href": f"{self.api_url}/people/fake_id/outreaches"
                                     },
                                     "osdi:taggings": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/taggings"
+                                        "href": f"{self.api_url}/people/fake_id/taggings"
                                     },
                                 },
                             }
                         },
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86"
-                            },
+                            "self": {"href": f"{self.api_url}/forms/fake_id"},
                             "osdi:submissions": {
-                                "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86/submissions"
+                                "href": f"{self.api_url}/forms/fake_id/submissions"
                             },
                             "osdi:record_submission_helper": {
-                                "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86/submissions"
+                                "href": f"{self.api_url}/forms/fake_id/submissions"
                             },
-                            "osdi:creator": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                             "action_network:embed": {
-                                "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86/embed"
+                                "href": f"{self.api_url}/forms/fake_id/embed"
                             },
                         },
                     },
@@ -1809,7 +1719,7 @@ class TestActionNetwork(unittest.TestCase):
             },
         }
         self.fake_form = {
-            "identifiers": ["action_network:adb951cb-51f9-420e-b7e6-de953195ec86"],
+            "identifiers": ["action_network:fake_id"],
             "created_date": "2014-03-21T23:39:53Z",
             "modified_date": "2014-03-25T15:26:45Z",
             "title": "Take our end of year survey",
@@ -1823,9 +1733,7 @@ class TestActionNetwork(unittest.TestCase):
                 "osdi:creator": {
                     "given_name": "John",
                     "family_name": "Doe",
-                    "identifiers": [
-                        "action_network:c945d6fe-929e-11e3-a2e9-12313d316c29"
-                    ],
+                    "identifiers": ["action_network:fake_id"],
                     "created_date": "2014-03-24T18:03:45Z",
                     "modified_date": "2014-03-25T15:00:22Z",
                     "email_addresses": [
@@ -1861,26 +1769,24 @@ class TestActionNetwork(unittest.TestCase):
                     ],
                     "languages_spoken": ["en"],
                     "_links": {
-                        "self": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                        },
+                        "self": {"href": f"{self.api_url}/people/fake_id"},
                         "osdi:attendances": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/attendances"
+                            "href": f"{self.api_url}/people/fake_id/attendances"
                         },
                         "osdi:signatures": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/signatures"
+                            "href": f"{self.api_url}/people/fake_id/signatures"
                         },
                         "osdi:submissions": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/submissions"
+                            "href": f"{self.api_url}/people/fake_id/submissions"
                         },
                         "osdi:donations": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/donations"
+                            "href": f"{self.api_url}/people/fake_id/donations"
                         },
                         "osdi:outreaches": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/outreaches"
+                            "href": f"{self.api_url}/people/fake_id/outreaches"
                         },
                         "osdi:taggings": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/taggings"
+                            "href": f"{self.api_url}/people/fake_id/taggings"
                         },
                         "curies": [
                             {
@@ -1898,21 +1804,15 @@ class TestActionNetwork(unittest.TestCase):
                 }
             },
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86"
-                },
+                "self": {"href": f"{self.api_url}/forms/fake_id"},
                 "osdi:submissions": {
-                    "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86/submissions"
+                    "href": f"{self.api_url}/forms/fake_id/submissions"
                 },
                 "osdi:record_submission_helper": {
-                    "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86/submissions"
+                    "href": f"{self.api_url}/forms/fake_id/submissions"
                 },
-                "osdi:creator": {
-                    "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                },
-                "action_network:embed": {
-                    "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86/embed"
-                },
+                "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
+                "action_network:embed": {"href": f"{self.api_url}/forms/fake_id/embed"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -1970,7 +1870,7 @@ class TestActionNetwork(unittest.TestCase):
             },
         }
         self.fake_fundraising_page = {
-            "identifiers": ["action_network:049e9bda-cb79-420d-91ba-92e5a15ba62f"],
+            "identifiers": ["action_network:fake_id"],
             "created_date": "2014-03-04T18:14:03Z",
             "modified_date": "2014-03-24T16:07:13Z",
             "title": "Year end fundraising",
@@ -1985,9 +1885,7 @@ class TestActionNetwork(unittest.TestCase):
                 "osdi:creator": {
                     "given_name": "John",
                     "family_name": "Doe",
-                    "identifiers": [
-                        "action_network:c945d6fe-929e-11e3-a2e9-12313d316c29"
-                    ],
+                    "identifiers": ["action_network:fake_id"],
                     "created_date": "2014-03-24T19:39:40Z",
                     "modified_date": "2014-03-24T19:48:23Z",
                     "email_addresses": [
@@ -2023,26 +1921,24 @@ class TestActionNetwork(unittest.TestCase):
                     ],
                     "languages_spoken": ["en"],
                     "_links": {
-                        "self": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                        },
+                        "self": {"href": f"{self.api_url}/people/fake_id"},
                         "osdi:attendances": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/attendances"
+                            "href": f"{self.api_url}/people/fake_id/attendances"
                         },
                         "osdi:signatures": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/signatures"
+                            "href": f"{self.api_url}/people/fake_id/signatures"
                         },
                         "osdi:submissions": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/submissions"
+                            "href": f"{self.api_url}/people/fake_id/submissions"
                         },
                         "osdi:donations": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/donations"
+                            "href": f"{self.api_url}/people/fake_id/donations"
                         },
                         "osdi:outreaches": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/outreaches"
+                            "href": f"{self.api_url}/people/fake_id/outreaches"
                         },
                         "osdi:taggings": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/taggings"
+                            "href": f"{self.api_url}/people/fake_id/taggings"
                         },
                         "curies": [
                             {
@@ -2064,20 +1960,16 @@ class TestActionNetwork(unittest.TestCase):
                 "url": "https://actionnetwork.org/groups/progressive-action-now",
             },
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f"
-                },
+                "self": {"href": f"{self.api_url}/fundraising_pages/fake_id"},
                 "osdi:donations": {
-                    "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f/donations"
+                    "href": f"{self.api_url}/fundraising_pages/fake_id/donations"
                 },
                 "osdi:record_donation_helper": {
-                    "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f/donations"
+                    "href": f"{self.api_url}/fundraising_pages/fake_id/donations"
                 },
-                "osdi:creator": {
-                    "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                },
+                "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                 "action_network:embed": {
-                    "href": "https://actionnetwork.org/api/v2/fundraising_pages/049e9bda-cb79-420d-91ba-92e5a15ba62f/embed"
+                    "href": f"{self.api_url}/fundraising_pages/fake_id/embed"
                 },
                 "curies": [
                     {
@@ -2099,19 +1991,11 @@ class TestActionNetwork(unittest.TestCase):
             "per_page": 25,
             "page": 1,
             "_links": {
-                "next": {
-                    "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298/items?page=2"
-                },
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298/items"
-                },
+                "next": {"href": f"{self.api_url}/lists/fake_id/items?page=2"},
+                "self": {"href": f"{self.api_url}/lists/fake_id/items"},
                 "osdi:items": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298/items/82e909f9-1ac7-4952-bbd4-b4690a14bec2"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298/items/a9ccd87c-97f4-48db-9e6b-507509091839"
-                    },
+                    {"href": f"{self.api_url}/lists/fake_id/items/fake_id"},
+                    {"href": f"{self.api_url}/lists/fake_id/items/fake_id"},
                 ],
                 "curies": [
                     {
@@ -2131,59 +2015,41 @@ class TestActionNetwork(unittest.TestCase):
                     {
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298/items/82e909f9-1ac7-4952-bbd4-b4690a14bec2"
+                                "href": f"{self.api_url}/lists/fake_id/items/fake_id"
                             },
-                            "osdi:list": {
-                                "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                            },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/82e909f9-1ac7-4952-bbd4-b4690a14bec2"
-                            },
+                            "osdi:list": {"href": f"{self.api_url}/lists/fake_id"},
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
-                        "identifiers": [
-                            "action_network:82e909f9-1ac7-4952-bbd4-b4690a14bec2"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "created_date": "2014-03-18T22:25:31Z",
                         "modified_date": "2014-03-18T22:25:38Z",
                         "item_type": "osdi:person",
-                        "action_network:person_id": "82e909f9-1ac7-4952-bbd4-b4690a14bec2",
-                        "action_network:list_id": "71f8feef-61c8-4e6b-9745-ec1d7752f298",
+                        "action_network:person_id": "fake_id",
+                        "action_network:list_id": "fake_id",
                     },
                     {
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298/items/a9ccd87c-97f4-48db-9e6b-507509091839"
+                                "href": f"{self.api_url}/lists/fake_id/items/fake_id"
                             },
-                            "osdi:list": {
-                                "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                            },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/a9ccd87c-97f4-48db-9e6b-507509091839"
-                            },
+                            "osdi:list": {"href": f"{self.api_url}/lists/fake_id"},
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
-                        "identifiers": [
-                            "action_network:a9ccd87c-97f4-48db-9e6b-507509091839"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "created_date": "2014-03-18T22:24:24Z",
                         "modified_date": "2014-03-18T22:24:24Z",
                         "item_type": "osdi:person",
-                        "action_network:person_id": "a9ccd87c-97f4-48db-9e6b-507509091839",
-                        "action_network:list_id": "71f8feef-61c8-4e6b-9745-ec1d7752f298",
+                        "action_network:person_id": "fake_id",
+                        "action_network:list_id": "fake_id",
                     },
                 ]
             },
         }
         self.fake_item = {
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298/items/82e909f9-1ac7-4952-bbd4-b4690a14bec2"
-                },
-                "osdi:list": {
-                    "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                },
-                "osdi:person": {
-                    "href": "https://actionnetwork.org/api/v2/people/82e909f9-1ac7-4952-bbd4-b4690a14bec2"
-                },
+                "self": {"href": f"{self.api_url}/lists/fake_id/items/fake_id"},
+                "osdi:list": {"href": f"{self.api_url}/lists/fake_id"},
+                "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -2197,12 +2063,12 @@ class TestActionNetwork(unittest.TestCase):
                     },
                 ],
             },
-            "identifiers": ["action_network:82e909f9-1ac7-4952-bbd4-b4690a14bec2"],
+            "identifiers": ["action_network:fake_id"],
             "created_date": "2014-03-18T22:25:31Z",
             "modified_date": "2014-03-18T22:25:38Z",
             "item_type": "osdi:person",
-            "action_network:person_id": "82e909f9-1ac7-4952-bbd4-b4690a14bec2",
-            "action_network:list_id": "71f8feef-61c8-4e6b-9745-ec1d7752f298",
+            "action_network:person_id": "fake_id",
+            "action_network:list_id": "fake_id",
         }
 
         # Lists
@@ -2212,15 +2078,11 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 243,
             "_links": {
-                "next": {"href": "https://actionnetwork.org/api/v2/lists?page=2"},
-                "self": {"href": "https://actionnetwork.org/api/v2/lists"},
+                "next": {"href": f"{self.api_url}/lists?page=2"},
+                "self": {"href": f"{self.api_url}/lists"},
                 "osdi:lists": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/lists/fc0a1ec6-5743-4b98-ae0c-cea8766b2212"
-                    },
+                    {"href": f"{self.api_url}/lists/fake_id"},
+                    {"href": f"{self.api_url}/lists/fake_id"},
                 ],
                 "curies": [
                     {
@@ -2238,40 +2100,32 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "osdi:lists": [
                     {
-                        "identifiers": [
-                            "action_network:71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2014-03-25T17:11:33Z",
                         "modified_date": "2014-03-25T17:13:33Z",
                         "title": "Stop Doing The Bad Thing Petition Signers",
                         "description": "Report",
-                        "browser_url": "https://actionnetwork.org/reports/stop-doing-the-bad-thing-petition-signers/manage",
+                        "browser_url": "fake_url",
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                            },
+                            "self": {"href": f"{self.api_url}/lists/fake_id"},
                             "osdi:items": {
-                                "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298/items"
+                                "href": f"{self.api_url}/lists/fake_id/items"
                             },
                         },
                     },
                     {
-                        "identifiers": [
-                            "action_network:fc0a1ec6-5743-4b98-ae0c-cea8766b2212"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2014-03-24T18:26:42Z",
                         "modified_date": "2014-03-24T18:27:17Z",
                         "title": "Sign our new petition!",
                         "description": "Email",
-                        "browser_url": "https://actionnetwork.org/emails/sign-our-new-petition/manage",
+                        "browser_url": "fake_url",
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/lists/fc0a1ec6-5743-4b98-ae0c-cea8766b2212"
-                            },
+                            "self": {"href": f"{self.api_url}/lists/fake_id"},
                             "osdi:items": {
-                                "href": "https://actionnetwork.org/api/v2/lists/fc0a1ec6-5743-4b98-ae0c-cea8766b2212/items"
+                                "href": f"{self.api_url}/lists/fake_id/items"
                             },
                         },
                     },
@@ -2279,20 +2133,16 @@ class TestActionNetwork(unittest.TestCase):
             },
         }
         self.fake_list = {
-            "identifiers": ["action_network:71f8feef-61c8-4e6b-9745-ec1d7752f298"],
+            "identifiers": ["action_network:fake_id"],
             "origin_system": "Action Network",
             "created_date": "2014-03-25T17:11:33Z",
             "modified_date": "2014-03-25T17:13:33Z",
             "title": "Stop Doing The Bad Thing Petition Signers",
             "description": "Report",
-            "browser_url": "https://actionnetwork.org/reports/stop-doing-the-bad-thing-petition-signers/manage",
+            "browser_url": "fake_url",
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                },
-                "osdi:items": {
-                    "href": "https://actionnetwork.org/api/v2/lists/71f8feef-61c8-4e6b-9745-ec1d7752f298/items"
-                },
+                "self": {"href": f"{self.api_url}/lists/fake_id"},
+                "osdi:items": {"href": f"{self.api_url}/lists/fake_id/items"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -2315,15 +2165,11 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 162,
             "_links": {
-                "next": {"href": "https://actionnetwork.org/api/v2/messages?page=2"},
-                "self": {"href": "https://actionnetwork.org/api/v2/messages"},
+                "next": {"href": f"{self.api_url}/messages?page=2"},
+                "self": {"href": f"{self.api_url}/messages"},
                 "osdi:messages": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/messages/a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/messages/a27178b9-45c3-4844-8ebf-ebd5da74a1e3"
-                    },
+                    {"href": f"{self.api_url}/messages/fake_id"},
+                    {"href": f"{self.api_url}/messages/fake_id"},
                 ],
                 "curies": [
                     {
@@ -2341,9 +2187,7 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "osdi:messages": [
                     {
-                        "identifiers": [
-                            "action_network:a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2014-03-24T18:03:45Z",
                         "modified_date": "2014-03-25T15:00:22Z",
@@ -2351,16 +2195,12 @@ class TestActionNetwork(unittest.TestCase):
                         "body": "<p>The mayor should stop doing the bad thing.</p>",
                         "from": "Progressive Action Now",
                         "reply_to": "jane@progressiveactionnow.org",
-                        "administrative_url": "https://actionnetwork.org/emails/stop-doing-the-bad-thing/manage",
+                        "administrative_url": "fake_url",
                         "total_targeted": 2354,
                         "status": "sent",
                         "sent_start_date": "2014-03-26T15:00:22Z",
                         "type": "email",
-                        "targets": [
-                            {
-                                "href": "https://actionnetwork.org/api/v2/queries/2cba37d8-1fbf-11e7-8cc2-22000aedd9ed"
-                            }
-                        ],
+                        "targets": [{"href": f"{self.api_url}/queries/fake_id"}],
                         "statistics": {
                             "sent": 2354,
                             "opened": 563,
@@ -2373,49 +2213,46 @@ class TestActionNetwork(unittest.TestCase):
                             "spam_reports": 1,
                         },
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/messages/a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                            },
+                            "self": {"href": f"{self.api_url}/messages/fake_id"},
                             "osdi:wrapper": {
-                                "href": "https://actionnetwork.org/api/v2/wrappers/c945d6fe-929e-11e3-a2e9-12313d316c29"
+                                "href": f"{self.api_url}/wrappers/fake_id"
                             },
                             "osdi:recipients": {
-                                "href": "https://actionnetwork.org/api/v2/lists/950e9954-606f-43e6-be99-2bc0bc2072a1"
+                                "href": f"{self.api_url}/lists/950e9954-606f-43e6-be99-2bc0bc2072a1"
                             },
                             "osdi:send_helper": {
-                                "href": "https://actionnetwork.org/api/v2/messages/a4dde5b6-0512-48ea-b4ad-63a71117b43d/send"
+                                "href": f"{self.api_url}/messages/fake_id/send"
                             },
                             "osdi:schedule_helper": {
-                                "href": "https://actionnetwork.org/api/v2/messages/a4dde5b6-0512-48ea-b4ad-63a71117b43d/schedule"
+                                "href": f"{self.api_url}/messages/fake_id/schedule"
                             },
                         },
                     },
                     {
                         "identifiers": [
-                            "action_network:a27178b9-45c3-4844-8ebf-ebd5da74a1e3",
+                            "action_network:fake_id",
                             "foreign_system:1",
                         ],
                         "origin_system": "My Email Making System",
                         "created_date": "2014-03-27T18:03:45Z",
                         "modified_date": "2014-03-28T15:00:22Z",
                         "subject": "FWD: Stop doing the bad thing",
-                        "body": "<p>Have you signed yet? The mayor should stop doing the bad thing.</p>",
+                        "body": "<p>Have you signed yet? "
+                        "The mayor should stop doing the bad thing.</p>",
                         "from": "Progressive Action Now",
                         "reply_to": "jane@progressiveactionnow.org",
-                        "administrative_url": "https://actionnetwork.org/emails/fwd-stop-doing-the-bad-thing/manage",
+                        "administrative_url": "fake_url",
                         "total_targeted": 12673,
                         "status": "draft",
                         "type": "email",
                         "targets": [],
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/messages/a27178b9-45c3-4844-8ebf-ebd5da74a1e3"
-                            },
+                            "self": {"href": f"{self.api_url}/messages/fake_id"},
                             "osdi:send_helper": {
-                                "href": "https://actionnetwork.org/api/v2/messages/a27178b9-45c3-4844-8ebf-ebd5da74a1e3/send"
+                                "href": f"{self.api_url}/messages/fake_id/send"
                             },
                             "osdi:schedule_helper": {
-                                "href": "https://actionnetwork.org/api/v2/messages/a27178b9-45c3-4844-8ebf-ebd5da74a1e3/schedule"
+                                "href": f"{self.api_url}/messages/fake_id/schedule"
                             },
                         },
                     },
@@ -2423,7 +2260,7 @@ class TestActionNetwork(unittest.TestCase):
             },
         }
         self.fake_message = {
-            "identifiers": ["action_network:a4dde5b6-0512-48ea-b4ad-63a71117b43d"],
+            "identifiers": ["action_network:fake_id"],
             "origin_system": "Action Network",
             "created_date": "2014-03-24T18:03:45Z",
             "modified_date": "2014-03-25T15:00:22Z",
@@ -2431,16 +2268,12 @@ class TestActionNetwork(unittest.TestCase):
             "body": "<p>The mayor should stop doing the bad thing.</p>",
             "from": "Progressive Action Now",
             "reply_to": "jane@progressiveactionnow.org",
-            "administrative_url": "https://actionnetwork.org/emails/stop-doing-the-bad-thing/manage",
+            "administrative_url": "fake_url",
             "total_targeted": 2354,
             "status": "sent",
             "sent_start_date": "2014-03-26T15:00:22Z",
             "type": "email",
-            "targets": [
-                {
-                    "href": "https://actionnetwork.org/api/v2/queries/2cba37d8-1fbf-11e7-8cc2-22000aedd9ed"
-                }
-            ],
+            "targets": [{"href": f"{self.api_url}/queries/fake_id"}],
             "statistics": {
                 "sent": 2354,
                 "opened": 563,
@@ -2453,20 +2286,14 @@ class TestActionNetwork(unittest.TestCase):
                 "spam_reports": 1,
             },
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/messages/a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                },
-                "osdi:wrapper": {
-                    "href": "https://actionnetwork.org/api/v2/wrappers/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                },
+                "self": {"href": f"{self.api_url}/messages/fake_id"},
+                "osdi:wrapper": {"href": f"{self.api_url}/wrappers/fake_id"},
                 "osdi:recipients": {
-                    "href": "https://actionnetwork.org/api/v2/lists/950e9954-606f-43e6-be99-2bc0bc2072a1"
+                    "href": f"{self.api_url}/lists/950e9954-606f-43e6-be99-2bc0bc2072a1"
                 },
-                "osdi:send_helper": {
-                    "href": "https://actionnetwork.org/api/v2/messages/a4dde5b6-0512-48ea-b4ad-63a71117b43d/send"
-                },
+                "osdi:send_helper": {"href": f"{self.api_url}/messages/fake_id/send"},
                 "osdi:schedule_helper": {
-                    "href": "https://actionnetwork.org/api/v2/messages/a4dde5b6-0512-48ea-b4ad-63a71117b43d/schedule"
+                    "href": f"{self.api_url}/messages/fake_id/schedule"
                 },
             },
         }
@@ -2502,14 +2329,14 @@ class TestActionNetwork(unittest.TestCase):
             "total_records": 6,
             "_links": {
                 "self": {
-                    "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/049e9bda-cb79-420d-91ba-92e5a15ba62f/outreaches"
+                    "href": f"{self.api_url}/advocacy_campaigns/fake_id/outreaches"
                 },
                 "osdi:outreaches": [
                     {
-                        "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/049e9bda-cb79-420d-91ba-92e5a15ba62f/outreaches/f1119c4e-b8ca-44ff-bfa7-f78f7ca3ec16"
+                        "href": f"{self.api_url}/advocacy_campaigns/fake_id/outreaches/fake_id"
                     },
                     {
-                        "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/049e9bda-cb79-420d-91ba-92e5a15ba62f/outreaches/d86538c1-e8f7-46e1-8320-552da81bd48d"
+                        "href": f"{self.api_url}/advocacy_campaigns/fake_id/outreaches/dfake_id"
                     },
                 ],
                 "curies": [
@@ -2544,18 +2371,16 @@ class TestActionNetwork(unittest.TestCase):
                                 "ocdid": "ocd-division/country:us/state:ny/cd:18",
                             }
                         ],
-                        "action_network:person_id": "c945d6fe-929e-11e3-a2e9-12313d316c29",
-                        "action_network:advocacy_campaign_id": "049e9bda-cb79-420d-91ba-92e5a15ba62f",
+                        "action_network:person_id": "fake_id",
+                        "action_network:advocacy_campaign_id": "fake_id",
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/049e9bda-cb79-420d-91ba-92e5a15ba62f/outreaches/f1119c4e-b8ca-44ff-bfa7-f78f7ca3ec16"
+                                "href": "/advocacy_campaigns/fake_id/outreaches/fake_id"
                             },
                             "osdi:advocacy_campaign": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/049e9bda-cb79-420d-91ba-92e5a15ba62f"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_id"
                             },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
                     },
                     {
@@ -2575,18 +2400,16 @@ class TestActionNetwork(unittest.TestCase):
                                 "ocdid": "ocd-division/country:us/state:ca/sldl:110",
                             }
                         ],
-                        "action_network:person_id": "c945d6fe-929e-11e3-a2e9-12313d316c29",
-                        "action_network:advocacy_campaign_id": "049e9bda-cb79-420d-91ba-92e5a15ba62f",
+                        "action_network:person_id": "fake_id",
+                        "action_network:advocacy_campaign_id": "fake_id",
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/049e9bda-cb79-420d-91ba-92e5a15ba62f/outreaches/d86538c1-e8f7-46e1-8320-552da81bd48d"
+                                "href": "advocacy_campaigns/fake_id/outreaches/fake_id"
                             },
                             "osdi:advocacy_campaign": {
-                                "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/049e9bda-cb79-420d-91ba-92e5a15ba62f"
+                                "href": f"{self.api_url}/advocacy_campaigns/fake_id"
                             },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
                     },
                 ]
@@ -2607,18 +2430,16 @@ class TestActionNetwork(unittest.TestCase):
                     "ocdid": "ocd-division/country:us/state:ny/cd:18",
                 }
             ],
-            "action_network:person_id": "c945d6fe-929e-11e3-a2e9-12313d316c29",
-            "action_network:advocacy_campaign_id": "049e9bda-cb79-420d-91ba-92e5a15ba62f",
+            "action_network:person_id": "fake_id",
+            "action_network:advocacy_campaign_id": "fake_id",
             "_links": {
                 "self": {
-                    "href": "https://actionnetwork.org/api/v2/fundraising_page/049e9bda-cb79-420d-91ba-92e5a15ba62f/outreaches/f1119c4e-b8ca-44ff-bfa7-f78f7ca3ec16"
+                    "href": f"{self.api_url}/fundraising_page/fake_id/outreaches/fake_id"
                 },
                 "osdi:advocacy_campaign": {
-                    "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/049e9bda-cb79-420d-91ba-92e5a15ba62f"
+                    "href": f"{self.api_url}/advocacy_campaigns/fake_id"
                 },
-                "osdi:person": {
-                    "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                },
+                "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -2639,14 +2460,10 @@ class TestActionNetwork(unittest.TestCase):
             "per_page": 25,
             "page": 1,
             "_links": {
-                "next": {"href": "https://actionnetwork.org/api/v2/people?page=2"},
+                "next": {"href": f"{self.api_url}/people?page=2"},
                 "osdi:people": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/people/d91b4b2e-ae0e-4cd3-9ed7-d0ec501b0bc3"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/people/1efc3644-af25-4253-90b8-a0baf12dbd1e"
-                    },
+                    {"href": f"{self.api_url}/people/fake_id"},
+                    {"href": f"{self.api_url}/people/fake_id"},
                 ],
                 "curies": [
                     {
@@ -2660,7 +2477,7 @@ class TestActionNetwork(unittest.TestCase):
                         "templated": True,
                     },
                 ],
-                "self": {"href": "https://actionnetwork.org/api/v2/people"},
+                "self": {"href": f"{self.api_url}/people"},
             },
             "_embedded": {
                 "osdi:people": [
@@ -2668,7 +2485,7 @@ class TestActionNetwork(unittest.TestCase):
                         "given_name": "John",
                         "family_name": "Smith",
                         "identifiers": [
-                            "action_network:d91b4b2e-ae0e-4cd3-9ed7-d0ec501b0bc3",
+                            "action_network:fake_id",
                             "foreign_system:1",
                         ],
                         "created_date": "2014-03-20T21:04:31Z",
@@ -2710,35 +2527,31 @@ class TestActionNetwork(unittest.TestCase):
                             "I am a parent": "1",
                         },
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/people/d91b4b2e-ae0e-4cd3-9ed7-d0ec501b0bc3"
-                            },
+                            "self": {"href": f"{self.api_url}/people/fake_id"},
                             "osdi:attendances": {
-                                "href": "https://actionnetwork.org/api/v2/people/d91b4b2e-ae0e-4cd3-9ed7-d0ec501b0bc3/attendances"
+                                "href": f"{self.api_url}/people/fake_id/attendances"
                             },
                             "osdi:signatures": {
-                                "href": "https://actionnetwork.org/api/v2/people/d91b4b2e-ae0e-4cd3-9ed7-d0ec501b0bc3/signatures"
+                                "href": f"{self.api_url}/people/fake_id/signatures"
                             },
                             "osdi:submissions": {
-                                "href": "https://actionnetwork.org/api/v2/people/d91b4b2e-ae0e-4cd3-9ed7-d0ec501b0bc3/submissions"
+                                "href": f"{self.api_url}/people/fake_id/submissions"
                             },
                             "osdi:donations": {
-                                "href": "https://actionnetwork.org/api/v2/people/d91b4b2e-ae0e-4cd3-9ed7-d0ec501b0bc3/donations"
+                                "href": f"{self.api_url}/people/fake_id/donations"
                             },
                             "osdi:outreaches": {
-                                "href": "https://actionnetwork.org/api/v2/people/d91b4b2e-ae0e-4cd3-9ed7-d0ec501b0bc3/outreaches"
+                                "href": f"{self.api_url}/people/fake_id/outreaches"
                             },
                             "osdi:taggings": {
-                                "href": "https://actionnetwork.org/api/v2/people/d91b4b2e-ae0e-4cd3-9ed7-d0ec501b0bc3/taggings"
+                                "href": f"{self.api_url}/people/fake_id/taggings"
                             },
                         },
                     },
                     {
                         "given_name": "Jane",
                         "family_name": "Doe",
-                        "identifiers": [
-                            "action_network:1efc3644-af25-4253-90b8-a0baf12dbd1e"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2014-03-20T20:44:13Z",
                         "modified_date": "2014-03-20T20:44:13Z",
@@ -2773,26 +2586,24 @@ class TestActionNetwork(unittest.TestCase):
                         ],
                         "languages_spoken": ["en"],
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/people/1efc3644-af25-4253-90b8-a0baf12dbd1e"
-                            },
+                            "self": {"href": f"{self.api_url}/people/fake_id"},
                             "osdi:attendances": {
-                                "href": "https://actionnetwork.org/api/v2/people/1efc3644-af25-4253-90b8-a0baf12dbd1e/attendances"
+                                "href": f"{self.api_url}/people/fake_id/attendances"
                             },
                             "osdi:signatures": {
-                                "href": "https://actionnetwork.org/api/v2/people/1efc3644-af25-4253-90b8-a0baf12dbd1e/signatures"
+                                "href": f"{self.api_url}/people/fake_id/signatures"
                             },
                             "osdi:submissions": {
-                                "href": "https://actionnetwork.org/api/v2/people/1efc3644-af25-4253-90b8-a0baf12dbd1e/submissions"
+                                "href": f"{self.api_url}/people/fake_id/submissions"
                             },
                             "osdi:donations": {
-                                "href": "https://actionnetwork.org/api/v2/people/1efc3644-af25-4253-90b8-a0baf12dbd1e/donations"
+                                "href": f"{self.api_url}/people/fake_id/donations"
                             },
                             "osdi:outreaches": {
-                                "href": "https://actionnetwork.org/api/v2/people/1efc3644-af25-4253-90b8-a0baf12dbd1e/outreaches"
+                                "href": f"{self.api_url}/people/fake_id/outreaches"
                             },
                             "osdi:taggings": {
-                                "href": "https://actionnetwork.org/api/v2/people/1efc3644-af25-4253-90b8-a0baf12dbd1e/taggings"
+                                "href": f"{self.api_url}/people/fake_id/taggings"
                             },
                         },
                     },
@@ -2807,15 +2618,11 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 162,
             "_links": {
-                "next": {"href": "https://actionnetwork.org/api/v2/petitions?page=2"},
-                "self": {"href": "https://actionnetwork.org/api/v2/petitions"},
+                "next": {"href": f"{self.api_url}/petitions?page=2"},
+                "self": {"href": f"{self.api_url}/petitions"},
                 "osdi:petitions": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/petitions/a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/petitions/a27178b9-45c3-4844-8ebf-ebd5da74a1e3"
-                    },
+                    {"href": f"{self.api_url}/petitions/fake_id"},
+                    {"href": f"{self.api_url}/petitions/fake_id"},
                 ],
                 "curies": [
                     {
@@ -2833,17 +2640,15 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "osdi:petitions": [
                     {
-                        "identifiers": [
-                            "action_network:a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2014-03-24T18:03:45Z",
                         "modified_date": "2014-03-25T15:00:22Z",
                         "title": "Stop doing the bad thing",
                         "description": "<p>The mayor should stop doing the bad.</p>",
                         "petition_text": "Mayor, stop doing the bad thing",
-                        "browser_url": "https://actionnetwork.org/petitions/stop-doing-the-bad-thing",
-                        "featured_image_url": "https://actionnetwork.org/images/stop-doing-the-bad-thing.jpg",
+                        "browser_url": "fake_url",
+                        "featured_image_url": "fake_url",
                         "total_signatures": 2354,
                         "target": [{"name": "The Mayor"}],
                         "action_network:hidden": False,
@@ -2851,9 +2656,7 @@ class TestActionNetwork(unittest.TestCase):
                             "osdi:creator": {
                                 "given_name": "John",
                                 "family_name": "Doe",
-                                "identifiers": [
-                                    "action_network:c945d6fe-929e-11e3-a2e9-12313d316c29"
-                                ],
+                                "identifiers": ["action_network:fake_id"],
                                 "created_date": "2014-03-24T18:03:45Z",
                                 "modified_date": "2014-03-25T15:00:22Z",
                                 "email_addresses": [
@@ -2889,51 +2692,45 @@ class TestActionNetwork(unittest.TestCase):
                                 ],
                                 "languages_spoken": ["en"],
                                 "_links": {
-                                    "self": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                                    },
+                                    "self": {"href": f"{self.api_url}/people/fake_id"},
                                     "osdi:attendances": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/attendances"
+                                        "href": f"{self.api_url}/people/fake_id/attendances"
                                     },
                                     "osdi:signatures": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/signatures"
+                                        "href": f"{self.api_url}/people/fake_id/signatures"
                                     },
                                     "osdi:submissions": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/submissions"
+                                        "href": f"{self.api_url}/people/fake_id/submissions"
                                     },
                                     "osdi:donations": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/donations"
+                                        "href": f"{self.api_url}/people/fake_id/donations"
                                     },
                                     "osdi:outreaches": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/outreaches"
+                                        "href": f"{self.api_url}/people/fake_id/outreaches"
                                     },
                                     "osdi:taggings": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/taggings"
+                                        "href": f"{self.api_url}/people/fake_id/taggings"
                                     },
                                 },
                             }
                         },
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/petitions/a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                            },
+                            "self": {"href": f"{self.api_url}/petitions/fake_id"},
                             "osdi:signatures": {
-                                "href": "https://actionnetwork.org/api/v2/petitions/a4dde5b6-0512-48ea-b4ad-63a71117b43d/signatures"
+                                "href": f"{self.api_url}/petitions/fake_id/signatures"
                             },
                             "osdi:record_signature_helper": {
-                                "href": "https://actionnetwork.org/api/v2/petitions/a4dde5b6-0512-48ea-b4ad-63a71117b43d/signatures"
+                                "href": f"{self.api_url}/petitions/fake_id/signatures"
                             },
-                            "osdi:creator": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                             "action_network:embed": {
-                                "href": "https://actionnetwork.org/api/v2/petitions/a4dde5b6-0512-48ea-b4ad-63a71117b43d/embed"
+                                "href": f"{self.api_url}/petitions/fake_id/embed"
                             },
                         },
                     },
                     {
                         "identifiers": [
-                            "action_network:a27178b9-45c3-4844-8ebf-ebd5da74a1e3",
+                            "action_network:fake_id",
                             "foreign_system:1",
                         ],
                         "origin_system": "Another System",
@@ -2946,9 +2743,7 @@ class TestActionNetwork(unittest.TestCase):
                             "osdi:creator": {
                                 "given_name": "John",
                                 "family_name": "Doe",
-                                "identifiers": [
-                                    "action_network:c945d6fe-929e-11e3-a2e9-12313d316c29"
-                                ],
+                                "identifiers": ["action_network:fake_id"],
                                 "created_date": "2014-03-24T18:03:45Z",
                                 "modified_date": "2014-03-25T15:00:22Z",
                                 "email_addresses": [
@@ -2984,26 +2779,24 @@ class TestActionNetwork(unittest.TestCase):
                                 ],
                                 "languages_spoken": ["en"],
                                 "_links": {
-                                    "self": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                                    },
+                                    "self": {"href": f"{self.api_url}/people/fake_id"},
                                     "osdi:attendances": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/attendances"
+                                        "href": f"{self.api_url}/people/fake_id/attendances"
                                     },
                                     "osdi:signatures": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/signatures"
+                                        "href": f"{self.api_url}/people/fake_id/signatures"
                                     },
                                     "osdi:submissions": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/submissions"
+                                        "href": f"{self.api_url}/people/fake_id/submissions"
                                     },
                                     "osdi:donations": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/donations"
+                                        "href": f"{self.api_url}/people/fake_id/donations"
                                     },
                                     "osdi:outreaches": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/outreaches"
+                                        "href": f"{self.api_url}/people/fake_id/outreaches"
                                     },
                                     "osdi:taggings": {
-                                        "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/taggings"
+                                        "href": f"{self.api_url}/people/fake_id/taggings"
                                     },
                                 },
                             }
@@ -3013,20 +2806,16 @@ class TestActionNetwork(unittest.TestCase):
                             "url": "https://actionnetwork.org/groups/progressive-action-now",
                         },
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/petitions/a27178b9-45c3-4844-8ebf-ebd5da74a1e3"
-                            },
+                            "self": {"href": f"{self.api_url}/petitions/fake_id"},
                             "osdi:signatures": {
-                                "href": "https://actionnetwork.org/api/v2/petitions/a27178b9-45c3-4844-8ebf-ebd5da74a1e3/signatures"
+                                "href": f"{self.api_url}/petitions/fake_id/signatures"
                             },
                             "osdi:record_signature_helper": {
-                                "href": "https://actionnetwork.org/api/v2/petitions/a27178b9-45c3-4844-8ebf-ebd5da74a1e3/signatures"
+                                "href": f"{self.api_url}/petitions/fake_id/signatures"
                             },
-                            "osdi:creator": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                             "action_network:embed": {
-                                "href": "https://actionnetwork.org/api/v2/petitions/a27178b9-45c3-4844-8ebf-ebd5da74a1e3/embed"
+                                "href": f"{self.api_url}/petitions/fake_id/embed"
                             },
                         },
                     },
@@ -3034,7 +2823,7 @@ class TestActionNetwork(unittest.TestCase):
             },
         }
         self.fake_petition = {
-            "identifiers": ["action_network:a4dde5b6-0512-48ea-b4ad-63a71117b43d"],
+            "identifiers": ["action_network:fake_id"],
             "origin_system": "Action Network",
             "created_date": "2014-03-24T18:03:45Z",
             "modified_date": "2014-03-25T15:00:22Z",
@@ -3050,9 +2839,7 @@ class TestActionNetwork(unittest.TestCase):
                 "osdi:creator": {
                     "given_name": "John",
                     "family_name": "Doe",
-                    "identifiers": [
-                        "action_network:c945d6fe-929e-11e3-a2e9-12313d316c29"
-                    ],
+                    "identifiers": ["action_network:fake_id"],
                     "origin_system": "Action Network",
                     "created_date": "2014-03-24T18:03:45Z",
                     "modified_date": "2014-03-25T15:00:22Z",
@@ -3089,26 +2876,24 @@ class TestActionNetwork(unittest.TestCase):
                     ],
                     "languages_spoken": ["en"],
                     "_links": {
-                        "self": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                        },
+                        "self": {"href": f"{self.api_url}/people/fake_id"},
                         "osdi:attendances": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/attendances"
+                            "href": f"{self.api_url}/people/fake_id/attendances"
                         },
                         "osdi:signatures": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/signatures"
+                            "href": f"{self.api_url}/people/fake_id/signatures"
                         },
                         "osdi:submissions": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/submissions"
+                            "href": f"{self.api_url}/people/fake_id/submissions"
                         },
                         "osdi:donations": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/donations"
+                            "href": f"{self.api_url}/people/fake_id/donations"
                         },
                         "osdi:outreaches": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/outreaches"
+                            "href": f"{self.api_url}/people/fake_id/outreaches"
                         },
                         "osdi:taggings": {
-                            "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29/taggings"
+                            "href": f"{self.api_url}/people/fake_id/taggings"
                         },
                         "curies": [
                             {
@@ -3126,20 +2911,16 @@ class TestActionNetwork(unittest.TestCase):
                 }
             },
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/petitions/a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                },
+                "self": {"href": f"{self.api_url}/petitions/fake_id"},
                 "osdi:signatures": {
-                    "href": "https://actionnetwork.org/api/v2/petitions/a4dde5b6-0512-48ea-b4ad-63a71117b43d/signatures"
+                    "href": f"{self.api_url}/petitions/fake_id/signatures"
                 },
                 "osdi:record_signature_helper": {
-                    "href": "https://actionnetwork.org/api/v2/petitions/a4dde5b6-0512-48ea-b4ad-63a71117b43d/signatures"
+                    "href": f"{self.api_url}/petitions/fake_id/signatures"
                 },
-                "osdi:creator": {
-                    "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                },
+                "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                 "action_network:embed": {
-                    "href": "https://actionnetwork.org/api/v2/petitions/a4dde5b6-0512-48ea-b4ad-63a71117b43d/embed"
+                    "href": f"{self.api_url}/petitions/fake_id/embed"
                 },
                 "curies": [
                     {
@@ -3163,15 +2944,11 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 162,
             "_links": {
-                "next": {"href": "https://actionnetwork.org/api/v2/queries?page=2"},
-                "self": {"href": "https://actionnetwork.org/api/v2/queries"},
+                "next": {"href": f"{self.api_url}/queries?page=2"},
+                "self": {"href": f"{self.api_url}/queries"},
                 "osdi:queries": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/queries/a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/queries/a27178b9-45c3-4844-8ebf-ebd5da74a1e3"
-                    },
+                    {"href": f"{self.api_url}/queries/fake_id"},
+                    {"href": f"{self.api_url}/queries/fake_id"},
                 ],
                 "curies": [
                     {
@@ -3189,49 +2966,35 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "osdi:queries": [
                     {
-                        "identifiers": [
-                            "action_network:a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2014-03-24T18:03:45Z",
                         "modified_date": "2014-03-25T15:00:22Z",
                         "name": "All donors",
                         "browser_url": "https://actionnetwork.org/queries/1/edit",
-                        "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/queries/a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                            }
-                        },
+                        "_links": {"self": {"href": f"{self.api_url}/queries/fake_id"}},
                     },
                     {
-                        "identifiers": [
-                            "action_network:a27178b9-45c3-4844-8ebf-ebd5da74a1e3"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2014-03-14T15:21:05Z",
                         "modified_date": "2014-03-17T19:56:11Z",
                         "name": "Volunteer prospects",
                         "browser_url": "https://actionnetwork.org/queries/2/edit",
-                        "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/queries/a27178b9-45c3-4844-8ebf-ebd5da74a1e3"
-                            }
-                        },
+                        "_links": {"self": {"href": f"{self.api_url}/queries/fake_id"}},
                     },
                 ]
             },
         }
         self.fake_query = {
-            "identifiers": ["action_network:a4dde5b6-0512-48ea-b4ad-63a71117b43d"],
+            "identifiers": ["action_network:fake_id"],
             "origin_system": "Action Network",
             "created_date": "2014-03-24T18:03:45Z",
             "modified_date": "2014-03-25T15:00:22Z",
             "name": "All donors",
             "browser_url": "https://actionnetwork.org/queries/1/edit",
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/queries/a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                },
+                "self": {"href": f"{self.api_url}/queries/fake_id"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -3254,16 +3017,10 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 2500,
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/petitions/9f837109-710d-442f-8a99-857a21f36d25/signatures"
-                },
+                "self": {"href": f"{self.api_url}/petitions/fake_id/signatures"},
                 "osdi:signatures": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/petitions/9f837109-710d-442f-8a99-857a21f36d25/signatures/d6bdf50e-c3a4-4981-a948-3d8c086066d7"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/petitions/9f837109-710d-442f-8a99-857a21f36d25/signatures/71497ab2-b3e7-4896-af46-126ac7287dab"
-                    },
+                    {"href": f"{self.api_url}/petitions/fake_id/signatures/fake_id"},
+                    {"href": f"{self.api_url}/petitions/fake_id/signatures/fake_id`"},
                 ],
                 "curies": [
                     {
@@ -3281,23 +3038,19 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "osdi:signatures": [
                     {
-                        "identifiers": [
-                            "action_network:d6bdf50e-c3a4-4981-a948-3d8c086066d7"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "created_date": "2014-03-26T18:04:00Z",
                         "modified_date": "2014-03-26T18:04:00Z",
                         "action_network:person_id": "699da712-929f-11e3-a2e9-12313d316c29",
-                        "action_network:petition_id": "9f837109-710d-442f-8a99-857a21f36d25",
+                        "action_network:petition_id": "fake_id",
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/petitions/9f837109-710d-442f-8a99-857a21f36d25/signatures/d6bdf50e-c3a4-4981-a948-3d8c086066d7"
+                                "href": f"{self.api_url}/petitions/fake_id/signatures/fake_id"
                             },
                             "osdi:petition": {
-                                "href": "https://actionnetwork.org/api/v2/petitions/9f837109-710d-442f-8a99-857a21f36d25"
+                                "href": f"{self.api_url}/petitions/fake_id"
                             },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/699da712-929f-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
                     },
                     {
@@ -3307,38 +3060,34 @@ class TestActionNetwork(unittest.TestCase):
                         "created_date": "2014-03-26T16:07:10Z",
                         "modified_date": "2014-03-26T16:07:10Z",
                         "comments": "Stop doing the thing",
-                        "action_network:person_id": "c945d6fe-929e-11e3-a2e9-12313d316c29",
-                        "action_network:petition_id": "9f837109-710d-442f-8a99-857a21f36d25",
+                        "action_network:person_id": "fake_id",
+                        "action_network:petition_id": "fake_id",
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/petitions/9f837109-710d-442f-8a99-857a21f36d25/signatures/71497ab2-b3e7-4896-af46-126ac7287dab"
+                                "href": f"{self.api_url}/petitions/fake_id/signatures/fake_id"
                             },
                             "osdi:petition": {
-                                "href": "https://actionnetwork.org/api/v2/petitions/9f837109-710d-442f-8a99-857a21f36d25"
+                                "href": f"{self.api_url}/petitions/fake_id"
                             },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
                     },
                 ]
             },
         }
         self.fake_signature = {
-            "identifiers": ["action_network:d6bdf50e-c3a4-4981-a948-3d8c086066d7"],
+            "identifiers": ["action_network:fake_id"],
             "created_date": "2014-03-26T18:04:00Z",
             "modified_date": "2014-03-26T18:04:00Z",
             "action_network:person_id": "699da712-929f-11e3-a2e9-12313d316c29",
-            "action_network:petition_id": "9f837109-710d-442f-8a99-857a21f36d25",
+            "action_network:petition_id": "fake_id",
             "_links": {
                 "self": {
-                    "href": "https://actionnetwork.org/api/v2/petitions/9f837109-710d-442f-8a99-857a21f36d25/signatures/d6bdf50e-c3a4-4981-a948-3d8c086066d7"
+                    "href": f"{self.api_url}/petitions/fake_id/signatures/fake_id"
                 },
-                "osdi:petition": {
-                    "href": "https://actionnetwork.org/api/v2/petitions/9f837109-710d-442f-8a99-857a21f36d25"
-                },
+                "osdi:petition": {"href": f"{self.api_url}/petitions/fake_id"},
                 "osdi:person": {
-                    "href": "https://actionnetwork.org/api/v2/people/699da712-929f-11e3-a2e9-12313d316c29"
+                    "href": f"{self.api_url}/people/699da712-929f-11e3-a2e9-12313d316c29"
                 },
                 "curies": [
                     {
@@ -3362,16 +3111,10 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 4,
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86/submissions"
-                },
+                "self": {"href": f"{self.api_url}/forms/fake_id/submissions"},
                 "osdi:submissions": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86/submissions/c851b31b-291e-4503-b8ea-e51a740e6e56"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86/submissions/32dc6359-76fd-4e97-aef7-f053a4fcc550"
-                    },
+                    {"href": f"{self.api_url}/forms/fake_id/submissions/fake_id"},
+                    {"href": f"{self.api_url}/forms/fake_id/submissions/fake_id"},
                 ],
                 "curies": [
                     {
@@ -3389,65 +3132,49 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "osdi:submissions": [
                     {
-                        "identifiers": [
-                            "action_network:c851b31b-291e-4503-b8ea-e51a740e6e56"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "created_date": "2014-03-25T15:26:45Z",
                         "modified_date": "2014-03-25T15:26:46Z",
-                        "action:person_id": "d3e27e15-e5b5-4707-be96-8bc359462133",
-                        "action_network:form_id": "adb951cb-51f9-420e-b7e6-de953195ec86",
+                        "action:person_id": "fake_id",
+                        "action_network:form_id": "fake_id",
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86/submissions/c851b31b-291e-4503-b8ea-e51a740e6e56"
+                                "href": f"{self.api_url}/forms/fake_id/submissions/fake_id"
                             },
-                            "osdi:form": {
-                                "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86"
-                            },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/d3e27e15-e5b5-4707-be96-8bc359462133"
-                            },
+                            "osdi:form": {"href": f"{self.api_url}/forms/fake_id"},
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
                     },
                     {
                         "identifiers": [
-                            "action_network:4bf4254a-9411-4028-8cb7-a7d3ade5edea",
+                            "action_network:fake_id",
                             "free_forms:1",
                         ],
                         "created_date": "2014-03-24T17:00:42Z",
                         "modified_date": "2014-03-24T17:00:42Z",
-                        "action:person_id": "c945d6fe-929e-11e3-a2e9-12313d316c29",
-                        "action_network:form_id": "adb951cb-51f9-420e-b7e6-de953195ec86",
+                        "action:person_id": "fake_id",
+                        "action_network:form_id": "fake_id",
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86/submissions/4bf4254a-9411-4028-8cb7-a7d3ade5edea"
+                                "href": f"{self.api_url}/forms/fake_id/submissions/fake_id"
                             },
-                            "osdi:form": {
-                                "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86"
-                            },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/c945d6fe-929e-11e3-a2e9-12313d316c29"
-                            },
+                            "osdi:form": {"href": f"{self.api_url}/forms/fake_id"},
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
                     },
                 ]
             },
         }
         self.fake_submission = {
-            "identifiers": ["action_network:c851b31b-291e-4503-b8ea-e51a740e6e56"],
+            "identifiers": ["action_network:fake_id"],
             "created_date": "2014-03-25T15:26:45Z",
             "modified_date": "2014-03-25T15:26:46Z",
-            "action:person_id": "d3e27e15-e5b5-4707-be96-8bc359462133",
-            "action_network:form_id": "adb951cb-51f9-420e-b7e6-de953195ec86",
+            "action:person_id": "fake_id",
+            "action_network:form_id": "fake_id",
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86/submissions/c851b31b-291e-4503-b8ea-e51a740e6e56"
-                },
-                "osdi:form": {
-                    "href": "https://actionnetwork.org/api/v2/forms/adb951cb-51f9-420e-b7e6-de953195ec86"
-                },
-                "osdi:person": {
-                    "href": "https://actionnetwork.org/api/v2/people/d3e27e15-e5b5-4707-be96-8bc359462133"
-                },
+                "self": {"href": f"{self.api_url}/forms/fake_id/submissions/fake_id"},
+                "osdi:form": {"href": f"{self.api_url}/forms/fake_id"},
+                "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -3470,15 +3197,11 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 243,
             "_links": {
-                "next": {"href": "https://actionnetwork.org/api/v2/tags?page=2"},
-                "self": {"href": "https://actionnetwork.org/api/v2/tags"},
+                "next": {"href": f"{self.api_url}/tags?page=2"},
+                "self": {"href": f"{self.api_url}/tags"},
                 "osdi:tags": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/tags/fc0a1ec6-5743-4b98-ae0c-cea8766b2212"
-                    },
+                    {"href": f"{self.api_url}/tags/fake_id"},
+                    {"href": f"{self.api_url}/tags/fake_id"},
                 ],
                 "curies": [
                     {
@@ -3496,34 +3219,26 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "osdi:tags": [
                     {
-                        "identifiers": [
-                            "action_network:71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "created_date": "2014-03-25T17:11:33Z",
                         "modified_date": "2014-03-25T17:13:33Z",
                         "name": "Volunteers",
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                            },
+                            "self": {"href": f"{self.api_url}/tags/fake_id"},
                             "osdi:taggings": {
-                                "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298/taggings"
+                                "href": f"{self.api_url}/tags/fake_id/taggings"
                             },
                         },
                     },
                     {
-                        "identifiers": [
-                            "action_network:fc0a1ec6-5743-4b98-ae0c-cea8766b2212"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "created_date": "2014-03-24T18:26:42Z",
                         "modified_date": "2014-03-24T18:27:17Z",
                         "name": "Economic Justice",
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/tags/fc0a1ec6-5743-4b98-ae0c-cea8766b2212"
-                            },
+                            "self": {"href": f"{self.api_url}/tags/fake_id"},
                             "osdi:taggings": {
-                                "href": "https://actionnetwork.org/api/v2/tags/fc0a1ec6-5743-4b98-ae0c-cea8766b2212/taggings"
+                                "href": f"{self.api_url}/tags/fake_id/taggings"
                             },
                         },
                     },
@@ -3538,19 +3253,11 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 123,
             "_links": {
-                "next": {
-                    "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298/taggings?page=2"
-                },
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298/taggings"
-                },
+                "next": {"href": f"{self.api_url}/tags/fake_id/taggings?page=2"},
+                "self": {"href": f"{self.api_url}/tags/fake_id/taggings"},
                 "osdi:taggings": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298/taggings/82e909f9-1ac7-4952-bbd4-b4690a14bec2"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298/taggings/a9ccd87c-97f4-48db-9e6b-507509091839"
-                    },
+                    {"href": f"{self.api_url}/tags/fake_id/taggings/fake_id"},
+                    {"href": f"{self.api_url}/tags/fake_id/taggings/fake_id"},
                 ],
                 "curies": [
                     {
@@ -3570,18 +3277,12 @@ class TestActionNetwork(unittest.TestCase):
                     {
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298/taggings/82e909f9-1ac7-4952-bbd4-b4690a14bec2"
+                                "href": f"{self.api_url}/tags/fake_id/taggings/fake_id"
                             },
-                            "osdi:tag": {
-                                "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                            },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/82e909f9-1ac7-4952-bbd4-b4690a14bec2"
-                            },
+                            "osdi:tag": {"href": f"{self.api_url}/tags/fake_id"},
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
-                        "identifiers": [
-                            "action_network:82e909f9-1ac7-4952-bbd4-b4690a14bec2"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "created_date": "2014-03-18T22:25:31Z",
                         "modified_date": "2014-03-18T22:25:38Z",
                         "item_type": "osdi:person",
@@ -3589,18 +3290,12 @@ class TestActionNetwork(unittest.TestCase):
                     {
                         "_links": {
                             "self": {
-                                "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298/taggings/a9ccd87c-97f4-48db-9e6b-507509091839"
+                                "href": f"{self.api_url}/tags/fake_id/taggings/fake_id"
                             },
-                            "osdi:tag": {
-                                "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                            },
-                            "osdi:person": {
-                                "href": "https://actionnetwork.org/api/v2/people/a9ccd87c-97f4-48db-9e6b-507509091839"
-                            },
+                            "osdi:tag": {"href": f"{self.api_url}/tags/fake_id"},
+                            "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
-                        "identifiers": [
-                            "action_network:a9ccd87c-97f4-48db-9e6b-507509091839"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "created_date": "2014-03-18T22:24:24Z",
                         "modified_date": "2014-03-18T22:24:24Z",
                         "item_type": "osdi:person",
@@ -3610,15 +3305,9 @@ class TestActionNetwork(unittest.TestCase):
         }
         self.fake_tagging = {
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298/taggings/82e909f9-1ac7-4952-bbd4-b4690a14bec2"
-                },
-                "osdi:tag": {
-                    "href": "https://actionnetwork.org/api/v2/tags/71f8feef-61c8-4e6b-9745-ec1d7752f298"
-                },
-                "osdi:person": {
-                    "href": "https://actionnetwork.org/api/v2/people/82e909f9-1ac7-4952-bbd4-b4690a14bec2"
-                },
+                "self": {"href": f"{self.api_url}/tags/fake_id/taggings/fake_id"},
+                "osdi:tag": {"href": f"{self.api_url}/tags/fake_id"},
+                "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -3632,7 +3321,7 @@ class TestActionNetwork(unittest.TestCase):
                     },
                 ],
             },
-            "identifiers": ["action_network:82e909f9-1ac7-4952-bbd4-b4690a14bec2"],
+            "identifiers": ["action_network:fake_id"],
             "created_date": "2014-03-18T22:25:31Z",
             "modified_date": "2014-03-18T22:25:38Z",
             "item_type": "osdi:person",
@@ -3645,15 +3334,11 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 162,
             "_links": {
-                "next": {"href": "https://actionnetwork.org/api/v2/wrappers?page=2"},
-                "self": {"href": "https://actionnetwork.org/api/v2/wrappers"},
+                "next": {"href": f"{self.api_url}/wrappers?page=2"},
+                "self": {"href": f"{self.api_url}/wrappers"},
                 "osdi:wrappers": [
-                    {
-                        "href": "https://actionnetwork.org/api/v2/wrappers/a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                    },
-                    {
-                        "href": "https://actionnetwork.org/api/v2/wrappers/a27178b9-45c3-4844-8ebf-ebd5da74a1e3"
-                    },
+                    {"href": f"{self.api_url}/wrappers/fake_id"},
+                    {"href": f"{self.api_url}/wrappers/fake_id"},
                 ],
                 "curies": [
                     {
@@ -3671,63 +3356,104 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "osdi:wrappers": [
                     {
-                        "identifiers": [
-                            "action_network:a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2014-03-24T18:03:45Z",
                         "modified_date": "2014-03-25T15:00:22Z",
                         "name": "Default wrapper -- logo only",
                         "administrative_url": "https://actionnetwork.org/wrappers/1/edit",
-                        "header": '<table border="0" cellpadding="10" cellspacing="0" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n  <tr>\r\n    <td valign="top" style="border-collapse: collapse; background-color: #FFFFFF; padding:10px 10px 40px;">\r\n      <table border="0" cellpadding="10" cellspacing="0" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n        <tr>\r\n          <td valign="top" style="border-collapse: collapse;" width="600">\r\n            <div style="color: #505050;font-family: Arial;font-size: 14px;line-height: 150%;text-align: left;">\r\n<img src="https://actionnetwork.org/images/logo.png" />',
-                        "footer": "\r\n</div>\r\n          </td>\r\n        </tr>\r\n      </table>\r\n    </td>\r\n  </tr>\r\n</table>",
+                        "header": '<table border="0" cellpadding="10" '
+                        'cellspacing="0" style="border-collapse:collapse; '
+                        'mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n'
+                        '  <tr>\r\n    <td valign="top" '
+                        'style="border-collapse: collapse; background-color: #FFFFFF;'
+                        ' padding:10px 10px 40px;">\r\n      <table border="0" cellpadding="10" '
+                        'cellspacing="0" style="border-collapse:collapse; mso-table-lspace:0pt; '
+                        'mso-table-rspace:0pt;">\r\n        <tr>\r\n       '
+                        '   <td valign="top" style="border-collapse: collapse;"'
+                        ' width="600">\r\n          '
+                        '  <div style="color: #505050;font-family:'
+                        "Arial;font-size: 14px;line-height: "
+                        '150%;text-align: left;">\r\n'
+                        '<img src="https://actionnetwork.org/images/logo.png" />',
+                        "footer": "\r\n</div>\r\n    "
+                        " </td>\r\n "
+                        "       </tr>\r\n  "
+                        "    </table>\r\n  "
+                        "  </td>\r\n "
+                        " </tr>\r\n</table>",
                         "action_network:suffix": " via ProgressivePower.org",
                         "wrapper_type": "email",
                         "default": True,
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/wrappers/a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                            }
+                            "self": {"href": f"{self.api_url}/wrappers/fake_id"}
                         },
                     },
                     {
-                        "identifiers": [
-                            "action_network:a27178b9-45c3-4844-8ebf-ebd5da74a1e3"
-                        ],
+                        "identifiers": ["action_network:fake_id"],
                         "origin_system": "Action Network",
                         "created_date": "2014-03-14T15:21:05Z",
                         "modified_date": "2014-03-17T19:56:11Z",
                         "name": "No logo",
                         "administrative_url": "https://actionnetwork.org/wrappers/2/edit",
-                        "header": '<table border="0" cellpadding="10" cellspacing="0" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n  <tr>\r\n    <td valign="top" style="border-collapse: collapse; background-color: #FFFFFF; padding:10px 10px 40px;">\r\n      <table border="0" cellpadding="10" cellspacing="0" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n        <tr>\r\n          <td valign="top" style="border-collapse: collapse;" width="600">\r\n            <div style="color: #505050;font-family: Arial;font-size: 14px;line-height: 150%;text-align: left;">\r\n',
-                        "footer": "\r\n</div>\r\n          </td>\r\n        </tr>\r\n      </table>\r\n    </td>\r\n  </tr>\r\n</table>",
+                        "header": '<table border="0" cellpadding="10" '
+                        'cellspacing="0" style="border-collapse:collapse;'
+                        ' mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n  <tr>\r\n    '
+                        '<td valign="top" style="border-collapse:'
+                        "collapse; background-color: #FFFFFF;"
+                        ' padding:10px 10px 40px;">\r\n    '
+                        '  <table border="0" cellpadding="10" cellspacing="0" '
+                        'style="border-collapse:collapse; '
+                        'mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n  '
+                        "      <tr>\r\n        "
+                        '  <td valign="top" style="border-collapse: collapse;" width="600">\r\n '
+                        '<div style="color: #505050;font-family: Arial;font-size: 14px;line-height:'
+                        '150%;text-align: left;">\r\n',
+                        "footer": "\r\n</div>\r\n "
+                        "         </td>\r\n   "
+                        "     </tr>\r\n      </table>\r\n "
+                        "   </td>\r\n "
+                        " </tr>\r\n</table>",
                         "wrapper_type": "email",
                         "default": False,
                         "_links": {
-                            "self": {
-                                "href": "https://actionnetwork.org/api/v2/wrappers/a27178b9-45c3-4844-8ebf-ebd5da74a1e3"
-                            }
+                            "self": {"href": f"{self.api_url}/wrappers/fake_id"}
                         },
                     },
                 ]
             },
         }
         self.fake_wrapper = {
-            "identifiers": ["action_network:a4dde5b6-0512-48ea-b4ad-63a71117b43d"],
+            "identifiers": ["action_network:fake_id"],
             "origin_system": "Action Network",
             "created_date": "2014-03-24T18:03:45Z",
             "modified_date": "2014-03-25T15:00:22Z",
             "name": "Default wrapper -- logo only",
             "administrative_url": "https://actionnetwork.org/wrappers/1/edit",
-            "header": '<table border="0" cellpadding="10" cellspacing="0" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n  <tr>\r\n    <td valign="top" style="border-collapse: collapse; background-color: #FFFFFF; padding:10px 10px 40px;">\r\n      <table border="0" cellpadding="10" cellspacing="0" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n        <tr>\r\n          <td valign="top" style="border-collapse: collapse;" width="600">\r\n            <div style="color: #505050;font-family: Arial;font-size: 14px;line-height: 150%;text-align: left;">\r\n<img src="https://actionnetwork.org/images/logo.png" />',
-            "footer": "\r\n</div>\r\n          </td>\r\n        </tr>\r\n      </table>\r\n    </td>\r\n  </tr>\r\n</table>",
+            "header": '<table border="0" cellpadding="10" '
+            'cellspacing="0" style="border-collapse:collapse;'
+            ' mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n'
+            "  <tr>\r\n"
+            '    <td valign="top" style="border-collapse: collapse; '
+            'background-color: #FFFFFF; padding:10px 10px 40px;">\r\n '
+            '     <table border="0" cellpadding="10"'
+            ' cellspacing="0" style="border-collapse:collapse;'
+            ' mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n        <tr>\r\n '
+            '         <td valign="top" style="border-collapse: collapse;" width="600">\r\n  '
+            '          <div style="color: #505050;font-family: Arial;font-size: '
+            '14px;line-height: 150%;text-align: left;">\r\n'
+            '<img src="https://actionnetwork.org/images/logo.png" />',
+            "footer": "\r\n</div>\r\n"
+            "          </td>\r\n"
+            "        </tr>\r\n"
+            "      </table>\r\n"
+            "    </td>\r\n "
+            " </tr>\r\n</table>",
             "action_network:suffix": " via ProgressivePower.org",
             "wrapper_type": "email",
             "default": True,
             "_links": {
-                "self": {
-                    "href": "https://actionnetwork.org/api/v2/wrappers/a4dde5b6-0512-48ea-b4ad-63a71117b43d"
-                },
+                "self": {"href": f"{self.api_url}/wrappers/fake_id"},
                 "curies": [
                     {
                         "name": "osdi",

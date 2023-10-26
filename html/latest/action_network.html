@@ -198,6 +198,717 @@ and organizing volunteers and donors. It is used primarily for digital organizin
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_advocacy_campaigns">
+<span class="sig-name descname"><span class="pre">get_advocacy_campaigns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_advocacy_campaigns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_advocacy_campaigns" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all of the advocacy_campaigns (letters) entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_advocacy_campaign">
+<span class="sig-name descname"><span class="pre">get_advocacy_campaign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">advocacy_campaign_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_advocacy_campaign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_advocacy_campaign" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>advocacy_campaign_id:</dt><dd><p>The unique id of the advocacy_campaign</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with advocacy_campaign entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_person_attendances">
+<span class="sig-name descname"><span class="pre">get_person_attendances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">person_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_person_attendances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_person_attendances" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>person_id:</dt><dd><p>The unique id of the person</p>
+</dd>
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the attendances entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_event_attendances">
+<span class="sig-name descname"><span class="pre">get_event_attendances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_event_attendances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_event_attendances" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><p>event_id: the unique id of the event
+limit:</p>
+<blockquote>
+<div><p>The number of entries to return. When None, returns all entries.</p>
+</div></blockquote>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the attendances entries related to the event</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_event_attendance">
+<span class="sig-name descname"><span class="pre">get_event_attendance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attendance_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_event_attendance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_event_attendance" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>event_id:</dt><dd><p>The unique id of the event</p>
+</dd>
+<dt>attendance_id:</dt><dd><p>The unique id of the attendance</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the attendance entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_person_attendance">
+<span class="sig-name descname"><span class="pre">get_person_attendance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">person_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attendance_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_person_attendance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_person_attendance" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>person_id:</dt><dd><p>The unique id of the person</p>
+</dd>
+<dt>attendance_id:</dt><dd><p>The unique id of the attendance</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the attendance entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_campaigns">
+<span class="sig-name descname"><span class="pre">get_campaigns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_campaigns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_campaigns" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all of the campaigns entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_campaign">
+<span class="sig-name descname"><span class="pre">get_campaign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">campaign_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_campaign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_campaign" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>campaign_id:</dt><dd><p>The unique id of the campaign</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the campaign entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_custom_fields">
+<span class="sig-name descname"><span class="pre">get_custom_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_custom_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_custom_fields" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><p>None</p>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the custom_fields associated with your API key.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_donation">
+<span class="sig-name descname"><span class="pre">get_donation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">donation_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_donation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_donation" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><p>donation_id: The unique id of the donation</p>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with donation data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_donations">
+<span class="sig-name descname"><span class="pre">get_donations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_donations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_donations" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the donations entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_fundraising_page_donations">
+<span class="sig-name descname"><span class="pre">get_fundraising_page_donations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fundraising_page_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_fundraising_page_donations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_fundraising_page_donations" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><p>fundraising_page_id: The id of the fundraiser
+limit:</p>
+<blockquote>
+<div><p>The number of entries to return. When None, returns all entries.</p>
+</div></blockquote>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with fundraising_page entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_person_donations">
+<span class="sig-name descname"><span class="pre">get_person_donations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">person_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_person_donations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_person_donations" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><p>person_id: The id of the person
+limit:</p>
+<blockquote>
+<div><p>The number of entries to return. When None, returns all entries.</p>
+</div></blockquote>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all donations related to person</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_embeds">
+<span class="sig-name descname"><span class="pre">get_embeds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_embeds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_embeds" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>action_type:</dt><dd><p>The action type (petition, events, etc.)</p>
+</dd>
+<dt>action_id:</dt><dd><p>The unique id of the action</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the embeds (for you to be able to embed action outside of ActionNetwork).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_event_campaigns">
+<span class="sig-name descname"><span class="pre">get_event_campaigns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_event_campaigns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_event_campaigns" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the event_campaigns entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_event_campaign">
+<span class="sig-name descname"><span class="pre">get_event_campaign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_campaign_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_event_campaign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_event_campaign" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>event_campaign_id:</dt><dd><p>The unique id of the event_campaign</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with event_campaign entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_events">
+<span class="sig-name descname"><span class="pre">get_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_events" title="Permalink to this definition"></a></dt>
+<dd><blockquote>
+<div><p><cite>Args:</cite></p>
+</div></blockquote>
+<dl>
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+<dt>per_page</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter</dt><dd><blockquote>
+<div><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</div></blockquote>
+<dl class="simple">
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the events entries</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_event">
+<span class="sig-name descname"><span class="pre">get_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_event" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><p>event_id: the unique id of the event</p>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with event entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_event_campaign_events">
+<span class="sig-name descname"><span class="pre">get_event_campaign_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_campaign_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_event_campaign_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_event_campaign_events" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>event_campaign_id:</dt><dd><p>The unique id of the event_campaign</p>
+</dd>
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+<dt>per_page</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the eventes related to the event_campaign entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_event">
+<span class="sig-name descname"><span class="pre">create_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_event" title="Permalink to this definition"></a></dt>
+<dd><p>Create an event in Action Network</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>title: str</dt><dd><p>The public title of the event</p>
+</dd>
+<dt>start_date: str OR datetime</dt><dd><p>OPTIONAL: The starting date &amp; time. If a string, use format “YYYY-MM-DD HH:MM:SS”
+(hint: the default format you get when you use <cite>str()</cite> on a datetime)</p>
+</dd>
+<dt>location: dict</dt><dd><p>OPTIONAL: A dict of location details. Can include any combination of the types of
+values in the following example:
+.. code-block:: python</p>
+<blockquote>
+<div><dl>
+<dt>my_location = {</dt><dd><p>“venue”: “White House”,
+“address_lines”: [</p>
+<blockquote>
+<div><p>“1600 Pennsylvania Ave”</p>
+</div></blockquote>
+<p>],
+“locality”: “Washington”,
+“region”: “DC”,
+“postal_code”: “20009”,
+“country”: “US”</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Dict of Action Network Event data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_forms">
+<span class="sig-name descname"><span class="pre">get_forms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_forms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_forms" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the forms entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_form">
+<span class="sig-name descname"><span class="pre">get_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_form" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>form_id:</dt><dd><p>The unique id of the form</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with form entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_fundraising_page">
+<span class="sig-name descname"><span class="pre">get_fundraising_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fundraising_page_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_fundraising_page"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_fundraising_page" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><p>fundraising_page_id: The id of the fundraiser</p>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with fundraising_page entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_fundraising_pages">
+<span class="sig-name descname"><span class="pre">get_fundraising_pages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_fundraising_pages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_fundraising_pages" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the fundraising_pages entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_items">
+<span class="sig-name descname"><span class="pre">get_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_items" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>list_id:</dt><dd><p>The unique id of the list</p>
+</dd>
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the list item entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_item">
+<span class="sig-name descname"><span class="pre">get_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_item" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>list_id:</dt><dd><blockquote>
+<div><p>The unique id of the list</p>
+</div></blockquote>
+<dl class="simple">
+<dt>item_id:</dt><dd><p>The unique id of the item</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the item entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_lists">
+<span class="sig-name descname"><span class="pre">get_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_lists" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the list entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_list">
+<span class="sig-name descname"><span class="pre">get_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_list" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>list_id:</dt><dd><p>The unique id of the list</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the list entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_messages">
+<span class="sig-name descname"><span class="pre">get_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_messages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_messages" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the messages related entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_message">
+<span class="sig-name descname"><span class="pre">get_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_message" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>message_id:</dt><dd><p>The unique id of the message</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the signature entry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_metadata">
+<span class="sig-name descname"><span class="pre">get_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_metadata" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><p>None</p>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the metadata entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_advocacy_campaign_outreaches">
+<span class="sig-name descname"><span class="pre">get_advocacy_campaign_outreaches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">advocacy_campaign_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_advocacy_campaign_outreaches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_advocacy_campaign_outreaches" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>advocacy_campaign_id:</dt><dd><p>The unique id of the advocacy_campaign</p>
+</dd>
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the outreaches entries related to the advocacy_campaign_id</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_person_outreaches">
+<span class="sig-name descname"><span class="pre">get_person_outreaches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">person_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_person_outreaches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_person_outreaches" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>person_id:</dt><dd><p>The unique id of the person</p>
+</dd>
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the outreaches entries related to our group</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_advocacy_campaign_outreach">
+<span class="sig-name descname"><span class="pre">get_advocacy_campaign_outreach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">advocacy_campaign_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outreach_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_advocacy_campaign_outreach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_advocacy_campaign_outreach" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>advocacy_campaign_id:</dt><dd><p>The unique id of the campaign</p>
+</dd>
+<dt>outreach_id:</dt><dd><p>The unique id of the outreach</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the outreach entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_person_outreach">
+<span class="sig-name descname"><span class="pre">get_person_outreach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">person_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outreach_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_person_outreach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_person_outreach" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>person_id:</dt><dd><p>The unique id of the campaign</p>
+</dd>
+<dt>outreach_id:</dt><dd><p>The unique id of the outreach</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the outreach entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionNetwork.get_people">
 <span class="sig-name descname"><span class="pre">get_people</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_people"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_people" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
@@ -405,6 +1116,256 @@ For details, see Action Network’s documentation:
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_petitions">
+<span class="sig-name descname"><span class="pre">get_petitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_petitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_petitions" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all of the petitions entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_petition">
+<span class="sig-name descname"><span class="pre">get_petition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">petition_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_petition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_petition" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>petition_id:</dt><dd><p>The unique id of the petition</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the petition entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_queries">
+<span class="sig-name descname"><span class="pre">get_queries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_queries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_queries" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the query entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_query">
+<span class="sig-name descname"><span class="pre">get_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_query" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>query_id:</dt><dd><p>The unique id of the query</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the query entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_petition_signatures">
+<span class="sig-name descname"><span class="pre">get_petition_signatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">petition_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_petition_signatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_petition_signatures" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>petition_id:</dt><dd><p>The unique id of the petition</p>
+</dd>
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the signatures related to the petition entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_person_signatures">
+<span class="sig-name descname"><span class="pre">get_person_signatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">person_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_person_signatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_person_signatures" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>person_id:</dt><dd><p>The unique id of the person</p>
+</dd>
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the signatures related to the petition entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_petition_signature">
+<span class="sig-name descname"><span class="pre">get_petition_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">petition_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_petition_signature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_petition_signature" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>petition_id:</dt><dd><p>The unique id of the petition</p>
+</dd>
+<dt>signature_id:</dt><dd><p>The unique id of the signature</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the signature entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_person_signature">
+<span class="sig-name descname"><span class="pre">get_person_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">person_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_person_signature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_person_signature" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>person_id:</dt><dd><p>The unique id of the person</p>
+</dd>
+<dt>signature_id:</dt><dd><p>The unique id of the signature</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the signature entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_form_submissions">
+<span class="sig-name descname"><span class="pre">get_form_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_form_submissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_form_submissions" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>form_id:</dt><dd><p>The unique id of the form</p>
+</dd>
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the submissions entries related to the form</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_person_submissions">
+<span class="sig-name descname"><span class="pre">get_person_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">person_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_person_submissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_person_submissions" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>person_id:</dt><dd><p>The unique id of the person</p>
+</dd>
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the submissions entries related with our group</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_form_submission">
+<span class="sig-name descname"><span class="pre">get_form_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submission_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_form_submission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_form_submission" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>form_id:</dt><dd><p>The unique id of the form</p>
+</dd>
+<dt>submission_id:</dt><dd><p>The unique id of the submission</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the submission entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_person_submission">
+<span class="sig-name descname"><span class="pre">get_person_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">person_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submission_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_person_submission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_person_submission" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>person_id:</dt><dd><p>The unique id of the submission</p>
+</dd>
+<dt>submission_id:</dt><dd><p>The unique id of the submission</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the submission entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionNetwork.get_tags">
 <span class="sig-name descname"><span class="pre">get_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_tags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_tags" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
@@ -449,39 +1410,85 @@ For details, see Action Network’s documentation:
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="parsons.ActionNetwork.create_event">
-<span class="sig-name descname"><span class="pre">create_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_event" title="Permalink to this definition"></a></dt>
-<dd><p>Create an event in Action Network</p>
-<dl>
-<dt><cite>Args:</cite></dt><dd><dl>
-<dt>title: str</dt><dd><p>The public title of the event</p>
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_taggings">
+<span class="sig-name descname"><span class="pre">get_taggings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_taggings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_taggings" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>tag_id:</dt><dd><p>The unique id of the tag</p>
 </dd>
-<dt>start_date: str OR datetime</dt><dd><p>OPTIONAL: The starting date &amp; time. If a string, use format “YYYY-MM-DD HH:MM:SS”
-(hint: the default format you get when you use <cite>str()</cite> on a datetime)</p>
-</dd>
-<dt>location: dict</dt><dd><p>OPTIONAL: A dict of location details. Can include any combination of the types of
-values in the following example:
-.. code-block:: python</p>
-<blockquote>
-<div><dl>
-<dt>my_location = {</dt><dd><p>“venue”: “White House”,
-“address_lines”: [</p>
-<blockquote>
-<div><p>“1600 Pennsylvania Ave”</p>
-</div></blockquote>
-<p>],
-“locality”: “Washington”,
-“region”: “DC”,
-“postal_code”: “20009”,
-“country”: “US”</p>
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
 </dd>
 </dl>
-<p>}</p>
 </div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
 </dd>
 </dl>
 </dd>
-<dt><cite>Returns:</cite></dt><dd><p>Dict of Action Network Event data.</p>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the tagging entries associated with the tag_id</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_tagging">
+<span class="sig-name descname"><span class="pre">get_tagging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tagging_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_tagging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_tagging" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>tag_id:</dt><dd><p>The unique id of the tag</p>
+</dd>
+<dt>tagging_id:</dt><dd><p>The unique id of the tagging</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the tagging entry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_wrappers">
+<span class="sig-name descname"><span class="pre">get_wrappers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_wrappers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_wrappers" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>per_page:</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
+</dd>
+<dt>page:</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the wrapper entries</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_wrapper">
+<span class="sig-name descname"><span class="pre">get_wrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrapper_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_wrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_wrapper" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>wrapper_id:</dt><dd><p>The unique id of the wrapper</p>
+</dd>
+<dt>tagging_id:</dt><dd><p>The unique id of the tagging</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A  JSON with the wrapper entry</p>
 </dd>
 </dl>
 </dd></dl>

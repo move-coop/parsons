@@ -94,6 +94,8 @@ class Airtable(object):
                 See :ref:`parsons-table` for output options.
         """
 
+        if isinstance(fields, str):
+            fields = [fields]
         # Raises an error if sort is None type. Thus, only adding if populated.
         kwargs = {
             "fields": fields,

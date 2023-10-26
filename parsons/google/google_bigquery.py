@@ -987,6 +987,8 @@ class GoogleBigQuery(DatabaseConnector):
             table_name = '{table_name}'
         """
 
+        logger.debug(base_query)
+
         return {
             row["column_name"]: {
                 "data_type": row["data_type"],

@@ -19,9 +19,6 @@ from parsons.utilities.api_connector import APIConnector
 
 logger = logging.getLogger(__name__)
 
-# Currently the default and only available template for working with the Match API
-template_id = 48827
-
 
 class CatalistMatch:
     """Connector for working with the Catalist Match API.
@@ -176,6 +173,7 @@ class CatalistMatch:
     def upload(
         self,
         table: Table,
+        template_id: str = "48827",
         export: bool = False,
         description: Optional[str] = None,
         export_filename_suffix: Optional[str] = None,
@@ -191,6 +189,9 @@ class CatalistMatch:
                  are required. Optional columns for matching: last_name, name_suffix,
                  addr1, addr2, city, state, zip, phone, email, gender_tomatch, dob,
                  dob_year, matchbackid.
+             template_id: str
+                 Defaults to 48827, currently the only available template for working
+                 with the Match API.
              export: bool
                  Defaults to False
              description: str
@@ -206,7 +207,7 @@ class CatalistMatch:
                   Optional. Any included values are mapped to every row of the input table.
         """
 
-        self.validate_table(table)
+        self.validate_table(table, template_id)
 
         # upload table to s3 temp location
         sftp_file_path = self.load_table_to_sftp(table, input_subfolder)
@@ -223,7 +224,7 @@ class CatalistMatch:
         endpoint_params = [
             "upload",
             "template",
-            str(template_id),
+            template_id,
             "action",
             action,
             "url",
@@ -388,8 +389,12 @@ class CatalistMatch:
         result = Table.from_csv(os.path.join(temp_dir, filepath), delimiter="\t")
         return result
 
-    def validate_table(self, table: Table) -> None:
+    def validate_table(self, table: Table, template_id: str = "48827") -> None:
         """Validate table structure and contents."""
+        if not template_id == "48827":
+            logger.warn(f"No validator implemented for template {template_id}.")
+            return
+
         expected_table_columns = [
             "first_name",
             "middle_name",

@@ -341,9 +341,6 @@ class CatalistMatch:
             logger.info(f"Job {id} has status {status}, awaiting completion.")
             time.sleep(wait)
 
-        if status != "Finished":
-            raise RuntimeError(f"Failed to successfully run match job. [job={id}]")
-
         result = self.load_matches(id)
         return result
 
@@ -355,14 +352,25 @@ class CatalistMatch:
         with 'COL#-'."""
         # Validate that the job is complete
         response = self.status(str(id))
+        status = response["process"]["processState"]
 
-        try:
-            assert response["process"]["processState"] == "Finished"
+        if status == "Finished":
             logger.info(f"Validated that job {id} completed successfully.")
-        except AssertionError:
-            raise AssertionError(
-                f"Job {id} did not complete successfully, results cannot be loaded."
-            )
+        else:
+            err_msg = "Failed to successfully run match job. "
+            if status == "Error":
+                err_msg += "Internal error. "
+            elif status == "Stopped":
+                err_msg += "Probably stopped by Catalist staff. Will be rerun. "
+            elif status == "Exception":
+                err_msg += (
+                    "Error with data. Catalist will have been notified and "
+                    "will contact you or rerun the file. "
+                )
+            else:
+                "Unknown or unexpected final status."
+            err_msg += f"[job={id}, final_status={status}]"
+            raise RuntimeError(err_msg)
 
         remote_filepaths = self.sftp.list_directory("/myDownloads/")
         remote_filename = [filename for filename in remote_filepaths if id in filename][

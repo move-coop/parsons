@@ -23,6 +23,10 @@ logger = logging.getLogger(__name__)
 class CatalistMatch:
     """Connector for working with the Catalist Match API.
 
+    This API allows a trusted third party to submit new files for processing, and/or
+    reprocess existing files. It also allows retrieval of processing status. Initial
+    setup of template(s) via the M Tool UI will be required.
+
     The Catalist Match tool requires OAuth2.0 client credentials for the API as well as
     credentials for accessing the Catalist sftp bucket. Each Catalist client is given
     their own bucket alias named after a tree species, used for constructing the

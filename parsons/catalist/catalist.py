@@ -95,10 +95,20 @@ class CatalistMatch:
     def load_table_to_sftp(
         self, table: Table, input_subfolder: Optional[str] = None
     ) -> str:
-        """Load table to Catalist sftp bucket.
+        """Load table to Catalist sftp bucket as gzipped CSV for matching.
 
         If input_subfolder is specific, the file will be uploaded to a subfolder of the
         myUploads directory in the SFTP server.
+
+        `Args:`
+             table: Table
+                 Parsons Table for matching. "first_name" and "last_name" columns
+                 are required. Optional columns for matching: last_name, name_suffix,
+                 addr1, addr2, city, state, zip, phone, email, gender_tomatch, dob,
+                 dob_year, matchbackid.
+             input_subfolder: str
+                 Optional. If specified, the file will be uploaded to a subfolder of the
+                 myUploads directory in the SFTP server.
         """
         local_path = table.to_csv(temp_file_compression="gzip")
         hashed_name = hash(time.time())
@@ -132,6 +142,11 @@ class CatalistMatch:
          6 hours or more depending on concurrent traffic.
 
         `Args:`
+             table: Table
+                 Parsons Table for matching. "first_name" and "last_name" columns
+                 are required. Optional columns for matching: last_name, name_suffix,
+                 addr1, addr2, city, state, zip, phone, email, gender_tomatch, dob,
+                 dob_year, matchbackid.
              export: bool
                  Defaults to False
              description: str
@@ -171,6 +186,11 @@ class CatalistMatch:
         """Load table to the Catalist Match API, returns response with job metadata.
 
         `Args:`
+             table: Table
+                 Parsons Table for matching. "first_name" and "last_name" columns
+                 are required. Optional columns for matching: last_name, name_suffix,
+                 addr1, addr2, city, state, zip, phone, email, gender_tomatch, dob,
+                 dob_year, matchbackid.
              export: bool
                  Defaults to False
              description: str
@@ -239,14 +259,30 @@ class CatalistMatch:
         file_ids: Union[str, List[str]],
         match: bool = False,
         export: bool = False,
-        export_filename_suffix: str = "",
+        export_filename_suffix: Optional[str] = None,
         copy_to_sandbox: bool = False,
     ) -> List[dict]:
         """Perform actions on existing files.
 
         All files must be in Finished status (if the action requested is publish), and
         must mapped against the same template. The request will return as soon as the
-        action has been queued."""
+        action has been queued.
+
+        `Args:`
+             file_ids: str or List[str]
+                 one or more file_ids (found in the `id` key of responses from the
+                 upload() or status() methods)
+             match: bool
+                 Optional. Defaults to False. If True, will initiate matching.
+             export: bool
+                 Optional. Defaults to False. If True, will initiate export.
+             export_filename_suffix: str
+                 Optional. If included, adds a suffix to the filepath of the exported
+                 file in the SFTP server.
+             copy_to_sandbox: bool
+                  Defaults to False.
+
+        """
         actions = ["publish"]
         if match:
             actions.append("match")

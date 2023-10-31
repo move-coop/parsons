@@ -1018,6 +1018,26 @@ class GoogleBigQuery(DatabaseConnector):
 
         return [x for x in first_row.columns]
 
+    def get_row_count(self, schema: str, table_name: str) -> int:
+        """
+        Gets the row count for a BigQuery table. Note that this function
+        will NOT work with views
+
+        `Args`:
+            schema: str
+                The schema name
+            table_name: str
+                The table name
+
+        `Returns:`
+            Row count of the target table
+        """
+
+        table_ref = self.client.dataset(schema).table(table_name)
+        table = self.client.get_table(table_ref)
+
+        return table.num_rows
+
     def _generate_schema_from_parsons_table(self, tbl):
         stats = tbl.get_columns_type_stats()
         fields = []

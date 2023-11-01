@@ -288,16 +288,17 @@
 <span class="sd">        order of the columns is irrelevant.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            table: A Parsons Table</span>
-<span class="sd">                Insert a Parsons table</span>
+<span class="sd">            table: A Parsons Table or list of dicts</span>
+<span class="sd">                Insert a Parsons table or list</span>
 <span class="sd">            typecast: boolean</span>
 <span class="sd">                Automatic data conversion from string values.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            List of dictionaries of inserted rows</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">Table</span><span class="p">):</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">()</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">batch_insert</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">typecast</span><span class="o">=</span><span class="n">typecast</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> records inserted.&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">)</span><span class="si">}</span><span class="s2"> records inserted.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="Airtable.update_record"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.update_record">[docs]</a>    <span class="k">def</span> <span class="nf">update_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">typecast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

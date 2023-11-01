@@ -575,8 +575,8 @@ class GoogleBigQuery(DatabaseConnector):
                 new_bucket_name, new_blob_name = gcs.split_uri(
                     gcs_uri=uncompressed_gcs_uri
                 )
-                gcs.delete_blob(new_bucket_name, new_blob_name)
-                logger.debug("Successfully dropped uncompressed blob")
+                # gcs.delete_blob(new_bucket_name, new_blob_name)
+                # logger.debug("Successfully dropped uncompressed blob")
 
     def copy_s3(
         self,

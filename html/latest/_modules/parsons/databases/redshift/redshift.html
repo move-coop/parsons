@@ -950,6 +950,66 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">drop_and_unload</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">rs_table</span><span class="p">,</span>
+        <span class="n">bucket</span><span class="p">,</span>
+        <span class="n">key</span><span class="p">,</span>
+        <span class="n">cascade</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">manifest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;|&quot;</span><span class="p">,</span>
+        <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span>
+        <span class="n">add_quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">escape</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">allow_overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">max_file_size</span><span class="o">=</span><span class="s2">&quot;6.2 GB&quot;</span><span class="p">,</span>
+        <span class="n">aws_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unload data to s3, and then drop Redshift table</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rs_table: str</span>
+<span class="sd">                Redshift table.</span>
+
+<span class="sd">            bucket: str</span>
+<span class="sd">                S3 bucket</span>
+
+<span class="sd">            key: str</span>
+<span class="sd">                S3 key prefix ahead of table name</span>
+
+<span class="sd">            cascade: bool</span>
+<span class="sd">                whether to drop cascade</span>
+
+<span class="sd">            ***unload params</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query_end</span> <span class="o">=</span> <span class="s2">&quot;cascade&quot;</span> <span class="k">if</span> <span class="n">cascade</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">unload</span><span class="p">(</span>
+            <span class="n">sql</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;select * from </span><span class="si">{</span><span class="n">rs_table</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span>
+            <span class="n">key_prefix</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">rs_table</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
+            <span class="n">manifest</span><span class="o">=</span><span class="n">manifest</span><span class="p">,</span>
+            <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
+            <span class="n">delimiter</span><span class="o">=</span><span class="n">delimiter</span><span class="p">,</span>
+            <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">,</span>
+            <span class="n">add_quotes</span><span class="o">=</span><span class="n">add_quotes</span><span class="p">,</span>
+            <span class="n">escape</span><span class="o">=</span><span class="n">escape</span><span class="p">,</span>
+            <span class="n">allow_overwrite</span><span class="o">=</span><span class="n">allow_overwrite</span><span class="p">,</span>
+            <span class="n">parallel</span><span class="o">=</span><span class="n">parallel</span><span class="p">,</span>
+            <span class="n">max_file_size</span><span class="o">=</span><span class="n">max_file_size</span><span class="p">,</span>
+            <span class="n">aws_region</span><span class="o">=</span><span class="n">aws_region</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;drop table if exists </span><span class="si">{</span><span class="n">rs_table</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">query_end</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">None</span>
+
     <span class="k">def</span> <span class="nf">generate_manifest</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">buckets</span><span class="p">,</span>

@@ -142,4 +142,5 @@ class TestHustle(unittest.TestCase):
         group_membership = m.post(
             HUSTLE_URI + f"groups/zajXdqtzRt/membership", {"leadId": "A6ebDlAtqB"}
         )
+        print(group_membership)
         self.assertEqual(group_membership, expected_json.lead)

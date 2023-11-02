@@ -551,6 +551,7 @@ class GoogleBigQuery(DatabaseConnector):
         old_bucket_name, old_blob_name = gcs.split_uri(gcs_uri=gcs_blob_uri)
 
         uncompressed_gcs_uri = None
+
         try:
             logger.debug("Unzipping large file")
             uncompressed_gcs_uri = gcs.unzip_blob(
@@ -1048,13 +1049,14 @@ class GoogleBigQuery(DatabaseConnector):
         if not job_config:
             job_config = bigquery.LoadJobConfig()
 
-        if not job_config.schema and kwargs["schema"]:
-            logger.debug("Using user-supplied schema definition...")
-            job_config.schema = map_column_headers_to_schema_field(kwargs["schema"])
-            job_config.autodetect = False
-        else:
-            logger.debug("Autodetecting schema definition...")
-            job_config.autodetect = True
+        if not job_config.schema:
+            if kwargs["schema"]:
+                logger.debug("Using user-supplied schema definition...")
+                job_config.schema = map_column_headers_to_schema_field(kwargs["schema"])
+                job_config.autodetect = False
+            else:
+                logger.debug("Autodetecting schema definition...")
+                job_config.autodetect = True
 
         if not job_config.create_disposition:
             job_config.create_disposition = bigquery.CreateDisposition.CREATE_IF_NEEDED

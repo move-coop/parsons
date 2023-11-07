@@ -2,7 +2,7 @@ import json
 import logging
 import re
 import warnings
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -747,7 +747,7 @@ class ActionNetwork(object):
 
     def upsert_person(
         self,
-        email_address: str | List[str] | List[Dict[str, str]] = None,
+        email_address: Union[str, List[str], List[Dict[str, str]]] = None,
         given_name=None,
         family_name=None,
         tags=None,

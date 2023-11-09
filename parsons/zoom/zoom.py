@@ -353,7 +353,7 @@ class Zoom:
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for poll ID {poll_id}")
             return Table(tbl)
 
@@ -380,7 +380,7 @@ class Zoom:
         endpoint = f"meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
             return Table(tbl)
 
@@ -405,7 +405,7 @@ class Zoom:
         endpoint = f"past_meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
             return Table(tbl)
 
@@ -432,7 +432,7 @@ class Zoom:
         endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for poll ID {poll_id}")
             return Table(tbl)
 
@@ -459,7 +459,7 @@ class Zoom:
         endpoint = f"webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
 
@@ -484,7 +484,7 @@ class Zoom:
         endpoint = f"past_webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
 
@@ -502,7 +502,7 @@ class Zoom:
         endpoint = f"report/meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
             return Table(tbl)
 
@@ -520,7 +520,7 @@ class Zoom:
         endpoint = f"report/webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
 

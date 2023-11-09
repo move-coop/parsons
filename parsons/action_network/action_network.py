@@ -583,7 +583,9 @@ class ActionNetwork(object):
         return self.api.get_request(f"lists/{list_id}")
 
     # Messages
-    def get_messages(self, limit=None, per_page=25, page=None, filter=None, unpack_statistics=False):
+    def get_messages(
+        self, limit=None, per_page=25, page=None, filter=None, unpack_statistics=False
+    ):
         """
         `Args:`
             limit:

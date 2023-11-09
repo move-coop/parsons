@@ -605,7 +605,7 @@ class ActionNetwork(object):
         # Fetch messages
         if page:
             return self._get_page("messages", page, per_page, filter)
-        return self._get_entry_list("messages", limit, per_page, filter)
+        tbl = self._get_entry_list("messages", limit, per_page, filter)
         # Unpack statistics
         if unpack_statistics:
             tbl.unpack_dict("statistics", prepend=False, include_original=True)

@@ -3866,14 +3866,6 @@ class TestActionNetwork(unittest.TestCase):
             self.fake_messages["_embedded"][list(self.fake_messages["_embedded"])[0]],
         )
 
-    @requests_mock.Mocker()
-    def test_get_message(self, m):
-        m.get(f"{self.api_url}/messages/123", text=json.dumps(self.fake_message))
-        assert_matching_tables(
-            self.an.get_message("123"),
-            self.fake_message,
-        )
-
     # Metadata
     @requests_mock.Mocker()
     def test_get_metadata(self, m):

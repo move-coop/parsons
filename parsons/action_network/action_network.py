@@ -48,6 +48,7 @@ class ActionNetwork(object):
         count = 0
         page = 1
         return_list = []
+        print("get_entry 1")
         while True:
             response = self._get_page(object_name, page, per_page, filter=filter)
             page = page + 1
@@ -59,6 +60,7 @@ class ActionNetwork(object):
             if limit:
                 if count >= limit:
                     return Table(return_list[0:limit])
+            print(response_list)
 
     # Advocacy Campaigns
     def get_advocacy_campaigns(self, limit=None, per_page=25, page=None, filter=None):
@@ -604,13 +606,11 @@ class ActionNetwork(object):
         """
         # Fetch messages
         if page:
-            return self._get_page("messages", page, per_page)
-        tbl = self._get_entry_list("messages", limit, per_page)
-
+            return self._get_page("messages", page, per_page, filter)
+        return self._get_entry_list("messages", limit, per_page, filter)
         # Unpack statistics
         if unpack_statistics:
-            tbl.unpack_dict("statistics", prepend=False)
-
+            tbl.unpack_dict("statistics", prepend=False, include_original=True)
         return tbl
 
     def get_message(self, message_id):

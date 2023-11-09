@@ -46,6 +46,7 @@ class OAuth2APIConnector(APIConnector):
         client_secret=None,
         token_url=None,
         auto_refresh_url=None,
+        authorization_kwargs=None,
     ):
         super().__init__(
             uri,
@@ -55,16 +56,23 @@ class OAuth2APIConnector(APIConnector):
             data_key=data_key,
         )
 
+        if not authorization_kwargs:
+            authorization_kwargs = {}
+
         client = BackendApplicationClient(client_id=client_id)
         oauth = OAuth2Session(client=client)
         self.token = oauth.fetch_token(
-            token_url=token_url, client_id=client_id, client_secret=client_secret
+            token_url=token_url,
+            client_id=client_id,
+            client_secret=client_secret,
+            **authorization_kwargs
         )
         self.client = OAuth2Session(
             client_id,
             token=self.token,
             auto_refresh_url=auto_refresh_url,
             token_updater=self.token_saver,
+            auto_refresh_kwargs=authorization_kwargs,
         )
 
     def request(self, url, req_type, json=None, data=None, params=None):

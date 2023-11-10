@@ -598,7 +598,7 @@ class ActionNetwork(object):
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
            unpack_statistics:
-                Whether to unpack the statistics dictionary into the table. Default to True.
+                Whether to unpack the statistics dictionary into the table. Default to False.
 
 
         `Returns:`

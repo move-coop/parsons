@@ -73,7 +73,7 @@ class ETL(object):
         self.table = petl.rename(self.table, column_name, new_column_name)
 
         return self
-    
+
     def rename_columns(self, column_map):
         """
         Rename multiple columns

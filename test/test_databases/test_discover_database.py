@@ -3,7 +3,7 @@ from unittest.mock import patch
 from parsons.databases.redshift import Redshift
 from parsons.databases.mysql import MySQL
 from parsons.databases.postgres import Postgres
-from parsons.databases.bigquery import BigQuery
+from parsons import GoogleBigQuery as BigQuery
 from parsons.databases.discover_database import discover_database
 
 

@@ -238,6 +238,8 @@ class APIConnector(object):
         if resp.status_code >= 400:
             if resp.reason:
                 message = f"HTTP error occurred ({resp.status_code}): {resp.reason}"
+            elif resp.text:
+                message = f"HTTP error occurred ({resp.status_code}): {resp.text}"
             else:
                 message = f"HTTP error occurred ({resp.status_code})"
 

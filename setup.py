@@ -19,6 +19,7 @@ def main():
             "azure": ["azure-storage-blob"],
             "box": ["boxsdk"],
             "braintree": ["braintree"],
+            "catalist": ["paramiko"],
             "civis": ["civis"],
             "facebook": ["joblib", "facebook-business"],
             "geocode": ["censusgeocode"],

@@ -2,6 +2,7 @@ from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 import logging
+import collections
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -33,37 +34,49 @@ class QuickBooks:
 
     def qb_get_request(self, end_point: str, querystring=None):
         """
-        This functions handles the pagination of the request
+        This function handles the pagination of the request
         """
 
+        # If no querystring is provided, initialize it as an empty dictionary
         if querystring is None:
             querystring = {}
-        output_list = []
+        output_list = []  # This list will hold the results
 
-        page = 1
-        more = True
+        page = 1  # Start from the first page
+        more = True  # This flag indicates if there are more pages to fetch
         while more:
+            
             # After every 10 pages, log the progress
             if page % 10 == 0:
                 logger.info(f"Retrieved {len(output_list)} records from {end_point} endpoint.")
                 logger.info(f"Currently on page {page}.")
-
+                
+            # Add the current page to the querystring
             querystring = {**querystring, **{"page": page}}
 
+            # Send the GET request
             response = self.client.get_request(end_point, params=querystring)
 
-            temp_list = [response['results'][end_point][record] for record in response["results"][end_point]]
+            # Extract the key of the results
+            endpoint_key = list(response['results'].keys())[0]
+            # Extract the records from the results
+            temp_list = [response['results'][endpoint_key][record] for record in response["results"][endpoint_key]]
 
+            # If the response indicates there are more pages, update the flag and increment the page number
             if "more" in response:
                 more = response["more"]
                 page += 1
 
+            # Add the records from the current page to the output list
             output_list += temp_list
 
+            # If there are no more pages, break the loop
             if not "more" in response or response["more"] == False:
                 break
 
+        # Log the total number of records retrieved
         logger.info(f"Retrieved {len(output_list)} records from {end_point} endpoint.")
+        # Return the results as a Table
         return Table(output_list)
 
     def get_groups(
@@ -91,30 +104,30 @@ class QuickBooks:
             manager_ids: Int
                 Comma separated list of one or more manager ids you'd like to filter on.
 
-            name: String
-                Comma separated list of one or more group names you'd like to filter on.
+        name: String
+            Comma separated list of one or more group names you'd like to filter on.
 
-            modified_before: String
-                Only groups modified before this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
+        modified_before: String
+            Only groups modified before this date/time will be returned,
+            in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
 
-            modified_since: String
-                Only groups modified since this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
+        modified_since: String
+            Only groups modified since this date/time will be returned,
+            in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
 
-            supplemental_data: String
-                'yes' or 'no'. Default is 'yes'.
-                Indicates whether supplemental data should be returned.
+        supplemental_data: String
+            'yes' or 'no'. Default is 'yes'.
+            Indicates whether supplemental data should be returned.
 
-            per_page: Int
-                Represents how many results you'd like to retrieve per request (page). Default is 50. Max is 50.
+        per_page: Int
+            Represents how many results you'd like to retrieve per request (page). Default is 50. Max is 50.
 
-            page: Int
-                Represents the page of results you'd like to retrieve.
+        page: Int
+            Represents the page of results you'd like to retrieve.
 
-        `Returns:`
-            Parsons Table
-        """
+    `Returns:`
+        Parsons Table
+    """
 
         querystring = {
             "ids": ids,
@@ -127,6 +140,7 @@ class QuickBooks:
             "per_page": per_page,
         }
 
+        logger.info("Retrieving groups.")
         tbl = self.qb_get_request(end_point="groups", querystring=querystring)
 
         logger.info(f"Found {tbl.num_rows} groups.")
@@ -215,6 +229,7 @@ class QuickBooks:
             "per_page": per_page,
         }
 
+        logger.info("Retrieving jobcodes.")
         tbl = self.qb_get_request(end_point="jobcodes", querystring=querystring)
 
         logger.info(f"Found {tbl.num_rows} jobs.")
@@ -323,6 +338,7 @@ class QuickBooks:
             "start_date": start_date,
         }  # Removed page: page
 
+        logger.info("Retrieving timesheets.")
         tbl = self.qb_get_request(end_point="timesheets", querystring=querystring)
 
         logger.info(f"Found {tbl.num_rows} timesheets.")
@@ -422,6 +438,7 @@ class QuickBooks:
             "per_page": per_page,
         }
 
+        logger.info("Retrieving users.")
         tbl = self.qb_get_request(end_point="users", querystring=querystring)
 
         logger.info(f"Found {tbl.num_rows} users.")
@@ -467,6 +484,8 @@ class QuickBooks:
             List of integers of schedules calendar ids. Needed for calling the /schedule_events endpoint
         """
 
+        endpoint = "schedule_calendars"
+
         querystring = {
             "ids": ids,
             "modified_before": modified_before,
@@ -475,8 +494,9 @@ class QuickBooks:
             "per_page": per_page,
         }
 
+        logger.info("Retrieving schedule calendars.")
         tbl = self.qb_get_request(
-            end_point="schedule_calendars", querystring=querystring
+            end_point=endpoint, querystring=querystring
         )
 
         schedule_calendar_ids_list = [
@@ -575,7 +595,11 @@ class QuickBooks:
             See Parsons Table for output options.
         """
 
+        # Create a clean end_point
+
         schedule_calendar_ids_list = self.get_schedule_calendars_list()
+
+        endpoint = "schedule_events"
 
         querystring = {
             "ids": ids,
@@ -594,7 +618,8 @@ class QuickBooks:
             "per_page": per_page,
         }
 
-        tbl = self.qb_get_request(end_point="schedule_events", querystring=querystring)
+        logger.info("Retrieving schedule events.")
+        tbl = self.qb_get_request(end_point=endpoint, querystring=querystring)
 
         logger.info(f"Found {tbl.num_rows} schedules.")
         if tbl.num_rows > 0:

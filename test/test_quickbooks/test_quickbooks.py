@@ -36,6 +36,7 @@ class TestQuickBooks(unittest.TestCase):
         self.assertIsInstance(result, Table)
         self.assertIsInstance(end_point, str)
         self.assertIsInstance(querystring, dict)
+        
 
     @requests_mock.Mocker()
     def test_get_groups(self, mock_request):

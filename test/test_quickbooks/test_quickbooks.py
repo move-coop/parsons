@@ -3,7 +3,7 @@ import unittest
 import requests_mock
 from parsons.etl.table import Table
 from parsons.quickbooks.quickbooks import QuickBooks
-from test_quickbooks_data import mock_group_data, mock_user_data
+from test_quickbooks_data import mock_group_data, mock_user_data, mock_jobcodes_data, mock_timesheets_data
 
 
 class TestQuickBooks(unittest.TestCase):

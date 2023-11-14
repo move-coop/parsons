@@ -45,7 +45,6 @@ class QuickBooks:
         page = 1  # Start from the first page
         more = True  # This flag indicates if there are more pages to fetch
         while more:
-
             # After every 10 pages, log the progress
             if page % 10 == 0:
                 logger.info(

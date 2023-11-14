@@ -49,10 +49,15 @@ class QuickBooks:
 
             temp_list = [response['results'][end_point][record] for record in response["results"][end_point]]
 
-            more = response["more"]
-            page += 1
+            if "more" in response:
+                more = response["more"]
+                page += 1
 
             output_list += temp_list
+
+            if not "more" in response or response["more"] == False:
+                break
+            
 
         return Table(output_list)
 

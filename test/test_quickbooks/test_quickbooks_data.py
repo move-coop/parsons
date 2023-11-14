@@ -32,7 +32,7 @@ mock_group_data = {
       }
     }
   },
-  "more": "false",
+  "more": False,
   "supplemental_data": {
     "users": {
       "300": {

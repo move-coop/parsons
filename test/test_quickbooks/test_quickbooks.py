@@ -19,16 +19,17 @@ class TestQuickBooks(unittest.TestCase):
     @requests_mock.Mocker()
     def test_qb_get_request(self, mock_request):
         # Arrange
-        end_point = "test_endpoint"
+        end_point = "groups"
         querystring = {"page": 1}
-        mock_request.get(requests_mock.ANY, json={"results": {end_point: {"1": "test"}}, "more": False})
+        mock_request.get(requests_mock.ANY, json=mock_group_data)
 
         # Act
         result = self.qb.qb_get_request(end_point, querystring)
 
         # Assert
-        self.assertIsInstance(result, list)
-        self.assertEqual(result[0], "test")
+        self.assertIsInstance(result, Table)
+        
+        # TODO: while loop, adding page+1, etc.
 
     @requests_mock.Mocker()
     def test_get_groups(self, mock_request):
@@ -44,7 +45,7 @@ class TestQuickBooks(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_jobcodes(self, mock_request):
         # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_group_data)
+        mock_request.get(requests_mock.ANY, json=mock_group_data) # TODO: Change data
 
         # Act
         result = self.qb.get_jobcodes()
@@ -55,7 +56,7 @@ class TestQuickBooks(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_timesheets(self, mock_request):
         # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_group_data)
+        mock_request.get(requests_mock.ANY, json=mock_group_data) # TODO: Change data
 
         # Act
         result = self.qb.get_timesheets()

@@ -40,7 +40,7 @@ class TestQuickBooks(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_groups(self, mock_request):
         # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_group_data)
+        mock_request.get(requests_mock.ANY, json=mock_groups_data)
 
         # Act
         result = self.qb.get_groups()

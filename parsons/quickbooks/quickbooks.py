@@ -45,12 +45,14 @@ class QuickBooks:
         page = 1  # Start from the first page
         more = True  # This flag indicates if there are more pages to fetch
         while more:
-            
+
             # After every 10 pages, log the progress
             if page % 10 == 0:
-                logger.info(f"Retrieved {len(output_list)} records from {end_point} endpoint.")
+                logger.info(
+                    f"Retrieved {len(output_list)} records from {end_point} endpoint."
+                )
                 logger.info(f"Currently on page {page}.")
-                
+
             # Add the current page to the querystring
             querystring = {**querystring, **{"page": page}}
 
@@ -58,9 +60,12 @@ class QuickBooks:
             response = self.client.get_request(end_point, params=querystring)
 
             # Extract the key of the results
-            endpoint_key = list(response['results'].keys())[0]
+            endpoint_key = list(response["results"].keys())[0]
             # Extract the records from the results
-            temp_list = [response['results'][endpoint_key][record] for record in response["results"][endpoint_key]]
+            temp_list = [
+                response["results"][endpoint_key][record]
+                for record in response["results"][endpoint_key]
+            ]
 
             # If the response indicates there are more pages, update the flag and increment the page number
             if "more" in response:
@@ -92,42 +97,42 @@ class QuickBooks:
         page=None,
     ):
         """
-        This function allows you to call the /groups endpoint of the Quickbooks Time API. All Args are optional.
+            This function allows you to call the /groups endpoint of the Quickbooks Time API. All Args are optional.
 
-        `Args:`
-            ids: Int
-                Comma separated list of one or more group ids you'd like to filter on.
+            `Args:`
+                ids: Int
+                    Comma separated list of one or more group ids you'd like to filter on.
 
-            active: String
-                'yes', 'no', or 'both'. Default is 'yes'.
+                active: String
+                    'yes', 'no', or 'both'. Default is 'yes'.
 
-            manager_ids: Int
-                Comma separated list of one or more manager ids you'd like to filter on.
+                manager_ids: Int
+                    Comma separated list of one or more manager ids you'd like to filter on.
 
-        name: String
-            Comma separated list of one or more group names you'd like to filter on.
+            name: String
+                Comma separated list of one or more group names you'd like to filter on.
 
-        modified_before: String
-            Only groups modified before this date/time will be returned,
-            in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
+            modified_before: String
+                Only groups modified before this date/time will be returned,
+                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
 
-        modified_since: String
-            Only groups modified since this date/time will be returned,
-            in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
+            modified_since: String
+                Only groups modified since this date/time will be returned,
+                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
 
-        supplemental_data: String
-            'yes' or 'no'. Default is 'yes'.
-            Indicates whether supplemental data should be returned.
+            supplemental_data: String
+                'yes' or 'no'. Default is 'yes'.
+                Indicates whether supplemental data should be returned.
 
-        per_page: Int
-            Represents how many results you'd like to retrieve per request (page). Default is 50. Max is 50.
+            per_page: Int
+                Represents how many results you'd like to retrieve per request (page). Default is 50. Max is 50.
 
-        page: Int
-            Represents the page of results you'd like to retrieve.
+            page: Int
+                Represents the page of results you'd like to retrieve.
 
-    `Returns:`
-        Parsons Table
-    """
+        `Returns:`
+            Parsons Table
+        """
 
         querystring = {
             "ids": ids,
@@ -495,9 +500,7 @@ class QuickBooks:
         }
 
         logger.info("Retrieving schedule calendars.")
-        tbl = self.qb_get_request(
-            end_point=endpoint, querystring=querystring
-        )
+        tbl = self.qb_get_request(end_point=endpoint, querystring=querystring)
 
         schedule_calendar_ids_list = [
             int(row["id"]) for row in tbl

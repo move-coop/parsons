@@ -3,21 +3,25 @@ import unittest
 import requests_mock
 from parsons.etl.table import Table
 from parsons.quickbooks.quickbooks import QuickBooks
-from test_quickbooks_data import mock_groups_data, mock_users_data, mock_jobcodes_data, mock_timesheets_data, mock_schedule_calendars_list_data, mock_schedule_events_data
+from test_quickbooks_data import (
+    mock_groups_data,
+    mock_users_data,
+    mock_jobcodes_data,
+    mock_timesheets_data,
+    mock_schedule_calendars_list_data,
+    mock_schedule_events_data,
+)
 
 
 class TestQuickBooks(unittest.TestCase):
-
     @requests_mock.Mocker()
     def setUp(self, mock_request):
         self.qb = QuickBooks(token="abc123")
         self.qb.url = "https://rest.tsheets.com/api/v1/"
 
-    
     def tearDown(self):
         pass
 
-    
     @requests_mock.Mocker()
     def test_qb_get_request(self, mock_request, end_point=None):
         # Arrange
@@ -36,7 +40,6 @@ class TestQuickBooks(unittest.TestCase):
         self.assertIsInstance(result, Table)
         self.assertIsInstance(end_point, str)
         self.assertIsInstance(querystring, dict)
-        
 
     @requests_mock.Mocker()
     def test_get_groups(self, mock_request):

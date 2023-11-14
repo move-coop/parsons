@@ -13,6 +13,8 @@ class QuickBooks:
     """
     Instantiate the QuickBooks class.
 
+    TODO: Add information about the difference between accounting vs time
+
     `Args:`
         token: str
             A valid QuickBooks Auth Token. Not required if ``QB_AUTH_TOKEN`` env

@@ -47,7 +47,7 @@ class QuickBooks:
             if page % 10 == 0:
                 logger.info(f"Retrieved {len(output_list)} records from {end_point} endpoint.")
                 logger.info(f"Currently on page {page}.")
-                
+
             querystring = {**querystring, **{"page": page}}
 
             response = self.client.get_request(end_point, params=querystring)
@@ -493,7 +493,7 @@ class QuickBooks:
         users_ids=None,
         schedule_calendar_ids=None,
         jobcode_ids=None,
-        start=None,
+        start="1970-01-01T00:00:00+00:00",
         end=None,
         active_users=None,
         active=None,

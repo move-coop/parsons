@@ -1,33 +1,38 @@
-YourConnector
+Quickbooks
 =============
 
 ********
 Overview
 ********
 
-Provide a brief description of the tool your connector integrates with.
+Quickbooks Time is a time tracking and scheduling tool that integrates with Quickbooks Online.
+This integration allows you to pull time tracking data from Quickbooks Time into Parsons.
 
-Describe which features your connector implements and which features it doesn't. For example,
-you could specify that `YourConnector` implements the `thing` and `place` endpoints of the API, but
-does not implement the `person` endpoints.
+.. note::
+  Authentication
+    You need to generate a Quickbooks Time API token to use this integration. See the
+    `Quickbooks Time API documentation <https://tsheetsteam.github.io/api_docs/#getting-started>`_
 
 ==========
 Quickstart
 ==========
 
-Provide a few examples of how to use `YourConnector`. Each example should be limited to a
-few lines of code. Use the [Sphinx Markup syntax](https://www.sphinx-doc.org/en/1.5/markup/code.html)
-to embed your examples. Be sure to provide an explanation of exactly what the code is doing.
+In order to instantiate the Quickbooks Time class, you need to pass in your Quickbooks Time API token
+as an environment variable "QB_AUTH_TOKEN" or pass it in as a parameter called token="your_token".
 
 **Example 1**
 
 .. code-block:: python
 
-  from parsons import YourConnector
-  yc = YourConnector()
-  table = yc.get_things(updated_since='2020-01-01')
+  from parsons import QuickBooks
 
-This example shows how to get all of the things updated since the first day of the year 2020.
+  # instantiate the quickbooks class
+  qb = QuickBooks(token="your_token") 
+
+  #Timesheets Table
+  timesheets_tbl = qb.get_timesheets()
+
+This example shows how to get timesheets for a given date range.
 
 ***
 API

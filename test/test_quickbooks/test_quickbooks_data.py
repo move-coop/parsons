@@ -1,4 +1,4 @@
-mock_group_data = {
+mock_groups_data = {
   "results": {
     "groups": {
       "6": {
@@ -53,7 +53,7 @@ mock_group_data = {
   }
 }
 
-mock_user_data = {
+mock_users_data = {
   "results": {
     "users": {
       "933849": {
@@ -174,7 +174,7 @@ mock_user_data = {
       }
     }
   },
-  "more": "False",
+  "more": False,
   "supplemental_data": {
     "jobcodes": {
       "2624351": {
@@ -603,3 +603,94 @@ mock_jobcodes_data = {
  },
  "more": False
 }
+
+mock_schedule_calendars_list_data = {
+  "results": {
+    "schedule_calendars": {
+      "72595": {
+        "id": 72595,
+        "name": "Schedule Calendar Name",
+        "last_modified": "2018-07-15T19:31:57+00:00",
+        "created": "2018-07-15T19:08:33+00:00"
+      },
+      "72597": {
+        "id": 72597,
+        "name": "Schedule Calendar Name2",
+        "last_modified": "2018-07-15T19:33:57+00:00",
+        "created": "2018-07-15T19:08:33+00:00"
+      }
+    }
+  }
+}
+
+mock_schedule_events_data = {
+  "results": {
+    "schedule_events": {
+      "894562": {
+        "id": 894562,
+        "user_id": 1283037,
+        "unassigned": False,
+        "schedule_calendar_id": 72595,
+        "jobcode_id": 17285791,
+        "start": "2018-08-08T08:00:00-06:00",
+        "end": "2018-08-08T14:00:00-06:00",
+        "timezone": "tsMT",
+        "notes": "Some Custom Notes",
+        "last_modified": "2018-08-09T17:30:54-06:00",
+        "created": "2018-07-15T19:08:33-06:00",
+        "customfields": {
+          "19142": "Item 1",
+          "19144": "Item 2"
+        }
+      },
+      "894588": {
+        "id": 894588,
+        "user_id": 1283037,
+        "unassigned": True,
+        "schedule_calendar_id": 72595,
+        "jobcode_id": 17285791,
+        "start": "2018-08-09T08:00:00-06:00",
+        "end": "2018-08-09T14:00:00-06:00",
+        "timezone": "tsMT",
+        "notes": "Some More Custom Notes",
+        "last_modified": "2018-08-09T17:31:23-06:00",
+        "created": "2018-07-15T19:08:34-06:00"
+      }
+    },
+    "more": False,
+    "supplemental_data": {
+      "jobcodes": {
+        "17285791": {
+          "id": 17285791,
+          "parent_id": 0,
+          "assigned_to_all": False,
+          "billable": False,
+          "active": False,
+          "type": "regular",
+        }
+      },
+      "users": {
+        "1283037": {
+          "id": 1283037,
+          "first_name": "Alexander",
+          "last_name": "Luzzana",
+          "group_id": 144959,
+          "active": True,
+        },
+        "customfields": {
+          "19142": {
+            "id": 19142,
+            "required": False,
+            "type": "timesheet",
+          },
+          "19144": {
+            "id": 19144,
+            "required": False,
+            "type": "timesheet",
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -43,6 +43,11 @@ class QuickBooks:
         page = 1
         more = True
         while more:
+            # After every 10 pages, log the progress
+            if page % 10 == 0:
+                logger.info(f"Retrieved {len(output_list)} records from {end_point} endpoint.")
+                logger.info(f"Currently on page {page}.")
+                
             querystring = {**querystring, **{"page": page}}
 
             response = self.client.get_request(end_point, params=querystring)
@@ -57,8 +62,8 @@ class QuickBooks:
 
             if not "more" in response or response["more"] == False:
                 break
-            
 
+        logger.info(f"Retrieved {len(output_list)} records from {end_point} endpoint.")
         return Table(output_list)
 
     def get_groups(

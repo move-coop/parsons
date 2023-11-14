@@ -3,7 +3,7 @@ import unittest
 import requests_mock
 from parsons.etl.table import Table
 from parsons.quickbooks.quickbooks import QuickBooks
-from test_quickbooks_data import mock_group_data, mock_user_data, mock_jobcodes_data, mock_timesheets_data
+from test_quickbooks_data import mock_groups_data, mock_users_data, mock_jobcodes_data, mock_timesheets_data, mock_schedule_calendars_list_data, mock_schedule_events_data
 
 
 class TestQuickBooks(unittest.TestCase):
@@ -27,7 +27,7 @@ class TestQuickBooks(unittest.TestCase):
             end_point = "groups"
 
         querystring = {"page": 1}
-        mock_request.get(requests_mock.ANY, json=mock_group_data)
+        mock_request.get(requests_mock.ANY, json=mock_groups_data)
 
         # Act
         result = self.qb.qb_get_request(end_point=end_point, querystring=querystring)
@@ -73,7 +73,7 @@ class TestQuickBooks(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_users(self, mock_request):
         # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_user_data)
+        mock_request.get(requests_mock.ANY, json=mock_users_data)
 
         # Act
         result = self.qb.get_users()
@@ -84,18 +84,18 @@ class TestQuickBooks(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_schedule_calendars_list(self, mock_request):
         # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_group_data)
+        mock_request.get(requests_mock.ANY, json=mock_schedule_calendars_list_data)
 
         # Act
         result = self.qb.get_schedule_calendars_list()
 
         # Assert
-        self.assertIsInstance(result, Table)
+        self.assertIsInstance(result, list)
 
     @requests_mock.Mocker()
     def test_get_schedule_events(self, mock_request):
         # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_group_data)
+        mock_request.get(requests_mock.ANY, json=mock_schedule_events_data)
 
         # Act
         result = self.qb.get_schedule_events()
@@ -140,7 +140,7 @@ class TestQuickBooks(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_users_with_params(self, mock_request):
         # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_user_data)
+        mock_request.get(requests_mock.ANY, json=mock_users_data)
         ids = [1, 2, 3]
         not_ids = [4, 5, 6]
         employee_numbers = [7, 8, 9]
@@ -222,7 +222,7 @@ class TestQuickBooks(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_schedule_events_with_params(self, mock_request):
         # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_group_data)
+        mock_request.get(requests_mock.ANY, json=mock_groups_data)
         ids = [1, 2, 3]
         users_ids = [4, 5, 6]
         schedule_calendar_ids = [7, 8, 9]

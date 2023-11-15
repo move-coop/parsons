@@ -80,7 +80,13 @@ class ETL(object):
 
         `Args:`
             column_map: dict
-                A dictionary of columns and new names
+                A dictionary of columns and new names.
+                The key is the old name and the value is the new name.
+
+                Example dictionary:
+                {'old_name': 'new_name',
+                'old_name2': 'new_name2'}
+
         `Returns:`
             `Parsons Table` and also updates self
         """

@@ -72,7 +72,7 @@ mock_users_data = {
                 "created": "2018-03-27T16:13:34+00:00",
                 "client_url": "api_sample_output",
                 "company_name": "API Sample Output Company",
-                "profile_image_url": "https:\/\/www.gravatar.com\/avatar\/e64c7d89f26bd1972efa854d13d7dd61",
+                "profile_image_url": "website",
                 "display_name": "",
                 "pto_balances": {"2624351": 0, "2624353": 0, "2624355": 0},
                 "submitted_to": "2000-01-01",

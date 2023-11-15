@@ -1,4 +1,3 @@
-import os
 import unittest
 import requests_mock
 from parsons.etl.table import Table

@@ -2,7 +2,6 @@ from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 import logging
-import collections
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -66,7 +65,8 @@ class QuickBooks:
                 for record in response["results"][endpoint_key]
             ]
 
-            # If the response indicates there are more pages, update the flag and increment the page number
+            # If the response indicates there are more pages,
+            # update the flag and increment the page number
             if "more" in response:
                 more = response["more"]
                 page += 1
@@ -75,7 +75,7 @@ class QuickBooks:
             output_list += temp_list
 
             # If there are no more pages, break the loop
-            if not "more" in response or response["more"] == False:
+            if "more" not in response or response["more"] is False:
                 break
 
         # Log the total number of records retrieved
@@ -96,7 +96,8 @@ class QuickBooks:
         page=None,
     ):
         """
-            This function allows you to call the /groups endpoint of the Quickbooks Time API. All Args are optional.
+            This function allows you to call the /groups endpoint of the Quickbooks Time API.
+            All Args are optional.
 
             `Args:`
                 ids: Int
@@ -124,7 +125,8 @@ class QuickBooks:
                 Indicates whether supplemental data should be returned.
 
             per_page: Int
-                Represents how many results you'd like to retrieve per request (page). Default is 50. Max is 50.
+                Represents how many results you'd like to retrieve per request (page).
+                Default is 50. Max is 50.
 
             page: Int
                 Represents the page of results you'd like to retrieve.
@@ -182,36 +184,46 @@ class QuickBooks:
                 Only jobcodes with a parent_id set to one of these values will be returned.
                 Additionally you can use 0 to get only the top-level jobcodes.
 
-                Then get the id of any results with has_children=yes and feed that in as the value of parent_ids
-                for your next request to get the 2nd level of jobcodes, and so on, to traverse an entire tree of jobcodes.
-                Use -1 to return all jobcodes regardless of parent_id. This is especially useful when combined with the
-                modified_since filter. When parent_ids is -1, you'll have the jobcode records needed to trace each result
+                Then get the id of any results with has_children=yes
+                and feed that in as the value of parent_ids
+                for your next request to get the 2nd level of jobcodes,
+                and so on, to traverse an entire tree of jobcodes.
+                Use -1 to return all jobcodes regardless of parent_id.
+                This is especially useful when combined with the modified_since filter.
+                When parent_ids is -1, you'll have the jobcode records needed to trace each result
                 back to it's top level parent in the supplemental_data section of the response.
 
             name: String
-                * will be interpreted as a wild card. Starts matching from the beginning of the string.
+                * will be interpreted as a wild card.
+                Starts matching from the beginning of the string.
 
             type: String
-                Indicates jobcode type. One of 'regular', 'pto', 'paid_break', 'unpaid_break', or 'all'. Default is 'regular'.
+                Indicates jobcode type. One of 'regular', 'pto', 'paid_break', 'unpaid_break',
+                or 'all'. Default is 'regular'.
 
             active: String
-                'yes', 'no', or 'both'. Default is 'yes'. If a jobcode is active, it is available for selection during time entry.
+                'yes', 'no', or 'both'. Default is 'yes'. If a jobcode is active,
+                it is available for selection during time entry.
 
             customfields: Boolean
                 true or false. If true, custom fields for this jobcode will be returned.
                 If false, the customfields object will be omitted.
 
             modified_before: String
-                Only jobcodes modified before this date/time will be returned, in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+                Only jobcodes modified before this date/time will be returned,
+                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
 
             modified_since: String
-                Only jobcodes modified since this date/time will be returned, in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+                Only jobcodes modified since this date/time will be returned,
+                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
 
             supplemental_data: String
-                'yes' or 'no'. Default is 'yes'. Indicates whether supplemental data should be returned.
+                'yes' or 'no'. Default is 'yes'.
+                Indicates whether supplemental data should be returned.
 
             per_page: Int
-                Represents how many results you'd like to retrieve per request (page). Default is 50. Max is 50.
+                Represents how many results you'd like to retrieve per request (page).
+                Default is 50. Max is 50.
 
             page: Int
                 Represents the page of results you'd like to retrieve. Default is 1.
@@ -265,13 +277,14 @@ class QuickBooks:
         Params:
             ids: Int
                 required (unless modified_before, modified_since, or start_date are set)
-                Comma separated list of one or more timesheet ids you'd like to filter on. Only timesheets with an id
-                set to one of these values will be returned. If omitted, all timesheets matching other
-                specified filters are returned.
+                Comma separated list of one or more timesheet ids you'd like to filter on.
+                Only timesheets with an id set to one of these values will be returned.
+                If omitted, all timesheets matching other specified filters are returned.
 
             start_date: String
                 required (unless modified_before, modified_since, or ids is set)
-                YYYY-MM-DD formatted date. Any timesheets with a date falling on or after this date will be returned.
+                YYYY-MM-DD formatted date.
+                Any timesheets with a date falling on or after this date will be returned.
 
             end_date: String
                 YYYY-MM-DD formatted date.
@@ -295,7 +308,8 @@ class QuickBooks:
 
             on_the_clock: String
                 'yes', 'no', or 'both'. Default is 'no'.
-                If a timesheet is on_the_clock, it means the user is currently working (has not clocked out yet).
+                If a timesheet is on_the_clock, it means the user is currently working
+                (has not clocked out yet).
 
             jobcode_type: String
                 'regular', 'pto', 'paid_break', 'unpaid_break', or 'all'. Default is 'all'.
@@ -394,28 +408,35 @@ class QuickBooks:
                 Specifically, the group ids you'd like to exclude.
 
             payroll_ids: String
-                A comma-separated string of payroll ids. Only users with these payroll ids will be returned.
+                A comma-separated string of payroll ids.
+                Only users with these payroll ids will be returned.
 
             active: String
                 'yes', 'no', or 'both'. Default is 'yes'.
 
             first_name: String
-                * will be interpreted as a wild card. Starts matching from the beginning of the string.
+                * will be interpreted as a wild card.
+                Starts matching from the beginning of the string.
 
             last_name: String
-                * will be interpreted as a wild card. Starts matching from the beginning of the string.
+                * will be interpreted as a wild card.
+                Starts matching from the beginning of the string.
 
             modified_before: String
-                Only users modified before this date/time will be returned, in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+                Only users modified before this date/time will be returned,
+                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
 
             modified_since: String
-                Only users modified since this date/time will be returned, in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+                Only users modified since this date/time will be returned,
+                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
 
             supplemental_data: String
-                'yes' or 'no'. Default is 'yes'. Indicates whether supplemental data should be returned.
+                'yes' or 'no'. Default is 'yes'.
+                Indicates whether supplemental data should be returned.
 
             per_page: Int
-                Represents how many results you'd like to retrieve per request (page). Default is 50. Max is 50.
+                Represents how many results you'd like to retrieve per request (page).
+                Default is 50. Max is 50.
 
             page: Int
                 Represents the page of results you'd like to retrieve. Default is 1.
@@ -460,7 +481,8 @@ class QuickBooks:
         per_page=None,
     ):
         """
-        This function allows you to call the /schedule_calendars endpoint of the Quickbooks Time API.
+        This function allows you to call the /schedule_calendars endpoint
+        of the Quickbooks Time API.
 
         `Args:`
             ids: Int
@@ -473,19 +495,23 @@ class QuickBooks:
 
             modified_since: String
                 required (unless ids, modified_before, or start are set)
-                Only schedule calendars modified since this date/time will be returned, in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+                Only schedule calendars modified since this date/time will be returned,
+                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
 
             supplemental_data: String
-                'yes' or 'no'. Default is 'yes'. Indicates whether supplemental data should be returned.
+                'yes' or 'no'. Default is 'yes'.
+                Indicates whether supplemental data should be returned.
 
             per_page: Int
-                Represents how many results you'd like to retrieve per request (page). Default is 50. Max is 50.
+                Represents how many results you'd like to retrieve per request (page).
+                Default is 50. Max is 50.
 
             page: Int
                 Represents the page of results you'd like to retrieve. Default is 1.
 
         `Returns:`
-            List of integers of schedules calendar ids. Needed for calling the /schedule_events endpoint
+            List of integers of schedules calendar ids.
+            Needed for calling the /schedule_events endpoint
         """
 
         endpoint = "schedule_calendars"
@@ -539,8 +565,10 @@ class QuickBooks:
                 Comma-separated list of one or more user ids to retrieve schedule events for.
 
             schedule_calendar_ids: Int
-                Required. Comma separated list of one or more schedule calendar ids you'd like to filter on.
-                Only schedule events with a schedule calendar id set to one of these values will be returned.
+                Required.
+                Comma separated list of one or more schedule calendar ids you'd like to filter on.
+                Only schedule events with a schedule calendar id
+                set to one of these values will be returned.
 
             jobcode_ids: Int
                 A comma-separated string of jobcode ids.
@@ -562,7 +590,8 @@ class QuickBooks:
             active_users: Int
                 '0', '-1' or '1' . Default is '1'.
                 Only schedule events whose users are active will be returned by default.
-                0 will return events for inactive users. -1 will return events for active and inactive users.
+                0 will return events for inactive users.
+                -1 will return events for active and inactive users.
 
             draft: String
                 'yes', 'no' or 'both'. Default is 'no'.
@@ -570,24 +599,29 @@ class QuickBooks:
 
             team_events: String
                 'base' or 'instance'. Default is 'instance'.
-                If 'instance' is specified, events that are assigned to multiple users will be returned
+                If 'instance' is specified,
+                events that are assigned to multiple users will be returned
                 as individual single events for each assigned user. If 'base' is specified,
                 events that are assigned to multiple users will be returned as one combined event
                 for all assignees.
 
             modified_before: String
                 required (unless ids, modified_since, or start are set)
-                Only schedule events modified before this date/time will be returned, in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+                Only schedule events modified before this date/time will be returned,
+                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
 
             modified_since: String
                 required (unless ids, modified_before, or start are set)
-                Only schedule events modified since this date/time will be returned, in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+                Only schedule events modified since this date/time will be returned,
+                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
 
             supplemental_data: String
-                'yes' or 'no'. Default is 'yes'. Indicates whether supplemental data should be returned.
+                'yes' or 'no'. Default is 'yes'.
+                Indicates whether supplemental data should be returned.
 
             per_page: Int
-                Represents how many results you'd like to retrieve per request (page). Default is 50. Max is 50.
+                Represents how many results you'd like to retrieve per request (page).
+                Default is 50. Max is 50.
 
             page: Int
                 Represents the page of results you'd like to retrieve. Default is 1.

@@ -774,7 +774,7 @@ When None, no filter is applied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionNetwork.get_messages">
-<span class="sig-name descname"><span class="pre">get_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_messages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_messages" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unpack_statistics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_messages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_messages" title="Permalink to this definition"></a></dt>
 <dd><dl>
 <dt><cite>Args:</cite></dt><dd><blockquote>
 <div><dl class="simple">
@@ -790,9 +790,11 @@ When None, no filter is applied.</p>
 <dt>filter:</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
 When None, no filter is applied.</p>
 </dd>
+<dt>unpack_statistics:</dt><dd><p>Whether to unpack the statistics dictionary into the table. Default to False.</p>
+</dd>
 </dl>
 </dd>
-<dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the messages related entries</p>
+<dt><cite>Returns:</cite></dt><dd><p>A Parsons Table with all the messages related entries</p>
 </dd>
 </dl>
 </dd></dl>

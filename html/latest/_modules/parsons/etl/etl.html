@@ -213,6 +213,35 @@
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
+<div class="viewcode-block" id="ETL.rename_columns"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.rename_columns">[docs]</a>    <span class="k">def</span> <span class="nf">rename_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_map</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rename multiple columns</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            column_map: dict</span>
+<span class="sd">                A dictionary of columns and new names.</span>
+<span class="sd">                The key is the old name and the value is the new name.</span>
+
+<span class="sd">                Example dictionary:</span>
+<span class="sd">                {&#39;old_name&#39;: &#39;new_name&#39;,</span>
+<span class="sd">                &#39;old_name2&#39;: &#39;new_name2&#39;}</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            `Parsons Table` and also updates self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if old column name exists and new column name does not exist</span>
+        <span class="k">for</span> <span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span> <span class="ow">in</span> <span class="n">column_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">old_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column name </span><span class="si">{</span><span class="n">old_name</span><span class="si">}</span><span class="s2"> does not exist&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">new_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column name </span><span class="si">{</span><span class="n">new_name</span><span class="si">}</span><span class="s2"> already exists&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Uses the underlying petl method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">column_map</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
 <div class="viewcode-block" id="ETL.fill_column"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.fill_column">[docs]</a>    <span class="k">def</span> <span class="nf">fill_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fill a column in a table</span>

@@ -363,28 +363,31 @@ of commonly used methods. The full list can be found in the API section.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.rename_column" title="parsons.etl.etl.ETL.rename_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rename_column()</span></code></a></p></td>
 <td><p>Rename a column</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.move_column" title="parsons.etl.etl.ETL.move_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">move_column()</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.rename_columns" title="parsons.etl.etl.ETL.rename_columns"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rename_columns()</span></code></a></p></td>
+<td><p>Rename multiple columns</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.move_column" title="parsons.etl.etl.ETL.move_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">move_column()</span></code></a></p></td>
 <td><p>Move a column within a table</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.cut" title="parsons.etl.etl.ETL.cut"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cut()</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.cut" title="parsons.etl.etl.ETL.cut"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cut()</span></code></a></p></td>
 <td><p>Return a table with a subset of columns</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.fill_column" title="parsons.etl.etl.ETL.fill_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fill_column()</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.fill_column" title="parsons.etl.etl.ETL.fill_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fill_column()</span></code></a></p></td>
 <td><p>Provide a fixed value to fill a column</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.fillna_column" title="parsons.etl.etl.ETL.fillna_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fillna_column()</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.fillna_column" title="parsons.etl.etl.ETL.fillna_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fillna_column()</span></code></a></p></td>
 <td><p>Provide a fixed value to fill all null values in a column</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.get_column_types" title="parsons.etl.etl.ETL.get_column_types"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_column_types()</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.get_column_types" title="parsons.etl.etl.ETL.get_column_types"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_column_types()</span></code></a></p></td>
 <td><p>Get the python type of values for a given column</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.convert_column" title="parsons.etl.etl.ETL.convert_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">convert_column()</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.convert_column" title="parsons.etl.etl.ETL.convert_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">convert_column()</span></code></a></p></td>
 <td><p>Transform the values of a column via arbitrary functions</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.coalesce_columns" title="parsons.etl.etl.ETL.coalesce_columns"><code class="xref py py-meth docutils literal notranslate"><span class="pre">coalesce_columns()</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.coalesce_columns" title="parsons.etl.etl.ETL.coalesce_columns"><code class="xref py py-meth docutils literal notranslate"><span class="pre">coalesce_columns()</span></code></a></p></td>
 <td><p>Coalesce values from one or more source columns</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.map_columns" title="parsons.etl.etl.ETL.map_columns"><code class="xref py py-meth docutils literal notranslate"><span class="pre">map_columns()</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.map_columns" title="parsons.etl.etl.ETL.map_columns"><code class="xref py py-meth docutils literal notranslate"><span class="pre">map_columns()</span></code></a></p></td>
 <td><p>Standardizes column names based on multiple possible values</p></td>
 </tr>
 </tbody>
@@ -1228,6 +1231,25 @@ if the column already exists, rather than raising a <cite>ValueError</cite></p>
 <dt>column_name: str</dt><dd><p>The current column name</p>
 </dd>
 <dt>new_column_name: str</dt><dd><p>The new column name</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><cite>Parsons Table</cite> and also updates self</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.etl.etl.ETL.rename_columns">
+<span class="sig-name descname"><span class="pre">rename_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_map</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.rename_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.etl.ETL.rename_columns" title="Permalink to this definition"></a></dt>
+<dd><p>Rename multiple columns</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>column_map: dict</dt><dd><p>A dictionary of columns and new names.
+The key is the old name and the value is the new name.</p>
+<p>Example dictionary:
+{‘old_name’: ‘new_name’,
+‘old_name2’: ‘new_name2’}</p>
 </dd>
 </dl>
 </dd>

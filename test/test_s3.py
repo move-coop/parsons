@@ -30,9 +30,15 @@ class TestS3(unittest.TestCase):
         self.tbl = Table([{"first": "Bob", "last": "Smith"}])
         csv_path = self.tbl.to_csv()
 
+        self.test_incoming_prefix = "incoming"
+        self.test_processing_prefix = "processing"
+        self.test_dest_prefix = "archive"
+
         self.test_key_2 = "test2.csv"
         self.tbl_2 = Table([{"first": "Jack", "last": "Smith"}])
         csv_path_2 = self.tbl_2.to_csv()
+
+        self.test_bucket_subname = self.test_bucket.split("-")[0]
 
         # Sometimes it runs into issues putting the file
         retry = 1
@@ -183,3 +189,13 @@ class TestS3(unittest.TestCase):
         result_tbl_2 = Table.from_csv(path_2)
         assert_matching_tables(self.tbl_2, result_tbl_2)
         self.assertFalse(self.s3.key_exists(self.test_bucket, self.test_key_2))
+
+    def test_get_buckets_with_subname(self):
+
+        buckets_with_subname_true = self.s3.get_buckets_type(self.test_bucket_subname)
+        self.assertTrue(self.test_bucket in buckets_with_subname_true)
+
+        buckets_with_subname_false = self.s3.get_buckets_type(
+            "bucketsubnamedoesnotexist"
+        )
+        self.assertFalse(self.test_bucket in buckets_with_subname_false)

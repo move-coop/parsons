@@ -374,7 +374,7 @@ class GoogleCloudStorage(object):
             aws_secret_access_key (str):
                 Secret key to authenticate storage transfer
         """
-
+        print("the right branch")
         if source not in ["gcs", "s3"]:
             raise ValueError(
                 f"Blob transfer only supports gcs and s3 sources [source={source}]"

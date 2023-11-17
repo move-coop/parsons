@@ -440,11 +440,12 @@ class GoogleCloudStorage(object):
         # Create the transfer job
         create_result = client.create_transfer_job(create_transfer_job_request)
         logger.info(f"Created TransferJob: {create_result.name}")
+        logger.info(f"create_result full print: {create_result}")
 
         polling = True
         wait_time = 0
         wait_between_attempts_in_sec = 10
-        max_wait_in_sec = 60 * 10  # Ten Minutes
+        # max_wait_in_sec = 60 * 10  # Ten Minutes
 
         # NOTE: This value defaults to an empty string until GCP
         # triggers the job internally ... we'll use this value to

@@ -374,6 +374,7 @@ class GoogleCloudStorage(object):
             aws_secret_access_key (str):
                 Secret key to authenticate storage transfer
         """
+        print("test_1")
         logger.info("the right branch")
         if source not in ["gcs", "s3"]:
             raise ValueError(

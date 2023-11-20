@@ -460,11 +460,13 @@ class GoogleCloudStorage(object):
                     logger.debug("Operation still running...")
 
                 else:
+                    logger.info(operation.error.code)
                     if int(operation.error.code) not in StatusCode["OK"].value:
                         raise Exception(
                             f"""{blob_storage} to GCS Transfer Job {create_result.name} failed with error: {operation.error.message}
                             """
                         )
+                    logger.info(operation.response)
                     if operation.response:
                         logger.info(f"TransferJob: {create_result.name} succeeded.")
                         return

@@ -440,7 +440,7 @@ class GoogleCloudStorage(object):
             {"transfer_job": transfer_job_config}
         )
 
-        # print(f"create_transfer_job_request: {create_transfer_job_request}")
+        print(f"create_transfer_job_request: {create_transfer_job_request}")
 
         # Create the transfer job
         create_result = client.create_transfer_job(create_transfer_job_request)

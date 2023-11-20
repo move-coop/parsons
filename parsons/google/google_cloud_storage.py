@@ -375,7 +375,6 @@ class GoogleCloudStorage(object):
                 Secret key to authenticate storage transfer
         """
         print("test_1")
-        logger.info("the right branch")
         if source not in ["gcs", "s3"]:
             raise ValueError(
                 f"Blob transfer only supports gcs and s3 sources [source={source}]"
@@ -433,6 +432,8 @@ class GoogleCloudStorage(object):
                     "bucket_name": gcs_sink_bucket,
                 },
             }
+
+        print("before transfer job called")
 
         create_transfer_job_request = storage_transfer.CreateTransferJobRequest(
             {"transfer_job": transfer_job_config}

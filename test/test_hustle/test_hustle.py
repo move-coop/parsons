@@ -144,6 +144,6 @@ class TestHustle(unittest.TestCase):
             json=expected_json.group
         )
         group_membership = self.hustle.create_group_membership(
-            'zajXdqtzRt', 'A6ebDlAtqB' 
+           'A6ebDlAtqB', 'zajXdqtzRt'
         )
         self.assertEqual(group_membership, expected_json.group)

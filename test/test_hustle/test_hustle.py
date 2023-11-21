@@ -139,11 +139,8 @@ class TestHustle(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_create_group_membership(self, m):
-        m.post(
-            HUSTLE_URI + f"groups/zajXdqtzRt/memberships", 
-            json=expected_json.group
-        )
+        m.post(HUSTLE_URI + f"groups/zajXdqtzRt/memberships", json=expected_json.group)
         group_membership = self.hustle.create_group_membership(
-           'zajXdqtzRt', 'A6ebDlAtqB'
+            "zajXdqtzRt", "A6ebDlAtqB"
         )
         self.assertEqual(group_membership, expected_json.group)

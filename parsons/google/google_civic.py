@@ -116,3 +116,71 @@ class GoogleCivic(object):
         tbl.move_column("polling_address", 2)
 
         return tbl
+
+    def get_representative_info(
+        self, address: str, include_offices=True, levels=None, roles=None
+    ):
+        """
+        Get representative information for a given address.
+        `Args:`
+            address: str
+                A valid US address in a single string.
+            include_offices: bool
+                Whether to return information about offices and officials.
+                If false, only the top-level district information will be returned. (Default: True)
+            levels: list of str
+                A list of office levels to filter by.
+                Only offices that serve at least one of these levels will be returned.
+                Divisions that don't contain a matching office will not be returned.
+                    Acceptable values are:
+                    "administrativeArea1"
+                    "administrativeArea2"
+                    "country"
+                    "international"
+                    "locality"
+                    "regional"
+                    "special"
+                    "subLocality1"
+                    "subLocality2"
+            roles: list of str
+                A list of office roles to filter by.
+                Only offices fulfilling one of these roles will be returned.
+                Divisions that don't contain a matching office will not be returned.
+                    Acceptable values are:
+                    "deputyHeadOfGovernment"
+                    "executiveCouncil"
+                    "governmentOfficer"
+                    "headOfGovernment"
+                    "headOfState"
+                    "highestCourtJudge"
+                    "judge"
+                    "legislatorLowerBody"
+                    "legislatorUpperBody"
+                    "schoolBoard"
+                    "specialPurposeOfficer"
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        if levels is not None and not isinstance(levels, list):
+            raise ValueError("levels must be a list of strings")
+        if roles is not None and not isinstance(roles, list):
+            raise ValueError("roles must be a list of strings")
+
+        url = self.uri + "representatives"
+
+        args = {
+            "address": address,
+            "includeOffices": include_offices,
+            "levels": levels,
+            "roles": roles,
+        }
+
+        response = self.request(url, args=args)
+
+        # Unpack values
+        tbl = Table(response["officials"])
+
+        return tbl

@@ -117,11 +117,16 @@ class GoogleCivic(object):
 
         return tbl
 
-    def get_representative_info(
+    def get_representative_info_by_address(
         self, address: str, include_offices=True, levels=None, roles=None
     ):
         """
         Get representative information for a given address.
+        This method returns the raw JSON response from the Google Civic API.
+        It is a complex response that is not easily parsed into a table.
+        Here is the information on how to parse the response:
+        https://developers.google.com/civic-information/docs/v2/representatives/representativeInfoByAddress
+
         `Args:`
             address: str
                 A valid US address in a single string.
@@ -178,9 +183,4 @@ class GoogleCivic(object):
             "roles": roles,
         }
 
-        response = self.request(url, args=args)
-
-        # Unpack values
-        tbl = Table(response["officials"])
-
-        return tbl
+        return self.request(url, args=args)

@@ -83,3 +83,20 @@ class TestGoogleCivic(unittest.TestCase):
             self.gc.get_representative_info_by_address(
                 "1600 Amphitheatre Parkway, Mountain View, CA", roles="headOfGovernment"
             )  # roles should be a list
+
+    @requests_mock.Mocker()
+    def test_get_representative_info_by_address_different_params(self, m):
+        m.get(self.gc.uri + "representatives", json=representatives_resp)
+
+        address = "1600 Amphitheatre Parkway, Mountain View, CA"
+        response = self.gc.get_representative_info_by_address(
+            address,
+            include_offices=False,
+            levels=["country"],
+            roles=["headOfGovernment"],
+        )
+
+        self.assertIsInstance(response, dict)
+        self.assertIn("offices", response)
+        self.assertIn("officials", response)
+        self.assertIn("divisions", response)

@@ -239,7 +239,7 @@ You can also retrieve represntative information such as offices, officals, etc.
 .. code-block:: python
 
    address = '1600 Pennsylvania Avenue, Washington DC'
-   represntatives = google_civic.get_representatives_by_address(address=address)
+   representatives = google_civic.get_representatives_by_address(address=address)
 
 ===
 API

@@ -173,6 +173,8 @@ class GoogleCivic(object):
             raise ValueError("levels must be a list of strings")
         if roles is not None and not isinstance(roles, list):
             raise ValueError("roles must be a list of strings")
+        if address is None or not isinstance(address, str):
+            raise ValueError("address must be a string")
 
         url = self.uri + "representatives"
 
@@ -183,4 +185,10 @@ class GoogleCivic(object):
             "roles": roles,
         }
 
-        return self.request(url, args=args)
+        response = self.request(url, args=args)
+
+        # Raise an error if the address was invalid
+        if "error" in response:
+            raise ValueError(response["error"]["message"])
+
+        return response

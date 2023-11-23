@@ -234,6 +234,13 @@ Now you can retrieve election information
    election_id = '7000'  # General Election
    google_civic.get_polling_location(election_id=election_id, address=address)
 
+You can also retrieve represntative information such as offices, officals, etc.
+
+.. code-block:: python
+
+   address = '1600 Pennsylvania Avenue, Washington DC'
+   represntatives = google_civic.get_representatives_by_address(address=address)
+
 ===
 API
 ===

@@ -18,7 +18,7 @@ def format_phone_number(phone_number, country_code="1"):
 
     # Check if the phone number is valid
     if len(digits) < 10:
-        raise ValueError("Invalid phone number.")
+        return None
 
     # Handle country code prefix
     if not digits.startswith(country_code):

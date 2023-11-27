@@ -9,6 +9,7 @@ from test_quickbooks_data import (
     mock_timesheets_data,
     mock_schedule_calendars_list_data,
     mock_schedule_events_data,
+    mock_geolocations_data,
 )
 
 
@@ -258,6 +259,17 @@ class TestQuickBooks(unittest.TestCase):
             supplemental_data=supplemental_data,
             per_page=per_page,
         )
+
+        # Assert
+        self.assertIsInstance(result, Table)
+
+    @requests_mock.Mocker()
+    def test_get_geolocations(self, mock_request):
+        # Arrange
+        mock_request.get(requests_mock.ANY, json=mock_geolocations_data)
+
+        # Act
+        result = self.qb.get_geolocations()
 
         # Assert
         self.assertIsInstance(result, Table)

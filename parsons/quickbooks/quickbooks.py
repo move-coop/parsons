@@ -41,7 +41,7 @@ class QuickBooks:
             querystring = {}
         output_list = []  # This list will hold the results
 
-        page = 1  # Start from the first page
+        page = 0  # Start from the first page
         more = True  # This flag indicates if there are more pages to fetch
         while more:
             # After every 10 pages, log the progress
@@ -658,6 +658,75 @@ class QuickBooks:
         tbl = self.qb_get_request(end_point=endpoint, querystring=querystring)
 
         logger.info(f"Found {tbl.num_rows} schedules.")
+        if tbl.num_rows > 0:
+            return tbl
+        else:
+            return Table()
+
+    def get_geolocations(
+        self,
+        ids=None,
+        modified_before=None,
+        modified_since=None,
+        user_ids=None,
+        group_ids=None,
+        supplemental_data=None,
+        per_page=None,
+        page=None,
+    ):
+        """
+        This function allows you to call the /geolocations endpoint of the Quickbooks Time API.
+
+        `Args:`
+            ids: Int
+                Comma separated list of one or more geolocation ids you'd like to filter on.
+                Only geolocations with an id set to one of these values will be returned.
+                Required (unless modified_before, modified_since is set)
+            modified_before: String
+                Only geolocations modified before this date/time will be returned,
+                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+                Required (unless ids or modified_since is set)
+            modified_since: String
+                Only geolocations modified since this date/time will be returned,
+                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+                Required (unless ids or modified_before is set)
+            user_ids: Int
+                Comma separated list of one or more user ids you'd like to filter on.
+                Only geolocations with a user id set to one of these values will be returned.
+            group_ids: Int
+                Comma separated list of one or more group ids you'd like to filter on.
+                Only geolocations with a group id set to one of these values will be returned.
+            suplemental_data: String
+                'yes' or 'no'. Default is 'yes'.
+                Indicates whether supplemental data should be returned.
+            per_page: Int
+                Represents how many results you'd like to retrieve per request (page).
+                Default is 50. Max is 50.
+            page: Int
+                Represents the page of results you'd like to retrieve. Default is 1.
+
+        `Returns:`
+            Parsons Table
+            See Parsons Table for output options.
+        """
+
+        endpoint = "geolocations"
+
+        querystring = {
+            "ids": ids,
+            "modified_before": modified_before,
+            "modified_since": modified_since,
+            "user_ids": user_ids,
+            "group_ids": group_ids,
+            "supplemental_data": supplemental_data,
+            "per_page": per_page,
+        }
+
+        logger.info("Retrieving geolocations.")
+        tbl = self.qb_get_request(end_point=endpoint, querystring=querystring)
+
+        logger.info(f"Found {tbl.num_rows} geolocations.")
+
         if tbl.num_rows > 0:
             return tbl
         else:

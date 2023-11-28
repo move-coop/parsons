@@ -720,6 +720,7 @@ class QuickBooks:
             "group_ids": group_ids,
             "supplemental_data": supplemental_data,
             "per_page": per_page,
+            "page": page,
         }
 
         logger.info("Retrieving geolocations.")

@@ -3,6 +3,7 @@ import json
 import io
 import gzip
 from parsons.utilities import files, zip_archive
+from typing import Optional
 
 
 class ToFrom(object):
@@ -581,6 +582,37 @@ class ToFrom(object):
         rs = Redshift(username=username, password=password, host=host, db=db, port=port)
         rs.copy(self, table_name, **copy_args)
 
+    def to_bigquery(
+        self,
+        table_name: str,
+        app_creds: Optional[str] = None,
+        project: Optional[str] = None,
+        location: Optional[str] = None,
+        **copy_args,
+    ) -> None:
+        """
+        Write a table to a BigQuery database.
+
+        Args:
+            table_name: str
+                The table name and schema (``my_schema.my_table``) to point the file.
+            app_creds: str
+                A credentials json string or a path to a json file. Not required
+                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
+            project: str
+                The project which the client is acting on behalf of. If not passed
+                then will use the default inferred environment.
+            location: str
+                Default geographic location for tables
+            \**copy_args: kwargs
+                See :func:`~parsons.google.google_bigquery.copy`` for options.
+
+        """  # noqa: W605
+        from parsons.google.bigquery_bigquery import GoogleBigQuery
+
+        bq = GoogleBigQuery(app_creds=app_creds, project=project, location=location)
+        bq.copy(self, table_name, **copy_args)
+
     def to_postgres(
         self,
         table_name,
@@ -620,7 +652,6 @@ class ToFrom(object):
         pg.copy(self, table_name, **copy_args)
 
     def to_petl(self):
-
         return self.table
 
     def to_civis(

@@ -7,7 +7,6 @@ import datetime
 import logging
 import time
 import uuid
-from grpc import StatusCode
 import gzip
 import shutil
 from typing import Optional
@@ -374,7 +373,6 @@ class GoogleCloudStorage(object):
             aws_secret_access_key (str):
                 Secret key to authenticate storage transfer
         """
-        print("test_1")
         if source not in ["gcs", "s3"]:
             raise ValueError(
                 f"Blob transfer only supports gcs and s3 sources [source={source}]"
@@ -382,7 +380,6 @@ class GoogleCloudStorage(object):
         if source_path and source_path[-1] != "/":
             raise ValueError("Source path much end in a '/'")
 
-        print("test_2")
         client = storage_transfer.StorageTransferServiceClient()
 
         now = datetime.datetime.utcnow()
@@ -434,18 +431,12 @@ class GoogleCloudStorage(object):
                 },
             }
 
-        print("before transfer job called")
-
         create_transfer_job_request = storage_transfer.CreateTransferJobRequest(
             {"transfer_job": transfer_job_config}
         )
 
-        print(f"create_transfer_job_request: {create_transfer_job_request}")
-
         # Create the transfer job
         create_result = client.create_transfer_job(create_transfer_job_request)
-        logger.info(f"Created TransferJob: {create_result.name}")
-        logger.info(f"create_result full print: {create_result}")
 
         polling = True
         wait_time = 0
@@ -459,22 +450,25 @@ class GoogleCloudStorage(object):
 
         while polling:
             if latest_operation_name:
+
                 operation = client.get_operation({"name": latest_operation_name})
 
                 if not operation.done:
                     logger.debug("Operation still running...")
 
                 else:
-                    logger.info(operation.error.code)
-                    if int(operation.error.code) not in StatusCode["OK"].value:
+                    operation_metadata = storage_transfer.TransferOperation.deserialize(
+                        operation.metadata.value
+                    )
+                    error_output = operation_metadata.error_breakdowns
+                    if len(error_output) != 0:
                         raise Exception(
-                            f"""{blob_storage} to GCS Transfer Job {create_result.name} failed with error: {operation.error.message}
+                            f"""{blob_storage} to GCS Transfer Job {create_result.name} failed with error: {error_output}
                             """
                         )
-                    logger.info(operation.response)
-                    if operation.response:
+                    else:
                         logger.info(f"TransferJob: {create_result.name} succeeded.")
-                        return
+                    return
 
             else:
                 logger.info("Waiting to kickoff operation...")
@@ -482,6 +476,7 @@ class GoogleCloudStorage(object):
                     {"job_name": create_result.name, "project_id": self.project}
                 )
                 get_result = client.get_transfer_job(request=get_transfer_job_request)
+                logger.info(f"get_result: {get_result}")
                 latest_operation_name = get_result.latest_operation_name
 
             wait_time += wait_between_attempts_in_sec

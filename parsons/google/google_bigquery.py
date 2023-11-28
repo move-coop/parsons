@@ -1,5 +1,6 @@
 import pickle
-from typing import Optional, Union, List
+import itertools
+from typing import Optional, Union, Iterable, Type, List
 import uuid
 import logging
 import datetime
@@ -8,9 +9,10 @@ import random
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi
 from google.cloud.bigquery.job import LoadJobConfig
+from google.cloud.bigquery.query import _AbstractQueryParameter
+from google.cloud.bigquery.table import RowIterator
 from google.cloud import exceptions
 import petl
-from contextlib import contextmanager
 
 from parsons.databases.table import BaseTable
 from parsons.databases.database_connector import DatabaseConnector
@@ -209,14 +211,15 @@ class GoogleBigQuery(DatabaseConnector):
     def query(
         self,
         sql: str,
-        parameters: Optional[Union[list, dict]] = None,
+        parameters: Optional[Union[list, tuple, dict]] = None,
         return_values: bool = True,
     ) -> Optional[Table]:
         """
         Run a BigQuery query and return the results as a Parsons table.
 
         To include python variables in your query, it is recommended to pass them as parameters,
-        following the BigQuery style where parameters are prefixed with `@`s.
+        following the BigQuery style where named parameters are prefixed with `@`s
+        or positional parameters use the ? placeholder.
         Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
         injection attacks.
 
@@ -225,14 +228,14 @@ class GoogleBigQuery(DatabaseConnector):
         .. code-block:: python
 
            name = "Beatrice O'Brady"
-           sql = 'SELECT * FROM my_table WHERE name = %s'
-           rs.query(sql, parameters=[name])
+           sql = 'SELECT * FROM my_table WHERE name = ?'
+           client.query(sql, parameters=[name])
 
         .. code-block:: python
 
            name = "Beatrice O'Brady"
-           sql = "SELECT * FROM my_table WHERE name = %(name)s"
-           rs.query(sql, parameters={'name': name})
+           sql = "SELECT * FROM my_table WHERE name = @name"
+           client.query(sql, parameters={'name': name})
 
         `Args:`
             sql: str
@@ -244,55 +247,24 @@ class GoogleBigQuery(DatabaseConnector):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
+        job_config_data = {}
+        if isinstance(parameters, list) or isinstance(parameters, tuple):
+            job_config_data["query_parameters"] = [
+                query_parameter_from_value(parameter) for parameter in parameters
+            ]
+        elif isinstance(parameters, dict):
+            job_config_data["query_parameters"] = [
+                query_parameter_from_value(parameter_value, parameter_key=parameter_key)
+                for parameter_key, parameter_value in parameters.items()
+            ]
 
-        with self.connection() as connection:
-            return self.query_with_connection(
-                sql, connection, parameters=parameters, return_values=return_values
-            )
+        job_config = bigquery.QueryJobConfig(**job_config_data)
 
-    def query_with_connection(
-        self, sql, connection, parameters=None, commit=True, return_values: bool = True
-    ):
-        """
-        Execute a query against the BigQuery database, with an existing connection.
-        Useful for batching queries together. Will return ``None`` if the query
-        returns zero rows.
+        # Run the query
+        response = self.client.query(sql, job_config=job_config).result()
 
-        `Args:`
-            sql: str
-                A valid SQL statement
-            connection: obj
-                A connection object obtained from ``redshift.connection()``
-            parameters: list
-                A list of python variables to be converted into SQL values in your query
-            commit: boolean
-                Must be true. BigQuery
-
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
-
-        if not commit:
-            raise ValueError(
-                """
-                BigQuery implementation uses an API client which always auto-commits. If you wish to wrap
-                multiple queries in a transaction, use Mulit-Statement transactions within a single query
-                as outlined here: https://cloud.google.com/bigquery/docs/transactions or use the
-                `query_with_transaction` method on the BigQuery connector.
-            """
-            )
-
-        # get our connection and cursor
-        with self.cursor(connection) as cursor:
-            # Run the query
-            cursor.execute(sql, parameters)
-
-            if not return_values:
-                return None
-
-            final_table = self._fetch_query_results(cursor=cursor)
-
+        if return_values:
+            final_table = self._fetch_query_results(response)
             return final_table
 
     def query_with_transaction(self, queries, parameters=None):
@@ -1141,7 +1113,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         return job_config
 
-    def _fetch_query_results(self, cursor) -> Table:
+    def _fetch_query_results(self, response: RowIterator) -> Table:
         # We will use a temp file to cache the results so that they are not all living
         # in memory. We'll use pickle to serialize the results to file in order to maintain
         # the proper data types (e.g. integer).
@@ -1151,8 +1123,8 @@ class GoogleBigQuery(DatabaseConnector):
         with open(temp_filename, "wb") as temp_file:
             # Track whether we got data, since if we don't get any results we need to return None
             got_results = False
-            while True:
-                batch = cursor.fetchmany(QUERY_BATCH_SIZE)
+
+            for batch in batch_results(response, QUERY_BATCH_SIZE):
                 if len(batch) == 0:
                     break
 
@@ -1200,3 +1172,30 @@ class BigQueryTable(BaseTable):
         """
 
         self.db.query(f"TRUNCATE TABLE {self.table}")
+
+
+def query_parameter_from_value(
+    parameter_value, parameter_key: Union[str, None] = None
+) -> _AbstractQueryParameter:
+    type_conversions = {int: "INT64", str: "STRING"}
+
+    type_for_bigquery = type_conversions.get(type(parameter_value))
+
+    if isinstance(parameter_value, Iterable) and not isinstance(parameter_value, str):
+        BigQueryParameter: Type[_AbstractQueryParameter] = bigquery.ArrayQueryParameter
+    else:
+        BigQueryParameter = bigquery.ScalarQueryParameter
+
+    result = BigQueryParameter(
+        name=parameter_key, type_=type_for_bigquery, value=parameter_value
+    )
+    return result
+
+
+def batch_results(iterable: Iterable, batch_size: int) -> list:
+    iterator = iter(iterable)
+    while True:
+        batch = list(itertools.islice(iterator, batch_size))
+        if not batch:
+            break
+        yield batch

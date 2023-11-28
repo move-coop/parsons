@@ -5,6 +5,11 @@ from distutils.core import setup
 
 def main():
     limited_deps = os.environ.get("PARSONS_LIMITED_DEPENDENCIES", "")
+    # Put extras in here that are NOT included in requirements.txt,
+    # and can only be installed by explicit extension.
+    only_extras = {
+        "idr": ["idrt[algorithm]"],
+    }
     if limited_deps.strip().upper() in ("1", "YES", "TRUE", "ON"):
         install_requires = [
             "petl",
@@ -47,6 +52,7 @@ def main():
             "targetsmart": ["xmltodict"],
             "twilio": ["twilio"],
             "zoom": ["PyJWT"],
+            **only_extras,
         }
         extras_require["all"] = sorted(
             {lib for libs in extras_require.values() for lib in libs}
@@ -56,7 +62,7 @@ def main():
         with open(os.path.join(THIS_DIR, "requirements.txt")) as reqs:
             install_requires = reqs.read().strip().split("\n")
         # No op for forward-compatibility
-        extras_require = {"all": []}
+        extras_require = {"all": [], **only_extras}
 
     setup(
         name="parsons",

@@ -226,25 +226,16 @@ class TestGoogleBigQuery(FakeCredentialTest):
                 self.assertEqual(self.cred_contents, json.loads(actual_str))
 
     def _build_mock_client_for_querying(self, results):
-        # Create a mock that will play the role of the cursor
-        cursor = mock.MagicMock()
-        cursor.execute.return_value = None
-        cursor.fetchmany.side_effect = [results, []]
-
-        # Create a mock that will play the role of the connection
-        connection = mock.MagicMock()
-        connection.cursor.return_value = cursor
-
-        # Create a mock that will play the role of the Google BigQuery dbapi module
-        dbapi = mock.MagicMock()
-        dbapi.connect.return_value = connection
+        # Create a mock that will play the role of the query response
+        query_response = mock.MagicMock()
+        query_response.result.return_value = results
 
         # Create a mock that will play the role of our GoogleBigQuery client
         client = mock.MagicMock()
+        client.query.return_value = query_response
 
         bq = GoogleBigQuery()
         bq._client = client
-        bq._dbapi = dbapi
         return bq
 
     def _build_mock_client_for_copying(self, table_exists=True):

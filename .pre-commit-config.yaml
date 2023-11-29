@@ -6,7 +6,7 @@ repos:
         language_version: python3
         args: [
           '--extend-ignore=E203,W503',
-          '--max-line-length=200'
+          '--max-line-length=100'
         ]
   - repo: https://github.com/psf/black
     rev: 22.3.0

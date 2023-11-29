@@ -367,7 +367,8 @@ class GoogleCloudStorage(object):
             source_bucket (str):
                 Source bucket name
             source_path (str):
-                Path in the source system pointing to the relevant keys / files to sync. Must end in a '/'
+                Path in the source system pointing to the relevant keys
+                / files to sync. Must end in a '/'
             aws_access_key_id (str):
                 Access key to authenticate storage transfer
             aws_secret_access_key (str):
@@ -388,9 +389,11 @@ class GoogleCloudStorage(object):
         one_time_schedule = {"day": now.day, "month": now.month, "year": now.year}
 
         if source == "gcs":
-            description = f"One time GCS to GCS Transfer [{source_bucket} -> {gcs_sink_bucket}] - {uuid.uuid4()}"
+            description = f"""One time GCS to GCS Transfer
+            [{source_bucket} -> {gcs_sink_bucket}] - {uuid.uuid4()}"""
         elif source == "s3":
-            description = f"One time S3 to GCS Transfer [{source_bucket} -> {gcs_sink_bucket}] - {uuid.uuid4()}"
+            description = f"""One time S3 to GCS Transfer
+            [{source_bucket} -> {gcs_sink_bucket}] - {uuid.uuid4()}"""
 
         transfer_job_config = {
             "project_id": self.project,
@@ -463,12 +466,12 @@ class GoogleCloudStorage(object):
                     error_output = operation_metadata.error_breakdowns
                     if len(error_output) != 0:
                         raise Exception(
-                            f"""{blob_storage} to GCS Transfer Job {create_result.name} failed with error: {error_output}
-                            """
+                            f"""{blob_storage} to GCS Transfer Job
+                            {create_result.name} failed with error: {error_output}"""
                         )
                     else:
                         logger.info(f"TransferJob: {create_result.name} succeeded.")
-                    return
+                        return
 
             else:
                 logger.info("Waiting to kickoff operation...")
@@ -476,7 +479,6 @@ class GoogleCloudStorage(object):
                     {"job_name": create_result.name, "project_id": self.project}
                 )
                 get_result = client.get_transfer_job(request=get_transfer_job_request)
-                logger.info(f"get_result: {get_result}")
                 latest_operation_name = get_result.latest_operation_name
 
             wait_time += wait_between_attempts_in_sec

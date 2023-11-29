@@ -352,7 +352,7 @@ class GoogleBigQuery(DatabaseConnector):
             allow_quoted_newlines: bool
                 If True, detects quoted new line characters within a CSV field and does not interpret
                 the quoted new line character as a row boundary
-            allow_jagged_rows: bool
+`           allow_jagged_rows: bool
                 Allow missing trailing optional columns (CSV only).
             quote: str
                 The value that is used to quote data sections in a CSV file.
@@ -1033,10 +1033,10 @@ class GoogleBigQuery(DatabaseConnector):
             Row count of the target table
         """
 
-        table_ref = self.client.dataset(schema).table(table_name)
-        table = self.client.get_table(table_ref)
+        sql = f"SELECT COUNT(*) AS row_count FROM {schema}.{table_name}"
+        result = self.query(sql=sql)
 
-        return table.num_rows
+        return result["row_count"][0]
 
     def _generate_schema_from_parsons_table(self, tbl):
         stats = tbl.get_columns_type_stats()

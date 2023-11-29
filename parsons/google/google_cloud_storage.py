@@ -9,6 +9,7 @@ import time
 import uuid
 from grpc import StatusCode
 import gzip
+import zipfile
 import shutil
 from typing import Optional
 
@@ -516,6 +517,7 @@ class GoogleCloudStorage(object):
         self,
         bucket_name: str,
         blob_name: str,
+        compression_type: str = "gzip",
         new_filename: Optional[str] = None,
         new_file_extension: Optional[str] = None,
     ) -> str:
@@ -531,6 +533,9 @@ class GoogleCloudStorage(object):
             blob_name: str
                 Blob name in GCS bucket
 
+            compression_type: str
+                Either `zip` or `gzip`
+
             new_filename: str
                 If provided, replaces the existing blob name
                 when the decompressed file is uploaded
@@ -543,20 +548,39 @@ class GoogleCloudStorage(object):
             String representation of decompressed GCS URI
         """
 
+        compression_params = {
+            "zip": {
+                "file_extension": ".zip",
+                "compression_function": zipfile.ZipFile,
+                "read": "r",
+            },
+            "gzip": {
+                "file_extension": ".gz",
+                "compression_function": gzip.open,
+                "read": "rb",
+            },
+        }
+
+        file_extension = compression_params[compression_type]["file_extension"]
+        compression_function = compression_params[compression_type][
+            "compression_function"
+        ]
+        read_bytes = compression_params[compression_type]["read"]
+
         compressed_filepath = self.download_blob(
             bucket_name=bucket_name, blob_name=blob_name
         )
 
-        decompressed_filepath = compressed_filepath.replace(".gz", "")
+        decompressed_filepath = compressed_filepath.replace(file_extension, "")
         decompressed_blob_name = (
-            new_filename if new_filename else blob_name.replace(".gz", "")
+            new_filename if new_filename else blob_name.replace(file_extension, "")
         )
         if new_file_extension:
             decompressed_filepath += f".{new_file_extension}"
             decompressed_blob_name += f".{new_file_extension}"
 
         logger.debug("Decompressing file...")
-        with gzip.open(compressed_filepath, "rb") as f_in:
+        with compression_function(compressed_filepath, read_bytes) as f_in:
             with open(decompressed_filepath, "wb") as f_out:
                 shutil.copyfileobj(f_in, f_out)
                 logger.debug(

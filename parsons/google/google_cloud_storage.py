@@ -621,6 +621,7 @@ class GoogleCloudStorage(object):
         with zipfile.ZipFile(compressed_filepath) as path_:
             # Open the underlying file
             with path_.open(decompressed_blob_in_archive) as f_in:
+                # Write bytes to temporary file
                 with tempfile.TemporaryFile("wb") as f_out:
                     shutil.copyfileobj(f_in, f_out)
                     logger.debug(

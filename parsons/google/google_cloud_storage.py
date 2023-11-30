@@ -551,13 +551,12 @@ class GoogleCloudStorage(object):
         compression_params = {
             "zip": {
                 "file_extension": ".zip",
-                "compression_function": zipfile.ZipFile,
+                "compression_function": self.__zip_decompress_and_write_to_gcs,
                 "read": "r",
             },
             "gzip": {
                 "file_extension": ".gz",
-                "compression_function": gzip.open,
-                "read": "rb",
+                "compression_function": self.__gzip_decompress_and_write_to_gcs,
             },
         }
 
@@ -565,7 +564,6 @@ class GoogleCloudStorage(object):
         compression_function = compression_params[compression_type][
             "compression_function"
         ]
-        read_bytes = compression_params[compression_type]["read"]
 
         compressed_filepath = self.download_blob(
             bucket_name=bucket_name, blob_name=blob_name
@@ -580,7 +578,23 @@ class GoogleCloudStorage(object):
             decompressed_blob_name += f".{new_file_extension}"
 
         logger.debug("Decompressing file...")
-        with compression_function(compressed_filepath, read_bytes) as f_in:
+        compression_function(
+            compressed_filepath=compressed_filepath,
+            decompressed_filepath=decompressed_filepath,
+            decompressed_blob_name=decompressed_blob_name,
+            bucket_name=bucket_name,
+            new_file_extension=new_file_extension,
+        )
+
+        return self.format_uri(bucket=bucket_name, name=decompressed_blob_name)
+
+    def __gzip_decompress_and_write_to_gcs(self, **kwargs):
+        compressed_filepath = kwargs.pop("compressed_filepath")
+        decompressed_filepath = kwargs.pop("decompressed_filepath")
+        decompressed_blob_name = kwargs.pop("decompressed_blob_name")
+        bucket_name = kwargs.pop("bucket_name")
+
+        with gzip.open(compressed_filepath, "rb") as f_in:
             with open(decompressed_filepath, "wb") as f_out:
                 shutil.copyfileobj(f_in, f_out)
                 logger.debug(
@@ -592,4 +606,26 @@ class GoogleCloudStorage(object):
                     local_path=decompressed_filepath,
                 )
 
-        return self.format_uri(bucket=bucket_name, name=decompressed_blob_name)
+    def __zip_decompress_and_write_to_gcs(self, **kwargs):
+        compressed_filepath = kwargs.pop("compressed_filepath")
+        decompressed_blob_name = kwargs.pop("decompressed_blob_name")
+        decompressed_blob_in_archive = decompressed_blob_name.split("/")[-1]
+        bucket_name = kwargs.pop("bucket_name")
+        new_file_extension = kwargs.pop("new_file_extension")
+
+        staging_file = "./staging"
+        if new_file_extension:
+            staging_file = f"{staging_file}.{new_file_extension}"
+
+        with zipfile.ZipFile(compressed_filepath) as path_:
+            with path_.open(decompressed_blob_in_archive) as f_in:
+                with open(staging_file, "wb") as f_out:
+                    shutil.copyfileobj(f_in, f_out)
+                    logger.debug(
+                        f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
+                    )
+                    self.put_blob(
+                        bucket_name=bucket_name,
+                        blob_name=decompressed_blob_name,
+                        local_path=staging_file,
+                    )

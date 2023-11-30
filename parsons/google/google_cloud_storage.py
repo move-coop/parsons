@@ -10,8 +10,6 @@ import uuid
 from grpc import StatusCode
 import gzip
 import zipfile
-import shutil
-import tempfile
 from typing import Optional
 
 logger = logging.getLogger(__name__)
@@ -599,14 +597,12 @@ class GoogleCloudStorage(object):
         bucket_name = kwargs.pop("bucket_name")
 
         with gzip.open(compressed_filepath, "rb") as f_in:
-            with tempfile.TemporaryFile("wb+") as f_out:
-                shutil.copyfileobj(f_in, f_out)
-                logger.debug(
-                    f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
-                )
-                bucket = self.get_bucket(bucket_name=bucket_name)
-                blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
-                blob.upload_from_file(file_obj=f_out, rewind=True)
+            logger.debug(
+                f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
+            )
+            bucket = self.get_bucket(bucket_name=bucket_name)
+            blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
+            blob.upload_from_file(file_obj=f_in, rewind=True)
 
     def __zip_decompress_and_write_to_gcs(self, **kwargs):
         """
@@ -628,12 +624,9 @@ class GoogleCloudStorage(object):
         with zipfile.ZipFile(compressed_filepath) as path_:
             # Open the underlying file
             with path_.open(decompressed_blob_in_archive) as f_in:
-                # Write bytes to temporary file
-                with tempfile.TemporaryFile("wb+") as f_out:
-                    shutil.copyfileobj(f_in, f_out)
-                    logger.debug(
-                        f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
-                    )
-                    bucket = self.get_bucket(bucket_name=bucket_name)
-                    blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
-                    blob.upload_from_file(file_obj=f_out, rewind=True)
+                logger.debug(
+                    f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
+                )
+                bucket = self.get_bucket(bucket_name=bucket_name)
+                blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
+                blob.upload_from_file(file_obj=f_in, rewind=True)

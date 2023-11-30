@@ -412,6 +412,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         try:
             if force_unzip_blobs:
+                new_file_extension = load_kwargs.pop("new_file_extension", None)
                 self.copy_large_compressed_file_from_gcs(
                     gcs_blob_uri=gcs_blob_uri,
                     table_name=table_name,
@@ -426,6 +427,7 @@ class GoogleBigQuery(DatabaseConnector):
                     schema=schema,
                     job_config=job_config,
                     compression_type=compression_type,
+                    new_file_extension=new_file_extension,
                 )
             else:
                 load_job = self.client.load_table_from_uri(
@@ -573,13 +575,14 @@ class GoogleBigQuery(DatabaseConnector):
         old_bucket_name, old_blob_name = gcs.split_uri(gcs_uri=gcs_blob_uri)
 
         uncompressed_gcs_uri = None
+        new_file_extension = load_kwargs.pop("new_file_extension", "csv")
 
         try:
             logger.debug("Unzipping large file")
             uncompressed_gcs_uri = gcs.unzip_blob(
                 bucket_name=old_bucket_name,
                 blob_name=old_blob_name,
-                new_file_extension="csv",
+                new_file_extension=new_file_extension,
                 compression_type=compression_type,
             )
 

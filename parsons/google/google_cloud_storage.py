@@ -11,6 +11,7 @@ from grpc import StatusCode
 import gzip
 import zipfile
 import shutil
+import tempfile
 from typing import Optional
 
 logger = logging.getLogger(__name__)
@@ -616,9 +617,11 @@ class GoogleCloudStorage(object):
         if new_file_extension:
             staging_file = f"{staging_file}.{new_file_extension}"
 
+        # Unzip the archive
         with zipfile.ZipFile(compressed_filepath) as path_:
+            # Open the underlying file
             with path_.open(decompressed_blob_in_archive) as f_in:
-                with open(staging_file, "wb") as f_out:
+                with tempfile.TemporaryFile("wb") as f_out:
                     shutil.copyfileobj(f_in, f_out)
                     logger.debug(
                         f"Uploading uncompressed file to GCS: {decompressed_blob_name}"

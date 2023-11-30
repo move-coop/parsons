@@ -73,35 +73,6 @@ class ETL(object):
 
         return self
 
-    def rename_columns(self, column_map):
-        """
-        Rename multiple columns
-
-        `Args:`
-            column_map: dict
-                A dictionary of columns and new names.
-                The key is the old name and the value is the new name.
-
-                Example dictionary:
-                {'old_name': 'new_name',
-                'old_name2': 'new_name2'}
-
-        `Returns:`
-            `Parsons Table` and also updates self
-        """
-
-        # Check if old column name exists and new column name does not exist
-        for old_name, new_name in column_map.items():
-            if old_name not in self.table.columns():
-                raise KeyError(f"Column name {old_name} does not exist")
-            if new_name in self.table.columns():
-                raise ValueError(f"Column name {new_name} already exists")
-
-        # Uses the underlying petl method
-        self.table = petl.rename(self.table, column_map)
-
-        return self
-
     def fill_column(self, column_name, fill_value):
         """
         Fill a column in a table

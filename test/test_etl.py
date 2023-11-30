@@ -323,34 +323,6 @@ class TestParsonsTable(unittest.TestCase):
         # Test that we can't rename to a column that already exists
         self.assertRaises(ValueError, self.tbl.rename_column, "last", "first")
 
-    def test_rename_columns(self):
-        # Test renaming columns with a valid column_map
-        column_map = {"first": "firstname", "last": "lastname"}
-        self.tbl.rename_columns(column_map)
-        self.assertEqual(self.tbl.columns, ["firstname", "lastname"])
-
-    def test_rename_columns_partial(self):
-        # Test renaming only some columns
-        column_map = {"first": "firstname"}
-        self.tbl.rename_columns(column_map)
-        self.assertEqual(self.tbl.columns, ["firstname", "last"])
-
-    def test_rename_columns_nonexistent(self):
-        # Test renaming a column that doesn't exist
-        column_map = {"nonexistent": "newname"}
-        self.assertRaises(KeyError, self.tbl.rename_columns, column_map)
-
-    def test_rename_columns_empty(self):
-        # Test renaming with an empty column_map
-        column_map = {}
-        self.tbl.rename_columns(column_map)
-        self.assertEqual(self.tbl.columns, ["first", "last"])
-
-    def test_rename_columns_duplicate(self):
-        # Test renaming to a column name that already exists
-        column_map = {"first": "last"}
-        self.assertRaises(ValueError, self.tbl.rename_columns, column_map)
-
     def test_fill_column(self):
         # Test that the column is filled
         tbl = Table(self.lst)

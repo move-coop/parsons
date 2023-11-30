@@ -97,8 +97,6 @@ class Airtable(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        if isinstance(fields, str):
-            fields = [fields]
         # Raises an error if sort is None type. Thus, only adding if populated.
         kwargs = {
             "fields": fields,
@@ -152,17 +150,16 @@ class Airtable(object):
         order of the columns is irrelevant.
 
         `Args:`
-            table: A Parsons Table or list of dicts
-                Insert a Parsons table or list
+            table: A Parsons Table
+                Insert a Parsons table
             typecast: boolean
                 Automatic data conversion from string values.
         `Returns:`
             List of dictionaries of inserted rows
         """
-        if isinstance(table, Table):
-            table = table.to_dicts()
+
         resp = self.client.batch_insert(table, typecast=typecast)
-        logger.info(f"{len(table)} records inserted.")
+        logger.info(f"{table.num_rows} records inserted.")
         return resp
 
     def update_record(self, record_id, fields, typecast=False):

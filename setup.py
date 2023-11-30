@@ -19,7 +19,6 @@ def main():
             "azure": ["azure-storage-blob"],
             "box": ["boxsdk"],
             "braintree": ["braintree"],
-            "catalist": ["paramiko"],
             "civis": ["civis"],
             "facebook": ["joblib", "facebook-business"],
             "geocode": ["censusgeocode"],
@@ -60,7 +59,7 @@ def main():
 
     setup(
         name="parsons",
-        version="2.1.0",
+        version="2.0.0",
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url="https://github.com/move-coop/parsons",

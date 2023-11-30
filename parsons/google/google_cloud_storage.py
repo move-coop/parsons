@@ -602,7 +602,7 @@ class GoogleCloudStorage(object):
             )
             bucket = self.get_bucket(bucket_name=bucket_name)
             blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
-            blob.upload_from_file(file_obj=f_in, rewind=True)
+            blob.upload_from_file(file_obj=f_in, rewind=True, timeout=3600)
 
     def __zip_decompress_and_write_to_gcs(self, **kwargs):
         """
@@ -614,11 +614,6 @@ class GoogleCloudStorage(object):
         decompressed_blob_name = kwargs.pop("decompressed_blob_name")
         decompressed_blob_in_archive = decompressed_blob_name.split("/")[-1]
         bucket_name = kwargs.pop("bucket_name")
-        new_file_extension = kwargs.pop("new_file_extension")
-
-        staging_file = "./staging"
-        if new_file_extension:
-            staging_file = f"{staging_file}.{new_file_extension}"
 
         # Unzip the archive
         with zipfile.ZipFile(compressed_filepath) as path_:
@@ -629,4 +624,4 @@ class GoogleCloudStorage(object):
                 )
                 bucket = self.get_bucket(bucket_name=bucket_name)
                 blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
-                blob.upload_from_file(file_obj=f_in, rewind=True)
+                blob.upload_from_file(file_obj=f_in, rewind=True, timeout=3600)

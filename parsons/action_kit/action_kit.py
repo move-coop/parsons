@@ -651,13 +651,14 @@ class ActionKit(object):
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns:`
-            ``None``
+            ``HTTP response from the patch request``
         """
 
         resp = self.conn.patch(
             self._base_endpoint("mailer", mailer_id), data=json.dumps(kwargs)
         )
         logger.info(f"{resp.status_code}: {mailer_id}")
+        return resp
 
     def rebuild_mailer(self, mailing_id):
         """

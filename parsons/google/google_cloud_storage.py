@@ -622,13 +622,16 @@ class GoogleCloudStorage(object):
             # Open the underlying file
             with path_.open(decompressed_blob_in_archive) as f_in:
                 # Write bytes to temporary file
-                with tempfile.TemporaryFile("wb") as f_out:
+                with tempfile.TemporaryFile("wb+") as f_out:
                     shutil.copyfileobj(f_in, f_out)
                     logger.debug(
                         f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
                     )
-                    self.put_blob(
-                        bucket_name=bucket_name,
-                        blob_name=decompressed_blob_name,
-                        local_path=staging_file,
-                    )
+                    bucket = self.get_bucket(bucket_name=bucket_name)
+                    blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
+                    blob.upload_from_file(file_obj=f_out)
+                    # self.put_blob(
+                    #     bucket_name=bucket_name,
+                    #     blob_name=decompressed_blob_name,
+                    #     local_path=f_out,
+                    # )

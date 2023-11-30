@@ -453,7 +453,6 @@ class GoogleCloudStorage(object):
 
         while polling:
             if latest_operation_name:
-
                 operation = client.get_operation({"name": latest_operation_name})
 
                 if not operation.done:

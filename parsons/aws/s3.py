@@ -1,6 +1,7 @@
 import re
 import boto3
 from botocore.client import ClientError
+
 from parsons.utilities import files
 import logging
 import os
@@ -455,3 +456,22 @@ class S3(object):
                 object_acl.put(ACL="public-read")
 
         logger.info(f"Finished syncing {len(key_list)} keys")
+
+    def get_buckets_with_subname(self, bucket_subname):
+        """
+        Grabs a type of bucket based on naming convention.
+
+        `Args:`
+            subname: str
+                This will most commonly be a 'vendor'
+
+        `Returns:`
+            list
+                list of buckets
+
+        """
+
+        all_buckets = self.list_buckets()
+        buckets = [x for x in all_buckets if bucket_subname in x.split("-")]
+
+        return buckets

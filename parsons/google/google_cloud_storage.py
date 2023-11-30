@@ -445,7 +445,6 @@ class GoogleCloudStorage(object):
         polling = True
         wait_time = 0
         wait_between_attempts_in_sec = 10
-        max_wait_in_sec = 60 * 10  # Ten Minutes
 
         # NOTE: This value defaults to an empty string until GCP
         # triggers the job internally ... we'll use this value to

@@ -589,24 +589,31 @@ class GoogleCloudStorage(object):
         return self.format_uri(bucket=bucket_name, name=decompressed_blob_name)
 
     def __gzip_decompress_and_write_to_gcs(self, **kwargs):
+        """
+        Handles `.gzip` decompression and streams blob contents
+        to a decompressed storage object
+        """
+
         compressed_filepath = kwargs.pop("compressed_filepath")
-        decompressed_filepath = kwargs.pop("decompressed_filepath")
         decompressed_blob_name = kwargs.pop("decompressed_blob_name")
         bucket_name = kwargs.pop("bucket_name")
 
         with gzip.open(compressed_filepath, "rb") as f_in:
-            with open(decompressed_filepath, "wb") as f_out:
+            with tempfile.TemporaryFile("wb+") as f_out:
                 shutil.copyfileobj(f_in, f_out)
                 logger.debug(
                     f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
                 )
-                self.put_blob(
-                    bucket_name=bucket_name,
-                    blob_name=decompressed_blob_name,
-                    local_path=decompressed_filepath,
-                )
+                bucket = self.get_bucket(bucket_name=bucket_name)
+                blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
+                blob.upload_from_file(file_obj=f_out, rewind=True)
 
     def __zip_decompress_and_write_to_gcs(self, **kwargs):
+        """
+        Handles `.zip` decompression and streams blob contents
+        to a decompressed storage object
+        """
+
         compressed_filepath = kwargs.pop("compressed_filepath")
         decompressed_blob_name = kwargs.pop("decompressed_blob_name")
         decompressed_blob_in_archive = decompressed_blob_name.split("/")[-1]
@@ -629,9 +636,4 @@ class GoogleCloudStorage(object):
                     )
                     bucket = self.get_bucket(bucket_name=bucket_name)
                     blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
-                    blob.upload_from_file(file_obj=f_out)
-                    # self.put_blob(
-                    #     bucket_name=bucket_name,
-                    #     blob_name=decompressed_blob_name,
-                    #     local_path=f_out,
-                    # )
+                    blob.upload_from_file(file_obj=f_out, rewind=True)

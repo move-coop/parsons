@@ -324,6 +324,9 @@ class GoogleBigQuery(DatabaseConnector):
         quote: Optional[str] = None,
         schema: Optional[List[dict]] = None,
         job_config: Optional[LoadJobConfig] = None,
+        force_unzip_blobs: bool = False,
+        compression_type: str = "gzip",
+        new_file_extension: str = "csv",
         **load_kwargs,
     ):
         """
@@ -371,6 +374,12 @@ class GoogleBigQuery(DatabaseConnector):
                 on the BigQuery client. The function will create its own if not provided. Note
                 if there are any conflicts between the job_config and other parameters, the
                 job_config values are preferred.
+            force_unzip_blobs: bool
+                If True, target blobs will be unzipped before being loaded to BigQuery.
+            compression_type: str
+                Accepts `zip` or `gzip` values to differentially unzip a compressed blob in cloud storage.
+            new_file_extension: str
+                Provides a file extension if a blob is decompressed and rewritten to cloud storage.
             **load_kwargs: kwargs
                 Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
@@ -406,15 +415,32 @@ class GoogleBigQuery(DatabaseConnector):
         # load CSV from Cloud Storage into BigQuery
         table_ref = get_table_ref(self.client, table_name)
 
-        load_job = self.client.load_table_from_uri(
-            source_uris=gcs_blob_uri,
-            destination=table_ref,
-            job_config=job_config,
-            **load_kwargs,
-        )
-
         try:
-            load_job.result()
+            if force_unzip_blobs:
+                self.copy_large_compressed_file_from_gcs(
+                    gcs_blob_uri=gcs_blob_uri,
+                    table_name=table_name,
+                    if_exists=if_exists,
+                    max_errors=max_errors,
+                    data_type=data_type,
+                    csv_delimiter=csv_delimiter,
+                    ignoreheader=ignoreheader,
+                    nullas=nullas,
+                    allow_quoted_newlines=allow_quoted_newlines,
+                    quote=quote,
+                    schema=schema,
+                    job_config=job_config,
+                    compression_type=compression_type,
+                    new_file_extension=new_file_extension,
+                )
+            else:
+                load_job = self.client.load_table_from_uri(
+                    source_uris=gcs_blob_uri,
+                    destination=table_ref,
+                    job_config=job_config,
+                    **load_kwargs,
+                )
+                load_job.result()
         except exceptions.BadRequest as e:
             if "one of the files is larger than the maximum allowed size." in str(e):
                 logger.debug(
@@ -433,6 +459,8 @@ class GoogleBigQuery(DatabaseConnector):
                     quote=quote,
                     schema=schema,
                     job_config=job_config,
+                    compression_type=compression_type,
+                    new_file_extension=new_file_extension,
                 )
             elif "Schema has no field" in str(e):
                 logger.debug(f"{gcs_blob_uri.split('/')[-1]} is empty, skipping file")
@@ -465,6 +493,8 @@ class GoogleBigQuery(DatabaseConnector):
         quote: Optional[str] = None,
         schema: Optional[List[dict]] = None,
         job_config: Optional[LoadJobConfig] = None,
+        compression_type: str = "gzip",
+        new_file_extension: str = "csv",
         **load_kwargs,
     ):
         """
@@ -513,6 +543,10 @@ class GoogleBigQuery(DatabaseConnector):
                 on the BigQuery client. The function will create its own if not provided. Note
                 if there are any conflicts between the job_config and other parameters, the
                 job_config values are preferred.
+            compression_type: str
+                Accepts `zip` or `gzip` values to differentially unzip a compressed blob in cloud storage.
+            new_file_extension: str
+                Provides a file extension if a blob is decompressed and rewritten to cloud storage.
             **load_kwargs: kwargs
                 Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
@@ -557,7 +591,8 @@ class GoogleBigQuery(DatabaseConnector):
             uncompressed_gcs_uri = gcs.unzip_blob(
                 bucket_name=old_bucket_name,
                 blob_name=old_blob_name,
-                new_file_extension="csv",
+                new_file_extension=new_file_extension,
+                compression_type=compression_type,
             )
 
             logger.debug(

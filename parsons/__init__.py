@@ -43,6 +43,7 @@ for module_path, connector_name in (
     ("parsons.box.box", "Box"),
     ("parsons.braintree.braintree", "Braintree"),
     ("parsons.capitol_canary.capitol_canary", "CapitolCanary"),
+    ["parsons.catalist.catalist", "CatalistMatch"],
     ("parsons.civis.civisclient", "CivisClient"),
     ("parsons.controlshift.controlshift", "Controlshift"),
     ("parsons.copper.copper", "Copper"),

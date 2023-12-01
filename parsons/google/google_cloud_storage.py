@@ -166,11 +166,11 @@ class GoogleCloudStorage(object):
             bucket_name, max_results=max_results, prefix=prefix, match_glob=match_glob
         )
 
+        if file_details:
+            return [{f"{d}": b.d for d in file_details} for b in blobs]
+
         lst = [b.name for b in blobs]
         logger.info(f"Found {len(lst)} in {bucket_name} bucket.")
-
-        if file_details:
-            return [b.size for b in blobs]
 
         return lst
 

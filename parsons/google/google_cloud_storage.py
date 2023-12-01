@@ -170,7 +170,7 @@ class GoogleCloudStorage(object):
         logger.info(f"Found {len(lst)} in {bucket_name} bucket.")
 
         if file_details:
-            return [{f"size": b.size} for b in blobs]
+            return [b.size for b in blobs]
 
         return lst
 

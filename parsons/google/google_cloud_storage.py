@@ -142,7 +142,7 @@ class GoogleCloudStorage(object):
         max_results=None,
         prefix=None,
         match_glob=None,
-        file_details=[],
+        include_file_details=False,
     ):
         """
         List all of the blobs in a bucket
@@ -166,7 +166,7 @@ class GoogleCloudStorage(object):
             bucket_name, max_results=max_results, prefix=prefix, match_glob=match_glob
         )
 
-        if file_details:
+        if include_file_details:
             return [b for b in blobs]
 
         lst = [b.name for b in blobs]

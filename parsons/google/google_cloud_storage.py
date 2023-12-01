@@ -136,7 +136,14 @@ class GoogleCloudStorage(object):
         bucket.delete(force=delete_blobs)
         logger.info(f"{bucket_name} bucket deleted.")
 
-    def list_blobs(self, bucket_name, max_results=None, prefix=None, match_glob=None):
+    def list_blobs(
+        self,
+        bucket_name,
+        max_results=None,
+        prefix=None,
+        match_glob=None,
+        include_file_details=False,
+    ):
         """
         List all of the blobs in a bucket
 
@@ -158,8 +165,12 @@ class GoogleCloudStorage(object):
         blobs = self.client.list_blobs(
             bucket_name, max_results=max_results, prefix=prefix, match_glob=match_glob
         )
+
         lst = [b.name for b in blobs]
         logger.info(f"Found {len(lst)} in {bucket_name} bucket.")
+
+        if include_file_details:
+            return blobs
 
         return lst
 
@@ -452,7 +463,6 @@ class GoogleCloudStorage(object):
 
         while polling:
             if latest_operation_name:
-
                 operation = client.get_operation({"name": latest_operation_name})
 
                 if not operation.done:

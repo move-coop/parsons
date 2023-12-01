@@ -100,6 +100,16 @@ class TestAirtable(unittest.TestCase):
         assert airtable_res.columns == ["id", "createdTime", "Name", "SecondColumn"]
 
     @requests_mock.Mocker()
+    def test_get_records_with_single_field(self, m):
+        m.get(self.base_uri, json=records_response_with_more_columns)
+
+        fields = "Name"
+
+        airtable_res = self.at.get_records(fields, sample_size=1)
+
+        assert airtable_res.columns == ["id", "createdTime", "Name"]
+
+    @requests_mock.Mocker()
     def test_insert_record(self, m):
 
         m.post(self.base_uri, json=insert_response)

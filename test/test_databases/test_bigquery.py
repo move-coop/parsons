@@ -5,7 +5,7 @@ import unittest.mock as mock
 from google.cloud import bigquery
 from google.cloud import exceptions
 
-from parsons import BigQuery, Table
+from parsons import GoogleBigQuery as BigQuery, Table
 from parsons.google.google_cloud_storage import GoogleCloudStorage
 from test.test_google.test_utilities import FakeCredentialTest
 

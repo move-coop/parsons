@@ -44,6 +44,32 @@ You can then call various endpoints:
 	# Update a person
 	an.update_person('fake_id', given_name='new_given_name', tags=['tag_1', 'tag_2'])
 
+	# Get all taggings associated with a specific tag
+	all_taggings = an.get_taggings('tag_id')
+
+	# Get a specific tagging
+	specific_tagging = an.get_tagging('tag_id', 'tagging_id')
+
+	# Create a tagging
+	tagging_payload = {
+	    'tagging': {
+	        'tag_id': 'tag_id',
+	        'taggable_id': 'taggable_id',
+	        'taggable_type': 'taggable_type'
+	    }
+	}
+	created_tagging = an.create_tagging('tag_id', tagging_payload)
+
+	# Delete a tagging
+	an.delete_tagging('tag_id', 'tagging_id')
+
+	# Get all wrappers
+	all_wrappers = an.get_wrappers()
+
+	# Get a specific wrapper
+	specific_wrapper = an.get_wrapper('wrapper_id')
+	
+
 ***
 API
 ***

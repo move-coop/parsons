@@ -8,7 +8,6 @@ from test.utils import assert_matching_tables
 class TestActionNetwork(unittest.TestCase):
     @requests_mock.Mocker()
     def setUp(self, m):
-
         self.api_url = "https://actionnetwork.org/api/v2"
         self.api_key = "fake_key"
 
@@ -173,8 +172,8 @@ class TestActionNetwork(unittest.TestCase):
             },
         }
         self.fake_people_list = (
-            self.fake_people_list_1["_embedded"]["osdi:people"]
-            + self.fake_people_list_2["_embedded"]["osdi:people"]
+                self.fake_people_list_1["_embedded"]["osdi:people"]
+                + self.fake_people_list_2["_embedded"]["osdi:people"]
         )
         self.fake_tag_list = {
             "total_pages": 1,
@@ -835,7 +834,7 @@ class TestActionNetwork(unittest.TestCase):
                         "modified_date": "2013-10-02T14:22:06Z",
                         "title": "Join our week of actions!",
                         "description": "<p>Our week of action is here --"
-                        "click the links on the right to join in!</p>",
+                                       "click the links on the right to join in!</p>",
                         "browser_url": "fake_url",
                         "featured_image_url": "fake_url",
                         "action_network:hidden": False,
@@ -864,7 +863,7 @@ class TestActionNetwork(unittest.TestCase):
                         "modified_date": "2014-01-16T19:07:00Z",
                         "title": "Welcome to our Action Center",
                         "description": "<p>Welcome to our Action Center."
-                        "Take action on the right.</p>",
+                                       "Take action on the right.</p>",
                         "browser_url": "fake_url",
                         "action_network:sponsor": {
                             "title": "Progressive Action Now",
@@ -894,7 +893,7 @@ class TestActionNetwork(unittest.TestCase):
             "modified_date": "2013-10-02T14:22:06Z",
             "title": "Join our week of actions!",
             "description": "<p>Our week of action is here --"
-            "click the links on the right to join in!</p>",
+                           "click the links on the right to join in!</p>",
             "browser_url": "https://actionnetwork.org/campaigns/join-our-week-of-action",
             "featured_image_url": "https://actionnetwork.org/images/week-of-action.jpg",
             "action_network:hidden": False,
@@ -1130,42 +1129,42 @@ class TestActionNetwork(unittest.TestCase):
         # Embeds
         self.fake_embed = {
             "embed_standard_default_styles": "<link href='fake_url'"
-            " rel='stylesheet' type='text/css' /><script "
-            "src='https://actionnetwork.org/widgets/event/my-free-event?"
-            "format=js&source=widget'></script><div id='can-event-area-my-free-event'"
-            " style='width: 100%'><!-- this div is the target for our HTML insertion -->"
-            "</div>",
+                                             " rel='stylesheet' type='text/css' /><script "
+                                             "src='https://actionnetwork.org/widgets/event/my-free-event?"
+                                             "format=js&source=widget'></script><div id='can-event-area-my-free-event'"
+                                             " style='width: 100%'><!-- this div is the target for our HTML insertion -->"
+                                             "</div>",
             "embed_standard_layout_only_styles": "<link href='√"
-            "-whitelabel.css' rel='stylesheet' type='text/css' "
-            "/><script"
-            " src='fake_url"
-            "ent?format=js&source=widget'>"
-            "</script><div id='can-event-area-my-free-event'"
-            " style='width: undefined'>"
-            "<!-- this div is the target for our HTML insertion --></div>",
+                                                 "-whitelabel.css' rel='stylesheet' type='text/css' "
+                                                 "/><script"
+                                                 " src='fake_url"
+                                                 "ent?format=js&source=widget'>"
+                                                 "</script><div id='can-event-area-my-free-event'"
+                                                 " style='width: undefined'>"
+                                                 "<!-- this div is the target for our HTML insertion --></div>",
             "embed_standard_no_styles": "<script src='fake_url"
-            "&source=widget'></script>"
-            "<div id='can-event-area-my-free-event' "
-            "style='width: undefined'>"
-            "<!-- this div is "
-            "the target for our HTML insertion --></div>",
+                                        "&source=widget'></script>"
+                                        "<div id='can-event-area-my-free-event' "
+                                        "style='width: undefined'>"
+                                        "<!-- this div is "
+                                        "the target for our HTML insertion --></div>",
             "embed_full_default_styles": "<link href='fake_url' rel='stylesheet'"
-            " type='text/css' /><script src='fake_url"
-            "/event/my-free-event?format=js&source=widget&style=full'></script>"
-            "<div id='can-event-area-my-free-event' style='width: undefined'>"
-            "<!-- this div is the target for our HTML insertion --></div>",
+                                         " type='text/css' /><script src='fake_url"
+                                         "/event/my-free-event?format=js&source=widget&style=full'></script>"
+                                         "<div id='can-event-area-my-free-event' style='width: undefined'>"
+                                         "<!-- this div is the target for our HTML insertion --></div>",
             "embed_full_layout_only_styles": "<link href='fake_url' "
-            "rel='stylesheet' type='text/css' /><script "
-            "src='fake_url"
-            "&source=widget&style=full'>"
-            "</script><div id='can-event-area-my-free-event'"
-            " style='width: undefined'>"
-            "<!-- this div is the target for our HTML insertion -->"
-            "</div>",
+                                             "rel='stylesheet' type='text/css' /><script "
+                                             "src='fake_url"
+                                             "&source=widget&style=full'>"
+                                             "</script><div id='can-event-area-my-free-event'"
+                                             " style='width: undefined'>"
+                                             "<!-- this div is the target for our HTML insertion -->"
+                                             "</div>",
             "embed_full_no_styles": "<script src='fake_url'"
-            "&source=widget&style=full'></script><div id='can-event-area-my-free-event' "
-            "style='width: undefined'><!-- this div is the target for our HTML insertion -->"
-            "</div>",
+                                    "&source=widget&style=full'></script><div id='can-event-area-my-free-event' "
+                                    "style='width: undefined'><!-- this div is the target for our HTML insertion -->"
+                                    "</div>",
             "_links": {
                 "self": {
                     "href": f"{self.api_url}/events/21789f03-0180-45d3-853c-91bd6fdc8c07/embed"
@@ -1220,11 +1219,11 @@ class TestActionNetwork(unittest.TestCase):
                         "modified_date": "2014-03-07T16:51:16Z",
                         "title": "House parties to help us win!",
                         "description": "<p>Host house parties next "
-                        "week to help us win our campaign!</p>",
+                                       "week to help us win our campaign!</p>",
                         "host_pitch": "Hosting a house party is easy! Sign up and we'll give "
-                        "you what you need to know.",
+                                      "you what you need to know.",
                         "host_instructions": "<p>Download our toolkit for all the "
-                        "instructions you need to host an event.</p>",
+                                             "instructions you need to host an event.</p>",
                         "browser_url": "fake_url",
                         "host_url": "fake_url",
                         "featured_image_url": "fake_url",
@@ -1252,10 +1251,10 @@ class TestActionNetwork(unittest.TestCase):
                         "modified_date": "2014-02-03T16:42:10Z",
                         "title": "Protest the bad bill in your town",
                         "description": "<p>Help us stop this bad bill from "
-                        "becoming law by joining a local protest.</p>",
+                                       "becoming law by joining a local protest.</p>",
                         "host_pitch": "Hosting is easy, we'll help you out, do it now!",
                         "host_instructions": "<p>Here's everything "
-                        "you need to host a protest...</p>",
+                                             "you need to host a protest...</p>",
                         "browser_url": "fake_url",
                         "host_url": "fake_url",
                         "total_events": 4,
@@ -1284,7 +1283,7 @@ class TestActionNetwork(unittest.TestCase):
             "modified_date": "2014-02-03T16:42:10Z",
             "title": "Protest the bad bill in your town",
             "description": "<p>Help us stop this bad bill from becoming"
-            "law by joining a local protest.</p>",
+                           "law by joining a local protest.</p>",
             "host_pitch": "Hosting is easy, we'll help you out, do it now!",
             "host_instructions": "<p>Here's everything you need to host a protest...</p>",
             "browser_url": "fake_url",
@@ -2238,7 +2237,7 @@ class TestActionNetwork(unittest.TestCase):
                         "modified_date": "2014-03-28T15:00:22Z",
                         "subject": "FWD: Stop doing the bad thing",
                         "body": "<p>Have you signed yet? "
-                        "The mayor should stop doing the bad thing.</p>",
+                                "The mayor should stop doing the bad thing.</p>",
                         "from": "Progressive Action Now",
                         "reply_to": "jane@progressiveactionnow.org",
                         "administrative_url": "fake_url",
@@ -3081,6 +3080,7 @@ class TestActionNetwork(unittest.TestCase):
             "modified_date": "2014-03-26T18:04:00Z",
             "action_network:person_id": "699da712-929f-11e3-a2e9-12313d316c29",
             "action_network:petition_id": "fake_id",
+            "comments": "Stop doing the thing",
             "_links": {
                 "self": {
                     "href": f"{self.api_url}/petitions/fake_id/signatures/fake_id"
@@ -3363,25 +3363,25 @@ class TestActionNetwork(unittest.TestCase):
                         "name": "Default wrapper -- logo only",
                         "administrative_url": "https://actionnetwork.org/wrappers/1/edit",
                         "header": '<table border="0" cellpadding="10" '
-                        'cellspacing="0" style="border-collapse:collapse; '
-                        'mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n'
-                        '  <tr>\r\n    <td valign="top" '
-                        'style="border-collapse: collapse; background-color: #FFFFFF;'
-                        ' padding:10px 10px 40px;">\r\n      <table border="0" cellpadding="10" '
-                        'cellspacing="0" style="border-collapse:collapse; mso-table-lspace:0pt; '
-                        'mso-table-rspace:0pt;">\r\n        <tr>\r\n       '
-                        '   <td valign="top" style="border-collapse: collapse;"'
-                        ' width="600">\r\n          '
-                        '  <div style="color: #505050;font-family:'
-                        "Arial;font-size: 14px;line-height: "
-                        '150%;text-align: left;">\r\n'
-                        '<img src="https://actionnetwork.org/images/logo.png" />',
+                                  'cellspacing="0" style="border-collapse:collapse; '
+                                  'mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n'
+                                  '  <tr>\r\n    <td valign="top" '
+                                  'style="border-collapse: collapse; background-color: #FFFFFF;'
+                                  ' padding:10px 10px 40px;">\r\n      <table border="0" cellpadding="10" '
+                                  'cellspacing="0" style="border-collapse:collapse; mso-table-lspace:0pt; '
+                                  'mso-table-rspace:0pt;">\r\n        <tr>\r\n       '
+                                  '   <td valign="top" style="border-collapse: collapse;"'
+                                  ' width="600">\r\n          '
+                                  '  <div style="color: #505050;font-family:'
+                                  "Arial;font-size: 14px;line-height: "
+                                  '150%;text-align: left;">\r\n'
+                                  '<img src="https://actionnetwork.org/images/logo.png" />',
                         "footer": "\r\n</div>\r\n    "
-                        " </td>\r\n "
-                        "       </tr>\r\n  "
-                        "    </table>\r\n  "
-                        "  </td>\r\n "
-                        " </tr>\r\n</table>",
+                                  " </td>\r\n "
+                                  "       </tr>\r\n  "
+                                  "    </table>\r\n  "
+                                  "  </td>\r\n "
+                                  " </tr>\r\n</table>",
                         "action_network:suffix": " via ProgressivePower.org",
                         "wrapper_type": "email",
                         "default": True,
@@ -3397,23 +3397,23 @@ class TestActionNetwork(unittest.TestCase):
                         "name": "No logo",
                         "administrative_url": "https://actionnetwork.org/wrappers/2/edit",
                         "header": '<table border="0" cellpadding="10" '
-                        'cellspacing="0" style="border-collapse:collapse;'
-                        ' mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n  <tr>\r\n    '
-                        '<td valign="top" style="border-collapse:'
-                        "collapse; background-color: #FFFFFF;"
-                        ' padding:10px 10px 40px;">\r\n    '
-                        '  <table border="0" cellpadding="10" cellspacing="0" '
-                        'style="border-collapse:collapse; '
-                        'mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n  '
-                        "      <tr>\r\n        "
-                        '  <td valign="top" style="border-collapse: collapse;" width="600">\r\n '
-                        '<div style="color: #505050;font-family: Arial;font-size: 14px;line-height:'
-                        '150%;text-align: left;">\r\n',
+                                  'cellspacing="0" style="border-collapse:collapse;'
+                                  ' mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n  <tr>\r\n    '
+                                  '<td valign="top" style="border-collapse:'
+                                  "collapse; background-color: #FFFFFF;"
+                                  ' padding:10px 10px 40px;">\r\n    '
+                                  '  <table border="0" cellpadding="10" cellspacing="0" '
+                                  'style="border-collapse:collapse; '
+                                  'mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n  '
+                                  "      <tr>\r\n        "
+                                  '  <td valign="top" style="border-collapse: collapse;" width="600">\r\n '
+                                  '<div style="color: #505050;font-family: Arial;font-size: 14px;line-height:'
+                                  '150%;text-align: left;">\r\n',
                         "footer": "\r\n</div>\r\n "
-                        "         </td>\r\n   "
-                        "     </tr>\r\n      </table>\r\n "
-                        "   </td>\r\n "
-                        " </tr>\r\n</table>",
+                                  "         </td>\r\n   "
+                                  "     </tr>\r\n      </table>\r\n "
+                                  "   </td>\r\n "
+                                  " </tr>\r\n</table>",
                         "wrapper_type": "email",
                         "default": False,
                         "_links": {
@@ -3431,24 +3431,24 @@ class TestActionNetwork(unittest.TestCase):
             "name": "Default wrapper -- logo only",
             "administrative_url": "https://actionnetwork.org/wrappers/1/edit",
             "header": '<table border="0" cellpadding="10" '
-            'cellspacing="0" style="border-collapse:collapse;'
-            ' mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n'
-            "  <tr>\r\n"
-            '    <td valign="top" style="border-collapse: collapse; '
-            'background-color: #FFFFFF; padding:10px 10px 40px;">\r\n '
-            '     <table border="0" cellpadding="10"'
-            ' cellspacing="0" style="border-collapse:collapse;'
-            ' mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n        <tr>\r\n '
-            '         <td valign="top" style="border-collapse: collapse;" width="600">\r\n  '
-            '          <div style="color: #505050;font-family: Arial;font-size: '
-            '14px;line-height: 150%;text-align: left;">\r\n'
-            '<img src="https://actionnetwork.org/images/logo.png" />',
+                      'cellspacing="0" style="border-collapse:collapse;'
+                      ' mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n'
+                      "  <tr>\r\n"
+                      '    <td valign="top" style="border-collapse: collapse; '
+                      'background-color: #FFFFFF; padding:10px 10px 40px;">\r\n '
+                      '     <table border="0" cellpadding="10"'
+                      ' cellspacing="0" style="border-collapse:collapse;'
+                      ' mso-table-lspace:0pt; mso-table-rspace:0pt;">\r\n        <tr>\r\n '
+                      '         <td valign="top" style="border-collapse: collapse;" width="600">\r\n  '
+                      '          <div style="color: #505050;font-family: Arial;font-size: '
+                      '14px;line-height: 150%;text-align: left;">\r\n'
+                      '<img src="https://actionnetwork.org/images/logo.png" />',
             "footer": "\r\n</div>\r\n"
-            "          </td>\r\n"
-            "        </tr>\r\n"
-            "      </table>\r\n"
-            "    </td>\r\n "
-            " </tr>\r\n</table>",
+                      "          </td>\r\n"
+                      "        </tr>\r\n"
+                      "      </table>\r\n"
+                      "    </td>\r\n "
+                      " </tr>\r\n</table>",
             "action_network:suffix": " via ProgressivePower.org",
             "wrapper_type": "email",
             "default": True,
@@ -3602,6 +3602,30 @@ class TestActionNetwork(unittest.TestCase):
         )
 
     @requests_mock.Mocker()
+    def test_create_attendance(self, m):
+        m.post(
+            f"{self.api_url}/events/123/attendances",
+            text=json.dumps(self.fake_attendance),
+        )
+
+        assert_matching_tables(
+            self.an.create_attendance("123", self.fake_attendance),
+            self.fake_attendance,
+        )
+
+    @requests_mock.Mocker()
+    def test_update_attendance(self, m):
+        m.put(
+            f"{self.api_url}/events/123/attendances/123",
+            text=json.dumps(self.fake_attendance),
+        )
+
+        assert_matching_tables(
+            self.an.update_attendance("123", "123", self.fake_attendance),
+            self.fake_attendance,
+        )
+
+    @requests_mock.Mocker()
     def test_get_person_attendance(self, m):
         m.get(
             f"{self.api_url}/people/123/attendances/123",
@@ -3731,6 +3755,41 @@ class TestActionNetwork(unittest.TestCase):
             self.fake_event_campaign,
         )
 
+    @requests_mock.Mocker()
+    def test_create_event_campaign(self, m):
+        payload = {
+            "title": "Canvassing Events",
+            "origin_system": "AmyforTexas.com"
+        }
+        m.post(f"{self.api_url}/event_campaigns", text=json.dumps(self.fake_event_campaign))
+        self.assertEqual(
+            self.fake_event_campaign,
+            self.an.create_event_campaign(payload),
+        )
+
+    @requests_mock.Mocker()
+    def test_create_event_in_event_campaign(self, m):
+        payload = {
+            "title": "My Canvassing Event",
+            "origin_system": "CanvassingEvents.com"
+        }
+        m.post(f"{self.api_url}/event_campaigns/123/events", text=json.dumps(self.fake_event))
+        self.assertEqual(
+            self.fake_event.items(),
+            self.an.create_event_in_event_campaign("123", payload).items(),
+        )
+
+    @requests_mock.Mocker()
+    def test_update_event_campaign(self, m):
+        payload = {
+            "description": "This is my new event campaign description"
+        }
+        m.put(f"{self.api_url}/event_campaigns/123", text=json.dumps(self.fake_event_campaign))
+        self.assertEqual(
+            self.fake_event_campaign,
+            self.an.update_event_campaign("123", payload),
+        )
+
     # Events
     @requests_mock.Mocker()
     def test_get_events(self, m):
@@ -3787,6 +3846,31 @@ class TestActionNetwork(unittest.TestCase):
         assert_matching_tables(
             self.an.get_form("123"),
             self.fake_form,
+        )
+
+    @requests_mock.Mocker()
+    def test_create_form(self, m):
+        payload = {
+            "title": "My Free Form",
+            "origin_system": "FreeForms.com"
+        }
+        m.post(f"{self.api_url}/forms", text=json.dumps(self.fake_form))
+        self.assertEqual(
+            self.fake_form.items(),
+            self.an.create_form(payload).items(),
+        )
+
+    # Update Form
+    @requests_mock.Mocker()
+    def test_update_form(self, m):
+        payload = {
+            "title": "My Free Form",
+            "origin_system": "FreeForms.com"
+        }
+        m.put(f"{self.api_url}/forms/123", text=json.dumps(self.fake_form))
+        self.assertEqual(
+            self.fake_form.items(),
+            self.an.update_form("123", payload).items(),
         )
 
     # Fundraising Pages
@@ -3999,6 +4083,50 @@ class TestActionNetwork(unittest.TestCase):
 
     # Queries
     @requests_mock.Mocker()
+    def test_create_petition(self, m):
+        fake_petition_data = {
+            'title': self.fake_petition['title'],
+            'description': self.fake_petition['description'],
+            'petition_text': self.fake_petition['petition_text'],
+            'target': self.fake_petition['target']
+        }
+
+        m.post(
+            f"{self.api_url}/petitions",
+            text=json.dumps(fake_petition_data),
+        )
+        response = self.an.create_petition(
+            self.fake_petition['title'],
+            self.fake_petition['description'],
+            self.fake_petition['petition_text'],
+            self.fake_petition['target']
+        )
+        assert_matching_tables(response, fake_petition_data)
+
+    @requests_mock.Mocker()
+    def test_update_petition(self, m):
+        fake_petition_data = {
+            'title': self.fake_petition['title'],
+            'description': self.fake_petition['description'],
+            'petition_text': self.fake_petition['petition_text'],
+            'target': self.fake_petition['target']
+        }
+
+        m.put(
+            self.api_url + "/petitions/" + self.fake_petition["identifiers"][0].split(":")[1],
+            text=json.dumps(fake_petition_data),
+        )
+        response = self.an.update_petition(
+            self.fake_petition["identifiers"][0].split(":")[1],
+            title=self.fake_petition['title'],
+            description=self.fake_petition['description'],
+            petition_text=self.fake_petition['petition_text'],
+            target=self.fake_petition['target']
+        )
+        assert_matching_tables(response, fake_petition_data)
+
+    # Queries
+    @requests_mock.Mocker()
     def test_get_queries(self, m):
         m.get(
             f"{self.api_url}/queries",
@@ -4066,6 +4194,47 @@ class TestActionNetwork(unittest.TestCase):
             self.fake_signature,
         )
 
+    @requests_mock.Mocker()
+    def test_create_signature(self, m):
+        # Define the fake signature data
+        fake_signature_data = {
+            "comments": self.fake_signature['comments'],
+            "_links": {
+                "osdi:person": {"href": self.fake_signature["_links"]["osdi:person"]["href"]}
+            }
+        }
+
+        # Mock the POST request to Action Network's signatures endpoint
+        m.post(
+            f"{self.api_url}/petitions/456/signatures",
+            text=json.dumps(self.fake_signature),
+        )
+
+        # Call the method to create the signature
+        created_signature = self.an.create_signature('456', fake_signature_data)
+
+        # Assert that the correct data is being sent and the response is handled correctly
+        assert_matching_tables(created_signature, self.fake_signature)
+
+    @requests_mock.Mocker()
+    def test_update_signature(self, m):
+        # Define the fake signature data with updated comments
+        updated_signature_data = {
+            "comments": "Updated comments",
+        }
+
+        # Mock the PATCH request to update the signature
+        m.put(
+            f"{self.api_url}/petitions/456/signatures/123",
+            text=json.dumps(self.fake_signature),
+        )
+
+        # Call the method to update the signature
+        updated_signature = self.an.update_signature('456', '123', updated_signature_data)
+
+        # Assert that the correct data is being sent and the response is handled correctly
+        assert_matching_tables(updated_signature, self.fake_signature)
+
     # Submissions
     @requests_mock.Mocker()
     def test_get_form_submissions(self, m):
@@ -4115,6 +4284,29 @@ class TestActionNetwork(unittest.TestCase):
             self.fake_submission,
         )
 
+    # Submissions
+    @requests_mock.Mocker()
+    def test_create_submission(self, m):
+        m.post(
+            f"{self.api_url}/forms/123/submissions",
+            text=json.dumps(self.fake_submission),
+        )
+        assert_matching_tables(
+            self.an.create_submission("123", "123"),
+            self.fake_submission,
+        )
+
+    @requests_mock.Mocker()
+    def test_update_submission(self, m):
+        m.put(
+            f"{self.api_url}/forms/123/submissions/123",
+            json={"identifiers": ["other-system:230125s"]}
+        )
+        assert_matching_tables(
+            self.an.update_submission("123", "123", {"identifiers": ["other-system:230125s"]}),
+            self.fake_submission,
+        )
+
     # Tags
     @requests_mock.Mocker()
     def test_get_tags(self, m):
@@ -4157,6 +4349,28 @@ class TestActionNetwork(unittest.TestCase):
         assert_matching_tables(
             self.an.get_tagging("123", "123"),
             self.fake_tagging,
+        )
+
+    @requests_mock.Mocker()
+    def test_create_tagging(self, m):
+        m.post(
+            f"{self.api_url}/tags/123/taggings",
+            json=self.fake_tagging,
+        )
+        assert_matching_tables(
+            self.an.create_tagging("123", self.fake_tagging),
+            self.fake_tagging,
+        )
+
+    @requests_mock.Mocker()
+    def test_delete_tagging(self, m):
+        m.delete(
+            f"{self.api_url}/tags/123/taggings/123",
+            text=json.dumps({"notice": "This tagging was successfully deleted."}),
+        )
+        assert_matching_tables(
+            self.an.delete_tagging("123", "123"),
+            {"notice": "This tagging was successfully deleted."},
         )
 
     # Wrappers

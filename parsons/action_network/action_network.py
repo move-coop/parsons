@@ -93,7 +93,7 @@ class ActionNetwork(object):
 
     # Attendances
     def get_person_attendances(
-            self, person_id, limit=None, per_page=25, page=None, filter=None
+        self, person_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
         `Args:`
@@ -120,7 +120,7 @@ class ActionNetwork(object):
         )
 
     def get_event_attendances(
-            self, event_id, limit=None, per_page=25, page=None, filter=None
+        self, event_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
         `Args:`
@@ -191,7 +191,9 @@ class ActionNetwork(object):
         `Returns:`
             A JSON response after updating the event attendance
         """
-        return self.api.put_request(f"events/{event_id}/attendances/{attendance_id}", payload)
+        return self.api.put_request(
+            f"events/{event_id}/attendances/{attendance_id}", payload
+        )
 
     # Campaigns
     def get_campaigns(self, limit=None, per_page=25, page=None, filter=None):
@@ -263,7 +265,7 @@ class ActionNetwork(object):
         return self._get_entry_list("donations", limit, per_page, filter)
 
     def get_fundraising_page_donations(
-            self, fundraising_page_id, limit=None, per_page=25, page=None, filter=None
+        self, fundraising_page_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
         `Args:`
@@ -296,7 +298,7 @@ class ActionNetwork(object):
         )
 
     def get_person_donations(
-            self, person_id, limit=None, per_page=25, page=None, filter=None
+        self, person_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
         `Args:`
@@ -336,7 +338,9 @@ class ActionNetwork(object):
         `Returns:`
             A JSON response confirming the creation of the donation
         """
-        return self.api.post_request(f"fundraising_pages/{fundraising_page_id}/donations", donation_payload)
+        return self.api.post_request(
+            f"fundraising_pages/{fundraising_page_id}/donations", donation_payload
+        )
 
     # Embeds
     def get_embeds(self, action_type, action_id):
@@ -400,7 +404,9 @@ class ActionNetwork(object):
         `Returns:`
             A JSON response confirming the creation of the event in the event campaign
         """
-        return self.api.post_request(f"event_campaigns/{event_campaign_id}/events", payload)
+        return self.api.post_request(
+            f"event_campaigns/{event_campaign_id}/events", payload
+        )
 
     def update_event_campaign(self, event_campaign_id, payload):
         """
@@ -444,7 +450,7 @@ class ActionNetwork(object):
         return self.api.get_request(f"events/{event_id}")
 
     def get_event_campaign_events(
-            self, event_campaign_id, limit=None, per_page=25, page=None, filter=None
+        self, event_campaign_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
         `Args:`
@@ -580,7 +586,7 @@ class ActionNetwork(object):
 
         `Args:`
             form_id:
-               The unique id of the form
+                The unique id of the form
             payload: dict
                 The payload containing form details to update
         `Returns:`
@@ -620,6 +626,31 @@ class ActionNetwork(object):
             "fundraising_pages",
             limit,
         )
+
+    def create_fundraising_page(self, payload):
+        """
+        Create a fundraising page in Action Network
+
+        `Args:`
+            payload: dict
+                The payload containing fundraising page details
+        `Returns:`
+            A JSON response confirming the creation of the fundraising page
+        """
+        return self.api.post_request("fundraising_pages", payload)
+
+    def update_fundraising_page(self, fundraising_page_id, payload):
+        """
+        Update a fundraising page in Action Network
+
+        `Args:`
+            fundraising_page_id: The id of the fundraiser
+            payload: dict
+                The payload containing updated fundraising page details
+        `Returns:`
+            A JSON response confirming the update of the fundraising page
+        """
+        return self.api.put_request(f"fundraising_pages/{fundraising_page_id}", payload)
 
     # Items
     def get_items(self, list_id, limit=None, per_page=25, page=None, filter=None):
@@ -690,13 +721,7 @@ class ActionNetwork(object):
         return self.api.get_request(f"lists/{list_id}")
 
     # Messages
-<<<<<<< HEAD
     def get_messages(self, limit=None, per_page=25, page=None, filter=None):
-=======
-    def get_messages(
-        self, limit=None, per_page=25, page=None, filter=None, unpack_statistics=False
-    ):
->>>>>>> origin/main
         """
         `Args:`
             limit:
@@ -708,7 +733,6 @@ class ActionNetwork(object):
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
-<<<<<<< HEAD
 
 
         `Returns:`
@@ -717,23 +741,6 @@ class ActionNetwork(object):
         if page:
             return self._get_page("messages", page, per_page, filter)
         return self._get_entry_list("messages", limit, per_page, filter)
-=======
-           unpack_statistics:
-                Whether to unpack the statistics dictionary into the table. Default to False.
-
-
-        `Returns:`
-            A Parsons Table with all the messages related entries
-        """
-        # Fetch messages
-        if page:
-            return self._get_page("messages", page, per_page, filter)
-        tbl = self._get_entry_list("messages", limit, per_page, filter)
-        # Unpack statistics
-        if unpack_statistics:
-            tbl.unpack_dict("statistics", prepend=False, include_original=True)
-        return tbl
->>>>>>> origin/main
 
     def get_message(self, message_id):
         """
@@ -744,6 +751,32 @@ class ActionNetwork(object):
             A  JSON with the signature entry.
         """
         return self.api.get_request(f"messages/{message_id}")
+
+    def create_message(self, payload):
+        """
+        Create a message in Action Network
+
+        `Args:`
+            payload: dict
+                The payload containing message details
+        `Returns:`
+            A JSON response confirming the creation of the message
+        """
+        return self.api.post_request("messages", payload)
+
+    def update_message(self, message_id, payload):
+        """
+        Update a message in Action Network
+
+        `Args:`
+            message_id:
+               The unique id of the message
+            payload: dict
+                The payload containing message details to be updated
+        `Returns:`
+            A JSON response confirming the update of the message
+        """
+        return self.api.put_request(f"messages/{message_id}", payload)
 
     # Metadata
     def get_metadata(self):
@@ -757,7 +790,7 @@ class ActionNetwork(object):
 
     # Outreaches
     def get_advocacy_campaign_outreaches(
-            self, advocacy_campaign_id, limit=None, per_page=25, page=None, filter=None
+        self, advocacy_campaign_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
         `Args:`
@@ -791,7 +824,7 @@ class ActionNetwork(object):
         )
 
     def get_person_outreaches(
-            self, person_id, limit=None, per_page=25, page=None, filter=None
+        self, person_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
         `Args:`
@@ -844,6 +877,41 @@ class ActionNetwork(object):
         """
         return self.api.get_request(f"people/{person_id}/outreaches/{outreach_id}")
 
+    def create_outreach(self, advocacy_campaign_id, payload):
+        """
+        Create an outreach in Action Network
+
+        `Args:`
+            advocacy_campaign_id:
+                The unique id of the campaign
+            payload:
+                The payload containing outreach details
+        `Returns:`
+            A JSON response confirming the creation of the outreach
+        """
+        return self.api.post_request(
+            f"advocacy_campaigns/{advocacy_campaign_id}/outreaches", payload
+        )
+
+    def update_outreach(self, advocacy_campaign_id, outreach_id, payload):
+        """
+        Update an outreach in Action Network
+
+        `Args:`
+            advocacy_campaign_id:
+                The unique id of the campaign
+            outreach_id:
+                The unique id of the outreach
+            payload:
+                The payload containing outreach details to be updated
+        `Returns:`
+            A JSON response confirming the update of the outreach
+        """
+        return self.api.put_request(
+            f"advocacy_campaigns/{advocacy_campaign_id}/outreaches/{outreach_id}",
+            payload,
+        )
+
     # People
     def get_people(self, limit=None, per_page=25, page=None, filter=None):
         """
@@ -876,17 +944,17 @@ class ActionNetwork(object):
         return self.api.get_request(url=f"people/{person_id}")
 
     def upsert_person(
-            self,
-            email_address=None,
-            given_name=None,
-            family_name=None,
-            tags=None,
-            languages_spoken=None,
-            postal_addresses=None,
-            mobile_number=None,
-            mobile_status="subscribed",
-            background_processing=False,
-            **kwargs,
+        self,
+        email_address=None,
+        given_name=None,
+        family_name=None,
+        tags=None,
+        languages_spoken=None,
+        postal_addresses=None,
+        mobile_number=None,
+        mobile_status="subscribed",
+        background_processing=False,
+        **kwargs,
     ):
         """
         Creates or updates a person record. In order to update an existing record instead of
@@ -1032,16 +1100,16 @@ class ActionNetwork(object):
         return response
 
     def add_person(
-            self,
-            email_address=None,
-            given_name=None,
-            family_name=None,
-            tags=None,
-            languages_spoken=None,
-            postal_addresses=None,
-            mobile_number=None,
-            mobile_status="subscribed",
-            **kwargs,
+        self,
+        email_address=None,
+        given_name=None,
+        family_name=None,
+        tags=None,
+        languages_spoken=None,
+        postal_addresses=None,
+        mobile_number=None,
+        mobile_status="subscribed",
+        **kwargs,
     ):
         """
         Creates a person in the database. WARNING: this endpoint has been deprecated in favor of
@@ -1146,7 +1214,9 @@ class ActionNetwork(object):
         """
         return self.api.get_request(f"petitions/{petition_id}")
 
-    def create_petition(self, title, description, petition_text, target, background_processing=False):
+    def create_petition(
+        self, title, description, petition_text, target, background_processing=False
+    ):
         """
         `Args:`
             title:
@@ -1166,7 +1236,7 @@ class ActionNetwork(object):
             "title": title,
             "description": description,
             "petition_text": petition_text,
-            "target": target
+            "target": target,
         }
         url = f"{self.api_url}/petitions"
         if background_processing:
@@ -1178,7 +1248,15 @@ class ActionNetwork(object):
         logger.info(f"Petition {title} successfully created")
         return response
 
-    def update_petition(self, petition_id, title, description, petition_text, target, background_processing=False):
+    def update_petition(
+        self,
+        petition_id,
+        title,
+        description,
+        petition_text,
+        target,
+        background_processing=False,
+    ):
         """
         `Args:`
             petition_id:
@@ -1200,7 +1278,7 @@ class ActionNetwork(object):
             "title": title,
             "description": description,
             "petition_text": petition_text,
-            "target": target
+            "target": target,
         }
         url = f"{self.api_url}/petitions/{petition_id}"
         if background_processing:
@@ -1246,7 +1324,7 @@ class ActionNetwork(object):
 
     # Signatures
     def get_petition_signatures(
-            self, petition_id, limit=None, per_page=25, page=None, filter=None
+        self, petition_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
         `Args:`
@@ -1273,7 +1351,7 @@ class ActionNetwork(object):
         )
 
     def get_person_signatures(
-            self, person_id, limit=None, per_page=25, page=None, filter=None
+        self, person_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
         `Args:`
@@ -1351,11 +1429,13 @@ class ActionNetwork(object):
         `Returns:`
             A JSON with the updated signature entry
         """
-        return self.api.put_request(f"petitions/{petition_id}/signatures/{signature_id}", data)
+        return self.api.put_request(
+            f"petitions/{petition_id}/signatures/{signature_id}", data
+        )
 
     # Submissions
     def get_form_submissions(
-            self, form_id, limit=None, per_page=25, page=None, filter=None
+        self, form_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
         `Args:`
@@ -1383,7 +1463,7 @@ class ActionNetwork(object):
         )
 
     def get_person_submissions(
-            self, person_id, limit=None, per_page=25, page=None, filter=None
+        self, person_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
         `Args:`
@@ -1445,10 +1525,14 @@ class ActionNetwork(object):
         """
         payload = {
             "_links": {
-                "osdi:person": {"href": f"https://actionnetwork.org/api/v2/people/{person_id}"}
+                "osdi:person": {
+                    "href": f"https://actionnetwork.org/api/v2/people/{person_id}"
+                }
             }
         }
-        return self.api.post_request(f"forms/{form_id}/submissions", data=json.dumps(payload))
+        return self.api.post_request(
+            f"forms/{form_id}/submissions", data=json.dumps(payload)
+        )
 
     def update_submission(self, form_id, submission_id, data):
         """
@@ -1462,7 +1546,9 @@ class ActionNetwork(object):
         `Returns:`
             A JSON with the updated submission entry
         """
-        return self.api.put_request(f"forms/{form_id}/submissions/{submission_id}", data=json.dumps(data))
+        return self.api.put_request(
+            f"forms/{form_id}/submissions/{submission_id}", data=json.dumps(data)
+        )
 
     # Tags
     def get_tags(self, limit=None, per_page=None):
@@ -1560,7 +1646,9 @@ class ActionNetwork(object):
         `Returns:`
             A JSON response after creating the tagging
         """
-        return self.api.post_request(f"tags/{tag_id}/taggings", data=json.dumps(payload))
+        return self.api.post_request(
+            f"tags/{tag_id}/taggings", data=json.dumps(payload)
+        )
 
     def delete_tagging(self, tag_id, tagging_id):
         """

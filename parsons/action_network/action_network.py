@@ -583,7 +583,13 @@ class ActionNetwork(object):
         return self.api.get_request(f"lists/{list_id}")
 
     # Messages
+<<<<<<< HEAD
     def get_messages(self, limit=None, per_page=25, page=None, filter=None):
+=======
+    def get_messages(
+        self, limit=None, per_page=25, page=None, filter=None, unpack_statistics=False
+    ):
+>>>>>>> origin/main
         """
         `Args:`
             limit:
@@ -595,6 +601,7 @@ class ActionNetwork(object):
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
+<<<<<<< HEAD
 
 
         `Returns:`
@@ -603,6 +610,23 @@ class ActionNetwork(object):
         if page:
             return self._get_page("messages", page, per_page, filter)
         return self._get_entry_list("messages", limit, per_page, filter)
+=======
+           unpack_statistics:
+                Whether to unpack the statistics dictionary into the table. Default to False.
+
+
+        `Returns:`
+            A Parsons Table with all the messages related entries
+        """
+        # Fetch messages
+        if page:
+            return self._get_page("messages", page, per_page, filter)
+        tbl = self._get_entry_list("messages", limit, per_page, filter)
+        # Unpack statistics
+        if unpack_statistics:
+            tbl.unpack_dict("statistics", prepend=False, include_original=True)
+        return tbl
+>>>>>>> origin/main
 
     def get_message(self, message_id):
         """

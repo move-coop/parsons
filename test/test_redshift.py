@@ -644,6 +644,28 @@ class TestRedshiftDB(unittest.TestCase):
         # Check that files are there
         self.assertTrue(self.s3.key_exists(self.temp_s3_bucket, "unload_test"))
 
+    def test_drop_and_unload(self):
+
+        rs_table_test = f"{self.temp_schema}.test_copy"
+        # Copy a table to Redshift
+        self.rs.copy(self.tbl, rs_table_test, if_exists="drop")
+
+        key = "unload_test"
+
+        # Unload a table to S3
+        self.rs.drop_and_unload(
+            rs_table=rs_table_test,
+            bucket=self.temp_s3_bucket,
+            key=key,
+        )
+
+        key_prefix = f"{key}/{self.tbl.replace('.','_')}/"
+
+        # Check that files are there
+        self.assertTrue(self.s3.key_exists(self.temp_s3_bucket, key_prefix))
+
+        self.assertFalse(self.rs.table_exists(rs_table_test))
+
     def test_to_from_redshift(self):
 
         # Test the parsons table methods

@@ -52,13 +52,43 @@ You can then call various endpoints:
 
 	# Create a tagging
 	tagging_payload = {
-	    'tagging': {
-	        'tag_id': 'tag_id',
-	        'taggable_id': 'taggable_id',
-	        'taggable_type': 'taggable_type'
-	    }
+	  "_links" : {
+	    "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/123" }
+	  }
 	}
 	created_tagging = an.create_tagging('tag_id', tagging_payload)
+	# Result
+	created_tagging = {
+	  "_links": {
+	    "self": {
+	      "href": "https://actionnetwork.org/api/v2/tags/123/taggings/123"
+	    },
+	    "osdi:tag": {
+	      "href": "https://actionnetwork.org/api/v2/tags/123"
+	    },
+	    "osdi:person": {
+	      "href": "https://actionnetwork.org/api/v2/people/123"
+	    },
+	    "curies": [
+	      {
+	        "name": "osdi",
+	        "href": "https://actionnetwork.org/docs/v2/{rel}",
+	        "templated": true
+	      },
+	      {
+	        "name": "action_network",
+	        "href": "https://actionnetwork.org/docs/v2/{rel}",
+	        "templated": true
+	      }
+	    ]
+	  },
+	  "identifiers": [
+	    "action_network:123"
+	  ],
+	  "created_date": "2014-03-18T22:25:31Z",
+	  "modified_date": "2014-03-18T22:25:38Z",
+	  "item_type": "osdi:person"
+	}
 
 	# Delete a tagging
 	an.delete_tagging('tag_id', 'tagging_id')

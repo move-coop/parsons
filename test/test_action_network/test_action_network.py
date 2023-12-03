@@ -3992,11 +3992,7 @@ class TestActionNetwork(unittest.TestCase):
             "body": "<p>The mayor should stop doing the bad thing.</p>",
             "from": "Progressive Action Now",
             "reply_to": "jane@progressiveactionnow.org",
-            "targets": [
-                {
-                    "href": "https://actionnetwork.org/api/v2/queries/123"
-                }
-            ],
+            "targets": [{"href": "https://actionnetwork.org/api/v2/queries/123"}],
             "_links": {
                 "osdi:wrapper": {
                     "href": "https://actionnetwork.org/api/v2/wrappers/123"
@@ -4085,27 +4081,23 @@ class TestActionNetwork(unittest.TestCase):
         payload = {
             "targets": [{"given_name": "Joe", "family_name": "Schmoe"}],
             "_links": {
-                "osdi:person": {
-                    "href": "https://actionnetwork.org/api/v2/people/123"
-                }
+                "osdi:person": {"href": "https://actionnetwork.org/api/v2/people/123"}
             },
         }
-        id = self.fake_advocacy_campaign['identifiers'][0].split(':')[-1]
+        id = self.fake_advocacy_campaign["identifiers"][0].split(":")[-1]
         m.post(
             f"{self.api_url}/advocacy_campaigns/{id}/outreaches",
             text=json.dumps(self.fake_outreach),
         )
         assert_matching_tables(
-            self.an.create_outreach(
-                id, payload
-            ),
+            self.an.create_outreach(id, payload),
             self.fake_outreach,
         )
 
         @requests_mock.Mocker()
         def test_update_outreach(self, m):
             payload = {"subject": "Please vote no!"}
-            id = self.fake_advocacy_campaign['identifiers'][0].split(':')[-1]
+            id = self.fake_advocacy_campaign["identifiers"][0].split(":")[-1]
             m.put(
                 f"{self.api_url}/advocacy_campaigns/{id}/outreaches/123",
                 text=json.dumps(self.fake_outreach),

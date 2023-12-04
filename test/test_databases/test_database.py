@@ -20,9 +20,9 @@ def dcs():
 
 
 @pytest.fixture
-def dcs_bool():
+def dcs_no_bool():
     db = DatabaseCreateStatement()
-    db.DO_PARSE_BOOLS = True
+    db.DO_PARSE_BOOLS = False
     return db
 
 
@@ -119,7 +119,8 @@ def test_is_valid_sql_num(dcs, val, is_valid):
         ("{}", None, VARCHAR),
     ),
 )
-def test_detect_data_type(dcs, val, cmp_type, detected_type):
+def test_detect_data_type_no_bool(dcs, val, cmp_type, detected_type):
+    dcs.DO_PARSE_BOOLS = False
     assert dcs.detect_data_type(val, cmp_type) == detected_type
 
 
@@ -139,8 +140,8 @@ def test_detect_data_type(dcs, val, cmp_type, detected_type):
         ("Yes", None, BOOL),
     ),
 )
-def test_detect_data_type_bools(dcs_bool, val, cmp_type, detected_type):
-    assert dcs_bool.detect_data_type(val, cmp_type) == detected_type
+def test_detect_data_type_bools(dcs, val, cmp_type, detected_type):
+    assert dcs.detect_data_type(val, cmp_type) == detected_type
 
 
 @pytest.mark.parametrize(

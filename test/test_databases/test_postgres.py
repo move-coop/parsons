@@ -30,7 +30,7 @@ class TestPostgresCreateStatement(unittest.TestCase):
                 ["g", "", 9, "NA", 1.4, 1, 2],
             ]
         )
-
+        self.pg.DO_PARSE_BOOLS = False
         self.mapping = self.pg.generate_data_types(self.tbl)
         self.mapping2 = self.pg.generate_data_types(self.tbl2)
         self.pg.DO_PARSE_BOOLS = True

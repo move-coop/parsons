@@ -5,7 +5,7 @@ from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.redshift import Redshift
 from parsons.databases.mysql import MySQL
 from parsons.databases.postgres import Postgres
-from parsons import GoogleBigQuery as BigQuery
+from parsons.google.google_bigquery import GoogleBigQuery as BigQuery
 
 
 def discover_database(

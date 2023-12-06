@@ -176,38 +176,6 @@ class GoogleBigQuery(DatabaseConnector):
 
         return self._client
 
-    @contextmanager
-    def connection(self):
-        """
-        Generate a BigQuery connection.
-        The connection is set up as a python "context manager", so it will be closed
-        automatically when the connection goes out of scope. Note that the BigQuery
-        API uses jobs to run database operations and, as such, simply has a no-op for
-        a "commit" function. If you would like to manage transactions, please use
-        multi-statement queries as [outlined here](https://cloud.google.com/bigquery/docs/transactions)
-        or utilize the `query_with_transaction` method on this class.
-
-        When using the connection, make sure to put it in a ``with`` block (necessary for
-        any context manager):
-        ``with bq.connection() as conn:``
-
-        `Returns:`
-            Google BigQuery ``connection`` object
-        """
-        conn = self._dbapi.connect(self.client)
-        try:
-            yield conn
-        finally:
-            conn.close()
-
-    @contextmanager
-    def cursor(self, connection):
-        cur = connection.cursor()
-        try:
-            yield cur
-        finally:
-            cur.close()
-
     def query(
         self,
         sql: str,

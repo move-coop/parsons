@@ -18,7 +18,7 @@ from parsons.etl import Table
 from parsons.google.utitities import setup_google_application_credentials
 from parsons.google.google_cloud_storage import GoogleCloudStorage
 from parsons.utilities import check_env
-from parsons.utilities.files import create_temp_file, is_gzip_path
+from parsons.utilities.files import create_temp_file
 
 logger = logging.getLogger(__name__)
 
@@ -109,7 +109,7 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
     """
 
     # TODO - Better way to test for this
-    if type(schema_definition[0]) == bigquery.SchemaField:
+    if isinstance(schema_definition[0], bigquery.SchemaField):
         logger.debug("User supplied list of SchemaField objects")
         return schema_definition
 
@@ -301,9 +301,7 @@ class GoogleBigQuery(DatabaseConnector):
         queries_wrapped = f"""
         BEGIN
             BEGIN TRANSACTION;
-            
             {queries_on_newlines}
-
             COMMIT TRANSACTION;
         END;
         """
@@ -988,7 +986,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         logger.debug("Retrieving views info.")
         sql = f"""
-              select 
+              select
                 table_schema as schema_name,
                 table_name as view_name,
                 view_definition
@@ -1016,10 +1014,10 @@ class GoogleBigQuery(DatabaseConnector):
         """
 
         base_query = f"""
-        SELECT 
-            * 
+        SELECT
+            *
         FROM `{self.project}.{schema}.INFORMATION_SCHEMA.COLUMNS`
-        WHERE 
+        WHERE
             table_name = '{table_name}'
         """
 

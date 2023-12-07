@@ -3,12 +3,12 @@ from unittest.mock import patch
 from parsons.databases.redshift import Redshift
 from parsons.databases.mysql import MySQL
 from parsons.databases.postgres import Postgres
-from parsons.google.google_bigquery import GoogleBigQuery
+from parsons import GoogleBigQuery as BigQuery
 from parsons.databases.discover_database import discover_database
 
 
 class TestDiscoverDatabase(unittest.TestCase):
-    @patch.object(GoogleBigQuery, "__init__", return_value=None)
+    @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
     @patch.object(MySQL, "__init__", return_value=None)
     @patch.object(Redshift, "__init__", return_value=None)
@@ -18,7 +18,7 @@ class TestDiscoverDatabase(unittest.TestCase):
         with self.assertRaises(EnvironmentError):
             discover_database()
 
-    @patch.object(GoogleBigQuery, "__init__", return_value=None)
+    @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
     @patch.object(MySQL, "__init__", return_value=None)
     @patch.object(Redshift, "__init__", return_value=None)
@@ -29,7 +29,7 @@ class TestDiscoverDatabase(unittest.TestCase):
         )
         self.assertIsInstance(discover_database(), Redshift)
 
-    @patch.object(GoogleBigQuery, "__init__", return_value=None)
+    @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
     @patch.object(MySQL, "__init__", return_value=None)
     @patch.object(Redshift, "__init__", return_value=None)
@@ -40,7 +40,7 @@ class TestDiscoverDatabase(unittest.TestCase):
         )
         self.assertIsInstance(discover_database(default_connector=Postgres), Redshift)
 
-    @patch.object(GoogleBigQuery, "__init__", return_value=None)
+    @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
     @patch.object(MySQL, "__init__", return_value=None)
     @patch.object(Redshift, "__init__", return_value=None)
@@ -53,7 +53,7 @@ class TestDiscoverDatabase(unittest.TestCase):
             discover_database(default_connector=[Postgres, MySQL]), Redshift
         )
 
-    @patch.object(GoogleBigQuery, "__init__", return_value=None)
+    @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
     @patch.object(MySQL, "__init__", return_value=None)
     @patch.object(Redshift, "__init__", return_value=None)
@@ -63,7 +63,7 @@ class TestDiscoverDatabase(unittest.TestCase):
         with self.assertRaises(EnvironmentError):
             discover_database()
 
-    @patch.object(GoogleBigQuery, "__init__", return_value=None)
+    @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
     @patch.object(MySQL, "__init__", return_value=None)
     @patch.object(Redshift, "__init__", return_value=None)
@@ -72,7 +72,7 @@ class TestDiscoverDatabase(unittest.TestCase):
         mock_getenv.return_value = "password"
         self.assertIsInstance(discover_database(default_connector=Redshift), Redshift)
 
-    @patch.object(GoogleBigQuery, "__init__", return_value=None)
+    @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
     @patch.object(MySQL, "__init__", return_value=None)
     @patch.object(Redshift, "__init__", return_value=None)
@@ -83,7 +83,7 @@ class TestDiscoverDatabase(unittest.TestCase):
             discover_database(default_connector=[MySQL, Redshift]), MySQL
         )
 
-    @patch.object(GoogleBigQuery, "__init__", return_value=None)
+    @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
     @patch.object(MySQL, "__init__", return_value=None)
     @patch.object(Redshift, "__init__", return_value=None)
@@ -97,7 +97,7 @@ class TestDiscoverDatabase(unittest.TestCase):
         with self.assertRaises(EnvironmentError):
             discover_database(default_connector=Postgres)
 
-    @patch.object(GoogleBigQuery, "__init__", return_value=None)
+    @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
     @patch.object(MySQL, "__init__", return_value=None)
     @patch.object(Redshift, "__init__", return_value=None)
@@ -109,7 +109,7 @@ class TestDiscoverDatabase(unittest.TestCase):
             else None
         )
         with self.assertRaises(EnvironmentError):
-            discover_database(default_connector=[Postgres, GoogleBigQuery])
+            discover_database(default_connector=[Postgres, BigQuery])
 
 
 if __name__ == "__main__":

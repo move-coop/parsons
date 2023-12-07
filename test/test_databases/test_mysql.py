@@ -156,11 +156,9 @@ class TestMySQL(unittest.TestCase):  # noqa
     def test_data_type(self):
 
         # Test bool
-        self.mysql.DO_PARSE_BOOLS = True
-        self.assertEqual(self.mysql.data_type(1, ""), "bool")
         self.assertEqual(self.mysql.data_type(False, ""), "bool")
+        self.assertEqual(self.mysql.data_type(True, ""), "bool")
 
-        self.mysql.DO_PARSE_BOOLS = False
         # Test smallint
         self.assertEqual(self.mysql.data_type(1, ""), "smallint")
         self.assertEqual(self.mysql.data_type(2, ""), "smallint")
@@ -170,14 +168,14 @@ class TestMySQL(unittest.TestCase):  # noqa
         self.assertEqual(self.mysql.data_type(2147483648, ""), "bigint")
         # Test varchar that looks like an int
         self.assertEqual(self.mysql.data_type("00001", ""), "varchar")
-        # Test varchar that looks like a bool
-        self.assertEqual(self.mysql.data_type(False, ""), "varchar")
         # Test a float as a decimal
         self.assertEqual(self.mysql.data_type(5.001, ""), "float")
         # Test varchar
         self.assertEqual(self.mysql.data_type("word", ""), "varchar")
-        # Test int with underscore
+        # Test int with underscore as string
         self.assertEqual(self.mysql.data_type("1_2", ""), "varchar")
+        # Test int with underscore
+        self.assertEqual(self.mysql.data_type(1_2, ""), "smallint")
         # Test int with leading zero
         self.assertEqual(self.mysql.data_type("01", ""), "varchar")
 

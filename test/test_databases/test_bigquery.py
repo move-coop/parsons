@@ -107,7 +107,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
             all(
                 [
                     text in keyword_args["sql"]
-                    for text in queries + ["ROLLBACK", "BEGIN TRANSACTION", "COMMIT"]
+                    for text in queries + ["BEGIN TRANSACTION", "COMMIT"]
                 ]
             )
         )

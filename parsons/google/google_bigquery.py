@@ -805,7 +805,8 @@ class GoogleBigQuery(DatabaseConnector):
             raise ValueError("Table already exists.")
 
         query = f"""
-            CREATE {'OR REPLACE ' if if_exists == 'replace' else ''}TABLE{' IF NOT EXISTS' if if_exists == 'ignore' else ''}
+            CREATE {'OR REPLACE ' if if_exists == 'replace' else ''}
+            TABLE{' IF NOT EXISTS' if if_exists == 'ignore' else ''}
             {destination_table}
             CLONE {source_table}
         """

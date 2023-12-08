@@ -29,6 +29,7 @@ def main():
                 "google-api-python-client",
                 "google-cloud-bigquery",
                 "google-cloud-storage",
+                "google-cloud-storage-transfer",
                 "gspread",
                 "httplib2",
                 "oauth2client",

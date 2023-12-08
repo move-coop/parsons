@@ -20,8 +20,6 @@ class DatabaseCreateStatement:
         self.FLOAT = consts.FLOAT
 
         self.BOOL = consts.BOOL
-        self.TRUE_VALS = consts.TRUE_VALS
-        self.FALSE_VALS = consts.FALSE_VALS
 
         self.VARCHAR = consts.VARCHAR
         self.RESERVED_WORDS = consts.RESERVED_WORDS

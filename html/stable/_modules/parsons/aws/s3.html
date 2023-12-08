@@ -63,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobilecommons.html">MobileCommons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../nation_builder.html">NationBuilder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
@@ -139,6 +140,7 @@
 <span></span><span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">boto3</span>
 <span class="kn">from</span> <span class="nn">botocore.client</span> <span class="kn">import</span> <span class="n">ClientError</span>
+
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -592,7 +594,26 @@
                 <span class="n">object_acl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">ObjectAcl</span><span class="p">(</span><span class="n">destination_bucket</span><span class="p">,</span> <span class="n">destination_key</span><span class="p">)</span>
                 <span class="n">object_acl</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">ACL</span><span class="o">=</span><span class="s2">&quot;public-read&quot;</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished syncing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">key_list</span><span class="p">)</span><span class="si">}</span><span class="s2"> keys&quot;</span><span class="p">)</span></div></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished syncing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">key_list</span><span class="p">)</span><span class="si">}</span><span class="s2"> keys&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="S3.get_buckets_with_subname"><a class="viewcode-back" href="../../../aws.html#parsons.S3.get_buckets_with_subname">[docs]</a>    <span class="k">def</span> <span class="nf">get_buckets_with_subname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_subname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Grabs a type of bucket based on naming convention.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            subname: str</span>
+<span class="sd">                This will most commonly be a &#39;vendor&#39;</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            list</span>
+<span class="sd">                list of buckets</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">all_buckets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">()</span>
+        <span class="n">buckets</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_buckets</span> <span class="k">if</span> <span class="n">bucket_subname</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="n">buckets</span></div></div>
 </pre></div>
 
            </div>

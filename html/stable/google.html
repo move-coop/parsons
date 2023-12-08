@@ -77,27 +77,28 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#cloud-storage">Cloud Storage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Quickstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">API</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#civic">Civic</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id12">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">Quickstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id14">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">API</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#google-sheets">Google Sheets</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Quickstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id17">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">API</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilecommons.html">MobileCommons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nation_builder.html">NationBuilder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
@@ -286,21 +287,23 @@ Google Cloud projects.</p>
 </section>
 <section id="id4">
 <h3>Quickstart<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h3>
-<p>To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of the Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> to be either of those strings and call the constructor without that argument.</p>
+<p>To instantiate the <cite>GoogleBigQuery</cite> class, you can pass the constructor a string containing either the name of the Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> to be either of those strings and call the constructor without that argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleBigQuery</span>
 
 <span class="c1"># Set as environment variable so we don&#39;t have to pass it in. May either</span>
 <span class="c1"># be the file name or a JSON encoding of the credentials.</span>
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;GOOGLE_APPLICATION_CREDENTIALS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;google_credentials_file.json&#39;</span>
 
-<span class="n">big_query</span> <span class="o">=</span> <span class="n">GoogleBigQuery</span><span class="p">()</span>
+<span class="n">bigquery</span> <span class="o">=</span> <span class="n">GoogleBigQuery</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Alternatively, you can pass the credentials in as an argument. In the example below, we also specify the project.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Project in which we&#39;re working</span>
 <span class="n">project</span> <span class="o">=</span> <span class="s1">&#39;parsons-test&#39;</span>
-<span class="n">big_query</span> <span class="o">=</span> <span class="n">GoogleBigQuery</span><span class="p">(</span><span class="n">app_creds</span><span class="o">=</span><span class="s1">&#39;google_credentials_file.json&#39;</span><span class="p">,</span>
-                           <span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">)</span>
+<span class="n">bigquery</span> <span class="o">=</span> <span class="n">GoogleBigQuery</span><span class="p">(</span>
+   <span class="n">app_creds</span><span class="o">=</span><span class="s1">&#39;google_credentials_file.json&#39;</span><span class="p">,</span>
+   <span class="n">project</span><span class="o">=</span><span class="n">project</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>We can now upload/query data.</p>
@@ -309,7 +312,7 @@ Google Cloud projects.</p>
 
 <span class="c1"># Table name should be project.dataset.table, or dataset.table, if</span>
 <span class="c1"># working with the default project</span>
-<span class="n">table_name</span> <span class="o">=</span> <span class="n">project</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">dataset</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">table</span>
+<span class="n">table_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">project</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">`&quot;</span>
 
 <span class="c1"># Must be pre-existing bucket. Create via GoogleCloudStorage() or</span>
 <span class="c1"># at https://console.cloud.google.com/storage/create-bucket. May be</span>
@@ -318,7 +321,7 @@ Google Cloud projects.</p>
 <span class="n">gcs_temp_bucket</span> <span class="o">=</span> <span class="s1">&#39;parsons_bucket&#39;</span>
 
 <span class="c1"># Create dataset if it doesn&#39;t already exist</span>
-<span class="n">big_query</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span> <span class="n">exists_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">bigquery</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span> <span class="n">exists_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">parsons_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;party&#39;</span><span class="p">:</span><span class="s1">&#39;D&#39;</span><span class="p">},</span>
                        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Jane&#39;</span><span class="p">,</span> <span class="s1">&#39;party&#39;</span><span class="p">:</span><span class="s1">&#39;D&#39;</span><span class="p">},</span>
@@ -326,15 +329,23 @@ Google Cloud projects.</p>
                        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Bill&#39;</span><span class="p">,</span> <span class="s1">&#39;party&#39;</span><span class="p">:</span><span class="s1">&#39;I&#39;</span><span class="p">}])</span>
 
 <span class="c1"># Copy table in to create new BigQuery table</span>
-<span class="n">big_query</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="o">=</span><span class="n">parsons_table</span><span class="p">,</span>
-               <span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span>
-               <span class="n">tmp_gcs_bucket</span><span class="o">=</span><span class="n">gcs_temp_bucket</span><span class="p">)</span>
+<span class="n">bigquery</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
+   <span class="n">table_obj</span><span class="o">=</span><span class="n">parsons_table</span><span class="p">,</span>
+   <span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span>
+   <span class="n">tmp_gcs_bucket</span><span class="o">=</span><span class="n">gcs_temp_bucket</span>
+<span class="p">)</span>
 
 <span class="c1"># Select from project.dataset.table</span>
-<span class="n">big_query</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;select name from </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> where party = &quot;D&quot;&#39;</span><span class="p">)</span>
+<span class="n">bigquery</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;select name from </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> where party = &quot;D&quot;&#39;</span><span class="p">)</span>
+
+<span class="c1"># Query with parameters</span>
+<span class="n">bigquery</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+   <span class="sa">f</span><span class="s2">&quot;select name from </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> where party = %s&quot;</span><span class="p">,</span>
+   <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;D&quot;</span><span class="p">]</span>
+<span class="p">)</span>
 
 <span class="c1"># Delete the table when we&#39;re done</span>
-<span class="n">big_query</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">delete_table</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table_name</span><span class="p">)</span>
+<span class="n">bigquery</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">delete_table</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table_name</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -367,51 +378,39 @@ then will use the default inferred environment.</p>
 </dl>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmp_gcs_bucket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcs_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#parsons.google.google_cloud_storage.GoogleCloudStorage" title="parsons.google.google_cloud_storage.GoogleCloudStorage"><span class="pre">parsons.google.google_cloud_storage.GoogleCloudStorage</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">google.cloud.bigquery.job.load.LoadJobConfig</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">load_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.copy" title="Permalink to this definition"></a></dt>
-<dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> into Google BigQuery via Google Cloud Storage.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.client">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.client" title="Permalink to this definition"></a></dt>
+<dd><p>Get the Google BigQuery client to use for making queries.</p>
 <dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>table_obj: obj</dt><dd><p>The Parsons Table to copy into BigQuery.</p>
-</dd>
-<dt>table_name: str</dt><dd><p>The table name to load the data into.</p>
-</dd>
-<dt>if_exists: str</dt><dd><p>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
-or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</p>
-</dd>
-<dt>tmp_gcs_bucket: str</dt><dd><p>The name of the Google Cloud Storage bucket to use to stage the data to load
-into BigQuery. Required if <cite>GCS_TEMP_BUCKET</cite> is not specified.</p>
-</dd>
-<dt>gcs_client: object</dt><dd><p>The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.</p>
-</dd>
-<dt>job_config: object</dt><dd><p>A LoadJobConfig object to provide to the underlying call to load_table_from_uri
-on the BigQuery client. The function will create its own if not provided.</p>
-</dd>
-<dt><a href="#id6"><span class="problematic" id="id7">**</span></a>load_kwargs: kwargs</dt><dd><p>Arguments to pass to the underlying load_table_from_uri call on the BigQuery
-client.</p>
-</dd>
-</dl>
+<dt><cite>Returns:</cite></dt><dd><p><cite>google.cloud.bigquery.client.Client</cite></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.delete_table">
-<span class="sig-name descname"><span class="pre">delete_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.delete_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.delete_table" title="Permalink to this definition"></a></dt>
-<dd><p>Delete a BigQuery table.</p>
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.connection">
+<span class="sig-name descname"><span class="pre">connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.connection" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a BigQuery connection.
+The connection is set up as a python “context manager”, so it will be closed
+automatically when the connection goes out of scope. Note that the BigQuery
+API uses jobs to run database operations and, as such, simply has a no-op for
+a “commit” function.</p>
+<p>If you would like to manage transactions, please use multi-statement queries
+as [outlined here](<a class="reference external" href="https://cloud.google.com/bigquery/docs/transactions">https://cloud.google.com/bigquery/docs/transactions</a>)
+or utilize the <cite>query_with_transaction</cite> method on this class.</p>
+<p>When using the connection, make sure to put it in a <code class="docutils literal notranslate"><span class="pre">with</span></code> block (necessary for
+any context manager):
+<code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">bq.connection()</span> <span class="pre">as</span> <span class="pre">conn:</span></code></p>
 <dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>table_name: str</dt><dd><p>The name of the table to delete.</p>
-</dd>
-</dl>
+<dt><cite>Returns:</cite></dt><dd><p>Google BigQuery <code class="docutils literal notranslate"><span class="pre">connection</span></code> object</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.query">
-<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.query" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.query" title="Permalink to this definition"></a></dt>
 <dd><p>Run a BigQuery query and return the results as a Parsons table.</p>
 <p>To include python variables in your query, it is recommended to pass them as parameters,
 following the BigQuery style where parameters are prefixed with <cite>&#64;`s.
@@ -445,6 +444,302 @@ injection attacks.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.query_with_connection">
+<span class="sig-name descname"><span class="pre">query_with_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.query_with_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.query_with_connection" title="Permalink to this definition"></a></dt>
+<dd><p>Execute a query against the BigQuery database, with an existing connection.
+Useful for batching queries together. Will return <code class="docutils literal notranslate"><span class="pre">None</span></code> if the query
+returns zero rows.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>sql: str</dt><dd><p>A valid SQL statement</p>
+</dd>
+<dt>connection: obj</dt><dd><p>A connection object obtained from <code class="docutils literal notranslate"><span class="pre">redshift.connection()</span></code></p>
+</dd>
+<dt>parameters: list</dt><dd><p>A list of python variables to be converted into SQL values in your query</p>
+</dd>
+<dt>commit: boolean</dt><dd><p>Must be true. BigQuery</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.copy_from_gcs">
+<span class="sig-name descname"><span class="pre">copy_from_gcs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gcs_blob_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_delimiter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignoreheader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nullas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_quoted_newlines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_jagged_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quote</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">google.cloud.bigquery.job.load.LoadJobConfig</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_unzip_blobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gzip'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_file_extension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">load_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.copy_from_gcs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.copy_from_gcs" title="Permalink to this definition"></a></dt>
+<dd><p>Copy a csv saved in Google Cloud Storage into Google BigQuery.</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>gcs_blob_uri: str</dt><dd><p>The GoogleCloudStorage URI referencing the file to be copied.</p>
+</dd>
+<dt>table_name: str</dt><dd><p>The table name to load the data into.</p>
+</dd>
+<dt>if_exists: str</dt><dd><p>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
+or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table. This maps to <cite>write_disposition</cite> in the
+<cite>LoadJobConfig</cite> class.</p>
+</dd>
+<dt>max_errors: int</dt><dd><p>The maximum number of rows that can error and be skipped before
+the job fails. This maps to <cite>max_bad_records</cite> in the <cite>LoadJobConfig</cite> class.</p>
+</dd>
+<dt>data_type: str</dt><dd><p>Denotes whether target file is a JSON or CSV</p>
+</dd>
+<dt>csv_delimiter: str</dt><dd><p>Character used to separate values in the target file</p>
+</dd>
+<dt>ignoreheader: int</dt><dd><p>Treats the specified number_rows as a file header and doesn’t load them</p>
+</dd>
+<dt>nullas: str</dt><dd><p>Loads fields that match null_string as NULL, where null_string can be any string</p>
+</dd>
+<dt>allow_quoted_newlines: bool</dt><dd><p>If True, detects quoted new line characters within a CSV field and does
+not interpret the quoted new line character as a row boundary</p>
+</dd>
+<dt>allow_jagged_rows: bool</dt><dd><p>Allow missing trailing optional columns (CSV only).</p>
+</dd>
+<dt>quote: str</dt><dd><p>The value that is used to quote data sections in a CSV file.
+BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byte of
+the encoded string to split the data in its raw, binary state.</p>
+</dd>
+<dt>schema: list</dt><dd><p>BigQuery expects a list of dictionaries in the following format
+<a href="#id6"><span class="problematic" id="id7">``</span></a>`
+schema = [</p>
+<blockquote>
+<div><p>{“name”: “column_name”, “type”: STRING},
+{“name”: “another_column_name”, “type”: INT}</p>
+</div></blockquote>
+</dd>
+<dt>job_config: object</dt><dd><p>A LoadJobConfig object to provide to the underlying call to load_table_from_uri
+on the BigQuery client. The function will create its own if not provided. Note
+if there are any conflicts between the job_config and other parameters, the
+job_config values are preferred.</p>
+</dd>
+<dt>force_unzip_blobs: bool</dt><dd><p>If True, target blobs will be unzipped before being loaded to BigQuery.</p>
+</dd>
+<dt>compression_type: str</dt><dd><p>Accepts <cite>zip</cite> or <cite>gzip</cite> values to differentially unzip a compressed
+blob in cloud storage.</p>
+</dd>
+<dt>new_file_extension: str</dt><dd><p>Provides a file extension if a blob is decompressed and rewritten
+to cloud storage.</p>
+</dd>
+<dt><a href="#id8"><span class="problematic" id="id9">**</span></a>load_kwargs: kwargs</dt><dd><p>Other arguments to pass to the underlying load_table_from_uri
+call on the BigQuery client.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.copy_large_compressed_file_from_gcs">
+<span class="sig-name descname"><span class="pre">copy_large_compressed_file_from_gcs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gcs_blob_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_delimiter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignoreheader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nullas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_quoted_newlines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_jagged_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quote</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">google.cloud.bigquery.job.load.LoadJobConfig</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gzip'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_file_extension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">load_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.copy_large_compressed_file_from_gcs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.copy_large_compressed_file_from_gcs" title="Permalink to this definition"></a></dt>
+<dd><p>Copy a compressed CSV file that exceeds the maximum size in Google Cloud Storage
+into Google BigQuery.</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>gcs_blob_uri: str</dt><dd><p>The GoogleCloudStorage URI referencing the file to be copied.</p>
+</dd>
+<dt>table_name: str</dt><dd><p>The table name to load the data into.</p>
+</dd>
+<dt>if_exists: str</dt><dd><p>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
+or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table. This maps to <cite>write_disposition</cite> in the
+<cite>LoadJobConfig</cite> class.</p>
+</dd>
+<dt>max_errors: int</dt><dd><p>The maximum number of rows that can error and be skipped before
+the job fails. This maps to <cite>max_bad_records</cite> in the <cite>LoadJobConfig</cite> class.</p>
+</dd>
+<dt>data_type: str</dt><dd><p>Denotes whether target file is a JSON or CSV</p>
+</dd>
+<dt>csv_delimiter: str</dt><dd><p>Character used to separate values in the target file</p>
+</dd>
+<dt>ignoreheader: int</dt><dd><p>Treats the specified number_rows as a file header and doesn’t load them</p>
+</dd>
+<dt>nullas: str</dt><dd><p>Loads fields that match null_string as NULL, where null_string can be any string</p>
+</dd>
+<dt>allow_quoted_newlines: bool</dt><dd><p>If True, detects quoted new line characters within a CSV field
+and does not interpret the quoted new line character as a row boundary</p>
+</dd>
+<dt>allow_jagged_rows: bool</dt><dd><p>Allow missing trailing optional columns (CSV only).</p>
+</dd>
+<dt>quote: str</dt><dd><p>The value that is used to quote data sections in a CSV file.
+BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byte of
+the encoded string to split the data in its raw, binary state.</p>
+</dd>
+<dt>schema: list</dt><dd><p>BigQuery expects a list of dictionaries in the following format
+<a href="#id10"><span class="problematic" id="id11">``</span></a>`
+schema = [</p>
+<blockquote>
+<div><p>{“name”: “column_name”, “type”: STRING},
+{“name”: “another_column_name”, “type”: INT}</p>
+</div></blockquote>
+</dd>
+<dt>job_config: object</dt><dd><p>A LoadJobConfig object to provide to the underlying call to load_table_from_uri
+on the BigQuery client. The function will create its own if not provided. Note
+if there are any conflicts between the job_config and other parameters, the
+job_config values are preferred.</p>
+</dd>
+<dt>compression_type: str</dt><dd><p>Accepts <cite>zip</cite> or <cite>gzip</cite> values to differentially unzip a compressed
+blob in cloud storage.</p>
+</dd>
+<dt>new_file_extension: str</dt><dd><p>Provides a file extension if a blob is decompressed and rewritten to cloud storage.</p>
+</dd>
+<dt><a href="#id12"><span class="problematic" id="id13">**</span></a>load_kwargs: kwargs</dt><dd><p>Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
+client.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.copy_s3">
+<span class="sig-name descname"><span class="pre">copy_s3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_delimiter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignoreheader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nullas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws_access_key_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws_secret_access_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcs_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#parsons.google.google_cloud_storage.GoogleCloudStorage" title="parsons.google.google_cloud_storage.GoogleCloudStorage"><span class="pre">parsons.google.google_cloud_storage.GoogleCloudStorage</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmp_gcs_bucket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">google.cloud.bigquery.job.load.LoadJobConfig</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">load_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.copy_s3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.copy_s3" title="Permalink to this definition"></a></dt>
+<dd><p>Copy a file from s3 to BigQuery.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>table_name: str</dt><dd><p>The table name and schema (<code class="docutils literal notranslate"><span class="pre">tmc.cool_table</span></code>) to point the file.</p>
+</dd>
+<dt>bucket: str</dt><dd><p>The s3 bucket where the file or manifest is located.</p>
+</dd>
+<dt>key: str</dt><dd><p>The key of the file or manifest in the s3 bucket.</p>
+</dd>
+<dt>if_exists: str</dt><dd><p>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
+or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</p>
+</dd>
+<dt>max_errors: int</dt><dd><p>The maximum number of rows that can error and be skipped before
+the job fails.</p>
+</dd>
+<dt>data_type: str</dt><dd><p>The data type of the file. Only <code class="docutils literal notranslate"><span class="pre">csv</span></code> supported currently.</p>
+</dd>
+<dt>csv_delimiter: str</dt><dd><p>The delimiter of the <code class="docutils literal notranslate"><span class="pre">csv</span></code>. Only relevant if data_type is <code class="docutils literal notranslate"><span class="pre">csv</span></code>.</p>
+</dd>
+<dt>ignoreheader: int</dt><dd><p>The number of header rows to skip. Ignored if data_type is <code class="docutils literal notranslate"><span class="pre">json</span></code>.</p>
+</dd>
+<dt>nullas: str</dt><dd><p>Loads fields that match string as NULL</p>
+</dd>
+<dt>aws_access_key_id:</dt><dd><p>An AWS access key granted to the bucket where the file is located. Not required
+if keys are stored as environmental variables.</p>
+</dd>
+<dt>aws_secret_access_key:</dt><dd><p>An AWS secret access key granted to the bucket where the file is located. Not
+required if keys are stored as environmental variables.</p>
+</dd>
+<dt>gcs_client: object</dt><dd><p>The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.</p>
+</dd>
+<dt>tmp_gcs_bucket: str</dt><dd><p>The name of the Google Cloud Storage bucket to use to stage the data to load
+into BigQuery. Required if <cite>GCS_TEMP_BUCKET</cite> is not specified.</p>
+</dd>
+<dt>job_config: object</dt><dd><p>A LoadJobConfig object to provide to the underlying call to load_table_from_uri
+on the BigQuery client. The function will create its own if not provided. Note
+if there are any conflicts between the job_config and other parameters, the
+job_config values are preferred.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite></dt><dd><dl class="simple">
+<dt>Parsons Table or <code class="docutils literal notranslate"><span class="pre">None</span></code></dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmp_gcs_bucket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcs_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#parsons.google.google_cloud_storage.GoogleCloudStorage" title="parsons.google.google_cloud_storage.GoogleCloudStorage"><span class="pre">parsons.google.google_cloud_storage.GoogleCloudStorage</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">google.cloud.bigquery.job.load.LoadJobConfig</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">load_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.copy" title="Permalink to this definition"></a></dt>
+<dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> into Google BigQuery via Google Cloud Storage.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>tbl: obj</dt><dd><p>The Parsons Table to copy into BigQuery.</p>
+</dd>
+<dt>table_name: str</dt><dd><p>The table name to load the data into.</p>
+</dd>
+<dt>if_exists: str</dt><dd><p>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
+or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</p>
+</dd>
+<dt>max_errors: int</dt><dd><p>The maximum number of rows that can error and be skipped before
+the job fails.</p>
+</dd>
+<dt>tmp_gcs_bucket: str</dt><dd><p>The name of the Google Cloud Storage bucket to use to stage the data to load
+into BigQuery. Required if <cite>GCS_TEMP_BUCKET</cite> is not specified.</p>
+</dd>
+<dt>gcs_client: object</dt><dd><p>The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.</p>
+</dd>
+<dt>job_config: object</dt><dd><p>A LoadJobConfig object to provide to the underlying call to load_table_from_uri
+on the BigQuery client. The function will create its own if not provided.</p>
+</dd>
+<dt><a href="#id14"><span class="problematic" id="id15">**</span></a>load_kwargs: kwargs</dt><dd><p>Arguments to pass to the underlying load_table_from_uri call on the BigQuery
+client.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.duplicate_table">
+<span class="sig-name descname"><span class="pre">duplicate_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_source_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.duplicate_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.duplicate_table" title="Permalink to this definition"></a></dt>
+<dd><p>Create a copy of an existing table (or subset of rows) in a new
+table.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>source_table: str</dt><dd><p>Name of existing schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">myschema.oldtable</span></code>)</p>
+</dd>
+<dt>destination_table: str</dt><dd><p>Name of destination schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">myschema.newtable</span></code>)</p>
+</dd>
+<dt>if_exists: str</dt><dd><p>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">replace</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">ignore</span></code> the operation.</p>
+</dd>
+<dt>drop_source_table: boolean</dt><dd><p>Drop the source table</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.upsert">
+<span class="sig-name descname"><span class="pre">upsert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cleanup_temp_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_s3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">copy_args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.upsert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.upsert" title="Permalink to this definition"></a></dt>
+<dd><p>Preform an upsert on an existing table. An upsert is a function in which rows
+in a table are updated and inserted at the same time.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>table_obj: obj</dt><dd><p>A Parsons table object</p>
+</dd>
+<dt>target_table: str</dt><dd><p>The schema and table name to upsert</p>
+</dd>
+<dt>primary_key: str or list</dt><dd><p>The primary key column(s) of the target table</p>
+</dd>
+<dt>distinct_check: boolean</dt><dd><p>Check if the primary key column is distinct. Raise error if not.</p>
+</dd>
+<dt>cleanup_temp_table: boolean</dt><dd><p>A temp table is dropped by default on cleanup. You can set to False for debugging.</p>
+</dd>
+<dt>from_s3: boolean</dt><dd><p>Instead of specifying a table_obj (set the first argument to None),
+set this to True and include <code class="xref py py-func docutils literal notranslate"><span class="pre">copy_s3()</span></code>
+arguments to upsert a pre-existing s3 file into the target_table</p>
+</dd>
+<dt>**copy_args: kwargs</dt><dd><p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">copy()</span></code> for options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.delete_table">
+<span class="sig-name descname"><span class="pre">delete_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.delete_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.delete_table" title="Permalink to this definition"></a></dt>
+<dd><p>Delete a BigQuery table.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>table_name: str</dt><dd><p>The name of the table to delete.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.table_exists">
 <span class="sig-name descname"><span class="pre">table_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.table_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.table_exists" title="Permalink to this definition"></a></dt>
 <dd><p>Check whether or not the Google BigQuery table exists in the specified dataset.</p>
@@ -462,12 +757,96 @@ injection attacks.</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.client">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.client" title="Permalink to this definition"></a></dt>
-<dd><p>Get the Google BigQuery client to use for making queries.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.get_tables">
+<span class="sig-name descname"><span class="pre">get_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.get_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.get_tables" title="Permalink to this definition"></a></dt>
+<dd><p>List the tables in a schema including metadata.</p>
 <dl class="simple">
-<dt><cite>Returns:</cite></dt><dd><p><cite>google.cloud.bigquery.client.Client</cite></p>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>schema: str</dt><dd><p>Filter by a schema</p>
+</dd>
+<dt>table_name: str</dt><dd><p>Filter by a table name</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.get_views">
+<span class="sig-name descname"><span class="pre">get_views</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.get_views"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.get_views" title="Permalink to this definition"></a></dt>
+<dd><p>List views.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>schema: str</dt><dd><p>Filter by a schema</p>
+</dd>
+<dt>view: str</dt><dd><p>Filter by a table name</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.get_columns">
+<span class="sig-name descname"><span class="pre">get_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.get_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.get_columns" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the column names (and other column metadata) for a table. If you
+need just the column names run <code class="docutils literal notranslate"><span class="pre">get_columns_list()</span></code>, as it is faster.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>schema: str</dt><dd><p>The schema name</p>
+</dd>
+<dt>table_name: str</dt><dd><p>The table name</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A dictionary mapping column name to a dictionary with extra info. The
+keys of the dictionary are ordered just liked the columns in the table.
+The extra info is a dict with format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.get_columns_list">
+<span class="sig-name descname"><span class="pre">get_columns_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.get_columns_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.get_columns_list" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the column names for a table.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>schema: str</dt><dd><p>The schema name</p>
+</dd>
+<dt>table_name: str</dt><dd><p>The table name</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A list of column names</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.get_row_count">
+<span class="sig-name descname"><span class="pre">get_row_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.get_row_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.get_row_count" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the row count for a BigQuery materialization.</p>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>schema: str</dt><dd><p>The schema name</p>
+</dd>
+<dt>table_name: str</dt><dd><p>The table name</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Row count of the target table</p>
 </dd>
 </dl>
 </dd></dl>
@@ -479,14 +858,14 @@ injection attacks.</p>
 </section>
 <section id="cloud-storage">
 <h2>Cloud Storage<a class="headerlink" href="#cloud-storage" title="Permalink to this headline"></a></h2>
-<section id="id8">
-<h3>Overview<a class="headerlink" href="#id8" title="Permalink to this headline"></a></h3>
+<section id="id16">
+<h3>Overview<a class="headerlink" href="#id16" title="Permalink to this headline"></a></h3>
 <p>Google Cloud Storage is a cloud file storage system. It uses buckets in which to
 store arbitrary files referred to as blobs. You may use this connector to upload Parsons tables as blobs, download them to files, and list available blobs.</p>
 <p>To use the GoogleCloudStorage class, you will need Google service account credentials. If you are the administrator of your Google Cloud account, you can generate them in the <a class="reference external" href="https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288">Google Cloud Console APIs and Services</a>.</p>
 </section>
-<section id="id10">
-<h3>Quickstart<a class="headerlink" href="#id10" title="Permalink to this headline"></a></h3>
+<section id="id18">
+<h3>Quickstart<a class="headerlink" href="#id18" title="Permalink to this headline"></a></h3>
 <p>To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of your Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> to be either of those strings and call the constructor without that argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleCloudStorage</span>
 
@@ -513,8 +892,8 @@ the available blobs.</p>
 </pre></div>
 </div>
 </section>
-<section id="id11">
-<h3>API<a class="headerlink" href="#id11" title="Permalink to this headline"></a></h3>
+<section id="id19">
+<h3>API<a class="headerlink" href="#id19" title="Permalink to this headline"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_cloud_storage.</span></span><span class="sig-name descname"><span class="pre">GoogleCloudStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage" title="Permalink to this definition"></a></dt>
@@ -622,15 +1001,19 @@ is set to <code class="docutils literal notranslate"><span class="pre">True</spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs">
-<span class="sig-name descname"><span class="pre">list_blobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.list_blobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_blobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_glob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.list_blobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs" title="Permalink to this definition"></a></dt>
 <dd><p>List all of the blobs in a bucket</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>bucket_name: str</dt><dd><p>The name of the bucket</p>
 </dd>
-<dt>max_results: int</dt><dd><p>TBD</p>
+<dt>max_results: int</dt><dd><p>Maximum number of blobs to return</p>
 </dd>
-<dt>prefix_filter: str</dt><dd><p>A prefix to filter files</p>
+<dt>prefix: str</dt><dd><p>A prefix to filter files</p>
+</dd>
+<dt>match_glob: str</dt><dd><p>Filters files based on glob string. NOTE that the match_glob
+parameter runs on the full blob URI, include a preceding wildcard
+value to account for nested files (<em>/ for one level, *</em>/ for n levels)</p>
 </dd>
 </dl>
 </dd>
@@ -675,13 +1058,13 @@ is set to <code class="docutils literal notranslate"><span class="pre">True</spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.put_blob">
-<span class="sig-name descname"><span class="pre">put_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.put_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.put_blob" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">put_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.put_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.put_blob" title="Permalink to this definition"></a></dt>
 <dd><p>Puts a blob (aka file) in a bucket</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>blob_name:</dt><dd><p>The name of blob to be stored in the bucket</p>
-</dd>
 <dt>bucket_name:</dt><dd><p>The name of the bucket to store the blob</p>
+</dd>
+<dt>blob_name:</dt><dd><p>The name of blob to be stored in the bucket</p>
 </dd>
 <dt>local_path: str</dt><dd><p>The local path of the file to upload</p>
 </dd>
@@ -747,7 +1130,11 @@ when the script is done running.</p>
 </dd>
 <dt>data_type: str</dt><dd><p>The file format to use when writing the data. One of: <cite>csv</cite> or <cite>json</cite></p>
 </dd>
+<dt>default_acl:</dt><dd><p>ACL desired for newly uploaded table</p>
+</dd>
 </dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>String representation of file URI in GCS</p>
 </dd>
 </dl>
 </dd></dl>
@@ -774,6 +1161,91 @@ when the script is done running.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.copy_bucket_to_gcs">
+<span class="sig-name descname"><span class="pre">copy_bucket_to_gcs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gcs_sink_bucket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_bucket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws_access_key_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws_secret_access_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.copy_bucket_to_gcs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.copy_bucket_to_gcs" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a one-time transfer job from Amazon S3 to Google Cloud
+Storage. Copies all blobs within the bucket unless a key or prefix
+is passed.</p>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>gcs_sink_bucket (str):</dt><dd><p>Destination for the data transfer (located in GCS)</p>
+</dd>
+<dt>source (str):</dt><dd><p>File storge vendor [gcs or s3]</p>
+</dd>
+<dt>source_bucket (str):</dt><dd><p>Source bucket name</p>
+</dd>
+<dt>source_path (str):</dt><dd><p>Path in the source system pointing to the relevant keys
+/ files to sync. Must end in a ‘/’</p>
+</dd>
+<dt>aws_access_key_id (str):</dt><dd><p>Access key to authenticate storage transfer</p>
+</dd>
+<dt>aws_secret_access_key (str):</dt><dd><p>Secret key to authenticate storage transfer</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.format_uri">
+<span class="sig-name descname"><span class="pre">format_uri</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.format_uri"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.format_uri" title="Permalink to this definition"></a></dt>
+<dd><p>Represent a GCS URI as a string</p>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>bucket: str</dt><dd><p>GCS bucket name</p>
+</dd>
+<dt>name: str</dt><dd><p>Filename in bucket</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>String represetnation of URI</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.split_uri">
+<span class="sig-name descname"><span class="pre">split_uri</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gcs_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.split_uri"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.split_uri" title="Permalink to this definition"></a></dt>
+<dd><p>Split a GCS URI into a bucket and blob name</p>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>gcs_uri: str</dt><dd><p>GCS URI</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Tuple of strings with bucket_name and blob_name</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.unzip_blob">
+<span class="sig-name descname"><span class="pre">unzip_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gzip'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_file_extension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.unzip_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.unzip_blob" title="Permalink to this definition"></a></dt>
+<dd><p>Downloads and decompresses a blob. The decompressed blob
+is re-uploaded with the same filename if no <cite>new_filename</cite>
+parameter is provided.</p>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>bucket_name: str</dt><dd><p>GCS bucket name</p>
+</dd>
+<dt>blob_name: str</dt><dd><p>Blob name in GCS bucket</p>
+</dd>
+<dt>compression_type: str</dt><dd><p>Either <cite>zip</cite> or <cite>gzip</cite></p>
+</dd>
+<dt>new_filename: str</dt><dd><p>If provided, replaces the existing blob name
+when the decompressed file is uploaded</p>
+</dd>
+<dt>new_file_extension: str</dt><dd><p>If provided, replaces the file extension
+when the decompressed file is uploaded</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>String representation of decompressed GCS URI</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -781,16 +1253,16 @@ when the script is done running.</p>
 </section>
 <section id="civic">
 <h2>Civic<a class="headerlink" href="#civic" title="Permalink to this headline"></a></h2>
-<section id="id12">
-<h3>Overview<a class="headerlink" href="#id12" title="Permalink to this headline"></a></h3>
+<section id="id20">
+<h3>Overview<a class="headerlink" href="#id20" title="Permalink to this headline"></a></h3>
 <p>Google Civic is an API which provides helpful information about elections. In order to access Google Civic you must
 create a Google Developer Key in their <a class="reference external" href="https://console.developers.google.com/apis/">API console</a>. In order to
 use Google Civic, you must enable this specific end point.</p>
 <p>The Google Civic API utilizes the <a class="reference external" href="https://www.votinginfoproject.org/">Voting Information Project</a> to collect
 key civic information such as personalized ballots and polling location information.</p>
 </section>
-<section id="id13">
-<h3>Quickstart<a class="headerlink" href="#id13" title="Permalink to this headline"></a></h3>
+<section id="id21">
+<h3>Quickstart<a class="headerlink" href="#id21" title="Permalink to this headline"></a></h3>
 <p>To instantiate the GoogleCivic class, you can pass the constructor a string containing the Google Civic API key you’ve generated for your project, or set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_CIVIC_API_KEY</span></code> to that value.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleCivic</span>
 
@@ -814,8 +1286,8 @@ key civic information such as personalized ballots and polling location informat
 </pre></div>
 </div>
 </section>
-<section id="id14">
-<h3>API<a class="headerlink" href="#id14" title="Permalink to this headline"></a></h3>
+<section id="id22">
+<h3>API<a class="headerlink" href="#id22" title="Permalink to this headline"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_civic.GoogleCivic">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_civic.</span></span><span class="sig-name descname"><span class="pre">GoogleCivic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_civic.GoogleCivic" title="Permalink to this definition"></a></dt>
@@ -893,8 +1365,8 @@ env variable set.</p>
 </section>
 <section id="google-sheets">
 <h2>Google Sheets<a class="headerlink" href="#google-sheets" title="Permalink to this headline"></a></h2>
-<section id="id15">
-<h3>Overview<a class="headerlink" href="#id15" title="Permalink to this headline"></a></h3>
+<section id="id23">
+<h3>Overview<a class="headerlink" href="#id23" title="Permalink to this headline"></a></h3>
 <p>The GoogleSheets class allows you to interact with Google service account spreadsheets, called “Google Sheets.” You can create, modify, read, format, share and delete sheets with this connector.</p>
 <p>In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON file locally and pass the path to the file as a string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> environment variable. You can follow these steps:</p>
 <ul class="simple">
@@ -906,8 +1378,8 @@ env variable set.</p>
 </ul>
 <p>You can now copy and paste the data from the key into your script or (recommended) save it locally as a JSON file.</p>
 </section>
-<section id="id16">
-<h3>Quickstart<a class="headerlink" href="#id16" title="Permalink to this headline"></a></h3>
+<section id="id24">
+<h3>Quickstart<a class="headerlink" href="#id24" title="Permalink to this headline"></a></h3>
 <p>To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> to contain a path to the JSON file containing the dict.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleSheets</span>
 
@@ -928,8 +1400,8 @@ env variable set.</p>
 </div>
 <p>You may also want to share the document with your service or user account.</p>
 </section>
-<section id="id17">
-<h3>API<a class="headerlink" href="#id17" title="Permalink to this headline"></a></h3>
+<section id="id25">
+<h3>API<a class="headerlink" href="#id25" title="Permalink to this headline"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_sheets.</span></span><span class="sig-name descname"><span class="pre">GoogleSheets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">google_keyfile_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets" title="Permalink to this definition"></a></dt>

@@ -63,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobilecommons.html">MobileCommons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../nation_builder.html">NationBuilder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
@@ -153,14 +154,17 @@
 <span class="sd">        table_name: str</span>
 <span class="sd">            The name of the table in the base. The table name is the equivilant of the sheet name</span>
 <span class="sd">            in Excel or GoogleDocs.</span>
-<span class="sd">        api_key: str</span>
-<span class="sd">            The Airtable provided api key. Not required if ``AIRTABLE_API_KEY`` env variable set.</span>
+<span class="sd">        personal_access_token: str</span>
+<span class="sd">            The Airtable personal access token. Not required if ``AIRTABLE_PERSONAL_ACCESS_TOKEN``</span>
+<span class="sd">            env variable set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_key</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_key</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">personal_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;AIRTABLE_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span><span class="p">(</span><span class="n">base_key</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">personal_access_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span>
+            <span class="s2">&quot;AIRTABLE_PERSONAL_ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="n">personal_access_token</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span><span class="p">(</span><span class="n">base_key</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">personal_access_token</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Airtable.get_record"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.get_record">[docs]</a>    <span class="k">def</span> <span class="nf">get_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -232,6 +236,8 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="n">fields</span><span class="p">]</span>
         <span class="c1"># Raises an error if sort is None type. Thus, only adding if populated.</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">fields</span><span class="p">,</span>
@@ -285,16 +291,17 @@
 <span class="sd">        order of the columns is irrelevant.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            table: A Parsons Table</span>
-<span class="sd">                Insert a Parsons table</span>
+<span class="sd">            table: A Parsons Table or list of dicts</span>
+<span class="sd">                Insert a Parsons table or list</span>
 <span class="sd">            typecast: boolean</span>
 <span class="sd">                Automatic data conversion from string values.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            List of dictionaries of inserted rows</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">Table</span><span class="p">):</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">()</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">batch_insert</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">typecast</span><span class="o">=</span><span class="n">typecast</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> records inserted.&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">)</span><span class="si">}</span><span class="s2"> records inserted.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="Airtable.update_record"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.update_record">[docs]</a>    <span class="k">def</span> <span class="nf">update_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">typecast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

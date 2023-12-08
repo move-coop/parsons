@@ -66,6 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilecommons.html">MobileCommons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nation_builder.html">NationBuilder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
@@ -362,28 +363,31 @@ of commonly used methods. The full list can be found in the API section.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.rename_column" title="parsons.etl.etl.ETL.rename_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rename_column()</span></code></a></p></td>
 <td><p>Rename a column</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.move_column" title="parsons.etl.etl.ETL.move_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">move_column()</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.rename_columns" title="parsons.etl.etl.ETL.rename_columns"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rename_columns()</span></code></a></p></td>
+<td><p>Rename multiple columns</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.move_column" title="parsons.etl.etl.ETL.move_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">move_column()</span></code></a></p></td>
 <td><p>Move a column within a table</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.cut" title="parsons.etl.etl.ETL.cut"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cut()</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.cut" title="parsons.etl.etl.ETL.cut"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cut()</span></code></a></p></td>
 <td><p>Return a table with a subset of columns</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.fill_column" title="parsons.etl.etl.ETL.fill_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fill_column()</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.fill_column" title="parsons.etl.etl.ETL.fill_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fill_column()</span></code></a></p></td>
 <td><p>Provide a fixed value to fill a column</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.fillna_column" title="parsons.etl.etl.ETL.fillna_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fillna_column()</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.fillna_column" title="parsons.etl.etl.ETL.fillna_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fillna_column()</span></code></a></p></td>
 <td><p>Provide a fixed value to fill all null values in a column</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.get_column_types" title="parsons.etl.etl.ETL.get_column_types"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_column_types()</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.get_column_types" title="parsons.etl.etl.ETL.get_column_types"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_column_types()</span></code></a></p></td>
 <td><p>Get the python type of values for a given column</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.convert_column" title="parsons.etl.etl.ETL.convert_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">convert_column()</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.convert_column" title="parsons.etl.etl.ETL.convert_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">convert_column()</span></code></a></p></td>
 <td><p>Transform the values of a column via arbitrary functions</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.coalesce_columns" title="parsons.etl.etl.ETL.coalesce_columns"><code class="xref py py-meth docutils literal notranslate"><span class="pre">coalesce_columns()</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.coalesce_columns" title="parsons.etl.etl.ETL.coalesce_columns"><code class="xref py py-meth docutils literal notranslate"><span class="pre">coalesce_columns()</span></code></a></p></td>
 <td><p>Coalesce values from one or more source columns</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.map_columns" title="parsons.etl.etl.ETL.map_columns"><code class="xref py py-meth docutils literal notranslate"><span class="pre">map_columns()</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.map_columns" title="parsons.etl.etl.ETL.map_columns"><code class="xref py py-meth docutils literal notranslate"><span class="pre">map_columns()</span></code></a></p></td>
 <td><p>Standardizes column names based on multiple possible values</p></td>
 </tr>
 </tbody>
@@ -956,6 +960,30 @@ AWS S3 credentials or store them as environmental variables.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.etl.tofrom.ToFrom.to_bigquery">
+<span class="sig-name descname"><span class="pre">to_bigquery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_bigquery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_bigquery" title="Permalink to this definition"></a></dt>
+<dd><p>Write a table to BigQuery</p>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>table_name: str</dt><dd><p>Table name to write to in BigQuery; this should be in <cite>schema.table</cite> format</p>
+</dd>
+<dt>app_creds: str</dt><dd><p>A credentials json string or a path to a json file. Not required
+if <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> env variable set.</p>
+</dd>
+<dt>project: str</dt><dd><p>The project which the client is acting on behalf of. If not passed
+then will use the default inferred environment.</p>
+</dd>
+<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs: kwargs</dt><dd><p>Additional keyword arguments passed into the <cite>.copy()</cite> function (<cite>if_exists</cite>,
+<cite>max_errors</cite>, etc.)</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.etl.tofrom.ToFrom.to_civis">
 <span class="sig-name descname"><span class="pre">to_civis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">existing_table_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diststyle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distkey</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sortkey1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sortkey2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">civisargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_civis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_civis" title="Permalink to this definition"></a></dt>
 <dd><p>Write the table to a Civis Redshift cluster. Additional key word
@@ -1023,7 +1051,7 @@ file path that ends in “.gz”, the file will be decompressed first.</p>
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>str: str</dt><dd><p>The string object to convert to a table</p>
 </dd>
-<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_reader</span></code> optional arguments</p>
+<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_reader</span></code> optional arguments</p>
 </dd>
 </dl>
 </dd>
@@ -1158,6 +1186,32 @@ Defaults to False.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.etl.tofrom.ToFrom.from_bigquery">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_bigquery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.from_bigquery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.from_bigquery" title="Permalink to this definition"></a></dt>
+<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">parsons</span> <span class="pre">table</span></code> from a BigQuery statement.</p>
+<p>To pull an entire BigQuery table, use a query like <code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">*</span> <span class="pre">FROM</span> <span class="pre">{{</span> <span class="pre">table</span> <span class="pre">}}</span></code>.</p>
+<dl>
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>sql: str</dt><dd><p>A valid SQL statement</p>
+</dd>
+<dt>app_creds: str</dt><dd><p>A credentials json string or a path to a json file. Not required
+if <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> env variable set.</p>
+</dd>
+<dt>project: str</dt><dd><p>The project which the client is acting on behalf of. If not passed
+then will use the default inferred environment.</p>
+</dd>
+</dl>
+<p>TODO - Should users be able to pass in kwargs here? For parameters?</p>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.etl.tofrom.ToFrom.from_dataframe">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.from_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.from_dataframe" title="Permalink to this definition"></a></dt>
 <dd><p>Create a <code class="docutils literal notranslate"><span class="pre">parsons</span> <span class="pre">table</span></code> from a Pandas dataframe.</p>
@@ -1236,6 +1290,25 @@ if the column already exists, rather than raising a <cite>ValueError</cite></p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.etl.etl.ETL.rename_columns">
+<span class="sig-name descname"><span class="pre">rename_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_map</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.rename_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.etl.ETL.rename_columns" title="Permalink to this definition"></a></dt>
+<dd><p>Rename multiple columns</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>column_map: dict</dt><dd><p>A dictionary of columns and new names.
+The key is the old name and the value is the new name.</p>
+<p>Example dictionary:
+{‘old_name’: ‘new_name’,
+‘old_name2’: ‘new_name2’}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><cite>Parsons Table</cite> and also updates self</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.etl.etl.ETL.fill_column">
 <span class="sig-name descname"><span class="pre">fill_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.fill_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.etl.ETL.fill_column" title="Permalink to this definition"></a></dt>
 <dd><p>Fill a column in a table</p>
@@ -1294,9 +1367,9 @@ invocations or dictionary translations. This leverages the petl <code class="doc
 method. Example usage can be found <a class="reference external" href="https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert">here</a>.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt><a href="#id15"><span class="problematic" id="id16">*</span></a>column: str</dt><dd><p>A single column or multiple columns passed as a list</p>
+<dt><a href="#id17"><span class="problematic" id="id18">*</span></a>column: str</dt><dd><p>A single column or multiple columns passed as a list</p>
 </dd>
-<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>kwargs: str, method or variable</dt><dd><p>The update function, method, or variable to process the update</p>
+<dt><a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs: str, method or variable</dt><dd><p>The update function, method, or variable to process the update</p>
 </dd>
 </dl>
 </dd>
@@ -1929,9 +2002,9 @@ that has not yet been implemented for <code class="docutils literal notranslate"
 <dt>to_petl: bool</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, returns a petl table, otherwise a <code class="docutils literal notranslate"><span class="pre">parsons.Table</span></code>.
 Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 </dd>
-<dt><a href="#id19"><span class="problematic" id="id20">*</span></a>args: Any</dt><dd><p>The arguements to pass to the petl function.</p>
+<dt><a href="#id21"><span class="problematic" id="id22">*</span></a>args: Any</dt><dd><p>The arguements to pass to the petl function.</p>
 </dd>
-<dt><a href="#id21"><span class="problematic" id="id22">**</span></a>kwargs: Any</dt><dd><p>The keyword arguements to pass to the petl function.</p>
+<dt><a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs: Any</dt><dd><p>The keyword arguements to pass to the petl function.</p>
 </dd>
 </dl>
 </dd>

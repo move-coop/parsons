@@ -63,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobilecommons.html">MobileCommons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../nation_builder.html">NationBuilder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
@@ -140,6 +141,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span><span class="p">,</span> <span class="n">zip_archive</span>
 
 
@@ -757,8 +759,39 @@
         <span class="n">pg</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
         <span class="n">pg</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">to_petl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ToFrom.to_bigquery"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_bigquery">[docs]</a>    <span class="k">def</span> <span class="nf">to_bigquery</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">app_creds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">project</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write a table to BigQuery</span>
 
+<span class="sd">        `Args`:</span>
+<span class="sd">            table_name: str</span>
+<span class="sd">                Table name to write to in BigQuery; this should be in `schema.table` format</span>
+<span class="sd">            app_creds: str</span>
+<span class="sd">                A credentials json string or a path to a json file. Not required</span>
+<span class="sd">                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.</span>
+<span class="sd">            project: str</span>
+<span class="sd">                The project which the client is acting on behalf of. If not passed</span>
+<span class="sd">                then will use the default inferred environment.</span>
+<span class="sd">            **kwargs: kwargs</span>
+<span class="sd">                Additional keyword arguments passed into the `.copy()` function (`if_exists`,</span>
+<span class="sd">                `max_errors`, etc.)</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleBigQuery</span> <span class="k">as</span> <span class="n">BigQuery</span>
+
+        <span class="n">bq</span> <span class="o">=</span> <span class="n">BigQuery</span><span class="p">(</span><span class="n">app_creds</span><span class="o">=</span><span class="n">app_creds</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">)</span>
+        <span class="n">bq</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">to_petl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span>
 
 <div class="viewcode-block" id="ToFrom.to_civis"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_civis">[docs]</a>    <span class="k">def</span> <span class="nf">to_civis</span><span class="p">(</span>
@@ -1035,6 +1068,35 @@
             <span class="n">tbls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromcsv</span><span class="p">(</span><span class="n">file_</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="o">*</span><span class="n">tbls</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="ToFrom.from_bigquery"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_bigquery">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_bigquery</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sql</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">app_creds</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a ``parsons table`` from a BigQuery statement.</span>
+
+<span class="sd">        To pull an entire BigQuery table, use a query like ``SELECT * FROM {{ table }}``.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            sql: str</span>
+<span class="sd">                A valid SQL statement</span>
+<span class="sd">            app_creds: str</span>
+<span class="sd">                A credentials json string or a path to a json file. Not required</span>
+<span class="sd">                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.</span>
+<span class="sd">            project: str</span>
+<span class="sd">                The project which the client is acting on behalf of. If not passed</span>
+<span class="sd">                then will use the default inferred environment.</span>
+<span class="sd">            TODO - Should users be able to pass in kwargs here? For parameters?</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleBigQuery</span> <span class="k">as</span> <span class="n">BigQuery</span>
+
+        <span class="n">bq</span> <span class="o">=</span> <span class="n">BigQuery</span><span class="p">(</span><span class="n">app_creds</span><span class="o">=</span><span class="n">app_creds</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">bq</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="o">=</span><span class="n">sql</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ToFrom.from_dataframe"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_dataframe">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dataframe</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">include_index</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

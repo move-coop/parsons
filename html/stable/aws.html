@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilecommons.html">MobileCommons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nation_builder.html">NationBuilder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
@@ -606,6 +607,24 @@ for more info.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.S3.get_buckets_with_subname">
+<span class="sig-name descname"><span class="pre">get_buckets_with_subname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_subname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.get_buckets_with_subname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.S3.get_buckets_with_subname" title="Permalink to this definition"></a></dt>
+<dd><p>Grabs a type of bucket based on naming convention.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>subname: str</dt><dd><p>This will most commonly be a ‘vendor’</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>list</dt><dd><p>list of buckets</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -1039,7 +1058,7 @@ using this for exports of 10MM or more rows.</p>
 <dl class="simple">
 <dt>sql: str</dt><dd><p>The SQL string to execute to generate the data to unload.</p>
 </dd>
-<dt>buckey: str</dt><dd><p>The destination S3 bucket</p>
+<dt>bucket: str</dt><dd><p>The destination S3 bucket</p>
 </dd>
 <dt>key_prefix: str</dt><dd><p>The prefix of the key names that will be written</p>
 </dd>

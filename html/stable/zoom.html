@@ -66,6 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilecommons.html">MobileCommons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nation_builder.html">NationBuilder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
@@ -157,7 +158,7 @@ participants of past meetings via the <a class="reference external" href="https:
 to authenticate queries to the Zoom API. You must create a server-to-server application in
 <cite>Zoom’s app marketplace &lt;https://marketplace.zoom.us/develop/create&gt;</cite> to obtain an
 <code class="docutils literal notranslate"><span class="pre">account_id</span></code>, <code class="docutils literal notranslate"><span class="pre">client_id</span></code>, and <code class="docutils literal notranslate"><span class="pre">client_secret</span></code> key. You will use this OAuth application to define your scopes,
-which gives your <code class="docutils literal notranslate"><span class="pre">Zoom</span></code> connector read permission on endpoints of your choosing (<cite>meetings</cite>, <cite>webinars</cite>, etc.)</p>
+which gives your <code class="docutils literal notranslate"><span class="pre">Zoom</span></code> connector read permission on endpoints of your choosing (<cite>meetings</cite>, <cite>webinars</cite>, <cite>reports</cite>, etc.)</p>
 </dd>
 </dl>
 </div>
@@ -278,7 +279,7 @@ Meetings page.</p></td>
 <dd><p>Get metadata regarding a past meeting.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>meeting_id: str</dt><dd><p>The meeting id</p>
+<dt>meeting_id: int</dt><dd><p>The meeting id</p>
 </dd>
 </dl>
 </dd>
@@ -296,7 +297,7 @@ Meetings page.</p></td>
 <dd><p>Get past meeting participants.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>meeting_id: str</dt><dd><p>The meeting id</p>
+<dt>meeting_id: int</dt><dd><p>The meeting id</p>
 </dd>
 </dl>
 </dd>
@@ -314,7 +315,7 @@ Meetings page.</p></td>
 <dd><p>Get meeting registrants.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>meeting_id: str</dt><dd><p>The meeting id</p>
+<dt>meeting_id: int</dt><dd><p>The meeting id</p>
 </dd>
 </dl>
 </dd>
@@ -378,6 +379,120 @@ Meetings page.</p></td>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Zoom.get_meeting_poll_metadata">
+<span class="sig-name descname"><span class="pre">get_meeting_poll_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meeting_poll_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meeting_poll_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Get metadata about a specific poll for a given meeting ID</p>
+<p>Required scopes: <cite>meeting:read</cite></p>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>meeting_id: int</dt><dd><p>Unique identifier for Zoom meeting</p>
+</dd>
+<dt>poll_id: int</dt><dd><p>Unique identifier for poll</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table of all polling responses</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Zoom.get_meeting_all_polls_metadata">
+<span class="sig-name descname"><span class="pre">get_meeting_all_polls_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meeting_all_polls_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meeting_all_polls_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Get metadata for all polls for a given meeting ID</p>
+<p>Required scopes: <cite>meeting:read</cite></p>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>meeting_id: int</dt><dd><p>Unique identifier for Zoom meeting</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table of all polling responses</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Zoom.get_past_meeting_poll_metadata">
+<span class="sig-name descname"><span class="pre">get_past_meeting_poll_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_meeting_poll_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_meeting_poll_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>List poll metadata of a past meeting.</p>
+<p>Required scopes: <cite>meeting:read</cite></p>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>meeting_id: int</dt><dd><p>The meeting’s ID or universally unique ID (UUID).</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table of poll results</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Zoom.get_webinar_poll_metadata">
+<span class="sig-name descname"><span class="pre">get_webinar_poll_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_webinar_poll_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_webinar_poll_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Get metadata for a specific poll for a given webinar ID</p>
+<p>Required scopes: <cite>webinar:read</cite></p>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>webinar_id: str</dt><dd><p>Unique identifier for Zoom webinar</p>
+</dd>
+<dt>poll_id: int</dt><dd><p>Unique identifier for poll</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table of all polling responses</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Zoom.get_webinar_all_polls_metadata">
+<span class="sig-name descname"><span class="pre">get_webinar_all_polls_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_webinar_all_polls_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_webinar_all_polls_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Get metadata for all polls for a given webinar ID</p>
+<p>Required scopes: <cite>webinar:read</cite></p>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>webinar_id: str</dt><dd><p>Unique identifier for Zoom webinar</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table of all polling responses</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Zoom.get_past_webinar_poll_metadata">
+<span class="sig-name descname"><span class="pre">get_past_webinar_poll_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_webinar_poll_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_webinar_poll_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the metadata for Webinar Polls of a specific Webinar</p>
+<p>Required scopes: <cite>webinar:read</cite></p>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>webinar_id: str</dt><dd><p>The webinar’s ID or universally unique ID (UUID).</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table of all polling responses</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Zoom.get_meeting_poll_results">
+<span class="sig-name descname"><span class="pre">get_meeting_poll_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meeting_poll_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meeting_poll_results" title="Permalink to this definition"></a></dt>
+<dd><p>Get a report of poll results for a past meeting</p>
+<p>Required scopes: <cite>report:read:admin</cite></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Zoom.get_webinar_poll_results">
+<span class="sig-name descname"><span class="pre">get_webinar_poll_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_webinar_poll_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_webinar_poll_results" title="Permalink to this definition"></a></dt>
+<dd><p>Get a report of poll results for a past webinar</p>
+<p>Required scopes: <cite>report:read:admin</cite></p>
 </dd></dl>
 
 </dd></dl>

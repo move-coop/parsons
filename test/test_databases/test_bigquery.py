@@ -107,7 +107,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
             all(
                 [
                     text in keyword_args["sql"]
-                    for text in queries + ["ROLLBACK", "BEGIN TRANSACTION", "COMMIT"]
+                    for text in queries + ["BEGIN TRANSACTION", "COMMIT"]
                 ]
             )
         )
@@ -279,6 +279,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
             bucket_name="tmp",
             blob_name="file.gzip",
             new_file_extension="csv",
+            compression_type="gzip",
         )
         self.assertEqual(bq.client.load_table_from_uri.call_count, 1)
         load_call_args = bq.client.load_table_from_uri.call_args

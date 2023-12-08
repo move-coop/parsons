@@ -1066,8 +1066,7 @@ class GoogleBigQuery(DatabaseConnector):
 
     def get_row_count(self, schema: str, table_name: str) -> int:
         """
-        Gets the row count for a BigQuery table. Note that this function
-        will NOT work with views
+        Gets the row count for a BigQuery materialization.
 
         `Args`:
             schema: str

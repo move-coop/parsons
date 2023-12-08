@@ -639,7 +639,7 @@ class ToFrom(object):
             project: str
                 The project which the client is acting on behalf of. If not passed
                 then will use the default inferred environment.
-            \**kwargs: kwargs
+            **kwargs: kwargs
                 Additional keyword arguments passed into the `.copy()` function (`if_exists`,
                 `max_errors`, etc.)
 

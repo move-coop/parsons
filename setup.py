@@ -14,7 +14,7 @@ def main():
             "simplejson",
         ]
         extras_require = {
-            "airtable": ["airtable-python-wrapper"],
+            "airtable": ["airtable-python-wrapper==0.13.0"],
             "alchemer": ["surveygizmo"],
             "azure": ["azure-storage-blob"],
             "box": ["boxsdk"],
@@ -22,7 +22,7 @@ def main():
             "catalist": ["paramiko"],
             "civis": ["civis"],
             "facebook": ["joblib", "facebook-business"],
-            "geocode": ["censusgeocode"],
+            "geocode": ["censusgeocode", "urllib3==1.26.18"],
             "github": ["PyGitHub"],
             "google": [
                 "apiclient",
@@ -37,6 +37,7 @@ def main():
             "mysql": ["mysql-connector-python", "SQLAlchemy"],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
+            "mobilecommons": ["bs4"],
             "postgres": ["psycopg2-binary", "SQLAlchemy"],
             "redshift": ["boto3", "psycopg2-binary", "SQLAlchemy"],
             "s3": ["boto3"],

@@ -154,14 +154,17 @@
 <span class="sd">        table_name: str</span>
 <span class="sd">            The name of the table in the base. The table name is the equivilant of the sheet name</span>
 <span class="sd">            in Excel or GoogleDocs.</span>
-<span class="sd">        api_key: str</span>
-<span class="sd">            The Airtable provided api key. Not required if ``AIRTABLE_API_KEY`` env variable set.</span>
+<span class="sd">        personal_access_token: str</span>
+<span class="sd">            The Airtable personal access token. Not required if ``AIRTABLE_PERSONAL_ACCESS_TOKEN``</span>
+<span class="sd">            env variable set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_key</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_key</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">personal_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;AIRTABLE_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span><span class="p">(</span><span class="n">base_key</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">personal_access_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span>
+            <span class="s2">&quot;AIRTABLE_PERSONAL_ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="n">personal_access_token</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span><span class="p">(</span><span class="n">base_key</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">personal_access_token</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Airtable.get_record"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.get_record">[docs]</a>    <span class="k">def</span> <span class="nf">get_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

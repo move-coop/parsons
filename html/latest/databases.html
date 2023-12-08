@@ -469,26 +469,6 @@ passed through kwargs.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="parsons.MySQL.is_sql_bool">
-<span class="sig-name descname"><span class="pre">is_sql_bool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.is_sql_bool" title="Permalink to this definition"></a></dt>
-<dd><p>Check whether val is a valid sql boolean.</p>
-<p>When inserting data into databases, different values can be accepted
-as boolean types. For excample, <code class="docutils literal notranslate"><span class="pre">False</span></code>, <code class="docutils literal notranslate"><span class="pre">'FALSE'</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
-<dl class="simple">
-<dt><cite>Args</cite>:</dt><dd><dl class="simple">
-<dt>val: any</dt><dd><p>The value to check.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns</cite>:</dt><dd><dl class="simple">
-<dt>bool</dt><dd><p>Whether or not the value is a valid sql boolean.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="parsons.MySQL.is_valid_sql_num">
 <span class="sig-name descname"><span class="pre">is_valid_sql_num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.is_valid_sql_num" title="Permalink to this definition"></a></dt>
 <dd><p>Check whether val is a valid sql number.</p>
@@ -733,26 +713,6 @@ passed through kwargs.</p>
 <dt class="sig sig-object py" id="parsons.Postgres.get_table_object">
 <span class="sig-name descname"><span class="pre">get_table_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.get_table_object" title="Permalink to this definition"></a></dt>
 <dd><p>Get a SQL Alchemy table object.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Postgres.is_sql_bool">
-<span class="sig-name descname"><span class="pre">is_sql_bool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.is_sql_bool" title="Permalink to this definition"></a></dt>
-<dd><p>Check whether val is a valid sql boolean.</p>
-<p>When inserting data into databases, different values can be accepted
-as boolean types. For excample, <code class="docutils literal notranslate"><span class="pre">False</span></code>, <code class="docutils literal notranslate"><span class="pre">'FALSE'</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
-<dl class="simple">
-<dt><cite>Args</cite>:</dt><dd><dl class="simple">
-<dt>val: any</dt><dd><p>The value to check.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns</cite>:</dt><dd><dl class="simple">
-<dt>bool</dt><dd><p>Whether or not the value is a valid sql boolean.</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">

@@ -139,10 +139,16 @@
   <h1>Source code for parsons.google.google_cloud_storage</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">google</span>
 <span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">storage</span>
+<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">storage_transfer</span>
 <span class="kn">from</span> <span class="nn">parsons.google.utitities</span> <span class="kn">import</span> <span class="n">setup_google_application_credentials</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -174,17 +180,17 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-
         <span class="n">setup_google_application_credentials</span><span class="p">(</span><span class="n">app_creds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">project</span>
 
         <span class="c1"># Throws an error if you pass project=None, so adding if/else statement.</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Access all methods of `google.cloud` package</span>
 <span class="sd">            &quot;&quot;&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GoogleCloudStorage.list_buckets"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.list_buckets">[docs]</a>    <span class="k">def</span> <span class="nf">list_buckets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -210,10 +216,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">bucket_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">():</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> exists.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> exists.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="GoogleCloudStorage.get_bucket"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.get_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">get_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
@@ -232,7 +238,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">google</span><span class="o">.</span><span class="n">cloud</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">NotFound</span><span class="p">(</span><span class="s2">&quot;Bucket not found&quot;</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Returning </span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> object&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Returning </span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> object&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">bucket</span></div>
 
 <div class="viewcode-block" id="GoogleCloudStorage.create_bucket"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.create_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">create_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
@@ -246,7 +252,7 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># To Do: Allow user to set all of the bucket parameters</span>
+        <span class="c1"># TODO: Allow user to set all of the bucket parameters</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created </span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> bucket.&quot;</span><span class="p">)</span></div>
@@ -269,7 +275,7 @@
         <span class="n">bucket</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="n">delete_blobs</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> bucket deleted.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleCloudStorage.list_blobs"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs">[docs]</a>    <span class="k">def</span> <span class="nf">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleCloudStorage.list_blobs"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs">[docs]</a>    <span class="k">def</span> <span class="nf">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">match_glob</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List all of the blobs in a bucket</span>
 
@@ -277,15 +283,19 @@
 <span class="sd">            bucket_name: str</span>
 <span class="sd">                The name of the bucket</span>
 <span class="sd">            max_results: int</span>
-<span class="sd">                TBD</span>
-<span class="sd">            prefix_filter: str</span>
+<span class="sd">                Maximum number of blobs to return</span>
+<span class="sd">            prefix: str</span>
 <span class="sd">                A prefix to filter files</span>
+<span class="sd">            match_glob: str</span>
+<span class="sd">                Filters files based on glob string. NOTE that the match_glob</span>
+<span class="sd">                parameter runs on the full blob URI, include a preceding wildcard</span>
+<span class="sd">                value to account for nested files (*/ for one level, **/ for n levels)</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A list of blob names</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">blobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span>
-            <span class="n">bucket_name</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="n">max_results</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span>
+            <span class="n">bucket_name</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="n">max_results</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">match_glob</span><span class="o">=</span><span class="n">match_glob</span>
         <span class="p">)</span>
         <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">]</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> bucket.&quot;</span><span class="p">)</span>
@@ -306,10 +316,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">blob_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> exists.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> exists.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="GoogleCloudStorage.get_blob"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.get_blob">[docs]</a>    <span class="k">def</span> <span class="nf">get_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
@@ -330,15 +340,15 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> object from </span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> bucket.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">blob</span></div>
 
-<div class="viewcode-block" id="GoogleCloudStorage.put_blob"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.put_blob">[docs]</a>    <span class="k">def</span> <span class="nf">put_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleCloudStorage.put_blob"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.put_blob">[docs]</a>    <span class="k">def</span> <span class="nf">put_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Puts a blob (aka file) in a bucket</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            blob_name:</span>
-<span class="sd">                The name of blob to be stored in the bucket</span>
 <span class="sd">            bucket_name:</span>
 <span class="sd">                The name of the bucket to store the blob</span>
+<span class="sd">            blob_name:</span>
+<span class="sd">                The name of blob to be stored in the bucket</span>
 <span class="sd">            local_path: str</span>
 <span class="sd">                The local path of the file to upload</span>
 <span class="sd">        `Returns:`</span>
@@ -349,7 +359,7 @@
         <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">blob_name</span><span class="p">,</span> <span class="n">bucket</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_file</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_file</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> put in </span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> bucket.&quot;</span><span class="p">)</span></div>
 
@@ -377,10 +387,10 @@
         <span class="n">bucket</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Bucket</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">)</span>
         <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">blob_name</span><span class="p">,</span> <span class="n">bucket</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> bucket.&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> bucket.&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">blob</span><span class="o">.</span><span class="n">download_to_file</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> saved to </span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> saved to </span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">local_path</span></div>
 
@@ -416,6 +426,11 @@
 <span class="sd">                The name of the blob to upload the data into.</span>
 <span class="sd">            data_type: str</span>
 <span class="sd">                The file format to use when writing the data. One of: `csv` or `json`</span>
+<span class="sd">            default_acl:</span>
+<span class="sd">                ACL desired for newly uploaded table</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            String representation of file URI in GCS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">bucket</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Bucket</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">)</span>
         <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">blob_name</span><span class="p">,</span> <span class="n">bucket</span><span class="p">)</span>
@@ -466,7 +481,294 @@
             <span class="n">expiration</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="n">expires_in</span><span class="p">),</span>
             <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">url</span></div></div>
+        <span class="k">return</span> <span class="n">url</span></div>
+
+<div class="viewcode-block" id="GoogleCloudStorage.copy_bucket_to_gcs"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.copy_bucket_to_gcs">[docs]</a>    <span class="k">def</span> <span class="nf">copy_bucket_to_gcs</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">gcs_sink_bucket</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">source_bucket</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">destination_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">source_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">aws_access_key_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_secret_access_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a one-time transfer job from Amazon S3 to Google Cloud</span>
+<span class="sd">        Storage. Copies all blobs within the bucket unless a key or prefix</span>
+<span class="sd">        is passed.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            gcs_sink_bucket (str):</span>
+<span class="sd">                Destination for the data transfer (located in GCS)</span>
+<span class="sd">            source (str):</span>
+<span class="sd">                File storge vendor [gcs or s3]</span>
+<span class="sd">            source_bucket (str):</span>
+<span class="sd">                Source bucket name</span>
+<span class="sd">            source_path (str):</span>
+<span class="sd">                Path in the source system pointing to the relevant keys</span>
+<span class="sd">                / files to sync. Must end in a &#39;/&#39;</span>
+<span class="sd">            aws_access_key_id (str):</span>
+<span class="sd">                Access key to authenticate storage transfer</span>
+<span class="sd">            aws_secret_access_key (str):</span>
+<span class="sd">                Secret key to authenticate storage transfer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">source</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;gcs&quot;</span><span class="p">,</span> <span class="s2">&quot;s3&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Blob transfer only supports gcs and s3 sources [source=</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">]&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">source_path</span> <span class="ow">and</span> <span class="n">source_path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Source path much end in a &#39;/&#39;&quot;</span><span class="p">)</span>
+
+        <span class="n">client</span> <span class="o">=</span> <span class="n">storage_transfer</span><span class="o">.</span><span class="n">StorageTransferServiceClient</span><span class="p">()</span>
+
+        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+        <span class="c1"># Setting the start date and the end date as</span>
+        <span class="c1"># the same time creates a one-time transfer</span>
+        <span class="n">one_time_schedule</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;day&quot;</span><span class="p">:</span> <span class="n">now</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="n">now</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">source</span> <span class="o">==</span> <span class="s2">&quot;gcs&quot;</span><span class="p">:</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;One time GCS to GCS Transfer</span>
+<span class="s2">            [</span><span class="si">{</span><span class="n">source_bucket</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">gcs_sink_bucket</span><span class="si">}</span><span class="s2">] - </span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="k">elif</span> <span class="n">source</span> <span class="o">==</span> <span class="s2">&quot;s3&quot;</span><span class="p">:</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;One time S3 to GCS Transfer</span>
+<span class="s2">            [</span><span class="si">{</span><span class="n">source_bucket</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">gcs_sink_bucket</span><span class="si">}</span><span class="s2">] - </span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="n">transfer_job_config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;project_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">storage_transfer</span><span class="o">.</span><span class="n">TransferJob</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">ENABLED</span><span class="p">,</span>
+            <span class="s2">&quot;schedule&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;schedule_start_date&quot;</span><span class="p">:</span> <span class="n">one_time_schedule</span><span class="p">,</span>
+                <span class="s2">&quot;schedule_end_date&quot;</span><span class="p">:</span> <span class="n">one_time_schedule</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Setup transfer job configuration based on user imput</span>
+        <span class="k">if</span> <span class="n">source</span> <span class="o">==</span> <span class="s2">&quot;s3&quot;</span><span class="p">:</span>
+            <span class="n">blob_storage</span> <span class="o">=</span> <span class="s2">&quot;S3&quot;</span>
+            <span class="n">transfer_job_config</span><span class="p">[</span><span class="s2">&quot;transfer_spec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;aws_s3_data_source&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;bucket_name&quot;</span><span class="p">:</span> <span class="n">source_bucket</span><span class="p">,</span>
+                    <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">source_path</span><span class="p">,</span>
+                    <span class="s2">&quot;aws_access_key&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;access_key_id&quot;</span><span class="p">:</span> <span class="n">aws_access_key_id</span><span class="p">,</span>
+                        <span class="s2">&quot;secret_access_key&quot;</span><span class="p">:</span> <span class="n">aws_secret_access_key</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;gcs_data_sink&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;bucket_name&quot;</span><span class="p">:</span> <span class="n">gcs_sink_bucket</span><span class="p">,</span>
+                    <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">destination_path</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">}</span>
+        <span class="k">elif</span> <span class="n">source</span> <span class="o">==</span> <span class="s2">&quot;gcs&quot;</span><span class="p">:</span>
+            <span class="n">blob_storage</span> <span class="o">=</span> <span class="s2">&quot;GCS&quot;</span>
+            <span class="n">transfer_job_config</span><span class="p">[</span><span class="s2">&quot;transfer_spec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;gcs_data_source&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;bucket_name&quot;</span><span class="p">:</span> <span class="n">source_bucket</span><span class="p">,</span>
+                    <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">source_path</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;gcs_data_sink&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;bucket_name&quot;</span><span class="p">:</span> <span class="n">gcs_sink_bucket</span><span class="p">,</span>
+                    <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">destination_path</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">}</span>
+
+        <span class="n">create_transfer_job_request</span> <span class="o">=</span> <span class="n">storage_transfer</span><span class="o">.</span><span class="n">CreateTransferJobRequest</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;transfer_job&quot;</span><span class="p">:</span> <span class="n">transfer_job_config</span><span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Create the transfer job</span>
+        <span class="n">create_result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">create_transfer_job</span><span class="p">(</span><span class="n">create_transfer_job_request</span><span class="p">)</span>
+
+        <span class="n">polling</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">wait_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">wait_between_attempts_in_sec</span> <span class="o">=</span> <span class="mi">10</span>
+
+        <span class="c1"># NOTE: This value defaults to an empty string until GCP</span>
+        <span class="c1"># triggers the job internally ... we&#39;ll use this value to</span>
+        <span class="c1"># determine whether or not the transfer has kicked off</span>
+        <span class="n">latest_operation_name</span> <span class="o">=</span> <span class="n">create_result</span><span class="o">.</span><span class="n">latest_operation_name</span>
+
+        <span class="k">while</span> <span class="n">polling</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">latest_operation_name</span><span class="p">:</span>
+                <span class="n">operation</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_operation</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">latest_operation_name</span><span class="p">})</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">operation</span><span class="o">.</span><span class="n">done</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Operation still running...&quot;</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">operation_metadata</span> <span class="o">=</span> <span class="n">storage_transfer</span><span class="o">.</span><span class="n">TransferOperation</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span>
+                        <span class="n">operation</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">value</span>
+                    <span class="p">)</span>
+                    <span class="n">error_output</span> <span class="o">=</span> <span class="n">operation_metadata</span><span class="o">.</span><span class="n">error_breakdowns</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">error_output</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">blob_storage</span><span class="si">}</span><span class="s2"> to GCS Transfer Job</span>
+<span class="s2">                            </span><span class="si">{</span><span class="n">create_result</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> failed with error: </span><span class="si">{</span><span class="n">error_output</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TransferJob: </span><span class="si">{</span><span class="n">create_result</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> succeeded.&quot;</span><span class="p">)</span>
+                        <span class="k">return</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Waiting to kickoff operation...&quot;</span><span class="p">)</span>
+                <span class="n">get_transfer_job_request</span> <span class="o">=</span> <span class="n">storage_transfer</span><span class="o">.</span><span class="n">GetTransferJobRequest</span><span class="p">(</span>
+                    <span class="p">{</span><span class="s2">&quot;job_name&quot;</span><span class="p">:</span> <span class="n">create_result</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;project_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="p">}</span>
+                <span class="p">)</span>
+                <span class="n">get_result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_transfer_job</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">get_transfer_job_request</span><span class="p">)</span>
+                <span class="n">latest_operation_name</span> <span class="o">=</span> <span class="n">get_result</span><span class="o">.</span><span class="n">latest_operation_name</span>
+
+            <span class="n">wait_time</span> <span class="o">+=</span> <span class="n">wait_between_attempts_in_sec</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait_between_attempts_in_sec</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GoogleCloudStorage.format_uri"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.format_uri">[docs]</a>    <span class="k">def</span> <span class="nf">format_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represent a GCS URI as a string</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            bucket: str</span>
+<span class="sd">                GCS bucket name</span>
+<span class="sd">            name: str</span>
+<span class="sd">                Filename in bucket</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            String represetnation of URI</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;gs://</span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="GoogleCloudStorage.split_uri"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.split_uri">[docs]</a>    <span class="k">def</span> <span class="nf">split_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gcs_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Split a GCS URI into a bucket and blob name</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            gcs_uri: str</span>
+<span class="sd">                GCS URI</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Tuple of strings with bucket_name and blob_name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: make this more robust with regex?</span>
+        <span class="n">remove_protocol</span> <span class="o">=</span> <span class="n">gcs_uri</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;gs://&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">uri_parts</span> <span class="o">=</span> <span class="n">remove_protocol</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">bucket_name</span> <span class="o">=</span> <span class="n">uri_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">blob_name</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">uri_parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">return</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span></div>
+
+<div class="viewcode-block" id="GoogleCloudStorage.unzip_blob"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.unzip_blob">[docs]</a>    <span class="k">def</span> <span class="nf">unzip_blob</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">bucket_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">blob_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">compression_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span>
+        <span class="n">new_filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">new_file_extension</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Downloads and decompresses a blob. The decompressed blob</span>
+<span class="sd">        is re-uploaded with the same filename if no `new_filename`</span>
+<span class="sd">        parameter is provided.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            bucket_name: str</span>
+<span class="sd">                GCS bucket name</span>
+
+<span class="sd">            blob_name: str</span>
+<span class="sd">                Blob name in GCS bucket</span>
+
+<span class="sd">            compression_type: str</span>
+<span class="sd">                Either `zip` or `gzip`</span>
+
+<span class="sd">            new_filename: str</span>
+<span class="sd">                If provided, replaces the existing blob name</span>
+<span class="sd">                when the decompressed file is uploaded</span>
+
+<span class="sd">            new_file_extension: str</span>
+<span class="sd">                If provided, replaces the file extension</span>
+<span class="sd">                when the decompressed file is uploaded</span>
+
+<span class="sd">        `Returns`:</span>
+<span class="sd">            String representation of decompressed GCS URI</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">compression_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;zip&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;file_extension&quot;</span><span class="p">:</span> <span class="s2">&quot;.zip&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;compression_function&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__zip_decompress_and_write_to_gcs</span><span class="p">,</span>
+                <span class="s2">&quot;read&quot;</span><span class="p">:</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;gzip&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;file_extension&quot;</span><span class="p">:</span> <span class="s2">&quot;.gz&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;compression_function&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__gzip_decompress_and_write_to_gcs</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+        <span class="n">file_extension</span> <span class="o">=</span> <span class="n">compression_params</span><span class="p">[</span><span class="n">compression_type</span><span class="p">][</span><span class="s2">&quot;file_extension&quot;</span><span class="p">]</span>
+        <span class="n">compression_function</span> <span class="o">=</span> <span class="n">compression_params</span><span class="p">[</span><span class="n">compression_type</span><span class="p">][</span>
+            <span class="s2">&quot;compression_function&quot;</span>
+        <span class="p">]</span>
+
+        <span class="n">compressed_filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">download_blob</span><span class="p">(</span>
+            <span class="n">bucket_name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="o">=</span><span class="n">blob_name</span>
+        <span class="p">)</span>
+
+        <span class="n">decompressed_filepath</span> <span class="o">=</span> <span class="n">compressed_filepath</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">file_extension</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">decompressed_blob_name</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">new_filename</span> <span class="k">if</span> <span class="n">new_filename</span> <span class="k">else</span> <span class="n">blob_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">file_extension</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_file_extension</span><span class="p">:</span>
+            <span class="n">decompressed_filepath</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">new_file_extension</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">decompressed_blob_name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">new_file_extension</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Decompressing file...&quot;</span><span class="p">)</span>
+        <span class="n">compression_function</span><span class="p">(</span>
+            <span class="n">compressed_filepath</span><span class="o">=</span><span class="n">compressed_filepath</span><span class="p">,</span>
+            <span class="n">decompressed_filepath</span><span class="o">=</span><span class="n">decompressed_filepath</span><span class="p">,</span>
+            <span class="n">decompressed_blob_name</span><span class="o">=</span><span class="n">decompressed_blob_name</span><span class="p">,</span>
+            <span class="n">bucket_name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">,</span>
+            <span class="n">new_file_extension</span><span class="o">=</span><span class="n">new_file_extension</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_uri</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">decompressed_blob_name</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__gzip_decompress_and_write_to_gcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles `.gzip` decompression and streams blob contents</span>
+<span class="sd">        to a decompressed storage object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">compressed_filepath</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;compressed_filepath&quot;</span><span class="p">)</span>
+        <span class="n">decompressed_blob_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;decompressed_blob_name&quot;</span><span class="p">)</span>
+        <span class="n">bucket_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;bucket_name&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">compressed_filepath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Uploading uncompressed file to GCS: </span><span class="si">{</span><span class="n">decompressed_blob_name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">bucket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">)</span>
+            <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">decompressed_blob_name</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">)</span>
+            <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_file</span><span class="p">(</span><span class="n">file_obj</span><span class="o">=</span><span class="n">f_in</span><span class="p">,</span> <span class="n">rewind</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3600</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__zip_decompress_and_write_to_gcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles `.zip` decompression and streams blob contents</span>
+<span class="sd">        to a decompressed storage object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">compressed_filepath</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;compressed_filepath&quot;</span><span class="p">)</span>
+        <span class="n">decompressed_blob_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;decompressed_blob_name&quot;</span><span class="p">)</span>
+        <span class="n">decompressed_blob_in_archive</span> <span class="o">=</span> <span class="n">decompressed_blob_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">bucket_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;bucket_name&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Unzip the archive</span>
+        <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">compressed_filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">path_</span><span class="p">:</span>
+            <span class="c1"># Open the underlying file</span>
+            <span class="k">with</span> <span class="n">path_</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">decompressed_blob_in_archive</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Uploading uncompressed file to GCS: </span><span class="si">{</span><span class="n">decompressed_blob_name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="n">bucket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">)</span>
+                <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">decompressed_blob_name</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">)</span>
+                <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_file</span><span class="p">(</span><span class="n">file_obj</span><span class="o">=</span><span class="n">f_in</span><span class="p">,</span> <span class="n">rewind</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3600</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

@@ -1,5 +1,7 @@
 import parsons.databases.database.constants as consts
-import ast
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class DatabaseCreateStatement:
@@ -17,11 +19,7 @@ class DatabaseCreateStatement:
         self.BIGINT = consts.BIGINT
         self.FLOAT = consts.FLOAT
 
-        # Added for backwards compatability
-        self.DO_PARSE_BOOLS = consts.DO_PARSE_BOOLS
         self.BOOL = consts.BOOL
-        self.TRUE_VALS = consts.TRUE_VALS
-        self.FALSE_VALS = consts.FALSE_VALS
 
         self.VARCHAR = consts.VARCHAR
         self.RESERVED_WORDS = consts.RESERVED_WORDS
@@ -117,29 +115,6 @@ class DatabaseCreateStatement:
         except (TypeError, ValueError):
             return False
 
-    def is_sql_bool(self, val):
-        """Check whether val is a valid sql boolean.
-
-        When inserting data into databases, different values can be accepted
-        as boolean types. For excample, ``False``, ``'FALSE'``, ``1``.
-
-        `Args`:
-            val: any
-                The value to check.
-        `Returns`:
-            bool
-                Whether or not the value is a valid sql boolean.
-        """
-        if not self.DO_PARSE_BOOLS:
-            return
-
-        if isinstance(val, bool) or (
-            type(val) in (int, str)
-            and str(val).upper() in self.TRUE_VALS + self.FALSE_VALS
-        ):
-            return True
-        return False
-
     def detect_data_type(self, value, cmp_type=None):
         """Detect the higher of value's type cmp_type.
 
@@ -161,64 +136,45 @@ class DatabaseCreateStatement:
         # Stop if the compare type is already a varchar
         # varchar is the highest data type.
         if cmp_type == self.VARCHAR:
-            return cmp_type
+            result = cmp_type
 
-        # Attempt to evaluate value as a literal (e.g. '1' => 1, ) If the value
-        # is just a string, is None, or is empty, it will raise an error. These
-        # should be considered varchars.
-        # E.g.
-        # "" => SyntaxError
-        # "anystring" => ValueError
-        try:
-            val_lit = ast.literal_eval(str(value))
-        except (SyntaxError, ValueError):
-            if self.is_sql_bool(value):
-                return self.BOOL
-            return self.VARCHAR
+        elif isinstance(value, bool):
+            result = self.BOOL
 
-        # Exit early if it's None
-        # is_valid_sql_num(None) == False
-        # instead of defaulting to varchar (which is the next test)
-        # return the compare type
-        if val_lit is None:
-            return cmp_type
+        elif value is None:
+            result = cmp_type
 
         # Make sure that it is a valid integer
         # Python accepts 100_000 as a valid form of 100000,
         # however a sql engine may throw an error
-        if not self.is_valid_sql_num(value):
-            if self.is_sql_bool(val_lit) and cmp_type != self.VARCHAR:
-                return self.BOOL
-            else:
-                return self.VARCHAR
+        elif not self.is_valid_sql_num(value):
+            result = self.VARCHAR
 
-        if self.is_sql_bool(val_lit) and cmp_type not in self.INT_TYPES + [self.FLOAT]:
-            return self.BOOL
-
-        type_lit = type(val_lit)
-
-        # If a float, stop here
-        # float is highest after varchar
-        if type_lit == float or cmp_type == self.FLOAT:
-            return self.FLOAT
+        elif isinstance(value, float) or cmp_type == self.FLOAT:
+            result = self.FLOAT
 
         # The value is very likely an int
         # let's get its size
         # If the compare types are empty and use the types of the current value
-        if type_lit == int and cmp_type in (self.INT_TYPES + [None, "", self.BOOL]):
-
+        elif isinstance(value, int) and cmp_type in (
+            self.INT_TYPES + [None, "", self.BOOL]
+        ):
             # Use smallest possible int type above TINYINT
-            if self.SMALLINT_MIN < val_lit < self.SMALLINT_MAX:
-                return self.get_bigger_int(self.SMALLINT, cmp_type)
-            elif self.MEDIUMINT_MIN < val_lit < self.MEDIUMINT_MAX:
-                return self.get_bigger_int(self.MEDIUMINT, cmp_type)
-            elif self.INT_MIN < val_lit < self.INT_MAX:
-                return self.get_bigger_int(self.INT, cmp_type)
+            if self.SMALLINT_MIN < value < self.SMALLINT_MAX:
+                result = self.get_bigger_int(self.SMALLINT, cmp_type)
+            elif self.MEDIUMINT_MIN < value < self.MEDIUMINT_MAX:
+                result = self.get_bigger_int(self.MEDIUMINT, cmp_type)
+            elif self.INT_MIN < value < self.INT_MAX:
+                result = self.get_bigger_int(self.INT, cmp_type)
             else:
-                return self.BIGINT
+                result = self.BIGINT
 
-        # Need to determine who makes it all the way down here
-        return cmp_type
+        else:
+            # Need to determine who makes it all the way down here
+            logger.debug(f"Unexpected object type: {type(value)}")
+            result = cmp_type
+
+        return result
 
     def format_column(self, col, index="", replace_chars=None, col_prefix="_"):
         """Format the column to meet database contraints.

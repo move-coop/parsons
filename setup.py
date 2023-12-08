@@ -29,6 +29,7 @@ def main():
                 "google-api-python-client",
                 "google-cloud-bigquery",
                 "google-cloud-storage",
+                "google-cloud-storage-transfer",
                 "gspread",
                 "httplib2",
                 "oauth2client",
@@ -61,7 +62,7 @@ def main():
 
     setup(
         name="parsons",
-        version="2.1.0",
+        version="3.0.0",
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url="https://github.com/move-coop/parsons",

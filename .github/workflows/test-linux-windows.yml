@@ -2,9 +2,9 @@ name: tests
 
 on:
   pull_request:
-    branches: ["main"]
+    branches: ["main", "major-release"]
   push:
-    branches: ["main"]
+    branches: ["main", "major-release"]
 
 env:
   TESTING: 1

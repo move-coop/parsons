@@ -100,7 +100,7 @@ We can now upload/query data.
 
    # Table name should be project.dataset.table, or dataset.table, if
    # working with the default project
-   table_name = project + '.' + dataset + '.' + table
+   table_name = f"`{project}.{dataset}.{table}`"
 
    # Must be pre-existing bucket. Create via GoogleCloudStorage() or
    # at https://console.cloud.google.com/storage/create-bucket. May be
@@ -117,12 +117,20 @@ We can now upload/query data.
                           {'name':'Bill', 'party':'I'}])
 
    # Copy table in to create new BigQuery table
-   bigquery.copy(table_obj=parsons_table,
-                  table_name=table_name,
-                  tmp_gcs_bucket=gcs_temp_bucket)
+   bigquery.copy(
+      table_obj=parsons_table,
+      table_name=table_name,
+      tmp_gcs_bucket=gcs_temp_bucket
+   )
 
    # Select from project.dataset.table
    bigquery.query(f'select name from {table_name} where party = "D"')
+
+   # Query with parameters
+   bigquery.query(
+      f"select name from {table_name} where party = %s",
+      parameters=["D"]
+   )
 
    # Delete the table when we're done
    bigquery.client.delete_table(table=table_name)

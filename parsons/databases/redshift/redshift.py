@@ -811,6 +811,66 @@ class Redshift(
 
         return self.query(statement)
 
+    def drop_and_unload(
+        self,
+        rs_table,
+        bucket,
+        key,
+        cascade=True,
+        manifest=True,
+        header=True,
+        delimiter="|",
+        compression="gzip",
+        add_quotes=True,
+        escape=True,
+        allow_overwrite=True,
+        parallel=True,
+        max_file_size="6.2 GB",
+        aws_region=None,
+    ):
+        """
+        Unload data to s3, and then drop Redshift table
+
+        Args:
+            rs_table: str
+                Redshift table.
+
+            bucket: str
+                S3 bucket
+
+            key: str
+                S3 key prefix ahead of table name
+
+            cascade: bool
+                whether to drop cascade
+
+            ***unload params
+
+        Returns:
+            None
+        """
+        query_end = "cascade" if cascade else ""
+
+        self.unload(
+            sql=f"select * from {rs_table}",
+            bucket=bucket,
+            key_prefix=f"{key}/{rs_table.replace('.','_')}/",
+            manifest=manifest,
+            header=header,
+            delimiter=delimiter,
+            compression=compression,
+            add_quotes=add_quotes,
+            escape=escape,
+            allow_overwrite=allow_overwrite,
+            parallel=parallel,
+            max_file_size=max_file_size,
+            aws_region=aws_region,
+        )
+
+        self.query(f"drop table if exists {rs_table} {query_end}")
+
+        return None
+
     def generate_manifest(
         self,
         buckets,

@@ -647,7 +647,7 @@ class ToFrom(object):
             ``None``
         """
 
-        from parsons.databases.bigquery.bigquery import BigQuery
+        from parsons import GoogleBigQuery as BigQuery
 
         bq = BigQuery(app_creds=app_creds, project=project)
         bq.copy(self, table_name=table_name, **kwargs)
@@ -953,7 +953,7 @@ class ToFrom(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        from parsons.databases.bigquery.bigquery import BigQuery
+        from parsons import GoogleBigQuery as BigQuery
 
         bq = BigQuery(app_creds=app_creds, project=project)
 

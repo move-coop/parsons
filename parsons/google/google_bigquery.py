@@ -1079,7 +1079,7 @@ class GoogleBigQuery(DatabaseConnector):
             Row count of the target table
         """
 
-        sql = f"SELECT COUNT(*) AS row_count FROM {schema}.{table_name}"
+        sql = f"SELECT COUNT(*) AS row_count FROM `{schema}.{table_name}`"
         result = self.query(sql=sql)
 
         return result["row_count"][0]

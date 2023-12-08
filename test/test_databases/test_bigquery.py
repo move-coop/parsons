@@ -473,6 +473,18 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertIn("DELETE", actual_queries[0])
         self.assertIn("INSERT", actual_queries[1])
 
+    def test_get_row_count(self, query_mock):
+        schema = "foo"
+        table_name = "bar"
+        expected_sql = f"SELECT COUNT(*) AS row_count FROM {schema}.{table_name}"
+
+        bq = self._build_mock_client_for_querying(results=[])
+        bq.get_row_count(schema=schema, table_name=table_name)
+        query_mock.assert_called_once()
+        actual_query = query_mock.call_args[1]["sql"]
+
+        self.assertEqual(actual_query, expected_sql)
+
     def _build_mock_client_for_querying(self, results):
         # Create a mock that will play the role of the cursor
         cursor = mock.MagicMock()

@@ -1064,6 +1064,25 @@ class GoogleBigQuery(DatabaseConnector):
 
         return [x for x in first_row.columns]
 
+    def get_row_count(self, schema: str, table_name: str) -> int:
+        """
+        Gets the row count for a BigQuery materialization.
+
+        `Args`:
+            schema: str
+                The schema name
+            table_name: str
+                The table name
+
+        `Returns:`
+            Row count of the target table
+        """
+
+        sql = f"SELECT COUNT(*) AS row_count FROM `{schema}.{table_name}`"
+        result = self.query(sql=sql)
+
+        return result["row_count"][0]
+
     def _generate_schema_from_parsons_table(self, tbl):
         stats = tbl.get_columns_type_stats()
         fields = []

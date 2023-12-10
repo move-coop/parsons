@@ -3,15 +3,18 @@ name: tests for mac
 
 on:
   pull_request:
-    branches: ["main"]
+    branches: ["main", "major-release"]
   push:
-    branches: ["main"]
+    branches: ["main", "major-release"]
 
 env:
   TESTING: 1
 
 jobs:
   build:
+    strategy:
+      matrix:
+        limited-dependencies: ['','TRUE']    
     runs-on: macos-latest
 
     steps:
@@ -31,7 +34,11 @@ jobs:
           mac-pip-
 
     - name: Install dependencies
-      run: python -m pip install -r requirements.txt
+      env:
+        PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}      
+      run: |
+        python -m pip install .[all]
+        python -m pip install -r requirements-dev.txt
 
     - name: Run tests
       run: TESTING=1 pytest -rf test/

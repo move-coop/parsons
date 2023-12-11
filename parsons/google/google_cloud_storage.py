@@ -8,7 +8,7 @@ import logging
 import time
 import uuid
 import gzip
-import shutil
+import zipfile
 from typing import Optional
 
 logger = logging.getLogger(__name__)
@@ -442,6 +442,7 @@ class GoogleCloudStorage(object):
                 },
                 "gcs_data_sink": {
                     "bucket_name": gcs_sink_bucket,
+                    "path": destination_path,
                 },
             }
 
@@ -530,6 +531,7 @@ class GoogleCloudStorage(object):
         self,
         bucket_name: str,
         blob_name: str,
+        compression_type: str = "gzip",
         new_filename: Optional[str] = None,
         new_file_extension: Optional[str] = None,
     ) -> str:
@@ -545,6 +547,9 @@ class GoogleCloudStorage(object):
             blob_name: str
                 Blob name in GCS bucket
 
+            compression_type: str
+                Either `zip` or `gzip`
+
             new_filename: str
                 If provided, replaces the existing blob name
                 when the decompressed file is uploaded
@@ -557,29 +562,82 @@ class GoogleCloudStorage(object):
             String representation of decompressed GCS URI
         """
 
+        compression_params = {
+            "zip": {
+                "file_extension": ".zip",
+                "compression_function": self.__zip_decompress_and_write_to_gcs,
+                "read": "r",
+            },
+            "gzip": {
+                "file_extension": ".gz",
+                "compression_function": self.__gzip_decompress_and_write_to_gcs,
+            },
+        }
+
+        file_extension = compression_params[compression_type]["file_extension"]
+        compression_function = compression_params[compression_type][
+            "compression_function"
+        ]
+
         compressed_filepath = self.download_blob(
             bucket_name=bucket_name, blob_name=blob_name
         )
 
-        decompressed_filepath = compressed_filepath.replace(".gz", "")
+        decompressed_filepath = compressed_filepath.replace(file_extension, "")
         decompressed_blob_name = (
-            new_filename if new_filename else blob_name.replace(".gz", "")
+            new_filename if new_filename else blob_name.replace(file_extension, "")
         )
         if new_file_extension:
             decompressed_filepath += f".{new_file_extension}"
             decompressed_blob_name += f".{new_file_extension}"
 
         logger.debug("Decompressing file...")
+        compression_function(
+            compressed_filepath=compressed_filepath,
+            decompressed_filepath=decompressed_filepath,
+            decompressed_blob_name=decompressed_blob_name,
+            bucket_name=bucket_name,
+            new_file_extension=new_file_extension,
+        )
+
+        return self.format_uri(bucket=bucket_name, name=decompressed_blob_name)
+
+    def __gzip_decompress_and_write_to_gcs(self, **kwargs):
+        """
+        Handles `.gzip` decompression and streams blob contents
+        to a decompressed storage object
+        """
+
+        compressed_filepath = kwargs.pop("compressed_filepath")
+        decompressed_blob_name = kwargs.pop("decompressed_blob_name")
+        bucket_name = kwargs.pop("bucket_name")
+
         with gzip.open(compressed_filepath, "rb") as f_in:
-            with open(decompressed_filepath, "wb") as f_out:
-                shutil.copyfileobj(f_in, f_out)
+            logger.debug(
+                f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
+            )
+            bucket = self.get_bucket(bucket_name=bucket_name)
+            blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
+            blob.upload_from_file(file_obj=f_in, rewind=True, timeout=3600)
+
+    def __zip_decompress_and_write_to_gcs(self, **kwargs):
+        """
+        Handles `.zip` decompression and streams blob contents
+        to a decompressed storage object
+        """
+
+        compressed_filepath = kwargs.pop("compressed_filepath")
+        decompressed_blob_name = kwargs.pop("decompressed_blob_name")
+        decompressed_blob_in_archive = decompressed_blob_name.split("/")[-1]
+        bucket_name = kwargs.pop("bucket_name")
+
+        # Unzip the archive
+        with zipfile.ZipFile(compressed_filepath) as path_:
+            # Open the underlying file
+            with path_.open(decompressed_blob_in_archive) as f_in:
                 logger.debug(
                     f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
                 )
-                self.put_blob(
-                    bucket_name=bucket_name,
-                    blob_name=decompressed_blob_name,
-                    local_path=decompressed_filepath,
-                )
-
-        return self.format_uri(bucket=bucket_name, name=decompressed_blob_name)
+                bucket = self.get_bucket(bucket_name=bucket_name)
+                blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
+                blob.upload_from_file(file_obj=f_in, rewind=True, timeout=3600)

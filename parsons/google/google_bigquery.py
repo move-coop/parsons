@@ -18,7 +18,7 @@ from parsons.etl import Table
 from parsons.google.utitities import setup_google_application_credentials
 from parsons.google.google_cloud_storage import GoogleCloudStorage
 from parsons.utilities import check_env
-from parsons.utilities.files import create_temp_file, is_gzip_path
+from parsons.utilities.files import create_temp_file
 
 logger = logging.getLogger(__name__)
 
@@ -109,7 +109,7 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
     """
 
     # TODO - Better way to test for this
-    if type(schema_definition[0]) == bigquery.SchemaField:
+    if isinstance(schema_definition[0], bigquery.SchemaField):
         logger.debug("User supplied list of SchemaField objects")
         return schema_definition
 
@@ -181,8 +181,10 @@ class GoogleBigQuery(DatabaseConnector):
         The connection is set up as a python "context manager", so it will be closed
         automatically when the connection goes out of scope. Note that the BigQuery
         API uses jobs to run database operations and, as such, simply has a no-op for
-        a "commit" function. If you would like to manage transactions, please use
-        multi-statement queries as [outlined here](https://cloud.google.com/bigquery/docs/transactions)
+        a "commit" function.
+
+        If you would like to manage transactions, please use multi-statement queries
+        as [outlined here](https://cloud.google.com/bigquery/docs/transactions)
         or utilize the `query_with_transaction` method on this class.
 
         When using the connection, make sure to put it in a ``with`` block (necessary for
@@ -276,9 +278,10 @@ class GoogleBigQuery(DatabaseConnector):
         if not commit:
             raise ValueError(
                 """
-                BigQuery implementation uses an API client which always auto-commits. If you wish to wrap
-                multiple queries in a transaction, use Mulit-Statement transactions within a single query
-                as outlined here: https://cloud.google.com/bigquery/docs/transactions or use the
+                BigQuery implementation uses an API client which always auto-commits.
+                If you wish to wrap multiple queries in a transaction, use
+                Mulit-Statement transactions within a single query as outlined
+                here: https://cloud.google.com/bigquery/docs/transactions or use the
                 `query_with_transaction` method on the BigQuery connector.
             """
             )
@@ -301,9 +304,7 @@ class GoogleBigQuery(DatabaseConnector):
         queries_wrapped = f"""
         BEGIN
             BEGIN TRANSACTION;
-            
             {queries_on_newlines}
-
             COMMIT TRANSACTION;
         END;
         """
@@ -324,6 +325,9 @@ class GoogleBigQuery(DatabaseConnector):
         quote: Optional[str] = None,
         schema: Optional[List[dict]] = None,
         job_config: Optional[LoadJobConfig] = None,
+        force_unzip_blobs: bool = False,
+        compression_type: str = "gzip",
+        new_file_extension: str = "csv",
         **load_kwargs,
     ):
         """
@@ -350,8 +354,8 @@ class GoogleBigQuery(DatabaseConnector):
             nullas: str
                 Loads fields that match null_string as NULL, where null_string can be any string
             allow_quoted_newlines: bool
-                If True, detects quoted new line characters within a CSV field and does not interpret
-                the quoted new line character as a row boundary
+                If True, detects quoted new line characters within a CSV field and does
+                not interpret the quoted new line character as a row boundary
             allow_jagged_rows: bool
                 Allow missing trailing optional columns (CSV only).
             quote: str
@@ -371,9 +375,17 @@ class GoogleBigQuery(DatabaseConnector):
                 on the BigQuery client. The function will create its own if not provided. Note
                 if there are any conflicts between the job_config and other parameters, the
                 job_config values are preferred.
+            force_unzip_blobs: bool
+                If True, target blobs will be unzipped before being loaded to BigQuery.
+            compression_type: str
+                Accepts `zip` or `gzip` values to differentially unzip a compressed
+                blob in cloud storage.
+            new_file_extension: str
+                Provides a file extension if a blob is decompressed and rewritten
+                to cloud storage.
             **load_kwargs: kwargs
-                Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
-                client.
+                Other arguments to pass to the underlying load_table_from_uri
+                call on the BigQuery client.
         """
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError(
@@ -406,20 +418,8 @@ class GoogleBigQuery(DatabaseConnector):
         # load CSV from Cloud Storage into BigQuery
         table_ref = get_table_ref(self.client, table_name)
 
-        load_job = self.client.load_table_from_uri(
-            source_uris=gcs_blob_uri,
-            destination=table_ref,
-            job_config=job_config,
-            **load_kwargs,
-        )
-
         try:
-            load_job.result()
-        except exceptions.BadRequest as e:
-            if "one of the files is larger than the maximum allowed size." in str(e):
-                logger.debug(
-                    f"{gcs_blob_uri.split('/')[-1]} exceeds max size ... running decompression function..."
-                )
+            if force_unzip_blobs:
                 self.copy_large_compressed_file_from_gcs(
                     gcs_blob_uri=gcs_blob_uri,
                     table_name=table_name,
@@ -433,6 +433,39 @@ class GoogleBigQuery(DatabaseConnector):
                     quote=quote,
                     schema=schema,
                     job_config=job_config,
+                    compression_type=compression_type,
+                    new_file_extension=new_file_extension,
+                )
+            else:
+                load_job = self.client.load_table_from_uri(
+                    source_uris=gcs_blob_uri,
+                    destination=table_ref,
+                    job_config=job_config,
+                    **load_kwargs,
+                )
+                load_job.result()
+        except exceptions.BadRequest as e:
+            if "one of the files is larger than the maximum allowed size." in str(e):
+                logger.debug(
+                    f"{gcs_blob_uri.split('/')[-1]} exceeds max size ... \
+                    running decompression function..."
+                )
+
+                self.copy_large_compressed_file_from_gcs(
+                    gcs_blob_uri=gcs_blob_uri,
+                    table_name=table_name,
+                    if_exists=if_exists,
+                    max_errors=max_errors,
+                    data_type=data_type,
+                    csv_delimiter=csv_delimiter,
+                    ignoreheader=ignoreheader,
+                    nullas=nullas,
+                    allow_quoted_newlines=allow_quoted_newlines,
+                    quote=quote,
+                    schema=schema,
+                    job_config=job_config,
+                    compression_type=compression_type,
+                    new_file_extension=new_file_extension,
                 )
             elif "Schema has no field" in str(e):
                 logger.debug(f"{gcs_blob_uri.split('/')[-1]} is empty, skipping file")
@@ -465,6 +498,8 @@ class GoogleBigQuery(DatabaseConnector):
         quote: Optional[str] = None,
         schema: Optional[List[dict]] = None,
         job_config: Optional[LoadJobConfig] = None,
+        compression_type: str = "gzip",
+        new_file_extension: str = "csv",
         **load_kwargs,
     ):
         """
@@ -492,8 +527,8 @@ class GoogleBigQuery(DatabaseConnector):
             nullas: str
                 Loads fields that match null_string as NULL, where null_string can be any string
             allow_quoted_newlines: bool
-                If True, detects quoted new line characters within a CSV field and does not interpret
-                the quoted new line character as a row boundary
+                If True, detects quoted new line characters within a CSV field
+                and does not interpret the quoted new line character as a row boundary
             allow_jagged_rows: bool
                 Allow missing trailing optional columns (CSV only).
             quote: str
@@ -513,6 +548,11 @@ class GoogleBigQuery(DatabaseConnector):
                 on the BigQuery client. The function will create its own if not provided. Note
                 if there are any conflicts between the job_config and other parameters, the
                 job_config values are preferred.
+            compression_type: str
+                Accepts `zip` or `gzip` values to differentially unzip a compressed
+                blob in cloud storage.
+            new_file_extension: str
+                Provides a file extension if a blob is decompressed and rewritten to cloud storage.
             **load_kwargs: kwargs
                 Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
@@ -557,7 +597,8 @@ class GoogleBigQuery(DatabaseConnector):
             uncompressed_gcs_uri = gcs.unzip_blob(
                 bucket_name=old_bucket_name,
                 blob_name=old_blob_name,
-                new_file_extension="csv",
+                new_file_extension=new_file_extension,
+                compression_type=compression_type,
             )
 
             logger.debug(
@@ -753,7 +794,8 @@ class GoogleBigQuery(DatabaseConnector):
             destination_table: str
                 Name of destination schema and table (e.g. ``myschema.newtable``)
             if_exists: str
-                If the table already exists, either ``fail``, ``replace``, or ``ignore`` the operation.
+                If the table already exists, either ``fail``, ``replace``, or
+                ``ignore`` the operation.
             drop_source_table: boolean
                 Drop the source table
         """
@@ -762,8 +804,11 @@ class GoogleBigQuery(DatabaseConnector):
         if if_exists == "fail" and self.table_exists(destination_table):
             raise ValueError("Table already exists.")
 
+        table__replace_clause = "OR REPLACE " if if_exists == "replace" else ""
+        table__exists_clause = " IF NOT EXISTS" if if_exists == "ignore" else ""
+
         query = f"""
-            CREATE {'OR REPLACE ' if if_exists == 'replace' else ''}TABLE{' IF NOT EXISTS' if if_exists == 'ignore' else ''}
+            CREATE {table__replace_clause}TABLE{table__exists_clause}
             {destination_table}
             CLONE {source_table}
         """
@@ -798,8 +843,8 @@ class GoogleBigQuery(DatabaseConnector):
                 A temp table is dropped by default on cleanup. You can set to False for debugging.
             from_s3: boolean
                 Instead of specifying a table_obj (set the first argument to None),
-                set this to True and include :func:`~parsons.databases.bigquery.Bigquery.copy_s3` arguments
-                to upsert a pre-existing s3 file into the target_table
+                set this to True and include :func:`~parsons.databases.bigquery.Bigquery.copy_s3`
+                arguments to upsert a pre-existing s3 file into the target_table
             \**copy_args: kwargs
                 See :func:`~parsons.databases.bigquery.BigQuery.copy` for options.
         """  # noqa: W605
@@ -953,7 +998,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         logger.debug("Retrieving views info.")
         sql = f"""
-              select 
+              select
                 table_schema as schema_name,
                 table_name as view_name,
                 view_definition
@@ -981,10 +1026,10 @@ class GoogleBigQuery(DatabaseConnector):
         """
 
         base_query = f"""
-        SELECT 
-            * 
+        SELECT
+            *
         FROM `{self.project}.{schema}.INFORMATION_SCHEMA.COLUMNS`
-        WHERE 
+        WHERE
             table_name = '{table_name}'
         """
 
@@ -1018,6 +1063,25 @@ class GoogleBigQuery(DatabaseConnector):
         first_row = self.query(f"SELECT * FROM {schema}.{table_name} LIMIT 1;")
 
         return [x for x in first_row.columns]
+
+    def get_row_count(self, schema: str, table_name: str) -> int:
+        """
+        Gets the row count for a BigQuery materialization.
+
+        `Args`:
+            schema: str
+                The schema name
+            table_name: str
+                The table name
+
+        `Returns:`
+            Row count of the target table
+        """
+
+        sql = f"SELECT COUNT(*) AS row_count FROM `{schema}.{table_name}`"
+        result = self.query(sql=sql)
+
+        return result["row_count"][0]
 
     def _generate_schema_from_parsons_table(self, tbl):
         stats = tbl.get_columns_type_stats()

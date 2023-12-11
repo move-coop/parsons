@@ -1001,7 +1001,7 @@ is set to <code class="docutils literal notranslate"><span class="pre">True</spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs">
-<span class="sig-name descname"><span class="pre">list_blobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_glob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.list_blobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_blobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_glob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_file_details</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.list_blobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs" title="Permalink to this definition"></a></dt>
 <dd><p>List all of the blobs in a bucket</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -1015,9 +1015,13 @@ is set to <code class="docutils literal notranslate"><span class="pre">True</spa
 parameter runs on the full blob URI, include a preceding wildcard
 value to account for nested files (<em>/ for one level, *</em>/ for n levels)</p>
 </dd>
+<dt>include_file_details: bool</dt><dd><p>If True, returns a list of <cite>Blob</cite> objects with accessible metadata. For
+documentation of attributes associated with <cite>Blob</cite> objects see
+<a class="reference external" href="https://cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.blob.Blob">https://cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.blob.Blob</a></p>
+</dd>
 </dl>
 </dd>
-<dt><cite>Returns:</cite></dt><dd><p>A list of blob names</p>
+<dt><cite>Returns:</cite></dt><dd><p>A list of blob names (or <cite>Blob</cite> objects if <cite>include_file_details</cite> is invoked)</p>
 </dd>
 </dl>
 </dd></dl>

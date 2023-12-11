@@ -27,13 +27,12 @@ BIGQUERY_TYPE_MAP = {
     "float": "FLOAT",
     "int": "INTEGER",
     "bool": "BOOLEAN",
-    "datetime.datetime": "DATETIME",
-    "datetime.date": "DATE",
-    "datetime.time": "TIME",
+    "datetime": "DATETIME",
+    "date": "DATE",
+    "time": "TIME",
     "dict": "RECORD",
     "NoneType": "STRING",
     "UUID": "STRING",
-    "datetime": "DATETIME",
 }
 
 # Max number of rows that we query at a time, so we can avoid loading huge

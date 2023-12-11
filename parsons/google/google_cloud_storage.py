@@ -136,7 +136,14 @@ class GoogleCloudStorage(object):
         bucket.delete(force=delete_blobs)
         logger.info(f"{bucket_name} bucket deleted.")
 
-    def list_blobs(self, bucket_name, max_results=None, prefix=None, match_glob=None):
+    def list_blobs(
+        self,
+        bucket_name,
+        max_results=None,
+        prefix=None,
+        match_glob=None,
+        include_file_details=False,
+    ):
         """
         List all of the blobs in a bucket
 
@@ -151,14 +158,23 @@ class GoogleCloudStorage(object):
                 Filters files based on glob string. NOTE that the match_glob
                 parameter runs on the full blob URI, include a preceding wildcard
                 value to account for nested files (*/ for one level, **/ for n levels)
+            include_file_details: bool
+                If True, returns a list of `Blob` objects with accessible metadata. For
+                documentation of attributes associated with `Blob` objects see
+                https://cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.blob.Blob
         `Returns:`
-            A list of blob names
+            A list of blob names (or `Blob` objects if `include_file_details` is invoked)
         """
 
         blobs = self.client.list_blobs(
             bucket_name, max_results=max_results, prefix=prefix, match_glob=match_glob
         )
-        lst = [b.name for b in blobs]
+
+        if include_file_details:
+            lst = [b for b in blobs]
+        else:
+            lst = [b.name for b in blobs]
+
         logger.info(f"Found {len(lst)} in {bucket_name} bucket.")
 
         return lst

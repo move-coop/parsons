@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 
 class ETL(object):
     def __init__(self):
-
         pass
 
     def add_column(self, column, value=None, index=None, if_exists="fail"):
@@ -206,7 +205,6 @@ class ETL(object):
         max_width = 0
 
         for v in petl.values(self.table, column):
-
             if len(str(v).encode("utf-8")) > max_width:
                 max_width = len(str(v).encode("utf-8"))
 
@@ -314,7 +312,6 @@ class ETL(object):
         """
 
         for col in self.columns:
-
             if not exact_match:
                 cleaned_col = col.lower().replace("_", "").replace(" ", "")
             else:
@@ -830,7 +827,6 @@ class ETL(object):
         new_dict = {}
 
         for k, v in dict_obj.items():
-
             new_dict[prepend + "_" + k] = v
 
         return new_dict

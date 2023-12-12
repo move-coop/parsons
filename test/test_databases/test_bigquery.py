@@ -354,6 +354,9 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         self.assertEqual(bq.copy_from_gcs.call_count, 1)
         load_call_args = bq.copy_from_gcs.call_args
+        job_config = bq.copy_from_gcs.call_args[1]["job_config"]
+        column_types = [schema_field.field_type for schema_field in job_config.schema]
+        self.assertEqual(column_types, ["INTEGER", "STRING", "BOOLEAN"])
         self.assertEqual(load_call_args[1]["gcs_blob_uri"], tmp_blob_uri)
         self.assertEqual(load_call_args[1]["table_name"], table_name)
 
@@ -533,7 +536,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
     def default_table(self):
         return Table(
             [
-                {"num": 1, "ltr": "a"},
-                {"num": 2, "ltr": "b"},
+                {"num": 1, "ltr": "a", "boolcol": None},
+                {"num": 2, "ltr": "b", "boolcol": True},
             ]
         )

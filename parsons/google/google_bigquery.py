@@ -1088,7 +1088,18 @@ class GoogleBigQuery(DatabaseConnector):
         fields = []
         for stat in stats:
             petl_types = stat["type"]
-            best_type = "str" if "str" in petl_types else petl_types[0]
+
+            # Prefer 'str' if included
+            # Otherwise choose first type that isn't "NoneType"
+            # Otherwise choose NoneType
+            not_none_petl_types = [i for i in petl_types if i != "NoneType"]
+            if "str" in petl_types:
+                best_type = "str"
+            elif not_none_petl_types:
+                best_type = not_none_petl_types[0]
+            else:
+                best_type = "NoneType"
+
             field_type = self._bigquery_type(best_type)
             field = bigquery.schema.SchemaField(stat["name"], field_type)
             fields.append(field)

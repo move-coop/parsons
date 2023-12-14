@@ -775,8 +775,9 @@ class GoogleBigQuery(DatabaseConnector):
         """
         tmp_gcs_bucket = check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
 
-        # if not job_config:
-        job_config = bigquery.LoadJobConfig()
+        if not job_config:
+            job_config = bigquery.LoadJobConfig()
+
         if not job_config.schema:
             job_config.schema = self._generate_schema_from_parsons_table(tbl)
 

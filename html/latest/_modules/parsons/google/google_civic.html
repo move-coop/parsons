@@ -254,7 +254,83 @@
         <span class="n">tbl</span><span class="o">.</span><span class="n">move_column</span><span class="p">(</span><span class="s2">&quot;polling_locationName&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">tbl</span><span class="o">.</span><span class="n">move_column</span><span class="p">(</span><span class="s2">&quot;polling_address&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">tbl</span></div></div>
+        <span class="k">return</span> <span class="n">tbl</span></div>
+
+<div class="viewcode-block" id="GoogleCivic.get_representative_info_by_address"><a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic.get_representative_info_by_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_representative_info_by_address</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">include_offices</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">roles</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get representative information for a given address.</span>
+<span class="sd">        This method returns the raw JSON response from the Google Civic API.</span>
+<span class="sd">        It is a complex response that is not easily parsed into a table.</span>
+<span class="sd">        Here is the information on how to parse the response:</span>
+<span class="sd">        https://developers.google.com/civic-information/docs/v2/representatives/representativeInfoByAddress</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            address: str</span>
+<span class="sd">                A valid US address in a single string.</span>
+<span class="sd">            include_offices: bool</span>
+<span class="sd">                Whether to return information about offices and officials.</span>
+<span class="sd">                If false, only the top-level district information will be returned. (Default: True)</span>
+<span class="sd">            levels: list of str</span>
+<span class="sd">                A list of office levels to filter by.</span>
+<span class="sd">                Only offices that serve at least one of these levels will be returned.</span>
+<span class="sd">                Divisions that don&#39;t contain a matching office will not be returned.</span>
+<span class="sd">                    Acceptable values are:</span>
+<span class="sd">                    &quot;administrativeArea1&quot;</span>
+<span class="sd">                    &quot;administrativeArea2&quot;</span>
+<span class="sd">                    &quot;country&quot;</span>
+<span class="sd">                    &quot;international&quot;</span>
+<span class="sd">                    &quot;locality&quot;</span>
+<span class="sd">                    &quot;regional&quot;</span>
+<span class="sd">                    &quot;special&quot;</span>
+<span class="sd">                    &quot;subLocality1&quot;</span>
+<span class="sd">                    &quot;subLocality2&quot;</span>
+<span class="sd">            roles: list of str</span>
+<span class="sd">                A list of office roles to filter by.</span>
+<span class="sd">                Only offices fulfilling one of these roles will be returned.</span>
+<span class="sd">                Divisions that don&#39;t contain a matching office will not be returned.</span>
+<span class="sd">                    Acceptable values are:</span>
+<span class="sd">                    &quot;deputyHeadOfGovernment&quot;</span>
+<span class="sd">                    &quot;executiveCouncil&quot;</span>
+<span class="sd">                    &quot;governmentOfficer&quot;</span>
+<span class="sd">                    &quot;headOfGovernment&quot;</span>
+<span class="sd">                    &quot;headOfState&quot;</span>
+<span class="sd">                    &quot;highestCourtJudge&quot;</span>
+<span class="sd">                    &quot;judge&quot;</span>
+<span class="sd">                    &quot;legislatorLowerBody&quot;</span>
+<span class="sd">                    &quot;legislatorUpperBody&quot;</span>
+<span class="sd">                    &quot;schoolBoard&quot;</span>
+<span class="sd">                    &quot;specialPurposeOfficer&quot;</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;levels must be a list of strings&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">roles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roles</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;roles must be a list of strings&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">address</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;address must be a string&quot;</span><span class="p">)</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;representatives&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span>
+            <span class="s2">&quot;includeOffices&quot;</span><span class="p">:</span> <span class="n">include_offices</span><span class="p">,</span>
+            <span class="s2">&quot;levels&quot;</span><span class="p">:</span> <span class="n">levels</span><span class="p">,</span>
+            <span class="s2">&quot;roles&quot;</span><span class="p">:</span> <span class="n">roles</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="c1"># Raise an error if the address was invalid</span>
+        <span class="k">if</span> <span class="s2">&quot;error&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">][</span><span class="s2">&quot;message&quot;</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">response</span></div></div>
 </pre></div>
 
            </div>

@@ -1289,6 +1289,11 @@ key civic information such as personalized ballots and polling location informat
 <span class="n">google_civic</span><span class="o">.</span><span class="n">get_polling_location</span><span class="p">(</span><span class="n">election_id</span><span class="o">=</span><span class="n">election_id</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">address</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>You can also retrieve represntative information such as offices, officals, etc.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">address</span> <span class="o">=</span> <span class="s1">&#39;1600 Pennsylvania Avenue, Washington DC&#39;</span>
+<span class="n">representatives</span> <span class="o">=</span> <span class="n">google_civic</span><span class="o">.</span><span class="n">get_representatives_by_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">address</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="id22">
 <h3>API<a class="headerlink" href="#id22" title="Permalink to this headline"></a></h3>
@@ -1351,6 +1356,65 @@ env variable set.</p>
 <dt>address: str</dt><dd><p>A valid US address in a single string.</p>
 </dd>
 <dt>address_field: str</dt><dd><p>The name of the column where the address is stored.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_civic.GoogleCivic.get_representative_info_by_address">
+<span class="sig-name descname"><span class="pre">get_representative_info_by_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_offices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_representative_info_by_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_civic.GoogleCivic.get_representative_info_by_address" title="Permalink to this definition"></a></dt>
+<dd><p>Get representative information for a given address.
+This method returns the raw JSON response from the Google Civic API.
+It is a complex response that is not easily parsed into a table.
+Here is the information on how to parse the response:
+<a class="reference external" href="https://developers.google.com/civic-information/docs/v2/representatives/representativeInfoByAddress">https://developers.google.com/civic-information/docs/v2/representatives/representativeInfoByAddress</a></p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>address: str</dt><dd><p>A valid US address in a single string.</p>
+</dd>
+<dt>include_offices: bool</dt><dd><p>Whether to return information about offices and officials.
+If false, only the top-level district information will be returned. (Default: True)</p>
+</dd>
+<dt>levels: list of str</dt><dd><p>A list of office levels to filter by.
+Only offices that serve at least one of these levels will be returned.
+Divisions that don’t contain a matching office will not be returned.</p>
+<blockquote>
+<div><p>Acceptable values are:
+“administrativeArea1”
+“administrativeArea2”
+“country”
+“international”
+“locality”
+“regional”
+“special”
+“subLocality1”
+“subLocality2”</p>
+</div></blockquote>
+</dd>
+<dt>roles: list of str</dt><dd><p>A list of office roles to filter by.
+Only offices fulfilling one of these roles will be returned.
+Divisions that don’t contain a matching office will not be returned.</p>
+<blockquote>
+<div><p>Acceptable values are:
+“deputyHeadOfGovernment”
+“executiveCouncil”
+“governmentOfficer”
+“headOfGovernment”
+“headOfState”
+“highestCourtJudge”
+“judge”
+“legislatorLowerBody”
+“legislatorUpperBody”
+“schoolBoard”
+“specialPurposeOfficer”</p>
+</div></blockquote>
 </dd>
 </dl>
 </dd>

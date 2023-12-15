@@ -9,6 +9,7 @@ from google.cloud import bigquery
 from google.cloud.bigquery import dbapi
 from google.cloud.bigquery.job import LoadJobConfig
 from google.cloud import exceptions
+import google
 import petl
 from contextlib import contextmanager
 
@@ -779,8 +780,21 @@ class GoogleBigQuery(DatabaseConnector):
         if not job_config:
             job_config = bigquery.LoadJobConfig()
 
+        # It isn't ever actually necessary to generate the schema explicitly here
+        # BigQuery will attempt to autodetect the schema on its own
+        # When appending or truncating an existing table, we should not provide a schema here
+        # It introduces situations where provided schema can mismatch the actual schema
         if not job_config.schema:
-            job_config.schema = self._generate_schema_from_parsons_table(tbl)
+            if if_exists in ("append", "truncate"):
+                # It is more robust to fetch the actual existing schema
+                # than it is to try and infer it based on provided data
+                try:
+                    bigquery_table = self.client.get_table(table_name)
+                    job_config.schema = bigquery_table.schema
+                except google.api_core.exceptions.NotFound:
+                    job_config.schema = self._generate_schema_from_parsons_table(tbl)
+            else:
+                job_config.schema = self._generate_schema_from_parsons_table(tbl)
 
         gcs_client = gcs_client or GoogleCloudStorage()
         temp_blob_name = f"{uuid.uuid4()}.csv"
@@ -1106,6 +1120,10 @@ class GoogleBigQuery(DatabaseConnector):
         return result["row_count"][0]
 
     def _generate_schema_from_parsons_table(self, tbl):
+        """BigQuery schema generation based on contents of Parsons table.
+
+        Not usually necessary to use this. BigQuery is able to
+        natively autodetect schema formats."""
         stats = tbl.get_columns_type_stats()
         fields = []
         for stat in stats:

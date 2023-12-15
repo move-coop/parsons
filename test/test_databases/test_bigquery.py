@@ -397,6 +397,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq.copy_from_gcs = mock.MagicMock()
         table_name = "dataset.table"
         if_exists = "append"
+        bq.client.get_table = lambda _: mock.MagicMock()
+        bq.client.get_table.return_value = None
 
         # call the method being tested
         bq.copy(

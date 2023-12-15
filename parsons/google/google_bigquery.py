@@ -33,6 +33,7 @@ BIGQUERY_TYPE_MAP = {
     "dict": "RECORD",
     "NoneType": "STRING",
     "UUID": "STRING",
+    "timestamp": "TIMESTAMP",
 }
 
 # Max number of rows that we query at a time, so we can avoid loading huge
@@ -1120,6 +1121,13 @@ class GoogleBigQuery(DatabaseConnector):
                 best_type = not_none_petl_types[0]
             else:
                 best_type = "NoneType"
+
+            # Python datetimes may be datetime or timestamp in BigQuery
+            # BigQuery datetimes have no timezone, timestamps do
+            if best_type == "datetime":
+                for value in petl.util.base.values(tbl.table, stat["name"]):
+                    if isinstance(value, datetime.datetime) and value.tzinfo:
+                        best_type = "timestamp"
 
             field_type = self._bigquery_type(best_type)
             field = bigquery.schema.SchemaField(stat["name"], field_type)

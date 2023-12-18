@@ -796,6 +796,20 @@ class GoogleBigQuery(DatabaseConnector):
             else:
                 job_config.schema = self._generate_schema_from_parsons_table(tbl)
 
+        # Reorder schema to match table to ensure compatibility
+        schema = []
+        for column in tbl.columns:
+            try:
+                schema_row = [
+                    i for i in job_config.schema if i.name.lower() == column.lower()
+                ][0]
+            except IndexError:
+                raise IndexError(
+                    f"Column found in Table that was not found in schema: {column}"
+                )
+            schema.append(schema_row)
+        job_config.schema = schema
+
         gcs_client = gcs_client or GoogleCloudStorage()
         temp_blob_name = f"{uuid.uuid4()}.csv"
         temp_blob_uri = gcs_client.upload_table(tbl, tmp_gcs_bucket, temp_blob_name)

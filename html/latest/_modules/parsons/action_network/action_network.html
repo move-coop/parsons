@@ -141,6 +141,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
@@ -894,7 +895,7 @@
 
 <div class="viewcode-block" id="ActionNetwork.upsert_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.upsert_person">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_person</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">email_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">email_address</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">given_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">family_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -920,8 +921,8 @@
 <span class="sd">                Either email_address or mobile_number are required. Can be any of the following</span>
 <span class="sd">                    - a string with the person&#39;s email</span>
 <span class="sd">                    - a list of strings with a person&#39;s emails</span>
-<span class="sd">                    - a dictionary with the following fields</span>
-<span class="sd">                        - email_address (REQUIRED)</span>
+<span class="sd">                    - a list of dictionaries with the following fields</span>
+<span class="sd">                        - address (REQUIRED)</span>
 <span class="sd">                        - primary (OPTIONAL): Boolean indicating the user&#39;s primary email address</span>
 <span class="sd">                        - status (OPTIONAL): can taken on any of these values</span>
 <span class="sd">                            - &quot;subscribed&quot;</span>
@@ -975,6 +976,11 @@
                 <span class="n">email_addresses_field</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;primary&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">email_address</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="n">email_addresses_field</span> <span class="o">=</span> <span class="n">email_address</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unexpected type for email_address. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">email_address</span><span class="p">)</span><span class="si">}</span><span class="s2">, &quot;</span>
+                <span class="s2">&quot;expected str or list.&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>

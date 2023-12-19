@@ -7,6 +7,9 @@ from parsons.google.utitities import setup_google_application_credentials
 
 import gspread
 from google.oauth2.service_account import Credentials
+from gspread.exceptions import APIError
+from requests.exceptions import HTTPError, ReadTimeout
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -394,6 +397,68 @@ class GoogleSheets:
         ws = self._get_worksheet(spreadsheet_id, worksheet)
         ws.format(range, cell_format)
         logger.info("Formatted worksheet")
+
+    def attempt_gsheet_method(self, method, i=1, max=6, wait_time=15, **kwargs):
+        """
+        The Google Sheets API has notoriously strict rate limits (e.g. 60 calls per minute). This
+        function calls itself (i.e. is recursive) to help configure wait times and retry attempts
+        needed to wait out rate limit errors instead of letting them derail a script.
+        `Args:`
+            method: str
+                The name of the Parsons GoogleSheets method to be attempted
+            i: int
+                Where to start the retry count - defaults to 0; mostly needed for recursive calls
+            max: int
+                How many attempts to make before giving up - defaults to 4
+            wait_time: int
+                Number of seconds to wait between attempts - defaults to 15
+            kwargs: dict
+                Any arguments required by `method` - note that positional args will have to be named
+        `Returns:`
+            Whatever `method` is supposed to return
+
+        """
+
+        # Recursively account for nested methods as needed
+        nested_methods = method.split(".")
+
+        if len(nested_methods) == 1:
+            final_method = self
+        else:
+            final_method = self[nested_methods[0]]
+            nested_methods.pop(0)
+
+        try:
+
+            # If final_method isn't callable, then the API call is made in the loop, not below
+            for m in nested_methods:
+                final_method = getattr(final_method, m)
+
+            # Using getattr allows the method/attribute to be user-provided
+            if callable(final_method):
+                output = final_method(**kwargs)
+            else:
+                output = final_method
+
+        except (APIError, HTTPError, ReadTimeout, ConnectionError) as e:
+            # Lets get the ordinals right, because why not
+            if i % 10 == 1:
+                ordinal = "st"
+            elif i % 10 == 2:
+                ordinal = "nd"
+            else:
+                ordinal = "th"
+
+            logger.info(f"trying to {method} for the {i}{ordinal} time")
+            if i < max:
+                time.sleep(wait_time)
+                i += 1
+                output = self.attempt_gsheet_method(method, i, max, wait_time, **kwargs)
+
+            else:
+                raise e
+
+        return output
 
     def read_sheet(self, spreadsheet_id, sheet_index=0):
         # Deprecated method v0.14 of Parsons.

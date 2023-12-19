@@ -14,7 +14,7 @@ def redact_credentials(sql):
     return sql_censored
 
 
-def sql_from_file(sql_file):
+def get_sql_from_file(sql_file):
     """
     Description:
         This function allows you to grab SQL defined in a separate file.

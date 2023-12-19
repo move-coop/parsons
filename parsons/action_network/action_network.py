@@ -2,6 +2,7 @@ import json
 import logging
 import re
 import warnings
+from typing import Dict, List, Union
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -755,7 +756,7 @@ class ActionNetwork(object):
 
     def upsert_person(
         self,
-        email_address=None,
+        email_address: Union[str, List[str], List[Dict[str, str]]] = None,
         given_name=None,
         family_name=None,
         tags=None,
@@ -781,8 +782,8 @@ class ActionNetwork(object):
                 Either email_address or mobile_number are required. Can be any of the following
                     - a string with the person's email
                     - a list of strings with a person's emails
-                    - a dictionary with the following fields
-                        - email_address (REQUIRED)
+                    - a list of dictionaries with the following fields
+                        - address (REQUIRED)
                         - primary (OPTIONAL): Boolean indicating the user's primary email address
                         - status (OPTIONAL): can taken on any of these values
                             - "subscribed"
@@ -836,6 +837,11 @@ class ActionNetwork(object):
                 email_addresses_field[0]["primary"] = True
             if isinstance(email_address[0], dict):
                 email_addresses_field = email_address
+        else:
+            raise ValueError(
+                f"Unexpected type for email_address. Got {type(email_address)}, "
+                "expected str or list."
+            )
 
         mobile_numbers_field = None
         if isinstance(mobile_number, str):

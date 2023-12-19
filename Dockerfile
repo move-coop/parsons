@@ -42,4 +42,4 @@ RUN python setup.py develop
 RUN mkdir /app
 WORKDIR /app
 # Useful for importing modules that are associated with your python scripts:
-env PYTHONPATH=.:/app
+ENV PYTHONPATH=.:/app

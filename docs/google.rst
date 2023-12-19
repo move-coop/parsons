@@ -68,7 +68,7 @@ Google Cloud projects.
 Quickstart
 ==========
 
-To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of the Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to be either of those strings and call the constructor without that argument.
+To instantiate the `GoogleBigQuery` class, you can pass the constructor a string containing either the name of the Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to be either of those strings and call the constructor without that argument.
 
 .. code-block:: python
 
@@ -78,7 +78,7 @@ To instantiate the GoogleBigQuery class, you can pass the constructor a string c
    # be the file name or a JSON encoding of the credentials.
    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_credentials_file.json'
 
-   big_query = GoogleBigQuery()
+   bigquery = GoogleBigQuery()
 
 Alternatively, you can pass the credentials in as an argument. In the example below, we also specify the project.
 
@@ -86,8 +86,10 @@ Alternatively, you can pass the credentials in as an argument. In the example be
 
    # Project in which we're working
    project = 'parsons-test'
-   big_query = GoogleBigQuery(app_creds='google_credentials_file.json',
-                              project=project)
+   bigquery = GoogleBigQuery(
+      app_creds='google_credentials_file.json',
+      project=project
+   )
 
 We can now upload/query data.
 
@@ -98,7 +100,7 @@ We can now upload/query data.
 
    # Table name should be project.dataset.table, or dataset.table, if
    # working with the default project
-   table_name = project + '.' + dataset + '.' + table
+   table_name = f"`{project}.{dataset}.{table}`"
 
    # Must be pre-existing bucket. Create via GoogleCloudStorage() or
    # at https://console.cloud.google.com/storage/create-bucket. May be
@@ -107,7 +109,7 @@ We can now upload/query data.
    gcs_temp_bucket = 'parsons_bucket'
 
    # Create dataset if it doesn't already exist
-   big_query.client.create_dataset(dataset=dataset, exists_ok=True)
+   bigquery.client.create_dataset(dataset=dataset, exists_ok=True)
 
    parsons_table = Table([{'name':'Bob', 'party':'D'},
                           {'name':'Jane', 'party':'D'},
@@ -115,15 +117,23 @@ We can now upload/query data.
                           {'name':'Bill', 'party':'I'}])
 
    # Copy table in to create new BigQuery table
-   big_query.copy(table_obj=parsons_table,
-                  table_name=table_name,
-                  tmp_gcs_bucket=gcs_temp_bucket)
+   bigquery.copy(
+      table_obj=parsons_table,
+      table_name=table_name,
+      tmp_gcs_bucket=gcs_temp_bucket
+   )
 
    # Select from project.dataset.table
-   big_query.query(f'select name from {table_name} where party = "D"')
+   bigquery.query(f'select name from {table_name} where party = "D"')
+
+   # Query with parameters
+   bigquery.query(
+      f"select name from {table_name} where party = %s",
+      parameters=["D"]
+   )
 
    # Delete the table when we're done
-   big_query.client.delete_table(table=table_name)
+   bigquery.client.delete_table(table=table_name)
 
 ===
 API
@@ -233,6 +243,13 @@ Now you can retrieve election information
    address = '1600 Pennsylvania Avenue, Washington DC'
    election_id = '7000'  # General Election
    google_civic.get_polling_location(election_id=election_id, address=address)
+
+You can also retrieve represntative information such as offices, officals, etc.
+
+.. code-block:: python
+
+   address = '1600 Pennsylvania Avenue, Washington DC'
+   representatives = google_civic.get_representatives_by_address(address=address)
 
 ===
 API

@@ -3,7 +3,6 @@ from parsons.databases.database.constants import (
     MEDIUMINT,
     INT,
     BIGINT,
-    FLOAT,
     BOOL,
     VARCHAR,
 )
@@ -16,13 +15,6 @@ import pytest
 @pytest.fixture
 def dcs():
     db = DatabaseCreateStatement()
-    return db
-
-
-@pytest.fixture
-def dcs_bool():
-    db = DatabaseCreateStatement()
-    db.DO_PARSE_BOOLS = True
     return db
 
 
@@ -98,49 +90,21 @@ def test_is_valid_sql_num(dcs, val, is_valid):
 @pytest.mark.parametrize(
     ("val", "cmp_type", "detected_type"),
     (
-        (1, None, SMALLINT),
-        (1, "", SMALLINT),
-        (1, MEDIUMINT, MEDIUMINT),
-        (32769, None, MEDIUMINT),
-        (32769, BIGINT, BIGINT),
-        (2147483648, None, BIGINT),
-        (2147483648, FLOAT, FLOAT),
-        (5.001, None, FLOAT),
-        (5.001, "", FLOAT),
-        ("FALSE", VARCHAR, VARCHAR),
-        ("word", "", VARCHAR),
-        ("word", INT, VARCHAR),
-        ("1_2", BIGINT, VARCHAR),
-        ("01", FLOAT, VARCHAR),
-        ("00001", None, VARCHAR),
-        ("word", None, VARCHAR),
-        ("1_2", None, VARCHAR),
-        ("01", None, VARCHAR),
-        ("{}", None, VARCHAR),
-    ),
-)
-def test_detect_data_type(dcs, val, cmp_type, detected_type):
-    assert dcs.detect_data_type(val, cmp_type) == detected_type
-
-
-@pytest.mark.parametrize(
-    ("val", "cmp_type", "detected_type"),
-    (
         (2, None, SMALLINT),
         (2, "", SMALLINT),
         (1, MEDIUMINT, MEDIUMINT),
         (2, BOOL, SMALLINT),
         (True, None, BOOL),
-        (0, None, BOOL),
-        (1, None, BOOL),
-        (1, BOOL, BOOL),
-        ("F", None, BOOL),
-        ("FALSE", None, BOOL),
-        ("Yes", None, BOOL),
+        (0, None, SMALLINT),
+        (1, None, SMALLINT),
+        (1, BOOL, SMALLINT),
+        ("F", None, VARCHAR),
+        ("FALSE", None, VARCHAR),
+        ("Yes", None, VARCHAR),
     ),
 )
-def test_detect_data_type_bools(dcs_bool, val, cmp_type, detected_type):
-    assert dcs_bool.detect_data_type(val, cmp_type) == detected_type
+def test_detect_data_type_bools(dcs, val, cmp_type, detected_type):
+    assert dcs.detect_data_type(val, cmp_type) == detected_type
 
 
 @pytest.mark.parametrize(

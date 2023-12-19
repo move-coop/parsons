@@ -277,9 +277,26 @@ class Hustle(object):
         logger.info(f"Got {group_id} group.")
         return r
 
+    def create_group_membership(self, group_id, lead_id):
+        """
+        Add a lead to a group.
+
+        `Args:`
+            group_id: str
+                The group id.
+            lead_id: str
+                The lead id.
+        """
+
+        return self._request(
+            f"groups/{group_id}/memberships",
+            req_type="POST",
+            payload={"leadId": lead_id},
+        )
+
     def get_lead(self, lead_id):
         """
-        Get a single lead..
+        Get a single lead.
 
         `Args`:
             lead_id: str

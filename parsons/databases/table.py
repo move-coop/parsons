@@ -215,7 +215,7 @@ class BaseTable:
 
         dedup_query = f"""
             alter table {self.table}
-            rename to {self.table}temp_{current_timestamp};
+            rename to {self.table}_temp_{current_timestamp};
             create table {self.table} as
             select * from
             (select *

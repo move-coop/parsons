@@ -6,7 +6,6 @@ logger = logging.getLogger(__name__)
 
 class People(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def find_person(
@@ -20,6 +19,7 @@ class People(object):
         street_number=None,
         street_name=None,
         zip=None,
+        **kwargs,
     ):
         """
         Find a person record.
@@ -51,6 +51,9 @@ class People(object):
                 Street Name
             zip: str
                 5 digit zip code
+            kwargs:
+                Any additional keyword arguments will be passed to
+                the EveryAction API for matching.
         `Returns:`
             A person dict object
         """
@@ -67,6 +70,7 @@ class People(object):
             street_number=street_number,
             street_name=street_name,
             zip=zip,
+            **kwargs,
         )
 
     def find_person_json(self, match_json):
@@ -199,6 +203,7 @@ class People(object):
         street_number=None,
         street_name=None,
         zip=None,
+        **kwargs,
     ):
         """
         Create or update a person record.
@@ -235,6 +240,9 @@ class People(object):
                 Street Name
             zip: str
                 5 digit zip code
+            kwargs:
+                Any additional keyword arguments will be passed to
+                the EveryAction API for matching.
         `Returns:`
             A person dict
         """
@@ -250,6 +258,7 @@ class People(object):
             street_name=street_name,
             zip=zip,
             create=True,
+            **kwargs,
         )
 
     def upsert_person_json(self, match_json):
@@ -297,6 +306,7 @@ class People(object):
         zip=None,
         match_json=None,
         create=False,
+        **kwargs,
     ):
         # Internal method to hit the people find/create endpoints
 
@@ -326,10 +336,12 @@ class People(object):
             if "vanId" in match_json:
                 id = match_json["vanId"]
 
+        if kwargs:
+            match_json.update(kwargs)
+
         url = "people/"
 
         if id:
-
             if create:
                 id_type = "" if id_type in ("vanid", None) else f"{id_type}:"
                 url += id_type + str(id)
@@ -368,7 +380,6 @@ class People(object):
             and None in [firstName, lastName, addressLine1, zipOrPostalCode]
             and None in [email]
         ):
-
             raise ValueError(
                 """
                              Person find must include the following minimum
@@ -614,7 +625,7 @@ class People(object):
                          "type": "ActivistCode"},
                         {"surveyQuestionId": 109149,
                          "surveyResponseId": 465468,
-                         "action": "SurveyResponse"}
+                         "type": "SurveyResponse"}
                         ]
             van.apply_response(5222, response)
         """  # noqa: E501,E261
@@ -635,16 +646,29 @@ class People(object):
             "resultCodeId": result_code_id,
         }
 
-        if contact_type_id == 1 or contact_type_id == 37:
-            if phone:
-                json["canvassContext"]["phone"] = {
-                    "dialingPrefix": "1",
-                    "phoneNumber": phone,
-                }
-            else:
+        if (
+            contact_type_id == 1  # Phone
+            or contact_type_id == 19  # Auto Dial
+            or contact_type_id == 37  # SMS Text
+            or contact_type_id == 67  # Phone Bank
+            or contact_type_id == 68  # Consumer Phone
+            or contact_type_id == 72  # Leader Phone
+            or contact_type_id == 112  # Personal Phone
+            or contact_type_id == 132  # Relational Text
+            or contact_type_id == 143  # Distributed Text
+            or contact_type_id == 147  # Bulk Text
+            or contact_type_id == 149  # Paid SMS
+        ):
+            if not phone:
                 raise Exception(
                     "A phone number must be provided if canvassed via phone or SMS"
                 )
+
+        if phone:
+            json["canvassContext"]["phone"] = {
+                "dialingPrefix": "1",
+                "phoneNumber": phone,
+            }
 
         if response:
             json["responses"] = response

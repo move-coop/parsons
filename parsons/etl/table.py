@@ -28,13 +28,11 @@ class Table(ETL, ToFrom):
     """
 
     def __init__(self, lst=[]):
-
         self.table = None
 
         lst_type = type(lst)
 
         if lst_type in [list, tuple]:
-
             # Check for empty list
             if not len(lst):
                 self.table = petl.fromdicts([])
@@ -59,21 +57,16 @@ class Table(ETL, ToFrom):
         self._index_count = 0
 
     def __repr__(self):
-
         return repr(petl.dicts(self.table))
 
     def __iter__(self):
-
         return iter(petl.dicts(self.table))
 
     def __getitem__(self, index):
-
         if isinstance(index, int):
-
             return self.row_data(index)
 
         elif isinstance(index, str):
-
             return self.column_data(index)
 
         elif isinstance(index, slice):
@@ -81,11 +74,9 @@ class Table(ETL, ToFrom):
             return [row for row in tblslice]
 
         else:
-
             raise TypeError("You must pass a string or an index as a value.")
 
     def __bool__(self):
-
         # Try to get a single row from our table
         head_one = petl.head(self.table)
 

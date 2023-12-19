@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 
 class ETL(object):
     def __init__(self):
-
         pass
 
     def add_column(self, column, value=None, index=None, if_exists="fail"):
@@ -71,6 +70,35 @@ class ETL(object):
             raise ValueError(f"Column {new_column_name} already exists")
 
         self.table = petl.rename(self.table, column_name, new_column_name)
+
+        return self
+
+    def rename_columns(self, column_map):
+        """
+        Rename multiple columns
+
+        `Args:`
+            column_map: dict
+                A dictionary of columns and new names.
+                The key is the old name and the value is the new name.
+
+                Example dictionary:
+                {'old_name': 'new_name',
+                'old_name2': 'new_name2'}
+
+        `Returns:`
+            `Parsons Table` and also updates self
+        """
+
+        # Check if old column name exists and new column name does not exist
+        for old_name, new_name in column_map.items():
+            if old_name not in self.table.columns():
+                raise KeyError(f"Column name {old_name} does not exist")
+            if new_name in self.table.columns():
+                raise ValueError(f"Column name {new_name} already exists")
+
+        # Uses the underlying petl method
+        self.table = petl.rename(self.table, column_map)
 
         return self
 
@@ -177,7 +205,6 @@ class ETL(object):
         max_width = 0
 
         for v in petl.values(self.table, column):
-
             if len(str(v).encode("utf-8")) > max_width:
                 max_width = len(str(v).encode("utf-8"))
 
@@ -285,7 +312,6 @@ class ETL(object):
         """
 
         for col in self.columns:
-
             if not exact_match:
                 cleaned_col = col.lower().replace("_", "").replace(" ", "")
             else:
@@ -801,7 +827,6 @@ class ETL(object):
         new_dict = {}
 
         for k, v in dict_obj.items():
-
             new_dict[prepend + "_" + k] = v
 
         return new_dict

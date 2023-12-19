@@ -11,7 +11,7 @@ from airtable_responses import (
 )
 
 
-os.environ["AIRTABLE_API_KEY"] = "SOME_KEY"
+os.environ["AIRTABLE_PERSONAL_ACCESS_TOKEN"] = "SOME_TOKEN"
 BASE_KEY = "BASEKEY"
 TABLE_NAME = "TABLENAME"
 
@@ -98,6 +98,16 @@ class TestAirtable(unittest.TestCase):
         airtable_res = self.at.get_records(fields, sample_size=1)
 
         assert airtable_res.columns == ["id", "createdTime", "Name", "SecondColumn"]
+
+    @requests_mock.Mocker()
+    def test_get_records_with_single_field(self, m):
+        m.get(self.base_uri, json=records_response_with_more_columns)
+
+        fields = "Name"
+
+        airtable_res = self.at.get_records(fields, sample_size=1)
+
+        assert airtable_res.columns == ["id", "createdTime", "Name"]
 
     @requests_mock.Mocker()
     def test_insert_record(self, m):

@@ -10,6 +10,7 @@ from google.oauth2.service_account import Credentials
 from gspread.exceptions import APIError
 from requests.exceptions import HTTPError, ReadTimeout
 import time
+import utilities
 
 logger = logging.getLogger(__name__)
 
@@ -459,6 +460,86 @@ class GoogleSheets:
                 raise e
 
         return output
+
+    def combine_multiple_sheet_data(self, sheet_ids, worksheet_id=None):
+        """
+        Combines data from multiple Google Sheets into a Parsons Table.
+        `Args:`
+            sheet_ids: str, list
+                The IDs of the Google Spreadsheets with that data to be combined. Can be a
+                comma-separated string of IDs or a list.
+
+            worksheet_id: str
+                If None, the first worksheet (ID = 0) is assumed.
+
+        `Returns:` obj
+            Parsons Table containing the concatenated data from all the sheets.
+        """
+        id_col = "sheet_id"
+        sheet_id_list = []
+
+        # Parse different possible sheet_ids types
+        if isinstance(sheet_ids, list):
+            # Already a list!
+            sheet_id_list = sheet_ids
+
+        elif "," in sheet_ids:
+            # Comma-separated string
+            sheet_id_list = [x.strip() for x in sheet_ids.split(",")]
+
+        else:
+            raise ValueError(f"{sheet_ids} is not a valid string or list GSheet IDs")
+
+        # Non-DB table options yield a list, convert to Parsons table with default worksheet col
+        if sheet_id_list:
+            sheet_id_tbl = Table(
+                [{"sheet_id": x, "worksheet_id": 0} for x in sheet_id_list]
+            )
+
+        if not worksheet_id:
+            worksheet_id = "worksheet_id"
+
+        # Empty table to accumulate data from spreadsheets
+        combined = Table()
+
+        # Set for path to temp file to keep storage/memory in check for large lists
+        temp_files = []
+
+        logger.info(
+            f"Found {sheet_id_tbl.num_rows} Spreadsheets. Looping to get data from each one."
+        )
+
+        for sheet_id in sheet_id_tbl:
+
+            # Keep a lid on how many temp files result from materializing below
+            if len(temp_files) > 1:
+                utilities.files.close_temp_file(temp_files[0])
+                temp_files.remove(temp_files[0])
+
+            # Grab the sheet's data
+            data = self.attempt_gsheet_method(
+                "get_worksheet",
+                max=10,
+                wait_time=60,
+                spreadsheet_id=sheet_id[id_col],
+                worksheet=sheet_id[worksheet_id],
+            )
+
+            # Add the sheet ID as a column
+            data.add_column("spreadsheet_id", sheet_id[id_col])
+
+            # Retrieve sheet title (with attempts to handle rate limits) and add as a column
+            globals()["sheet_obj"] = self.attempt_gsheet_method(
+                "gs.gspread_client.open_by_key", key=sheet_id[id_col]
+            )
+            sheet_title = str(self.attempt_gsheet_method("sheet_obj.title"))
+            data.add_column("spreadsheet_title", sheet_title)
+
+            # Accumulate and materialize
+            combined.concat(data)
+            temp_files.append(combined.materialize_to_file())
+
+        return combined
 
     def read_sheet(self, spreadsheet_id, sheet_index=0):
         # Deprecated method v0.14 of Parsons.

@@ -164,3 +164,30 @@ class TestGoogleSheets(unittest.TestCase):
             self.spreadsheet_id
         )
         self.assertIn("bob@bob.com", permissions["emailAddress"])
+
+    def test_combine_multiple_sheet_data_attempt_gsheet_method(self):
+        spreadsheet_id_a = self.google_sheets.create_spreadsheet("parsons_test_01")
+        test_table_a = Table(
+            [
+                {"first": "Bob", "last": "Smith"},
+                {"first": "Sue", "last": "Doe"},
+            ]
+        )
+        self.google_sheets.overwrite_sheet(spreadsheet_id_a, test_table_a)
+
+        spreadsheet_id_b = self.google_sheets.create_spreadsheet("parsons_test_02")
+        test_table_b = Table(
+            [
+                {"first": "Ted", "last": "Smith"},
+                {"first": "Susan", "last": "Kerry"},
+            ]
+        )
+        self.google_sheets.overwrite_sheet(spreadsheet_id_b, test_table_b)
+
+        combined_data = self.google_sheets.combine_multiple_sheet_data(
+            [spreadsheet_id_a, spreadsheet_id_b]
+        )
+
+        self.assertEqual(
+            combined_data.num_rows, test_table_a.num_rows + test_table_b.num_rows
+        )

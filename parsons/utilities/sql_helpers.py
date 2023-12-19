@@ -1,6 +1,6 @@
 import re
 
-__all__ = ["redact_credentials"]
+__all__ = ["redact_credentials", "get_sql_from_file"]
 
 
 def redact_credentials(sql):

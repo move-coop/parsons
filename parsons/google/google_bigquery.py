@@ -312,7 +312,7 @@ class GoogleBigQuery(DatabaseConnector):
 
     def copy_from_gcs(
         self,
-        gcs_blob_uri: str,
+        gcs_blob_uri: Union[str, list],
         table_name: str,
         if_exists: str = "fail",
         max_errors: int = 0,
@@ -485,7 +485,7 @@ class GoogleBigQuery(DatabaseConnector):
 
     def copy_large_compressed_file_from_gcs(
         self,
-        gcs_blob_uri: str,
+        gcs_blob_uri: Union[str, list],
         table_name: str,
         if_exists: str = "fail",
         max_errors: int = 0,
@@ -503,12 +503,12 @@ class GoogleBigQuery(DatabaseConnector):
         **load_kwargs,
     ):
         """
-        Copy a compressed CSV file that exceeds the maximum size in Google Cloud Storage
+        Copy a compressed CSV file(s) that exceeds the maximum size in Google Cloud Storage
         into Google BigQuery.
 
         `Args:`
             gcs_blob_uri: str
-                The GoogleCloudStorage URI referencing the file to be copied.
+                The GoogleCloudStorage URI(s) referencing the file(s) to be copied.
             table_name: str
                 The table name to load the data into.
             if_exists: str
@@ -589,36 +589,40 @@ class GoogleBigQuery(DatabaseConnector):
         # TODO - See if this inheritance is happening in other places
         gcs = GoogleCloudStorage(app_creds=self.app_creds, project=self.project)
         old_bucket_name, old_blob_name = gcs.split_uri(gcs_uri=gcs_blob_uri)
+        gcs_blob_uri = [gcs_blob_uri] if isinstance(gcs_blob_uri, str) else gcs_blob_uri
 
-        uncompressed_gcs_uri = None
+        uncompressed_gcs_uris = []
 
         try:
-            logger.debug("Unzipping large file")
-            uncompressed_gcs_uri = gcs.unzip_blob(
-                bucket_name=old_bucket_name,
-                blob_name=old_blob_name,
-                new_file_extension=new_file_extension,
-                compression_type=compression_type,
-            )
+            for uri in gcs_blob_uri:
+                old_bucket_name, old_blob_name = gcs.split_uri(gcs_uri=uri)
+                logger.debug("Unzipping large file")
+                uncompressed_gcs_uri = gcs.unzip_blob(
+                    bucket_name=old_bucket_name,
+                    blob_name=old_blob_name,
+                    new_file_extension=new_file_extension,
+                    compression_type=compression_type,
+                )
+
+                uncompressed_gcs_uris.append(uncompressed_gcs_uri)
 
             logger.debug(
-                f"Loading uncompressed uri into BigQuery {uncompressed_gcs_uri}..."
+                f"Loading uncompressed uri(s) into BigQuery {uncompressed_gcs_uris}..."
             )
             table_ref = get_table_ref(self.client, table_name)
             load_job = self.client.load_table_from_uri(
-                source_uris=uncompressed_gcs_uri,
+                source_uris=uncompressed_gcs_uris,
                 destination=table_ref,
                 job_config=job_config,
                 **load_kwargs,
             )
             load_job.result()
         finally:
-            if uncompressed_gcs_uri:
-                new_bucket_name, new_blob_name = gcs.split_uri(
-                    gcs_uri=uncompressed_gcs_uri
-                )
-                gcs.delete_blob(new_bucket_name, new_blob_name)
-                logger.debug("Successfully dropped uncompressed blob")
+            if uncompressed_gcs_uris:
+                for uri in uncompressed_gcs_uris:
+                    new_bucket_name, new_blob_name = gcs.split_uri(gcs_uri=uri)
+                    gcs.delete_blob(new_bucket_name, new_blob_name)
+                    logger.debug("Successfully dropped uncompressed blob")
 
     def copy_s3(
         self,

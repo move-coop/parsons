@@ -371,11 +371,7 @@ class ActionBuilder(object):
         )
 
     def upsert_connection(
-        self,
-        identifiers,
-        tag_data=None,
-        campaign=None,
-        reactivate=True
+        self, identifiers, tag_data=None, campaign=None, reactivate=True
     ):
         """
         Load or update a connection record in Action Builder between two existing entity records.
@@ -474,7 +470,6 @@ class ActionBuilder(object):
         # Prioritize connection ID to avoid potential confusion if to_identifier is also provided
         # to_identifier entity could have duplicates, connection ID is more specific
         if connection_identifier:
-
             url += f"/{connection_identifier}"
 
             # Despite the documentation, PUT requests don't require the outer "connection" key

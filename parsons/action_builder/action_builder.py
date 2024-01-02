@@ -370,7 +370,13 @@ class ActionBuilder(object):
             f"campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}"
         )
 
-    def upsert_connection(self, identifiers, tag_data=None, campaign=None):
+    def upsert_connection(
+        self,
+        identifiers,
+        tag_data=None,
+        campaign=None,
+        reactivate=True
+    ):
         """
         Load or update a connection record in Action Builder between two existing entity records.
         Only one connection record is allowed per pair of entities, so if the connection already
@@ -387,6 +393,9 @@ class ActionBuilder(object):
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
+            reactivate: bool
+                Optional. Whether or not to set the `inactive` flag on a given Connection to False
+                if the Connection exists and has `inactive` set to True. True by default.
         `Returns:`
             Dict containing Action Builder connection data.
         """  # noqa: E501
@@ -408,6 +417,9 @@ class ActionBuilder(object):
                 "person_id": identifiers[1]
             }
         }
+
+        if reactivate:
+            data["connection"]["inactive"] = False
 
         if tag_data:
             if isinstance(tag_data, dict):

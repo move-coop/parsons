@@ -389,7 +389,7 @@ class TestActionBuilder(unittest.TestCase):
         post_data = request.json()
         connection_data = post_data
 
-        if request.method != 'PUT':
+        if request.method != "PUT":
             connection_data = post_data["connection"]
 
         url_pieces = [x for x in request.url.split("/") if x]
@@ -410,7 +410,10 @@ class TestActionBuilder(unittest.TestCase):
         )
         self.assertEqual(
             connect_response,
-            {k: v for k, v in self.fake_connection.items() if k != "identifiers"},
+            {
+                **{k: v for k, v in self.fake_connection.items() if k != "identifiers"},
+                **{"inactive": False},
+            },
         )
 
     @requests_mock.Mocker()

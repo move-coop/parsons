@@ -462,7 +462,12 @@ class ActionBuilder(object):
         # Prioritize connection ID to avoid potential confusion if to_identifier is also provided
         # to_identifier entity could have duplicates, connection ID is more specific
         if connection_identifier:
+
             url += f"/{connection_identifier}"
+
+            # Despite the documentation, PUT requests don't require the outer "connection" key
+            data = data["connection"]
+
             return self.api.put_request(url=url, data=json.dumps(data))
 
         # If no connection ID then there must be a to_identifier not to have errored by now

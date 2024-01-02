@@ -387,7 +387,10 @@ class TestActionBuilder(unittest.TestCase):
         # Internal method for returning constructed connection data to test
 
         post_data = request.json()
-        connection_data = post_data["connection"]
+        connection_data = post_data
+
+        if request.method != 'PUT':
+            connection_data = post_data["connection"]
 
         url_pieces = [x for x in request.url.split("/") if x]
 

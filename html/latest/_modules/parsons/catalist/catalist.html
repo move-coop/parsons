@@ -302,13 +302,13 @@
 <span class="sd">                  Optional. Any included values are mapped to every row of the input table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span>
-            <span class="n">table</span><span class="p">,</span>
-            <span class="n">export</span><span class="p">,</span>
-            <span class="n">description</span><span class="p">,</span>
-            <span class="n">export_filename_suffix</span><span class="p">,</span>
-            <span class="n">input_subfolder</span><span class="p">,</span>
-            <span class="n">copy_to_sandbox</span><span class="p">,</span>
-            <span class="n">static_values</span><span class="p">,</span>
+            <span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span>
+            <span class="n">export</span><span class="o">=</span><span class="n">export</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+            <span class="n">export_filename_suffix</span><span class="o">=</span><span class="n">export_filename_suffix</span><span class="p">,</span>
+            <span class="n">input_subfolder</span><span class="o">=</span><span class="n">input_subfolder</span><span class="p">,</span>
+            <span class="n">copy_to_sandbox</span><span class="o">=</span><span class="n">copy_to_sandbox</span><span class="p">,</span>
+            <span class="n">static_values</span><span class="o">=</span><span class="n">static_values</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">await_completion</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">result</span></div>

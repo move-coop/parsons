@@ -27,7 +27,7 @@ class Census(object):
 					year: string with slash and yearname= '/2019'
 					dataset_acronym: string with dataset name, e.g. '/acs/acs1'
 					variables: comma-separated string with variable names, e.g. 'NAME,B01001_001E'
-					location: string with desired locations, e.g. '&for=us:*'
+					location: string with ampersand and desired locations, e.g. '&for=us:*'
 				Return:
 					petl table with data
 				"""

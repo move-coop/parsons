@@ -24,22 +24,23 @@ class Census(object):
 				to get key click on request a key here https://www.census.gov/data/developers.html
 				some stuff cribbed from https://medium.com/@mcmanus_data_works/using-the-u-s-census-bureau-api-with-python-5c30ad34dbd7
 				Args:
-					year: string with slash and yearname= '/2019'
+					year: 4-digit string e.g. '2019'
 					dataset_acronym: string with dataset name, e.g. '/acs/acs1'
 					variables: comma-separated string with variable names, e.g. 'NAME,B01001_001E'
 					location: string with ampersand and desired locations, e.g. '&for=us:*'
 				Return:
 					petl table with data
 				"""
-		import requests
-
 		g = '?get='
 		usr_key = f"&key={self.api_key}"
-		query_url = f"{self.host}{year}{dataset_acronym}{g}{variables}{location}{usr_key}"
+		year = str(year) # in case someone passes int
+		query_url = f"{self.host}/{year}{dataset_acronym}{g}{variables}{location}{usr_key}"
 
-		response = requests.get(query_url)
+		connector = APIConnector(uri=self.host)
 
-		return Table(response.json())
+		response = connector.get_request(url=query_url)
+
+		return Table(response)
 
 
 

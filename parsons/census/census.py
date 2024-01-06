@@ -14,7 +14,7 @@ class Census(object):
         """
 
 	def __init__(self, api_key=None):
-		self.api_key = check_env.check('CONNECTOR_API_KEY', api_key)
+		self.api_key = check_env.check("CENSUS_API_KEY", api_key)
 		self.host = 'https://api.census.gov/data'
 
 
@@ -22,15 +22,15 @@ class Census(object):
 		"""
 				pull census data using parsons APIConnector
 				to get key click on request a key here https://www.census.gov/data/developers.html
-				some stuff cribbed from https://medium.com/@mcmanus_data_works/using-the-u-s-census-bureau-api-with-python-5c30ad34dbd7
 				Args:
-					year: 4-digit string e.g. '2019'
+					year: 4-digit string or integer e.g. '2019' or 2019
 					dataset_acronym: string with dataset name, e.g. '/acs/acs1'
 					variables: comma-separated string with variable names, e.g. 'NAME,B01001_001E'
 					location: string with ampersand and desired locations, e.g. '&for=us:*'
 				Return:
-					petl table with data
-				"""
+					Parsons table with data
+		"""
+		#set up the URL
 		g = '?get='
 		usr_key = f"&key={self.api_key}"
 		year = str(year) # in case someone passes int

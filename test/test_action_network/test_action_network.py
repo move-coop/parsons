@@ -8,7 +8,6 @@ from test.utils import assert_matching_tables
 class TestActionNetwork(unittest.TestCase):
     @requests_mock.Mocker()
     def setUp(self, m):
-
         self.api_url = "https://actionnetwork.org/api/v2"
         self.api_key = "fake_key"
 
@@ -3081,6 +3080,7 @@ class TestActionNetwork(unittest.TestCase):
             "modified_date": "2014-03-26T18:04:00Z",
             "action_network:person_id": "699da712-929f-11e3-a2e9-12313d316c29",
             "action_network:petition_id": "fake_id",
+            "comments": "Stop doing the thing",
             "_links": {
                 "self": {
                     "href": f"{self.api_url}/petitions/fake_id/signatures/fake_id"
@@ -3602,6 +3602,30 @@ class TestActionNetwork(unittest.TestCase):
         )
 
     @requests_mock.Mocker()
+    def test_create_attendance(self, m):
+        m.post(
+            f"{self.api_url}/events/123/attendances",
+            text=json.dumps(self.fake_attendance),
+        )
+
+        assert_matching_tables(
+            self.an.create_attendance("123", self.fake_attendance),
+            self.fake_attendance,
+        )
+
+    @requests_mock.Mocker()
+    def test_update_attendance(self, m):
+        m.put(
+            f"{self.api_url}/events/123/attendances/123",
+            text=json.dumps(self.fake_attendance),
+        )
+
+        assert_matching_tables(
+            self.an.update_attendance("123", "123", self.fake_attendance),
+            self.fake_attendance,
+        )
+
+    @requests_mock.Mocker()
     def test_get_person_attendance(self, m):
         m.get(
             f"{self.api_url}/people/123/attendances/123",
@@ -3731,6 +3755,44 @@ class TestActionNetwork(unittest.TestCase):
             self.fake_event_campaign,
         )
 
+    @requests_mock.Mocker()
+    def test_create_event_campaign(self, m):
+        payload = {"title": "Canvassing Events", "origin_system": "AmyforTexas.com"}
+        m.post(
+            f"{self.api_url}/event_campaigns", text=json.dumps(self.fake_event_campaign)
+        )
+        self.assertEqual(
+            self.fake_event_campaign,
+            self.an.create_event_campaign(payload),
+        )
+
+    @requests_mock.Mocker()
+    def test_create_event_in_event_campaign(self, m):
+        payload = {
+            "title": "My Canvassing Event",
+            "origin_system": "CanvassingEvents.com",
+        }
+        m.post(
+            f"{self.api_url}/event_campaigns/123/events",
+            text=json.dumps(self.fake_event),
+        )
+        self.assertEqual(
+            self.fake_event.items(),
+            self.an.create_event_in_event_campaign("123", payload).items(),
+        )
+
+    @requests_mock.Mocker()
+    def test_update_event_campaign(self, m):
+        payload = {"description": "This is my new event campaign description"}
+        m.put(
+            f"{self.api_url}/event_campaigns/123",
+            text=json.dumps(self.fake_event_campaign),
+        )
+        self.assertEqual(
+            self.fake_event_campaign,
+            self.an.update_event_campaign("123", payload),
+        )
+
     # Events
     @requests_mock.Mocker()
     def test_get_events(self, m):
@@ -3789,6 +3851,25 @@ class TestActionNetwork(unittest.TestCase):
             self.fake_form,
         )
 
+    @requests_mock.Mocker()
+    def test_create_form(self, m):
+        payload = {"title": "My Free Form", "origin_system": "FreeForms.com"}
+        m.post(f"{self.api_url}/forms", text=json.dumps(self.fake_form))
+        self.assertEqual(
+            self.fake_form.items(),
+            self.an.create_form(payload).items(),
+        )
+
+    # Update Form
+    @requests_mock.Mocker()
+    def test_update_form(self, m):
+        payload = {"title": "My Free Form", "origin_system": "FreeForms.com"}
+        m.put(f"{self.api_url}/forms/123", text=json.dumps(self.fake_form))
+        self.assertEqual(
+            self.fake_form.items(),
+            self.an.update_form("123", payload).items(),
+        )
+
     # Fundraising Pages
     @requests_mock.Mocker()
     def test_get_fundraising_pages(self, m):
@@ -3812,6 +3893,36 @@ class TestActionNetwork(unittest.TestCase):
         assert_matching_tables(
             self.an.get_fundraising_page("123"),
             self.fake_fundraising_page,
+        )
+
+    @requests_mock.Mocker()
+    def test_create_fundraising_page(self, m):
+        payload = {
+            "title": "My Free Fundraiser",
+            "origin_system": "FreeFundraisers.com",
+        }
+        m.post(
+            f"{self.api_url}/fundraising_pages",
+            text=json.dumps(self.fake_fundraising_page),
+        )
+        self.assertEqual(
+            self.fake_fundraising_page.items(),
+            self.an.create_fundraising_page(payload).items(),
+        )
+
+    @requests_mock.Mocker()
+    def test_update_fundraising_page(self, m):
+        payload = {
+            "title": "My Free Fundraiser With A New Name",
+            "description": "This is my free fundraiser description",
+        }
+        m.put(
+            f"{self.api_url}/fundraising_pages/123",
+            text=json.dumps(self.fake_fundraising_page),
+        )
+        self.assertEqual(
+            self.fake_fundraising_page.items(),
+            self.an.update_fundraising_page("123", payload).items(),
         )
 
     # Items
@@ -3874,6 +3985,39 @@ class TestActionNetwork(unittest.TestCase):
             self.fake_message,
         )
 
+    @requests_mock.Mocker()
+    def test_create_message(self, m):
+        payload = {
+            "subject": "Stop doing the bad thing",
+            "body": "<p>The mayor should stop doing the bad thing.</p>",
+            "from": "Progressive Action Now",
+            "reply_to": "jane@progressiveactionnow.org",
+            "targets": [{"href": "https://actionnetwork.org/api/v2/queries/123"}],
+            "_links": {
+                "osdi:wrapper": {
+                    "href": "https://actionnetwork.org/api/v2/wrappers/123"
+                }
+            },
+        }
+        m.post(f"{self.api_url}/messages", text=json.dumps(self.fake_message))
+        assert_matching_tables(
+            self.an.create_message(payload),
+            self.fake_message,
+        )
+
+    @requests_mock.Mocker()
+    def test_update_message(self, m):
+        message_id = "123"
+        payload = {
+            "name": "Stop doing the bad thing email send 1",
+            "subject": "Please! Stop doing the bad thing",
+        }
+        m.put(f"{self.api_url}/messages/123", text=json.dumps(self.fake_message))
+        assert_matching_tables(
+            self.an.update_message(message_id, payload),
+            self.fake_message,
+        )
+
     # Metadata
     @requests_mock.Mocker()
     def test_get_metadata(self, m):
@@ -3931,6 +4075,41 @@ class TestActionNetwork(unittest.TestCase):
             self.an.get_person_outreach("123", "123"),
             self.fake_outreach,
         )
+
+    @requests_mock.Mocker()
+    def test_create_outreach(self, m):
+        payload = {
+            "targets": [{"given_name": "Joe", "family_name": "Schmoe"}],
+            "_links": {
+                "osdi:person": {"href": "https://actionnetwork.org/api/v2/people/123"}
+            },
+        }
+        id = self.fake_advocacy_campaign["identifiers"][0].split(":")[-1]
+        m.post(
+            f"{self.api_url}/advocacy_campaigns/{id}/outreaches",
+            text=json.dumps(self.fake_outreach),
+        )
+        assert_matching_tables(
+            self.an.create_outreach(id, payload),
+            self.fake_outreach,
+        )
+
+        @requests_mock.Mocker()
+        def test_update_outreach(self, m):
+            payload = {"subject": "Please vote no!"}
+            id = self.fake_advocacy_campaign["identifiers"][0].split(":")[-1]
+            m.put(
+                f"{self.api_url}/advocacy_campaigns/{id}/outreaches/123",
+                text=json.dumps(self.fake_outreach),
+            )
+            assert_matching_tables(
+                self.an.update_outreach(
+                    self.fake_advocacy_campaign["identifiers"][0].split(":")[-1],
+                    "123",
+                    payload,
+                ),
+                self.fake_outreach,
+            )
 
     # People
     @requests_mock.Mocker()
@@ -3996,6 +4175,52 @@ class TestActionNetwork(unittest.TestCase):
             self.an.get_petition("123"),
             self.fake_petition,
         )
+
+    # Queries
+    @requests_mock.Mocker()
+    def test_create_petition(self, m):
+        fake_petition_data = {
+            "title": self.fake_petition["title"],
+            "description": self.fake_petition["description"],
+            "petition_text": self.fake_petition["petition_text"],
+            "target": self.fake_petition["target"],
+        }
+
+        m.post(
+            f"{self.api_url}/petitions",
+            text=json.dumps(fake_petition_data),
+        )
+        response = self.an.create_petition(
+            self.fake_petition["title"],
+            self.fake_petition["description"],
+            self.fake_petition["petition_text"],
+            self.fake_petition["target"],
+        )
+        assert_matching_tables(response, fake_petition_data)
+
+    @requests_mock.Mocker()
+    def test_update_petition(self, m):
+        fake_petition_data = {
+            "title": self.fake_petition["title"],
+            "description": self.fake_petition["description"],
+            "petition_text": self.fake_petition["petition_text"],
+            "target": self.fake_petition["target"],
+        }
+
+        m.put(
+            self.api_url
+            + "/petitions/"
+            + self.fake_petition["identifiers"][0].split(":")[1],
+            text=json.dumps(fake_petition_data),
+        )
+        response = self.an.update_petition(
+            self.fake_petition["identifiers"][0].split(":")[1],
+            title=self.fake_petition["title"],
+            description=self.fake_petition["description"],
+            petition_text=self.fake_petition["petition_text"],
+            target=self.fake_petition["target"],
+        )
+        assert_matching_tables(response, fake_petition_data)
 
     # Queries
     @requests_mock.Mocker()
@@ -4066,6 +4291,51 @@ class TestActionNetwork(unittest.TestCase):
             self.fake_signature,
         )
 
+    @requests_mock.Mocker()
+    def test_create_signature(self, m):
+        # Define the fake signature data
+        fake_signature_data = {
+            "comments": self.fake_signature["comments"],
+            "_links": {
+                "osdi:person": {
+                    "href": self.fake_signature["_links"]["osdi:person"]["href"]
+                }
+            },
+        }
+
+        # Mock the POST request to Action Network's signatures endpoint
+        m.post(
+            f"{self.api_url}/petitions/456/signatures",
+            text=json.dumps(self.fake_signature),
+        )
+
+        # Call the method to create the signature
+        created_signature = self.an.create_signature("456", fake_signature_data)
+
+        # Assert that the correct data is being sent and the response is handled correctly
+        assert_matching_tables(created_signature, self.fake_signature)
+
+    @requests_mock.Mocker()
+    def test_update_signature(self, m):
+        # Define the fake signature data with updated comments
+        updated_signature_data = {
+            "comments": "Updated comments",
+        }
+
+        # Mock the PATCH request to update the signature
+        m.put(
+            f"{self.api_url}/petitions/456/signatures/123",
+            text=json.dumps(self.fake_signature),
+        )
+
+        # Call the method to update the signature
+        updated_signature = self.an.update_signature(
+            "456", "123", updated_signature_data
+        )
+
+        # Assert that the correct data is being sent and the response is handled correctly
+        assert_matching_tables(updated_signature, self.fake_signature)
+
     # Submissions
     @requests_mock.Mocker()
     def test_get_form_submissions(self, m):
@@ -4115,6 +4385,31 @@ class TestActionNetwork(unittest.TestCase):
             self.fake_submission,
         )
 
+    # Submissions
+    @requests_mock.Mocker()
+    def test_create_submission(self, m):
+        m.post(
+            f"{self.api_url}/forms/123/submissions",
+            text=json.dumps(self.fake_submission),
+        )
+        assert_matching_tables(
+            self.an.create_submission("123", "123"),
+            self.fake_submission,
+        )
+
+    @requests_mock.Mocker()
+    def test_update_submission(self, m):
+        m.put(
+            f"{self.api_url}/forms/123/submissions/123",
+            json={"identifiers": ["other-system:230125s"]},
+        )
+        assert_matching_tables(
+            self.an.update_submission(
+                "123", "123", {"identifiers": ["other-system:230125s"]}
+            ),
+            self.fake_submission,
+        )
+
     # Tags
     @requests_mock.Mocker()
     def test_get_tags(self, m):
@@ -4157,6 +4452,28 @@ class TestActionNetwork(unittest.TestCase):
         assert_matching_tables(
             self.an.get_tagging("123", "123"),
             self.fake_tagging,
+        )
+
+    @requests_mock.Mocker()
+    def test_create_tagging(self, m):
+        m.post(
+            f"{self.api_url}/tags/123/taggings",
+            json=self.fake_tagging,
+        )
+        assert_matching_tables(
+            self.an.create_tagging("123", self.fake_tagging),
+            self.fake_tagging,
+        )
+
+    @requests_mock.Mocker()
+    def test_delete_tagging(self, m):
+        m.delete(
+            f"{self.api_url}/tags/123/taggings/123",
+            text=json.dumps({"notice": "This tagging was successfully deleted."}),
+        )
+        assert_matching_tables(
+            self.an.delete_tagging("123", "123"),
+            {"notice": "This tagging was successfully deleted."},
         )
 
     # Wrappers

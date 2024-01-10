@@ -1309,7 +1309,7 @@ class ActionKit(object):
             if upload_id:
                 while True:
                     upload = self._base_get(endpoint="upload", entity_id=upload_id)
-                    if not upload or upload.get("status") != "new":
+                    if not upload or upload.get("is_completed"):
                         break
                     else:
                         time.sleep(1)

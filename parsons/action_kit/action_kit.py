@@ -1307,15 +1307,34 @@ class ActionKit(object):
         for res in result_array:
             upload_id = res.get("id")
             if upload_id:
+                # Pend until upload is complete
                 while True:
                     upload = self._base_get(endpoint="upload", entity_id=upload_id)
-                    if not upload or upload.get("is_completed"):
+                    if upload.get("is_completed"):
                         break
                     else:
                         time.sleep(1)
-                error_data = self._base_get(
-                    endpoint="uploaderror", params={"upload": upload_id}
-                )
-                logger.debug(f"error collect result: {error_data}")
-                errors.extend(error_data.get("objects") or [])
+
+                # ActionKit limits length of error list returned
+                # Iterate until all errors are gathered
+                error_count = upload.get("has_errors")
+                limit = 20
+                offset = 0
+
+                while True:
+                    error_data = self._base_get(
+                        endpoint="uploaderror",
+                        params={
+                            "upload": upload_id,
+                            "_limit": limit,
+                            "_offset": offset,
+                        },
+                    )
+                    logger.debug(f"error collect result: {error_data}")
+                    errors.extend(error_data.get("objects") or [])
+                    offset = offset + limit
+
+                    if error_count <= offset:
+                        break
+
         return errors

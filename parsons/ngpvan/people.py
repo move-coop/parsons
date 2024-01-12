@@ -646,16 +646,29 @@ class People(object):
             "resultCodeId": result_code_id,
         }
 
-        if contact_type_id == 1 or contact_type_id == 37:
-            if phone:
-                json["canvassContext"]["phone"] = {
-                    "dialingPrefix": "1",
-                    "phoneNumber": phone,
-                }
-            else:
+        if (
+            contact_type_id == 1  # Phone
+            or contact_type_id == 19  # Auto Dial
+            or contact_type_id == 37  # SMS Text
+            or contact_type_id == 67  # Phone Bank
+            or contact_type_id == 68  # Consumer Phone
+            or contact_type_id == 72  # Leader Phone
+            or contact_type_id == 112  # Personal Phone
+            or contact_type_id == 132  # Relational Text
+            or contact_type_id == 143  # Distributed Text
+            or contact_type_id == 147  # Bulk Text
+            or contact_type_id == 149  # Paid SMS
+        ):
+            if not phone:
                 raise Exception(
                     "A phone number must be provided if canvassed via phone or SMS"
                 )
+
+        if phone:
+            json["canvassContext"]["phone"] = {
+                "dialingPrefix": "1",
+                "phoneNumber": phone,
+            }
 
         if response:
             json["responses"] = response

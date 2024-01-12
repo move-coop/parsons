@@ -116,3 +116,79 @@ class GoogleCivic(object):
         tbl.move_column("polling_address", 2)
 
         return tbl
+
+    def get_representative_info_by_address(
+        self, address: str, include_offices=True, levels=None, roles=None
+    ):
+        """
+        Get representative information for a given address.
+        This method returns the raw JSON response from the Google Civic API.
+        It is a complex response that is not easily parsed into a table.
+        Here is the information on how to parse the response:
+        https://developers.google.com/civic-information/docs/v2/representatives/representativeInfoByAddress
+
+        `Args:`
+            address: str
+                A valid US address in a single string.
+            include_offices: bool
+                Whether to return information about offices and officials.
+                If false, only the top-level district information will be returned. (Default: True)
+            levels: list of str
+                A list of office levels to filter by.
+                Only offices that serve at least one of these levels will be returned.
+                Divisions that don't contain a matching office will not be returned.
+                    Acceptable values are:
+                    "administrativeArea1"
+                    "administrativeArea2"
+                    "country"
+                    "international"
+                    "locality"
+                    "regional"
+                    "special"
+                    "subLocality1"
+                    "subLocality2"
+            roles: list of str
+                A list of office roles to filter by.
+                Only offices fulfilling one of these roles will be returned.
+                Divisions that don't contain a matching office will not be returned.
+                    Acceptable values are:
+                    "deputyHeadOfGovernment"
+                    "executiveCouncil"
+                    "governmentOfficer"
+                    "headOfGovernment"
+                    "headOfState"
+                    "highestCourtJudge"
+                    "judge"
+                    "legislatorLowerBody"
+                    "legislatorUpperBody"
+                    "schoolBoard"
+                    "specialPurposeOfficer"
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        if levels is not None and not isinstance(levels, list):
+            raise ValueError("levels must be a list of strings")
+        if roles is not None and not isinstance(roles, list):
+            raise ValueError("roles must be a list of strings")
+        if address is None or not isinstance(address, str):
+            raise ValueError("address must be a string")
+
+        url = self.uri + "representatives"
+
+        args = {
+            "address": address,
+            "includeOffices": include_offices,
+            "levels": levels,
+            "roles": roles,
+        }
+
+        response = self.request(url, args=args)
+
+        # Raise an error if the address was invalid
+        if "error" in response:
+            raise ValueError(response["error"]["message"])
+
+        return response

@@ -16,7 +16,7 @@ class TestCensus(unittest.TestCase):
     year = '2019'
     dataset_acronym = '/acs/acs1'
     variables = 'NAME,B01001_001E'
-    location = '&for=state:*'
+    location = 'for=state:*'
     table = self.census.get_census(year,dataset_acronym,variables,location)
     self.assertEqual(len(table),52)
     self.assertEqual(table[0]['NAME'],'Illinois')
@@ -27,7 +27,7 @@ class TestCensus(unittest.TestCase):
         year = '2019'
         dataset_acronym = '/acs/acs1'
         variables = 'NAME,B01001_001E'
-        location = '&for=us:1'
+        location = 'for=us:1'
         test_json = {'NAME': 'United States', 'B01001_001E': '328239523', 'us': '1'}
         table = m.census.get_census(year,dataset_acronym,variables,location,json=test_json)
         self.assertEqual(table[0]['B01001_001E'],'328239523')

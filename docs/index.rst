@@ -193,6 +193,7 @@ Indices and tables
    box
    braintree
    capitolcanary
+   census
    civis
    controlshift
    copper

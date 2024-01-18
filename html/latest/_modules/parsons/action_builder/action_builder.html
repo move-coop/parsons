@@ -509,7 +509,9 @@
             <span class="sa">f</span><span class="s2">&quot;campaigns/</span><span class="si">{</span><span class="n">campaign</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag_id</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">tagging_id</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionBuilder.upsert_connection"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.upsert_connection">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifiers</span><span class="p">,</span> <span class="n">tag_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionBuilder.upsert_connection"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.upsert_connection">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_connection</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">identifiers</span><span class="p">,</span> <span class="n">tag_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reactivate</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load or update a connection record in Action Builder between two existing entity records.</span>
 <span class="sd">        Only one connection record is allowed per pair of entities, so if the connection already</span>
@@ -526,6 +528,9 @@
 <span class="sd">            campaign: str</span>
 <span class="sd">                Optional. The 36-character &quot;interact ID&quot; of the campaign whose data is to be</span>
 <span class="sd">                retrieved or edited. Not necessary if supplied when instantiating the class.</span>
+<span class="sd">            reactivate: bool</span>
+<span class="sd">                Optional. Whether or not to set the `inactive` flag on a given Connection to False</span>
+<span class="sd">                if the Connection exists and has `inactive` set to True. True by default.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Dict containing Action Builder connection data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
@@ -548,6 +553,9 @@
             <span class="p">}</span>
         <span class="p">}</span>
 
+        <span class="k">if</span> <span class="n">reactivate</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;connection&quot;</span><span class="p">][</span><span class="s2">&quot;inactive&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
         <span class="k">if</span> <span class="n">tag_data</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tag_data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="n">tag_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">tag_data</span><span class="p">]</span>
@@ -557,7 +565,61 @@
 
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;add_tags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tag_data</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="ActionBuilder.deactivate_connection"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.deactivate_connection">[docs]</a>    <span class="k">def</span> <span class="nf">deactivate_connection</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">from_identifier</span><span class="p">,</span>
+        <span class="n">connection_identifier</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">to_identifier</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deactivate an existing connection record in Action Builder between two existing entity</span>
+<span class="sd">        records. Only one connection record is allowed per pair of entities, so this can be done</span>
+<span class="sd">        by supplying the ID for the connection record, or for the two connected entity records.</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            from_identifier: str</span>
+<span class="sd">                Unique identifier for one of the two entities with a connection.</span>
+<span class="sd">            connection_identifier: str</span>
+<span class="sd">                Optional. The unique identifier for an entity or connection record being updated.</span>
+<span class="sd">                If omitted, `to_identifier` must be provided.</span>
+<span class="sd">            to_identifier: str</span>
+<span class="sd">                Optional. The second entity with a connection to `from_entity`. If omitted,</span>
+<span class="sd">                `connection_identifier` must be provided.</span>
+<span class="sd">            campaign: str</span>
+<span class="sd">                Optional. The 36-character &quot;interact ID&quot; of the campaign whose data is to be</span>
+<span class="sd">                retrieved or edited. Not necessary if supplied when instantiating the class.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Dict containing Action Builder connection data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check that either connection or second entity identifier are provided</span>
+        <span class="k">if</span> <span class="p">{</span><span class="n">connection_identifier</span><span class="p">,</span> <span class="n">to_identifier</span><span class="p">}</span> <span class="o">==</span> <span class="p">{</span><span class="kc">None</span><span class="p">}:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Must provide a connection ID or an ID for the second entity&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">campaign</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_campaign_check</span><span class="p">(</span><span class="n">campaign</span><span class="p">)</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;campaigns/</span><span class="si">{</span><span class="n">campaign</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">from_identifier</span><span class="si">}</span><span class="s2">/connections&quot;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;connection&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;inactive&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}}</span>
+
+        <span class="c1"># Prioritize connection ID to avoid potential confusion if to_identifier is also provided</span>
+        <span class="c1"># to_identifier entity could have duplicates, connection ID is more specific</span>
+        <span class="k">if</span> <span class="n">connection_identifier</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">connection_identifier</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="c1"># Despite the documentation, PUT requests don&#39;t require the outer &quot;connection&quot; key</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;connection&quot;</span><span class="p">]</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+        <span class="c1"># If no connection ID then there must be a to_identifier not to have errored by now</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;connection&quot;</span><span class="p">][</span><span class="s2">&quot;person_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_identifier</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div></div>
 </pre></div>
 
            </div>

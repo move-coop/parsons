@@ -1,6 +1,7 @@
 import os
-from setuptools import find_packages
 from distutils.core import setup
+
+from setuptools import find_packages
 
 
 def main():
@@ -21,6 +22,10 @@ def main():
             "braintree": ["braintree"],
             "catalist": ["paramiko"],
             "civis": ["civis"],
+            "dbt-redshift": ["dbt-redshift", "slackclient<2"],
+            "dbt-bigquery": ["dbt-bigquery", "slackclient<2"],
+            "dbt-postgres": ["dbt-postgres", "slackclient<2"],
+            "dbt-snowflake": ["dbt-snowflake", "slackclient<2"],
             "facebook": ["joblib", "facebook-business"],
             "geocode": ["censusgeocode", "urllib3==1.26.18"],
             "github": ["PyGitHub"],

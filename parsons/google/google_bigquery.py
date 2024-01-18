@@ -161,16 +161,35 @@ class GoogleBigQuery(DatabaseConnector):
         self.dialect = "bigquery"
 
     @property
-    def client(self):
+    def client(
+        self,
+        client_options: dict = {
+            "scopes": [
+                "https://www.googleapis.com/auth/drive",
+                "https://www.googleapis.com/auth/bigquery",
+                "https://www.googleapis.com/auth/cloud-platform",
+            ]
+        },
+    ):
         """
         Get the Google BigQuery client to use for making queries.
+
+        Args:
+        client_options: dict
+            A dictionary containing any requested client options. Defaults to the required
+            scopes for making API calls against External tables stored in Google Drive.
+            Can be set to None if these permissions are not desired
 
         `Returns:`
             `google.cloud.bigquery.client.Client`
         """
         if not self._client:
             # Create a BigQuery client to use to make the query
-            self._client = bigquery.Client(project=self.project, location=self.location)
+            self._client = bigquery.Client(
+                project=self.project,
+                location=self.location,
+                client_options=client_options,
+            )
 
         return self._client
 

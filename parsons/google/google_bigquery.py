@@ -1176,29 +1176,18 @@ class GoogleBigQuery(DatabaseConnector):
         # the proper data types (e.g. integer).
         temp_filename = create_temp_file()
 
-        wrote_header = False
         with open(temp_filename, "wb") as temp_file:
-            # Track whether we got data, since if we don't get any results we need to return None
-            got_results = False
+            header = [i[0] for i in cursor.description]
+            pickle.dump(header, temp_file)
+            
             while True:
                 batch = cursor.fetchmany(QUERY_BATCH_SIZE)
                 if len(batch) == 0:
                     break
 
-                got_results = True
-
                 for row in batch:
-                    # Make sure we write out the header once and only once
-                    if not wrote_header:
-                        wrote_header = True
-                        header = list(row.keys())
-                        pickle.dump(header, temp_file)
-
                     row_data = list(row.values())
                     pickle.dump(row_data, temp_file)
-
-        if not got_results:
-            return None
 
         ptable = petl.frompickle(temp_filename)
         return Table(ptable)

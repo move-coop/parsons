@@ -154,8 +154,15 @@ class GoogleBigQuery(DatabaseConnector):
                 "https://www.googleapis.com/auth/bigquery",
                 "https://www.googleapis.com/auth/cloud-platform",
             ]
-        }
+        },
     ):
+        """
+        Args:
+            client_options: dict
+            A dictionary containing any requested client options. Defaults to the required
+            scopes for making API calls against External tables stored in Google Drive.
+            Can be set to None if these permissions are not desired
+        """
         self.app_creds = app_creds
 
         setup_google_application_credentials(app_creds)
@@ -177,12 +184,6 @@ class GoogleBigQuery(DatabaseConnector):
     def client(self):
         """
         Get the Google BigQuery client to use for making queries.
-
-        Args:
-        client_options: dict
-            A dictionary containing any requested client options. Defaults to the required
-            scopes for making API calls against External tables stored in Google Drive.
-            Can be set to None if these permissions are not desired
 
         `Returns:`
             `google.cloud.bigquery.client.Client`

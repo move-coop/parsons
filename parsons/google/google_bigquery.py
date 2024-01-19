@@ -141,6 +141,10 @@ class GoogleBigQuery(DatabaseConnector):
             then will use the default inferred environment.
         location: str
             Default geographic location for tables
+        client_options: dict
+            A dictionary containing any requested client options. Defaults to the required
+            scopes for making API calls against External tables stored in Google Drive.
+            Can be set to None if these permissions are not desired
     """
 
     def __init__(
@@ -156,13 +160,6 @@ class GoogleBigQuery(DatabaseConnector):
             ]
         },
     ):
-        """
-        Args:
-            client_options: dict
-            A dictionary containing any requested client options. Defaults to the required
-            scopes for making API calls against External tables stored in Google Drive.
-            Can be set to None if these permissions are not desired
-        """
         self.app_creds = app_creds
 
         setup_google_application_credentials(app_creds)

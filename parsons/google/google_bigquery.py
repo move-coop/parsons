@@ -143,13 +143,26 @@ class GoogleBigQuery(DatabaseConnector):
             Default geographic location for tables
     """
 
-    def __init__(self, app_creds=None, project=None, location=None):
+    def __init__(
+        self,
+        app_creds=None,
+        project=None,
+        location=None,
+        client_options: dict = {
+            "scopes": [
+                "https://www.googleapis.com/auth/drive",
+                "https://www.googleapis.com/auth/bigquery",
+                "https://www.googleapis.com/auth/cloud-platform",
+            ]
+        }
+    ):
         self.app_creds = app_creds
 
         setup_google_application_credentials(app_creds)
 
         self.project = project
         self.location = location
+        self.client_options = client_options
 
         # We will not create the client until we need to use it, since creating the client
         # without valid GOOGLE_APPLICATION_CREDENTIALS raises an exception.
@@ -161,16 +174,7 @@ class GoogleBigQuery(DatabaseConnector):
         self.dialect = "bigquery"
 
     @property
-    def client(
-        self,
-        client_options: dict = {
-            "scopes": [
-                "https://www.googleapis.com/auth/drive",
-                "https://www.googleapis.com/auth/bigquery",
-                "https://www.googleapis.com/auth/cloud-platform",
-            ]
-        },
-    ):
+    def client(self):
         """
         Get the Google BigQuery client to use for making queries.
 
@@ -188,7 +192,7 @@ class GoogleBigQuery(DatabaseConnector):
             self._client = bigquery.Client(
                 project=self.project,
                 location=self.location,
-                client_options=client_options,
+                client_options=self.client_options,
             )
 
         return self._client

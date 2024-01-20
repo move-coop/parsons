@@ -72,7 +72,6 @@ class TestGoogleBigQuery(FakeCredentialTest):
         assert isinstance(result, Table)
         assert not len(result)
         assert tuple(result.columns) == tuple([])
-        
 
     @mock.patch("parsons.utilities.files.create_temp_file")
     def test_query__no_return(self, create_temp_file_mock):

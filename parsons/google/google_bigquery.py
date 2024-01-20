@@ -1,22 +1,21 @@
-import pickle
-from typing import Optional, Union, List
-import uuid
-import logging
 import datetime
+import logging
+import pickle
 import random
+import uuid
+from contextlib import contextmanager
+from typing import List, Optional, Union
 
-from google.cloud import bigquery
+import petl
+from google.cloud import bigquery, exceptions
 from google.cloud.bigquery import dbapi
 from google.cloud.bigquery.job import LoadJobConfig
-from google.cloud import exceptions
-import petl
-from contextlib import contextmanager
 
-from parsons.databases.table import BaseTable
 from parsons.databases.database_connector import DatabaseConnector
+from parsons.databases.table import BaseTable
 from parsons.etl import Table
-from parsons.google.utitities import setup_google_application_credentials
 from parsons.google.google_cloud_storage import GoogleCloudStorage
+from parsons.google.utitities import setup_google_application_credentials
 from parsons.utilities import check_env
 from parsons.utilities.files import create_temp_file
 
@@ -1179,7 +1178,7 @@ class GoogleBigQuery(DatabaseConnector):
         with open(temp_filename, "wb") as temp_file:
             header = [i[0] for i in cursor.description]
             pickle.dump(header, temp_file)
-            
+
             while True:
                 batch = cursor.fetchmany(QUERY_BATCH_SIZE)
                 if len(batch) == 0:

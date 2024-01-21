@@ -428,7 +428,8 @@ class RedshiftTableUtilities(object):
         `Returns:`
             A list of column names.
         """
-
+        schema = f'"{schema}"'
+        table_name = f'"{table_name}"'
         first_row = self.query(f"select * from {schema}.{table_name} limit 1")
 
         return first_row.columns

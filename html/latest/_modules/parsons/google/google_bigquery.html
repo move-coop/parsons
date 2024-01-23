@@ -288,15 +288,32 @@
 <span class="sd">            then will use the default inferred environment.</span>
 <span class="sd">        location: str</span>
 <span class="sd">            Default geographic location for tables</span>
+<span class="sd">        client_options: dict</span>
+<span class="sd">            A dictionary containing any requested client options. Defaults to the required</span>
+<span class="sd">            scopes for making API calls against External tables stored in Google Drive.</span>
+<span class="sd">            Can be set to None if these permissions are not desired</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;scopes&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;https://www.googleapis.com/auth/drive&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;https://www.googleapis.com/auth/bigquery&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;https://www.googleapis.com/auth/cloud-platform&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+    <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">app_creds</span> <span class="o">=</span> <span class="n">app_creds</span>
 
         <span class="n">setup_google_application_credentials</span><span class="p">(</span><span class="n">app_creds</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">project</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_options</span> <span class="o">=</span> <span class="n">client_options</span>
 
         <span class="c1"># We will not create the client until we need to use it, since creating the client</span>
         <span class="c1"># without valid GOOGLE_APPLICATION_CREDENTIALS raises an exception.</span>
@@ -317,7 +334,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">:</span>
             <span class="c1"># Create a BigQuery client to use to make the query</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span>
+                <span class="n">project</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="p">,</span>
+                <span class="n">location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
+                <span class="n">client_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_options</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
 

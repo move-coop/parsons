@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Databases &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -62,11 +70,17 @@
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#google-bigquery">Google BigQuery</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mysql">MySQL</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quick-start">Quick Start</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.MySQL"><code class="docutils literal notranslate"><span class="pre">MySQL</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#postgres">Postgres</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Quick Start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Quick Start</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Postgres"><code class="docutils literal notranslate"><span class="pre">Postgres</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#redshift">Redshift</a></li>
@@ -141,8 +155,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Databases</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Databases</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/databases.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -153,22 +167,22 @@
            <div itemprop="articleBody">
              
   <section id="databases">
-<h1>Databases<a class="headerlink" href="#databases" title="Permalink to this headline"></a></h1>
+<h1>Databases<a class="headerlink" href="#databases" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p>Parsons offers support for a variety of popular SQL database dialects. The functionality is focused on the ability to query and upload data to SQL databases. Each database class also includes the ability to infer datatypes and data schemas from a Parsons table and automatically create new tables.</p>
 <p>Similar to other classes in Parsons, the query methods for databases all return <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a>, which allow them to be easily converted to other data types.</p>
 <p>There is also support for synchronization of tables between databases as part of the <a class="reference internal" href="dbsync.html"><span class="doc">Database Sync</span></a> framework.</p>
 </section>
 <section id="google-bigquery">
-<h2>Google BigQuery<a class="headerlink" href="#google-bigquery" title="Permalink to this headline"></a></h2>
+<h2>Google BigQuery<a class="headerlink" href="#google-bigquery" title="Permalink to this heading"></a></h2>
 <p>See <a class="reference internal" href="google.html"><span class="doc">Google</span></a> for documentation.</p>
 </section>
 <section id="mysql">
-<h2>MySQL<a class="headerlink" href="#mysql" title="Permalink to this headline"></a></h2>
+<h2>MySQL<a class="headerlink" href="#mysql" title="Permalink to this heading"></a></h2>
 <p id="my-sql">MySQL is the world’s most popular open source database. The Parsons class leverages on the <a class="reference external" href="https://github.com/farcepest/MySQLdb1">MySQLdb1</a> python package.</p>
 <section id="quick-start">
-<h3>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline"></a></h3>
+<h3>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h3>
 <p><strong>Authentication</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">MySQL</span>
 
@@ -289,7 +303,7 @@ commit manually with <code class="docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.MySQL.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MySQL.copy" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MySQL.copy" title="Permalink to this definition"></a></dt>
 <dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> to the database.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -497,10 +511,10 @@ passed through kwargs.</p>
 </section>
 </section>
 <section id="postgres">
-<span id="id1"></span><h2>Postgres<a class="headerlink" href="#postgres" title="Permalink to this headline"></a></h2>
+<span id="id1"></span><h2>Postgres<a class="headerlink" href="#postgres" title="Permalink to this heading"></a></h2>
 <p>Postgres is popular open source SQL database dialect. The Parsons class leverages the <a class="reference external" href="https://www.psycopg.org/">mysql</a> python package.</p>
 <section id="id3">
-<h3>Quick Start<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
+<h3>Quick Start<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <p><strong>Authentication</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Postgres</span>
 
@@ -547,7 +561,7 @@ stored in your home directory or with environmental variables.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Postgres.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/postgres/postgres.html#Postgres.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Postgres.copy" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/postgres/postgres.html#Postgres.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Postgres.copy" title="Permalink to this definition"></a></dt>
 <dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> to Postgres.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -735,7 +749,7 @@ passed through kwargs.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Postgres.query">
-<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#parsons.Postgres.query" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#parsons.Postgres.query" title="Permalink to this definition"></a></dt>
 <dd><p>Execute a query against the database. Will return <code class="docutils literal notranslate"><span class="pre">None</span></code> if the query returns zero rows.</p>
 <p>To include python variables in your query, it is recommended to pass them as parameters,
 following the <a class="reference external" href="http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries">psycopg style</a>.
@@ -829,7 +843,7 @@ commit manually with <code class="docutils literal notranslate"><span class="pre
 </section>
 </section>
 <section id="redshift">
-<h2>Redshift<a class="headerlink" href="#redshift" title="Permalink to this headline"></a></h2>
+<h2>Redshift<a class="headerlink" href="#redshift" title="Permalink to this heading"></a></h2>
 <p>See <a class="reference internal" href="aws.html#id7"><span class="std std-ref">Redshift</span></a> for documentation.</p>
 </section>
 </section>

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bluelink &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -55,7 +63,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.bluelink.Bluelink"><code class="docutils literal notranslate"><span class="pre">Bluelink</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.bluelink.Bluelink.upsert_person"><code class="docutils literal notranslate"><span class="pre">Bluelink.upsert_person()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.bluelink.Bluelink.bulk_upsert_person"><code class="docutils literal notranslate"><span class="pre">Bluelink.bulk_upsert_person()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
@@ -135,8 +150,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Bluelink</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Bluelink</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/bluelink.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -147,9 +162,9 @@
            <div itemprop="articleBody">
              
   <section id="bluelink">
-<h1>Bluelink<a class="headerlink" href="#bluelink" title="Permalink to this headline"></a></h1>
+<h1>Bluelink<a class="headerlink" href="#bluelink" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://bluelink.org/">Bluelink</a> is an online tool for connecting various <a class="reference external" href="https://https://bluelink.org/product/#integrations">digital software tools</a> used by campaigns and movement groups in the political and non-profit space so you can sync data between them. This integration currently supports sending your structured person data and related tags to Bluelink via the <a class="reference external" href="https://bluelinkdata.github.io/docs/BluelinkApiGuide#webhook">Bluelink Webhook API</a>, after which you can use Bluelink’s UI to send to any of their <a class="reference external" href="https://bluelink.org/product/#integrations">supported tools</a>. If you don’t see a tool you would like to connect to, please reach out at <a class="reference external" href="mailto:hello&#37;&#52;&#48;bluelink&#46;org">hello<span>&#64;</span>bluelink<span>&#46;</span>org</a> to ask them to add it.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -160,7 +175,7 @@
 </dl>
 </div>
 <section id="quickstart">
-<h3>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h3>
+<h3>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h3>
 <p>To instantiate a class, you can either pass in the user and password token as arguments or set them in the
 BLUELINK_WEBHOOK_USER and BLUELINK_WEBHOOK_PASSWORD environment variables.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.bluelink</span> <span class="kn">import</span> <span class="n">Bluelink</span>
@@ -202,7 +217,7 @@ BLUELINK_WEBHOOK_USER and BLUELINK_WEBHOOK_PASSWORD environment variables.</p>
 </section>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.bluelink.Bluelink">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.bluelink.</span></span><span class="sig-name descname"><span class="pre">Bluelink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bluelink/bluelink.html#Bluelink"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.bluelink.Bluelink" title="Permalink to this definition"></a></dt>

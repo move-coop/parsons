@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PDI &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -62,7 +70,21 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">PDI</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pdi-class">PDI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pdi-class">PDI Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.PDI"><code class="docutils literal notranslate"><span class="pre">PDI</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.PDI.create_flag_id"><code class="docutils literal notranslate"><span class="pre">PDI.create_flag_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.PDI.delete_flag_id"><code class="docutils literal notranslate"><span class="pre">PDI.delete_flag_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.PDI.get_acquisition_types"><code class="docutils literal notranslate"><span class="pre">PDI.get_acquisition_types()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.PDI.get_flag_id"><code class="docutils literal notranslate"><span class="pre">PDI.get_flag_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.PDI.get_flag_ids"><code class="docutils literal notranslate"><span class="pre">PDI.get_flag_ids()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.PDI.get_flags"><code class="docutils literal notranslate"><span class="pre">PDI.get_flags()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.PDI.get_questions"><code class="docutils literal notranslate"><span class="pre">PDI.get_questions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.PDI.get_universes"><code class="docutils literal notranslate"><span class="pre">PDI.get_universes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.PDI.update_flag_id"><code class="docutils literal notranslate"><span class="pre">PDI.update_flag_id()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
@@ -104,8 +126,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>PDI</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">PDI</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/pdi.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -116,9 +138,9 @@
            <div itemprop="articleBody">
              
   <section id="pdi">
-<h1>PDI<a class="headerlink" href="#pdi" title="Permalink to this headline"></a></h1>
+<h1>PDI<a class="headerlink" href="#pdi" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://api.bluevote.com/docs/index#">PDI is a political data provider that is primarily active in California.
 `The PDI class allows you to interact with an `PDI’s API</a> .</p>
 <p>In order to instantiate the class you must pass valid kwargs or store the following
@@ -130,7 +152,7 @@ environmental variables:</p>
 </ul>
 </section>
 <section id="quickstart">
-<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h2>
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">PDI</span>
 
 <span class="n">pdi</span> <span class="o">=</span> <span class="n">PDI</span><span class="p">()</span>
@@ -144,7 +166,7 @@ environmental variables:</p>
 </div>
 </section>
 <section id="pdi-class">
-<h2>PDI Class<a class="headerlink" href="#pdi-class" title="Permalink to this headline"></a></h2>
+<h2>PDI Class<a class="headerlink" href="#pdi-class" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.PDI">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">PDI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qa_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/pdi/pdi.html#PDI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.PDI" title="Permalink to this definition"></a></dt>

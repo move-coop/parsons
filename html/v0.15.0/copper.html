@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Copper &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -49,7 +57,19 @@
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Copper</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.Copper"><code class="docutils literal notranslate"><span class="pre">Copper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Copper.get_people"><code class="docutils literal notranslate"><span class="pre">Copper.get_people()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Copper.get_companies"><code class="docutils literal notranslate"><span class="pre">Copper.get_companies()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Copper.get_activities"><code class="docutils literal notranslate"><span class="pre">Copper.get_activities()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Copper.get_opportunities"><code class="docutils literal notranslate"><span class="pre">Copper.get_opportunities()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Copper.get_custom_fields"><code class="docutils literal notranslate"><span class="pre">Copper.get_custom_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Copper.get_activity_types"><code class="docutils literal notranslate"><span class="pre">Copper.get_activity_types()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Copper.get_contact_types"><code class="docutils literal notranslate"><span class="pre">Copper.get_contact_types()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
@@ -103,8 +123,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Copper</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Copper</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/copper.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -115,9 +135,9 @@
            <div itemprop="articleBody">
              
   <section id="copper">
-<h1>Copper<a class="headerlink" href="#copper" title="Permalink to this headline"></a></h1>
+<h1>Copper<a class="headerlink" href="#copper" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p>The Copper class allows you to pull person, company, and activity data - along with related metadata - from the Copper CRM.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -132,7 +152,7 @@
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Copper">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Copper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/copper/copper.html#Copper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Copper" title="Permalink to this definition"></a></dt>

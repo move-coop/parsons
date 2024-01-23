@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Azure: Blob Storage &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -47,7 +55,25 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Azure: Blob Storage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.AzureBlobStorage"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.list_containers"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.list_containers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.container_exists"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.container_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.get_container"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.get_container()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.create_container"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.create_container()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.delete_container"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.delete_container()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.list_blobs"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.list_blobs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.blob_exists"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.blob_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.get_blob"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.get_blob()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.get_blob_url"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.get_blob_url()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.put_blob"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.put_blob()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.download_blob"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.download_blob()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.delete_blob"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.delete_blob()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.AzureBlobStorage.upload_table"><code class="docutils literal notranslate"><span class="pre">AzureBlobStorage.upload_table()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
@@ -113,8 +139,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Azure: Blob Storage</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Azure: Blob Storage</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/azure.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -125,9 +151,9 @@
            <div itemprop="articleBody">
              
   <section id="azure-blob-storage">
-<h1>Azure: Blob Storage<a class="headerlink" href="#azure-blob-storage" title="Permalink to this headline"></a></h1>
+<h1>Azure: Blob Storage<a class="headerlink" href="#azure-blob-storage" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://azure.microsoft.com/en-us/services/storage/blobs/">Azure Blob Storage</a> is a cloud file storage system that
 uses storage accounts to organize containers (similar to “buckets” for other storage providers) in which to store
 arbitrary files referred to as ‘blobs’. This Parsons integration currently only implements
@@ -144,7 +170,7 @@ are included in the documentation.</p>
 </div>
 </section>
 <section id="quickstart">
-<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h2>
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
 <p>This class requires a <code class="docutils literal notranslate"><span class="pre">credentials</span></code> argument and <em>either</em> an <code class="docutils literal notranslate"><span class="pre">account_name</span></code> or an <code class="docutils literal notranslate"><span class="pre">account_url</span></code> argument that
 includes the account name. You can store these as environmental variables (<code class="docutils literal notranslate"><span class="pre">AZURE_CREDENTIAL</span></code>, <code class="docutils literal notranslate"><span class="pre">AZURE_ACCOUNT_NAME</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">AZURE_ACCOUNT_URL</span></code>, respectively) or pass them in as arguments:</p>
@@ -185,7 +211,7 @@ and <code class="docutils literal notranslate"><span class="pre">AZURE_ACCOUNT_U
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">AzureBlobStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">credential</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_domain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'blob.core.windows.net'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage" title="Permalink to this definition"></a></dt>

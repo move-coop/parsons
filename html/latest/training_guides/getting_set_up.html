@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Getting Set Up With Parsons &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -146,8 +154,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Getting Set Up With Parsons</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Set Up With Parsons</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/training_guides/getting_set_up.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -158,11 +166,11 @@
            <div itemprop="articleBody">
              
   <section id="getting-set-up-with-parsons">
-<h1>Getting Set Up With Parsons<a class="headerlink" href="#getting-set-up-with-parsons" title="Permalink to this headline"></a></h1>
+<h1>Getting Set Up With Parsons<a class="headerlink" href="#getting-set-up-with-parsons" title="Permalink to this heading"></a></h1>
 <p>This training guide will walk you through setting up Parsons on your computer. It provides in-depth explanations of each of the tools we recommend you use, including the command line, virtual environments, and git/version control. No prior experience should be necessary to follow this guide.</p>
 <p>You can suggest improvements to this guide or request additional guides by filing an issue in our issue tracker or telling us in Slack. To get added to our Slack, email us at <em>engineering&#64;movementcooperative.org</em>.</p>
 <section id="step-1-open-up-a-command-line-interface">
-<h2>Step 1: Open Up a Command Line Interface<a class="headerlink" href="#step-1-open-up-a-command-line-interface" title="Permalink to this headline"></a></h2>
+<h2>Step 1: Open Up a Command Line Interface<a class="headerlink" href="#step-1-open-up-a-command-line-interface" title="Permalink to this heading"></a></h2>
 <p>Command line interfaces let you do a lot of different things on your computer, including installing and running programs and navigating the directory structure of your computer.</p>
 <p>On Macs/Linux the default command line interface is called a <strong>Terminal</strong> and on Windows it is called the <strong>Command Prompt</strong>. Command line interfaces are also sometimes called <em>shells</em>. Look for this program on your computer and open it up.</p>
 <p>The commands you can use in the command line differ somewhat dependning on whether you’re using Mac/Linux or windows.</p>
@@ -183,11 +191,11 @@
 <p>You do not have to type everything on the command line out by hand. You can auto-complete the names of files/folders in your current directory by tapping the tab key. On Mac/Linux you can also tab-complete installed programs. And you can access previous commands via the up and down arrows. Save your hands! Learn these tricks.</p>
 </section>
 <section id="step-2-set-up-your-virtual-environment">
-<h2>Step 2: Set Up Your Virtual Environment<a class="headerlink" href="#step-2-set-up-your-virtual-environment" title="Permalink to this headline"></a></h2>
+<h2>Step 2: Set Up Your Virtual Environment<a class="headerlink" href="#step-2-set-up-your-virtual-environment" title="Permalink to this heading"></a></h2>
 <p>Normally, tools like <a class="reference external" href="https://pip.pypa.io/en/stable/">pip</a> install Python libraries directly to your system. When your Python programs run, they look for the libraries they depend upon in your system. But this can cause problems when different programs need different versions of the same library.</p>
 <p>To handle this issue, we recommend you use virtual environments to install Parsons. Virtual environments allow you to install libraries into an isolated environment specific to a project. That way you can use different versions of the same libraries for different projects.</p>
 <section id="mac-linux-virtual-environments">
-<h3>Mac/Linux Virtual Environments<a class="headerlink" href="#mac-linux-virtual-environments" title="Permalink to this headline"></a></h3>
+<h3>Mac/Linux Virtual Environments<a class="headerlink" href="#mac-linux-virtual-environments" title="Permalink to this heading"></a></h3>
 <p>Before getting started, check which version of Python you’re running by typing <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">--version</span></code> in your command line. Python 3.4+ includes a virtual environment manager called <a class="reference external" href="https://docs.python.org/3/library/venv.html">venv</a>.  If your version is lower than Python 3.4, you’ll have to install a virtual environment manager like <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">virtualenv</a> if you haven’t already. You can do this by typing <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">virtualenv</span></code> in the command line.</p>
 <p>Next, create a directory to store your virtual environments, for example at the path <em>/home/your_name/virtualenvs</em>. (Not sure what a path is?  see <a class="reference internal" href="#path-explainer"><span class="std std-ref">Paths vs $PATHs</span></a>.)</p>
 <p>You can use the <code class="docutils literal notranslate"><span class="pre">mkdir</span></code> command to create a new directory, ie: <code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">/home/username/virtualenvs</span></code>. We’ll refer to the full path to this directory as <strong>$path_to_your_env</strong> below.</p>
@@ -197,7 +205,7 @@
 <p>Regardless of what version you’re on, you can activate your virtual environment with the command: <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">$path_to_your_env/$your_env_name/bin/activate</span></code>.</p>
 </section>
 <section id="windows-virtual-environments">
-<h3>Windows Virtual Environments<a class="headerlink" href="#windows-virtual-environments" title="Permalink to this headline"></a></h3>
+<h3>Windows Virtual Environments<a class="headerlink" href="#windows-virtual-environments" title="Permalink to this heading"></a></h3>
 <p>Start by installing virtualenvwrappers from source:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">davidmarble</span><span class="o">/</span><span class="n">virtualenvwrapper</span><span class="o">-</span><span class="n">win</span><span class="o">.</span><span class="n">git</span>
 <span class="n">cd</span> <span class="n">virtualenvwrapper</span><span class="o">-</span><span class="n">win</span>
@@ -211,7 +219,7 @@
 <p>To use this virtual environment, execute: <code class="docutils literal notranslate"><span class="pre">workon</span> <span class="pre">parsons</span></code></p>
 </section>
 <section id="paths-vs-paths">
-<span id="path-explainer"></span><h3>Paths vs $PATHs<a class="headerlink" href="#paths-vs-paths" title="Permalink to this headline"></a></h3>
+<span id="path-explainer"></span><h3>Paths vs $PATHs<a class="headerlink" href="#paths-vs-paths" title="Permalink to this heading"></a></h3>
 <p>Paths are how we refer to a file or program’s location in the file system. For example, <code class="docutils literal notranslate"><span class="pre">/home/janedoe/virtualenvs</span></code> says that within the top-level directory <code class="docutils literal notranslate"><span class="pre">home</span></code> there is a directory named <code class="docutils literal notranslate"><span class="pre">janedoe</span></code>, and within <code class="docutils literal notranslate"><span class="pre">janedoe</span></code> there is a directory <code class="docutils literal notranslate"><span class="pre">virtualenvs</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">/home/janedoe/virtualenvs</span></code> is an <strong>absolute path</strong> because it specifies exactly how to get there no matter where you are in the system. The path <code class="docutils literal notranslate"><span class="pre">janedoe/virtualenvs</span></code> is a <strong>relative path</strong> because it only works if you use it from the home directory. Trying to use a relative path from the wrong location is a common source of command line errors!</p>
 <p>On Windows, absolute paths look a little different. They start with the letter of the hard drive they’re in, ie <code class="docutils literal notranslate"><span class="pre">C:\Users\JaneDoe\Virtualenvs</span></code>.</p>
@@ -222,17 +230,17 @@
 </section>
 </section>
 <section id="step-3-download-and-install-parsons">
-<h2>Step 3: Download and Install Parsons<a class="headerlink" href="#step-3-download-and-install-parsons" title="Permalink to this headline"></a></h2>
+<h2>Step 3: Download and Install Parsons<a class="headerlink" href="#step-3-download-and-install-parsons" title="Permalink to this heading"></a></h2>
 <p>We’re going to go over two different ways to download and install Parsons: using pip, and using git. Use pip if you just want to install Parsons and start using it. Use git if you might want to change Parsons to customize its behavior and/or contribute those changes back.</p>
 <section id="using-pip">
-<h3>Using Pip<a class="headerlink" href="#using-pip" title="Permalink to this headline"></a></h3>
+<h3>Using Pip<a class="headerlink" href="#using-pip" title="Permalink to this heading"></a></h3>
 <p><a class="reference external" href="https://pip.pypa.io/en/stable/">Pip</a> is the Python package manager. Packages (also commonly known as “libraries”) are Python code that have been bundled up in a certain way (“packaged”) so they can be easily installed and used.</p>
 <p>By default, pip installs from the <a class="reference external" href="https://pypi.org/">Python Package Index or PyPI</a>, but you can tell pip to install from a branch on Github or even from a folder on your machine. All you need is a package with the right files. The specifics of those files, and how to create your own package, is a <a class="reference external" href="https://packaging.python.org/en/latest/tutorials/packaging-projects/">much more advanced topic</a>.</p>
 <p>Essentially when you type <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">parsons[all]</span></code> (or pip install anything!) you’re saying “Go find this project on PyPI and install it.” (Here’s <a class="reference external" href="https://pypi.org/project/parsons/">Parsons</a> on PyPI!)</p>
 <p>To install Parsons using pip, make sure your virtual environment is activated and type <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">parsons[all]</span></code>. It’s that simple!</p>
 </section>
 <section id="using-git">
-<span id="git-explainer"></span><h3>Using Git<a class="headerlink" href="#using-git" title="Permalink to this headline"></a></h3>
+<span id="git-explainer"></span><h3>Using Git<a class="headerlink" href="#using-git" title="Permalink to this heading"></a></h3>
 <p><a class="reference external" href="https://git-scm.com/">Git</a> is a popular version control system used primarily by programmers. Many people use git by way of <a class="reference external" href="https://github.com/">Github</a>, a company which provides free hosting (and other helpful features) for git repositories. Parsons, like many others, <a class="reference external" href="https://github.com/move-coop/parsons/">hosts our code</a> on Github.</p>
 <p>Start by making sure git is installed on your computer. To do this, type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">version</span></code> at the command line. If it gives you a version number, great! You’ve got git installed. If you get an error message of some kind, you’ll need to <a class="reference external" href="https://github.com/git-guides/install-git">install git</a>.</p>
 <p>Once you’ve installed git, you can execute the following commands:</p>
@@ -255,7 +263,7 @@
 <p>When you install Parsons from git, you’re getting the most up to date version of Parsons there is. When you install Parsons from PyPI via pip, you might get a slightly older version, since we have to take the extra step of making a “release” to move changes from Github to PyPI. We make releases fairly frequently, so this shouldn’t be an issue, but it’s something to keep in mind if Parsons is behaving unexpectedly.</p>
 </div>
 <section id="git-basics">
-<h4>Git Basics<a class="headerlink" href="#git-basics" title="Permalink to this headline"></a></h4>
+<h4>Git Basics<a class="headerlink" href="#git-basics" title="Permalink to this heading"></a></h4>
 <p>Giving you a full tour of git is beyond the scope of this tutorial, but here’s a quick intro.</p>
 <p>Git allows you to connect the work you’re doing locally with a central shared repository. When you enter a command like <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/move-coop/parsons.git</span></code>, git creates a copy of the repository on your local computer. It also keeps track of the source of your repository, by listing it as a <strong>remote</strong>. Git’s default name for remotes is <strong>origin</strong>.</p>
 <p>You can see all the remotes for a repository by typing the following command when within the repository: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">-v</span></code>. (The -v stands for “verbose”.) The result should look something like this:</p>
@@ -273,7 +281,7 @@
 </section>
 </section>
 <section id="conclusion">
-<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline"></a></h2>
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading"></a></h2>
 <p>You should now have Parsons installed on your computer, and hopefully you’re also more comfortable with the command line, virtual environments, paths, and git.</p>
 </section>
 </section>

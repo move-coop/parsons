@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ActionKit &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -42,7 +50,47 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ActionKit</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.ActionKit"><code class="docutils literal notranslate"><span class="pre">ActionKit</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_user"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_user_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_user_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.create_user"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.update_user"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_event"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_events"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.update_event"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.delete_user"><code class="docutils literal notranslate"><span class="pre">ActionKit.delete_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_campaign"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_campaign()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_campaign_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_campaign_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.create_campaign"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_campaign()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_event_create_page"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_create_page()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_event_create_page_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_create_page_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.create_event_create_page"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_event_create_page()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_event_create_form"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_create_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_event_create_form_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_create_form_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.create_event_create_form"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_event_create_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_event_signup_page"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_signup_page()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_event_signup_page_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_signup_page_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.create_event_signup_page"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_event_signup_page()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_event_signup_form"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_signup_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_event_signup_form_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_signup_form_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.create_event_signup_form"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_event_signup_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.update_event_signup"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_event_signup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_mailer"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_mailer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.create_mailer"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_mailer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.rebuild_mailer"><code class="docutils literal notranslate"><span class="pre">ActionKit.rebuild_mailer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.queue_mailer"><code class="docutils literal notranslate"><span class="pre">ActionKit.queue_mailer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_page_followup"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_page_followup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.get_page_followup_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_page_followup_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.create_page_followup"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_page_followup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.create_generic_action"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_generic_action()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.bulk_upload_csv"><code class="docutils literal notranslate"><span class="pre">ActionKit.bulk_upload_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.bulk_upload_table"><code class="docutils literal notranslate"><span class="pre">ActionKit.bulk_upload_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionKit.collect_upload_errors"><code class="docutils literal notranslate"><span class="pre">ActionKit.collect_upload_errors()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
@@ -110,8 +158,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>ActionKit</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ActionKit</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/action_kit.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -122,9 +170,9 @@
            <div itemprop="articleBody">
              
   <section id="actionkit">
-<h1>ActionKit<a class="headerlink" href="#actionkit" title="Permalink to this headline"></a></h1>
+<h1>ActionKit<a class="headerlink" href="#actionkit" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://actionkit.com/">ActionKit</a> is a platform for advocacy, fundraising, and
 get-out-the-vote. This Parsons integration with the
 <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html">ActionKit REST API</a>
@@ -142,7 +190,7 @@ documentation for more information on obtaining ActionKit API credentials.</p>
 </div>
 </section>
 <section id="quickstart">
-<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h2>
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
 <p>To instantiate the ActionKit class, you can either store your ActionKit API
 domain, username, and password as environmental variables (<code class="docutils literal notranslate"><span class="pre">ACTION_KIT_DOMAIN</span></code>,
 <code class="docutils literal notranslate"><span class="pre">ACTION_KIT_USERNAME</span></code>, and <code class="docutils literal notranslate"><span class="pre">ACTION_KIT_PASSWORD</span></code>, respectively) or pass in your
@@ -172,7 +220,7 @@ domain, username, and password as arguments:</p>
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ActionKit">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">ActionKit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionKit" title="Permalink to this definition"></a></dt>

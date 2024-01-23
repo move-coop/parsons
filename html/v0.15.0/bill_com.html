@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bill.com &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -46,7 +54,21 @@
 <li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Bill.com</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.BillCom"><code class="docutils literal notranslate"><span class="pre">BillCom</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.BillCom.get_user_list"><code class="docutils literal notranslate"><span class="pre">BillCom.get_user_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.BillCom.get_customer_list"><code class="docutils literal notranslate"><span class="pre">BillCom.get_customer_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.BillCom.get_invoice_list"><code class="docutils literal notranslate"><span class="pre">BillCom.get_invoice_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.BillCom.read_customer"><code class="docutils literal notranslate"><span class="pre">BillCom.read_customer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.BillCom.read_invoice"><code class="docutils literal notranslate"><span class="pre">BillCom.read_invoice()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.BillCom.check_customer"><code class="docutils literal notranslate"><span class="pre">BillCom.check_customer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.BillCom.get_or_create_customer"><code class="docutils literal notranslate"><span class="pre">BillCom.get_or_create_customer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.BillCom.create_invoice"><code class="docutils literal notranslate"><span class="pre">BillCom.create_invoice()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.BillCom.send_invoice"><code class="docutils literal notranslate"><span class="pre">BillCom.send_invoice()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
@@ -103,8 +125,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Bill.com</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Bill.com</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/bill_com.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -115,11 +137,11 @@
            <div itemprop="articleBody">
              
   <section id="bill-com">
-<h1>Bill.com<a class="headerlink" href="#bill-com" title="Permalink to this headline"></a></h1>
+<h1>Bill.com<a class="headerlink" href="#bill-com" title="Permalink to this heading"></a></h1>
 <p><a class="reference external" href="https://www.bill.com">Bill.com</a> is an online billing and invoicing tool. For more information,
 see <a class="reference external" href="https://developer.bill.com/hc/en-us/categories/360002253732">Bill.com developer docs</a></p>
 <section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline"></a></h2>
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">BillCom</span>
 
 <span class="n">bc</span> <span class="o">=</span> <span class="n">BillCom</span><span class="p">(</span><span class="n">USERNAME</span><span class="p">,</span> <span class="n">PASSWORD</span><span class="p">,</span> <span class="n">ORG_ID</span><span class="p">,</span> <span class="n">DEV_KEY</span><span class="p">,</span> <span class="n">ENDPOINT_URL</span><span class="p">)</span>
@@ -136,7 +158,7 @@ see <a class="reference external" href="https://developer.bill.com/hc/en-us/cate
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.BillCom">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">BillCom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">org_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom" title="Permalink to this definition"></a></dt>

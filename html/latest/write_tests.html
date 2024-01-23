@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>How to Write Tests for Parsons Connectors &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -137,8 +145,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>How to Write Tests for Parsons Connectors</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">How to Write Tests for Parsons Connectors</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/write_tests.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -149,9 +157,9 @@
            <div itemprop="articleBody">
              
   <section id="how-to-write-tests-for-parsons-connectors">
-<h1>How to Write Tests for Parsons Connectors<a class="headerlink" href="#how-to-write-tests-for-parsons-connectors" title="Permalink to this headline"></a></h1>
+<h1>How to Write Tests for Parsons Connectors<a class="headerlink" href="#how-to-write-tests-for-parsons-connectors" title="Permalink to this heading"></a></h1>
 <section id="how-to-write-tests">
-<h2>How to Write Tests<a class="headerlink" href="#how-to-write-tests" title="Permalink to this headline"></a></h2>
+<h2>How to Write Tests<a class="headerlink" href="#how-to-write-tests" title="Permalink to this heading"></a></h2>
 <p>Most of our Parsons Connector classes fall into two categories:</p>
 <blockquote>
 <div><ul class="simple">
@@ -162,7 +170,7 @@
 <p>The category that the class falls into generally determines how one will write unit tests for the class because the type of Connector determines how we simulate the external API.</p>
 <p>No matter which type it is, we are looking to use mocks to simulate the class’ interactions with the external API. Mocks are fake versions of the functions or classes that our Connectors use to access the external API. By using mocks in our tests, we make it easier to set up and run our tests without having to worry about having the proper credentials, etc. that we would need to call into an API.</p>
 <section id="getting-started">
-<h3>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline"></a></h3>
+<h3>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p>Add a folder <em>test_yourconnectorname</em> in parsons/test for your connector</p></li>
@@ -172,7 +180,7 @@
 </div></blockquote>
 </section>
 <section id="tests-for-http-api-connectors">
-<h3>Tests for HTTP API Connectors<a class="headerlink" href="#tests-for-http-api-connectors" title="Permalink to this headline"></a></h3>
+<h3>Tests for HTTP API Connectors<a class="headerlink" href="#tests-for-http-api-connectors" title="Permalink to this heading"></a></h3>
 <p>For classes built using the <code class="docutils literal notranslate"><span class="pre">APIConnector</span></code> class, we can leverage the <code class="docutils literal notranslate"><span class="pre">requests-mock</span></code> library, since the <code class="docutils literal notranslate"><span class="pre">APIConnector</span></code> uses the <code class="docutils literal notranslate"><span class="pre">requests</span></code> library.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">requests-mock</span></code> library allows us to simulate the API we are calling into by pretending to be an HTTP server. We can create canned responses, and introspect on the endpoints that our Connector called to ensure that the method we are testing is acting the way we expect.</p>
 <p>For an example of testing a class built on the <code class="docutils literal notranslate"><span class="pre">APIConnector</span></code>, we can look at the <code class="docutils literal notranslate"><span class="pre">MailChimp</span></code> connector.</p>
@@ -206,7 +214,7 @@
 </div>
 </section>
 <section id="tests-for-connectors-built-on-third-party-libraries">
-<h3>Tests for Connectors Built on Third Party Libraries<a class="headerlink" href="#tests-for-connectors-built-on-third-party-libraries" title="Permalink to this headline"></a></h3>
+<h3>Tests for Connectors Built on Third Party Libraries<a class="headerlink" href="#tests-for-connectors-built-on-third-party-libraries" title="Permalink to this heading"></a></h3>
 <p>For classes that wrap third party libraries, we are looking to simulate whatever client object that serves as the Python API for the calls to the external service. To simulate the client object, we can use the <code class="docutils literal notranslate"><span class="pre">unittest.mock.MagicMock</span></code> class from the Python standard library.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">MagicMock</span></code> class allows us to build a fake version of the client object by simulating functionality we expect our Connector class to use – namely by returning canned responses to method calls on the client. As well, the <code class="docutils literal notranslate"><span class="pre">MagicMock</span></code> class is recording those calls as they happen, so that after we have run through our tests, we can check that things happened in the way we expected.</p>
 <p>The following gives a simple example of initializing, setting up, and checking expectations on a <code class="docutils literal notranslate"><span class="pre">MagicMock</span></code> class. Please see the following, SalesforceTest example on integrating it with your Connector class.</p>
@@ -264,7 +272,7 @@
 </div></blockquote>
 </section>
 <section id="useful-tips">
-<h3>Useful Tips<a class="headerlink" href="#useful-tips" title="Permalink to this headline"></a></h3>
+<h3>Useful Tips<a class="headerlink" href="#useful-tips" title="Permalink to this heading"></a></h3>
 <p>Parsons has a function <code class="docutils literal notranslate"><span class="pre">assert_matching_tables</span></code> in the <code class="docutils literal notranslate"><span class="pre">parsons.test.utils</span></code> module that can be used to compare two Parsons tables:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">test.utils</span> <span class="kn">import</span> <span class="n">assert_matching_tables</span>

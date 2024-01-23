@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Parsons Table &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -95,8 +103,68 @@
 <li class="toctree-l3"><a class="reference internal" href="#basic-pipelines">Basic Pipelines</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#to-from-api">To &amp; From API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#transformation-api">Transformation API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#to-from-api">To &amp; From API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom"><code class="docutils literal notranslate"><span class="pre">ToFrom</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_dataframe"><code class="docutils literal notranslate"><span class="pre">ToFrom.to_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_html"><code class="docutils literal notranslate"><span class="pre">ToFrom.to_html()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_csv"><code class="docutils literal notranslate"><span class="pre">ToFrom.to_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.append_csv"><code class="docutils literal notranslate"><span class="pre">ToFrom.append_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_zip_csv"><code class="docutils literal notranslate"><span class="pre">ToFrom.to_zip_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_json"><code class="docutils literal notranslate"><span class="pre">ToFrom.to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_dicts"><code class="docutils literal notranslate"><span class="pre">ToFrom.to_dicts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_sftp_csv"><code class="docutils literal notranslate"><span class="pre">ToFrom.to_sftp_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_s3_csv"><code class="docutils literal notranslate"><span class="pre">ToFrom.to_s3_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_redshift"><code class="docutils literal notranslate"><span class="pre">ToFrom.to_redshift()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_postgres"><code class="docutils literal notranslate"><span class="pre">ToFrom.to_postgres()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_civis"><code class="docutils literal notranslate"><span class="pre">ToFrom.to_civis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_csv"><code class="docutils literal notranslate"><span class="pre">ToFrom.from_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_csv_string"><code class="docutils literal notranslate"><span class="pre">ToFrom.from_csv_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_columns"><code class="docutils literal notranslate"><span class="pre">ToFrom.from_columns()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_json"><code class="docutils literal notranslate"><span class="pre">ToFrom.from_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_redshift"><code class="docutils literal notranslate"><span class="pre">ToFrom.from_redshift()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_postgres"><code class="docutils literal notranslate"><span class="pre">ToFrom.from_postgres()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_s3_csv"><code class="docutils literal notranslate"><span class="pre">ToFrom.from_s3_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_dataframe"><code class="docutils literal notranslate"><span class="pre">ToFrom.from_dataframe()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#transformation-api">Transformation API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.etl.etl.ETL"><code class="docutils literal notranslate"><span class="pre">ETL</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.add_column"><code class="docutils literal notranslate"><span class="pre">ETL.add_column()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.remove_column"><code class="docutils literal notranslate"><span class="pre">ETL.remove_column()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.rename_column"><code class="docutils literal notranslate"><span class="pre">ETL.rename_column()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.fill_column"><code class="docutils literal notranslate"><span class="pre">ETL.fill_column()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.fillna_column"><code class="docutils literal notranslate"><span class="pre">ETL.fillna_column()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.move_column"><code class="docutils literal notranslate"><span class="pre">ETL.move_column()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.convert_column"><code class="docutils literal notranslate"><span class="pre">ETL.convert_column()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.get_column_max_width"><code class="docutils literal notranslate"><span class="pre">ETL.get_column_max_width()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.convert_columns_to_str"><code class="docutils literal notranslate"><span class="pre">ETL.convert_columns_to_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.coalesce_columns"><code class="docutils literal notranslate"><span class="pre">ETL.coalesce_columns()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.map_columns"><code class="docutils literal notranslate"><span class="pre">ETL.map_columns()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.map_and_coalesce_columns"><code class="docutils literal notranslate"><span class="pre">ETL.map_and_coalesce_columns()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.get_column_types"><code class="docutils literal notranslate"><span class="pre">ETL.get_column_types()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.get_columns_type_stats"><code class="docutils literal notranslate"><span class="pre">ETL.get_columns_type_stats()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.convert_table"><code class="docutils literal notranslate"><span class="pre">ETL.convert_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.unpack_dict"><code class="docutils literal notranslate"><span class="pre">ETL.unpack_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.unpack_list"><code class="docutils literal notranslate"><span class="pre">ETL.unpack_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.unpack_nested_columns_as_rows"><code class="docutils literal notranslate"><span class="pre">ETL.unpack_nested_columns_as_rows()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.long_table"><code class="docutils literal notranslate"><span class="pre">ETL.long_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.cut"><code class="docutils literal notranslate"><span class="pre">ETL.cut()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.select_rows"><code class="docutils literal notranslate"><span class="pre">ETL.select_rows()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.remove_null_rows"><code class="docutils literal notranslate"><span class="pre">ETL.remove_null_rows()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.stack"><code class="docutils literal notranslate"><span class="pre">ETL.stack()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.concat"><code class="docutils literal notranslate"><span class="pre">ETL.concat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.chunk"><code class="docutils literal notranslate"><span class="pre">ETL.chunk()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.get_normalized_column_name"><code class="docutils literal notranslate"><span class="pre">ETL.get_normalized_column_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.match_columns"><code class="docutils literal notranslate"><span class="pre">ETL.match_columns()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.reduce_rows"><code class="docutils literal notranslate"><span class="pre">ETL.reduce_rows()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.sort"><code class="docutils literal notranslate"><span class="pre">ETL.sort()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.set_header"><code class="docutils literal notranslate"><span class="pre">ETL.set_header()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
@@ -121,8 +189,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Parsons Table</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Parsons Table</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/table.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -133,12 +201,12 @@
            <div itemprop="articleBody">
              
   <section id="parsons-table">
-<span id="id1"></span><h1>Parsons Table<a class="headerlink" href="#parsons-table" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Parsons Table<a class="headerlink" href="#parsons-table" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p>Most methods and functions in Parsons return a <code class="docutils literal notranslate"><span class="pre">Table</span></code>, which is a 2D list-like object similar to a Pandas Dataframe. You can call the following methods on the Table object to output it into a variety of formats or storage types. A full list of <code class="docutils literal notranslate"><span class="pre">Table</span></code> methods can be found in the API section.</p>
 <section id="from-parsons-table">
-<h3>From Parsons Table<a class="headerlink" href="#from-parsons-table" title="Permalink to this headline"></a></h3>
+<h3>From Parsons Table<a class="headerlink" href="#from-parsons-table" title="Permalink to this heading"></a></h3>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 25%" />
@@ -201,7 +269,7 @@
 </dl>
 </section>
 <section id="to-parsons-table">
-<h3>To Parsons Table<a class="headerlink" href="#to-parsons-table" title="Permalink to this headline"></a></h3>
+<h3>To Parsons Table<a class="headerlink" href="#to-parsons-table" title="Permalink to this heading"></a></h3>
 <p>Create Parsons Table object using the following methods.</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -264,7 +332,7 @@
 </div>
 </section>
 <section id="parsons-table-attributes">
-<h3>Parsons Table Attributes<a class="headerlink" href="#parsons-table-attributes" title="Permalink to this headline"></a></h3>
+<h3>Parsons Table Attributes<a class="headerlink" href="#parsons-table-attributes" title="Permalink to this heading"></a></h3>
 <p>Tables have a number of convenience attributes.</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -293,7 +361,7 @@
 </table>
 </section>
 <section id="parsons-table-transformations">
-<h3>Parsons Table Transformations<a class="headerlink" href="#parsons-table-transformations" title="Permalink to this headline"></a></h3>
+<h3>Parsons Table Transformations<a class="headerlink" href="#parsons-table-transformations" title="Permalink to this heading"></a></h3>
 <p>Parsons tables have many methods that allow you to easily transform tables. Below is a selection
 of commonly used methods. The full list can be found in the API section.</p>
 <p><strong>Column Transformations</strong></p>
@@ -397,7 +465,7 @@ of commonly used methods. The full list can be found in the API section.</p>
 </table>
 </section>
 <section id="parsons-table-indexing">
-<h3>Parsons Table Indexing<a class="headerlink" href="#parsons-table-indexing" title="Permalink to this headline"></a></h3>
+<h3>Parsons Table Indexing<a class="headerlink" href="#parsons-table-indexing" title="Permalink to this heading"></a></h3>
 <p>To access rows and columns of data within a Parsons table, you can index on them. To access a column
 pass in the column name as a string (e.g. <code class="docutils literal notranslate"><span class="pre">tbl['a']</span></code>) and to access a row, pass in the row index as
 an integer (e.g. <code class="docutils literal notranslate"><span class="pre">tbl[1]</span></code>).</p>
@@ -434,11 +502,11 @@ If you need to iterate over the data, make sure to use the python iterator synta
 </div>
 </section>
 <section id="petl">
-<h3>PETL<a class="headerlink" href="#petl" title="Permalink to this headline"></a></h3>
+<h3>PETL<a class="headerlink" href="#petl" title="Permalink to this heading"></a></h3>
 <p>The Parsons <code class="docutils literal notranslate"><span class="pre">Table</span></code> relies heavily on the <a class="reference external" href="https://petl.readthedocs.io/en/stable/index.html">petl</a> Python package. You can always access the underlying petl table with <code class="docutils literal notranslate"><span class="pre">my_parsons_table.table</span></code>, which will allow you to perform any petl-supported ETL operations.</p>
 </section>
 <section id="lazy-loading">
-<h3>Lazy Loading<a class="headerlink" href="#lazy-loading" title="Permalink to this headline"></a></h3>
+<h3>Lazy Loading<a class="headerlink" href="#lazy-loading" title="Permalink to this heading"></a></h3>
 <p>The Parsons <code class="docutils literal notranslate"><span class="pre">Table</span></code> makes use of “lazy” loading and “lazy” transformations. What this means is that it tries not to load and process your data until absolutely necessary.</p>
 <p>An example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specify where to load the data</span>
@@ -459,9 +527,9 @@ If you need to iterate over the data, make sure to use the python iterator synta
 </section>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <section id="basic-pipelines">
-<h3>Basic Pipelines<a class="headerlink" href="#basic-pipelines" title="Permalink to this headline"></a></h3>
+<h3>Basic Pipelines<a class="headerlink" href="#basic-pipelines" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># S3 to Civis</span>
 <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">()</span>
 <span class="n">csv</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="s1">&#39;tmc-bucket&#39;</span><span class="p">,</span> <span class="s1">&#39;my_ids.csv&#39;</span><span class="p">)</span>
@@ -479,7 +547,7 @@ If you need to iterate over the data, make sure to use the python iterator synta
 </section>
 </section>
 <section id="to-from-api">
-<h2>To &amp; From API<a class="headerlink" href="#to-from-api" title="Permalink to this headline"></a></h2>
+<h2>To &amp; From API<a class="headerlink" href="#to-from-api" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.etl.tofrom.ToFrom">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.etl.tofrom.</span></span><span class="sig-name descname"><span class="pre">ToFrom</span></span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom" title="Permalink to this definition"></a></dt>
@@ -1048,7 +1116,7 @@ Defaults to False.</p>
 
 </section>
 <section id="transformation-api">
-<h2>Transformation API<a class="headerlink" href="#transformation-api" title="Permalink to this headline"></a></h2>
+<h2>Transformation API<a class="headerlink" href="#transformation-api" title="Permalink to this heading"></a></h2>
 <p>The following methods allow you to manipulate the Parsons table data.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.etl.etl.ETL">

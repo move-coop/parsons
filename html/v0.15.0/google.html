@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Google &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -56,22 +64,34 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Google</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#bigquery">BigQuery</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.GoogleBigQuery"><code class="docutils literal notranslate"><span class="pre">GoogleBigQuery</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#cloud-storage">Cloud Storage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id3">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.GoogleCloudStorage"><code class="docutils literal notranslate"><span class="pre">GoogleCloudStorage</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#civic">Civic</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id7">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.GoogleCivic"><code class="docutils literal notranslate"><span class="pre">GoogleCivic</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#google-sheets">Google Sheets</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id9">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.GoogleSheets"><code class="docutils literal notranslate"><span class="pre">GoogleSheets</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -121,8 +141,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Google</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Google</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/google.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -133,19 +153,19 @@
            <div itemprop="articleBody">
              
   <section id="google">
-<h1>Google<a class="headerlink" href="#google" title="Permalink to this headline"></a></h1>
+<h1>Google<a class="headerlink" href="#google" title="Permalink to this heading"></a></h1>
 <p>Google Cloud services utilize a credentials JSON file for authentication. If you are the administrator of your Google Cloud account,
 you can generate them in the <a class="reference external" href="https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288">Google Cloud Console APIs and Services</a>.</p>
 <section id="bigquery">
-<h2>BigQuery<a class="headerlink" href="#bigquery" title="Permalink to this headline"></a></h2>
+<h2>BigQuery<a class="headerlink" href="#bigquery" title="Permalink to this heading"></a></h2>
 <section id="overview">
-<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h3>
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h3>
 <p>Google BigQuery is a cloud data warehouse solution. Data is stored in tables, and users can query using SQL.
 BigQuery uses datasets as top level containers for tables, and datasets are themselves contained within
 Google Cloud projects.</p>
 </section>
 <section id="api">
-<h3>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h3>
+<h3>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.GoogleBigQuery">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">GoogleBigQuery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.GoogleBigQuery" title="Permalink to this definition"></a></dt>
@@ -286,14 +306,14 @@ rs.query(sql, parameters={‘name’: name})</p>
 <p>   :inherited-members:</p>
 </section>
 <section id="cloud-storage">
-<h2>Cloud Storage<a class="headerlink" href="#cloud-storage" title="Permalink to this headline"></a></h2>
+<h2>Cloud Storage<a class="headerlink" href="#cloud-storage" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>Overview<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
+<h3>Overview<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <p>Google Cloud Storage is a cloud file storage system. It uses buckets in which to
 store arbitrary files referred to as blobs.</p>
 </section>
 <section id="id4">
-<h3>API<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h3>
+<h3>API<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.GoogleCloudStorage">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">GoogleCloudStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.GoogleCloudStorage" title="Permalink to this definition"></a></dt>
@@ -537,9 +557,9 @@ when the script is done running.</p>
 <p>   :inherited-members:</p>
 </section>
 <section id="civic">
-<h2>Civic<a class="headerlink" href="#civic" title="Permalink to this headline"></a></h2>
+<h2>Civic<a class="headerlink" href="#civic" title="Permalink to this heading"></a></h2>
 <section id="id7">
-<h3>Overview<a class="headerlink" href="#id7" title="Permalink to this headline"></a></h3>
+<h3>Overview<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <p>Google Civic is an API which provides helpful information about elections. In order to access Google Civic you must
 create a Google Developer Key in their <a class="reference external" href="https://console.developers.google.com/apis/">API console</a>. In order to
 use Google Civic, you must enable this specific end point.</p>
@@ -547,7 +567,7 @@ use Google Civic, you must enable this specific end point.</p>
 key civic information such as personalized ballots and polling location information.</p>
 </section>
 <section id="id8">
-<h3>API<a class="headerlink" href="#id8" title="Permalink to this headline"></a></h3>
+<h3>API<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.GoogleCivic">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">GoogleCivic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.GoogleCivic" title="Permalink to this definition"></a></dt>
@@ -624,14 +644,14 @@ env variable set.</p>
 <p>   :inherited-members:</p>
 </section>
 <section id="google-sheets">
-<h2>Google Sheets<a class="headerlink" href="#google-sheets" title="Permalink to this headline"></a></h2>
+<h2>Google Sheets<a class="headerlink" href="#google-sheets" title="Permalink to this heading"></a></h2>
 <section id="id9">
-<h3>Overview<a class="headerlink" href="#id9" title="Permalink to this headline"></a></h3>
+<h3>Overview<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <p>The GoogleSheets class allows you to interact with a Google Drive spreadsheet.</p>
 <p>In order to instantiate the class, you must pass Google Drive credentials as a dictionary, or store the credentials as a JSON string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> environment variable. Typically you’ll get the credentials from the Google Developer Console (look for the “Google Drive API”).</p>
 </section>
 <section id="id10">
-<h3>API<a class="headerlink" href="#id10" title="Permalink to this headline"></a></h3>
+<h3>API<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.GoogleSheets">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">GoogleSheets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">google_keyfile_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.GoogleSheets" title="Permalink to this definition"></a></dt>

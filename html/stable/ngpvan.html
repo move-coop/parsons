@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NGPVAN &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -84,25 +92,82 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#people">People</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#activist-codes">Activist Codes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Bulk Import</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#canvass-responses">Canvass Responses</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#changed-entities">Changed Entities</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#codes">Codes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#custom-fields">Custom Fields</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#events">Events</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#export-jobs">Export Jobs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#file-loading-jobs">File Loading Jobs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#folders">Folders</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#locations">Locations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#printed-lists">Printed Lists</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#saved-lists">Saved Lists</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scores">Scores</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#signups">Signups</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#supporter-groups">Supporter Groups</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#survey-questions">Survey Questions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#targets">Targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#people">People</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.People"><code class="docutils literal notranslate"><span class="pre">People</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#activist-codes">Activist Codes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.ActivistCodes"><code class="docutils literal notranslate"><span class="pre">ActivistCodes</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Bulk Import</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.BulkImport"><code class="docutils literal notranslate"><span class="pre">BulkImport</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#canvass-responses">Canvass Responses</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.CanvassResponses"><code class="docutils literal notranslate"><span class="pre">CanvassResponses</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#changed-entities">Changed Entities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.ChangedEntities"><code class="docutils literal notranslate"><span class="pre">ChangedEntities</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#codes">Codes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.Codes"><code class="docutils literal notranslate"><span class="pre">Codes</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-fields">Custom Fields</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.CustomFields"><code class="docutils literal notranslate"><span class="pre">CustomFields</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#events">Events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.Events"><code class="docutils literal notranslate"><span class="pre">Events</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#export-jobs">Export Jobs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.ExportJobs"><code class="docutils literal notranslate"><span class="pre">ExportJobs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#file-loading-jobs">File Loading Jobs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.FileLoadingJobs"><code class="docutils literal notranslate"><span class="pre">FileLoadingJobs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#folders">Folders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.Folders"><code class="docutils literal notranslate"><span class="pre">Folders</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#locations">Locations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.Locations"><code class="docutils literal notranslate"><span class="pre">Locations</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#printed-lists">Printed Lists</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.PrintedLists"><code class="docutils literal notranslate"><span class="pre">PrintedLists</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#saved-lists">Saved Lists</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.SavedLists"><code class="docutils literal notranslate"><span class="pre">SavedLists</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#scores">Scores</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.Scores"><code class="docutils literal notranslate"><span class="pre">Scores</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#signups">Signups</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.Signups"><code class="docutils literal notranslate"><span class="pre">Signups</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#supporter-groups">Supporter Groups</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.SupporterGroups"><code class="docutils literal notranslate"><span class="pre">SupporterGroups</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#survey-questions">Survey Questions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.SurveyQuestions"><code class="docutils literal notranslate"><span class="pre">SurveyQuestions</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#targets">Targets</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.Targets"><code class="docutils literal notranslate"><span class="pre">Targets</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -164,8 +229,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>NGPVAN</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">NGPVAN</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/ngpvan.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -176,9 +241,9 @@
            <div itemprop="articleBody">
              
   <section id="ngpvan">
-<h1>NGPVAN<a class="headerlink" href="#ngpvan" title="Permalink to this headline"></a></h1>
+<h1>NGPVAN<a class="headerlink" href="#ngpvan" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p>The VAN module leverages the VAN API and generally follows the naming convention of their API endpoints. It
 is recommended that you reference their <a class="reference external" href="https://docs.ngpvan.com/reference/overview">API documentation</a> for
 additional details and information.</p>
@@ -209,7 +274,7 @@ about Parsons. Please direct any questions to the Parsons team via the issue tra
 </div>
 </section>
 <section id="quickstart">
-<h2>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h2>
+<h2>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
 <p>To call the VAN class you can either store the api key as an environmental variable VAN_API_KEY or pass it in as an argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
 
@@ -237,9 +302,9 @@ about Parsons. Please direct any questions to the Parsons team via the issue tra
 documentation for all functions.</p>
 </section>
 <section id="common-workflows">
-<h2>Common Workflows<a class="headerlink" href="#common-workflows" title="Permalink to this headline"></a></h2>
+<h2>Common Workflows<a class="headerlink" href="#common-workflows" title="Permalink to this heading"></a></h2>
 <section id="bulk-import">
-<h3>Bulk Import<a class="headerlink" href="#bulk-import" title="Permalink to this headline"></a></h3>
+<h3>Bulk Import<a class="headerlink" href="#bulk-import" title="Permalink to this heading"></a></h3>
 <p>For some methods, VAN allows you to bulk import multiple records to create or modify them.</p>
 <p>The bulk upload endpoint requires access to files on the public internet as it runs the upload
 asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials
@@ -333,7 +398,7 @@ have the following columns:</p>
 </div>
 </section>
 <section id="scores-loading-and-updating">
-<h3>Scores: Loading and Updating<a class="headerlink" href="#scores-loading-and-updating" title="Permalink to this headline"></a></h3>
+<h3>Scores: Loading and Updating<a class="headerlink" href="#scores-loading-and-updating" title="Permalink to this heading"></a></h3>
 <p>Loading a score is a multi-step process. Once a score is set to approved, loading takes place overnight.</p>
 <p><strong>Standard Auto Approve Load</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span><span class="p">,</span> <span class="n">Table</span>
@@ -379,7 +444,7 @@ have the following columns:</p>
 </div>
 </section>
 <section id="people-add-survey-response">
-<h3>People: Add Survey Response<a class="headerlink" href="#people-add-survey-response" title="Permalink to this headline"></a></h3>
+<h3>People: Add Survey Response<a class="headerlink" href="#people-add-survey-response" title="Permalink to this heading"></a></h3>
 <p>The following workflow can be used to apply survey questions, activist codes
 and canvass responses.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
@@ -399,7 +464,7 @@ and canvass responses.</p>
 </div>
 </section>
 <section id="event-creating-and-modifying">
-<h3>Event: Creating and Modifying<a class="headerlink" href="#event-creating-and-modifying" title="Permalink to this headline"></a></h3>
+<h3>Event: Creating and Modifying<a class="headerlink" href="#event-creating-and-modifying" title="Permalink to this heading"></a></h3>
 <p>Events are made up of sub objects that need to exist to create an event</p>
 <ul class="simple">
 <li><p>Event Object - The event itself</p></li>
@@ -439,7 +504,7 @@ specified in the event creation.</p></li>
 </div>
 </section>
 <section id="signup-adding-and-modifying">
-<h3>Signup: Adding and Modifying<a class="headerlink" href="#signup-adding-and-modifying" title="Permalink to this headline"></a></h3>
+<h3>Signup: Adding and Modifying<a class="headerlink" href="#signup-adding-and-modifying" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
 
 <span class="c1"># Instantiate class</span>
@@ -466,9 +531,9 @@ specified in the event creation.</p></li>
 </section>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
 <section id="people">
-<h3>People<a class="headerlink" href="#people" title="Permalink to this headline"></a></h3>
+<h3>People<a class="headerlink" href="#people" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.People">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">People</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.People" title="Permalink to this definition"></a></dt>
@@ -932,7 +997,7 @@ more information see the
 
 </section>
 <section id="activist-codes">
-<h3>Activist Codes<a class="headerlink" href="#activist-codes" title="Permalink to this headline"></a></h3>
+<h3>Activist Codes<a class="headerlink" href="#activist-codes" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.ActivistCodes">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">ActivistCodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/activist_codes.html#ActivistCodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.ActivistCodes" title="Permalink to this definition"></a></dt>
@@ -1018,7 +1083,7 @@ such as <code class="docutils literal notranslate"><span class="pre">dwid</span>
 
 </section>
 <section id="id3">
-<h3>Bulk Import<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
+<h3>Bulk Import<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.BulkImport">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">BulkImport</span></span><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport" title="Permalink to this definition"></a></dt>
@@ -1359,7 +1424,7 @@ See <a class="reference internal" href="utilities.html#cloud-storage"><span clas
 
 </section>
 <section id="canvass-responses">
-<h3>Canvass Responses<a class="headerlink" href="#canvass-responses" title="Permalink to this headline"></a></h3>
+<h3>Canvass Responses<a class="headerlink" href="#canvass-responses" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.CanvassResponses">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">CanvassResponses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/canvass_responses.html#CanvassResponses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.CanvassResponses" title="Permalink to this definition"></a></dt>
@@ -1406,7 +1471,7 @@ See <a class="reference internal" href="utilities.html#cloud-storage"><span clas
 
 </section>
 <section id="changed-entities">
-<h3>Changed Entities<a class="headerlink" href="#changed-entities" title="Permalink to this headline"></a></h3>
+<h3>Changed Entities<a class="headerlink" href="#changed-entities" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.ChangedEntities">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">ChangedEntities</span></span><a class="reference internal" href="_modules/parsons/ngpvan/changed_entities.html#ChangedEntities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.ChangedEntities" title="Permalink to this definition"></a></dt>
@@ -1472,7 +1537,7 @@ method.</p>
 
 </section>
 <section id="codes">
-<h3>Codes<a class="headerlink" href="#codes" title="Permalink to this headline"></a></h3>
+<h3>Codes<a class="headerlink" href="#codes" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.Codes">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">Codes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/codes.html#Codes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.Codes" title="Permalink to this definition"></a></dt>
@@ -1637,7 +1702,7 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 
 </section>
 <section id="custom-fields">
-<h3>Custom Fields<a class="headerlink" href="#custom-fields" title="Permalink to this headline"></a></h3>
+<h3>Custom Fields<a class="headerlink" href="#custom-fields" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.CustomFields">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">CustomFields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/custom_fields.html#CustomFields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.CustomFields" title="Permalink to this definition"></a></dt>
@@ -1698,7 +1763,7 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 
 </section>
 <section id="events">
-<h3>Events<a class="headerlink" href="#events" title="Permalink to this headline"></a></h3>
+<h3>Events<a class="headerlink" href="#events" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.Events">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">Events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.Events" title="Permalink to this definition"></a></dt>
@@ -1874,7 +1939,7 @@ that at most one source code and any number of tags, may be applied to an event.
 
 </section>
 <section id="export-jobs">
-<h3>Export Jobs<a class="headerlink" href="#export-jobs" title="Permalink to this headline"></a></h3>
+<h3>Export Jobs<a class="headerlink" href="#export-jobs" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.ExportJobs">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">ExportJobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#ExportJobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.ExportJobs" title="Permalink to this definition"></a></dt>
@@ -1938,7 +2003,7 @@ instead.</p>
 
 </section>
 <section id="file-loading-jobs">
-<h3>File Loading Jobs<a class="headerlink" href="#file-loading-jobs" title="Permalink to this headline"></a></h3>
+<h3>File Loading Jobs<a class="headerlink" href="#file-loading-jobs" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.FileLoadingJobs">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">FileLoadingJobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#FileLoadingJobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.FileLoadingJobs" title="Permalink to this definition"></a></dt>
@@ -2033,7 +2098,7 @@ at the same time.</p>
 
 </section>
 <section id="folders">
-<h3>Folders<a class="headerlink" href="#folders" title="Permalink to this headline"></a></h3>
+<h3>Folders<a class="headerlink" href="#folders" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>A folder must be shared with the user associated with your API key to
@@ -2077,7 +2142,7 @@ be listed.</p>
 
 </section>
 <section id="locations">
-<h3>Locations<a class="headerlink" href="#locations" title="Permalink to this headline"></a></h3>
+<h3>Locations<a class="headerlink" href="#locations" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.Locations">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">Locations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations" title="Permalink to this definition"></a></dt>
@@ -2161,7 +2226,7 @@ be listed.</p>
 
 </section>
 <section id="printed-lists">
-<h3>Printed Lists<a class="headerlink" href="#printed-lists" title="Permalink to this headline"></a></h3>
+<h3>Printed Lists<a class="headerlink" href="#printed-lists" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>A printed list must be shared with the user associated with your API key to
@@ -2208,7 +2273,7 @@ the saved lists in the folder</p>
 
 </section>
 <section id="saved-lists">
-<h3>Saved Lists<a class="headerlink" href="#saved-lists" title="Permalink to this headline"></a></h3>
+<h3>Saved Lists<a class="headerlink" href="#saved-lists" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>A saved list must be shared with the user associated with your API key to
@@ -2365,7 +2430,7 @@ records in your list.</p>
 
 </section>
 <section id="scores">
-<h3>Scores<a class="headerlink" href="#scores" title="Permalink to this headline"></a></h3>
+<h3>Scores<a class="headerlink" href="#scores" title="Permalink to this heading"></a></h3>
 <p>Prior to loading a score for the first time, you must contact VAN support to request
 a score slot.</p>
 <div class="admonition note">
@@ -2531,7 +2596,7 @@ on their servers.</p>
 
 </section>
 <section id="signups">
-<h3>Signups<a class="headerlink" href="#signups" title="Permalink to this headline"></a></h3>
+<h3>Signups<a class="headerlink" href="#signups" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.Signups">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">Signups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups" title="Permalink to this definition"></a></dt>
@@ -2682,7 +2747,7 @@ with them.</p>
 
 </section>
 <section id="supporter-groups">
-<h3>Supporter Groups<a class="headerlink" href="#supporter-groups" title="Permalink to this headline"></a></h3>
+<h3>Supporter Groups<a class="headerlink" href="#supporter-groups" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.SupporterGroups">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">SupporterGroups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups" title="Permalink to this definition"></a></dt>
@@ -2785,7 +2850,7 @@ and description</p>
 
 </section>
 <section id="survey-questions">
-<h3>Survey Questions<a class="headerlink" href="#survey-questions" title="Permalink to this headline"></a></h3>
+<h3>Survey Questions<a class="headerlink" href="#survey-questions" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.SurveyQuestions">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">SurveyQuestions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/survey_questions.html#SurveyQuestions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.SurveyQuestions" title="Permalink to this definition"></a></dt>
@@ -2869,7 +2934,7 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
 
 </section>
 <section id="targets">
-<h3>Targets<a class="headerlink" href="#targets" title="Permalink to this headline"></a></h3>
+<h3>Targets<a class="headerlink" href="#targets" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.Targets">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">Targets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/targets.html#Targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.Targets" title="Permalink to this definition"></a></dt>

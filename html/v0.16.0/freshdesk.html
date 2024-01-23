@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Freshdesk &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -56,7 +64,16 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Freshdesk</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.Freshdesk"><code class="docutils literal notranslate"><span class="pre">Freshdesk</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Freshdesk.get_tickets"><code class="docutils literal notranslate"><span class="pre">Freshdesk.get_tickets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Freshdesk.get_contacts"><code class="docutils literal notranslate"><span class="pre">Freshdesk.get_contacts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Freshdesk.get_companies"><code class="docutils literal notranslate"><span class="pre">Freshdesk.get_companies()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Freshdesk.get_agents"><code class="docutils literal notranslate"><span class="pre">Freshdesk.get_agents()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
@@ -108,8 +125,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Freshdesk</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Freshdesk</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/freshdesk.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -120,9 +137,9 @@
            <div itemprop="articleBody">
              
   <section id="freshdesk">
-<h1>Freshdesk<a class="headerlink" href="#freshdesk" title="Permalink to this headline"></a></h1>
+<h1>Freshdesk<a class="headerlink" href="#freshdesk" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://freshdesk.com">Freshdesk</a> is an omnichannel customer support platform.
 This Parsons integration with the <a class="reference external" href="https://developers.freshdesk.com/api/">Freshdesk API</a>
 provides methods to fetch tickets, contacts, companies, and agents. Results are returned
@@ -142,7 +159,7 @@ which can be found by logging into Freshdesk and following the instructions in t
 </div>
 </section>
 <section id="quickstart">
-<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h2>
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
 <p>To instantiate the Freshdesk class, you can either store your Freshdesk domain and API
 Key as environmental variables (<code class="docutils literal notranslate"><span class="pre">FRESHDESK_DOMAIN</span></code> and <code class="docutils literal notranslate"><span class="pre">FRESHDESK_API_KEY</span></code>, respectively)
 or pass them in as keyword arguments:</p>
@@ -168,7 +185,7 @@ or pass them in as keyword arguments:</p>
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Freshdesk">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Freshdesk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Freshdesk" title="Permalink to this definition"></a></dt>

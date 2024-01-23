@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>How to Build a Connector &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -120,8 +128,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>How to Build a Connector</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">How to Build a Connector</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/build_a_connector.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -132,12 +140,12 @@
            <div itemprop="articleBody">
              
   <section id="how-to-build-a-connector">
-<h1>How to Build a Connector<a class="headerlink" href="#how-to-build-a-connector" title="Permalink to this headline"></a></h1>
+<h1>How to Build a Connector<a class="headerlink" href="#how-to-build-a-connector" title="Permalink to this heading"></a></h1>
 <p>Connector classes are at the heart of the Parsons project.  When we want to add a new service for users to connect to with Parsons, we build a new Connector class for that service.</p>
 <p>The documentation contains <a class="reference external" href="https://move-coop.github.io/parsons/html/index.html#integrations">a complete list</a> of existing connectors.  Requests for new connectors are made and discussed in <a class="reference external" href="https://github.com/move-coop/parsons/issues?q=is%3Aissue+is%3Aopen+label%3A%22new+connector%22">our issue tracker</a>.  Before starting to build a new connector, check to see if there’s any discussion about it in the tracker.  Ideally, you’ll have a good sense of what you and/or other users want the connector to do before you start trying to build it.  Remember, you can always reach out to the community and ask for advice!</p>
 <p>When you’re ready to get started, make sure you have Parsons installed and that the tests run successfully.</p>
 <section id="getting-started">
-<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline"></a></h2>
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h2>
 <p>The first thing you’ll need to do is create a new folder for your connector.  This folder should have the same name as the module (file) within the folder, and the same name as the connector class.  For example, the airtable connector is in the “airtable” folder, and the hustle connector is in the “hustle” folder.</p>
 <p>Inside the folder, create two files.  The first should be named __init__.py and should be empty.  The second will have the same name as your folder - this is the file which will have your connector’s code.  For example, in the airtable folder this file is called airtable.py and in the hustle folder it’s called hustle.py.</p>
 <p>The directory should look like this:</p>
@@ -191,11 +199,11 @@
 <p>Most connectors make extensive use of existing client/providers.  Most likely, your next step will be to instantiate one of those existing clients using the authentication data, and add it to the class.  You can see an example of this in the <a class="reference external" href="https://github.com/move-coop/parsons/blob/master/parsons/airtable/airtable.py#L22">Airtable Connector</a>.</p>
 </section>
 <section id="patterns">
-<h2>Patterns<a class="headerlink" href="#patterns" title="Permalink to this headline"></a></h2>
+<h2>Patterns<a class="headerlink" href="#patterns" title="Permalink to this heading"></a></h2>
 <p>Parsons has a number of patterns that should be used when developing a connector to ensure that connectors look alike, which makes them easier to use and modify. Not all patterns apply to all connectors, but when reviewing pull requests, the maintainers will be looking to see if you adhere to the patterns described in this document.</p>
 <p>In the sections below, we will attempt to enumerate the established patterns. We will use the <cite>parsons.mailchimp.mailchimp.Mailchimp</cite> connector as an example of how to implement the patterns.</p>
 <section id="class-initialization">
-<h3>Class initialization<a class="headerlink" href="#class-initialization" title="Permalink to this headline"></a></h3>
+<h3>Class initialization<a class="headerlink" href="#class-initialization" title="Permalink to this heading"></a></h3>
 <p><strong>Allow configuration of a connector with environment variables as well as arguments passed to the class initializer.</strong> Make use of <cite>parsons.utilities.check_env.check</cite> function to check that the value was provided either as an argument to the initializer, or in the environment.</p>
 <p><strong>When calling into a web API, use the `parsons.utilities.APIConnector` class.</strong> The <cite>APIConnector</cite> class has a number of methods for making web requests, and using the <cite>APIConnector</cite> helps enforce consistency across connectors. The <cite>APIConnector</cite> is a wrapper around the Python <cite>requests</cite> library.</p>
 <p>Mailchimp example:</p>
@@ -226,7 +234,7 @@
 <p>In the last line of the code snippet above, the <cite>Mailchimp</cite> class creates an <cite>APIConnector</cite> class, providing the root URL for the API (<cite>self.uri</cite>). The Mailchimp API accepts basic authentication as an authentication mechanism, so the <cite>Mailchimp</cite> connector is able to pass the <cite>api_key</cite> to the <cite>APIConnector</cite> via the <cite>auth</cite> keyword argument. If the API for your connector does not support basic authentication, you may need to implement your own authentication (e.g. via request headers).</p>
 </section>
 <section id="your-connectors-methods">
-<h3>Your connector’s methods<a class="headerlink" href="#your-connectors-methods" title="Permalink to this headline"></a></h3>
+<h3>Your connector’s methods<a class="headerlink" href="#your-connectors-methods" title="Permalink to this heading"></a></h3>
 <p><strong>The methods of your connector should generally mirror the endpoints of the API.</strong> Every API is different, but the connector should generally look like the API it is connecting to. Methods of your connector should reference the resources the API is using (e.g. “people”, “members”, “events”).</p>
 <p>The following lists rules for naming common endpoints:</p>
 <ul class="simple">
@@ -317,9 +325,9 @@
 </section>
 </section>
 <section id="finishing-up">
-<h2>Finishing up<a class="headerlink" href="#finishing-up" title="Permalink to this headline"></a></h2>
+<h2>Finishing up<a class="headerlink" href="#finishing-up" title="Permalink to this heading"></a></h2>
 <section id="testing-locally">
-<h3>Testing locally<a class="headerlink" href="#testing-locally" title="Permalink to this headline"></a></h3>
+<h3>Testing locally<a class="headerlink" href="#testing-locally" title="Permalink to this heading"></a></h3>
 <p>In order to test locally, you will need to install the version of Parsons that you have been working on. To do that, you will need to install in “editable” mode, which allows you to import your local Parsons code instead of the released code.</p>
 <p>To install Parsons in “editable” mode, run the following, where <cite>&lt;parsons-path&gt;</cite> is the path to the root of the Parsons repository on your local machine.</p>
 <p><code class="docutils literal notranslate"><span class="pre">`bash</span>
@@ -327,7 +335,7 @@
 <span class="pre">`</span></code></p>
 </section>
 <section id="adding-automated-tests">
-<h3>Adding automated tests<a class="headerlink" href="#adding-automated-tests" title="Permalink to this headline"></a></h3>
+<h3>Adding automated tests<a class="headerlink" href="#adding-automated-tests" title="Permalink to this heading"></a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p>Add a folder <em>test_yourconnectorname</em> in parsons/test for your connector</p></li>
@@ -371,7 +379,7 @@ class TestYourConnector(unittest.TestCase):
 </div>
 </section>
 <section id="adding-documentation">
-<h3>Adding documentation<a class="headerlink" href="#adding-documentation" title="Permalink to this headline"></a></h3>
+<h3>Adding documentation<a class="headerlink" href="#adding-documentation" title="Permalink to this heading"></a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p>Add <em>yourconnectorname.rst</em> to the parsons/docs folder.</p></li>
@@ -383,7 +391,7 @@ class TestYourConnector(unittest.TestCase):
 </div></blockquote>
 </section>
 <section id="final-steps">
-<h3>Final steps<a class="headerlink" href="#final-steps" title="Permalink to this headline"></a></h3>
+<h3>Final steps<a class="headerlink" href="#final-steps" title="Permalink to this heading"></a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p>Add any new dependencies to the parsons/requirements.txt file</p></li>

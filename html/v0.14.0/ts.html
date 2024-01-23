@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TargetSmart &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -64,8 +72,24 @@
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">TargetSmart</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#api-2-0">API 2.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#automation">Automation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api-2-0">API 2.0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.TargetSmartAPI"><code class="docutils literal notranslate"><span class="pre">TargetSmartAPI</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.TargetSmartAPI.data_enhance"><code class="docutils literal notranslate"><span class="pre">TargetSmartAPI.data_enhance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.TargetSmartAPI.district"><code class="docutils literal notranslate"><span class="pre">TargetSmartAPI.district()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.TargetSmartAPI.phone"><code class="docutils literal notranslate"><span class="pre">TargetSmartAPI.phone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.TargetSmartAPI.radius_search"><code class="docutils literal notranslate"><span class="pre">TargetSmartAPI.radius_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.TargetSmartAPI.voter_registration_check"><code class="docutils literal notranslate"><span class="pre">TargetSmartAPI.voter_registration_check()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#automation">Automation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.TargetSmartAutomation"><code class="docutils literal notranslate"><span class="pre">TargetSmartAutomation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.TargetSmartAutomation.match"><code class="docutils literal notranslate"><span class="pre">TargetSmartAutomation.match()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
@@ -95,8 +119,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>TargetSmart</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">TargetSmart</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/ts.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -107,7 +131,7 @@
            <div itemprop="articleBody">
              
   <section id="targetsmart">
-<h1>TargetSmart<a class="headerlink" href="#targetsmart" title="Permalink to this headline"></a></h1>
+<h1>TargetSmart<a class="headerlink" href="#targetsmart" title="Permalink to this heading"></a></h1>
 <p><a class="reference external" href="https://targetsmart.com/">TargetSmart</a> provides access to voter and consumer data for the progressive community. They provide
 extensive services for single record lookup through their API. For larger bulk matching services
 they have an automation service, which requires that data files be posted to their SFTP. Each service requires separate credentials
@@ -122,7 +146,7 @@ or alterations made to the returned fields.</p>
 </dl>
 </div>
 <section id="api-2-0">
-<h2>API 2.0<a class="headerlink" href="#api-2-0" title="Permalink to this headline"></a></h2>
+<h2>API 2.0<a class="headerlink" href="#api-2-0" title="Permalink to this heading"></a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <dl class="simple">
@@ -343,7 +367,7 @@ ignored if last_name_exact is enabled.</p>
 
 </section>
 <section id="automation">
-<h2>Automation<a class="headerlink" href="#automation" title="Permalink to this headline"></a></h2>
+<h2>Automation<a class="headerlink" href="#automation" title="Permalink to this heading"></a></h2>
 <p>In order to instantiate the class you must pass valid kwargs or store the following
 environmental variables:</p>
 <ul class="simple">

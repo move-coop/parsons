@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Amazon Web Services &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -47,21 +55,46 @@
 <li class="toctree-l2"><a class="reference internal" href="#lambda">Lambda</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#quickstart">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.aws.distribute_task"><code class="docutils literal notranslate"><span class="pre">distribute_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.aws.event_command"><code class="docutils literal notranslate"><span class="pre">event_command()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#s3">S3</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#aws-s3">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id5">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.S3"><code class="docutils literal notranslate"><span class="pre">S3</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#redshift">Redshift</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id7">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id9">Quickstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#core-api">Core API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#table-and-view-api">Table and View API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#schema-api">Schema API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#core-api">Core API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Redshift"><code class="docutils literal notranslate"><span class="pre">Redshift</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Redshift.connection"><code class="docutils literal notranslate"><span class="pre">connection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Redshift.query"><code class="docutils literal notranslate"><span class="pre">query()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Redshift.query_with_connection"><code class="docutils literal notranslate"><span class="pre">query_with_connection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Redshift.copy"><code class="docutils literal notranslate"><span class="pre">copy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Redshift.copy_s3"><code class="docutils literal notranslate"><span class="pre">copy_s3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Redshift.unload"><code class="docutils literal notranslate"><span class="pre">unload()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Redshift.upsert"><code class="docutils literal notranslate"><span class="pre">upsert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Redshift.generate_manifest"><code class="docutils literal notranslate"><span class="pre">generate_manifest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Redshift.alter_table_column_type"><code class="docutils literal notranslate"><span class="pre">alter_table_column_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#table-and-view-api">Table and View API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities"><code class="docutils literal notranslate"><span class="pre">RedshiftTableUtilities</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#schema-api">Schema API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.databases.redshift.redshift.RedshiftSchema"><code class="docutils literal notranslate"><span class="pre">RedshiftSchema</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -127,8 +160,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Amazon Web Services</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Amazon Web Services</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/aws.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -139,7 +172,7 @@
            <div itemprop="articleBody">
              
   <section id="amazon-web-services">
-<h1>Amazon Web Services<a class="headerlink" href="#amazon-web-services" title="Permalink to this headline"></a></h1>
+<h1>Amazon Web Services<a class="headerlink" href="#amazon-web-services" title="Permalink to this heading"></a></h1>
 <p>Parsons provides utility functions and/or connectors for three different <a class="reference external" href="https://aws.amazon.com/">AWS services</a>.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#aws-lambda"><span class="std std-ref">Lambda</span></a>: AWS’s <a class="reference external" href="https://aws.amazon.com/lambda/">serverless computing platform</a></p></li>
@@ -153,9 +186,9 @@
 </ul>
 <p>See the documentation for each service for more details.</p>
 <section id="lambda">
-<h2>Lambda<a class="headerlink" href="#lambda" title="Permalink to this headline"></a></h2>
+<h2>Lambda<a class="headerlink" href="#lambda" title="Permalink to this heading"></a></h2>
 <section id="overview">
-<span id="aws-lambda"></span><h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h3>
+<span id="aws-lambda"></span><h3>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h3>
 <p>Parsons’ <code class="docutils literal notranslate"><span class="pre">distribute_task</span></code> function allows you to distribute process rows of a table across multiple
 <a class="reference external" href="https://aws.amazon.com/lambda/">AWS Lambda</a> invocations.</p>
 <p>If you are running the processing of a table inside AWS Lambda, then you are limited by how many rows can be processed
@@ -173,7 +206,7 @@ multiple Lambda sub-invocations, each of which can be sent a byte-range of the d
 <p>To test locally, include the argument <code class="docutils literal notranslate"><span class="pre">storage=&quot;local&quot;</span></code>, which will test the <code class="docutils literal notranslate"><span class="pre">distribute_task</span></code> function, but run the task sequentially and in local memory.</p>
 </section>
 <section id="quickstart">
-<h3>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h3>
+<h3>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h3>
 <p>A minimalistic example Lambda handler might look something like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.aws</span> <span class="kn">import</span> <span class="n">event_command</span><span class="p">,</span> <span class="n">distribute_task</span>
 
@@ -196,7 +229,7 @@ multiple Lambda sub-invocations, each of which can be sent a byte-range of the d
 </div>
 </section>
 <section id="api">
-<h3>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h3>
+<h3>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="parsons.aws.distribute_task">
 <span class="sig-prename descclassname"><span class="pre">parsons.aws.</span></span><span class="sig-name descname"><span class="pre">distribute_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_to_run</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_class_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">catch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'s3'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/lambda_distribute.html#distribute_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.aws.distribute_task" title="Permalink to this definition"></a></dt>
@@ -260,9 +293,9 @@ then you do NOT need to add this shim.</p>
 <p></p>
 </section>
 <section id="s3">
-<h2>S3<a class="headerlink" href="#s3" title="Permalink to this headline"></a></h2>
+<h2>S3<a class="headerlink" href="#s3" title="Permalink to this heading"></a></h2>
 <section id="aws-s3">
-<span id="id3"></span><h3>Overview<a class="headerlink" href="#aws-s3" title="Permalink to this headline"></a></h3>
+<span id="id3"></span><h3>Overview<a class="headerlink" href="#aws-s3" title="Permalink to this heading"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">S3</span></code> class allows interaction with Amazon Web Service’s <a class="reference external" href="https://aws.amazon.com/s3/">object storage service</a>
 to store and access data objects. It is a wrapper around the AWS SDK <a class="reference external" href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html">boto3</a>.
 It provides methods to upload and download files from S3 as well as manipulate buckets.</p>
@@ -276,7 +309,7 @@ Users can be granted granular access to AWS resources, including S3. IAM users a
 </div>
 </section>
 <section id="id5">
-<h3>QuickStart<a class="headerlink" href="#id5" title="Permalink to this headline"></a></h3>
+<h3>QuickStart<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <p>S3 credentials can be passed as environmental variables (<code class="docutils literal notranslate"><span class="pre">AWS_ACCESS_KEY_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">AWS_SECRET_ACCESS_KEY</span></code>),
 stored in an AWS CLI file <code class="docutils literal notranslate"><span class="pre">~/.aws/credentials</span></code>, or passed as keyword arguments.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">S3</span>
@@ -308,7 +341,7 @@ stored in an AWS CLI file <code class="docutils literal notranslate"><span class
 </div>
 </section>
 <section id="id6">
-<h3>API<a class="headerlink" href="#id6" title="Permalink to this headline"></a></h3>
+<h3>API<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.S3">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">S3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aws_access_key_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws_secret_access_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.S3" title="Permalink to this definition"></a></dt>
@@ -580,9 +613,9 @@ for more info.</p>
 <p></p>
 </section>
 <section id="redshift">
-<h2>Redshift<a class="headerlink" href="#redshift" title="Permalink to this headline"></a></h2>
+<h2>Redshift<a class="headerlink" href="#redshift" title="Permalink to this heading"></a></h2>
 <section id="id7">
-<span id="id8"></span><h3>Overview<a class="headerlink" href="#id7" title="Permalink to this headline"></a></h3>
+<span id="id8"></span><h3>Overview<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">Redshift</span></code> class allows you to interact with an <a class="reference external" href="https://aws.amazon.com/redshift/">Amazon Redshift</a> relational database.
 The connector utilizes the <a class="reference external" href="https://pypi.org/project/psycopg2/">psycopg2</a> Python package under the hood. The core methods
 focus on input, output and querying of the database.</p>
@@ -602,7 +635,7 @@ for more information about AWS Redshift authorization.</p>
 </div>
 </section>
 <section id="id9">
-<h3>Quickstart<a class="headerlink" href="#id9" title="Permalink to this headline"></a></h3>
+<h3>Quickstart<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <p>Redshift API credentials can either be passed as environmental variables (<code class="docutils literal notranslate"><span class="pre">REDSHIFT_USERNAME</span></code>, <code class="docutils literal notranslate"><span class="pre">REDSHIFT_PASSWORD</span></code>,
 <code class="docutils literal notranslate"><span class="pre">REDSHIFT_HOST</span></code>, <code class="docutils literal notranslate"><span class="pre">REDSHIFT_DB</span></code>, and <code class="docutils literal notranslate"><span class="pre">REDSHIFT_PORT</span></code>) or as keyword arguments. Methods that use COPY require an
 <a class="reference external" href="https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html">access key ID and a secret access key</a>,
@@ -628,7 +661,7 @@ or keyword arguments.</p>
 options.</p>
 </section>
 <section id="core-api">
-<h3>Core API<a class="headerlink" href="#core-api" title="Permalink to this headline"></a></h3>
+<h3>Core API<a class="headerlink" href="#core-api" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Redshift">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Redshift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s3_temp_bucket</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws_access_key_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws_secret_access_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iam_role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Redshift" title="Permalink to this definition"></a></dt>
@@ -1103,7 +1136,7 @@ terminate if the file does not exist.</p>
 
 </section>
 <section id="table-and-view-api">
-<span id="redshift-table-and-view-api"></span><h3>Table and View API<a class="headerlink" href="#table-and-view-api" title="Permalink to this headline"></a></h3>
+<span id="redshift-table-and-view-api"></span><h3>Table and View API<a class="headerlink" href="#table-and-view-api" title="Permalink to this heading"></a></h3>
 <p>Table and view utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.</p>
 <dl class="py class">
@@ -1567,7 +1600,7 @@ to the <cite>public</cite> schema, when one isn’t provided.</p>
 
 </section>
 <section id="schema-api">
-<span id="redshift-schema-api"></span><h3>Schema API<a class="headerlink" href="#schema-api" title="Permalink to this headline"></a></h3>
+<span id="redshift-schema-api"></span><h3>Schema API<a class="headerlink" href="#schema-api" title="Permalink to this heading"></a></h3>
 <p>Schema utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.</p>
 <dl class="py class">

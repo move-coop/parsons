@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Notifications &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -27,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -93,7 +101,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#quickstart">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Slack"><code class="docutils literal notranslate"><span class="pre">Slack</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#gmail">Gmail</a><ul>
@@ -101,7 +112,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id2">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Gmail"><code class="docutils literal notranslate"><span class="pre">Gmail</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -132,8 +146,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Notifications</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Notifications</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/notifications.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -144,11 +158,11 @@
            <div itemprop="articleBody">
              
   <section id="notifications">
-<h1>Notifications<a class="headerlink" href="#notifications" title="Permalink to this headline"></a></h1>
+<h1>Notifications<a class="headerlink" href="#notifications" title="Permalink to this heading"></a></h1>
 <section id="slack">
-<h2>Slack<a class="headerlink" href="#slack" title="Permalink to this headline"></a></h2>
+<h2>Slack<a class="headerlink" href="#slack" title="Permalink to this heading"></a></h2>
 <section id="overview">
-<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h3>
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h3>
 <p>The Slack module leverages the Slack API and provides way to easily send
 notifications through Slack. It is recommended that you reference the
 <a class="reference external" href="https://api.slack.com/">Slack API documentation</a> for additional details and
@@ -175,7 +189,7 @@ the app each time (your API Token will stay the same).</p>
 </div>
 </section>
 <section id="quickstart">
-<h3>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h3>
+<h3>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h3>
 <p>To call the Slack class you can either store the API Token as an environment
 variable <cite>SLACK_API_TOKEN</cite> or pass it in as an argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Slack</span>
@@ -199,7 +213,7 @@ variable <cite>SLACK_API_TOKEN</cite> or pass it in as an argument.</p>
 </div>
 </section>
 <section id="api">
-<h3>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h3>
+<h3>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Slack">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Slack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack" title="Permalink to this definition"></a></dt>
@@ -341,9 +355,9 @@ uploading binary files. Defaults to False.</p>
 <p></p>
 </section>
 <section id="gmail">
-<h2>Gmail<a class="headerlink" href="#gmail" title="Permalink to this headline"></a></h2>
+<h2>Gmail<a class="headerlink" href="#gmail" title="Permalink to this heading"></a></h2>
 <section id="id1">
-<h3>Overview<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h3>
+<h3>Overview<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
 <p>The Gmail module leverages the Gmail API and provides an way to easily send
 notifications through email. It is recommended that you reference the
 <a class="reference external" href="https://developers.google.com/gmail/api/">Gmail API documentation</a> for
@@ -373,7 +387,7 @@ the Google Developer Console (look for the “Gmail API”).</p></li>
 </div>
 </section>
 <section id="id2">
-<h3>QuickStart<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h3>
+<h3>QuickStart<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <p>To call the Gmail class you will need to pass in the path to a
 <cite>credentials.json</cite> and the path to <cite>tokens.json</cite>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Gmail</span>
@@ -406,7 +420,7 @@ attachments.</p>
 more details.</p>
 </section>
 <section id="id3">
-<h3>API<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
+<h3>API<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Gmail">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Gmail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">creds_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'me'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Gmail" title="Permalink to this definition"></a></dt>

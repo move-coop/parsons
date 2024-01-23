@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TargetSmart Developer API &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -25,11 +29,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Parsons
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -126,8 +134,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>TargetSmart Developer API</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">TargetSmart Developer API</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/targetsmart_api.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -138,10 +146,10 @@
            <div itemprop="articleBody">
              
   <section id="targetsmart-developer-api">
-<h1>TargetSmart Developer API<a class="headerlink" href="#targetsmart-developer-api" title="Permalink to this headline"></a></h1>
+<h1>TargetSmart Developer API<a class="headerlink" href="#targetsmart-developer-api" title="Permalink to this heading"></a></h1>
 <p><a class="reference external" href="https://targetsmart.com/">TargetSmart</a> provides access to voter and consumer data for the progressive community.</p>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">TargetSmartAPI</span></code> class provides methods to consume the data services provided by the <a class="reference external" href="https://docs.targetsmart.com/developers/tsapis/v2/index.html">TargetSmart Developer API</a>. Parsons provides the following methods as convenient wrappers for interacting with the corresponding TargetSmart HTTP services:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">data_enhance</span></code>: Quickly retrieve voter and consumer data enrichment fields from TargetSmart’s platform database for a previously identified individual.</p></li>
@@ -153,7 +161,7 @@
 </ul>
 <p>Some TargetSmart API services have not yet been implemented in Parsons. For more information, see the <a class="reference external" href="https://docs.targetsmart.com/developers/tsapis/v2/index.html">API documentation</a>.</p>
 <section id="authentication">
-<h3>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline"></a></h3>
+<h3>Authentication<a class="headerlink" href="#authentication" title="Permalink to this heading"></a></h3>
 <p>Log in to <a class="reference external" href="https://my.targetsmart.com/">My TargetSmart</a> to access authentication credentials. You will need an API key to use the <code class="docutils literal notranslate"><span class="pre">TargetSmartAPI</span></code> class.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -164,7 +172,7 @@
 </div>
 </section>
 <section id="data-enrichment">
-<h3>Data Enrichment<a class="headerlink" href="#data-enrichment" title="Permalink to this headline"></a></h3>
+<h3>Data Enrichment<a class="headerlink" href="#data-enrichment" title="Permalink to this heading"></a></h3>
 <p>Most TargetSmart API services append a set of enrichment data fields as part of
 a matching or search request. The presence of these fields are provisioned by
 the TargetSmart Client Services team. Please contact <a class="reference external" href="mailto:support&#37;&#52;&#48;targetsmart&#46;com">TargetSmart Client
@@ -174,7 +182,7 @@ adjustments.</p>
 </section>
 </section>
 <section id="quickstart">
-<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h1>
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h1>
 <p>To instantiate <code class="docutils literal notranslate"><span class="pre">TargetSmartAPI</span></code>, you can either store your API Key as the environmental variable
 <code class="docutils literal notranslate"><span class="pre">TS_API_KEY</span></code>, or pass it in as an argument:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">TargetSmartAPI</span>
@@ -196,7 +204,7 @@ adjustments.</p>
 </div>
 </section>
 <section id="api">
-<h1>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h1>
+<h1>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.TargetSmartAPI">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">TargetSmartAPI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/targetsmart/targetsmart_api.html#TargetSmartAPI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.TargetSmartAPI" title="Permalink to this definition"></a></dt>

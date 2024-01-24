@@ -26,7 +26,7 @@ variable or pass it as an argument:
 
    # First approach: Use API key environment variables
 
-   # In bash, set your environment variables like so:
+   # In Mac OS, for example, set your environment variables like so:
    # export CENSUS_API_KEY='MY_CENSUS_KEY'
 
    census = ActBlue()

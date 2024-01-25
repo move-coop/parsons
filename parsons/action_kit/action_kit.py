@@ -1332,6 +1332,6 @@ class ActionKit(object):
                         },
                     )
                     logger.debug(f"error collect result: {error_data}")
-                    errors.extend(error_data.get("objects") or [])
+                    errors.extend(error_data.get("objects", []))
 
         return errors

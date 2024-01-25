@@ -2,6 +2,7 @@ import json
 import logging
 import requests
 import time
+import math
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
@@ -1319,22 +1320,18 @@ class ActionKit(object):
                 # Iterate until all errors are gathered
                 error_count = upload.get("has_errors")
                 limit = 20
-                offset = 0
 
-                while True:
+                error_pages = math.ceil(error_count / limit)
+                for page in range(0, error_pages):
                     error_data = self._base_get(
                         endpoint="uploaderror",
                         params={
                             "upload": upload_id,
                             "_limit": limit,
-                            "_offset": offset,
+                            "_offset": page * limit,
                         },
                     )
                     logger.debug(f"error collect result: {error_data}")
                     errors.extend(error_data.get("objects") or [])
-                    offset = offset + limit
-
-                    if error_count <= offset:
-                        break
 
         return errors

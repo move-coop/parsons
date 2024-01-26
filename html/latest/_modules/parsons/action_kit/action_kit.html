@@ -149,6 +149,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">math</span>
 
 <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
@@ -1454,17 +1455,32 @@
         <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">result_array</span><span class="p">:</span>
             <span class="n">upload_id</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">upload_id</span><span class="p">:</span>
+                <span class="c1"># Pend until upload is complete</span>
                 <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="n">upload</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;upload&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">upload_id</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">upload</span> <span class="ow">or</span> <span class="n">upload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;new&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">upload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;is_completed&quot;</span><span class="p">):</span>
                         <span class="k">break</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                <span class="n">error_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
-                    <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;uploaderror&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;upload&quot;</span><span class="p">:</span> <span class="n">upload_id</span><span class="p">}</span>
-                <span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;error collect result: </span><span class="si">{</span><span class="n">error_data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">error_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;objects&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span>
+
+                <span class="c1"># ActionKit limits length of error list returned</span>
+                <span class="c1"># Iterate until all errors are gathered</span>
+                <span class="n">error_count</span> <span class="o">=</span> <span class="n">upload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;has_errors&quot;</span><span class="p">)</span>
+                <span class="n">limit</span> <span class="o">=</span> <span class="mi">20</span>
+
+                <span class="n">error_pages</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">error_count</span> <span class="o">/</span> <span class="n">limit</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">error_pages</span><span class="p">):</span>
+                    <span class="n">error_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
+                        <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;uploaderror&quot;</span><span class="p">,</span>
+                        <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s2">&quot;upload&quot;</span><span class="p">:</span> <span class="n">upload_id</span><span class="p">,</span>
+                            <span class="s2">&quot;_limit&quot;</span><span class="p">:</span> <span class="n">limit</span><span class="p">,</span>
+                            <span class="s2">&quot;_offset&quot;</span><span class="p">:</span> <span class="n">page</span> <span class="o">*</span> <span class="n">limit</span><span class="p">,</span>
+                        <span class="p">},</span>
+                    <span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;error collect result: </span><span class="si">{</span><span class="n">error_data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">error_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;objects&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+
         <span class="k">return</span> <span class="n">errors</span></div></div>
 </pre></div>
 

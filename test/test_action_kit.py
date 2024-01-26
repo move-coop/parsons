@@ -714,8 +714,31 @@ class TestActionKit(unittest.TestCase):
         )
 
     def test_collect_errors(self):
+        resp_mock = mock.MagicMock()
+        type(resp_mock.get()).json = lambda x: {"is_completed": True, "has_errors": 25}
+        self.actionkit.conn = resp_mock
+
         self.actionkit.collect_upload_errors([{"id": "12345"}])
-        self.actionkit.conn.get.assert_called_with(
-            "https://domain.actionkit.com/rest/v1/uploaderror/",
-            params={"upload": "12345"},
+
+        self.actionkit.conn.get.assert_any_call(
+            "https://domain.actionkit.com/rest/v1/upload/12345/", params=None
         )
+
+        # With 25 errors, we will view two pages
+        self.actionkit.conn.get.assert_any_call(
+            "https://domain.actionkit.com/rest/v1/uploaderror/",
+            params={"upload": "12345", "_limit": 20, "_offset": 0},
+        )
+        self.actionkit.conn.get.assert_any_call(
+            "https://domain.actionkit.com/rest/v1/uploaderror/",
+            params={"upload": "12345", "_limit": 20, "_offset": 20},
+        )
+
+        # Assert that we don't attempt to view a third page
+        assert (
+            mock.call(
+                "https://domain.actionkit.com/rest/v1/uploaderror/",
+                params={"upload": "12345", "_limit": 20, "_offset": 40},
+            )
+            not in self.actionkit.conn.get.call_args_list
+        ), "Called with invalid arguments."

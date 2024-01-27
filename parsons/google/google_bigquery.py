@@ -507,6 +507,10 @@ class GoogleBigQuery(DatabaseConnector):
             else:
                 raise e
 
+        except exceptions.GatewayTimeout as e:
+            logger.error(f"Max timeout exceeded for {gcs_blob_uri.split('/')[-1]}")
+            raise e
+
     def copy_large_compressed_file_from_gcs(
         self,
         gcs_blob_uri: str,
@@ -636,6 +640,9 @@ class GoogleBigQuery(DatabaseConnector):
                 **load_kwargs,
             )
             load_job.result(timeout=MAX_TIMEOUT)
+        except exceptions.GatewayTimeout as e:
+            logger.error(f"Max timeout exceeded for {gcs_blob_uri.split('/')[-1]}")
+            raise e
         finally:
             if uncompressed_gcs_uri:
                 new_bucket_name, new_blob_name = gcs.split_uri(

@@ -507,7 +507,7 @@ class GoogleBigQuery(DatabaseConnector):
             else:
                 raise e
 
-        except exceptions.GatewayTimeout as e:
+        except exceptions.DeadlineExceeded as e:
             logger.error(f"Max timeout exceeded for {gcs_blob_uri.split('/')[-1]}")
             raise e
 
@@ -640,7 +640,7 @@ class GoogleBigQuery(DatabaseConnector):
                 **load_kwargs,
             )
             load_job.result(timeout=MAX_TIMEOUT)
-        except exceptions.GatewayTimeout as e:
+        except exceptions.DeadlineExceeded as e:
             logger.error(f"Max timeout exceeded for {gcs_blob_uri.split('/')[-1]}")
             raise e
         finally:

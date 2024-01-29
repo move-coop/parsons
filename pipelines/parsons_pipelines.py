@@ -8,6 +8,204 @@ from parsons import Table
 import requests
 from pathlib import Path
 import shutil
+from prefect import task, flow
+
+### Our goal is to convert this to use Prefect and Dask instead of Parsons Tables.
+### Here is an example blog post we are going to base this off of:
+
+# ETL Pipelines with Prefect
+
+# Prefect is a platform for automating data workflows. Data engineers and data scientists can build, test and deploy production pipelines without worrying about all of the "negative engineering" aspects of production. For example, Prefect makes it easy to deploy a workflow that runs on a complicated schedule, requires task retries in the event of failures, and sends notifications when certain tasks are complete. Prefect was built on top of Dask, and relies on Dask to schedule and manage the execution of a Prefect workflow in a distributed environment.
+
+# This example demonstrates running a Prefect ETL Flow on Dask which ultimately creates a GIF. While this is a somewhat unconventional use case of Prefect, we're no strangers to unconventional use cases.
+
+# In the world of workflow engines, Prefect supports many unique features; in this particular example we will see:
+
+#     parametrization of workflows
+#     dynamic runtime "mapping" of workflow tasks
+#     customizable execution logic
+
+# You wouldn't get this from any other engine.
+
+# Contents
+
+#     Description of goal
+#     Building our Flow
+#         Extract
+#         Transform
+#         Load
+#         Putting the pieces together
+#     Running our Flow on Dask
+#     Watching our GIF
+
+# Goal
+
+# To demonstrate how Prefect and Dask work together, we are going to build and execute a standard "Extract / Transform / Load" (ETL) workflow for processing some basic image data. Most ETL workflows involve a scheduled migration of data from one database to another. In our case, we will be moving data from a file located at a known URL to our local hard disk, converting the individual file into a series of frames, and compiling those frames into a GIF. The URL references a file containing raw bytes such as:
+
+# b"""aÙw˜  ≠•∆≠≠ﬁ#!≠≠÷≠•Ω≠úΩ••µú•µîúµ•úΩ••Ω3&µ•Ω!µ≠∆≠•¥4(%µú∑≠≠Œ≠î≠≠≠∆≠îµúî≠úîµE5.≠ú≠≠•Œµµﬁ••∆•≠ŒµµŒúúΩ62&)1&623µ•∆Ωµ÷úî•ßjxΩΩÁú•Ωµ≠Œ••≠ú•≠Ω≠∆≠µÁâUV≠µ‹ΩµŒîî•NC5µ≠Ÿôãô•î•µ•µîú≠#VHCuhl≠≠ΩôchâRIoc]™≠Á≠î•™ú»öis•ú•f7,íYfL9?îî≠≠•÷∑ò™gWVxGEΩ≠–))1qB5µ≠Ω81R,´tÜñWV!HCDBB5;5?"""
+
+# The steps of our workflow will be as follows:
+
+#     Extract: pull the data file from a URL (specified by a Parameter) to disk
+#     Transform: split the file into multiple files, each corresponding to a single frame
+#     Load: Store each frame individually, and compile the frames together into a GIF
+
+# Once we have built our Flow, we can execute it with different values for the Parameter or even run it on a nightly schedule.
+
+# NOTE: If we planned on executing this Flow in a truly distributed environment, writing the images to the local filesystem would not be appropriate. We would instead use an external datastore such as Google Cloud Storage, or a proper database.
+# Extract
+
+# First, we will define our tasks for extracting the image data file from a given URL and saving it to a given file location. To do so, we will utilize two methods for creating Prefect Tasks:
+
+#     the task decorator for converting any Python function into a task
+#     a pre-written, configurable Task from the Prefect "Task Library" which helps us abstract some standard boilerplate
+
+# Additionally, we will utilize the following Prefect concepts:
+
+#     a Prefect signal for marking this task and its downstream depedencies as successfully "Skipped" if the file is already present in our local filesystem
+#     retry semantics: if, for whatever reason, our curl command fails to connect, we want it to retry up to 2 times with a 10 second delay. This way, if we run this workflow on a schedule we won't need to concern ourselves with temporary intermittent connection issues.
+
+# Right now we are simply defining our individual tasks - we won't actually set up our dependency structure until we create the full Flow.
+
+# import datetime
+# import os
+
+# import prefect
+# from prefect import task
+# from prefect.engine.signals import SKIP
+# from prefect.tasks.shell import ShellTask
+
+
+# @task
+# def curl_cmd(url: str, fname: str) -> str:
+#     """
+#     The curl command we wish to execute.
+#     """
+#     if os.path.exists(fname):
+#         raise SKIP("Image data file already exists.")
+#     return "curl -fL -o {fname} {url}".format(fname=fname, url=url)
+
+
+# # ShellTask is a task from the Task library which will execute a given command in a subprocess
+# # and fail if the command returns a non-zero exit code
+
+# download = ShellTask(name="curl_task", max_retries=2, retry_delay=datetime.timedelta(seconds=10))
+
+# Transform
+
+# Next up, we need to define our task which loads the image data file and splits it into multiple frames. In this case, each frame is delimited by 4 newlines. Note that, in the event the previous two tasks are "Skipped", the default behavior in Prefect is to skip downstream dependencies as well. However, as with most things in Prefect, this behavior is customizable. In this case, we want this task to run regardless of whether the upstreams skipped or not, so we set the skip_on_upstream_skip flag to False.
+
+# @task(skip_on_upstream_skip=False)
+# def load_and_split(fname: str) -> list:
+#     """
+#     Loads image data file at `fname` and splits it into
+#     multiple frames.  Returns a list of bytes, one element
+#     for each frame.
+#     """
+#     with open(fname, "rb") as f:
+#         images = f.read()
+
+#     return [img for img in images.split(b"\n" * 4) if img]
+
+# Load
+
+# Finally, we want to write our frames to disk as well as combine the frames into a single GIF. In order to achieve this goal, we are going to utilize Prefect's task "mapping" feature which conveniently spawns new tasks in response to upstream outputs. In this case, we will write a single task for writing an image to disk, and "map" this task over all the image frames returned by load_and_split above! To infer which frame we are on, we look in prefect.context.
+
+# Additionally, we can "reduce" over a mapped task - in this case, we will take the collection of mapped tasks and pass them into our combine_to_gif task for creating and saving our GIF.
+
+# @task
+# def write_to_disk(image: bytes) -> bytes:
+#     """
+#     Given a single image represented as bytes, writes the image
+#     to the present working directory with a filename determined
+#     by `map_index`.  Returns the image bytes.
+#     """
+#     frame_no = prefect.context.get("map_index")
+#     with open("frame_{0:0=2d}.gif".format(frame_no), "wb") as f:
+#         f.write(image)
+#     return image
+
+# import imageio
+# from io import BytesIO
+
+
+# @task
+# def combine_to_gif(image_bytes: list) -> None:
+#     """
+#     Given a list of ordered images represented as bytes,
+#     combines them into a single GIF stored in the present working directory.
+#     """
+#     images = [imageio.imread(BytesIO(image)) for image in image_bytes]
+#     imageio.mimsave('./clip.gif', images)
+
+# Build the Flow
+
+# Finally, we need to put our tasks together into a Prefect "Flow". Similar to Dask's delayed interface, all computation is deferred and no Task code will be executed in this step. Because Prefect maintains a stricter contract between tasks and additionally needs the ability to run in non-Dask execution environments, the mechanism for deferring execution is independent of Dask.
+
+# In addition to the tasks we have already defined, we introduce two "Parameters" for specifying the URL and local file location of our data. At runtime, we can optionally override these tasks to return different values.
+
+# from prefect import Parameter, Flow
+
+
+# DATA_URL = Parameter("DATA_URL",
+#                      default="https://github.com/cicdw/image-data/blob/master/all-images.img?raw=true")
+
+# DATA_FILE = Parameter("DATA_FILE", default="image-data.img")
+
+
+# with Flow("Image ETL") as flow:
+
+#     # Extract
+#     command = curl_cmd(DATA_URL, DATA_FILE)
+#     curl = download(command=command)
+
+#     # Transform
+#     # we use the `upstream_tasks` keyword to specify non-data dependencies
+#     images = load_and_split(fname=DATA_FILE, upstream_tasks=[curl])
+
+#     # Load
+#     frames = write_to_disk.map(images)
+#     result = combine_to_gif(frames)
+
+
+# flow.visualize()
+
+# Running the Flow on Dask
+
+# Now we have built our Flow, independently of Dask. We could execute this Flow sequentially, Task after Task, but there is inherent parallelism in our mapping of the images to files that we want to exploit. Luckily, Dask makes this easy to achieve.
+
+# First, we will start a local Dask cluster. Then, we will run our Flow against Prefect's DaskExecutor, which will submit each Task to our Dask cluster and use Dask's distributed scheduler for determining when and where each Task should run. Essentially, we built a Directed Acylic Graph (DAG) and are simply "submitting" that DAG to Dask for handling its execution in a distributed way.
+
+# # start our Dask cluster
+# from dask.distributed import Client
+
+
+# client = Client(n_workers=4, threads_per_worker=1)
+
+# # point Prefect's DaskExecutor to our Dask cluster
+
+# from prefect.executors import DaskExecutor
+
+# executor = DaskExecutor(address=client.scheduler.address)
+# flow.run(executor=executor)
+
+# Next Steps
+
+# Now that we've built our workflow, what next? The interested reader should try to:
+
+#     run the Flow again to see how the SKIP signal behaves
+#     use different parameters for both the URL and the file location (Parameter values can be overriden by simply passing their names as keyword arguments to flow.run())
+#     introduce a new Parameter for the filename of the final GIF
+#     use Prefect's scheduler interface to run our workflow on a schedule
+
+# Play
+
+# Finally, let's watch our creation!
+
+# from IPython.display import Image
+
+# Image(filename="clip.gif", alt="Rick Daskley")
+
 
 PipeResult = Enum("PipeResult", ["Unit", "Serial", "Parallel"])
 StreamKey: TypeAlias = int
@@ -134,35 +332,41 @@ class PipeBuilder:
 
 
 class Pipeline:
-    def __init__(self, final_pipe: PipeBuilder):
+    def __init__(self, name: str, final_pipe: PipeBuilder):
+        self.name = name
         self.final_pipe = final_pipe
 
-    def run(self, logger: Optional[Logger] = None) -> Union[Table, StreamsData]:
-        data: Optional[Union[Table, StreamsData]] = None
-        pipe: Optional[PipeBuilder] = self.final_pipe.first_pipe
+    # TODO: Figure out this return type
+    def run(self, logger: Optional[Logger] = None):
+        @flow(name=self.name)
+        def run_flow():
+            data: Optional[Union[Table, StreamsData]] = None
+            pipe: Optional[PipeBuilder] = self.final_pipe.first_pipe
 
-        if not pipe or pipe.input_type != PipeResult.Unit:
-            raise RuntimeError(
-                "Must start Pipeline with a source pipeline. (Unit input type.)"
-            )
+            if not pipe or pipe.input_type != PipeResult.Unit:
+                raise RuntimeError(
+                    "Must start Pipeline with a source pipeline. (Unit input type.)"
+                )
 
-        while pipe is not None:
-            # TODO: Check the input type with the data type and throw errors if mismatch
-            if pipe.input_type == PipeResult.Unit:
-                data = pipe.func()
-            else:
-                data = pipe.func(data)
+            while pipe is not None:
+                # TODO: Check the input type with the data type and throw errors if mismatch
+                if pipe.input_type == PipeResult.Unit:
+                    data = pipe.func()
+                else:
+                    data = pipe.func(data)
 
-            if logger and data:
-                logger.log_data(data, pipe.name)
-                logger.next_pipe()
+                if logger and data:
+                    logger.log_data(data, pipe.name)
+                    logger.next_pipe()
 
-            pipe = pipe.next_pipe
+                pipe = pipe.next_pipe
 
-        if data is None:
-            raise RuntimeError("Lost data somehow. THIS SHOULD NEVER HAPPEN.")
+            if data is None:
+                raise RuntimeError("Lost data somehow. THIS SHOULD NEVER HAPPEN.")
 
-        return data
+            return data
+
+        run_flow()
 
     def __str__(self) -> str:
         result = ""
@@ -216,15 +420,33 @@ def define_pipe(
     name: str,
     input_type: PipeResult = PipeResult.Serial,
     result_type: PipeResult = PipeResult.Serial,
+    **task_args,
 ):
     def decorator(func: Callable):
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> PipeBuilder:
             if input_type == PipeResult.Unit:
-                pipe_func = lambda: func(*args, **kwargs)
+
+                @task(name=name, **task_args)
+                def pipe_func_unit():
+                    return func(*args, **kwargs)
+
+                return PipeBuilder(name, input_type, result_type, pipe_func_unit)
+
+            elif input_type == PipeResult.Parallel:
+
+                def pipe_func_parallel(data: StreamsData):
+                    return func(data, *args, **kwargs)
+
+                return PipeBuilder(name, input_type, result_type, pipe_func_parallel)
+
             else:
-                pipe_func = lambda data: func(data, *args, **kwargs)
-            return PipeBuilder(name, input_type, result_type, pipe_func)
+
+                @task(name=name, **task_args)
+                def pipe_func(data):
+                    return func(data, *args, **kwargs)
+
+                return PipeBuilder(name, input_type, result_type, pipe_func)
 
         return wrapper
 
@@ -310,14 +532,6 @@ def copy_data_into_streams(data: Table, *streams: StreamKey) -> StreamsData:
     return streams_data
 
 
-@define_pipe("print_data")
-def print_data(data: Table, greeting: str) -> Table:
-    print(greeting)
-    print("---")
-    print(data)
-    return data
-
-
 @define_pipe(
     "all_streams", input_type=PipeResult.Parallel, result_type=PipeResult.Parallel
 )
@@ -391,31 +605,25 @@ def main():
     )
 
     load_after_1975 = Pipeline(
+        "Load after 1975",
         load_from_csv("deniro.csv")
         (
-            print_data("Raw Data")
-        )(
             clean_year()
         )(
             filter_rows({
                 "Year": lambda year: year > 1975
             })
         )(
-            print_data("After 1975")
-        )(
             write_csv("after_1975.csv")
         )
     )
     split_on_1980 = Pipeline(
+        "Split on 1980",
         load_from_csv("deniro.csv")
         (
-            print_data("Raw Data")
-        )(
             clean_year()
         )(
             split_data(lambda row: "gte_1980" if row["Year"] >= 1980 else "lt_1980")
-        )(
-            all_streams(print_data("Split Data"))
         )(
             for_streams({
                 "lt_1980": write_csv("before_1980.csv"),
@@ -425,6 +633,7 @@ def main():
     )
 
     save_lotr_books = Pipeline(
+        "Save LOTR Books",
         load_lotr_books_from_api()
         (
             write_csv("lotr_books.csv")
@@ -432,6 +641,7 @@ def main():
     )
 
     copy_into_streams_test = Pipeline(
+        "Copy into streams test",
         load_from_csv("deniro.csv")
         (
             clean_year()
@@ -451,45 +661,17 @@ def main():
 
     dashboard = Dashboard(
         split_on_1980,
-        save_lotr_books,
-        load_after_1975,
-        copy_into_streams_test,
-        logger=Loggers(
-            CsvLogger(),
-            # BreakpointLogger()
-        )
+        # save_lotr_books,
+        # load_after_1975,
+        # copy_into_streams_test,
+        # logger=Loggers(
+        #     # CsvLogger(),
+        #     # BreakpointLogger()
+        # )
     )
-    # dashboard.run()
+    dashboard.run()
     # dashboard.generate_report("report.html")
     # fmt: on
-
-    load_after_1975_dask()
-
-
-import dask.dataframe as dd
-
-
-def load_after_1975_dask():
-    # Load data
-    data = dd.read_csv("deniro.csv", quotechar='"')
-
-    # Print raw data
-    print("Raw Data")
-    print(data.head(10))
-
-    # Clean year - remove None and convert to int
-    data = data[data["Year"].notnull()]
-    data["Year"] = data["Year"].astype(int)
-
-    # Filter rows where Year > 1975
-    data = data[data["Year"] > 1975]
-
-    # Print data after filtering
-    print("After 1975")
-    print(data.head(10))
-
-    # Write to CSV
-    data.to_csv("after_1975.csv", single_file=True)
 
 
 if __name__ == "__main__":

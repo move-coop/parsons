@@ -331,10 +331,30 @@ class PipeBuilder:
             return pipe
 
 
+def assemble_pipes(pipes: List[PipeBuilder]) -> PipeBuilder:
+    """Assemble a list of pipes into a single PipeBuilder."""
+
+    if len(pipes) == 0:
+        raise RuntimeError("Cannot assemble an empty list of pipes.")
+
+    if len(pipes) == 1:
+        return pipes[0]
+
+    for i in range(len(pipes) - 1):
+        pipes[i](pipes[i + 1])
+
+    return pipes[len(pipes) - 1]
+
+
+def CompoundPipe(*pipes: PipeBuilder) -> Callable[[], PipeBuilder]:
+    """Create a compound pipe from a list of pipes."""
+    return lambda: assemble_pipes(list(map(lambda p: p.clean_copy(), pipes)))
+
+
 class Pipeline:
-    def __init__(self, name: str, final_pipe: PipeBuilder):
+    def __init__(self, name: str, *pipes: PipeBuilder):
         self.name = name
-        self.final_pipe = final_pipe
+        self.final_pipe = assemble_pipes(list(pipes))
 
     # TODO: Figure out this return type
     def run(self, logger: Optional[Logger] = None):
@@ -416,6 +436,8 @@ class Dashboard:
             file.write(html_report)
 
 
+# TODO: Move the code that actually creates the task into the PipeBuilder
+# so we can prepend the pipeline's name. That will improve Prefect readability.
 def define_pipe(
     name: str,
     input_type: PipeResult = PipeResult.Serial,
@@ -423,15 +445,16 @@ def define_pipe(
     **task_args,
 ):
     def decorator(func: Callable):
+        @task(name=name, **task_args)
+        def pipe_func(*args, **kwargs):
+            return func(*args, **kwargs)
+
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> PipeBuilder:
             if input_type == PipeResult.Unit:
-
-                @task(name=name, **task_args)
-                def pipe_func_unit():
-                    return func(*args, **kwargs)
-
-                return PipeBuilder(name, input_type, result_type, pipe_func_unit)
+                return PipeBuilder(
+                    name, input_type, result_type, lambda: pipe_func(*args, **kwargs)
+                )
 
             elif input_type == PipeResult.Parallel:
 
@@ -441,12 +464,12 @@ def define_pipe(
                 return PipeBuilder(name, input_type, result_type, pipe_func_parallel)
 
             else:
-
-                @task(name=name, **task_args)
-                def pipe_func(data):
-                    return func(data, *args, **kwargs)
-
-                return PipeBuilder(name, input_type, result_type, pipe_func)
+                return PipeBuilder(
+                    name,
+                    input_type,
+                    result_type,
+                    lambda data: pipe_func(data, *args, **kwargs),
+                )
 
         return wrapper
 
@@ -579,11 +602,11 @@ def for_streams(
 def main():
     for csv in [
         "after_1975.csv",
-        "before_1980.csv",
-        "after_1979.csv",
-        "after_1980.csv",
-        "after_1990.csv",
-        "lotr_books.csv",
+        # "before_1980.csv",
+        # "after_1979.csv",
+        # "after_1980.csv",
+        # "after_1990.csv",
+        # "lotr_books.csv",
     ]:
         if os.path.exists(csv):
             os.remove(csv)
@@ -593,11 +616,10 @@ def main():
         shutil.rmtree(dirpath)
 
     # fmt: off
-    clean_year = lambda: (
+    clean_year = CompoundPipe(
         filter_rows({
             "Year": lambda year: year is not None
-        })
-    )(
+        }),
         convert(
             "Year",
             lambda year_str: int(year_str)
@@ -606,64 +628,51 @@ def main():
 
     load_after_1975 = Pipeline(
         "Load after 1975",
-        load_from_csv("deniro.csv")
-        (
-            clean_year()
-        )(
-            filter_rows({
-                "Year": lambda year: year > 1975
-            })
-        )(
-            write_csv("after_1975.csv")
-        )
+        load_from_csv("deniro.csv"),
+        clean_year(),
+        filter_rows({
+            "Year": lambda year: year > 1975
+        }),
+        write_csv("after_1975.csv")
     )
     split_on_1980 = Pipeline(
         "Split on 1980",
-        load_from_csv("deniro.csv")
-        (
-            clean_year()
-        )(
-            split_data(lambda row: "gte_1980" if row["Year"] >= 1980 else "lt_1980")
-        )(
-            for_streams({
-                "lt_1980": write_csv("before_1980.csv"),
-                "gte_1980": write_csv("after_1979.csv")
-            })
-        )
+        load_from_csv("deniro.csv"),
+        clean_year(),
+        split_data(lambda row: "gte_1980" if row["Year"] >= 1980 else "lt_1980"),
+        for_streams({
+            "lt_1980": write_csv("before_1980.csv"),
+            "gte_1980": write_csv("after_1979.csv")
+        })
     )
 
     save_lotr_books = Pipeline(
         "Save LOTR Books",
-        load_lotr_books_from_api()
-        (
-            write_csv("lotr_books.csv")
-        )
+        load_lotr_books_from_api(),
+        write_csv("lotr_books.csv")
     )
 
     copy_into_streams_test = Pipeline(
         "Copy into streams test",
-        load_from_csv("deniro.csv")
-        (
-            clean_year()
-        )(
-            copy_data_into_streams("0", "1")
-        )(
-            for_streams({
-                "0": filter_rows({
+        load_from_csv("deniro.csv"),
+        clean_year(),
+        copy_data_into_streams("0", "1"),
+        for_streams({
+            "0": CompoundPipe(
+                filter_rows({
                     "Year": lambda year: year > 1990
-                })(
-                    write_csv("after_1990.csv")
-                ),
-                "1": write_csv("all_years.csv")
-            })
-        )
+                }),
+                write_csv("after_1990.csv")
+            ),
+            "1": write_csv("all_years.csv")
+        })
     )
 
     dashboard = Dashboard(
         split_on_1980,
-        # save_lotr_books,
-        # load_after_1975,
-        # copy_into_streams_test,
+        save_lotr_books,
+        load_after_1975,
+        copy_into_streams_test,
         # logger=Loggers(
         #     # CsvLogger(),
         #     # BreakpointLogger()

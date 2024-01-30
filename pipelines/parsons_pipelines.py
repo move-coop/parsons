@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Callable, List, Optional, Union, Dict, TypeAlias
+from typing import Any, Callable, List, Optional, Union, Dict, TypeAlias
 from abc import ABC, abstractmethod
 from enum import Enum
 import os
@@ -474,6 +474,77 @@ def define_pipe(
         return wrapper
 
     return decorator
+
+
+class SelectorBuilderValue:
+    col: Optional[str]
+    value: Optional[Any]
+    set_value: bool
+
+    root_value: SelectorBuilderValue
+
+    op: Optional[SelectorBuilderOperation]
+
+    def __init__(self, root_value: Optional[SelectorBuilderValue] = None):
+        self.col = None
+        self.value = None
+        self.set_value = False
+
+        self.root_value = root_value or self
+
+        self.op = None
+
+    def __index__(self, col: str):
+        self.col = col
+        return self
+
+    def _set_op(self, op, val) -> SelectorBuilderValue:
+        if not self.col:
+            raise RuntimeError("Must set a column name first.")
+        self.op = SelectorBuilderOperation(self, op)
+        self.op.next_value = SelectorBuilderValue(self.root_value)
+        return self.op.next_value
+
+    def __gt__(self, val) -> SelectorBuilderValue:
+        return self._set_op("gt", val)
+
+    def __lt__(self, val) -> SelectorBuilderValue:
+        return self._set_op("lt", val)
+
+    def __eq__(self, val) -> SelectorBuilderValue:
+        return self._set_op("eq", val)
+
+    def __ne__(self, val) -> SelectorBuilderValue:
+        return self._set_op("ne", val)
+
+    def generate_function(self):N
+        if not self.set_comparison:
+            raise RuntimeError("Must set a comparison value.")
+
+        def func(row: dict) -> bool:
+            if self.op == "gt":
+                return row[self.col] > self.comparator
+            elif self.op == "lt":
+                return row[self.col] < self.comparator
+            elif self.op == "eq":
+                return row[self.col] == self.comparator
+            elif self.op == "ne":
+                return row[self.col] != self.comparator
+            else:
+                raise RuntimeError("Invalid operator")
+
+        return func
+
+
+class SelectorBuilderOperation:
+    prev_value: SelectorBuilderValue
+    next_value: Optional[SelectorBuilderValue]
+
+    def __init__(self, prev_value: SelectorBuilderValue, op: str):
+        self.prev_value = prev_value
+        self.next_value = None
+
+        self.op = op
 
 
 @define_pipe("load_from_csv", input_type=PipeResult.Unit)

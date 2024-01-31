@@ -1,13 +1,13 @@
 import json
 import os
 import unittest.mock as mock
-
-from google.cloud import bigquery
-from google.cloud import exceptions
-
-from parsons import GoogleBigQuery as BigQuery, Table
-from parsons.google.google_cloud_storage import GoogleCloudStorage
 from test.test_google.test_utilities import FakeCredentialTest
+
+from google.cloud import bigquery, exceptions
+
+from parsons import GoogleBigQuery as BigQuery
+from parsons import Table
+from parsons.google.google_cloud_storage import GoogleCloudStorage
 
 
 class FakeClient:
@@ -58,7 +58,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(result[0], {"one": 1, "two": 2})
 
     def test_query__no_results(self):
-        query_string = "select * from table"
+        query_string = "select * from table limit 0"
 
         # Pass the mock class into our GoogleBigQuery constructor
         bq = self._build_mock_client_for_querying([])
@@ -67,7 +67,11 @@ class TestGoogleBigQuery(FakeCredentialTest):
         result = bq.query(query_string)
 
         # Check our return value
-        self.assertEqual(result, None)
+        # We can't use assertEqual(result, Table())
+        # Because Table() == Table() fails for some reason
+        assert isinstance(result, Table)
+        assert not len(result)
+        assert tuple(result.columns) == tuple([])
 
     @mock.patch("parsons.utilities.files.create_temp_file")
     def test_query__no_return(self, create_temp_file_mock):
@@ -499,6 +503,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
         cursor = mock.MagicMock()
         cursor.execute.return_value = None
         cursor.fetchmany.side_effect = [results, []]
+        if results:
+            cursor.description = [(key, None) for key in results[0]]
 
         # Create a mock that will play the role of the connection
         connection = mock.MagicMock()

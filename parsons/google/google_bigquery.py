@@ -10,6 +10,10 @@ import petl
 from google.cloud import bigquery, exceptions
 from google.cloud.bigquery import dbapi
 from google.cloud.bigquery.job import LoadJobConfig
+from google.cloud import exceptions
+import google
+import petl
+from contextlib import contextmanager
 
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
@@ -26,13 +30,13 @@ BIGQUERY_TYPE_MAP = {
     "float": "FLOAT",
     "int": "INTEGER",
     "bool": "BOOLEAN",
-    "datetime.datetime": "DATETIME",
-    "datetime.date": "DATE",
-    "datetime.time": "TIME",
+    "datetime": "DATETIME",
+    "date": "DATE",
+    "time": "TIME",
     "dict": "RECORD",
     "NoneType": "STRING",
     "UUID": "STRING",
-    "datetime": "DATETIME",
+    "timestamp": "TIMESTAMP",
 }
 
 # Max number of rows that we query at a time, so we can avoid loading huge
@@ -775,10 +779,38 @@ class GoogleBigQuery(DatabaseConnector):
         """
         tmp_gcs_bucket = check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
 
-        # if not job_config:
-        job_config = bigquery.LoadJobConfig()
+        if not job_config:
+            job_config = bigquery.LoadJobConfig()
+
+        # It isn't ever actually necessary to generate the schema explicitly here
+        # BigQuery will attempt to autodetect the schema on its own
+        # When appending or truncating an existing table, we should not provide a schema here
+        # It introduces situations where provided schema can mismatch the actual schema
         if not job_config.schema:
-            job_config.schema = self._generate_schema_from_parsons_table(tbl)
+            if if_exists in ("append", "truncate"):
+                # It is more robust to fetch the actual existing schema
+                # than it is to try and infer it based on provided data
+                try:
+                    bigquery_table = self.client.get_table(table_name)
+                    job_config.schema = bigquery_table.schema
+                except google.api_core.exceptions.NotFound:
+                    job_config.schema = self._generate_schema_from_parsons_table(tbl)
+            else:
+                job_config.schema = self._generate_schema_from_parsons_table(tbl)
+
+        # Reorder schema to match table to ensure compatibility
+        schema = []
+        for column in tbl.columns:
+            try:
+                schema_row = [
+                    i for i in job_config.schema if i.name.lower() == column.lower()
+                ][0]
+            except IndexError:
+                raise IndexError(
+                    f"Column found in Table that was not found in schema: {column}"
+                )
+            schema.append(schema_row)
+        job_config.schema = schema
 
         gcs_client = gcs_client or GoogleCloudStorage()
         temp_blob_name = f"{uuid.uuid4()}.csv"
@@ -1104,11 +1136,33 @@ class GoogleBigQuery(DatabaseConnector):
         return result["row_count"][0]
 
     def _generate_schema_from_parsons_table(self, tbl):
+        """BigQuery schema generation based on contents of Parsons table.
+
+        Not usually necessary to use this. BigQuery is able to
+        natively autodetect schema formats."""
         stats = tbl.get_columns_type_stats()
         fields = []
         for stat in stats:
             petl_types = stat["type"]
-            best_type = "str" if "str" in petl_types else petl_types[0]
+
+            # Prefer 'str' if included
+            # Otherwise choose first type that isn't "NoneType"
+            # Otherwise choose NoneType
+            not_none_petl_types = [i for i in petl_types if i != "NoneType"]
+            if "str" in petl_types:
+                best_type = "str"
+            elif not_none_petl_types:
+                best_type = not_none_petl_types[0]
+            else:
+                best_type = "NoneType"
+
+            # Python datetimes may be datetime or timestamp in BigQuery
+            # BigQuery datetimes have no timezone, timestamps do
+            if best_type == "datetime":
+                for value in petl.util.base.values(tbl.table, stat["name"]):
+                    if isinstance(value, datetime.datetime) and value.tzinfo:
+                        best_type = "timestamp"
+
             field_type = self._bigquery_type(best_type)
             field = bigquery.schema.SchemaField(stat["name"], field_type)
             fields.append(field)

@@ -157,6 +157,10 @@
 <span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">bigquery</span><span class="p">,</span> <span class="n">exceptions</span>
 <span class="kn">from</span> <span class="nn">google.cloud.bigquery</span> <span class="kn">import</span> <span class="n">dbapi</span>
 <span class="kn">from</span> <span class="nn">google.cloud.bigquery.job</span> <span class="kn">import</span> <span class="n">LoadJobConfig</span>
+<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">exceptions</span>
+<span class="kn">import</span> <span class="nn">google</span>
+<span class="kn">import</span> <span class="nn">petl</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
 
 <span class="kn">from</span> <span class="nn">parsons.databases.database_connector</span> <span class="kn">import</span> <span class="n">DatabaseConnector</span>
 <span class="kn">from</span> <span class="nn">parsons.databases.table</span> <span class="kn">import</span> <span class="n">BaseTable</span>
@@ -173,13 +177,13 @@
     <span class="s2">&quot;float&quot;</span><span class="p">:</span> <span class="s2">&quot;FLOAT&quot;</span><span class="p">,</span>
     <span class="s2">&quot;int&quot;</span><span class="p">:</span> <span class="s2">&quot;INTEGER&quot;</span><span class="p">,</span>
     <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="s2">&quot;BOOLEAN&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;datetime.datetime&quot;</span><span class="p">:</span> <span class="s2">&quot;DATETIME&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;datetime.date&quot;</span><span class="p">:</span> <span class="s2">&quot;DATE&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;datetime.time&quot;</span><span class="p">:</span> <span class="s2">&quot;TIME&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="s2">&quot;DATETIME&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;DATE&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;TIME&quot;</span><span class="p">,</span>
     <span class="s2">&quot;dict&quot;</span><span class="p">:</span> <span class="s2">&quot;RECORD&quot;</span><span class="p">,</span>
     <span class="s2">&quot;NoneType&quot;</span><span class="p">:</span> <span class="s2">&quot;STRING&quot;</span><span class="p">,</span>
     <span class="s2">&quot;UUID&quot;</span><span class="p">:</span> <span class="s2">&quot;STRING&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="s2">&quot;DATETIME&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;TIMESTAMP&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># Max number of rows that we query at a time, so we can avoid loading huge</span>
@@ -922,10 +926,38 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GCS_TEMP_BUCKET&quot;</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">)</span>
 
-        <span class="c1"># if not job_config:</span>
-        <span class="n">job_config</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">LoadJobConfig</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">job_config</span><span class="p">:</span>
+            <span class="n">job_config</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">LoadJobConfig</span><span class="p">()</span>
+
+        <span class="c1"># It isn&#39;t ever actually necessary to generate the schema explicitly here</span>
+        <span class="c1"># BigQuery will attempt to autodetect the schema on its own</span>
+        <span class="c1"># When appending or truncating an existing table, we should not provide a schema here</span>
+        <span class="c1"># It introduces situations where provided schema can mismatch the actual schema</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">job_config</span><span class="o">.</span><span class="n">schema</span><span class="p">:</span>
-            <span class="n">job_config</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_schema_from_parsons_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">if_exists</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;append&quot;</span><span class="p">,</span> <span class="s2">&quot;truncate&quot;</span><span class="p">):</span>
+                <span class="c1"># It is more robust to fetch the actual existing schema</span>
+                <span class="c1"># than it is to try and infer it based on provided data</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">bigquery_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_table</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
+                    <span class="n">job_config</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">bigquery_table</span><span class="o">.</span><span class="n">schema</span>
+                <span class="k">except</span> <span class="n">google</span><span class="o">.</span><span class="n">api_core</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">NotFound</span><span class="p">:</span>
+                    <span class="n">job_config</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_schema_from_parsons_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">job_config</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_schema_from_parsons_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+
+        <span class="c1"># Reorder schema to match table to ensure compatibility</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">schema_row</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">job_config</span><span class="o">.</span><span class="n">schema</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">column</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Column found in Table that was not found in schema: </span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="n">schema</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">schema_row</span><span class="p">)</span>
+        <span class="n">job_config</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span>
 
         <span class="n">gcs_client</span> <span class="o">=</span> <span class="n">gcs_client</span> <span class="ow">or</span> <span class="n">GoogleCloudStorage</span><span class="p">()</span>
         <span class="n">temp_blob_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s2">.csv&quot;</span>
@@ -1251,11 +1283,33 @@
         <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;row_count&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span></div>
 
     <span class="k">def</span> <span class="nf">_generate_schema_from_parsons_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;BigQuery schema generation based on contents of Parsons table.</span>
+
+<span class="sd">        Not usually necessary to use this. BigQuery is able to</span>
+<span class="sd">        natively autodetect schema formats.&quot;&quot;&quot;</span>
         <span class="n">stats</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">get_columns_type_stats</span><span class="p">()</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">:</span>
             <span class="n">petl_types</span> <span class="o">=</span> <span class="n">stat</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
-            <span class="n">best_type</span> <span class="o">=</span> <span class="s2">&quot;str&quot;</span> <span class="k">if</span> <span class="s2">&quot;str&quot;</span> <span class="ow">in</span> <span class="n">petl_types</span> <span class="k">else</span> <span class="n">petl_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># Prefer &#39;str&#39; if included</span>
+            <span class="c1"># Otherwise choose first type that isn&#39;t &quot;NoneType&quot;</span>
+            <span class="c1"># Otherwise choose NoneType</span>
+            <span class="n">not_none_petl_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">petl_types</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="s2">&quot;NoneType&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;str&quot;</span> <span class="ow">in</span> <span class="n">petl_types</span><span class="p">:</span>
+                <span class="n">best_type</span> <span class="o">=</span> <span class="s2">&quot;str&quot;</span>
+            <span class="k">elif</span> <span class="n">not_none_petl_types</span><span class="p">:</span>
+                <span class="n">best_type</span> <span class="o">=</span> <span class="n">not_none_petl_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">best_type</span> <span class="o">=</span> <span class="s2">&quot;NoneType&quot;</span>
+
+            <span class="c1"># Python datetimes may be datetime or timestamp in BigQuery</span>
+            <span class="c1"># BigQuery datetimes have no timezone, timestamps do</span>
+            <span class="k">if</span> <span class="n">best_type</span> <span class="o">==</span> <span class="s2">&quot;datetime&quot;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">petl</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">stat</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">tzinfo</span><span class="p">:</span>
+                        <span class="n">best_type</span> <span class="o">=</span> <span class="s2">&quot;timestamp&quot;</span>
+
             <span class="n">field_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bigquery_type</span><span class="p">(</span><span class="n">best_type</span><span class="p">)</span>
             <span class="n">field</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">SchemaField</span><span class="p">(</span><span class="n">stat</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">field_type</span><span class="p">)</span>
             <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>

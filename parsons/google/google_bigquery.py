@@ -41,9 +41,6 @@ BIGQUERY_TYPE_MAP = {
 # 100k rows per batch at ~1k bytes each = ~100MB per batch.
 QUERY_BATCH_SIZE = 100000
 
-# Max number of seconds to wait for a request before raising a timeout error
-MAX_TIMEOUT = 30
-
 
 def get_table_ref(client, table_name):
     # Helper function to build a TableReference for our table
@@ -352,6 +349,7 @@ class GoogleBigQuery(DatabaseConnector):
         force_unzip_blobs: bool = False,
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
+        max_timeout: int = 30,
         **load_kwargs,
     ):
         """
@@ -407,6 +405,8 @@ class GoogleBigQuery(DatabaseConnector):
             new_file_extension: str
                 Provides a file extension if a blob is decompressed and rewritten
                 to cloud storage.
+            max_timeout: int
+                The maximum number of seconds to wait for a request before the job fails.
             **load_kwargs: kwargs
                 Other arguments to pass to the underlying load_table_from_uri
                 call on the BigQuery client.
@@ -467,7 +467,7 @@ class GoogleBigQuery(DatabaseConnector):
                     job_config=job_config,
                     **load_kwargs,
                 )
-                load_job.result(timeout=MAX_TIMEOUT)
+                load_job.result(timeout=max_timeout)
         except exceptions.BadRequest as e:
             if "one of the files is larger than the maximum allowed size." in str(e):
                 logger.debug(
@@ -528,6 +528,7 @@ class GoogleBigQuery(DatabaseConnector):
         job_config: Optional[LoadJobConfig] = None,
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
+        max_timeout: int = 30,
         **load_kwargs,
     ):
         """
@@ -581,6 +582,8 @@ class GoogleBigQuery(DatabaseConnector):
                 blob in cloud storage.
             new_file_extension: str
                 Provides a file extension if a blob is decompressed and rewritten to cloud storage.
+            max_timeout: int
+                The maximum number of seconds to wait for a request before the job fails.
             **load_kwargs: kwargs
                 Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
@@ -639,7 +642,7 @@ class GoogleBigQuery(DatabaseConnector):
                 job_config=job_config,
                 **load_kwargs,
             )
-            load_job.result(timeout=MAX_TIMEOUT)
+            load_job.result(timeout=max_timeout)
         except exceptions.DeadlineExceeded as e:
             logger.error(f"Max timeout exceeded for {gcs_blob_uri.split('/')[-1]}")
             raise e

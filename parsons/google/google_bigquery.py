@@ -6,14 +6,11 @@ import uuid
 from contextlib import contextmanager
 from typing import List, Optional, Union
 
+import google
 import petl
 from google.cloud import bigquery, exceptions
 from google.cloud.bigquery import dbapi
 from google.cloud.bigquery.job import LoadJobConfig
-from google.cloud import exceptions
-import google
-import petl
-from contextlib import contextmanager
 
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable

@@ -230,7 +230,7 @@ class Table(ETL, ToFrom):
             bool
         """
 
-        if not self.table:
+        if not isinstance(self.table, petl.util.base.Table):
             return False
 
         try:

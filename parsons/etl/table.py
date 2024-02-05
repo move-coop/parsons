@@ -1,6 +1,5 @@
 import logging
 import pickle
-from enum import Enum
 from typing import Union
 
 import petl
@@ -12,20 +11,6 @@ from parsons.utilities import files
 logger = logging.getLogger(__name__)
 
 DIRECT_INDEX_WARNING_COUNT = 10
-
-
-class _EmptyDefault(Enum):
-    """Default argument for Table()
-
-    This is used because Table(None) should not be allowed, but we
-    need a default argument that isn't the mutable []
-
-    See https://stackoverflow.com/a/76606310 for discussion."""
-
-    token = 0
-
-
-_EMPTYDEFAULT = _EmptyDefault.token
 
 
 class Table(ETL, ToFrom):
@@ -46,16 +31,11 @@ class Table(ETL, ToFrom):
 
     def __init__(
         self,
-        lst: Union[list, tuple, petl.util.base.Table, _EmptyDefault] = _EMPTYDEFAULT,
+        lst: Union[list, tuple, petl.util.base.Table, None] = None,
     ):
         self.table = None
 
-        # Normally we would use None as the default argument here
-        # Instead of using None, we use a sentinal
-        # This allows us to maintain the existing behavior
-        # This is allowed: Table()
-        # This should fail: Table(None)
-        if lst is _EMPTYDEFAULT:
+        if lst is None:
             self.table = petl.fromdicts([])
 
         elif isinstance(lst, list) or isinstance(lst, tuple):

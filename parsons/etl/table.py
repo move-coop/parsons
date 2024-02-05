@@ -1,7 +1,7 @@
 import logging
 import pickle
 from enum import Enum
-from typing import Type, Union
+from typing import Union
 
 import petl
 
@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 DIRECT_INDEX_WARNING_COUNT = 10
 
+
 class _EmptyDefault(Enum):
     """Default argument for Table()
 
@@ -20,7 +21,9 @@ class _EmptyDefault(Enum):
     need a default argument that isn't the mutable []
 
     See https://stackoverflow.com/a/76606310 for discussion."""
+
     token = 0
+
 
 _EMPTYDEFAULT = _EmptyDefault.token
 
@@ -43,9 +46,7 @@ class Table(ETL, ToFrom):
 
     def __init__(
         self,
-        lst: Union[
-            list, tuple, petl.util.base.Table, _EmptyDefault
-        ] = _EMPTYDEFAULT,
+        lst: Union[list, tuple, petl.util.base.Table, _EmptyDefault] = _EMPTYDEFAULT,
     ):
         self.table = None
 

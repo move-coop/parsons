@@ -38,12 +38,14 @@ class TestNGPVAN(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_canvass_responses_result_codes(self, m):
 
-        json = [{
-            "shortName": "BZ",
-            "resultCodeId": 18,
-            "name": "Busy",
-            "mediumName": "Busy",
-        }]
+        json = [
+            {
+                "shortName": "BZ",
+                "resultCodeId": 18,
+                "name": "Busy",
+                "mediumName": "Busy",
+            }
+        ]
 
         m.get(self.van.connection.uri + "canvassResponses/resultCodes", json=json)
         assert_matching_tables(

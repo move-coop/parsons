@@ -18,7 +18,7 @@ class TestNGPVAN(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_canvass_responses_contact_types(self, m):
 
-        json = {"name": "Auto Dial", "contactTypeId": 19, "channelTypeName": "Phone"}
+        json = [{"name": "Auto Dial", "contactTypeId": 19, "channelTypeName": "Phone"}]
 
         m.get(self.van.connection.uri + "canvassResponses/contactTypes", json=json)
 
@@ -29,7 +29,7 @@ class TestNGPVAN(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_canvass_responses_input_types(self, m):
 
-        json = {"inputTypeId": 11, "name": "API"}
+        json = [{"inputTypeId": 11, "name": "API"}]
         m.get(self.van.connection.uri + "canvassResponses/inputTypes", json=json)
         assert_matching_tables(
             Table(json), self.van.get_canvass_responses_input_types()
@@ -38,12 +38,12 @@ class TestNGPVAN(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_canvass_responses_result_codes(self, m):
 
-        json = {
+        json = [{
             "shortName": "BZ",
             "resultCodeId": 18,
             "name": "Busy",
             "mediumName": "Busy",
-        }
+        }]
 
         m.get(self.van.connection.uri + "canvassResponses/resultCodes", json=json)
         assert_matching_tables(
@@ -121,7 +121,7 @@ class TestNGPVAN(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_supporter_group(self, m):
 
-        json = {"id": 12, "name": "tmc", "description": "A fun group."}
+        json = [{"id": 12, "name": "tmc", "description": "A fun group."}]
         m.get(self.van.connection.uri + "supporterGroups/12", json=json)
 
         # Test that columns are expected columns

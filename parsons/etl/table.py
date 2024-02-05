@@ -1,10 +1,12 @@
+import logging
+import pickle
+from typing import Union
+
+import petl
+
 from parsons.etl.etl import ETL
 from parsons.etl.tofrom import ToFrom
 from parsons.utilities import files
-import petl
-import pickle
-import logging
-
 
 logger = logging.getLogger(__name__)
 
@@ -27,12 +29,13 @@ class Table(ETL, ToFrom):
             The name of the table (optional)
     """
 
-    def __init__(self, lst=[]):
+    def __init__(self, lst: Union[list, tuple, petl.util.base.Table, None] = None):
         self.table = None
 
-        lst_type = type(lst)
+        if lst is None:
+            self.table = petl.fromdicts([])
 
-        if lst_type in [list, tuple]:
+        elif isinstance(lst, list) or isinstance(lst, tuple):
             # Check for empty list
             if not len(lst):
                 self.table = petl.fromdicts([])
@@ -45,9 +48,15 @@ class Table(ETL, ToFrom):
                 elif row_type in [list, tuple]:
                     self.table = petl.wrap(lst)
 
-        else:
+        elif isinstance(lst, petl.util.base.Table):
             # Create from a petl table
             self.table = lst
+
+        else:
+            raise ValueError(
+                f"Could not initialize table from input type. "
+                f"Got {type(lst)}, expected list, tuple, or petl Table"
+            )
 
         if not self.is_valid_table():
             raise ValueError("Could not create Table")

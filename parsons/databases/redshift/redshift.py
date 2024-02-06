@@ -8,8 +8,7 @@ from parsons.databases.table import BaseTable
 from parsons.databases.alchemy import Alchemy
 from parsons.utilities import files, sql_helpers
 from parsons.databases.database_connector import DatabaseConnector
-import psycopg2
-import psycopg2.extras
+import psycopg
 import os
 import logging
 import json
@@ -128,11 +127,14 @@ class Redshift(
         ``with rs.connection() as conn:``
 
         `Returns:`
-            Psycopg2 ``connection`` object
+            Psycopg ``connection`` object
         """
+        # Redshift unicode encoding doesn't work out of the box with psycopg3
+        # See https://github.com/psycopg/psycopg/issues/122#issuecomment-1272352650
+        os.environ["PGCLIENTENCODING"] = "utf-8"
 
-        # Create a psycopg2 connection and cursor
-        conn = psycopg2.connect(
+        # Create a psycopg connection and cursor
+        conn = psycopg.connect(
             user=self.username,
             password=self.password,
             host=self.host,
@@ -149,7 +151,7 @@ class Redshift(
 
     @contextmanager
     def cursor(self, connection):
-        cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur = connection.cursor(row_factory=psycopg.rows.dict_row)
         try:
             yield cur
         finally:

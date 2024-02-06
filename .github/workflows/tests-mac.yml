@@ -14,7 +14,8 @@ jobs:
   build:
     strategy:
       matrix:
-        limited-dependencies: ['','TRUE']    
+        limited-dependencies: ['','TRUE']  
+
     runs-on: macos-latest
 
     steps:
@@ -25,13 +26,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: 3.8
-
-    - uses: actions/cache@v3
-      with:
-        path: ~/Library/Caches/pip
-        key: mac-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          mac-pip-
+        cache: "pip"
 
     - name: Install dependencies
       env:

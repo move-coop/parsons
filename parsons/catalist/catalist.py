@@ -163,13 +163,13 @@ class CatalistMatch:
                   Optional. Any included values are mapped to every row of the input table.
         """
         response = self.upload(
-            table,
-            export,
-            description,
-            export_filename_suffix,
-            input_subfolder,
-            copy_to_sandbox,
-            static_values,
+            table=table,
+            export=export,
+            description=description,
+            export_filename_suffix=export_filename_suffix,
+            input_subfolder=input_subfolder,
+            copy_to_sandbox=copy_to_sandbox,
+            static_values=static_values,
         )
         result = self.await_completion(response["id"])
         return result

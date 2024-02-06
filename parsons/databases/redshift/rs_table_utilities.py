@@ -428,6 +428,17 @@ class RedshiftTableUtilities(object):
         `Returns:`
             A list of column names.
         """
+        schema = (
+            f'"{schema}"'
+            if not (schema.startswith('"') and schema.endswith('"'))
+            else schema
+        )
+
+        table_name = (
+            f'"{table_name}"'
+            if not (table_name.startswith('"') and table_name.endswith('"'))
+            else table_name
+        )
 
         first_row = self.query(f"select * from {schema}.{table_name} limit 1")
 

@@ -151,7 +151,7 @@ class Redshift(
 
     @contextmanager
     def cursor(self, connection):
-        cur = connection.cursor(row_factory=psycopg.rows.dict_row)
+        cur = connection.cursor(row_factory=psycopg.rows.namedtuple_row)
         try:
             yield cur
         finally:

@@ -1,13 +1,13 @@
 import json
 import os
 import unittest.mock as mock
-
-from google.cloud import bigquery
-from google.cloud import exceptions
-
-from parsons import GoogleBigQuery as BigQuery, Table
-from parsons.google.google_cloud_storage import GoogleCloudStorage
 from test.test_google.test_utilities import FakeCredentialTest
+
+from google.cloud import bigquery, exceptions
+
+from parsons import GoogleBigQuery as BigQuery
+from parsons import Table
+from parsons.google.google_cloud_storage import GoogleCloudStorage
 
 
 class FakeClient:
@@ -58,7 +58,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(result[0], {"one": 1, "two": 2})
 
     def test_query__no_results(self):
-        query_string = "select * from table"
+        query_string = "select * from table limit 0"
 
         # Pass the mock class into our GoogleBigQuery constructor
         bq = self._build_mock_client_for_querying([])
@@ -67,7 +67,11 @@ class TestGoogleBigQuery(FakeCredentialTest):
         result = bq.query(query_string)
 
         # Check our return value
-        self.assertEqual(result, None)
+        # We can't use assertEqual(result, Table())
+        # Because Table() == Table() fails for some reason
+        assert isinstance(result, Table)
+        assert not len(result)
+        assert tuple(result.columns) == tuple([])
 
     @mock.patch("parsons.utilities.files.create_temp_file")
     def test_query__no_return(self, create_temp_file_mock):
@@ -354,6 +358,9 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         self.assertEqual(bq.copy_from_gcs.call_count, 1)
         load_call_args = bq.copy_from_gcs.call_args
+        job_config = bq.copy_from_gcs.call_args[1]["job_config"]
+        column_types = [schema_field.field_type for schema_field in job_config.schema]
+        self.assertEqual(column_types, ["INTEGER", "STRING", "BOOLEAN"])
         self.assertEqual(load_call_args[1]["gcs_blob_uri"], tmp_blob_uri)
         self.assertEqual(load_call_args[1]["table_name"], table_name)
 
@@ -393,7 +400,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq = self._build_mock_client_for_copying(table_exists=False)
         bq.copy_from_gcs = mock.MagicMock()
         table_name = "dataset.table"
-        if_exists = "append"
+        if_exists = "drop"
 
         # call the method being tested
         bq.copy(
@@ -499,6 +506,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
         cursor = mock.MagicMock()
         cursor.execute.return_value = None
         cursor.fetchmany.side_effect = [results, []]
+        if results:
+            cursor.description = [(key, None) for key in results[0]]
 
         # Create a mock that will play the role of the connection
         connection = mock.MagicMock()
@@ -533,7 +542,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
     def default_table(self):
         return Table(
             [
-                {"num": 1, "ltr": "a"},
-                {"num": 2, "ltr": "b"},
+                {"num": 1, "ltr": "a", "boolcol": None},
+                {"num": 2, "ltr": "b", "boolcol": True},
             ]
         )

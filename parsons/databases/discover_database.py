@@ -5,7 +5,7 @@ from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.redshift import Redshift
 from parsons.databases.mysql import MySQL
 from parsons.databases.postgres import Postgres
-from parsons.google.google_bigquery import GoogleBigQuery
+from parsons.google.google_bigquery import GoogleBigQuery as BigQuery
 
 
 def discover_database(
@@ -40,7 +40,7 @@ def discover_database(
         "Redshift": Redshift,
         "MySQL": MySQL,
         "Postgres": Postgres,
-        "GoogleBigQuery": GoogleBigQuery,
+        "GoogleBigQuery": BigQuery,
     }
 
     password_vars = {

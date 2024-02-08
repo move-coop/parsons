@@ -162,6 +162,8 @@ of commonly used methods. The full list can be found in the API section.
       - Remove a column
     * - :py:meth:`~parsons.etl.etl.ETL.rename_column`
       - Rename a column
+    * - :py:meth:`~parsons.etl.etl.ETL.rename_columns`
+      - Rename multiple columns
     * - :py:meth:`~parsons.etl.etl.ETL.move_column`
       - Move a column within a table
     * - :py:meth:`~parsons.etl.etl.ETL.cut`

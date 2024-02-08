@@ -370,7 +370,9 @@ class ActionBuilder(object):
             f"campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}"
         )
 
-    def upsert_connection(self, identifiers, tag_data=None, campaign=None):
+    def upsert_connection(
+        self, identifiers, tag_data=None, campaign=None, reactivate=True
+    ):
         """
         Load or update a connection record in Action Builder between two existing entity records.
         Only one connection record is allowed per pair of entities, so if the connection already
@@ -387,6 +389,9 @@ class ActionBuilder(object):
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
+            reactivate: bool
+                Optional. Whether or not to set the `inactive` flag on a given Connection to False
+                if the Connection exists and has `inactive` set to True. True by default.
         `Returns:`
             Dict containing Action Builder connection data.
         """  # noqa: E501
@@ -409,6 +414,9 @@ class ActionBuilder(object):
             }
         }
 
+        if reactivate:
+            data["connection"]["inactive"] = False
+
         if tag_data:
             if isinstance(tag_data, dict):
                 tag_data = [tag_data]
@@ -419,3 +427,57 @@ class ActionBuilder(object):
             data["add_tags"] = tag_data
 
         return self.api.post_request(url=url, data=json.dumps(data))
+
+    def deactivate_connection(
+        self,
+        from_identifier,
+        connection_identifier=None,
+        to_identifier=None,
+        campaign=None,
+    ):
+        """
+        Deactivate an existing connection record in Action Builder between two existing entity
+        records. Only one connection record is allowed per pair of entities, so this can be done
+        by supplying the ID for the connection record, or for the two connected entity records.
+        `Args:`
+            from_identifier: str
+                Unique identifier for one of the two entities with a connection.
+            connection_identifier: str
+                Optional. The unique identifier for an entity or connection record being updated.
+                If omitted, `to_identifier` must be provided.
+            to_identifier: str
+                Optional. The second entity with a connection to `from_entity`. If omitted,
+                `connection_identifier` must be provided.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+        `Returns:`
+            Dict containing Action Builder connection data.
+        """
+
+        # Check that either connection or second entity identifier are provided
+        if {connection_identifier, to_identifier} == {None}:
+            raise ValueError(
+                "Must provide a connection ID or an ID for the second entity"
+            )
+
+        campaign = self._campaign_check(campaign)
+
+        url = f"campaigns/{campaign}/people/{from_identifier}/connections"
+
+        data = {"connection": {"inactive": True}}
+
+        # Prioritize connection ID to avoid potential confusion if to_identifier is also provided
+        # to_identifier entity could have duplicates, connection ID is more specific
+        if connection_identifier:
+            url += f"/{connection_identifier}"
+
+            # Despite the documentation, PUT requests don't require the outer "connection" key
+            data = data["connection"]
+
+            return self.api.put_request(url=url, data=json.dumps(data))
+
+        # If no connection ID then there must be a to_identifier not to have errored by now
+        else:
+            data["connection"]["person_id"] = to_identifier
+            return self.api.post_request(url=url, data=json.dumps(data))

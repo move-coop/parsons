@@ -45,6 +45,7 @@ class OAuth2APIConnector(APIConnector):
         headers: Optional[Dict[str, str]] = None,
         pagination_key: Optional[str] = None,
         data_key: Optional[str] = None,
+        grant_type: str = "client_credentials",
         authorization_kwargs: Optional[Dict[str, str]] = None,
     ):
         super().__init__(
@@ -58,6 +59,7 @@ class OAuth2APIConnector(APIConnector):
             authorization_kwargs = {}
 
         client = BackendApplicationClient(client_id=client_id)
+        client.grant_type = grant_type
         oauth = OAuth2Session(client=client)
         self.token = oauth.fetch_token(
             token_url=token_url,

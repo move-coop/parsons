@@ -36,6 +36,7 @@ class Zoom:
             client_secret=self.__client_secret,
             token_url=ZOOM_AUTH_CALLBACK,
             auto_refresh_url=ZOOM_AUTH_CALLBACK,
+            grant_type="account_credentials",
             authorization_kwargs={"account_id": self.account_id},
         )
 

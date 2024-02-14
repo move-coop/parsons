@@ -469,7 +469,7 @@ def main():
         write_csv("lotr_books.csv")
     )
 
-    copy_into_streams_test = Pipeline(
+    after_1990_and_all_time = Pipeline(
         "Copy into streams test",
         load_from_csv("deniro.csv"),
         clean_year(),
@@ -487,7 +487,7 @@ def main():
         load_after_1975,
         split_on_1980,
         save_lotr_books,
-        copy_into_streams_test,
+        after_1990_and_all_time,
     )
     dashboard.run()
     # fmt: on

@@ -123,7 +123,10 @@ form_submissions_json = {
         {
             "id": "325343738",
             "timestamp": "2017-05-07 21:52:42",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
+            "user_agent": (
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36"
+                " (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36"
+            ),
             "remote_addr": "73.163.190.175",
             "payment_status": "",
             "latitude": "38.905700683594",
@@ -133,7 +136,10 @@ form_submissions_json = {
         {
             "id": "325512020",
             "timestamp": "2017-05-08 15:31:08",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/601.7.8 (KHTML, like Gecko) Version/9.1.3 Safari/601.7.8",
+            "user_agent": (
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/601.7.8"
+                " (KHTML, like Gecko) Version/9.1.3 Safari/601.7.8"
+            ),
             "remote_addr": "65.242.21.250",
             "payment_status": "",
             "latitude": "37.750999450684",
@@ -143,7 +149,10 @@ form_submissions_json = {
         {
             "id": "325512197",
             "timestamp": "2017-05-08 15:31:52",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.1 Safari/603.1.30",
+            "user_agent": (
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/603.1.30"
+                " (KHTML, like Gecko) Version/10.1 Safari/603.1.30"
+            ),
             "remote_addr": "65.242.21.250",
             "payment_status": "",
             "latitude": "37.750999450684",

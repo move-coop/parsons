@@ -16,7 +16,6 @@ VALID_RESPONSE_STATUS_CODE = 200
 
 
 class TestFormstack(unittest.TestCase):
-
     @requests_mock.Mocker()
     def test_get_folders(self, m):
         fs = Formstack(api_token="token")

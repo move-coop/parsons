@@ -588,7 +588,7 @@
 
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">force_unzip_blobs</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">copy_large_compressed_file_from_gcs</span><span class="p">(</span>
+                <span class="n">load_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_large_compressed_file_from_gcs</span><span class="p">(</span>
                     <span class="n">gcs_blob_uri</span><span class="o">=</span><span class="n">gcs_blob_uri</span><span class="p">,</span>
                     <span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span>
                     <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span>
@@ -604,6 +604,7 @@
                     <span class="n">compression_type</span><span class="o">=</span><span class="n">compression_type</span><span class="p">,</span>
                     <span class="n">new_file_extension</span><span class="o">=</span><span class="n">new_file_extension</span><span class="p">,</span>
                 <span class="p">)</span>
+                <span class="n">load_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">load_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">load_table_from_uri</span><span class="p">(</span>
                     <span class="n">source_uris</span><span class="o">=</span><span class="n">gcs_blob_uri</span><span class="p">,</span>
@@ -619,7 +620,7 @@
 <span class="s2">                    running decompression function...&quot;</span>
                 <span class="p">)</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">copy_large_compressed_file_from_gcs</span><span class="p">(</span>
+                <span class="n">load_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_large_compressed_file_from_gcs</span><span class="p">(</span>
                     <span class="n">gcs_blob_uri</span><span class="o">=</span><span class="n">gcs_blob_uri</span><span class="p">,</span>
                     <span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span>
                     <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span>
@@ -780,13 +781,16 @@
                 <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">load_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
         <span class="k">finally</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">uncompressed_gcs_uri</span><span class="p">:</span>
                 <span class="n">new_bucket_name</span><span class="p">,</span> <span class="n">new_blob_name</span> <span class="o">=</span> <span class="n">gcs</span><span class="o">.</span><span class="n">split_uri</span><span class="p">(</span>
                     <span class="n">gcs_uri</span><span class="o">=</span><span class="n">uncompressed_gcs_uri</span>
                 <span class="p">)</span>
                 <span class="n">gcs</span><span class="o">.</span><span class="n">delete_blob</span><span class="p">(</span><span class="n">new_bucket_name</span><span class="p">,</span> <span class="n">new_blob_name</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Successfully dropped uncompressed blob&quot;</span><span class="p">)</span></div>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Successfully dropped uncompressed blob&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">load_job</span></div>
 
 <div class="viewcode-block" id="GoogleBigQuery.copy_s3"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy_s3">[docs]</a>    <span class="k">def</span> <span class="nf">copy_s3</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

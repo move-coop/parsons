@@ -5,7 +5,8 @@ Census
 Overview
 ********
 
-Connects to the Census API--it has been tested with the ACS and Economic Survey endpoints.
+Connects to the `Census API <https://www.census.gov/data/developers/guidance/api-user-guide.html>`_.
+It has been tested with the ACS and Economic Survey endpoints.
 
 .. note::
   Authentication
@@ -41,7 +42,8 @@ variable or pass it as an argument:
 .. code-block:: python
 
   from parsons import Census
-  # these variables tell the API what data we want
+  # year, dataset_acronym, variables and location tell the API what data we want
+  # for example, 'B01001_001E' is population and 'us:1' is the entire U.S.
   year = '2019'
   dataset_acronym = '/acs/acs1'
   variables = 'NAME,B01001_001E'
@@ -51,7 +53,7 @@ variable or pass it as an argument:
   census = Census(api_key=acs_key)
 
   # now pull data into a Parsons table
-  t = census.get_census(year,dataset_acronym,variables,location)
+  t = census.get_census(year, dataset_acronym, variables, location)
   print(t)
 
 This example pulls the population of the US in 2019 from the ACS 1-year estimates.
@@ -66,7 +68,7 @@ This example pulls the population of the US in 2019 from the ACS 1-year estimate
    location = 'state:51'
    census = Census(api_key=acs_key)
 
-   t = census.get_census(year,dataset_acronym,variables,location)
+   t = census.get_census(year, dataset_acronym, variables, location)
    print(t)
 
 

@@ -26,8 +26,8 @@ class Census(object):
         self, year=None, dataset_acronym=None, variables=None, location=None
     ):
         """
-        Pull census data. For background check out the Census API Guide at
-                https://www.census.gov/data/developers/guidance/api-user-guide.html
+        Pull census data. For background check out the `Census API Guide
+                <https://www.census.gov/data/developers/guidance/api-user-guide.html>`_
 
         Args:
                 year: 4-digit string or integer

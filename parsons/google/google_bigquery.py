@@ -934,33 +934,32 @@ class GoogleBigQuery(DatabaseConnector):
                 **copy_args,
             )
 
-        staging_table_name = staging_tbl.split(".")[1]
-        target_table_name = target_table.split(".")[1]
-
         # Delete rows
         comparisons = [
-            f"{staging_table_name}.{primary_key} = {target_table_name}.{primary_key}"
+            f"`{staging_tbl}`.{primary_key} = `{target_table}`.{primary_key}"
             for primary_key in primary_keys
         ]
         where_clause = " and ".join(comparisons)
 
         queries = [
             f"""
-                DELETE FROM {target_table}
-                USING {staging_tbl}
-                WHERE {where_clause}
+                DELETE FROM `{target_table}`
+                WHERE EXISTS
+                (SELECT * FROM `{staging_tbl}`
+                WHERE {where_clause})
                 """,
             f"""
-                INSERT INTO {target_table}
-                SELECT * FROM {staging_tbl}
+                INSERT INTO `{target_table}`
+                SELECT * FROM `{staging_tbl}`
                 """,
         ]
 
-        if cleanup_temp_table:
-            # Drop the staging table
-            queries.append(f"DROP TABLE IF EXISTS {staging_tbl}")
-
-        return self.query_with_transaction(queries=queries)
+        try:
+            return self.query_with_transaction(queries=queries)
+        finally:
+            if cleanup_temp_table:
+                logger.info(f'Deleting staging table: {staging_tbl}')
+                self.query(f"DROP TABLE IF EXISTS {staging_tbl}", return_values=False)
 
     def delete_table(self, table_name):
         """
@@ -1191,7 +1190,7 @@ class GoogleBigQuery(DatabaseConnector):
         max_errors: int,
         data_type: str,
         csv_delimiter: Optional[str] = ',',
-        ignoreheader: Optional[int] = 0,
+        ignoreheader: Optional[int] = 1,
         nullas: Optional[str] = None,
         allow_quoted_newlines: Optional[bool] = None,
         allow_jagged_rows: Optional[bool] = None,

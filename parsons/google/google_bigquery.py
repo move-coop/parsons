@@ -422,7 +422,7 @@ class GoogleBigQuery(DatabaseConnector):
             allow_jagged_rows=allow_jagged_rows,
             quote=quote,
             custom_schema=schema,
-            template_table=template_table
+            template_table=template_table,
         )
 
         # load CSV from Cloud Storage into BigQuery
@@ -564,10 +564,7 @@ class GoogleBigQuery(DatabaseConnector):
                 client.
         """
 
-        self._validate_copy_inputs(
-            if_exists=if_exists,
-            data_type=data_type
-        )
+        self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
 
         job_config = self._process_job_config(
             job_config=job_config,
@@ -582,7 +579,7 @@ class GoogleBigQuery(DatabaseConnector):
             allow_jagged_rows=allow_jagged_rows,
             quote=quote,
             custom_schema=schema,
-            template_table=template_table
+            template_table=template_table,
         )
 
         # TODO - See if this inheritance is happening in other places
@@ -763,7 +760,7 @@ class GoogleBigQuery(DatabaseConnector):
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
         """
-        data_type = 'csv'
+        data_type = "csv"
         tmp_gcs_bucket = check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
 
         self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
@@ -775,7 +772,7 @@ class GoogleBigQuery(DatabaseConnector):
             max_errors=max_errors,
             data_type=data_type,
             template_table=template_table,
-            parsons_table=tbl
+            parsons_table=tbl,
         )
 
         # Reorder schema to match table to ensure compatibility
@@ -802,7 +799,7 @@ class GoogleBigQuery(DatabaseConnector):
                 source_uris=temp_blob_uri,
                 destination=self.get_table_ref(table_name=table_name),
                 job_config=job_config,
-                **load_kwargs
+                **load_kwargs,
             )
         finally:
             gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
@@ -958,7 +955,7 @@ class GoogleBigQuery(DatabaseConnector):
             return self.query_with_transaction(queries=queries)
         finally:
             if cleanup_temp_table:
-                logger.info(f'Deleting staging table: {staging_tbl}')
+                logger.info(f"Deleting staging table: {staging_tbl}")
                 self.query(f"DROP TABLE IF EXISTS {staging_tbl}", return_values=False)
 
     def delete_table(self, table_name):
@@ -1125,7 +1122,7 @@ class GoogleBigQuery(DatabaseConnector):
         if_exists: str,
         parsons_table: Optional[Table] = None,
         custom_schema: Optional[list] = None,
-        template_table: Optional[str] = None
+        template_table: Optional[str] = None,
     ) -> LoadJobConfig:
         # if job.schema already set in job_config, do nothing
         if job_config.schema:
@@ -1191,7 +1188,7 @@ class GoogleBigQuery(DatabaseConnector):
         if_exists: str,
         max_errors: int,
         data_type: str,
-        csv_delimiter: Optional[str] = ',',
+        csv_delimiter: Optional[str] = ",",
         ignoreheader: Optional[int] = 1,
         nullas: Optional[str] = None,
         allow_quoted_newlines: Optional[bool] = None,
@@ -1200,7 +1197,7 @@ class GoogleBigQuery(DatabaseConnector):
         job_config: Optional[LoadJobConfig] = None,
         custom_schema: Optional[list] = None,
         template_table: Optional[str] = None,
-        parsons_table: Optional[Table] = None
+        parsons_table: Optional[Table] = None,
     ) -> LoadJobConfig:
         """
         Internal function to neatly process a user-supplied job configuration object.
@@ -1224,7 +1221,7 @@ class GoogleBigQuery(DatabaseConnector):
             if_exists=if_exists,
             parsons_table=parsons_table,
             custom_schema=custom_schema,
-            template_table=template_table
+            template_table=template_table,
         )
         if not job_config.schema:
             job_config.autodetect = True
@@ -1309,13 +1306,7 @@ class GoogleBigQuery(DatabaseConnector):
                 f"Only supports csv or json files [data_type = {data_type}]"
             )
 
-    def _load_table_from_uri(
-        self,
-        source_uris,
-        destination,
-        job_config,
-        **load_kwargs
-    ):
+    def _load_table_from_uri(self, source_uris, destination, job_config, **load_kwargs):
         try:
             load_job = self.client.load_table_from_uri(
                 source_uris=source_uris,
@@ -1328,7 +1319,9 @@ class GoogleBigQuery(DatabaseConnector):
         except exceptions.BadRequest as e:
             for idx, error_ in enumerate(load_job.errors):
                 if idx == 0:
-                    logger.error('* Load job failed. Enumerating errors collection below:')
+                    logger.error(
+                        "* Load job failed. Enumerating errors collection below:"
+                    )
                 logger.error(f"** Error collection - index {idx}:")
                 logger.error(error_)
 

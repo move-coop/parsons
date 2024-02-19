@@ -42,13 +42,6 @@ BIGQUERY_TYPE_MAP = {
 QUERY_BATCH_SIZE = 100000
 
 
-def get_table_ref(client, table_name):
-    # Helper function to build a TableReference for our table
-    parsed = parse_table_name(table_name)
-    dataset_ref = client.dataset(parsed["dataset"])
-    return dataset_ref.table(parsed["table"])
-
-
 def parse_table_name(table_name):
     # Helper function to parse out the different components of a table ID
     parts = table_name.split(".")
@@ -359,7 +352,9 @@ class GoogleBigQuery(DatabaseConnector):
             gcs_blob_uri: str
                 The GoogleCloudStorage URI referencing the file to be copied.
             table_name: str
-                The table name to load the data into.
+                The table name to load the data into. Will be used to generate load schema
+                if no custom schema or template table are supplied and the if_exists is
+                set to "truncate" or "append".
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table. This maps to `write_disposition` in the
@@ -412,11 +407,11 @@ class GoogleBigQuery(DatabaseConnector):
                 Other arguments to pass to the underlying load_table_from_uri
                 call on the BigQuery client.
         """
-        self._validate_copy_inputs()
+        self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
 
         job_config = self._process_job_config(
             job_config=job_config,
-            table_name=table_name,
+            destination_table_name=table_name,
             if_exists=if_exists,
             max_errors=max_errors,
             data_type=data_type,
@@ -426,12 +421,12 @@ class GoogleBigQuery(DatabaseConnector):
             allow_quoted_newlines=allow_quoted_newlines,
             allow_jagged_rows=allow_jagged_rows,
             quote=quote,
-            schema=schema,
+            custom_schema=schema,
             template_table=template_table
         )
 
         # load CSV from Cloud Storage into BigQuery
-        table_ref = get_table_ref(self.client, table_name)
+        table_ref = self.get_table_ref(table_name=table_name)
 
         try:
             if force_unzip_blobs:
@@ -516,7 +511,9 @@ class GoogleBigQuery(DatabaseConnector):
             gcs_blob_uri: str
                 The GoogleCloudStorage URI referencing the file to be copied.
             table_name: str
-                The table name to load the data into.
+                The table name to load the data into. Will be used to generate load schema
+                if no custom schema or template table are supplied and the if_exists is
+                set to "truncate" or "append".
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table. This maps to `write_disposition` in the
@@ -574,7 +571,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         job_config = self._process_job_config(
             job_config=job_config,
-            table_name=table_name,
+            destination_table_name=table_name,
             if_exists=if_exists,
             max_errors=max_errors,
             data_type=data_type,
@@ -584,7 +581,7 @@ class GoogleBigQuery(DatabaseConnector):
             allow_quoted_newlines=allow_quoted_newlines,
             allow_jagged_rows=allow_jagged_rows,
             quote=quote,
-            schema=schema,
+            custom_schema=schema,
             template_table=template_table
         )
 
@@ -606,7 +603,7 @@ class GoogleBigQuery(DatabaseConnector):
             logger.debug(
                 f"Loading uncompressed uri into BigQuery {uncompressed_gcs_uri}..."
             )
-            table_ref = get_table_ref(self.client, table_name)
+            table_ref = self.get_table_ref(table_name=table_name)
             return self._load_table_from_uri(
                 source_uris=uncompressed_gcs_uri,
                 destination=table_ref,
@@ -742,7 +739,9 @@ class GoogleBigQuery(DatabaseConnector):
             tbl: obj
                 The Parsons Table to copy into BigQuery.
             table_name: str
-                The table name to load the data into.
+                The table name to load the data into. Will be used to generate load schema
+                if no custom schema or template table are supplied and if_exists is
+                set to "truncate" or "append".
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
@@ -771,11 +770,12 @@ class GoogleBigQuery(DatabaseConnector):
 
         job_config = self._process_job_config(
             job_config=job_config,
-            table_name=table_name,
+            destination_table_name=table_name,
             if_exists=if_exists,
             max_errors=max_errors,
             data_type=data_type,
-            template_table=template_table
+            template_table=template_table,
+            parsons_table=tbl
         )
 
         # Reorder schema to match table to ensure compatibility
@@ -800,7 +800,7 @@ class GoogleBigQuery(DatabaseConnector):
         try:
             self._load_table_from_uri(
                 source_uris=temp_blob_uri,
-                destination=get_table_ref(self.client, table_name),
+                destination=self.get_table_ref(table_name=table_name),
                 job_config=job_config,
                 **load_kwargs
             )
@@ -970,7 +970,7 @@ class GoogleBigQuery(DatabaseConnector):
             table_name: str
                 The name of the table to delete.
         """
-        table_ref = get_table_ref(self.client, table_name)
+        table_ref = self.get_table_ref(table_name=table_name)
         self.client.delete_table(table_ref)
 
     def table_exists(self, table_name: str) -> bool:
@@ -984,7 +984,7 @@ class GoogleBigQuery(DatabaseConnector):
             bool
                 True if the table exists in the specified dataset, false otherwise
         """
-        table_ref = get_table_ref(self.client, table_name)
+        table_ref = self.get_table_ref(table_name=table_name)
         try:
             self.client.get_table(table_ref)
         except exceptions.NotFound:
@@ -1113,6 +1113,12 @@ class GoogleBigQuery(DatabaseConnector):
 
         return result["row_count"][0]
 
+    def get_table_ref(self, table_name):
+        # Helper function to build a TableReference for our table
+        parsed = parse_table_name(table_name)
+        dataset_ref = self.client.dataset(parsed["dataset"])
+        return dataset_ref.table(parsed["table"])
+    
     def _get_job_config_schema(
         self,
         job_config: LoadJobConfig,
@@ -1291,7 +1297,7 @@ class GoogleBigQuery(DatabaseConnector):
         ptable = petl.frompickle(temp_filename)
         return Table(ptable)
 
-    def _validate_copy_inputs(if_exists: str, data_type: str):
+    def _validate_copy_inputs(self, if_exists: str, data_type: str):
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError(
                 f"Unexpected value for if_exists: {if_exists}, must be one of "

@@ -363,7 +363,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         column_types = [schema_field.field_type for schema_field in job_config.schema]
         self.assertEqual(column_types, ["INTEGER", "STRING", "BOOLEAN"])
         self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
-        
+
         self.assertEqual(bq.get_table_ref.call_count, 2)
         get_table_ref_args = bq.get_table_ref.call_args
         self.assertEqual(get_table_ref_args[1]["table_name"], table_name)

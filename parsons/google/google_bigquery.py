@@ -1117,7 +1117,7 @@ class GoogleBigQuery(DatabaseConnector):
         parsed = parse_table_name(table_name)
         dataset_ref = self.client.dataset(parsed["dataset"])
         return dataset_ref.table(parsed["table"])
-    
+
     def _get_job_config_schema(
         self,
         job_config: LoadJobConfig,
@@ -1143,7 +1143,9 @@ class GoogleBigQuery(DatabaseConnector):
                 bigquery_table = self.client.get_table(template_table)
                 return bigquery_table.schema
             except google.api_core.exceptions.NotFound:
-                logger.warning(f"template_table '{template_table}' not found. Unablet to set schema.")
+                logger.warning(
+                    f"template_table '{template_table}' not found. Unable to set schema."
+                )
         # if load is coming from a Parsons table, use that to generate schema
         if parsons_table:
             return self._generate_schema_from_parsons_table(parsons_table)
@@ -1331,7 +1333,7 @@ class GoogleBigQuery(DatabaseConnector):
                 logger.error(error_)
 
             raise e
-    
+
     @staticmethod
     def _bigquery_type(tp):
         return BIGQUERY_TYPE_MAP[tp]

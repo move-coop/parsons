@@ -441,7 +441,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         try:
             if force_unzip_blobs:
-                self.copy_large_compressed_file_from_gcs(
+                load_job = self.copy_large_compressed_file_from_gcs(
                     gcs_blob_uri=gcs_blob_uri,
                     table_name=table_name,
                     if_exists=if_exists,
@@ -457,6 +457,7 @@ class GoogleBigQuery(DatabaseConnector):
                     compression_type=compression_type,
                     new_file_extension=new_file_extension,
                 )
+                load_job.result()
             else:
                 load_job = self.client.load_table_from_uri(
                     source_uris=gcs_blob_uri,
@@ -472,7 +473,7 @@ class GoogleBigQuery(DatabaseConnector):
                     running decompression function..."
                 )
 
-                self.copy_large_compressed_file_from_gcs(
+                load_job = self.copy_large_compressed_file_from_gcs(
                     gcs_blob_uri=gcs_blob_uri,
                     table_name=table_name,
                     if_exists=if_exists,
@@ -633,6 +634,7 @@ class GoogleBigQuery(DatabaseConnector):
                 **load_kwargs,
             )
             load_job.result()
+
         finally:
             if uncompressed_gcs_uri:
                 new_bucket_name, new_blob_name = gcs.split_uri(
@@ -640,6 +642,8 @@ class GoogleBigQuery(DatabaseConnector):
                 )
                 gcs.delete_blob(new_bucket_name, new_blob_name)
                 logger.debug("Successfully dropped uncompressed blob")
+
+            return load_job
 
     def copy_s3(
         self,

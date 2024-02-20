@@ -159,7 +159,7 @@
 <span class="sd">    `Args:`</span>
 <span class="sd">        hostname: str</span>
 <span class="sd">            The URL for the homepage/login page of the organization&#39;s Controlshift</span>
-<span class="sd">            instance (e.g. demo.controlshift.app). Not required if</span>
+<span class="sd">            instance (e.g. https://demo.controlshift.app). Not required if</span>
 <span class="sd">            ``CONTROLSHIFT_HOSTNAME`` env variable is set.</span>
 <span class="sd">        client_id: str</span>
 <span class="sd">            The Client ID for your REST API Application. Not required if</span>
@@ -174,6 +174,13 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hostname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CONTROLSHIFT_HOSTNAME&quot;</span><span class="p">,</span> <span class="n">hostname</span><span class="p">)</span>
+
+        <span class="c1"># Hostname must start with &#39;https://&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;http://&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;http://&quot;</span><span class="p">,</span> <span class="s2">&quot;https://&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;https://&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span>
+
         <span class="n">token_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/oauth/token&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">OAuth2APIConnector</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>

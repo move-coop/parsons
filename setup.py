@@ -1,10 +1,11 @@
 import os
 from distutils.core import setup
-
+from pathlib import Path
 from setuptools import find_packages
 
 
 def main():
+
     limited_deps = os.environ.get("PARSONS_LIMITED_DEPENDENCIES", "")
     if limited_deps.strip().upper() in ("1", "YES", "TRUE", "ON"):
         install_requires = [
@@ -65,6 +66,9 @@ def main():
         # No op for forward-compatibility
         extras_require = {"all": []}
 
+    this_directory = Path(__file__).parent
+    long_description = (this_directory / "README.md").read_text()
+
     setup(
         name="parsons",
         version="3.0.0",
@@ -84,6 +88,8 @@ def main():
             "Programming Language :: Python :: 3.10",
         ],
         python_requires=">=3.7.0,<3.11.0",
+        long_description=long_description,
+        long_description_content_type='text/markdown'
     )
 
 

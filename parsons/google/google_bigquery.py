@@ -1123,7 +1123,7 @@ class GoogleBigQuery(DatabaseConnector):
         parsons_table: Optional[Table] = None,
         custom_schema: Optional[list] = None,
         template_table: Optional[str] = None,
-    ) -> LoadJobConfig:
+    ) -> Optional[List[bigquery.SchemaField]]:
         # if job.schema already set in job_config, do nothing
         if job_config.schema:
             return job_config.schema

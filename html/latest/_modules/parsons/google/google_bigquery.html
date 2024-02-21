@@ -463,6 +463,12 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">return_values</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
 
+            <span class="c1"># This applies when running a SQL statement without any return value</span>
+            <span class="c1"># e.g. when creating a view or a table</span>
+            <span class="c1"># This does not apply when 0 rows are returned</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">cursor</span><span class="o">.</span><span class="n">description</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
             <span class="n">final_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_query_results</span><span class="p">(</span><span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">final_table</span></div>

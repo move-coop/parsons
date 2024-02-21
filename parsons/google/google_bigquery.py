@@ -1121,6 +1121,10 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Gets the row count for a BigQuery materialization.
 
+        Caution: This method uses SELECT COUNT(*) which can be expensive for large tables,
+        especially those with many columns. This is because BigQuery scans all table data
+        to perform the count, even though only the row count is returned.
+
         `Args`:
             schema: str
                 The schema name

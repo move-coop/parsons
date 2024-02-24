@@ -997,3 +997,15 @@ class TestParsonsTable(unittest.TestCase):
         tbl_expected = Table([["a", "b", "c"], [1, 2, 3], [1, 3, 2], [2, 3, 4]])
         tbl.deduplicate(["a", "b"])
         assert_matching_tables(tbl_expected, tbl)
+
+    def test_head(self):
+        tbl = Table([["a", "b"], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
+        tbl_expected = Table([["a", "b"], [1, 2], [3, 4]])
+        tbl.head(2)
+        assert_matching_tables(tbl_expected, tbl)
+
+    def test_tail(self):
+        tbl = Table([["a", "b"], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
+        tbl_expected = Table([["a", "b"], [7, 8], [9, 10]])
+        tbl.tail(2)
+        assert_matching_tables(tbl_expected, tbl)

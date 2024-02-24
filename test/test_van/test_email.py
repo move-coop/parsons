@@ -28,3 +28,23 @@ class TestEmail(unittest.TestCase):
 
         # Test the method
         assert_matching_tables(self.van.get_emails(), mock_response["emails"])
+
+    @requests_mock.Mocker()
+    def test_get_email(self, m):
+
+        mock_response = mock_get_emails[0]
+
+        m.get(f"{self.van.connection.uri}/email/messages/1", json=mock_response)
+
+        # Test the method
+        assert_matching_tables(self.van.get_email(1), mock_response)
+
+    @requests_mock.Mocker()
+    def test_get_email_stats(self, m):
+
+        mock_response = mock_get_emails
+
+        m.get(f"{self.van.connection.uri}/emails", json=mock_response)
+
+        # Test the method
+        assert_matching_tables(self.van.get_email_stats(), mock_response)

@@ -9,6 +9,37 @@ class ETL(object):
     def __init__(self):
         pass
 
+    def head(self, n=5):
+        """
+        Return the first n rows of the table
+
+        `Args:`
+            n: int
+                The number of rows to return. Defaults to 5.
+        `Returns:`
+            `Parsons Table`
+        """
+
+        self.table = petl.head(self.table, n)
+
+        return self
+
+    def tail(self, n=5):
+        """
+        Return the last n rows of the table. Defaults to 5.
+
+        `Args:`
+            n: int
+                The number of rows to return
+
+        `Returns:`
+            `Parsons Table`
+        """
+
+        self.table = petl.tail(self.table, n)
+
+        return self
+
     def add_column(self, column, value=None, index=None, if_exists="fail"):
         """
         Add a column to your table
@@ -724,7 +755,7 @@ class ETL(object):
                 The new long table
         """
 
-        if type(key) == str:
+        if type(key) is str:
             key = [key]
 
         lt = self.cut(*key, column)  # Create a table of key and column

@@ -114,15 +114,28 @@ class Formstack(object):
         tbl.remove_column("subfolders")
         return tbl
 
-    def get_forms(self) -> Table:
+    def get_forms(
+        self, form_name: Optional[str] = None, folder_id: Optional[int] = None
+    ) -> Table:
         """
         Get all forms on your account.
+
+        `Args:`
+            form_name: string, optional
+                Search by form name.
+            folder_id: int, optional
+                Return forms in the specified folder.
 
         `Returns:`
             Table Class
                 A table with the forms data.
         """
-        response_data = self.client.get_request("form")
+        params = {}
+        if form_name:
+            params["search"] = form_name
+        if folder_id:
+            params["folder"] = folder_id
+        response_data = self.client.get_request("form", params)
         logger.debug(response_data)
         return Table(response_data["forms"])
 

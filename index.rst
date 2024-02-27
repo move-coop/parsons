@@ -201,6 +201,7 @@ Indices and tables
    databases
    donorbox
    facebook_ads
+   formstack
    freshdesk
    github
    google

@@ -308,6 +308,12 @@ class GoogleBigQuery(DatabaseConnector):
             if not return_values:
                 return None
 
+            # This applies when running a SQL statement without any return value
+            # e.g. when creating a view or a table
+            # This does not apply when 0 rows are returned
+            if not cursor.description:
+                return None
+
             final_table = self._fetch_query_results(cursor=cursor)
 
             return final_table

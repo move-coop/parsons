@@ -1,9 +1,7 @@
 from parsons.utilities import check_env
-from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 from parsons import Table
 import logging
-import jwt
-import datetime
 import uuid
 
 logger = logging.getLogger(__name__)
@@ -32,54 +30,15 @@ class Zoom:
         self.client_id = check_env.check("ZOOM_CLIENT_ID", client_id)
         self.__client_secret = check_env.check("ZOOM_CLIENT_SECRET", client_secret)
 
-        self.client = APIConnector(uri=ZOOM_URI)
-
-        access_token = self.__generate_access_token()
-
-        self.client.headers = {
-            "Authorization": f"Bearer {access_token}",
-            "Content-type": "application/json",
-        }
-
-    def __generate_access_token(self) -> str:
-        """
-        Uses Zoom's OAuth callback URL to generate an access token to query the Zoom API
-
-        `Returns`:
-            String representation of access token
-        """
-
-        temp_client = APIConnector(
-            uri=ZOOM_URI, auth=(self.client_id, self.__client_secret)
+        self.client = OAuth2APIConnector(
+            uri=ZOOM_URI,
+            client_id=self.client_id,
+            client_secret=self.__client_secret,
+            token_url=ZOOM_AUTH_CALLBACK,
+            auto_refresh_url=ZOOM_AUTH_CALLBACK,
+            grant_type="account_credentials",
+            authorization_kwargs={"account_id": self.account_id},
         )
-
-        resp = temp_client.post_request(
-            ZOOM_AUTH_CALLBACK,
-            data={
-                "grant_type": "account_credentials",
-                "account_id": self.account_id,
-            },
-        )
-
-        return resp["access_token"]
-
-    def __refresh_header_token(self):
-        """
-        NOTE: This function is deprecated as Zoom's API moves to an OAuth strategy on 9/1
-
-        Generate a token that is valid for 30 seconds and update header. Full documentation
-        on JWT generation using Zoom API: https://marketplace.zoom.us/docs/guides/auth/jwt
-        """
-
-        payload = {
-            "iss": self.api_key,
-            "exp": int(datetime.datetime.now().timestamp() + 30),
-        }
-        token = jwt.encode(payload, self.api_secret, algorithm="HS256")
-        self.client.headers = {
-            "authorization": f"Bearer {token}",
-            "content-type": "application/json",
-        }
 
     def _get_request(self, endpoint, data_key, params=None, **kwargs):
         """
@@ -353,7 +312,7 @@ class Zoom:
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for poll ID {poll_id}")
             return Table(tbl)
 
@@ -380,7 +339,7 @@ class Zoom:
         endpoint = f"meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
             return Table(tbl)
 
@@ -405,7 +364,7 @@ class Zoom:
         endpoint = f"past_meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
             return Table(tbl)
 
@@ -432,7 +391,7 @@ class Zoom:
         endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for poll ID {poll_id}")
             return Table(tbl)
 
@@ -459,7 +418,7 @@ class Zoom:
         endpoint = f"webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
 
@@ -484,7 +443,7 @@ class Zoom:
         endpoint = f"past_webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
 
@@ -502,7 +461,7 @@ class Zoom:
         endpoint = f"report/meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
             return Table(tbl)
 
@@ -520,7 +479,7 @@ class Zoom:
         endpoint = f"report/webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if type(tbl) == dict:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
 

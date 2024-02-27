@@ -727,6 +727,12 @@ class GoogleBigQuery(DatabaseConnector):
         gcs_client: Optional[GoogleCloudStorage] = None,
         job_config: Optional[LoadJobConfig] = None,
         template_table: Optional[str] = None,
+        ignoreheader: int = 1,
+        nullas: Optional[str] = None,
+        allow_quoted_newlines: bool = True,
+        allow_jagged_rows: bool = True,
+        quote: Optional[str] = None,
+        schema: Optional[List[dict]] = None,
         **load_kwargs,
     ):
         """
@@ -773,6 +779,12 @@ class GoogleBigQuery(DatabaseConnector):
             data_type=data_type,
             template_table=template_table,
             parsons_table=tbl,
+            ignoreheader=ignoreheader,
+            nullas=nullas,
+            allow_quoted_newlines=allow_quoted_newlines,
+            allow_jagged_rows=allow_jagged_rows,
+            quote=quote,
+            custom_schema=schema,
         )
 
         # Reorder schema to match table to ensure compatibility

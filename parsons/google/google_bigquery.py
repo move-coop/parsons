@@ -342,7 +342,7 @@ class GoogleBigQuery(DatabaseConnector):
         force_unzip_blobs: bool = False,
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
-        template_table: str = None,
+        template_table: Optional[str] = None,
         **load_kwargs,
     ):
         """
@@ -500,7 +500,7 @@ class GoogleBigQuery(DatabaseConnector):
         job_config: Optional[LoadJobConfig] = None,
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
-        template_table: str = None,
+        template_table: Optional[str] = None,
         **load_kwargs,
     ):
         """

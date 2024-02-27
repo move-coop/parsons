@@ -67,10 +67,10 @@ class TestBulkImport(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_bulk_import_mapping_types(self, m):
 
-        m.get(self.van.connection.uri + "bulkImportMappingTypes", json=mapping_type)
+        m.get(self.van.connection.uri + "bulkImportMappingTypes", json=[mapping_type])
 
         assert_matching_tables(
-            self.van.get_bulk_import_mapping_types(), Table(mapping_type)
+            self.van.get_bulk_import_mapping_types(), Table([mapping_type])
         )
 
     @requests_mock.Mocker()

@@ -774,6 +774,10 @@ class GoogleBigQuery(DatabaseConnector):
         """
         data_type = "csv"
         tmp_gcs_bucket = check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
+        if not tmp_gcs_bucket:
+            raise ValueError(
+                "Must set GCS_TEMP_BUCKET environment variable or pass in tmp_gcs_bucket parameter"
+            )
 
         self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
 

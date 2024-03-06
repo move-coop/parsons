@@ -1076,7 +1076,7 @@ class GoogleBigQuery(DatabaseConnector):
         base_query = f"""
         SELECT
             *
-        FROM `{self.project}.{schema}.INFORMATION_SCHEMA.COLUMNS`
+        FROM `{schema}.INFORMATION_SCHEMA.COLUMNS`
         WHERE
             table_name = '{table_name}'
         """

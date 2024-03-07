@@ -59,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../census.html">Census</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
@@ -66,6 +67,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
@@ -146,11 +148,9 @@
              
   <h1>Source code for parsons.zoom.zoom</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities.oauth_api_connector</span> <span class="kn">import</span> <span class="n">OAuth2APIConnector</span>
 <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">jwt</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -179,54 +179,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ZOOM_CLIENT_ID&quot;</span><span class="p">,</span> <span class="n">client_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__client_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ZOOM_CLIENT_SECRET&quot;</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ZOOM_URI</span><span class="p">)</span>
-
-        <span class="n">access_token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__generate_access_token</span><span class="p">()</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">access_token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Content-type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
-        <span class="p">}</span>
-
-    <span class="k">def</span> <span class="nf">__generate_access_token</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Uses Zoom&#39;s OAuth callback URL to generate an access token to query the Zoom API</span>
-
-<span class="sd">        `Returns`:</span>
-<span class="sd">            String representation of access token</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">temp_client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span>
-            <span class="n">uri</span><span class="o">=</span><span class="n">ZOOM_URI</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__client_secret</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">OAuth2APIConnector</span><span class="p">(</span>
+            <span class="n">uri</span><span class="o">=</span><span class="n">ZOOM_URI</span><span class="p">,</span>
+            <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+            <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__client_secret</span><span class="p">,</span>
+            <span class="n">token_url</span><span class="o">=</span><span class="n">ZOOM_AUTH_CALLBACK</span><span class="p">,</span>
+            <span class="n">auto_refresh_url</span><span class="o">=</span><span class="n">ZOOM_AUTH_CALLBACK</span><span class="p">,</span>
+            <span class="n">grant_type</span><span class="o">=</span><span class="s2">&quot;account_credentials&quot;</span><span class="p">,</span>
+            <span class="n">authorization_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;account_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">account_id</span><span class="p">},</span>
         <span class="p">)</span>
-
-        <span class="n">resp</span> <span class="o">=</span> <span class="n">temp_client</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
-            <span class="n">ZOOM_AUTH_CALLBACK</span><span class="p">,</span>
-            <span class="n">data</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;grant_type&quot;</span><span class="p">:</span> <span class="s2">&quot;account_credentials&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;account_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">account_id</span><span class="p">,</span>
-            <span class="p">},</span>
-        <span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;access_token&quot;</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">__refresh_header_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        NOTE: This function is deprecated as Zoom&#39;s API moves to an OAuth strategy on 9/1</span>
-
-<span class="sd">        Generate a token that is valid for 30 seconds and update header. Full documentation</span>
-<span class="sd">        on JWT generation using Zoom API: https://marketplace.zoom.us/docs/guides/auth/jwt</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;iss&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
-            <span class="s2">&quot;exp&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span> <span class="o">+</span> <span class="mi">30</span><span class="p">),</span>
-        <span class="p">}</span>
-        <span class="n">token</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_secret</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;HS256&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;content-type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
-        <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -500,7 +461,7 @@
         <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/polls/</span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for poll ID </span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 
@@ -527,7 +488,7 @@
         <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;polls&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 
@@ -552,7 +513,7 @@
         <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;past_meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 
@@ -579,7 +540,7 @@
         <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/polls/</span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for poll ID </span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 
@@ -606,7 +567,7 @@
         <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;polls&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 
@@ -631,7 +592,7 @@
         <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;past_webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 
@@ -649,7 +610,7 @@
         <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;report/meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 
@@ -667,7 +628,7 @@
         <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;report/webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 

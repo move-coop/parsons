@@ -62,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="capitolcanary.html">CapitolCanary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="census.html">Census</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
@@ -69,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="donorbox.html">Donorbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
@@ -370,7 +372,7 @@ multiple files in the archive.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.put_file">
-<span class="sig-name descname"><span class="pre">put_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.put_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.put_file" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">put_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.put_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.put_file" title="Permalink to this definition"></a></dt>
 <dd><p>Put a file on the SFTP server</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -379,6 +381,8 @@ multiple files in the archive.</p>
 <dt>remote_path: str</dt><dd><p>The remote path of the new file</p>
 </dd>
 <dt>connection: obj</dt><dd><p>An SFTP connection object</p>
+</dd>
+<dt>verbose: bool</dt><dd><p>Log progress every 5MB. Defaults to True.</p>
 </dd>
 </dl>
 </dd>

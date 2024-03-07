@@ -59,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../census.html">Census</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
@@ -66,6 +67,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
@@ -159,7 +161,7 @@
 <span class="sd">    `Args:`</span>
 <span class="sd">        hostname: str</span>
 <span class="sd">            The URL for the homepage/login page of the organization&#39;s Controlshift</span>
-<span class="sd">            instance (e.g. demo.controlshift.app). Not required if</span>
+<span class="sd">            instance (e.g. https://demo.controlshift.app). Not required if</span>
 <span class="sd">            ``CONTROLSHIFT_HOSTNAME`` env variable is set.</span>
 <span class="sd">        client_id: str</span>
 <span class="sd">            The Client ID for your REST API Application. Not required if</span>
@@ -174,6 +176,13 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hostname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CONTROLSHIFT_HOSTNAME&quot;</span><span class="p">,</span> <span class="n">hostname</span><span class="p">)</span>
+
+        <span class="c1"># Hostname must start with &#39;https://&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;http://&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;http://&quot;</span><span class="p">,</span> <span class="s2">&quot;https://&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;https://&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span>
+
         <span class="n">token_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/oauth/token&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">OAuth2APIConnector</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>

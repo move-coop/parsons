@@ -59,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../census.html">Census</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
@@ -66,6 +67,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
@@ -149,6 +151,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
@@ -223,6 +226,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all of the advocacy_campaigns (letters) entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/advocacy_campaigns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;advocacy_campaigns&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -235,6 +240,8 @@
 <span class="sd">               The unique id of the advocacy_campaign</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with advocacy_campaign entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/advocacy_campaigns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;advocacy_campaigns/</span><span class="si">{</span><span class="n">advocacy_campaign_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -257,6 +264,8 @@
 <span class="sd">               When None, no filter is applied.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the attendances entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/attendances</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
@@ -283,6 +292,8 @@
 <span class="sd">               When None, no filter is applied.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the attendances entries related to the event</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/attendances</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
@@ -301,6 +312,8 @@
 <span class="sd">               The unique id of the attendance</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the attendance entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/attendances</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">/attendances/</span><span class="si">{</span><span class="n">attendance_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -313,8 +326,50 @@
 <span class="sd">               The unique id of the attendance</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the attendance entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/attendances</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/attendances/</span><span class="si">{</span><span class="n">attendance_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.create_attendance"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_attendance">[docs]</a>    <span class="k">def</span> <span class="nf">create_attendance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            event_id: the unique id of the event</span>
+<span class="sd">            payload: the payload for creating the event attendance</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;_links&quot; : {</span>
+<span class="sd">                        &quot;osdi:person&quot; : { &quot;href&quot; : &quot;https://actionnetwork.org/api/v2/people/id&quot; }</span>
+<span class="sd">                    }</span>
+<span class="sd">                }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response after creating the event attendance</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/attendances</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">/attendances&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.update_attendance"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_attendance">[docs]</a>    <span class="k">def</span> <span class="nf">update_attendance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">attendance_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            event_id:</span>
+<span class="sd">               The unique id of the event</span>
+<span class="sd">            attendance_id:</span>
+<span class="sd">               The unique id of the attendance</span>
+<span class="sd">            payload:</span>
+<span class="sd">               The payload for updating the event attendance</span>
+<span class="sd">               {</span>
+<span class="sd">                   &quot;identifiers&quot;: [</span>
+<span class="sd">                       &quot;other-system:230125a&quot;</span>
+<span class="sd">                   ]</span>
+<span class="sd">               }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response after updating the event attendance</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/attendances</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">/attendances/</span><span class="si">{</span><span class="n">attendance_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">payload</span>
+        <span class="p">)</span></div>
 
     <span class="c1"># Campaigns</span>
 <div class="viewcode-block" id="ActionNetwork.get_campaigns"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_campaigns">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaigns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -331,6 +386,8 @@
 <span class="sd">               When None, no filter is applied.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all of the campaigns entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/campaigns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;campaigns&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -343,6 +400,8 @@
 <span class="sd">               The unique id of the campaign</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the campaign entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/campaigns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;campaigns/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -353,6 +412,8 @@
 <span class="sd">            None</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the custom_fields associated with your API key.</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/custom_fields</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;metadata/custom_fields&quot;</span><span class="p">)</span></div>
 
@@ -363,6 +424,8 @@
 <span class="sd">            donation_id: The unique id of the donation</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with donation data</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/donations</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;donations/</span><span class="si">{</span><span class="n">donation_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -380,6 +443,8 @@
 <span class="sd">                When None, no filter is applied.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the donations entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/donations</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;donations&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -403,6 +468,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with fundraising_page entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/donations</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
@@ -436,6 +503,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all donations related to person</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/donations</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
@@ -451,6 +520,32 @@
             <span class="nb">filter</span><span class="p">,</span>
         <span class="p">)</span></div>
 
+<div class="viewcode-block" id="ActionNetwork.create_donation"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_donation">[docs]</a>    <span class="k">def</span> <span class="nf">create_donation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fundraising_page_id</span><span class="p">,</span> <span class="n">donation_payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            fundraising_page_id: The id of the fundraising page</span>
+<span class="sd">            donation_payload: The payload containing donation details</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;recipients&quot;: [</span>
+<span class="sd">                        {</span>
+<span class="sd">                            &quot;display_name&quot;: &quot;Campaign To Elect Tom&quot;,</span>
+<span class="sd">                            &quot;amount&quot;: &quot;3.00&quot;</span>
+<span class="sd">                        }</span>
+<span class="sd">                    ],</span>
+<span class="sd">                    &quot;created_date&quot;: &quot;2013-01-01T00:00:00Z&quot;,</span>
+<span class="sd">                    &quot;_links&quot; : {</span>
+<span class="sd">                        &quot;osdi:person&quot; : { &quot;href&quot; : &quot;link&quot; }</span>
+<span class="sd">                    }</span>
+<span class="sd">                }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the creation of the donation</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/donations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;fundraising_pages/</span><span class="si">{</span><span class="n">fundraising_page_id</span><span class="si">}</span><span class="s2">/donations&quot;</span><span class="p">,</span> <span class="n">donation_payload</span>
+        <span class="p">)</span></div>
+
     <span class="c1"># Embeds</span>
 <div class="viewcode-block" id="ActionNetwork.get_embeds"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_embeds">[docs]</a>    <span class="k">def</span> <span class="nf">get_embeds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_type</span><span class="p">,</span> <span class="n">action_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -461,6 +556,8 @@
 <span class="sd">              The unique id of the action</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the embeds (for you to be able to embed action outside of ActionNetwork).</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/embeds</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">action_type</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">action_id</span><span class="si">}</span><span class="s2">/embed&quot;</span><span class="p">)</span></div>
 
@@ -479,6 +576,8 @@
 <span class="sd">               When None, no filter is applied.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the event_campaigns entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/event_campaigns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;event_campaigns&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -491,8 +590,62 @@
 <span class="sd">               The unique id of the event_campaign</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with event_campaign entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/event_campaigns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;event_campaigns/</span><span class="si">{</span><span class="n">event_campaign_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.create_event_campaign"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_event_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            payload: The payload containing event campaign details</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;title&quot;: &quot;My Canvassing Event&quot;,</span>
+<span class="sd">                    &quot;origin_system&quot;: &quot;CanvassingEvents.com&quot;</span>
+<span class="sd">                }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the creation of the event campaign</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/event_campaigns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;event_campaigns&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.create_event_in_event_campaign"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_event_in_event_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_in_event_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_campaign_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            event_campaign_id:</span>
+<span class="sd">               The unique id of the event_campaign</span>
+<span class="sd">            payload:</span>
+<span class="sd">               The payload containing event details</span>
+<span class="sd">               {</span>
+<span class="sd">                   &quot;title&quot;: &quot;My Free Event&quot;,</span>
+<span class="sd">                   &quot;origin_system&quot;: &quot;FreeEvents.com&quot;</span>
+<span class="sd">               }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the creation of the event in the event campaign</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/event_campaigns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;event_campaigns/</span><span class="si">{</span><span class="n">event_campaign_id</span><span class="si">}</span><span class="s2">/events&quot;</span><span class="p">,</span> <span class="n">payload</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.update_event_campaign"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_event_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">update_event_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_campaign_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            event_campaign_id:</span>
+<span class="sd">               The unique id of the event_campaign</span>
+<span class="sd">            payload:</span>
+<span class="sd">               The payload containing event campaign details</span>
+<span class="sd">               {</span>
+<span class="sd">                   &quot;description&quot;: &quot;This is my new event campaign description&quot;</span>
+<span class="sd">               }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the update of the event campaign</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/event_campaigns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;event_campaigns/</span><span class="si">{</span><span class="n">event_campaign_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
 
     <span class="c1"># Events</span>
 <div class="viewcode-block" id="ActionNetwork.get_events"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_events">[docs]</a>    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -509,6 +662,8 @@
 <span class="sd">            When None, no filter is applied.</span>
 <span class="sd">         `Returns:`</span>
 <span class="sd">             A  JSON with all the events entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/events</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;events&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -520,6 +675,8 @@
 <span class="sd">            event_id: the unique id of the event</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with event entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/events</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -541,6 +698,8 @@
 <span class="sd">                When None, no filter is applied.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the eventes related to the event_campaign entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/events</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
@@ -578,6 +737,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Dict of Action Network Event data.</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/events</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span><span class="p">}</span>
@@ -598,6 +759,27 @@
 
         <span class="k">return</span> <span class="n">event_dict</span></div>
 
+<div class="viewcode-block" id="ActionNetwork.update_event"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_event">[docs]</a>    <span class="k">def</span> <span class="nf">update_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update an event in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            event_id: str</span>
+<span class="sd">                The unique id of the event</span>
+<span class="sd">            payload: dict</span>
+<span class="sd">                The payload containing event data (see https://actionnetwork.org/docs/v2/events)</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;title&quot;: &quot;My Free Event With A New Name&quot;,</span>
+<span class="sd">                    &quot;description&quot;: &quot;This is my free event description&quot;</span>
+<span class="sd">                }</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the update of the event</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/events</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
+
     <span class="c1"># Forms</span>
 <div class="viewcode-block" id="ActionNetwork.get_forms"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_forms">[docs]</a>    <span class="k">def</span> <span class="nf">get_forms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -613,6 +795,8 @@
 <span class="sd">                When None, no filter is applied.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the forms entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/forms</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;forms&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -625,8 +809,52 @@
 <span class="sd">               The unique id of the form</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with form entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/forms</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;forms/</span><span class="si">{</span><span class="n">form_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.create_form"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_form">[docs]</a>    <span class="k">def</span> <span class="nf">create_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a form in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            payload: dict</span>
+<span class="sd">                The payload containing form details</span>
+
+<span class="sd">                {</span>
+<span class="sd">                    &quot;title&quot;: &quot;My Free Form&quot;,</span>
+<span class="sd">                    &quot;origin_system&quot;: &quot;FreeForms.com&quot;</span>
+<span class="sd">                }</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the creation of the form</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/forms</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;forms&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.update_form"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_form">[docs]</a>    <span class="k">def</span> <span class="nf">update_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a form in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            form_id:</span>
+<span class="sd">                The unique id of the form</span>
+<span class="sd">            payload: dict</span>
+<span class="sd">                The payload containing form data (see https://actionnetwork.org/docs/v2/forms)</span>
+
+<span class="sd">                {</span>
+<span class="sd">                    &quot;title&quot;: &quot;My Free Form&quot;,</span>
+<span class="sd">                    &quot;origin_system&quot;: &quot;FreeForms.com&quot;</span>
+<span class="sd">                }</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the update of the form</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/forms</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;forms/</span><span class="si">{</span><span class="n">form_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
 
     <span class="c1"># Fundraising Pages</span>
 <div class="viewcode-block" id="ActionNetwork.get_fundraising_page"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_fundraising_page">[docs]</a>    <span class="k">def</span> <span class="nf">get_fundraising_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fundraising_page_id</span><span class="p">):</span>
@@ -635,6 +863,8 @@
 <span class="sd">            fundraising_page_id: The id of the fundraiser</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with fundraising_page entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/fundraising_pages</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;fundraising_pages/</span><span class="si">{</span><span class="n">fundraising_page_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -653,6 +883,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the fundraising_pages entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/fundraising_pages</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;fundraising_pages&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -660,6 +892,43 @@
             <span class="s2">&quot;fundraising_pages&quot;</span><span class="p">,</span>
             <span class="n">limit</span><span class="p">,</span>
         <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.create_fundraising_page"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_fundraising_page">[docs]</a>    <span class="k">def</span> <span class="nf">create_fundraising_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a fundraising page in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            payload: dict</span>
+<span class="sd">                The payload containing fundraising page details</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;title&quot;: &quot;My Free Fundraiser&quot;,</span>
+<span class="sd">                    &quot;origin_system&quot;: &quot;FreeFundraisers.com&quot;</span>
+<span class="sd">                }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the creation of the fundraising page</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/fundraising_pages</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;fundraising_pages&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.update_fundraising_page"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_fundraising_page">[docs]</a>    <span class="k">def</span> <span class="nf">update_fundraising_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fundraising_page_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a fundraising page in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            fundraising_page_id: The id of the fundraiser</span>
+<span class="sd">            payload: dict</span>
+<span class="sd">                The payload containing updated fundraising page details</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;title&quot;: &quot;My Free Fundraiser&quot;,</span>
+<span class="sd">                    &quot;origin_system&quot;: &quot;FreeFundraisers.com&quot;</span>
+<span class="sd">                }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the update of the fundraising page</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/fundraising_pages</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;fundraising_pages/</span><span class="si">{</span><span class="n">fundraising_page_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
 
     <span class="c1"># Items</span>
 <div class="viewcode-block" id="ActionNetwork.get_items"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_items">[docs]</a>    <span class="k">def</span> <span class="nf">get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -676,10 +945,10 @@
 <span class="sd">           filter:</span>
 <span class="sd">               The OData query for filtering results. E.g. &quot;modified_date gt &#39;2014-03-25&#39;&quot;.</span>
 <span class="sd">               When None, no filter is applied.</span>
-
-
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the list item entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/items</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lists/</span><span class="si">{</span><span class="n">list_id</span><span class="si">}</span><span class="s2">/items&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -694,6 +963,8 @@
 <span class="sd">              The unique id of the item</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the item entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/items</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lists/</span><span class="si">{</span><span class="n">list_id</span><span class="si">}</span><span class="s2">/items/</span><span class="si">{</span><span class="n">item_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -714,6 +985,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the list entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/lists</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;lists&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -726,6 +999,8 @@
 <span class="sd">              The unique id of the list</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the list entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/lists</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lists/</span><span class="si">{</span><span class="n">list_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -745,13 +1020,13 @@
 <span class="sd">               The OData query for filtering results. E.g. &quot;modified_date gt &#39;2014-03-25&#39;&quot;.</span>
 <span class="sd">               When None, no filter is applied.</span>
 <span class="sd">           unpack_statistics:</span>
-<span class="sd">                Whether to unpack the statistics dictionary into the table. Default to False.</span>
-
+<span class="sd">               Whether to unpack the statistics dictionary into the table. Default to False.</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A Parsons Table with all the messages related entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/messages</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Fetch messages</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -767,8 +1042,60 @@
 <span class="sd">               The unique id of the message</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the signature entry.</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/messages</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;messages/</span><span class="si">{</span><span class="n">message_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.create_message"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_message">[docs]</a>    <span class="k">def</span> <span class="nf">create_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a message in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            payload: dict</span>
+<span class="sd">                The payload containing message details</span>
+<span class="sd">                {</span>
+<span class="sd">                  &quot;subject&quot;: &quot;Stop doing the bad thing&quot;,</span>
+<span class="sd">                  &quot;body&quot;: &quot;&lt;p&gt;The mayor should stop doing the bad thing.&lt;/p&gt;&quot;,</span>
+<span class="sd">                  &quot;from&quot;: &quot;Progressive Action Now&quot;,</span>
+<span class="sd">                  &quot;reply_to&quot;: &quot;jane@progressiveactionnow.org&quot;,</span>
+<span class="sd">                  &quot;targets&quot;: [</span>
+<span class="sd">                    {</span>
+<span class="sd">                      &quot;href&quot;: &quot;https://actionnetwork.org/api/v2/queries/id&quot;</span>
+<span class="sd">                    }</span>
+<span class="sd">                  ],</span>
+<span class="sd">                  &quot;_links&quot;: {</span>
+<span class="sd">                    &quot;osdi:wrapper&quot;: {</span>
+<span class="sd">                      &quot;href&quot;: &quot;https://actionnetwork.org/api/v2/wrappers/id&quot;</span>
+<span class="sd">                    }</span>
+<span class="sd">                  }</span>
+<span class="sd">                }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the creation of the message</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/messages</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.update_message"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_message">[docs]</a>    <span class="k">def</span> <span class="nf">update_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a message in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            message_id:</span>
+<span class="sd">               The unique id of the message</span>
+<span class="sd">            payload: dict</span>
+<span class="sd">                The payload containing message details to be updated</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;name&quot;: &quot;Stop doing the bad thing email send 1&quot;,</span>
+<span class="sd">                    &quot;subject&quot;: &quot;Please! Stop doing the bad thing&quot;</span>
+<span class="sd">                }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the update of the message</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/messages</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;messages/</span><span class="si">{</span><span class="n">message_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
 
     <span class="c1"># Metadata</span>
 <div class="viewcode-block" id="ActionNetwork.get_metadata"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">get_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -777,6 +1104,8 @@
 <span class="sd">           None</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the metadata entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/metadata</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">)</span></div>
 
@@ -800,6 +1129,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">           A  JSON with all the outreaches entries related to the advocacy_campaign_id</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/outreaches</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
@@ -834,6 +1165,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the outreaches entries related to our group</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/outreaches</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
@@ -852,6 +1185,8 @@
 <span class="sd">               The unique id of the outreach</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the outreach entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/outreaches</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;advocacy_campaigns/</span><span class="si">{</span><span class="n">advocacy_campaign_id</span><span class="si">}</span><span class="s2">/outreaches/</span><span class="si">{</span><span class="n">outreach_id</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -866,8 +1201,63 @@
 <span class="sd">               The unique id of the outreach</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the outreach entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/outreaches</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/outreaches/</span><span class="si">{</span><span class="n">outreach_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.create_outreach"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_outreach">[docs]</a>    <span class="k">def</span> <span class="nf">create_outreach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">advocacy_campaign_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create an outreach in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            advocacy_campaign_id:</span>
+<span class="sd">                The unique id of the campaign</span>
+<span class="sd">            payload:</span>
+<span class="sd">                The payload containing outreach details</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;targets&quot;: [</span>
+<span class="sd">                        {</span>
+<span class="sd">                            &quot;given_name&quot;: &quot;Joe&quot;,</span>
+<span class="sd">                            &quot;family_name&quot;: &quot;Schmoe&quot;</span>
+<span class="sd">                        }</span>
+<span class="sd">                    ],</span>
+<span class="sd">                    &quot;_links&quot; : {</span>
+<span class="sd">                        &quot;osdi:person&quot; : { &quot;href&quot; : &quot;https://actionnetwork.org/api/v2/people/id&quot; }</span>
+<span class="sd">                    }</span>
+<span class="sd">                }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the creation of the outreach</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/outreaches</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;advocacy_campaigns/</span><span class="si">{</span><span class="n">advocacy_campaign_id</span><span class="si">}</span><span class="s2">/outreaches&quot;</span><span class="p">,</span> <span class="n">payload</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.update_outreach"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_outreach">[docs]</a>    <span class="k">def</span> <span class="nf">update_outreach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">advocacy_campaign_id</span><span class="p">,</span> <span class="n">outreach_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update an outreach in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            advocacy_campaign_id:</span>
+<span class="sd">                The unique id of the campaign</span>
+<span class="sd">            outreach_id:</span>
+<span class="sd">                The unique id of the outreach</span>
+<span class="sd">            payload:</span>
+<span class="sd">                The payload containing outreach details to be updated</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;subject&quot;: &quot;Please vote no!&quot;</span>
+<span class="sd">                }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the update of the outreach</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/outreaches</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;advocacy_campaigns/</span><span class="si">{</span><span class="n">advocacy_campaign_id</span><span class="si">}</span><span class="s2">/outreaches/</span><span class="si">{</span><span class="n">outreach_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">payload</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
     <span class="c1"># People</span>
 <div class="viewcode-block" id="ActionNetwork.get_people"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_people">[docs]</a>    <span class="k">def</span> <span class="nf">get_people</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -884,6 +1274,8 @@
 <span class="sd">                When None, no filter is applied.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A list of JSONs of people stored in Action Network.</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/people</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;people&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
@@ -897,12 +1289,14 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON of the entry. If the entry doesn&#39;t exist, Action Network returns</span>
 <span class="sd">            ``{&#39;error&#39;: &#39;Couldn&#39;t find person with id = &lt;id&gt;&#39;}``.</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/people</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.upsert_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.upsert_person">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_person</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">email_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">email_address</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">given_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">family_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -928,8 +1322,8 @@
 <span class="sd">                Either email_address or mobile_number are required. Can be any of the following</span>
 <span class="sd">                    - a string with the person&#39;s email</span>
 <span class="sd">                    - a list of strings with a person&#39;s emails</span>
-<span class="sd">                    - a dictionary with the following fields</span>
-<span class="sd">                        - email_address (REQUIRED)</span>
+<span class="sd">                    - a list of dictionaries with the following fields</span>
+<span class="sd">                        - address (REQUIRED)</span>
 <span class="sd">                        - primary (OPTIONAL): Boolean indicating the user&#39;s primary email address</span>
 <span class="sd">                        - status (OPTIONAL): can taken on any of these values</span>
 <span class="sd">                            - &quot;subscribed&quot;</span>
@@ -973,6 +1367,8 @@
 <span class="sd">                Any additional fields to store about the person. Action Network allows</span>
 <span class="sd">                any custom field.</span>
 <span class="sd">        Adds a person to Action Network</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/people</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">email_addresses_field</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">email_address</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -983,6 +1379,11 @@
                 <span class="n">email_addresses_field</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;primary&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">email_address</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="n">email_addresses_field</span> <span class="o">=</span> <span class="n">email_address</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unexpected type for email_address. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">email_address</span><span class="p">)</span><span class="si">}</span><span class="s2">, &quot;</span>
+                <span class="s2">&quot;expected str or list.&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -1128,6 +1529,8 @@
 <span class="sd">                        https://actionnetwork.org/docs/v2/people#put</span>
 <span class="sd">                    custom_fields:</span>
 <span class="sd">                        A dictionary of any other fields to store about the person.</span>
+<span class="sd">                    `Documentation Reference`:</span>
+<span class="sd">                        https://actionnetwork.org/docs/v2/people</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">entry_id</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -1156,6 +1559,8 @@
 <span class="sd">               When None, no filter is applied.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all of the petitions entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/petitions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;petitions&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -1168,8 +1573,90 @@
 <span class="sd">               The unique id of the petition</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the petition entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/petitions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.create_petition"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_petition">[docs]</a>    <span class="k">def</span> <span class="nf">create_petition</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">petition_text</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">background_processing</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            title:</span>
+<span class="sd">               The title of the petition</span>
+<span class="sd">            description:</span>
+<span class="sd">               The description of the petition</span>
+<span class="sd">            petition_text:</span>
+<span class="sd">               The text of the petition</span>
+<span class="sd">            target:</span>
+<span class="sd">               The target of the petition</span>
+<span class="sd">            background_processing:</span>
+<span class="sd">               Whether to process the request in the background</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON with the response from the API</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/petitions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+            <span class="s2">&quot;petition_text&quot;</span><span class="p">:</span> <span class="n">petition_text</span><span class="p">,</span>
+            <span class="s2">&quot;target&quot;</span><span class="p">:</span> <span class="n">target</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/petitions&quot;</span>
+        <span class="k">if</span> <span class="n">background_processing</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">?background_processing=</span><span class="si">{</span><span class="n">background_processing</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Petition </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> successfully created&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.update_petition"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_petition">[docs]</a>    <span class="k">def</span> <span class="nf">update_petition</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">petition_id</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">,</span>
+        <span class="n">description</span><span class="p">,</span>
+        <span class="n">petition_text</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">,</span>
+        <span class="n">background_processing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            petition_id:</span>
+<span class="sd">               The unique id of the petition to be updated</span>
+<span class="sd">            title:</span>
+<span class="sd">               The updated title of the petition</span>
+<span class="sd">            description:</span>
+<span class="sd">               The updated description of the petition</span>
+<span class="sd">            petition_text:</span>
+<span class="sd">               The updated text of the petition</span>
+<span class="sd">            target:</span>
+<span class="sd">               The updated target of the petition</span>
+<span class="sd">            background_processing:</span>
+<span class="sd">               Whether to process the request in the background</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON with the response from the API</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/petitions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+            <span class="s2">&quot;petition_text&quot;</span><span class="p">:</span> <span class="n">petition_text</span><span class="p">,</span>
+            <span class="s2">&quot;target&quot;</span><span class="p">:</span> <span class="n">target</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">background_processing</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">?background_processing=</span><span class="si">{</span><span class="n">background_processing</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Petition </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> successfully updated&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
     <span class="c1"># Queries</span>
 <div class="viewcode-block" id="ActionNetwork.get_queries"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_queries">[docs]</a>    <span class="k">def</span> <span class="nf">get_queries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1188,6 +1675,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the query entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/queries</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;queries&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -1200,6 +1689,8 @@
 <span class="sd">              The unique id of the query</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the query entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/queries</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;queries/</span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -1222,6 +1713,8 @@
 <span class="sd">               When None, no filter is applied.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the signatures related to the petition entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/signatures</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
@@ -1251,6 +1744,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the signatures related to the petition entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/signatures</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
@@ -1269,6 +1764,8 @@
 <span class="sd">               The unique id of the signature</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the signature entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/signatures</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">/signatures/</span><span class="si">{</span><span class="n">signature_id</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -1283,8 +1780,51 @@
 <span class="sd">               The unique id of the signature</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the signature entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/signatures</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/signatures/</span><span class="si">{</span><span class="n">signature_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.create_signature"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_signature">[docs]</a>    <span class="k">def</span> <span class="nf">create_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">petition_id</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            petition_id:</span>
+<span class="sd">               The unique id of the petition</span>
+<span class="sd">            data:</span>
+<span class="sd">               The payload for creating the signature</span>
+<span class="sd">               {</span>
+<span class="sd">                   &quot;comments&quot; : &quot;Stop doing the thing&quot;,</span>
+<span class="sd">                   &quot;_links&quot; : {</span>
+<span class="sd">                       &quot;osdi:person&quot; : { &quot;href&quot; : &quot;https://actionnetwork.org/api/v2/people/id&quot; }</span>
+<span class="sd">                   }</span>
+<span class="sd">               }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON with the created signature entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/signatures</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">/signatures&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.update_signature"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_signature">[docs]</a>    <span class="k">def</span> <span class="nf">update_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">petition_id</span><span class="p">,</span> <span class="n">signature_id</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            petition_id:</span>
+<span class="sd">               The unique id of the petition</span>
+<span class="sd">            signature_id:</span>
+<span class="sd">               The unique id of the signature</span>
+<span class="sd">            data:</span>
+<span class="sd">               The signature payload to update</span>
+<span class="sd">               {</span>
+<span class="sd">                   &quot;comments&quot;: &quot;Some new comments&quot;</span>
+<span class="sd">               }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON with the updated signature entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/signatures</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">/signatures/</span><span class="si">{</span><span class="n">signature_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">data</span>
+        <span class="p">)</span></div>
 
     <span class="c1"># Submissions</span>
 <div class="viewcode-block" id="ActionNetwork.get_form_submissions"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_form_submissions">[docs]</a>    <span class="k">def</span> <span class="nf">get_form_submissions</span><span class="p">(</span>
@@ -1306,6 +1846,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the submissions entries related to the form</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/submissions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
@@ -1333,6 +1875,8 @@
 <span class="sd">               When None, no filter is applied.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the submissions entries related with our group</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/submissions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
@@ -1351,6 +1895,8 @@
 <span class="sd">               The unique id of the submission</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the submission entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/submissions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;forms/</span><span class="si">{</span><span class="n">form_id</span><span class="si">}</span><span class="s2">/submissions/</span><span class="si">{</span><span class="n">submission_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -1363,8 +1909,56 @@
 <span class="sd">               The unique id of the submission</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the submission entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/submissions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/submissions/</span><span class="si">{</span><span class="n">submission_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.create_submission"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_submission">[docs]</a>    <span class="k">def</span> <span class="nf">create_submission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_id</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            form_id:</span>
+<span class="sd">                The unique id of the form</span>
+<span class="sd">            person_id:</span>
+<span class="sd">                The unique id of the person</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response indicating the success or failure of the submission creation</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/submissions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;_links&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;osdi:person&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;https://actionnetwork.org/api/v2/people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;forms/</span><span class="si">{</span><span class="n">form_id</span><span class="si">}</span><span class="s2">/submissions&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.update_submission"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_submission">[docs]</a>    <span class="k">def</span> <span class="nf">update_submission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_id</span><span class="p">,</span> <span class="n">submission_id</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            form_id:</span>
+<span class="sd">                The unique id of the form</span>
+<span class="sd">            submission_id:</span>
+<span class="sd">                The unique id of the submission</span>
+<span class="sd">            data:</span>
+<span class="sd">                The payload for updating the submission</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;_links&quot; : {</span>
+<span class="sd">                        &quot;osdi:person&quot; : { &quot;href&quot; : &quot;https://actionnetwork.org/api/v2/people/id&quot; }</span>
+<span class="sd">                    }</span>
+<span class="sd">                }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON with the updated submission entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/submissions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;forms/</span><span class="si">{</span><span class="n">form_id</span><span class="si">}</span><span class="s2">/submissions/</span><span class="si">{</span><span class="n">submission_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="p">)</span></div>
 
     <span class="c1"># Tags</span>
 <div class="viewcode-block" id="ActionNetwork.get_tags"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_tags">[docs]</a>    <span class="k">def</span> <span class="nf">get_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1376,6 +1970,8 @@
 <span class="sd">                This is a deprecated argument.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A list of JSONs of tags in Action Network.</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/tags</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">per_page</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
@@ -1393,6 +1989,8 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON of the entry. If the entry doesn&#39;t exist, Action Network returns</span>
 <span class="sd">            &quot;{&#39;error&#39;: &#39;Couldn&#39;t find tag with id = &lt;id&gt;&#39;}&quot;</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/tags</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -1402,6 +2000,8 @@
 <span class="sd">            name:</span>
 <span class="sd">                The tag&#39;s name. This is the ONLY editable field</span>
 <span class="sd">        Adds a tag to Action Network. Once created, tags CANNOT be edited or deleted.</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/tags</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">}</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
@@ -1435,6 +2035,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the tagging entries associated with the tag_id</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/taggings</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">/taggings&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -1449,8 +2051,45 @@
 <span class="sd">              The unique id of the tagging</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the tagging entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/taggings</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">/taggings/</span><span class="si">{</span><span class="n">tagging_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.create_tagging"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_tagging">[docs]</a>    <span class="k">def</span> <span class="nf">create_tagging</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            tag_id:</span>
+<span class="sd">                The unique id of the tag</span>
+<span class="sd">            payload:</span>
+<span class="sd">                The payload for creating the tagging</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;_links&quot; : {</span>
+<span class="sd">                        &quot;osdi:person&quot; : { &quot;href&quot; : &quot;https://actionnetwork.org/api/v2/people/id&quot; }</span>
+<span class="sd">                    }</span>
+<span class="sd">                }</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response after creating the tagging</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/taggings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">/taggings&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.delete_tagging"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.delete_tagging">[docs]</a>    <span class="k">def</span> <span class="nf">delete_tagging</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">,</span> <span class="n">tagging_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            tag_id:</span>
+<span class="sd">                The unique id of the tag</span>
+<span class="sd">            tagging_id:</span>
+<span class="sd">                The unique id of the tagging to be deleted</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response after deleting the tagging</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/taggings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">/taggings/</span><span class="si">{</span><span class="n">tagging_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
     <span class="c1"># Wrappers</span>
 <div class="viewcode-block" id="ActionNetwork.get_wrappers"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_wrappers">[docs]</a>    <span class="k">def</span> <span class="nf">get_wrappers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1469,6 +2108,8 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with all the wrapper entries</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/wrappers</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;wrappers&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -1483,6 +2124,8 @@
 <span class="sd">              The unique id of the tagging</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON with the wrapper entry</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/wrappers</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;wrappers/</span><span class="si">{</span><span class="n">wrapper_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
 </pre></div>

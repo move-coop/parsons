@@ -59,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../census.html">Census</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
@@ -66,6 +67,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
@@ -283,7 +285,14 @@
         <span class="n">bucket</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="n">delete_blobs</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> bucket deleted.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleCloudStorage.list_blobs"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs">[docs]</a>    <span class="k">def</span> <span class="nf">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">match_glob</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleCloudStorage.list_blobs"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs">[docs]</a>    <span class="k">def</span> <span class="nf">list_blobs</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">bucket_name</span><span class="p">,</span>
+        <span class="n">max_results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">match_glob</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_file_details</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List all of the blobs in a bucket</span>
 
@@ -298,14 +307,23 @@
 <span class="sd">                Filters files based on glob string. NOTE that the match_glob</span>
 <span class="sd">                parameter runs on the full blob URI, include a preceding wildcard</span>
 <span class="sd">                value to account for nested files (*/ for one level, **/ for n levels)</span>
+<span class="sd">            include_file_details: bool</span>
+<span class="sd">                If True, returns a list of `Blob` objects with accessible metadata. For</span>
+<span class="sd">                documentation of attributes associated with `Blob` objects see</span>
+<span class="sd">                https://cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.blob.Blob</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            A list of blob names</span>
+<span class="sd">            A list of blob names (or `Blob` objects if `include_file_details` is invoked)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">blobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span>
             <span class="n">bucket_name</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="n">max_results</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">match_glob</span><span class="o">=</span><span class="n">match_glob</span>
         <span class="p">)</span>
-        <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">include_file_details</span><span class="p">:</span>
+            <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">]</span>
+
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> bucket.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">lst</span></div>

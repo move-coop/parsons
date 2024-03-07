@@ -62,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="capitolcanary.html">CapitolCanary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="census.html">Census</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
@@ -69,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="donorbox.html">Donorbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
@@ -147,6 +149,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#transformation-api">Transformation API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#parsons.etl.etl.ETL"><code class="docutils literal notranslate"><span class="pre">ETL</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.head"><code class="docutils literal notranslate"><span class="pre">ETL.head()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.tail"><code class="docutils literal notranslate"><span class="pre">ETL.tail()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.add_column"><code class="docutils literal notranslate"><span class="pre">ETL.add_column()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.remove_column"><code class="docutils literal notranslate"><span class="pre">ETL.remove_column()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.etl.etl.ETL.rename_column"><code class="docutils literal notranslate"><span class="pre">ETL.rename_column()</span></code></a></li>
@@ -435,6 +439,12 @@ of commonly used methods. The full list can be found in the API section.</p>
 </tr>
 </thead>
 <tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.head" title="parsons.etl.etl.ETL.head"><code class="xref py py-meth docutils literal notranslate"><span class="pre">head()</span></code></a></p></td>
+<td><p>Get the first n rows of a table</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.tail" title="parsons.etl.etl.ETL.tail"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tail()</span></code></a></p></td>
+<td><p>Get the last n rows of a table</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.etl.ETL.add_column" title="parsons.etl.etl.ETL.add_column"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_column()</span></code></a></p></td>
 <td><p>Add a column</p></td>
 </tr>
@@ -1317,6 +1327,36 @@ then will use the default inferred environment.</p>
 <dt class="sig sig-object py" id="parsons.etl.etl.ETL">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.etl.etl.</span></span><span class="sig-name descname"><span class="pre">ETL</span></span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.etl.ETL" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
+<dt class="sig sig-object py" id="parsons.etl.etl.ETL.head">
+<span class="sig-name descname"><span class="pre">head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.etl.ETL.head" title="Permalink to this definition"></a></dt>
+<dd><p>Return the first n rows of the table</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>n: int</dt><dd><p>The number of rows to return. Defaults to 5.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><cite>Parsons Table</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.etl.etl.ETL.tail">
+<span class="sig-name descname"><span class="pre">tail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.tail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.etl.ETL.tail" title="Permalink to this definition"></a></dt>
+<dd><p>Return the last n rows of the table. Defaults to 5.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>n: int</dt><dd><p>The number of rows to return</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><cite>Parsons Table</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.etl.etl.ETL.add_column">
 <span class="sig-name descname"><span class="pre">add_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.add_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.etl.ETL.add_column" title="Permalink to this definition"></a></dt>
 <dd><p>Add a column to your table</p>
@@ -2185,7 +2225,7 @@ unless it’s identical to another record in both columns <code class="docutils 
 <h2>Materialize API<a class="headerlink" href="#materialize-api" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.etl.table.Table">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.etl.table.</span></span><span class="sig-name descname"><span class="pre">Table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/table.html#Table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.table.Table" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.etl.table.</span></span><span class="sig-name descname"><span class="pre">Table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Table</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">_EmptyDefault</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">_EmptyDefault.token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/table.html#Table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.table.Table" title="Permalink to this definition"></a></dt>
 <dd><p>Create a Parsons Table. Accepts one of the following:
 - A list of lists, with list[0] holding field names, and the other lists holding data
 - A list of dicts

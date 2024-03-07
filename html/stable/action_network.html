@@ -61,6 +61,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_event_attendances"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_event_attendances()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_event_attendance"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_event_attendance()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_person_attendance"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_person_attendance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_attendance"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_attendance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.update_attendance"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.update_attendance()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_campaigns"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_campaigns()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_campaign"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_campaign()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_custom_fields"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_custom_fields()</span></code></a></li>
@@ -68,28 +70,41 @@
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_donations"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_donations()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_fundraising_page_donations"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_fundraising_page_donations()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_person_donations"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_person_donations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_donation"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_donation()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_embeds"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_embeds()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_event_campaigns"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_event_campaigns()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_event_campaign"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_event_campaign()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_event_campaign"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_event_campaign()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_event_in_event_campaign"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_event_in_event_campaign()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.update_event_campaign"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.update_event_campaign()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_events"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_events()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_event"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_event()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_event_campaign_events"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_event_campaign_events()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_event"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.update_event"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.update_event()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_forms"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_forms()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_form"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_form"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.update_form"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.update_form()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_fundraising_page"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_fundraising_page()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_fundraising_pages"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_fundraising_pages()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_fundraising_page"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_fundraising_page()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.update_fundraising_page"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.update_fundraising_page()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_items"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_items()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_item"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_item()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_lists"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_lists()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_list"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_list()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_messages"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_messages()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_message"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_message"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.update_message"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.update_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_metadata"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_metadata()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_advocacy_campaign_outreaches"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_advocacy_campaign_outreaches()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_person_outreaches"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_person_outreaches()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_advocacy_campaign_outreach"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_advocacy_campaign_outreach()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_person_outreach"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_person_outreach()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_outreach"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_outreach()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.update_outreach"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.update_outreach()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_people"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_people()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_person"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_person()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.upsert_person"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.upsert_person()</span></code></a></li>
@@ -97,21 +112,29 @@
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.update_person"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.update_person()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_petitions"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_petitions()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_petition"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_petition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_petition"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_petition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.update_petition"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.update_petition()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_queries"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_queries()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_query"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_query()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_petition_signatures"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_petition_signatures()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_person_signatures"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_person_signatures()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_petition_signature"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_petition_signature()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_person_signature"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_person_signature()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_signature"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_signature()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.update_signature"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.update_signature()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_form_submissions"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_form_submissions()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_person_submissions"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_person_submissions()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_form_submission"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_form_submission()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_person_submission"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_person_submission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_submission"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_submission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.update_submission"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.update_submission()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_tags"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_tags()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_tag"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_tag()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.add_tag"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.add_tag()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_taggings"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_taggings()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_tagging"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_tagging()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_tagging"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_tagging()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.delete_tagging"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.delete_tagging()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_wrappers"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_wrappers()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_wrapper"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_wrapper()</span></code></a></li>
 </ul>
@@ -131,6 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="capitolcanary.html">CapitolCanary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="census.html">Census</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
@@ -138,6 +162,7 @@
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="donorbox.html">Donorbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
@@ -254,6 +279,61 @@ and organizing volunteers and donors. It is used primarily for digital organizin
 
 <span class="c1"># Update a person</span>
 <span class="n">an</span><span class="o">.</span><span class="n">update_person</span><span class="p">(</span><span class="s1">&#39;fake_id&#39;</span><span class="p">,</span> <span class="n">given_name</span><span class="o">=</span><span class="s1">&#39;new_given_name&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tag_1&#39;</span><span class="p">,</span> <span class="s1">&#39;tag_2&#39;</span><span class="p">])</span>
+
+<span class="c1"># Get all taggings associated with a specific tag</span>
+<span class="n">all_taggings</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_taggings</span><span class="p">(</span><span class="s1">&#39;tag_id&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get a specific tagging</span>
+<span class="n">specific_tagging</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_tagging</span><span class="p">(</span><span class="s1">&#39;tag_id&#39;</span><span class="p">,</span> <span class="s1">&#39;tagging_id&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a tagging</span>
+<span class="n">tagging_payload</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;_links&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;osdi:person&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;href&quot;</span> <span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/people/123&quot;</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">created_tagging</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">create_tagging</span><span class="p">(</span><span class="s1">&#39;tag_id&#39;</span><span class="p">,</span> <span class="n">tagging_payload</span><span class="p">)</span>
+<span class="c1"># Result</span>
+<span class="n">created_tagging</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;_links&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;self&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/tags/123/taggings/123&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;osdi:tag&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/tags/123&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;osdi:person&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/people/123&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;curies&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;osdi&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/docs/v2/</span><span class="si">{rel}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;templated&quot;</span><span class="p">:</span> <span class="n">true</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;action_network&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/docs/v2/</span><span class="si">{rel}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;templated&quot;</span><span class="p">:</span> <span class="n">true</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;identifiers&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;action_network:123&quot;</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;created_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2014-03-18T22:25:31Z&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;modified_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2014-03-18T22:25:38Z&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;item_type&quot;</span><span class="p">:</span> <span class="s2">&quot;osdi:person&quot;</span>
+<span class="p">}</span>
+
+<span class="c1"># Delete a tagging</span>
+<span class="n">an</span><span class="o">.</span><span class="n">delete_tagging</span><span class="p">(</span><span class="s1">&#39;tag_id&#39;</span><span class="p">,</span> <span class="s1">&#39;tagging_id&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get all wrappers</span>
+<span class="n">all_wrappers</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_wrappers</span><span class="p">()</span>
+
+<span class="c1"># Get a specific wrapper</span>
+<span class="n">specific_wrapper</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_wrapper</span><span class="p">(</span><span class="s1">&#39;wrapper_id&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -291,6 +371,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all of the advocacy_campaigns (letters) entries</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/advocacy_campaigns">https://actionnetwork.org/docs/v2/advocacy_campaigns</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -304,6 +386,8 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with advocacy_campaign entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/advocacy_campaigns">https://actionnetwork.org/docs/v2/advocacy_campaigns</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -332,6 +416,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the attendances entries</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/attendances">https://actionnetwork.org/docs/v2/attendances</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -358,6 +444,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the attendances entries related to the event</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/attendances">https://actionnetwork.org/docs/v2/attendances</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -374,6 +462,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the attendance entry</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/attendances">https://actionnetwork.org/docs/v2/attendances</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -389,6 +479,62 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the attendance entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/attendances">https://actionnetwork.org/docs/v2/attendances</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_attendance">
+<span class="sig-name descname"><span class="pre">create_attendance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_attendance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_attendance" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><p>event_id: the unique id of the event
+payload: the payload for creating the event attendance</p>
+<blockquote>
+<div><dl>
+<dt>{</dt><dd><dl class="simple">
+<dt>“_links”<span class="classifier">{</span></dt><dd><p>“osdi:person” : { “href” : “https://actionnetwork.org/api/v2/people/id” }</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response after creating the event attendance</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/attendances">https://actionnetwork.org/docs/v2/attendances</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.update_attendance">
+<span class="sig-name descname"><span class="pre">update_attendance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attendance_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.update_attendance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.update_attendance" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>event_id:</dt><dd><p>The unique id of the event</p>
+</dd>
+<dt>attendance_id:</dt><dd><p>The unique id of the attendance</p>
+</dd>
+<dt>payload:</dt><dd><p>The payload for updating the event attendance
+{</p>
+<blockquote>
+<div><dl class="simple">
+<dt>“identifiers”: [</dt><dd><p>“other-system:230125a”</p>
+</dd>
+</dl>
+<p>]</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response after updating the event attendance</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/attendances">https://actionnetwork.org/docs/v2/attendances</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -415,6 +561,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all of the campaigns entries</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/campaigns">https://actionnetwork.org/docs/v2/campaigns</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -429,6 +577,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the campaign entry</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/campaigns">https://actionnetwork.org/docs/v2/campaigns</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -440,6 +590,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the custom_fields associated with your API key.</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/custom_fields">https://actionnetwork.org/docs/v2/custom_fields</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -450,6 +602,8 @@ When None, no filter is applied.</p>
 <dt><cite>Args:</cite></dt><dd><p>donation_id: The unique id of the donation</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with donation data</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/donations">https://actionnetwork.org/docs/v2/donations</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -475,6 +629,8 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the donations entries</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/donations">https://actionnetwork.org/docs/v2/donations</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -502,6 +658,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with fundraising_page entry</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/donations">https://actionnetwork.org/docs/v2/donations</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -528,6 +686,44 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all donations related to person</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/donations">https://actionnetwork.org/docs/v2/donations</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_donation">
+<span class="sig-name descname"><span class="pre">create_donation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fundraising_page_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">donation_payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_donation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_donation" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><p>fundraising_page_id: The id of the fundraising page
+donation_payload: The payload containing donation details</p>
+<blockquote>
+<div><dl>
+<dt>{</dt><dd><dl>
+<dt>“recipients”: [</dt><dd><dl class="simple">
+<dt>{</dt><dd><p>“display_name”: “Campaign To Elect Tom”,
+“amount”: “3.00”</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+<p>],
+“created_date”: “2013-01-01T00:00:00Z”,
+“_links” : {</p>
+<blockquote>
+<div><p>“osdi:person” : { “href” : “link” }</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the creation of the donation</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/donations">https://actionnetwork.org/docs/v2/donations</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -543,6 +739,8 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the embeds (for you to be able to embed action outside of ActionNetwork).</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/embeds">https://actionnetwork.org/docs/v2/embeds</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -569,6 +767,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the event_campaigns entries</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/event_campaigns">https://actionnetwork.org/docs/v2/event_campaigns</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -582,6 +782,76 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with event_campaign entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/event_campaigns">https://actionnetwork.org/docs/v2/event_campaigns</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_event_campaign">
+<span class="sig-name descname"><span class="pre">create_event_campaign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_event_campaign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_event_campaign" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>payload: The payload containing event campaign details</dt><dd><dl class="simple">
+<dt>{</dt><dd><p>“title”: “My Canvassing Event”,
+“origin_system”: “CanvassingEvents.com”</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the creation of the event campaign</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/event_campaigns">https://actionnetwork.org/docs/v2/event_campaigns</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_event_in_event_campaign">
+<span class="sig-name descname"><span class="pre">create_event_in_event_campaign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_campaign_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_event_in_event_campaign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_event_in_event_campaign" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>event_campaign_id:</dt><dd><p>The unique id of the event_campaign</p>
+</dd>
+<dt>payload:</dt><dd><p>The payload containing event details
+{</p>
+<blockquote>
+<div><p>“title”: “My Free Event”,
+“origin_system”: “FreeEvents.com”</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the creation of the event in the event campaign</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/event_campaigns">https://actionnetwork.org/docs/v2/event_campaigns</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.update_event_campaign">
+<span class="sig-name descname"><span class="pre">update_event_campaign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_campaign_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.update_event_campaign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.update_event_campaign" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>event_campaign_id:</dt><dd><p>The unique id of the event_campaign</p>
+</dd>
+<dt>payload:</dt><dd><p>The payload containing event campaign details
+{</p>
+<blockquote>
+<div><p>“description”: “This is my new event campaign description”</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the update of the event campaign</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/event_campaigns">https://actionnetwork.org/docs/v2/event_campaigns</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -608,6 +878,8 @@ When None, no filter is applied.</p>
 </dd>
 </dl>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/events">https://actionnetwork.org/docs/v2/events</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -618,6 +890,8 @@ When None, no filter is applied.</p>
 <dt><cite>Args:</cite></dt><dd><p>event_id: the unique id of the event</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with event entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/events">https://actionnetwork.org/docs/v2/events</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -641,6 +915,8 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the eventes related to the event_campaign entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/events">https://actionnetwork.org/docs/v2/events</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -680,6 +956,33 @@ values in the following example:
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>Dict of Action Network Event data.</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/events">https://actionnetwork.org/docs/v2/events</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.update_event">
+<span class="sig-name descname"><span class="pre">update_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.update_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.update_event" title="Permalink to this definition"></a></dt>
+<dd><p>Update an event in Action Network</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>event_id: str</dt><dd><p>The unique id of the event</p>
+</dd>
+<dt>payload: dict</dt><dd><p>The payload containing event data (see <a class="reference external" href="https://actionnetwork.org/docs/v2/events">https://actionnetwork.org/docs/v2/events</a>)
+{</p>
+<blockquote>
+<div><p>“title”: “My Free Event With A New Name”,
+“description”: “This is my free event description”</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the update of the event</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/events">https://actionnetwork.org/docs/v2/events</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -705,6 +1008,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the forms entries</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/forms">https://actionnetwork.org/docs/v2/forms</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -719,6 +1024,56 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with form entry</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/forms">https://actionnetwork.org/docs/v2/forms</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_form">
+<span class="sig-name descname"><span class="pre">create_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_form" title="Permalink to this definition"></a></dt>
+<dd><p>Create a form in Action Network</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>payload: dict</dt><dd><p>The payload containing form details</p>
+<dl class="simple">
+<dt>{</dt><dd><p>“title”: “My Free Form”,
+“origin_system”: “FreeForms.com”</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the creation of the form</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/forms">https://actionnetwork.org/docs/v2/forms</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.update_form">
+<span class="sig-name descname"><span class="pre">update_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.update_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.update_form" title="Permalink to this definition"></a></dt>
+<dd><p>Update a form in Action Network</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>form_id:</dt><dd><p>The unique id of the form</p>
+</dd>
+<dt>payload: dict</dt><dd><p>The payload containing form data (see <a class="reference external" href="https://actionnetwork.org/docs/v2/forms">https://actionnetwork.org/docs/v2/forms</a>)</p>
+<dl class="simple">
+<dt>{</dt><dd><p>“title”: “My Free Form”,
+“origin_system”: “FreeForms.com”</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the update of the form</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/forms">https://actionnetwork.org/docs/v2/forms</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -729,6 +1084,8 @@ When None, no filter is applied.</p>
 <dt><cite>Args:</cite></dt><dd><p>fundraising_page_id: The id of the fundraiser</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with fundraising_page entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/fundraising_pages">https://actionnetwork.org/docs/v2/fundraising_pages</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -754,6 +1111,55 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the fundraising_pages entries</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/fundraising_pages">https://actionnetwork.org/docs/v2/fundraising_pages</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_fundraising_page">
+<span class="sig-name descname"><span class="pre">create_fundraising_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_fundraising_page"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_fundraising_page" title="Permalink to this definition"></a></dt>
+<dd><p>Create a fundraising page in Action Network</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>payload: dict</dt><dd><p>The payload containing fundraising page details
+{</p>
+<blockquote>
+<div><p>“title”: “My Free Fundraiser”,
+“origin_system”: “FreeFundraisers.com”</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the creation of the fundraising page</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/fundraising_pages">https://actionnetwork.org/docs/v2/fundraising_pages</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.update_fundraising_page">
+<span class="sig-name descname"><span class="pre">update_fundraising_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fundraising_page_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.update_fundraising_page"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.update_fundraising_page" title="Permalink to this definition"></a></dt>
+<dd><p>Update a fundraising page in Action Network</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><p>fundraising_page_id: The id of the fundraiser
+payload: dict</p>
+<blockquote>
+<div><p>The payload containing updated fundraising page details
+{</p>
+<blockquote>
+<div><p>“title”: “My Free Fundraiser”,
+“origin_system”: “FreeFundraisers.com”</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the update of the fundraising page</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/fundraising_pages">https://actionnetwork.org/docs/v2/fundraising_pages</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -782,6 +1188,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the list item entries</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/items">https://actionnetwork.org/docs/v2/items</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -801,6 +1209,8 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the item entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/items">https://actionnetwork.org/docs/v2/items</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -827,6 +1237,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the list entries</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/lists">https://actionnetwork.org/docs/v2/lists</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -840,6 +1252,8 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the list entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/lists">https://actionnetwork.org/docs/v2/lists</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -868,6 +1282,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A Parsons Table with all the messages related entries</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/messages">https://actionnetwork.org/docs/v2/messages</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -882,6 +1298,76 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the signature entry.</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/messages">https://actionnetwork.org/docs/v2/messages</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_message">
+<span class="sig-name descname"><span class="pre">create_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_message" title="Permalink to this definition"></a></dt>
+<dd><p>Create a message in Action Network</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>payload: dict</dt><dd><p>The payload containing message details
+{</p>
+<blockquote>
+<div><p>“subject”: “Stop doing the bad thing”,
+“body”: “&lt;p&gt;The mayor should stop doing the bad thing.&lt;/p&gt;”,
+“from”: “Progressive Action Now”,
+“reply_to”: “<a class="reference external" href="mailto:jane&#37;&#52;&#48;progressiveactionnow&#46;org">jane<span>&#64;</span>progressiveactionnow<span>&#46;</span>org</a>”,
+“targets”: [</p>
+<blockquote>
+<div><dl class="simple">
+<dt>{</dt><dd><p>“href”: “<a class="reference external" href="https://actionnetwork.org/api/v2/queries/id">https://actionnetwork.org/api/v2/queries/id</a>”</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p>],
+“_links”: {</p>
+<blockquote>
+<div><dl class="simple">
+<dt>“osdi:wrapper”: {</dt><dd><p>“href”: “<a class="reference external" href="https://actionnetwork.org/api/v2/wrappers/id">https://actionnetwork.org/api/v2/wrappers/id</a>”</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the creation of the message</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/messages">https://actionnetwork.org/docs/v2/messages</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.update_message">
+<span class="sig-name descname"><span class="pre">update_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.update_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.update_message" title="Permalink to this definition"></a></dt>
+<dd><p>Update a message in Action Network</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>message_id:</dt><dd><p>The unique id of the message</p>
+</dd>
+<dt>payload: dict</dt><dd><p>The payload containing message details to be updated
+{</p>
+<blockquote>
+<div><p>“name”: “Stop doing the bad thing email send 1”,
+“subject”: “Please! Stop doing the bad thing”</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the update of the message</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/messages">https://actionnetwork.org/docs/v2/messages</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -892,6 +1378,8 @@ When None, no filter is applied.</p>
 <dt><cite>Args:</cite></dt><dd><p>None</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the metadata entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/metadata">https://actionnetwork.org/docs/v2/metadata</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -920,6 +1408,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the outreaches entries related to the advocacy_campaign_id</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/outreaches">https://actionnetwork.org/docs/v2/outreaches</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -947,6 +1437,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the outreaches entries related to our group</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/outreaches">https://actionnetwork.org/docs/v2/outreaches</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -963,6 +1455,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the outreach entry</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/outreaches">https://actionnetwork.org/docs/v2/outreaches</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -978,6 +1472,72 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the outreach entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/outreaches">https://actionnetwork.org/docs/v2/outreaches</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_outreach">
+<span class="sig-name descname"><span class="pre">create_outreach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">advocacy_campaign_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_outreach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_outreach" title="Permalink to this definition"></a></dt>
+<dd><p>Create an outreach in Action Network</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>advocacy_campaign_id:</dt><dd><p>The unique id of the campaign</p>
+</dd>
+<dt>payload:</dt><dd><p>The payload containing outreach details
+{</p>
+<blockquote>
+<div><dl>
+<dt>“targets”: [</dt><dd><dl class="simple">
+<dt>{</dt><dd><p>“given_name”: “Joe”,
+“family_name”: “Schmoe”</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+<p>],
+“_links” : {</p>
+<blockquote>
+<div><p>“osdi:person” : { “href” : “https://actionnetwork.org/api/v2/people/id” }</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the creation of the outreach</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/outreaches">https://actionnetwork.org/docs/v2/outreaches</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.update_outreach">
+<span class="sig-name descname"><span class="pre">update_outreach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">advocacy_campaign_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outreach_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.update_outreach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.update_outreach" title="Permalink to this definition"></a></dt>
+<dd><p>Update an outreach in Action Network</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>advocacy_campaign_id:</dt><dd><p>The unique id of the campaign</p>
+</dd>
+<dt>outreach_id:</dt><dd><p>The unique id of the outreach</p>
+</dd>
+<dt>payload:</dt><dd><p>The payload containing outreach details to be updated
+{</p>
+<blockquote>
+<div><p>“subject”: “Please vote no!”</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response confirming the update of the outreach</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/outreaches">https://actionnetwork.org/docs/v2/outreaches</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1000,6 +1560,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A list of JSONs of people stored in Action Network.</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/people">https://actionnetwork.org/docs/v2/people</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1015,12 +1577,14 @@ When None, no filter is applied.</p>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON of the entry. If the entry doesn’t exist, Action Network returns
 <code class="docutils literal notranslate"><span class="pre">{'error':</span> <span class="pre">'Couldn't</span> <span class="pre">find</span> <span class="pre">person</span> <span class="pre">with</span> <span class="pre">id</span> <span class="pre">=</span> <span class="pre">&lt;id&gt;'}</span></code>.</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/people">https://actionnetwork.org/docs/v2/people</a></p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionNetwork.upsert_person">
-<span class="sig-name descname"><span class="pre">upsert_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email_address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">family_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages_spoken</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postal_addresses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'subscribed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_processing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.upsert_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.upsert_person" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">upsert_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">family_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages_spoken</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postal_addresses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'subscribed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_processing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.upsert_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.upsert_person" title="Permalink to this definition"></a></dt>
 <dd><p>Creates or updates a person record. In order to update an existing record instead of
 creating a new one, you must supply an email or mobile number which matches a record
 in the database.</p>
@@ -1035,8 +1599,8 @@ encourages developers not to use custom identifiers.</p>
 <li><p>a string with the person’s email</p></li>
 <li><p>a list of strings with a person’s emails</p></li>
 <li><dl class="simple">
-<dt>a dictionary with the following fields</dt><dd><ul>
-<li><p>email_address (REQUIRED)</p></li>
+<dt>a list of dictionaries with the following fields</dt><dd><ul>
+<li><p>address (REQUIRED)</p></li>
 <li><p>primary (OPTIONAL): Boolean indicating the user’s primary email address</p></li>
 <li><dl class="simple">
 <dt>status (OPTIONAL): can taken on any of these values</dt><dd><ul>
@@ -1109,7 +1673,11 @@ any custom field.</p>
 </dl>
 </dd>
 </dl>
-<p>Adds a person to Action Network</p>
+<p>Adds a person to Action Network
+<cite>Documentation Reference</cite>:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://actionnetwork.org/docs/v2/people">https://actionnetwork.org/docs/v2/people</a></p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -1180,6 +1748,8 @@ For details, see Action Network’s documentation:
 </dd>
 <dt>custom_fields:</dt><dd><p>A dictionary of any other fields to store about the person.</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/people">https://actionnetwork.org/docs/v2/people</a></p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1211,6 +1781,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all of the petitions entries</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/petitions">https://actionnetwork.org/docs/v2/petitions</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1224,6 +1796,58 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the petition entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/petitions">https://actionnetwork.org/docs/v2/petitions</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_petition">
+<span class="sig-name descname"><span class="pre">create_petition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">petition_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_processing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_petition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_petition" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>title:</dt><dd><p>The title of the petition</p>
+</dd>
+<dt>description:</dt><dd><p>The description of the petition</p>
+</dd>
+<dt>petition_text:</dt><dd><p>The text of the petition</p>
+</dd>
+<dt>target:</dt><dd><p>The target of the petition</p>
+</dd>
+<dt>background_processing:</dt><dd><p>Whether to process the request in the background</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON with the response from the API</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/petitions">https://actionnetwork.org/docs/v2/petitions</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.update_petition">
+<span class="sig-name descname"><span class="pre">update_petition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">petition_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">petition_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_processing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.update_petition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.update_petition" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>petition_id:</dt><dd><p>The unique id of the petition to be updated</p>
+</dd>
+<dt>title:</dt><dd><p>The updated title of the petition</p>
+</dd>
+<dt>description:</dt><dd><p>The updated description of the petition</p>
+</dd>
+<dt>petition_text:</dt><dd><p>The updated text of the petition</p>
+</dd>
+<dt>target:</dt><dd><p>The updated target of the petition</p>
+</dd>
+<dt>background_processing:</dt><dd><p>Whether to process the request in the background</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON with the response from the API</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/petitions">https://actionnetwork.org/docs/v2/petitions</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1250,6 +1874,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the query entries</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/queries">https://actionnetwork.org/docs/v2/queries</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1263,6 +1889,8 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the query entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/queries">https://actionnetwork.org/docs/v2/queries</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1291,6 +1919,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the signatures related to the petition entry</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/signatures">https://actionnetwork.org/docs/v2/signatures</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1318,6 +1948,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the signatures related to the petition entry</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/signatures">https://actionnetwork.org/docs/v2/signatures</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1334,6 +1966,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the signature entry</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/signatures">https://actionnetwork.org/docs/v2/signatures</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1349,6 +1983,61 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the signature entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/signatures">https://actionnetwork.org/docs/v2/signatures</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_signature">
+<span class="sig-name descname"><span class="pre">create_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">petition_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_signature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_signature" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>petition_id:</dt><dd><p>The unique id of the petition</p>
+</dd>
+<dt>data:</dt><dd><p>The payload for creating the signature
+{</p>
+<blockquote>
+<div><p>“comments” : “Stop doing the thing”,
+“_links” : {</p>
+<blockquote>
+<div><p>“osdi:person” : { “href” : “https://actionnetwork.org/api/v2/people/id” }</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON with the created signature entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/signatures">https://actionnetwork.org/docs/v2/signatures</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.update_signature">
+<span class="sig-name descname"><span class="pre">update_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">petition_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.update_signature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.update_signature" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>petition_id:</dt><dd><p>The unique id of the petition</p>
+</dd>
+<dt>signature_id:</dt><dd><p>The unique id of the signature</p>
+</dd>
+<dt>data:</dt><dd><p>The signature payload to update
+{</p>
+<blockquote>
+<div><p>“comments”: “Some new comments”</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON with the updated signature entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/signatures">https://actionnetwork.org/docs/v2/signatures</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1377,6 +2066,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the submissions entries related to the form</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/submissions">https://actionnetwork.org/docs/v2/submissions</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1404,6 +2095,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the submissions entries related with our group</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/submissions">https://actionnetwork.org/docs/v2/submissions</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1419,6 +2112,8 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the submission entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/submissions">https://actionnetwork.org/docs/v2/submissions</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1436,6 +2131,55 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the submission entry</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/submissions">https://actionnetwork.org/docs/v2/submissions</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_submission">
+<span class="sig-name descname"><span class="pre">create_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">person_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_submission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_submission" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>form_id:</dt><dd><p>The unique id of the form</p>
+</dd>
+<dt>person_id:</dt><dd><p>The unique id of the person</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response indicating the success or failure of the submission creation</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/submissions">https://actionnetwork.org/docs/v2/submissions</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.update_submission">
+<span class="sig-name descname"><span class="pre">update_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submission_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.update_submission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.update_submission" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>form_id:</dt><dd><p>The unique id of the form</p>
+</dd>
+<dt>submission_id:</dt><dd><p>The unique id of the submission</p>
+</dd>
+<dt>data:</dt><dd><p>The payload for updating the submission
+{</p>
+<blockquote>
+<div><dl class="simple">
+<dt>“_links”<span class="classifier">{</span></dt><dd><p>“osdi:person” : { “href” : “https://actionnetwork.org/api/v2/people/id” }</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON with the updated submission entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/submissions">https://actionnetwork.org/docs/v2/submissions</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1452,6 +2196,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A list of JSONs of tags in Action Network.</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/tags">https://actionnetwork.org/docs/v2/tags</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1467,6 +2213,8 @@ When None, no filter is applied.</p>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON of the entry. If the entry doesn’t exist, Action Network returns
 “{‘error’: ‘Couldn’t find tag with id = &lt;id&gt;’}”</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/tags">https://actionnetwork.org/docs/v2/tags</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1480,7 +2228,11 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 </dl>
-<p>Adds a tag to Action Network. Once created, tags CANNOT be edited or deleted.</p>
+<p>Adds a tag to Action Network. Once created, tags CANNOT be edited or deleted.
+<cite>Documentation Reference</cite>:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://actionnetwork.org/docs/v2/tags">https://actionnetwork.org/docs/v2/tags</a></p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -1507,6 +2259,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the tagging entries associated with the tag_id</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/taggings">https://actionnetwork.org/docs/v2/taggings</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1522,6 +2276,53 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the tagging entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/taggings">https://actionnetwork.org/docs/v2/taggings</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_tagging">
+<span class="sig-name descname"><span class="pre">create_tagging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_tagging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_tagging" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>tag_id:</dt><dd><p>The unique id of the tag</p>
+</dd>
+<dt>payload:</dt><dd><p>The payload for creating the tagging
+{</p>
+<blockquote>
+<div><dl class="simple">
+<dt>“_links”<span class="classifier">{</span></dt><dd><p>“osdi:person” : { “href” : “https://actionnetwork.org/api/v2/people/id” }</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response after creating the tagging</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/taggings">https://actionnetwork.org/docs/v2/taggings</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.delete_tagging">
+<span class="sig-name descname"><span class="pre">delete_tagging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tagging_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.delete_tagging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.delete_tagging" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>tag_id:</dt><dd><p>The unique id of the tag</p>
+</dd>
+<dt>tagging_id:</dt><dd><p>The unique id of the tagging to be deleted</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response after deleting the tagging</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/taggings">https://actionnetwork.org/docs/v2/taggings</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1548,6 +2349,8 @@ When None, no filter is applied.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with all the wrapper entries</p>
 </dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/wrappers">https://actionnetwork.org/docs/v2/wrappers</a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1563,6 +2366,8 @@ When None, no filter is applied.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the wrapper entry</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/wrappers">https://actionnetwork.org/docs/v2/wrappers</a></p>
 </dd>
 </dl>
 </dd></dl>

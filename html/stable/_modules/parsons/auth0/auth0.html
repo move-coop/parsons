@@ -59,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../census.html">Census</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
@@ -66,6 +67,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
@@ -145,11 +147,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.auth0.auth0</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span></span><span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Auth0"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0">[docs]</a><span class="k">class</span> <span class="nc">Auth0</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -227,6 +234,7 @@
         <span class="n">family_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">app_metadata</span><span class="o">=</span><span class="p">{},</span>
         <span class="n">user_metadata</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">connection</span><span class="o">=</span><span class="s2">&quot;Username-Password-Authentication&quot;</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upsert Auth0 users by email.</span>
@@ -247,18 +255,21 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Requests Response object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
-            <span class="p">{</span>
-                <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
-                <span class="s2">&quot;given_name&quot;</span><span class="p">:</span> <span class="n">given_name</span><span class="p">,</span>
-                <span class="s2">&quot;family_name&quot;</span><span class="p">:</span> <span class="n">family_name</span><span class="p">,</span>
-                <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
-                <span class="s2">&quot;connection&quot;</span><span class="p">:</span> <span class="s2">&quot;Username-Password-Authentication&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;app_metadata&quot;</span><span class="p">:</span> <span class="n">app_metadata</span><span class="p">,</span>
-                <span class="s2">&quot;blocked&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                <span class="s2">&quot;user_metadata&quot;</span><span class="p">:</span> <span class="n">user_metadata</span><span class="p">,</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
+
+        <span class="n">obj</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
+            <span class="s2">&quot;connection&quot;</span><span class="p">:</span> <span class="n">connection</span><span class="p">,</span>
+            <span class="s2">&quot;app_metadata&quot;</span><span class="p">:</span> <span class="n">app_metadata</span><span class="p">,</span>
+            <span class="s2">&quot;blocked&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;user_metadata&quot;</span><span class="p">:</span> <span class="n">user_metadata</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">given_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj</span><span class="p">[</span><span class="s2">&quot;given_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">given_name</span>
+        <span class="k">if</span> <span class="n">family_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj</span><span class="p">[</span><span class="s2">&quot;family_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">family_name</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
         <span class="n">existing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_users_by_email</span><span class="p">(</span><span class="n">email</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">existing</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">a0id</span> <span class="o">=</span> <span class="n">existing</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span>
@@ -273,7 +284,110 @@
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">ret</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid response </span><span class="si">{</span><span class="n">ret</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ret</span></div></div>
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="Auth0.block_user"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.block_user">[docs]</a>    <span class="k">def</span> <span class="nf">block_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="s2">&quot;Username-Password-Authentication&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Blocks Auth0 users by email - setting the &quot;blocked&quot; attribute on Auth0&#39;s API.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            user_id: str</span>
+<span class="sd">                Auth0 user id</span>
+<span class="sd">            connection: optional str</span>
+<span class="sd">                Name of auth0 connection (default to Username-Password-Authentication)</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Requests Response object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;connection&quot;</span><span class="p">:</span> <span class="n">connection</span><span class="p">,</span> <span class="s2">&quot;blocked&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v2/users/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">ret</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid response </span><span class="si">{</span><span class="n">ret</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="Auth0.retrieve_all_users"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.retrieve_all_users">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_all_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="s2">&quot;Username-Password-Authentication&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves all Auth0 users using the batch jobs endpoint.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            connection: optional str</span>
+<span class="sd">                Name of auth0 connection (default to Username-Password-Authentication)</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Requests Response object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">connection_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_connection_id</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v2/jobs/users-exports&quot;</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span>
+
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;username&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">,</span> <span class="s2">&quot;user_metadata&quot;</span><span class="p">,</span> <span class="s2">&quot;app_metadata&quot;</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="c1"># Start the users-export job</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;connection_id&quot;</span><span class="p">:</span> <span class="n">connection_id</span><span class="p">,</span> <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">fields</span><span class="p">},</span>
+        <span class="p">)</span>
+        <span class="n">job_id</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">job_id</span><span class="p">:</span>
+            <span class="c1"># Check job status until complete</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">status_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v2/jobs/</span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span>
+                <span class="p">)</span>
+                <span class="n">status_data</span> <span class="o">=</span> <span class="n">status_response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">status_response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">429</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="n">status_response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="k">elif</span> <span class="n">status_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;completed&quot;</span><span class="p">:</span>
+                    <span class="n">download_url</span> <span class="o">=</span> <span class="n">status_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;location&quot;</span><span class="p">)</span>
+                    <span class="k">break</span>
+                <span class="k">elif</span> <span class="n">status_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;failed&quot;</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Retrieve members job failed to complete.&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">None</span>
+
+            <span class="c1"># Download the users-export file</span>
+            <span class="n">users_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">download_url</span><span class="p">)</span>
+
+            <span class="n">decompressed_data</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">users_response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="n">users_data</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">decompressed_data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">d</span><span class="p">:</span>
+                    <span class="n">users_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">users_data</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Retrieve members job creation failed&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Auth0.get_connection_id"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.get_connection_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_connection_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves an Auth0 connection_id corresponding to a specific connection name</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            connection_name: str</span>
+<span class="sd">                Name of auth0 connection</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Connection ID string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v2/connections&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+        <span class="n">connections</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">connection</span> <span class="ow">in</span> <span class="n">connections</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">connection</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">connection_name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">connection</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="kc">None</span></div></div>
 </pre></div>
 
            </div>

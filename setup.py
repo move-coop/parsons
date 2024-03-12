@@ -43,7 +43,7 @@ def main():
             "mysql": ["mysql-connector-python", "SQLAlchemy"],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
-            "mobilecommons": ["bs4"],
+            "mobilecommons": ["beautifulsoup4"],
             "postgres": ["psycopg2-binary", "SQLAlchemy"],
             "redshift": ["boto3", "psycopg2-binary", "SQLAlchemy"],
             "s3": ["boto3"],
@@ -81,12 +81,11 @@ def main():
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Developers",
-            "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
         ],
-        python_requires=">=3.7.0,<3.11.0",
+        python_requires=">=3.8.0,<3.11.0",
         long_description=long_description,
         long_description_content_type='text/markdown'
     )

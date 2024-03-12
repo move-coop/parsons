@@ -3,6 +3,7 @@ Routines for interacting with TargetSmart's developer API.
 
 https://docs.targetsmart.com/developers/tsapis/v2/index.html
 """
+
 import logging
 
 import petl

@@ -65,10 +65,10 @@ class TestScytl(unittest.TestCase):
                 expectedResultRow["recorded_votes"] = int(
                     expectedResultRow["recorded_votes"]
                 )
-                expectedResultRow[
-                    "timestamp_last_updated"
-                ] = self.scy._parse_date_to_utc(
-                    expectedResultRow["timestamp_last_updated"]
+                expectedResultRow["timestamp_last_updated"] = (
+                    self.scy._parse_date_to_utc(
+                        expectedResultRow["timestamp_last_updated"]
+                    )
                 )
 
                 self.assertDictEqual(result[i], expectedResultRow)
@@ -98,10 +98,10 @@ class TestScytl(unittest.TestCase):
                 expectedResultRow["recorded_votes"] = int(
                     expectedResultRow["recorded_votes"]
                 )
-                expectedResultRow[
-                    "timestamp_last_updated"
-                ] = self.scy._parse_date_to_utc(
-                    expectedResultRow["timestamp_last_updated"]
+                expectedResultRow["timestamp_last_updated"] = (
+                    self.scy._parse_date_to_utc(
+                        expectedResultRow["timestamp_last_updated"]
+                    )
                 )
 
                 self.assertDictEqual(result[i], expectedResultRow)
@@ -128,10 +128,10 @@ class TestScytl(unittest.TestCase):
                 expectedResultRow["recorded_votes"] = int(
                     expectedResultRow["recorded_votes"]
                 )
-                expectedResultRow[
-                    "timestamp_last_updated"
-                ] = self.scy._parse_date_to_utc(
-                    expectedResultRow["timestamp_last_updated"]
+                expectedResultRow["timestamp_last_updated"] = (
+                    self.scy._parse_date_to_utc(
+                        expectedResultRow["timestamp_last_updated"]
+                    )
                 )
 
                 self.assertDictEqual(row, expectedResultRow)

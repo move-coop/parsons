@@ -133,9 +133,9 @@ def distribute_task_csv(
             ],
             # if we are using local storage, then it must be run locally, as well
             # (good for testing/debugging)
-            remote_aws_lambda_function_name="FORCE_LOCAL"
-            if storage == "local"
-            else None,
+            remote_aws_lambda_function_name=(
+                "FORCE_LOCAL" if storage == "local" else None
+            ),
         )
         for grp in group_ranges
     ]

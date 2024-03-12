@@ -1,4 +1,5 @@
 """NGPVAN Signups Endpoints"""
+
 from parsons.etl.table import Table
 import logging
 

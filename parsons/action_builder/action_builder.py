@@ -354,10 +354,11 @@ class ActionBuilder(object):
         if tag_id and not tagging_id:
             taggings = self._get_all_records(self.campaign, endpoint.format(tag_id))
             taggings_filtered = taggings.select_rows(
-                lambda row: identifier
-                in row["_links"]["action_builder:connection"]["href"]
-                if row["item_type"] == "connection"
-                else identifier in row["osdi:person"]["href"]
+                lambda row: (
+                    identifier in row["_links"]["action_builder:connection"]["href"]
+                    if row["item_type"] == "connection"
+                    else identifier in row["osdi:person"]["href"]
+                )
             )
             tagging_id = [
                 x.split(":")[1]

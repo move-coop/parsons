@@ -25,7 +25,6 @@ dbt_runner.run()
 ```
 """
 
-
 import datetime
 import json
 import logging

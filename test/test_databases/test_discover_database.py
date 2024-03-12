@@ -24,8 +24,8 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch.object(Redshift, "__init__", return_value=None)
     @patch("os.getenv")
     def test_single_database_detected(self, mock_getenv, *_):
-        mock_getenv.side_effect = (
-            lambda var: "password" if var == "REDSHIFT_PASSWORD" else None
+        mock_getenv.side_effect = lambda var: (
+            "password" if var == "REDSHIFT_PASSWORD" else None
         )
         self.assertIsInstance(discover_database(), Redshift)
 
@@ -35,8 +35,8 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch.object(Redshift, "__init__", return_value=None)
     @patch("os.getenv")
     def test_single_database_detected_with_other_default(self, mock_getenv, *_):
-        mock_getenv.side_effect = (
-            lambda var: "password" if var == "REDSHIFT_PASSWORD" else None
+        mock_getenv.side_effect = lambda var: (
+            "password" if var == "REDSHIFT_PASSWORD" else None
         )
         self.assertIsInstance(discover_database(default_connector=Postgres), Redshift)
 
@@ -46,8 +46,8 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch.object(Redshift, "__init__", return_value=None)
     @patch("os.getenv")
     def test_single_database_detected_with_other_default_list(self, mock_getenv, *_):
-        mock_getenv.side_effect = (
-            lambda var: "password" if var == "REDSHIFT_PASSWORD" else None
+        mock_getenv.side_effect = lambda var: (
+            "password" if var == "REDSHIFT_PASSWORD" else None
         )
         self.assertIsInstance(
             discover_database(default_connector=[Postgres, MySQL]), Redshift
@@ -89,8 +89,8 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch.object(Redshift, "__init__", return_value=None)
     @patch("os.getenv")
     def test_multiple_databases_invalid_default(self, mock_getenv, *_):
-        mock_getenv.side_effect = (
-            lambda var: "password"
+        mock_getenv.side_effect = lambda var: (
+            "password"
             if var == "REDSHIFT_PASSWORD" or var == "MYSQL_PASSWORD"
             else None
         )
@@ -103,8 +103,8 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch.object(Redshift, "__init__", return_value=None)
     @patch("os.getenv")
     def test_multiple_databases_invalid_default_list(self, mock_getenv, *_):
-        mock_getenv.side_effect = (
-            lambda var: "password"
+        mock_getenv.side_effect = lambda var: (
+            "password"
             if var == "REDSHIFT_PASSWORD" or var == "MYSQL_PASSWORD"
             else None
         )

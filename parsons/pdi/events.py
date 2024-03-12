@@ -341,9 +341,9 @@ class Events:
         }
 
         if specific_occurrence_start:
-            event_invitation_payload[
-                "specificOcurrenceStartUtc"
-            ] = specific_occurrence_start
+            event_invitation_payload["specificOcurrenceStartUtc"] = (
+                specific_occurrence_start
+            )
 
         response = self._request(
             self.events_url + f"/{event_id}/invitations",
@@ -394,9 +394,9 @@ class Events:
         if attended is not None:
             event_invitation_payload["attended"] = attended
         if specific_occurrence_start:
-            event_invitation_payload[
-                "specificOcurrenceStartUtc"
-            ] = specific_occurrence_start
+            event_invitation_payload["specificOcurrenceStartUtc"] = (
+                specific_occurrence_start
+            )
 
         response = self._request(
             self.events_url + f"/{event_id}/invitations/{invitation_id}",

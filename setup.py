@@ -8,7 +8,7 @@ def main():
     limited_deps = os.environ.get("PARSONS_LIMITED_DEPENDENCIES", "")
     if limited_deps.strip().upper() in ("1", "YES", "TRUE", "ON"):
         install_requires = [
-            "petl==1.7.14",
+            "petl==1.7.15",
             "python-dateutil==2.8.2",
             "requests==2.31.0",
             "requests_oauthlib==1.3.0",
@@ -85,7 +85,7 @@ def main():
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
         ],
-        python_requires=">=3.8.0,<3.11.0",
+        python_requires=">=3.8.0,<3.12.0",
         long_description=long_description,
         long_description_content_type='text/markdown'
     )

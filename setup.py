@@ -5,7 +5,6 @@ from setuptools import find_packages
 
 
 def main():
-
     limited_deps = os.environ.get("PARSONS_LIMITED_DEPENDENCIES", "")
     if limited_deps.strip().upper() in ("1", "YES", "TRUE", "ON"):
         install_requires = [

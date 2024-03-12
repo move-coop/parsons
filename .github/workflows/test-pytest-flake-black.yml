@@ -1,0 +1,62 @@
+name: Pytest, Flake8, Black
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/test-pytest-flake-black.yml
+      - "requirements*.txt"
+      - "**.py"
+      - setup.py
+      - pytest.ini
+  push:
+    paths:
+      - .github/workflows/test-pytest-flake-black.yml
+      - "requirements*.txt"
+      - "**.py"
+      - setup.py
+      - pytest.ini
+
+env:
+  TESTING: 1
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+        limited-dependencies: ['', 'TRUE']
+        os: [ubuntu-latest, macos-latest] # add in windows-latest to add windows testing
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install uv
+        run: |
+          pip install -U uv
+
+      - name: Install dependencies
+        env:
+          PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
+        run: |
+          uv pip install --system -U pip
+          uv pip install --system -e .[all]
+          uv pip install --system -r requirements-dev.txt
+
+      - name: Run tests
+        run: pytest -rf test/
+
+      # E203 and W503 don't work well with black
+      - name: check linting
+        run: |
+          flake8 parsons/ test/ useful_resources/ --extend-ignore=E203,W503
+          black --check parsons/ test/ useful_resources/

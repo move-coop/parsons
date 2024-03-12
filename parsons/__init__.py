@@ -23,10 +23,7 @@ elif os.environ.get("DEBUG"):
 else:
     logger.setLevel("INFO")
 
-# Table is referenced by many connectors, so we add it immediately to limit the damage
-# of circular dependencies
-__all__ = ["Table"]
-for module_path, connector_name in (
+CONNECTORS = [
     ("parsons.actblue.actblue", "ActBlue"),
     ("parsons.action_kit.action_kit", "ActionKit"),
     ("parsons.action_builder.action_builder", "ActionBuilder"),
@@ -43,7 +40,7 @@ for module_path, connector_name in (
     ("parsons.box.box", "Box"),
     ("parsons.braintree.braintree", "Braintree"),
     ("parsons.capitol_canary.capitol_canary", "CapitolCanary"),
-    ["parsons.catalist.catalist", "CatalistMatch"],
+    ("parsons.catalist.catalist", "CatalistMatch"),
     ("parsons.census.census", "Census"),
     ("parsons.civis.civisclient", "CivisClient"),
     ("parsons.controlshift.controlshift", "Controlshift"),
@@ -91,11 +88,20 @@ for module_path, connector_name in (
     ("parsons.turbovote.turbovote", "TurboVote"),
     ("parsons.twilio.twilio", "Twilio"),
     ("parsons.zoom.zoom", "Zoom"),
-):
+]
+
+
+def import_connector(module_path, connector_name):
     try:
         globals()[connector_name] = getattr(
             importlib.import_module(module_path), connector_name
         )
         __all__.append(connector_name)
     except ImportError:
-        logger.debug(f"Could not import {module_path}.{connector_name}; skipping")
+        logger.debug("Could not import %s.%s; skipping", module_path, connector_name)
+
+
+# Table is referenced by many connectors, so we add it
+# immediately to limit the damage of circular dependencies
+__all__ = ["Table"]
+list(map(lambda cn: import_connector(*cn), CONNECTORS))

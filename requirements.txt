@@ -11,7 +11,7 @@ docutils<0.18,>=0.14
 facebook-business==13.0.0
 google-api-python-client==1.7.7
 google-auth==2.6.2
-google-cloud-bigquery==3.4.0
+google-cloud-bigquery==3.18.0
 google-cloud-storage-transfer==1.9.1
 google-cloud-storage==2.10.0
 google-resumable-media==2.3.2

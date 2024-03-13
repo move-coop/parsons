@@ -66,8 +66,9 @@ Finally, you'll want to [submit a pull request](#submitting-a-pull-request). And
 
 #### Virtual Environments
 
-If required dependencies conflict with packages or modules you need for other projects, you can create and use
-a [virtual environment](https://docs.python.org/3/library/venv.html).
+To avoid conflicts with packages or modules you need for other projects by creating
+a [virtual environment](https://docs.python.org/3/library/venv.html), run the following commands from the root of the
+project repository:
 
 ```
 python3 -m venv .venv       # Creates a virtual environment in the .venv folder
@@ -80,10 +81,11 @@ source .venv/bin/activate  # Activate in Unix or MacOS
 Before running or testing your code changes, be sure to install all of the required Python libraries that Parsons
 depends on.
 
-From the root of the parsons repository, use the run the following command:
+To install all the dependencies, run the following commands from the root of the project repository:
 
 ```bash
 > pip install -r requirements.txt
+> pip install -r requirements-dev.txt
 ```
 
 #### Unit Tests
@@ -94,10 +96,10 @@ of our unit tests are located in the `test/` folder at the root of the repositor
 We use the pytest tool to run our suite of automated unit tests. The pytest command line tool is installed as part of
 the Parsons dependencies.
 
-To run all the entire suite of unit tests, execute the following command:
+To run all the entire suite of unit tests, run the following command from the root of the project repository:
 
 ```bash
-> pytest -rf test/
+> pytest
 ```
 
 Once the pytest tool has finished running all of the tests, it will output details around any errors or test failures it

@@ -30,9 +30,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
             Seconds to timeout if connection not established.
     """
 
-    def __init__(
-        self, username=None, password=None, host=None, db=None, port=5432, timeout=10
-    ):
+    def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
         super().__init__()
 
         self.username = username or os.environ.get("PGUSER")
@@ -84,9 +82,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
             if self._create_table_precheck(connection, table_name, if_exists):
                 # Create the table
                 # To Do: Pass in the advanced configuration parameters.
-                sql = self.create_statement(
-                    tbl, table_name, strict_length=strict_length
-                )
+                sql = self.create_statement(tbl, table_name, strict_length=strict_length)
 
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"{table_name} created.")

@@ -93,9 +93,7 @@ CONNECTORS = [
 
 def import_connector(module_path, connector_name):
     try:
-        globals()[connector_name] = getattr(
-            importlib.import_module(module_path), connector_name
-        )
+        globals()[connector_name] = getattr(importlib.import_module(module_path), connector_name)
         __all__.append(connector_name)
     except ImportError:
         logger.debug("Could not import %s.%s; skipping", module_path, connector_name)

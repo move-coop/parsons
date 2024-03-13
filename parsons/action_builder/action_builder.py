@@ -59,9 +59,7 @@ class ActionBuilder(object):
 
         return self.api.get_request(url=url, params=params)
 
-    def _get_all_records(
-        self, campaign, object_name, limit=None, per_page=25, filter=None
-    ):
+    def _get_all_records(self, campaign, object_name, limit=None, per_page=25, filter=None):
         # Returns a list of entries for a given object, such as people, tags, or connections.
         # See Action Builder API docs for more: https://www.actionbuilder.org/docs/v1/index.html
 
@@ -72,9 +70,7 @@ class ActionBuilder(object):
         # Keep getting the next page until record limit is exceeded or an empty result returns
         while True:
             # Get this page and increase page number to the next one
-            response = self._get_page(
-                campaign, object_name, page, per_page, filter=filter
-            )
+            response = self._get_page(campaign, object_name, page, per_page, filter=filter)
             page = page + 1
 
             # Check that there's actually data
@@ -237,9 +233,7 @@ class ActionBuilder(object):
             identifier = [identifier]
 
         # Default to assuming identifier comes from Action Builder and add prefix if missing
-        identifiers = [
-            f"action_builder:{id}" if ":" not in id else id for id in identifier
-        ]
+        identifiers = [f"action_builder:{id}" if ":" not in id else id for id in identifier]
 
         if not isinstance(data, dict):
             data = {}
@@ -252,9 +246,7 @@ class ActionBuilder(object):
 
         return self._upsert_entity(data=data, campaign=campaign)
 
-    def add_section_field_values_to_record(
-        self, identifier, section, field_values, campaign=None
-    ):
+    def add_section_field_values_to_record(self, identifier, section, field_values, campaign=None):
         """
         Add one or more tags (i.e. custom field value) to an existing entity record in Action
         Builder. The tags, along with their field and section, must already exist (except for
@@ -285,9 +277,7 @@ class ActionBuilder(object):
 
         data = {"add_tags": tag_data}
 
-        return self.update_entity_record(
-            identifier=identifier, data=data, campaign=campaign
-        )
+        return self.update_entity_record(identifier=identifier, data=data, campaign=campaign)
 
     def remove_tagging(
         self,
@@ -329,9 +319,7 @@ class ActionBuilder(object):
             raise ValueError("Please supply a tag_name or tag_id!")
 
         if {identifier, tagging_id} == {None}:
-            raise ValueError(
-                "Please supply an entity or connection identifier, or a tagging id!"
-            )
+            raise ValueError("Please supply an entity or connection identifier, or a tagging id!")
 
         campaign = self._campaign_check(campaign)
         endpoint = "tags/{}/taggings"
@@ -371,9 +359,7 @@ class ActionBuilder(object):
             f"campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}"
         )
 
-    def upsert_connection(
-        self, identifiers, tag_data=None, campaign=None, reactivate=True
-    ):
+    def upsert_connection(self, identifiers, tag_data=None, campaign=None, reactivate=True):
         """
         Load or update a connection record in Action Builder between two existing entity records.
         Only one connection record is allowed per pair of entities, so if the connection already
@@ -458,9 +444,7 @@ class ActionBuilder(object):
 
         # Check that either connection or second entity identifier are provided
         if {connection_identifier, to_identifier} == {None}:
-            raise ValueError(
-                "Must provide a connection ID or an ID for the second entity"
-            )
+            raise ValueError("Must provide a connection ID or an ID for the second entity")
 
         campaign = self._campaign_check(campaign)
 

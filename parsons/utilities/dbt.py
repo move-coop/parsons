@@ -112,14 +112,10 @@ class dbtLogger:
             log_message += f"\n*Summary*: `{done_message}`"
 
         if error_messages:
-            log_message += "\nError messages:\n```{}```".format(
-                "\n\n".join(error_messages)
-            )
+            log_message += "\nError messages:\n```{}```".format("\n\n".join(error_messages))
 
         if warn_messages:
-            log_message += "\nWarning messages:\n```{}```".format(
-                "\n\n".join(warn_messages)
-            )
+            log_message += "\nWarning messages:\n```{}```".format("\n\n".join(warn_messages))
 
         if skip_messages:
             skips = [
@@ -187,9 +183,7 @@ class dbtLogger:
                 logger.error(log_message)
                 error_messages.append(log_message)
             # Capture model/test warnings but exclude verbose top-level warnings
-            elif (
-                row["info"]["level"] == "warn" and "[WARNING]" not in row["info"]["msg"]
-            ):
+            elif row["info"]["level"] == "warn" and "[WARNING]" not in row["info"]["msg"]:
                 logger.warning(log_message)
                 warn_messages.append(log_message)
             elif "SKIP " in row["info"]["msg"]:
@@ -204,9 +198,7 @@ class dbtLogger:
         else:
             done_message = ""
 
-        self.record_result(
-            command_str, error_messages, warn_messages, skip_messages, done_message
-        )
+        self.record_result(command_str, error_messages, warn_messages, skip_messages, done_message)
 
 
 class dbtRunner:

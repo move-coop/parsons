@@ -243,9 +243,7 @@ class TestDonorbox(unittest.TestCase):
         self.assertEqual(result[0]["donation_date"], "2022-10-20T19:33:31.744Z")
         # Try the other three formats quickly
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
-            self.assertEqual(
-                self.donorbox.get_donations(date_from=date_string).num_rows, 1
-            )
+            self.assertEqual(self.donorbox.get_donations(date_from=date_string).num_rows, 1)
         # Incorrect formats raise error
         with self.assertRaises(ValueError):
             result = self.donorbox.get_donations(date_from="10 20 2022")
@@ -260,9 +258,7 @@ class TestDonorbox(unittest.TestCase):
         self.assertEqual(result[0]["donation_date"], "2022-10-19T18:19:06.044Z")
         # Try the other three formats quickly
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
-            self.assertEqual(
-                self.donorbox.get_donations(date_to=date_string).num_rows, 2
-            )
+            self.assertEqual(self.donorbox.get_donations(date_to=date_string).num_rows, 2)
         # Incorrect formats raise error
         with self.assertRaises(ValueError):
             result = self.donorbox.get_donations(date_to="10 20 2022")
@@ -332,15 +328,11 @@ class TestDonorbox(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_donors(self, m):
 
-        m.get(
-            self.base_uri + "/donors", json=donorbox_test_data.get_donors_response_json
-        )
+        m.get(self.base_uri + "/donors", json=donorbox_test_data.get_donors_response_json)
         result = self.donorbox.get_donors()
 
         # Assert the method returns expected dict response
-        self.assertDictEqual(
-            result.to_dicts()[0], donorbox_test_data.get_donors_response_json[0]
-        )
+        self.assertDictEqual(result.to_dicts()[0], donorbox_test_data.get_donors_response_json[0])
         columns = [
             "id",
             "created_at",

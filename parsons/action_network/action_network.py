@@ -97,9 +97,7 @@ class ActionNetwork(object):
         return self.api.get_request(f"advocacy_campaigns/{advocacy_campaign_id}")
 
     # Attendances
-    def get_person_attendances(
-        self, person_id, limit=None, per_page=25, page=None, filter=None
-    ):
+    def get_person_attendances(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
         `Args:`
             person_id:
@@ -119,16 +117,10 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/attendances
         """
         if page:
-            return self._get_page(
-                f"people/{person_id}/attendances", page, per_page, filter
-            )
-        return self._get_entry_list(
-            f"people/{person_id}/attendances", limit, per_page, filter
-        )
+            return self._get_page(f"people/{person_id}/attendances", page, per_page, filter)
+        return self._get_entry_list(f"people/{person_id}/attendances", limit, per_page, filter)
 
-    def get_event_attendances(
-        self, event_id, limit=None, per_page=25, page=None, filter=None
-    ):
+    def get_event_attendances(self, event_id, limit=None, per_page=25, page=None, filter=None):
         """
         `Args:`
             event_id: the unique id of the event
@@ -147,12 +139,8 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/attendances
         """
         if page:
-            return self._get_page(
-                f"events/{event_id}/attendances", page, per_page, filter
-            )
-        return self._get_entry_list(
-            f"events/{event_id}/attendances", limit, per_page, filter
-        )
+            return self._get_page(f"events/{event_id}/attendances", page, per_page, filter)
+        return self._get_entry_list(f"events/{event_id}/attendances", limit, per_page, filter)
 
     def get_event_attendance(self, event_id, attendance_id):
         """
@@ -218,9 +206,7 @@ class ActionNetwork(object):
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/attendances
         """
-        return self.api.put_request(
-            f"events/{event_id}/attendances/{attendance_id}", payload
-        )
+        return self.api.put_request(f"events/{event_id}/attendances/{attendance_id}", payload)
 
     # Campaigns
     def get_campaigns(self, limit=None, per_page=25, page=None, filter=None):
@@ -336,9 +322,7 @@ class ActionNetwork(object):
             filter,
         )
 
-    def get_person_donations(
-        self, person_id, limit=None, per_page=25, page=None, filter=None
-    ):
+    def get_person_donations(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
         `Args:`
              person_id: The id of the person
@@ -477,9 +461,7 @@ class ActionNetwork(object):
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/event_campaigns
         """
-        return self.api.post_request(
-            f"event_campaigns/{event_campaign_id}/events", payload
-        )
+        return self.api.post_request(f"event_campaigns/{event_campaign_id}/events", payload)
 
     def update_event_campaign(self, event_campaign_id, payload):
         """
@@ -601,9 +583,7 @@ class ActionNetwork(object):
         if isinstance(location, dict):
             data["location"] = location
 
-        event_dict = self.api.post_request(
-            url=f"{self.api_url}/events", data=json.dumps(data)
-        )
+        event_dict = self.api.post_request(url=f"{self.api_url}/events", data=json.dumps(data))
 
         an_event_id = event_dict["_links"]["self"]["href"].split("/")[-1]
         event_dict["event_id"] = an_event_id
@@ -997,9 +977,7 @@ class ActionNetwork(object):
             filter,
         )
 
-    def get_person_outreaches(
-        self, person_id, limit=None, per_page=25, page=None, filter=None
-    ):
+    def get_person_outreaches(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
         `Args:`
             person_id:
@@ -1020,12 +998,8 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/outreaches
         """
         if page:
-            return self._get_page(
-                f"people/{person_id}/outreaches", page, per_page, filter
-            )
-        return self._get_entry_list(
-            f"people/{person_id}/outreaches", limit, per_page, filter
-        )
+            return self._get_page(f"people/{person_id}/outreaches", page, per_page, filter)
+        return self._get_entry_list(f"people/{person_id}/outreaches", limit, per_page, filter)
 
     def get_advocacy_campaign_outreach(self, advocacy_campaign_id, outreach_id):
         """
@@ -1242,9 +1216,7 @@ class ActionNetwork(object):
                 {"number": re.sub("[^0-9]", "", mobile_number), "status": mobile_status}
             ]
         elif isinstance(mobile_number, int):
-            mobile_numbers_field = [
-                {"number": str(mobile_number), "status": mobile_status}
-            ]
+            mobile_numbers_field = [{"number": str(mobile_number), "status": mobile_status}]
         elif isinstance(mobile_number, list):
             if len(mobile_number) > 1:
                 raise ("Action Network allows only 1 phone number per activist")
@@ -1294,9 +1266,7 @@ class ActionNetwork(object):
 
         identifiers = response["identifiers"]
         person_id = [
-            entry_id.split(":")[1]
-            for entry_id in identifiers
-            if "action_network:" in entry_id
+            entry_id.split(":")[1] for entry_id in identifiers if "action_network:" in entry_id
         ]
         if not person_id:
             logger.error(f"Response gave no valid person_id: {identifiers}")
@@ -1324,9 +1294,7 @@ class ActionNetwork(object):
         Creates a person in the database. WARNING: this endpoint has been deprecated in favor of
         upsert_person.
         """
-        logger.warning(
-            "Method 'add_person' has been deprecated. Please use 'upsert_person'."
-        )
+        logger.warning("Method 'add_person' has been deprecated. Please use 'upsert_person'.")
         # Pass inputs to preferred method:
         self.upsert_person(
             email_address=email_address,
@@ -1546,9 +1514,7 @@ class ActionNetwork(object):
         return self.api.get_request(f"queries/{query_id}")
 
     # Signatures
-    def get_petition_signatures(
-        self, petition_id, limit=None, per_page=25, page=None, filter=None
-    ):
+    def get_petition_signatures(self, petition_id, limit=None, per_page=25, page=None, filter=None):
         """
         `Args:`
             petition_id:
@@ -1568,16 +1534,10 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/signatures
         """
         if page:
-            return self._get_page(
-                f"petitions/{petition_id}/signatures", page, per_page, filter
-            )
-        return self._get_entry_list(
-            f"petitions/{petition_id}/signatures", limit, per_page, filter
-        )
+            return self._get_page(f"petitions/{petition_id}/signatures", page, per_page, filter)
+        return self._get_entry_list(f"petitions/{petition_id}/signatures", limit, per_page, filter)
 
-    def get_person_signatures(
-        self, person_id, limit=None, per_page=25, page=None, filter=None
-    ):
+    def get_person_signatures(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
         `Args:`
             person_id:
@@ -1599,12 +1559,8 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/signatures
         """
         if page:
-            return self._get_page(
-                f"people/{person_id}/signatures", page, per_page, filter
-            )
-        return self._get_entry_list(
-            f"people/{person_id}/signatures", limit, per_page, filter
-        )
+            return self._get_page(f"people/{person_id}/signatures", page, per_page, filter)
+        return self._get_entry_list(f"people/{person_id}/signatures", limit, per_page, filter)
 
     def get_petition_signature(self, petition_id, signature_id):
         """
@@ -1618,9 +1574,7 @@ class ActionNetwork(object):
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/signatures
         """
-        return self.api.get_request(
-            f"petitions/{petition_id}/signatures/{signature_id}"
-        )
+        return self.api.get_request(f"petitions/{petition_id}/signatures/{signature_id}")
 
     def get_person_signature(self, person_id, signature_id):
         """
@@ -1673,14 +1627,10 @@ class ActionNetwork(object):
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/signatures
         """
-        return self.api.put_request(
-            f"petitions/{petition_id}/signatures/{signature_id}", data
-        )
+        return self.api.put_request(f"petitions/{petition_id}/signatures/{signature_id}", data)
 
     # Submissions
-    def get_form_submissions(
-        self, form_id, limit=None, per_page=25, page=None, filter=None
-    ):
+    def get_form_submissions(self, form_id, limit=None, per_page=25, page=None, filter=None):
         """
         `Args:`
             form_id:
@@ -1701,16 +1651,10 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/submissions
         """
         if page:
-            return self._get_page(
-                f"forms/{form_id}/submissions", page, per_page, filter
-            )
-        return self._get_entry_list(
-            f"forms/{form_id}/submissions", limit, per_page, filter
-        )
+            return self._get_page(f"forms/{form_id}/submissions", page, per_page, filter)
+        return self._get_entry_list(f"forms/{form_id}/submissions", limit, per_page, filter)
 
-    def get_person_submissions(
-        self, person_id, limit=None, per_page=25, page=None, filter=None
-    ):
+    def get_person_submissions(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
         `Args:`
             person_id:
@@ -1730,12 +1674,8 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/submissions
         """
         if page:
-            return self._get_page(
-                f"people/{person_id}/submissions", page, per_page, filter
-            )
-        return self._get_entry_list(
-            f"people/{person_id}/submissions", limit, per_page, filter
-        )
+            return self._get_page(f"people/{person_id}/submissions", page, per_page, filter)
+        return self._get_entry_list(f"people/{person_id}/submissions", limit, per_page, filter)
 
     def get_form_submission(self, form_id, submission_id):
         """
@@ -1779,14 +1719,10 @@ class ActionNetwork(object):
         """
         payload = {
             "_links": {
-                "osdi:person": {
-                    "href": f"https://actionnetwork.org/api/v2/people/{person_id}"
-                }
+                "osdi:person": {"href": f"https://actionnetwork.org/api/v2/people/{person_id}"}
             }
         }
-        return self.api.post_request(
-            f"forms/{form_id}/submissions", data=json.dumps(payload)
-        )
+        return self.api.post_request(f"forms/{form_id}/submissions", data=json.dumps(payload))
 
     def update_submission(self, form_id, submission_id, data):
         """
@@ -1855,14 +1791,10 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/tags
         """
         data = {"name": name}
-        response = self.api.post_request(
-            url=f"{self.api_url}/tags", data=json.dumps(data)
-        )
+        response = self.api.post_request(url=f"{self.api_url}/tags", data=json.dumps(data))
         identifiers = response["identifiers"]
         person_id = [
-            entry_id.split(":")[1]
-            for entry_id in identifiers
-            if "action_network:" in entry_id
+            entry_id.split(":")[1] for entry_id in identifiers if "action_network:" in entry_id
         ][0]
         logger.info(f"Tag {person_id} successfully added to tags.")
         return response
@@ -1924,9 +1856,7 @@ class ActionNetwork(object):
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/taggings
         """
-        return self.api.post_request(
-            f"tags/{tag_id}/taggings", data=json.dumps(payload)
-        )
+        return self.api.post_request(f"tags/{tag_id}/taggings", data=json.dumps(payload))
 
     def delete_tagging(self, tag_id, tagging_id):
         """

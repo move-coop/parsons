@@ -85,9 +85,7 @@ class SupporterGroups(object):
             ``None``
         """
 
-        r = self.connection.put_request(
-            f"supporterGroups/{supporter_group_id}/people/{vanid}"
-        )
+        r = self.connection.put_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
         logger.info(f"Added person {vanid} to {supporter_group_id} supporter group.")
         return r
 
@@ -104,10 +102,6 @@ class SupporterGroups(object):
             ``None``
         """
 
-        r = self.connection.delete_request(
-            f"supporterGroups/{supporter_group_id}/people/{vanid}"
-        )
-        logger.info(
-            f"Deleted person {vanid} from {supporter_group_id} supporter group."
-        )
+        r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
+        logger.info(f"Deleted person {vanid} from {supporter_group_id} supporter group.")
         return r

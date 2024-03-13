@@ -6,7 +6,6 @@ repos:
         language_version: python3
         args: [
             'parsons/ test/ useful_resources/',
-            '--extend-ignore=E203,W503'
           ]
   - repo: https://github.com/psf/black
     rev: 24.2.0

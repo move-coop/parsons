@@ -58,5 +58,5 @@ jobs:
       # E203 and W503 don't work well with black
       - name: check linting
         run: |
-          flake8 parsons/ test/ useful_resources/ --extend-ignore=E203,W503
+          flake8 parsons/ test/ useful_resources/
           black --check parsons/ test/ useful_resources/

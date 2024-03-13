@@ -117,7 +117,7 @@ preferred style. Both tools are installed as part of the Parsons dependencies.
 Run the following commands from the root of the Parsons repository to lint your code changes:
 
 ```bash
-> flake8 parsons/ test/ useful_resources/ --extend-ignore=E203,W503
+> flake8 parsons/ test/ useful_resources/
 > black --check parsons/ test/ useful_resources/
 ```
 

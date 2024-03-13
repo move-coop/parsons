@@ -1,0 +1,7 @@
+[tool.black]
+target-version = ['py38']
+include = '\.pyi?$'
+
+[tool.flake8]
+max-line-length = 100
+ignore = ['E203', 'W503']

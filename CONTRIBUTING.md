@@ -110,8 +110,9 @@ See the [pytest documentation](https://docs.pytest.org/en/latest/contents.html) 
 
 #### Linting
 
-We use the [black](https://github.com/psf/black) and [flake8](http://flake8.pycqa.org/en/latest/) tools
-to [lint](https://en.wikipedia.org/wiki/Lint_(software)) the code in the repository to make sure it matches our
+If your text editor / IDE doesn't support .editorconfig, please reference the .editorconfig file for some basic
+formatting norms. We use the [black](https://github.com/psf/black) and [flake8](http://flake8.pycqa.org/en/latest/)
+tools to [lint](https://en.wikipedia.org/wiki/Lint_(software)) the code in the repository to make sure it matches our
 preferred style. Both tools are installed as part of the Parsons dependencies.
 
 Run the following commands from the root of the Parsons repository to lint your code changes:

@@ -26,7 +26,18 @@ jobs:
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11']
         limited-dependencies: ['', 'TRUE']
-        os: [ubuntu-latest, macos-latest] # add in windows-latest to add windows testing
+        os: [ubuntu-latest] # add in windows-latest to add windows testing
+        include:
+          - os: macos-latest
+            python-version: '3.8'
+          - os: macos-latest
+            python-version: '3.8'
+            limited-dependencies: TRUE
+          - os: macos-latest
+            python-version: '3.11'
+          - os: macos-latest
+            python-version: '3.11'
+            limited-dependencies: TRUE
 
     runs-on: ${{ matrix.os }}
 

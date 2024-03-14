@@ -1,0 +1,71 @@
+name: Pytest, Flake8, Black
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/test-pytest-flake-black.yml
+      - "requirements*.txt"
+      - "**.py"
+      - .flake8
+      - setup.py
+      - pytest.ini
+  push:
+    paths:
+      - .github/workflows/test-pytest-flake-black.yml
+      - "requirements*.txt"
+      - "**.py"
+      - .flake8
+      - setup.py
+      - pytest.ini
+
+env:
+  TESTING: 1
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+        limited-dependencies: ['', 'TRUE']
+        os: [ubuntu-latest] # windows-latest
+        include:
+          - os: macos-latest
+            python-version: '3.8'
+          - os: macos-latest
+            python-version: '3.8'
+            limited-dependencies: TRUE
+          - os: macos-latest
+            python-version: '3.10'
+          - os: macos-latest
+            python-version: '3.10'
+            limited-dependencies: TRUE
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        env:
+          PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
+        run: |
+          pip install -U pip
+          pip install -e .[all]
+          pip install -r requirements-dev.txt
+
+      - name: Run tests
+        run: pytest -rf test/
+
+      # E203 and W503 don't work well with black
+      - name: Check linting
+        run: |
+          flake8 parsons/ test/ useful_resources/ --max-line-length=100 --extend-ignore=E203,W503
+          black --check parsons/ test/ useful_resources/

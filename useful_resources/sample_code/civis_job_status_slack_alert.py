@@ -17,9 +17,7 @@ slack = Slack()
 
 # Configuration variables
 SLACK_CHANNEL = ""  # Slack channel where the alert will post.
-CIVIS_PROJECT = (
-    ""  # ID of the Civis project with jobs and workflows you want to see the status of.
-)
+CIVIS_PROJECT = ""  # ID of the Civis project with jobs and workflows you want to see the status of.
 
 logger = logging.getLogger(__name__)
 _handler = logging.StreamHandler()
@@ -84,9 +82,7 @@ def get_last_success(object_id, object_type):
     last_success = "-"
 
     if object_type == "workflow":
-        workflow_executions = client.workflows.list_executions(
-            object_id, order="updated_at"
-        )
+        workflow_executions = client.workflows.list_executions(object_id, order="updated_at")
         for execution in workflow_executions:
             if execution["state"] != "succeeded":
                 continue
@@ -116,13 +112,9 @@ def main():
 
     project_name = client.projects.get(CIVIS_PROJECT)["name"]
 
-    scripts_table = get_workflows_and_jobs(CIVIS_PROJECT).sort(
-        columns=["state", "name"]
-    )
+    scripts_table = get_workflows_and_jobs(CIVIS_PROJECT).sort(columns=["state", "name"])
 
-    logger.info(
-        f"Found {scripts_table.num_rows} jobs and workflows in {project_name} project."
-    )
+    logger.info(f"Found {scripts_table.num_rows} jobs and workflows in {project_name} project.")
 
     # This is a list of strings we will build with each job's status
     output_lines = []

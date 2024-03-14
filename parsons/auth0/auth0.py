@@ -33,9 +33,7 @@ class Auth0(object):
                 data={
                     "grant_type": "client_credentials",  # OAuth 2.0 flow to use
                     "client_id": check_env.check("AUTH0_CLIENT_ID", client_id),
-                    "client_secret": check_env.check(
-                        "AUTH0_CLIENT_SECRET", client_secret
-                    ),
+                    "client_secret": check_env.check("AUTH0_CLIENT_SECRET", client_secret),
                     "audience": f"{self.base_url}/api/v2/",
                 },
             )
@@ -130,9 +128,7 @@ class Auth0(object):
                 data=payload,
             )
         else:
-            ret = requests.post(
-                f"{self.base_url}/api/v2/users", headers=self.headers, data=payload
-            )
+            ret = requests.post(f"{self.base_url}/api/v2/users", headers=self.headers, data=payload)
         if ret.status_code != 200:
             raise ValueError(f"Invalid response {ret.json()}")
         return ret
@@ -175,8 +171,7 @@ class Auth0(object):
         headers = self.headers
 
         fields = [
-            {"name": n}
-            for n in ["user_id", "username", "email", "user_metadata", "app_metadata"]
+            {"name": n} for n in ["user_id", "username", "email", "user_metadata", "app_metadata"]
         ]
         # Start the users-export job
         response = requests.post(

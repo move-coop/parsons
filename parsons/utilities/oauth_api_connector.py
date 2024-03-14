@@ -65,7 +65,7 @@ class OAuth2APIConnector(APIConnector):
             token_url=token_url,
             client_id=client_id,
             client_secret=client_secret,
-            **authorization_kwargs
+            **authorization_kwargs,
         )
         self.client = OAuth2Session(
             client_id,

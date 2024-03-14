@@ -123,6 +123,4 @@ class AcquisitionTypes:
             "acquisitionMethod": acquisition_method,
             "pageDefault": page_default,
         }
-        return self._request(
-            f"{self.url_acqtypes}/{id}", req_type="PUT", post_data=payload
-        )
+        return self._request(f"{self.url_acqtypes}/{id}", req_type="PUT", post_data=payload)

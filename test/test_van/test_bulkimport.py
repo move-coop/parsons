@@ -69,9 +69,7 @@ class TestBulkImport(unittest.TestCase):
 
         m.get(self.van.connection.uri + "bulkImportMappingTypes", json=[mapping_type])
 
-        assert_matching_tables(
-            self.van.get_bulk_import_mapping_types(), Table([mapping_type])
-        )
+        assert_matching_tables(self.van.get_bulk_import_mapping_types(), Table([mapping_type]))
 
     @requests_mock.Mocker()
     def test_get_bulk_import_mapping_type(self, m):
@@ -81,9 +79,7 @@ class TestBulkImport(unittest.TestCase):
             json=mapping_type,
         )
 
-        self.assertEqual(
-            self.van.get_bulk_import_mapping_type("ActivistCode"), mapping_type
-        )
+        self.assertEqual(self.van.get_bulk_import_mapping_type("ActivistCode"), mapping_type)
 
     @requests_mock.Mocker()
     def get_bulk_import_mapping_type_fields(self, m):
@@ -98,9 +94,7 @@ class TestBulkImport(unittest.TestCase):
             + "bulkImportMappingTypes/Email/EmailSubscriptionStatusId/values"
         )
 
-        r = self.van.get_bulk_import_mapping_type_fields(
-            "Email", "EmailSubscriptionStatusId"
-        )
+        r = self.van.get_bulk_import_mapping_type_fields("Email", "EmailSubscriptionStatusId")
         self.assertEqual(json, r)
 
     @requests_mock.Mocker()
@@ -136,9 +130,7 @@ class TestBulkImport(unittest.TestCase):
 
         m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
 
-        job_id = self.van.bulk_apply_activist_codes(
-            tbl, url_type="S3", bucket="my-bucket"
-        )
+        job_id = self.van.bulk_apply_activist_codes(tbl, url_type="S3", bucket="my-bucket")
 
         self.assertEqual(job_id, 54679)
 
@@ -153,9 +145,7 @@ class TestBulkImport(unittest.TestCase):
 
         m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
 
-        job_id = self.van.bulk_apply_suppressions(
-            tbl, url_type="S3", bucket="my-bucket"
-        )
+        job_id = self.van.bulk_apply_suppressions(tbl, url_type="S3", bucket="my-bucket")
 
         self.assertEqual(job_id, 54679)
 
@@ -206,9 +196,7 @@ mapping_type = {
             "isRequired": False,
             "canBeMappedToColumn": True,
             "canBeMappedByName": True,
-            "parents": [
-                {"parentFieldName": "CanvassedBy", "limitedToParentValues": None}
-            ],
+            "parents": [{"parentFieldName": "CanvassedBy", "limitedToParentValues": None}],
         },
         {
             "name": "ContactTypeID",
@@ -217,9 +205,7 @@ mapping_type = {
             "isRequired": False,
             "canBeMappedToColumn": True,
             "canBeMappedByName": True,
-            "parents": [
-                {"parentFieldName": "CanvassedBy", "limitedToParentValues": None}
-            ],
+            "parents": [{"parentFieldName": "CanvassedBy", "limitedToParentValues": None}],
         },
     ],
 }

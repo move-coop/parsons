@@ -26,7 +26,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v2-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
+            - v2-dependencies-python3.10-{{ checksum "pyproject.toml" }}
             # fallback to using the latest cache if no exact match is found
             - v2-dependencies-python3.10-
       - run:
@@ -36,11 +36,11 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r ./docs/requirements.txt
+            pip install .[all,docs]
       - save_cache:
           paths:
             - ./venv
-          key: v2-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
+          key: v2-dependencies-python3.10-{{ checksum "pyproject.toml" }}
       - run:
           name: Build docs
           command: |
@@ -57,7 +57,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v2-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
+            - v2-dependencies-python3.10-{{ checksum "pyproject.toml" }}
             # fallback to using the latest cache if no exact match is found
             - v2-dependencies-python3.10-
       - run:
@@ -69,11 +69,11 @@ jobs:
             npm install -g --silent gh-pages@2.0.1
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r ./docs/requirements.txt
+            pip install .[all,docs]
       - save_cache:
           paths:
             - ./venv
-          key: v2-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
+          key: v2-dependencies-python3.10-{{ checksum "pyproject.toml" }}
       - add_ssh_keys:
           # This SSH key is "CircleCI Docs" in https://github.com/move-coop/parsons/settings/keys
           # We need write access to the Parsons repo, so we can push the "gh-pages" branch.

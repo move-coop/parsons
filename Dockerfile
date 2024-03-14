@@ -28,13 +28,12 @@ ENV DISPLAY=:99
 
 RUN mkdir /src
 
-COPY requirements.txt /src/
-RUN pip install -r /src/requirements.txt
-
 COPY . /src/
 WORKDIR /src
 
-RUN python setup.py develop
+RUN pip install -U pip build
+RUN python -m build
+RUN pip install .[all,tmc]
 
 # The /app directory can house the scripts that will actually execute on this Docker image.
 # Eg. If using this image in a Civis container script, Civis will install your script repo

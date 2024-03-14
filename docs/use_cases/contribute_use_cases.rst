@@ -14,9 +14,9 @@ To submit a use case and sample script, please take the following steps. Please 
 
 Steps:
 
-  1. Write up your use case in a file in ``docs/use_cases``. Use the guidelines below for style and content. The file should end with ``.rst``. That means it's a `Restructured Text <https://www.writethedocs.org/guide/writing/reStructuredText/>`_ file. Note that the syntax for RST files can be a little tricky!
+  1. Write up your use case in a file in ``docs/use_cases``. Use the guidelines below for style and content. The file should end with ``.rst``. That means it's a ``Restructured Text <https://www.writethedocs.org/guide/writing/reStructuredText/>``_ file. Note that the syntax for RST files can be a little tricky!
 
-  2. Test that your use case looks correct by building the documentation. There are instructions `here <https://move-coop.github.io/parsons/html/contributing.html#documentation>`_. The important steps to follow there are making a virtual environment, installing the requirements.txt file, and then building the docs with `make html`.
+  2. Test that your use case looks correct by building the documentation. There are instructions ``here <https://move-coop.github.io/parsons/html/contributing.html#documentation>``_. The important steps to follow there are making a virtual environment, installing requirements via ``pip install .[all,docs]``, and then building the docs with ``make html``.
 
   3. Write up your sample script in a Python (``.py``) file and place it in ``useful_resources/sample_code``. Use the guidelines below for style and content. After you've adapted to our style, please test to make sure the script still works.
 

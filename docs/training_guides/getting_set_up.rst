@@ -130,14 +130,14 @@ Once you've installed git, you can execute the following commands::
 
     git clone https://github.com/move-coop/parsons.git
     cd parsons
-    pip install -r requirements.txt
+    pip install [all,dev]
     python setup.py install
 
 These commands say, in order:
 
 * make a copy of the Parsons repository on my computer
 * change directories so I'm now in the top level of that repository
-* install all the libraries listed in the file ``requirements.txt``
+* install all the libraries listed in the file ``pyproject.toml``
 * see the file in this directory named ``setup.py``? run it to install this package
 
 You should now have a copy of Parsons installed locally and ready to use!

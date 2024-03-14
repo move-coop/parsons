@@ -180,9 +180,7 @@ class TestTargetSmartAPI(unittest.TestCase):
         self.assertTrue(
             validate_list(
                 district_expected,
-                self.ts.district(
-                    search_type="point", latitude="41.898369", longitude="-87.694382"
-                ),
+                self.ts.district(search_type="point", latitude="41.898369", longitude="-87.694382"),
             )
         )
 
@@ -204,9 +202,7 @@ class TestTargetSmartAPI(unittest.TestCase):
         self.assertTrue(
             validate_list(
                 district_expected,
-                self.ts.district(
-                    search_type="address", address="908 N Main St, Chicago, IL 60611"
-                ),
+                self.ts.district(search_type="address", address="908 N Main St, Chicago, IL 60611"),
             )
         )
 

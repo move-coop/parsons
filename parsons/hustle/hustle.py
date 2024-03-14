@@ -47,9 +47,7 @@ class Hustle(object):
         logger.debug(r.json())
 
         self.auth_token = r.json()["access_token"]
-        self.token_expiration = datetime.datetime.now() + datetime.timedelta(
-            seconds=7200
-        )
+        self.token_expiration = datetime.datetime.now() + datetime.timedelta(seconds=7200)
         logger.info("Authentication token generated")
 
     def _token_check(self):
@@ -66,9 +64,7 @@ class Hustle(object):
 
             pass
 
-    def _request(
-        self, endpoint, req_type="GET", args=None, payload=None, raise_on_error=True
-    ):
+    def _request(self, endpoint, req_type="GET", args=None, payload=None, raise_on_error=True):
 
         url = self.uri + endpoint
         self._token_check()
@@ -155,9 +151,7 @@ class Hustle(object):
         logger.info(f"Got {agent_id} agent.")
         return r
 
-    def create_agent(
-        self, group_id, name, full_name, phone_number, send_invite=False, email=None
-    ):
+    def create_agent(self, group_id, name, full_name, phone_number, send_invite=False, email=None):
         """
         Create an agent.
 
@@ -190,9 +184,7 @@ class Hustle(object):
         agent = json_format.remove_empty_keys(agent)
 
         logger.info(f"Generating {full_name} agent.")
-        return self._request(
-            f"groups/{group_id}/agents", req_type="POST", payload=agent
-        )
+        return self._request(f"groups/{group_id}/agents", req_type="POST", payload=agent)
 
     def update_agent(self, agent_id, name=None, full_name=None, send_invite=False):
         """
@@ -328,9 +320,7 @@ class Hustle(object):
             raise ValueError("Either organization_id or group_id required.")
 
         if organization_id is not None and group_id is not None:
-            raise ValueError(
-                "Only one of organization_id and group_id may be populated."
-            )
+            raise ValueError("Only one of organization_id and group_id may be populated.")
 
         if organization_id:
             endpoint = f"organizations/{organization_id}/leads"
@@ -463,9 +453,7 @@ class Hustle(object):
 
             # Group Id check
             if not group_id and "group_id" not in table.columns:
-                raise ValueError(
-                    "Group Id must be passed as an argument or a column value."
-                )
+                raise ValueError("Group Id must be passed as an argument or a column value.")
             if group_id:
                 lead["group_id"] = group_id
 

@@ -1,8 +1,9 @@
 # Testing Requirements
-requests-mock==1.5.2
-flake8==4.0.1
-black==22.12.0
-testfixtures==6.18.5
-pytest==7.1.1
-pytest-datadir==1.3.0
-pytest-mock>=3.0.0
+black==24.2.0
+Flake8-pyproject==1.2.3
+flake8==7.0.0
+pytest-datadir==1.5.0
+pytest-mock==3.12.0
+pytest==8.1.1
+requests-mock==1.11.0
+testfixtures==8.1.0

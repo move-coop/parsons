@@ -249,9 +249,7 @@ class TestBillCom(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_user_list(self, m):
         m.post(self.api_url + "List/User.json", text=json.dumps(self.fake_user_list))
-        assert_matching_tables(
-            self.bc.get_user_list(), Table(self.fake_user_list["response_data"])
-        )
+        assert_matching_tables(self.bc.get_user_list(), Table(self.fake_user_list["response_data"]))
 
     @requests_mock.Mocker()
     def test_get_customer_list(self, m):
@@ -265,9 +263,7 @@ class TestBillCom(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_invoice_list(self, m):
-        m.post(
-            self.api_url + "List/Invoice.json", text=json.dumps(self.fake_invoice_list)
-        )
+        m.post(self.api_url + "List/Invoice.json", text=json.dumps(self.fake_invoice_list))
         assert_matching_tables(
             self.bc.get_invoice_list(), Table(self.fake_invoice_list["response_data"])
         )
@@ -296,9 +292,7 @@ class TestBillCom(unittest.TestCase):
 
     def test_check_customer(self):
         self.assertTrue(
-            self.bc.check_customer(
-                {"id": "fake_customer_id"}, {"id": "fake_customer_id"}
-            )
+            self.bc.check_customer({"id": "fake_customer_id"}, {"id": "fake_customer_id"})
         )
         self.assertTrue(
             self.bc.check_customer(
@@ -307,9 +301,7 @@ class TestBillCom(unittest.TestCase):
             )
         )
         self.assertFalse(
-            self.bc.check_customer(
-                {"id": "fake_customer_id1"}, {"id": "fake_customer_id2"}
-            )
+            self.bc.check_customer({"id": "fake_customer_id1"}, {"id": "fake_customer_id2"})
         )
         self.assertFalse(
             self.bc.check_customer(
@@ -329,9 +321,7 @@ class TestBillCom(unittest.TestCase):
             text=json.dumps(self.fake_customer_read_json),
         )
         self.assertEqual(
-            self.bc.get_or_create_customer(
-                "fake_customer_name", self.fake_customer_email
-            ),
+            self.bc.get_or_create_customer("fake_customer_name", self.fake_customer_email),
             self.fake_customer_read_json["response_data"],
         )
 

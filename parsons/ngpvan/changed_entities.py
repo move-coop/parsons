@@ -37,11 +37,7 @@ class ChangedEntities(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(
-            self.connection.get_request(
-                f"changedEntityExportJobs/fields/{resource_type}"
-            )
-        )
+        tbl = Table(self.connection.get_request(f"changedEntityExportJobs/fields/{resource_type}"))
         logger.info(f"Found {tbl.num_rows} fields for {resource_type}.")
         return tbl
 

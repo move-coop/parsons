@@ -189,9 +189,7 @@ class People(object):
             A person dict
         """
 
-        return self._people_search(
-            id=id, id_type=id_type, match_json=match_json, create=True
-        )
+        return self._people_search(id=id, id_type=id_type, match_json=match_json, create=True)
 
     def upsert_person(
         self,
@@ -328,9 +326,7 @@ class People(object):
                 elif isinstance(email, list):
                     json["emails"] = email
                 else:
-                    raise ValueError(
-                        f"Unexpected data type for email argument: {type(email)}"
-                    )
+                    raise ValueError(f"Unexpected data type for email argument: {type(email)}")
             if phone:  # To Do: Strip out non-integers from phone
                 json["phones"] = [{"phoneNumber": phone, "phoneType": phone_type}]
             if date_of_birth:
@@ -670,9 +666,7 @@ class People(object):
             or contact_type_id == 149  # Paid SMS
         ):
             if not phone:
-                raise Exception(
-                    "A phone number must be provided if canvassed via phone or SMS"
-                )
+                raise Exception("A phone number must be provided if canvassed via phone or SMS")
 
         if phone:
             json["canvassContext"]["phone"] = {

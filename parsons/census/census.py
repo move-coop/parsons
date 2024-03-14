@@ -22,9 +22,7 @@ class Census(object):
         self.api_key = check_env.check("CENSUS_API_KEY", api_key)
         self.host = "https://api.census.gov/data"
 
-    def get_census(
-        self, year=None, dataset_acronym=None, variables=None, location=None
-    ):
+    def get_census(self, year=None, dataset_acronym=None, variables=None, location=None):
         """
         Pull census data. For background check out the `Census API Guide
                 <https://www.census.gov/data/developers/guidance/api-user-guide.html>`_
@@ -50,9 +48,7 @@ class Census(object):
         usr_key = f"&key={self.api_key}"
         year = str(year)  # in case someone passes int
         location = "&for=" + location
-        query_url = (
-            f"{self.host}/{year}{dataset_acronym}{g}{variables}{location}{usr_key}"
-        )
+        query_url = f"{self.host}/{year}{dataset_acronym}{g}{variables}{location}{usr_key}"
 
         # create connector
         connector = APIConnector(uri=self.host)

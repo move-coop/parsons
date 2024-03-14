@@ -266,14 +266,10 @@ class TestCopper(unittest.TestCase):
                     {"number": "(541) 555-9585", "category": "work"},
                     {"number": "555-555-9585", "category": "work"},
                 ],
-                "socials": [
-                    {"url": "https://gravatar.com/gravatar", "category": "gravatar"}
-                ],
+                "socials": [{"url": "https://gravatar.com/gravatar", "category": "gravatar"}],
                 "tags": [],
                 "title": None,
-                "websites": [
-                    {"url": "http://www.IndivisibleCityA.org", "category": None}
-                ],
+                "websites": [{"url": "http://www.IndivisibleCityA.org", "category": None}],
                 "custom_fields": [
                     {"custom_field_definition_id": 125880, "value": None},
                     {"custom_field_definition_id": 107297, "value": None},
@@ -393,9 +389,7 @@ class TestCopper(unittest.TestCase):
         # self.assertTrue(
         assert_matching_tables(
             Table(self.blob),
-            Table(
-                self.cp.paginate_request("/people/search", page_size=1, req_type="POST")
-            ),
+            Table(self.cp.paginate_request("/people/search", page_size=1, req_type="POST")),
         )
 
     def test_process_json(self):
@@ -525,9 +519,7 @@ class TestCopper(unittest.TestCase):
             fake_response = json.load(json_file)
 
         fake_processed = self.cp.process_custom_fields(fake_response)
-        self.assertTrue(
-            [f["name"] for f in fake_processed] == self.custom_field_table_names
-        )
+        self.assertTrue([f["name"] for f in fake_processed] == self.custom_field_table_names)
         for tbl in self.custom_field_table_names:
             assert_matching_tables(
                 [f["tbl"] for f in fake_processed if f["name"] == tbl][0],
@@ -567,9 +559,7 @@ class TestCopper(unittest.TestCase):
         # So the following line is the only difference from test_get_people()
         processed_blob = self.cp.get_standard_object("people")
         blob_people = [f for f in processed_blob if f["name"] == "people"][0]["tbl"]
-        blob_people_emails = [
-            f for f in processed_blob if f["name"] == "people_emails"
-        ][0]["tbl"]
+        blob_people_emails = [f for f in processed_blob if f["name"] == "people_emails"][0]["tbl"]
 
         assert_matching_tables(self.processed_people, blob_people)
         assert_matching_tables(processed_people_emails, blob_people_emails)
@@ -604,9 +594,7 @@ class TestCopper(unittest.TestCase):
         )
         processed_blob = self.cp.get_people()
         blob_people = [f for f in processed_blob if f["name"] == "people"][0]["tbl"]
-        blob_people_emails = [
-            f for f in processed_blob if f["name"] == "people_emails"
-        ][0]["tbl"]
+        blob_people_emails = [f for f in processed_blob if f["name"] == "people_emails"][0]["tbl"]
 
         # Actually testing get_standard_object() and process_json()
         # Dicts & simple lists are unpacked to columns on original table
@@ -754,12 +742,8 @@ class TestCopper(unittest.TestCase):
         )
 
         processed_blob = self.cp.get_opportunities()
-        blob_opps = [f for f in processed_blob if f["name"] == "opportunities"][0][
-            "tbl"
-        ]
-        blob_opps_cf = [
-            f for f in processed_blob if f["name"] == "opportunities_custom_fields"
-        ]
+        blob_opps = [f for f in processed_blob if f["name"] == "opportunities"][0]["tbl"]
+        blob_opps_cf = [f for f in processed_blob if f["name"] == "opportunities_custom_fields"]
         blob_opps_cf = blob_opps_cf[0]["tbl"]
 
         assert_matching_tables(processed_opps, blob_opps)
@@ -902,12 +886,8 @@ class TestCopper(unittest.TestCase):
         )
 
         processed_blob = self.cp.get_opportunities()
-        blob_opps = [f for f in processed_blob if f["name"] == "opportunities"][0][
-            "tbl"
-        ]
-        blob_opps_cf = [
-            f for f in processed_blob if f["name"] == "opportunities_custom_fields"
-        ]
+        blob_opps = [f for f in processed_blob if f["name"] == "opportunities"][0]["tbl"]
+        blob_opps_cf = [f for f in processed_blob if f["name"] == "opportunities_custom_fields"]
         blob_opps_cf = blob_opps_cf[0]["tbl"]
 
         assert_matching_tables(processed_opps, blob_opps)
@@ -1023,9 +1003,7 @@ class TestCopper(unittest.TestCase):
         )
 
         processed_blob = self.cp.get_companies()
-        blob_companies = [f for f in processed_blob if f["name"] == "companies"][0][
-            "tbl"
-        ]
+        blob_companies = [f for f in processed_blob if f["name"] == "companies"][0]["tbl"]
         blob_companies_phones = [
             f for f in processed_blob if f["name"] == "companies_phone_numbers"
         ][0]["tbl"]
@@ -1105,9 +1083,7 @@ class TestCopper(unittest.TestCase):
         )
 
         processed_blob = self.cp.get_custom_fields()
-        self.assertTrue(
-            [f["name"] for f in processed_blob] == self.custom_field_table_names
-        )
+        self.assertTrue([f["name"] for f in processed_blob] == self.custom_field_table_names)
         for tbl in self.custom_field_table_names:
             assert_matching_tables(
                 [f["tbl"] for f in processed_blob if f["name"] == tbl][0],

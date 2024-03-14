@@ -11,9 +11,7 @@ TEMP_SCHEMA = "parsons_test"
 
 # These tests interact directly with the Postgres database. In order to run, set the
 # env to LIVE_TEST='TRUE'.
-@unittest.skipIf(
-    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
-)
+@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestPostgresDBSync(unittest.TestCase):
     def setUp(self):
 
@@ -143,9 +141,7 @@ class TestPostgresDBSync(unittest.TestCase):
 
 # These tests interact directly with the Postgres database. In order to run, set the
 # env to LIVE_TEST='TRUE'.
-@unittest.skipIf(
-    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
-)
+@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestRedshiftDBSync(TestPostgresDBSync):
     """This test inherits all of the tests from the Postgres test."""
 
@@ -261,9 +257,7 @@ class TestFakeDBSync(unittest.TestCase):
         self.fake_destination.setup_table("destination", Table(), failures=1)
 
         # Make sure the sync results in an exception
-        self.assertRaises(
-            ValueError, lambda: dbsync.table_sync_full("source", "destination")
-        )
+        self.assertRaises(ValueError, lambda: dbsync.table_sync_full("source", "destination"))
 
     def test_table_sync_full_order_by(self):
         dbsync = DBSync(self.fake_source, self.fake_destination)

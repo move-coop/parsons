@@ -40,12 +40,8 @@ rs = Redshift()  # just create Redshift() - VAN connector is created dynamically
 
 # Create dictionary of VAN states and API keys from multiline Civis credential
 
-myv_states = {
-    x.split(",")[0]: x.split(",")[1] for x in os.environ["VAN_PASSWORD"].split("\r\n")
-}
-myv_keys = {
-    k: VAN(api_key=v, db=os.environ["VAN_DB_NAME"]) for k, v in myv_states.items()
-}
+myv_states = {x.split(",")[0]: x.split(",")[1] for x in os.environ["VAN_PASSWORD"].split("\r\n")}
+myv_keys = {k: VAN(api_key=v, db=os.environ["VAN_DB_NAME"]) for k, v in myv_states.items()}
 
 # Create simple set of states for insertion into SQL
 states = "','".join([s for s in myv_keys])
@@ -72,6 +68,4 @@ for state, key in myv_keys.items():
         for vanid in state_set:
             # TODO: row undefined, select row form record?
             row = None
-            key.toggle_activist_code(
-                row["vb_smartvan_id"], row["activist_code_id"], "apply"
-            )
+            key.toggle_activist_code(row["vb_smartvan_id"], row["activist_code_id"], "apply")

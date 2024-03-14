@@ -27,9 +27,7 @@ def decode_credential(credential, save_path=None, export=True, echo=False):
     if credential[:x] != PREFIX:
         raise ValueError("Invalid Parsons variable.")
 
-    decoded_str = b64decode(bytes(credential.replace(PREFIX, ""), "utf-8")).decode(
-        "utf-8"
-    )
+    decoded_str = b64decode(bytes(credential.replace(PREFIX, ""), "utf-8")).decode("utf-8")
 
     decoded_dict = json.loads(decoded_str)
 
@@ -130,9 +128,7 @@ def encode_from_dict(credential):
     default=True,
     help="Endcode a credential.",
 )
-@click.option(
-    "--decode", "-d", "fn", flag_value="decode", help="Decode an encoded credential."
-)
+@click.option("--decode", "-d", "fn", flag_value="decode", help="Decode an encoded credential.")
 @click.option(
     "-f",
     "is_file",
@@ -151,13 +147,9 @@ def encode_from_dict(credential):
     "no_export",
     is_flag=True,
     default=False,
-    help=(
-        "Do not export the variable to the environment. Only " "valid with --decode."
-    ),
+    help=("Do not export the variable to the environment. Only " "valid with --decode."),
 )
-@click.option(
-    "-s", "suppress", is_flag=True, default=False, help=("Suppress " "the output.")
-)
+@click.option("-s", "suppress", is_flag=True, default=False, help=("Suppress " "the output."))
 def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=False):
     """A command line tool to encode and decode credentials.
 

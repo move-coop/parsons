@@ -199,9 +199,7 @@ class Braintree(object):
             )
         )
 
-    def get_disputes(
-        self, start_date=None, end_date=None, query_list=None, query_dict=None
-    ):
+    def get_disputes(self, start_date=None, end_date=None, query_list=None, query_dict=None):
         """
         Get a table of disputes based on query parameters.
         There are three ways to pass query arguments: Pass a start_date and end_date
@@ -246,12 +244,9 @@ class Braintree(object):
         # Iterating on collection.items triggers web requests in batches of 50 records
         # Disputes query api doesn't return the ids -- we can't do anything but iterate
         if not collection.is_success:
-            raise ParsonsBraintreeError(
-                f"Braintree dispute query failed: {collection.message}"
-            )
+            raise ParsonsBraintreeError(f"Braintree dispute query failed: {collection.message}")
         return Table(
-            [self._dispute_header()]
-            + [self._dispute_to_row(r) for r in collection.disputes.items]
+            [self._dispute_header()] + [self._dispute_to_row(r) for r in collection.disputes.items]
         )
 
     def get_subscriptions(
@@ -334,10 +329,7 @@ class Braintree(object):
         logger.debug("Braintree subscriptions iterating to build subscriptions table")
         return Table(
             [self._subscription_header(include_transactions)]
-            + [
-                self._subscription_to_row(include_transactions, r)
-                for r in collection.items
-            ]
+            + [self._subscription_to_row(include_transactions, r) for r in collection.items]
         )
 
     def get_transactions(
@@ -407,9 +399,7 @@ class Braintree(object):
             ),
         )
         query_count = len(collection.ids)
-        logger.info(
-            f"Braintree transactions resulted in transaction count of {query_count}"
-        )
+        logger.info(f"Braintree transactions resulted in transaction count of {query_count}")
         if just_ids:
             return Table([("id",)] + [[item_id] for item_id in collection.ids])
 
@@ -419,8 +409,7 @@ class Braintree(object):
         #   but it, too, paginates with a max of 50 records
         logger.debug("Braintree transactions iterating to build transaction table")
         return Table(
-            [self._transaction_header()]
-            + [self._transaction_to_row(r) for r in collection.items]
+            [self._transaction_header()] + [self._transaction_to_row(r) for r in collection.items]
         )
 
     def _dispute_header(self):
@@ -454,14 +443,8 @@ class Braintree(object):
                 )
                 for k in self.credit_card_fields
             ]
-            + [
-                getattr(collection_item.disbursement_details, k)
-                for k in self.disbursement_fields
-            ]
-            + [
-                getattr(collection_item.customer_details, k)
-                for k in self.customer_fields
-            ]
+            + [getattr(collection_item.disbursement_details, k) for k in self.disbursement_fields]
+            + [getattr(collection_item.customer_details, k) for k in self.customer_fields]
             + [getattr(collection_item, k) for k in self.transaction_fields]
         )
 
@@ -541,9 +524,7 @@ class Braintree(object):
                 for qual, vals in filters.items():  # likely only one, but fine
                     queryobj_qualfunc = getattr(queryobj, qual, None)
                     if not queryobj_qualfunc:
-                        raise ParsonsBraintreeError(
-                            "oh no, that's not a braintree parameter"
-                        )
+                        raise ParsonsBraintreeError("oh no, that's not a braintree parameter")
                     if not isinstance(vals, list):
                         vals = [vals]
                     queries.append(queryobj_qualfunc(*vals))

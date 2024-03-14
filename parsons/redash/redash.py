@@ -54,9 +54,7 @@ class Redash(object):
 
     def _catch_runtime_error(self, res):
         if res.status_code != 200:
-            raise RuntimeError(
-                f"Error. Status code: {res.status_code}. Reason: {res.reason}"
-            )
+            raise RuntimeError(f"Error. Status code: {res.status_code}. Reason: {res.reason}")
 
     def _poll_job(self, session, job, query_id):
         start_secs = time.time()
@@ -68,11 +66,7 @@ class Redash(object):
             response_json = response.json()
             job = response_json.get(
                 "job",
-                {
-                    "status": "Error NO JOB IN RESPONSE: {}".format(
-                        json.dumps(response_json)
-                    )
-                },
+                {"status": "Error NO JOB IN RESPONSE: {}".format(json.dumps(response_json))},
             )
             logger.debug(
                 "poll url:%s id:%s status:%s err:%s",
@@ -86,9 +80,7 @@ class Redash(object):
         if job["status"] == 3:  # 3 = completed
             return job["query_result_id"]
         elif job["status"] == 4:  # 3 = ERROR
-            raise RedashQueryFailed(
-                "Redash Query {} failed: {}".format(query_id, job["error"])
-            )
+            raise RedashQueryFailed("Redash Query {} failed: {}".format(query_id, job["error"]))
 
     def get_data_source(self, data_source_id):
         """
@@ -104,9 +96,7 @@ class Redash(object):
         self._catch_runtime_error(res)
         return res.json()
 
-    def update_data_source(
-        self, data_source_id, name, type, dbName, host, password, port, user
-    ):
+    def update_data_source(self, data_source_id, name, type, dbName, host, password, port, user):
         """
         Update a data source.
 
@@ -171,9 +161,7 @@ class Redash(object):
         query_id = check("REDASH_QUERY_ID", query_id, optional=True)
         params_from_env = check("REDASH_QUERY_PARAMS", "", optional=True)
         redash_params = (
-            {"p_%s" % k: str(v).replace("'", "''") for k, v in params.items()}
-            if params
-            else {}
+            {"p_%s" % k: str(v).replace("'", "''") for k, v in params.items()} if params else {}
         )
 
         response = self.session.post(
@@ -183,9 +171,7 @@ class Redash(object):
         )
 
         if response.status_code != 200:
-            raise RedashQueryFailed(
-                f"Refresh failed for query {query_id}. {response.text}"
-            )
+            raise RedashQueryFailed(f"Refresh failed for query {query_id}. {response.text}")
 
         job = response.json()["job"]
         result_id = self._poll_job(self.session, job, query_id)
@@ -199,9 +185,7 @@ class Redash(object):
                     f"Failed getting results for query {query_id}. {response.text}"
                 )
         else:
-            raise RedashQueryFailed(
-                f"Failed getting result {query_id}. {response.text}"
-            )
+            raise RedashQueryFailed(f"Failed getting result {query_id}. {response.text}")
         return Table.from_csv_string(response.text)
 
     def get_cached_query_results(self, query_id=None, query_api_key=None):
@@ -229,9 +213,7 @@ class Redash(object):
             verify=self.verify,
         )
         if response.status_code != 200:
-            raise RedashQueryFailed(
-                f"Failed getting results for query {query_id}. {response.text}"
-            )
+            raise RedashQueryFailed(f"Failed getting results for query {query_id}. {response.text}")
         return Table.from_csv_string(response.text)
 
     @classmethod
@@ -272,10 +254,6 @@ class Redash(object):
         }
         obj = cls(**initargs)
         if not refresh or kwargs.get("query_api_key"):
-            return obj.get_cached_query_results(
-                kwargs.get("query_id"), kwargs.get("query_api_key")
-            )
+            return obj.get_cached_query_results(kwargs.get("query_id"), kwargs.get("query_api_key"))
         else:
-            return obj.get_fresh_query_results(
-                kwargs.get("query_id"), kwargs.get("params")
-            )
+            return obj.get_fresh_query_results(kwargs.get("query_id"), kwargs.get("params"))

@@ -48,9 +48,7 @@ class GoogleAdmin(object):
 
         # Return type from Google Admin is a tuple of length 2. Extract desired result from 2nd item
         # in tuple and convert to json
-        res = json.loads(
-            self.client.request(req_url + param_str, "GET")[1].decode("utf-8")
-        )
+        res = json.loads(self.client.request(req_url + param_str, "GET")[1].decode("utf-8"))
 
         # Paginate
         ret = []
@@ -63,9 +61,9 @@ class GoogleAdmin(object):
                 else:
                     param_arr[-1] = "pageToken=" + res["nextPageToken"]
                 res = json.loads(
-                    self.client.request(req_url + "?" + "&".join(param_arr), "GET")[
-                        1
-                    ].decode("utf-8")
+                    self.client.request(req_url + "?" + "&".join(param_arr), "GET")[1].decode(
+                        "utf-8"
+                    )
                 )
                 ret += res[collection]
 
@@ -84,9 +82,7 @@ class GoogleAdmin(object):
         `Returns:`
             Table Class
         """
-        return self._paginate_request(
-            "groups/" + group_key + "/aliases", "aliases", params
-        )
+        return self._paginate_request("groups/" + group_key + "/aliases", "aliases", params)
 
     def get_all_group_members(self, group_key, params=None):
         """
@@ -101,9 +97,7 @@ class GoogleAdmin(object):
         `Returns:`
             Table Class
         """
-        return self._paginate_request(
-            "groups/" + group_key + "/members", "members", params
-        )
+        return self._paginate_request("groups/" + group_key + "/members", "members", params)
 
     def get_all_groups(self, params=None):
         """

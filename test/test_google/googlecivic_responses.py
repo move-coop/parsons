@@ -544,9 +544,7 @@ voterinfo_resp = {
                     "name": "Thomas J. Dart",
                     "party": "Democratic",
                     "candidateUrl": "http://www.sherifftomdart.com/",
-                    "channels": [
-                        {"type": "Twitter", "id": "https://twitter.com/TomDart"}
-                    ],
+                    "channels": [{"type": "Twitter", "id": "https://twitter.com/TomDart"}],
                 }
             ],
             "sources": [{"name": "Ballot Information Project", "official": False}],
@@ -937,9 +935,7 @@ representatives_resp = {
             "name": "California's 16th congressional district",
             "officeIndices": [3],
         },
-        "ocd-division/country:us/state:ca/place:mountain_view": {
-            "name": "Mountain View city"
-        },
+        "ocd-division/country:us/state:ca/place:mountain_view": {"name": "Mountain View city"},
         "ocd-division/country:us/state:ca/sldl:23": {
             "name": "California Assembly district 23",
             "officeIndices": [12],
@@ -1109,9 +1105,7 @@ representatives_resp = {
         },
         {
             "name": "Alex Padilla",
-            "address": [
-                {"line1": "B03", "city": "Washington", "state": "DC", "zip": "20510"}
-            ],
+            "address": [{"line1": "B03", "city": "Washington", "state": "DC", "zip": "20510"}],
             "party": "Democratic Party",
             "phones": ["(202) 224-3553"],
             "urls": [

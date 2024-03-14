@@ -28,9 +28,7 @@ def test_date_to_timestamp(date, exp_ts):
 
 def test_parse_date():
     # Test parsing an ISO8601 string
-    expected = datetime.datetime(
-        year=2020, month=1, day=1, tzinfo=datetime.timezone.utc
-    )
+    expected = datetime.datetime(year=2020, month=1, day=1, tzinfo=datetime.timezone.utc)
     parsed = parse_date("2020-01-01T00:00:00.000 UTC")
     assert parsed == expected, parsed
 

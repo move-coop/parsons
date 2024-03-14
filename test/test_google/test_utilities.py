@@ -37,9 +37,7 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
         self.assertEqual(os.environ[self.TEST_ENV_NAME], self.cred_path)
 
     def test_accepts_dictionary(self):
-        util.setup_google_application_credentials(
-            self.cred_contents, self.TEST_ENV_NAME
-        )
+        util.setup_google_application_credentials(self.cred_contents, self.TEST_ENV_NAME)
         actual = os.environ[self.TEST_ENV_NAME]
         self.assertTrue(os.path.exists(actual))
         with open(actual, "r") as f:
@@ -62,9 +60,7 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
 
     def test_credentials_are_valid_after_double_call(self):
         # write creds to tmp file...
-        util.setup_google_application_credentials(
-            self.cred_contents, self.TEST_ENV_NAME
-        )
+        util.setup_google_application_credentials(self.cred_contents, self.TEST_ENV_NAME)
         fst = os.environ[self.TEST_ENV_NAME]
 
         # repeat w/ default args...

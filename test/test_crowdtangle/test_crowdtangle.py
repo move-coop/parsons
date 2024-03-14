@@ -27,9 +27,7 @@ class TestCrowdTangle(unittest.TestCase):
 
         m.get(self.ct.uri + "/leaderboard", json=expected_leaderboard)
         leaderboard = self.ct.get_leaderboard()
-        exp_tbl = self.ct._unpack(
-            Table(expected_leaderboard["result"]["accountStatistics"])
-        )
+        exp_tbl = self.ct._unpack(Table(expected_leaderboard["result"]["accountStatistics"]))
         assert_matching_tables(leaderboard, exp_tbl)
 
     @requests_mock.Mocker()

@@ -32,9 +32,7 @@ class APIConnector(object):
         APIConnector class
     """
 
-    def __init__(
-        self, uri, headers=None, auth=None, pagination_key=None, data_key=None
-    ):
+    def __init__(self, uri, headers=None, auth=None, pagination_key=None, data_key=None):
         # Add a trailing slash if its missing
         if not uri.endswith("/"):
             uri = uri + "/"
@@ -163,9 +161,7 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def put_request(
-        self, url, data=None, json=None, params=None, success_codes=[200, 201, 204]
-    ):
+    def put_request(self, url, data=None, json=None, params=None, success_codes=[200, 201, 204]):
         """
         Make a PUT request.
 
@@ -192,9 +188,7 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def patch_request(
-        self, url, params=None, data=None, json=None, success_codes=[200, 201, 204]
-    ):
+    def patch_request(self, url, params=None, data=None, json=None, success_codes=[200, 201, 204]):
         """
         Make a PATCH request.
 

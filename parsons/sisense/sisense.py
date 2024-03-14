@@ -50,9 +50,7 @@ class Sisense(object):
             Response (dict containing the URL) or an error
         """
         payload = {"dashboard": dashboard_id, "chart": chart_id, **kwargs}
-        return self.api.post_request(
-            "shared_dashboard/create", data=json.dumps(payload)
-        )
+        return self.api.post_request("shared_dashboard/create", data=json.dumps(payload))
 
     def list_shared_dashboards(self, dashboard_id):
         """
@@ -83,6 +81,4 @@ class Sisense(object):
             Response or an error
         """
         payload = {"token": token}
-        return self.api.post_request(
-            "shared_dashboard/delete", data=json.dumps(payload)
-        )
+        return self.api.post_request("shared_dashboard/delete", data=json.dumps(payload))

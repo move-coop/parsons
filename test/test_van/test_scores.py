@@ -196,9 +196,7 @@ class TestScores(unittest.TestCase):
         )
 
         # Test bad input
-        self.assertRaises(
-            ValueError, self.van.update_score_status, score_update_id, "not a thing."
-        )
+        self.assertRaises(ValueError, self.van.update_score_status, score_update_id, "not a thing.")
 
         # Test good input
         self.assertTrue(self.van.update_score_status(score_update_id, "approved"))
@@ -214,9 +212,7 @@ class TestScores(unittest.TestCase):
         tbl = Table([["vanid", "col"], ["1", ".5"]])
         json = {"jobId": 9749}
         m.post(self.van.connection.uri + "FileLoadingJobs", json=json, status_code=201)
-        self.van.upload_scores(
-            tbl, [{"score_id": 9999, "score_column": "col"}], url_type="S3"
-        )
+        self.van.upload_scores(tbl, [{"score_id": 9999, "score_column": "col"}], url_type="S3")
 
     @requests_mock.Mocker()
     def test_create_file_load(self, m):

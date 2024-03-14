@@ -25,9 +25,7 @@ class TestNGPVAN(unittest.TestCase):
             status_code=200,
         )
 
-        person = self.van.find_person(
-            first_name="Bob", last_name="Smith", phone=4142020792
-        )
+        person = self.van.find_person(first_name="Bob", last_name="Smith", phone=4142020792)
 
         self.assertEqual(person, find_people_response)
 
@@ -106,9 +104,7 @@ class TestNGPVAN(unittest.TestCase):
         )
 
         # Successful with FN/LN/Email
-        self.van._valid_search(
-            "Barack", "Obama", "barack@email.com", None, None, None, None
-        )
+        self.van._valid_search("Barack", "Obama", "barack@email.com", None, None, None, None)
 
         # Successful with FN/LN/DOB/ZIP
         self.van._valid_search(
@@ -143,9 +139,7 @@ class TestNGPVAN(unittest.TestCase):
     @requests_mock.Mocker()
     def test_apply_canvass_result(self, m):
         # Test a valid attempt
-        m.post(
-            self.van.connection.uri + "people/2335282/canvassResponses", status_code=204
-        )
+        m.post(self.van.connection.uri + "people/2335282/canvassResponses", status_code=204)
         self.van.apply_canvass_result(2335282, 18)
 
         # Test a bad result code
@@ -190,24 +184,16 @@ class TestNGPVAN(unittest.TestCase):
         self.van.apply_canvass_result(2335282, 18, id_type="DWID")
 
         # test canvassing via phone or sms without providing phone number
-        self.assertRaises(
-            Exception, self.van.apply_canvass_result, 2335282, 18, contact_type_id=37
-        )
+        self.assertRaises(Exception, self.van.apply_canvass_result, 2335282, 18, contact_type_id=37)
 
         # test canvassing via phone or sms with providing phone number
-        m.post(
-            self.van.connection.uri + "people/2335282/canvassResponses", status_code=204
-        )
-        self.van.apply_canvass_result(
-            2335282, 18, contact_type_id=37, phone="(516)-555-2342"
-        )
+        m.post(self.van.connection.uri + "people/2335282/canvassResponses", status_code=204)
+        self.van.apply_canvass_result(2335282, 18, contact_type_id=37, phone="(516)-555-2342")
 
     @requests_mock.Mocker()
     def test_apply_survey_question(self, m):
         # Test valid survey question
-        m.post(
-            self.van.connection.uri + "people/2335282/canvassResponses", status_code=204
-        )
+        m.post(self.van.connection.uri + "people/2335282/canvassResponses", status_code=204)
         self.van.apply_survey_response(2335282, 351006, 1443891)
 
         # Test bad survey response id
@@ -219,12 +205,8 @@ class TestNGPVAN(unittest.TestCase):
         #         'properties': ['responses[0].surveyResponseId']
         #     }]
         # }
-        m.post(
-            self.van.connection.uri + "people/2335282/canvassResponses", status_code=400
-        )
-        self.assertRaises(
-            HTTPError, self.van.apply_survey_response, 2335282, 0, 1443891
-        )
+        m.post(self.van.connection.uri + "people/2335282/canvassResponses", status_code=400)
+        self.assertRaises(HTTPError, self.van.apply_survey_response, 2335282, 0, 1443891)
 
         # Test bad survey question id
         # json = {
@@ -235,9 +217,7 @@ class TestNGPVAN(unittest.TestCase):
         #         'properties': ['responses[0].surveyQuestionId']
         #     }]
         # }
-        m.post(
-            self.van.connection.uri + "people/2335282/canvassResponses", status_code=400
-        )
+        m.post(self.van.connection.uri + "people/2335282/canvassResponses", status_code=400)
         self.assertRaises(HTTPError, self.van.apply_survey_response, 2335282, 351006, 0)
 
     def test_toggle_volunteer_action(self):

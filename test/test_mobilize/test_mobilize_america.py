@@ -134,6 +134,4 @@ class TestMobilizeAmerica(unittest.TestCase):
         m.get(self.ma.uri + "events/deleted", json=test_json.GET_EVENTS_DELETED_JSON)
 
         # Assert response is expected structure
-        self.assertTrue(
-            validate_list(["id", "deleted_date"], self.ma.get_events_deleted())
-        )
+        self.assertTrue(validate_list(["id", "deleted_date"], self.ma.get_events_deleted()))

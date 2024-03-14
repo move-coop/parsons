@@ -12,9 +12,7 @@ TEMP_SCHEMA = "parsons_test"
 class TestPostgresCreateStatement(unittest.TestCase):
     def setUp(self):
 
-        self.pg = Postgres(
-            username="test", password="test", host="test", db="test", port=123
-        )
+        self.pg = Postgres(username="test", password="test", host="test", db="test", port=123)
 
         self.tbl = Table([["ID", "Name"], [1, "Jim"], [2, "John"], [3, "Sarah"]])
 
@@ -157,9 +155,7 @@ class TestPostgresCreateStatement(unittest.TestCase):
 # These tests interact directly with the Postgres database
 
 
-@unittest.skipIf(
-    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
-)
+@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestPostgresDB(unittest.TestCase):
     def setUp(self):
 
@@ -215,9 +211,7 @@ class TestPostgresDB(unittest.TestCase):
 
         # Copy a table and ensure table exists
         self.pg.copy(self.tbl, f"{self.temp_schema}.test_copy", if_exists="drop")
-        r = self.pg.query(
-            f"select * from {self.temp_schema}.test_copy where name='Jim'"
-        )
+        r = self.pg.query(f"select * from {self.temp_schema}.test_copy where name='Jim'")
         self.assertEqual(r[0]["id"], 1)
 
         # Copy table and ensure truncate works.
@@ -236,9 +230,7 @@ class TestPostgresDB(unittest.TestCase):
         self.assertEqual(tbl.first, 6)
 
         # Try to copy the table and ensure that default fail works.
-        self.assertRaises(
-            ValueError, self.pg.copy, self.tbl, f"{self.temp_schema}.test_copy"
-        )
+        self.assertRaises(ValueError, self.pg.copy, self.tbl, f"{self.temp_schema}.test_copy")
 
         # Try to copy the table and ensure that explicit fail works.
         self.assertRaises(
@@ -252,9 +244,7 @@ class TestPostgresDB(unittest.TestCase):
     def test_to_postgres(self):
 
         self.tbl.to_postgres(f"{self.temp_schema}.test_copy")
-        r = self.pg.query(
-            f"select * from {self.temp_schema}.test_copy where name='Jim'"
-        )
+        r = self.pg.query(f"select * from {self.temp_schema}.test_copy where name='Jim'")
         self.assertEqual(r[0]["id"], 1)
 
     def test_from_postgres(self):

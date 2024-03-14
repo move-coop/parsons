@@ -40,8 +40,6 @@ class Locations:
 
     def update_location(self, id: str, location_name: str, address: str):
         payload = {"locationName": location_name, "locationAddress": address}
-        res = self._request(
-            f"{self.locations_url}/{id}", req_type="PUT", post_data=payload
-        )
+        res = self._request(f"{self.locations_url}/{id}", req_type="PUT", post_data=payload)
         if res["code"] == 201:
             return True

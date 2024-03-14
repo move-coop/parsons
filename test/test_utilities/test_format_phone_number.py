@@ -21,9 +21,7 @@ class TestFormatPhoneNumber(unittest.TestCase):
     def test_format_phone_number_international_number(self):
         phone_number = "+441234567890"
         expected_result = "+441234567890"
-        self.assertEqual(
-            format_phone_number(phone_number, country_code="44"), expected_result
-        )
+        self.assertEqual(format_phone_number(phone_number, country_code="44"), expected_result)
 
     def test_format_phone_number_invalid_length(self):
         phone_number = "12345"

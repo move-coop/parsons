@@ -11,9 +11,7 @@ from test.utils import assert_matching_tables
 # to run properly.
 
 
-@unittest.skipIf(
-    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
-)
+@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestS3(unittest.TestCase):
     def setUp(self):
 
@@ -195,7 +193,5 @@ class TestS3(unittest.TestCase):
         buckets_with_subname_true = self.s3.get_buckets_type(self.test_bucket_subname)
         self.assertTrue(self.test_bucket in buckets_with_subname_true)
 
-        buckets_with_subname_false = self.s3.get_buckets_type(
-            "bucketsubnamedoesnotexist"
-        )
+        buckets_with_subname_false = self.s3.get_buckets_type("bucketsubnamedoesnotexist")
         self.assertFalse(self.test_bucket in buckets_with_subname_false)

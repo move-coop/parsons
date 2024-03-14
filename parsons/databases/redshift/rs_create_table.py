@@ -154,9 +154,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         return mapping["longest"]
 
     def vc_trunc(self, mapping):
-        return [
-            self.VARCHAR_MAX if c > self.VARCHAR_MAX else c for c in mapping["longest"]
-        ]
+        return [self.VARCHAR_MAX if c > self.VARCHAR_MAX else c for c in mapping["longest"]]
 
     def vc_validate(self, mapping):
         return [1 if c == 0 else c for c in mapping["longest"]]
@@ -220,9 +218,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         warning = "".join(
             [
                 "You didn't provide a {} key to method `parsons.redshift.Redshift.{}`.\n"
-                "You can learn about best practices here:\n{}.\n".format(
-                    keyname, method, keyinfo
-                )
+                "You can learn about best practices here:\n{}.\n".format(keyname, method, keyinfo)
                 for key, keyname, keyinfo in keys
                 if not key
             ]

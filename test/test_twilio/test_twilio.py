@@ -35,9 +35,7 @@ class TestTwilio(unittest.TestCase):
 
         # Make sure that it is calling the correct Twilio methods
         self.twilio.get_account_usage(time_period="today")
-        assert self.twilio.client.usage.records.today.list.called_with(
-            time_period="today"
-        )
+        assert self.twilio.client.usage.records.today.list.called_with(time_period="today")
         self.twilio.get_account_usage(time_period="last_month")
         assert self.twilio.client.usage.records.last_month.list.called_with(
             time_period="last_month"
@@ -47,20 +45,12 @@ class TestTwilio(unittest.TestCase):
             time_period="this_month"
         )
         self.twilio.get_account_usage(time_period="yesterday")
-        assert self.twilio.client.usage.records.today.list.called_with(
-            time_period="yesterday"
-        )
+        assert self.twilio.client.usage.records.today.list.called_with(time_period="yesterday")
 
         # Make sure that it is calling the correct Twilio methods
         self.twilio.get_account_usage(time_period="daily", start_date="10-19-2019")
-        assert self.twilio.client.usage.records.daily.list.called_with(
-            start_date="10-19-2019"
-        )
+        assert self.twilio.client.usage.records.daily.list.called_with(start_date="10-19-2019")
         self.twilio.get_account_usage(time_period="monthly", start_date="10-19-2019")
-        assert self.twilio.client.usage.records.monthly.list.called_with(
-            start_date="10-19-2019"
-        )
+        assert self.twilio.client.usage.records.monthly.list.called_with(start_date="10-19-2019")
         self.twilio.get_account_usage(time_period="yearly", start_date="10-19-2019")
-        assert self.twilio.client.usage.records.yearly.list.called_with(
-            start_date="10-19-2019"
-        )
+        assert self.twilio.client.usage.records.yearly.list.called_with(start_date="10-19-2019")

@@ -95,9 +95,7 @@ class Redshift(
             self.db = db or os.environ["REDSHIFT_DB"]
             self.port = port or os.environ["REDSHIFT_PORT"]
         except KeyError as error:
-            logger.error(
-                "Connection info missing. Most include as kwarg or " "env variable."
-            )
+            logger.error("Connection info missing. Most include as kwarg or " "env variable.")
             raise error
 
         self.timeout = timeout
@@ -682,9 +680,7 @@ class Redshift(
                 }
 
                 # Copy from S3 to Redshift
-                sql = self.copy_statement(
-                    table_name, self.s3_temp_bucket, key, **copy_args
-                )
+                sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)
                 sql_censored = sql_helpers.redact_credentials(sql)
 
                 logger.debug(f"Copy SQL command: {sql_censored}")
@@ -1153,9 +1149,7 @@ class Redshift(
             tbl = self.query_with_connection(sql_depend, connection)
             dropped_views = [row["table_name"] for row in tbl]
             if dropped_views:
-                sql_drop = "\n".join(
-                    [f"drop view {view} CASCADE;" for view in dropped_views]
-                )
+                sql_drop = "\n".join([f"drop view {view} CASCADE;" for view in dropped_views])
                 tbl = self.query_with_connection(sql_drop, connection)
                 logger.info(f"Dropped the following views: {dropped_views}")
 
@@ -1186,9 +1180,7 @@ class Redshift(
         s, t = self.split_full_table_name(table_name)
         cols = self.get_columns(s, t)
         rc = {
-            k: v["max_length"]
-            for k, v in cols.items()
-            if v["data_type"] == "character varying"
+            k: v["max_length"] for k, v in cols.items() if v["data_type"] == "character varying"
         }  # noqa: E501, E261
 
         # Figure out if any of the destination table varchar columns are smaller than the
@@ -1204,13 +1196,9 @@ class Redshift(
                     new_size = pc[c]
                 if drop_dependencies:
                     self.drop_dependencies_for_cols(s, t, [c])
-                self.alter_table_column_type(
-                    table_name, c, "varchar", varchar_width=new_size
-                )
+                self.alter_table_column_type(table_name, c, "varchar", varchar_width=new_size)
 
-    def alter_table_column_type(
-        self, table_name, column_name, data_type, varchar_width=None
-    ):
+    def alter_table_column_type(self, table_name, column_name, data_type, varchar_width=None):
         """
         Alter a column type of an existing table.
 

@@ -93,9 +93,7 @@ for module_path, connector_name in (
     ("parsons.zoom.zoom", "Zoom"),
 ):
     try:
-        globals()[connector_name] = getattr(
-            importlib.import_module(module_path), connector_name
-        )
+        globals()[connector_name] = getattr(importlib.import_module(module_path), connector_name)
         __all__.append(connector_name)
     except ImportError:
         logger.debug(f"Could not import {module_path}.{connector_name}; skipping")

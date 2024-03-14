@@ -158,9 +158,7 @@ class PostgresCreateStatement(DatabaseCreateStatement):
 
     def vc_trunc(self, mapping):
 
-        return [
-            self.VARCHAR_MAX if c > self.VARCHAR_MAX else c for c in mapping["longest"]
-        ]
+        return [self.VARCHAR_MAX if c > self.VARCHAR_MAX else c for c in mapping["longest"]]
 
     def vc_validate(self, mapping):
 

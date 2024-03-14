@@ -40,15 +40,11 @@ class TestBloomerang(unittest.TestCase):
 
         # OAuth2
         m.post(url=bloomerang.uri_auth, json={"code": "my_auth_code"})
-        m.post(
-            url=bloomerang.uri + "oauth/token", json={"access_token": "my_access_token"}
-        )
+        m.post(url=bloomerang.uri + "oauth/token", json={"access_token": "my_access_token"})
         bloomerang = Bloomerang(client_id="my_id", client_secret="my_secret")
         self.assertEqual(bloomerang.authorization_code, "my_auth_code")
         self.assertEqual(bloomerang.access_token, "my_access_token")
-        self.assertEqual(
-            bloomerang.conn.headers["Authorization"], "Bearer my_access_token"
-        )
+        self.assertEqual(bloomerang.conn.headers["Authorization"], "Bearer my_access_token")
 
     def test_base_endpoint(self):
         url = self.bloomerang._base_endpoint("constituent")
@@ -68,9 +64,7 @@ class TestBloomerang(unittest.TestCase):
     @requests_mock.Mocker()
     def test_update_constituent(self, m):
         m.put(f"{self.bloomerang.uri}constituent/{ID}/", json=TEST_CREATE_CONSTITUENT)
-        self.assertEqual(
-            self.bloomerang.update_constituent(ID), TEST_CREATE_CONSTITUENT
-        )
+        self.assertEqual(self.bloomerang.update_constituent(ID), TEST_CREATE_CONSTITUENT)
 
     @requests_mock.Mocker()
     def test_get_constituent(self, m):
@@ -100,9 +94,7 @@ class TestBloomerang(unittest.TestCase):
     @requests_mock.Mocker()
     def test_update_transaction(self, m):
         m.put(f"{self.bloomerang.uri}transaction/{ID}/", json=TEST_CREATE_TRANSACTION)
-        self.assertEqual(
-            self.bloomerang.update_transaction(ID), TEST_CREATE_TRANSACTION
-        )
+        self.assertEqual(self.bloomerang.update_transaction(ID), TEST_CREATE_TRANSACTION)
 
     @requests_mock.Mocker()
     def test_get_transaction(self, m):
@@ -130,9 +122,7 @@ class TestBloomerang(unittest.TestCase):
             f"{self.bloomerang.uri}transaction/designation/{ID}/",
             json=TEST_GET_TRANSACTION,
         )
-        self.assertEqual(
-            self.bloomerang.get_transaction_designation(ID), TEST_GET_TRANSACTION
-        )
+        self.assertEqual(self.bloomerang.get_transaction_designation(ID), TEST_GET_TRANSACTION)
 
     @requests_mock.Mocker()
     def test_get_transaction_designations(self, m):
@@ -153,9 +143,7 @@ class TestBloomerang(unittest.TestCase):
     @requests_mock.Mocker()
     def test_update_interaction(self, m):
         m.put(f"{self.bloomerang.uri}interaction/{ID}/", json=TEST_CREATE_INTERACTION)
-        self.assertEqual(
-            self.bloomerang.update_interaction(ID), TEST_CREATE_INTERACTION
-        )
+        self.assertEqual(self.bloomerang.update_interaction(ID), TEST_CREATE_INTERACTION)
 
     @requests_mock.Mocker()
     def test_get_interaction(self, m):

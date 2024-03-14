@@ -1,4 +1,5 @@
 """NGPVAN Code Endpoints"""
+
 from parsons.etl.table import Table
 import logging
 
@@ -10,9 +11,7 @@ class Codes(object):
 
         self.connection = van_connection
 
-    def get_codes(
-        self, name=None, supported_entities=None, parent_code_id=None, code_type=None
-    ):
+    def get_codes(self, name=None, supported_entities=None, parent_code_id=None, code_type=None):
         """
         Get codes.
 

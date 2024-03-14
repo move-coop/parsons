@@ -25,9 +25,7 @@ class TestBraintree(unittest.TestCase):
             "/merchants/abcd1234abcd1234/disputes/advanced_search?page=1",
             text=open(f"{_dir}/test_data/dispute_example.xml").read(),
         )
-        table = self.braintree.get_disputes(
-            start_date="2020-01-01", end_date="2020-01-02"
-        )
+        table = self.braintree.get_disputes(start_date="2020-01-01", end_date="2020-01-02")
 
         self.assertEqual(len(table.table), 3)
         self.assertEqual(table[0]["id"], "abcd1234abcd1234")
@@ -72,9 +70,7 @@ class TestBraintree(unittest.TestCase):
         self.assertEqual(len(table[0].keys()), 1)
         self.assertEqual(len(full_table[0].keys()), 67)
 
-        self.assertEqual(
-            full_table[0]["disbursement_date"], datetime.date(2019, 12, 30)
-        )
+        self.assertEqual(full_table[0]["disbursement_date"], datetime.date(2019, 12, 30))
         self.assertEqual(full_table[0]["credit_card_bin"], "789234")
         self.assertEqual(full_table[0]["disbursement_success"], True)
         self.assertEqual(full_table[0]["amount"], decimal.Decimal("150.00"))
@@ -113,12 +109,8 @@ class TestBraintree(unittest.TestCase):
         self.assertEqual(len(table[0].keys()), 1)
         self.assertEqual(len(full_table[0].keys()), 33)
 
-        self.assertEqual(
-            full_table[0]["first_billing_date"], datetime.date(2022, 8, 22)
-        )
-        self.assertEqual(
-            full_table[0]["transactions"][0].credit_card_details.bin, "999"
-        )
+        self.assertEqual(full_table[0]["first_billing_date"], datetime.date(2022, 8, 22))
+        self.assertEqual(full_table[0]["transactions"][0].credit_card_details.bin, "999")
         self.assertEqual(full_table[0]["never_expires"], True)
         self.assertEqual(full_table[0]["price"], decimal.Decimal("10.00"))
 
@@ -128,9 +120,7 @@ class TestBraintree(unittest.TestCase):
             **{"disbursement_date": {"between": ["2020-01-01", "2020-01-01"]}},
         )
         self.assertEqual(query[0].name, "disbursement_date")
-        self.assertEqual(
-            query[0].to_param(), {"min": "2020-01-01", "max": "2020-01-01"}
-        )
+        self.assertEqual(query[0].to_param(), {"min": "2020-01-01", "max": "2020-01-01"})
 
         query = self.braintree._get_query_objects(
             "transaction", **{"merchant_account_id": {"in_list": ["abc123"]}}
@@ -148,6 +138,4 @@ class TestBraintree(unittest.TestCase):
         )
         self.assertEqual(query[0].name, "merchant_account_id")
         self.assertEqual(query[1].name, "effective_date")
-        self.assertEqual(
-            query[1].to_param(), {"min": "2020-01-01", "max": "2020-01-01"}
-        )
+        self.assertEqual(query[1].to_param(), {"min": "2020-01-01", "max": "2020-01-01"})

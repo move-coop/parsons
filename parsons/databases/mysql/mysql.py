@@ -232,9 +232,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         with self.connection() as connection:
             # Create table if not exists
             if self._create_table_precheck(connection, table_name, if_exists):
-                sql = self.create_statement(
-                    tbl, table_name, strict_length=strict_length
-                )
+                sql = self.create_statement(tbl, table_name, strict_length=strict_length)
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"Table {table_name} created.")
 

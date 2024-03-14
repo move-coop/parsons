@@ -1,4 +1,5 @@
 """NGPVAN Signups Endpoints"""
+
 from parsons.etl.table import Table
 import logging
 
@@ -69,9 +70,7 @@ class Signups(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(
-            self.connection.get_request("signups", params={"eventId": event_id})
-        )
+        tbl = Table(self.connection.get_request("signups", params={"eventId": event_id}))
         logger.info(f"Found {tbl.num_rows} signups for event {event_id}.")
         return self._unpack_signups(tbl)
 

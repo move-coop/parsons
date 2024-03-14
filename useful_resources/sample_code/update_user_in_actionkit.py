@@ -45,9 +45,7 @@ timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 loaded = [["id", "voterbase_id", "date_updated"]]  # column names for log table
 
-source_table = (
-    "schema.table"  # this is the table with the information I'm pushing to ActionKit
-)
+source_table = "schema.table"  # this is the table with the information I'm pushing to ActionKit
 
 # this is where we will log every user id that gets marked with a voterbase_id
 log_table = "schema.table"

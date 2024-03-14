@@ -75,9 +75,7 @@ class CatalistMatch:
         )
         self.sftp = SFTP("t.catalist.us", sftp_username, sftp_password)
 
-    def load_table_to_sftp(
-        self, table: Table, input_subfolder: Optional[str] = None
-    ) -> str:
+    def load_table_to_sftp(self, table: Table, input_subfolder: Optional[str] = None) -> str:
         """Load table to Catalist sftp bucket as gzipped CSV for matching.
 
         If input_subfolder is specific, the file will be uploaded to a subfolder of the
@@ -197,9 +195,7 @@ class CatalistMatch:
 
         # upload table to s3 temp location
         sftp_file_path = self.load_table_to_sftp(table, input_subfolder)
-        sftp_file_path_encoded = base64.b64encode(
-            sftp_file_path.encode("ascii")
-        ).decode("ascii")
+        sftp_file_path_encoded = base64.b64encode(sftp_file_path.encode("ascii")).decode("ascii")
 
         if export:
             action = "export%2Cpublish"
@@ -223,9 +219,7 @@ class CatalistMatch:
         endpoint = "/".join(endpoint_params)
 
         # Assemble query parameters
-        query_params: Dict[str, Union[str, int]] = {
-            "token": self.connection.token["access_token"]
-        }
+        query_params: Dict[str, Union[str, int]] = {"token": self.connection.token["access_token"]}
         if copy_to_sandbox:
             query_params["copyToSandbox"] = "true"
         if static_values:
@@ -362,9 +356,7 @@ class CatalistMatch:
             raise RuntimeError(err_msg)
 
         remote_filepaths = self.sftp.list_directory("/myDownloads/")
-        remote_filename = [filename for filename in remote_filepaths if id in filename][
-            0
-        ]
+        remote_filename = [filename for filename in remote_filepaths if id in filename][0]
         remote_filepath = "/myDownloads/" + remote_filename
         temp_file_zip = self.sftp.get_file(remote_filepath)
         temp_dir = tempfile.mkdtemp()
@@ -418,8 +410,6 @@ class CatalistMatch:
             errors["missing_required_columns"] = missing_required_columns
 
         if errors:
-            raise ValueError(
-                "Input table does not have the right structure. %s", errors
-            )
+            raise ValueError("Input table does not have the right structure. %s", errors)
         else:
             logger.info("Table structure validated.")

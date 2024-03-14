@@ -101,19 +101,14 @@ class TestShopify(unittest.TestCase):
             json=self.mock_orders_since,
         )
         m.get(
-            self.shopify.get_query_url(None, None, "orders", False)
-            + "&financial_status=paid",
+            self.shopify.get_query_url(None, None, "orders", False) + "&financial_status=paid",
             json=self.mock_orders_completed,
         )
-        assert_matching_tables(
-            self.shopify.get_orders(None, None, False), self.mock_result_all
-        )
+        assert_matching_tables(self.shopify.get_orders(None, None, False), self.mock_result_all)
         assert_matching_tables(
             self.shopify.get_orders("2020-10-20", None, False), self.mock_result_date
         )
-        assert_matching_tables(
-            self.shopify.get_orders(None, 2, False), self.mock_result_since
-        )
+        assert_matching_tables(self.shopify.get_orders(None, 2, False), self.mock_result_since)
         assert_matching_tables(
             self.shopify.get_orders(None, None, True), self.mock_result_completed
         )
@@ -145,9 +140,7 @@ class TestShopify(unittest.TestCase):
     @requests_mock.Mocker()
     def test_graphql(self, m):
         m.post(
-            "https://{0}.myshopify.com/admin/api/{1}/graphql.json".format(
-                SUBDOMAIN, API_VERSION
-            ),
+            "https://{0}.myshopify.com/admin/api/{1}/graphql.json".format(SUBDOMAIN, API_VERSION),
             json=self.mock_graphql,
         )
         self.assertEqual(

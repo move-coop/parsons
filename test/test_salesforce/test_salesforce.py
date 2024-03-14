@@ -19,9 +19,7 @@ class TestSalesforce(unittest.TestCase):
                 {
                     "attributes": {
                         "type": "Contact",
-                        "url": "/services/data/v38.0/"
-                        + "sobjects/Contact/"
-                        + "1234567890AaBbC",
+                        "url": "/services/data/v38.0/" + "sobjects/Contact/" + "1234567890AaBbC",
                     },
                     "Id": "1234567890AaBbC",
                 }

@@ -24,9 +24,7 @@ class FakeGoogleCloudStorage(GoogleCloudStorage):
     def __init__(self):
         super().__init__(None, None)
 
-    def upload_table(
-        self, table, bucket_name, blob_name, data_type="csv", default_acl=None
-    ):
+    def upload_table(self, table, bucket_name, blob_name, data_type="csv", default_acl=None):
         pass
 
     def delete_blob(self, bucket_name, blob_name):
@@ -108,12 +106,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         # Check that queries and transaction keywords are included in sql
         self.assertTrue(
-            all(
-                [
-                    text in keyword_args["sql"]
-                    for text in queries + ["BEGIN TRANSACTION", "COMMIT"]
-                ]
-            )
+            all([text in keyword_args["sql"] for text in queries + ["BEGIN TRANSACTION", "COMMIT"]])
         )
         self.assertEqual(keyword_args["parameters"], parameters)
         self.assertFalse(keyword_args["return_values"])
@@ -137,9 +130,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(
-            job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY
-        )
+        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY)
 
     def test_copy_gcs__if_exists_truncate(self):
         # setup dependencies / inputs
@@ -161,9 +152,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(
-            job_config.write_disposition, bigquery.WriteDisposition.WRITE_TRUNCATE
-        )
+        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_TRUNCATE)
 
     def test_copy_gcs__if_exists_append(self):
         # setup dependencies / inputs
@@ -185,9 +174,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(
-            job_config.write_disposition, bigquery.WriteDisposition.WRITE_APPEND
-        )
+        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_APPEND)
 
     def test_copy_gcs__if_exists_fail(self):
         # setup dependencies / inputs
@@ -251,12 +238,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
             )
 
     @mock.patch("google.cloud.storage.Client")
-    @mock.patch.object(
-        GoogleCloudStorage, "split_uri", return_value=("tmp", "file.gzip")
-    )
-    @mock.patch.object(
-        GoogleCloudStorage, "unzip_blob", return_value="gs://tmp/file.csv"
-    )
+    @mock.patch.object(GoogleCloudStorage, "split_uri", return_value=("tmp", "file.gzip"))
+    @mock.patch.object(GoogleCloudStorage, "unzip_blob", return_value="gs://tmp/file.csv")
     def test_copy_large_compressed_file_from_gcs(
         self, unzip_mock: mock.MagicMock, split_mock: mock.MagicMock, *_
     ):
@@ -290,9 +273,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(load_call_args[1]["source_uris"], "gs://tmp/file.csv")
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(
-            job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY
-        )
+        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY)
 
     def test_copy_s3(self):
         # setup dependencies / inputs

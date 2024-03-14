@@ -114,9 +114,7 @@ class Formstack(object):
         tbl.remove_column("subfolders")
         return tbl
 
-    def get_forms(
-        self, form_name: Optional[str] = None, folder_id: Optional[int] = None
-    ) -> Table:
+    def get_forms(self, form_name: Optional[str] = None, folder_id: Optional[int] = None) -> Table:
         """
         Get all forms on your account.
 

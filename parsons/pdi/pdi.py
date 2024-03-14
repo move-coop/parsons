@@ -148,9 +148,7 @@ class PDI(
                 args = args or {}
                 args["cursor"] = cursor
                 args["limit"] = LIMIT_MAX
-                res = request_fn[req_type](
-                    url, headers=headers, json=post_data, params=args
-                )
+                res = request_fn[req_type](url, headers=headers, json=post_data, params=args)
 
                 data.extend(res.json()["data"])
 
@@ -166,9 +164,7 @@ class PDI(
                 args = args or {}
                 args["cursor"] = cursor
                 args["limit"] = min(LIMIT_MAX, total_need - len(data))
-                res = request_fn[req_type](
-                    url, headers=headers, json=post_data, params=args
-                )
+                res = request_fn[req_type](url, headers=headers, json=post_data, params=args)
 
                 data.extend(res.json()["data"])
 

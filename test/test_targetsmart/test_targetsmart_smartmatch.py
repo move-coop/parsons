@@ -62,9 +62,7 @@ def raw_outgz(raw_outcsv):
 
 @pytest.fixture
 def final_outtable(prep_intable, raw_outtable):
-    return petl.leftjoin(prep_intable, raw_outtable, key="matchback_id").cutout(
-        "matchback_id"
-    )
+    return petl.leftjoin(prep_intable, raw_outtable, key="matchback_id").cutout("matchback_id")
 
 
 @pytest.fixture
@@ -86,9 +84,7 @@ def test_smartmatch(
     poll_resp = {"url": "https://mock_smartmatch_download_endpoint", "error": None}
     requests_mock.get("https://api.targetsmart.com/service/smartmatch", json=resp1)
     requests_mock.put(resp1["url"])
-    requests_mock.get(
-        "https://api.targetsmart.com/service/smartmatch/poll", json=poll_resp
-    )
+    requests_mock.get("https://api.targetsmart.com/service/smartmatch/poll", json=poll_resp)
     requests_mock.get(poll_resp["url"], content=raw_outgz)
 
     results = ts.smartmatch(intable).to_petl()

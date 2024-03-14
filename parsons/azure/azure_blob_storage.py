@@ -44,9 +44,7 @@ class AzureBlobStorage(object):
         self.credential = check_env.check("AZURE_CREDENTIAL", credential)
         if not self.account_url:
             self.account_name = check_env.check("AZURE_ACCOUNT_NAME", account_name)
-            self.account_domain = check_env.check(
-                "AZURE_ACCOUNT_DOMAIN", account_domain
-            )
+            self.account_domain = check_env.check("AZURE_ACCOUNT_DOMAIN", account_domain)
             self.account_url = f"https://{self.account_name}.{self.account_domain}/"
         else:
             if not self.account_url.startswith("http"):
@@ -55,9 +53,7 @@ class AzureBlobStorage(object):
             parsed_url = urlparse(self.account_url)
             self.account_name = parsed_url.netloc.split(".")[0]
             self.account_domain = ".".join(parsed_url.netloc.split(".")[1:])
-        self.client = BlobServiceClient(
-            account_url=self.account_url, credential=self.credential
-        )
+        self.client = BlobServiceClient(account_url=self.account_url, credential=self.credential)
 
     def list_containers(self):
         """
@@ -68,9 +64,7 @@ class AzureBlobStorage(object):
                 List of container names
         """
 
-        container_names = [
-            container.name for container in self.client.list_containers()
-        ]
+        container_names = [container.name for container in self.client.list_containers()]
         logger.info(f"Found {len(container_names)} containers.")
         return container_names
 
@@ -108,9 +102,7 @@ class AzureBlobStorage(object):
         logger.info(f"Returning {container_name} container client")
         return self.client.get_container_client(container_name)
 
-    def create_container(
-        self, container_name, metadata=None, public_access=None, **kwargs
-    ):
+    def create_container(self, container_name, metadata=None, public_access=None, **kwargs):
         """
         Create a container
 
@@ -165,10 +157,7 @@ class AzureBlobStorage(object):
         """
 
         container_client = self.get_container(container_name)
-        blobs = [
-            blob
-            for blob in container_client.list_blobs(name_starts_with=name_starts_with)
-        ]
+        blobs = [blob for blob in container_client.list_blobs(name_starts_with=name_starts_with)]
         logger.info(f"Found {len(blobs)} blobs in {container_name} container.")
         return blobs
 
@@ -408,9 +397,7 @@ class AzureBlobStorage(object):
             local_path = table.to_json()
             content_type = "application/json"
         else:
-            raise ValueError(
-                f"Unknown data_type value ({data_type}): must be one of: csv or json"
-            )
+            raise ValueError(f"Unknown data_type value ({data_type}): must be one of: csv or json")
 
         return self.put_blob(
             container_name, blob_name, local_path, content_type=content_type, **kwargs

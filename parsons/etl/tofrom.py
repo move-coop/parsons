@@ -194,9 +194,7 @@ class ToFrom(object):
                 The path of the file
         """  # noqa: W605
 
-        petl.appendcsv(
-            self.table, source=local_path, encoding=encoding, errors=errors, **csvargs
-        )
+        petl.appendcsv(self.table, source=local_path, encoding=encoding, errors=errors, **csvargs)
         return local_path
 
     def to_zip_csv(
@@ -246,22 +244,14 @@ class ToFrom(object):
         if not archive_path:
             archive_path = files.create_temp_file(suffix=".zip")
 
-        cf = self.to_csv(
-            encoding=encoding, errors=errors, write_header=write_header, **csvargs
-        )
+        cf = self.to_csv(encoding=encoding, errors=errors, write_header=write_header, **csvargs)
 
         if not csv_name:
-            csv_name = (
-                files.extract_file_name(archive_path, include_suffix=False) + ".csv"
-            )
+            csv_name = files.extract_file_name(archive_path, include_suffix=False) + ".csv"
 
-        return zip_archive.create_archive(
-            archive_path, cf, file_name=csv_name, if_exists=if_exists
-        )
+        return zip_archive.create_archive(archive_path, cf, file_name=csv_name, if_exists=if_exists)
 
-    def to_json(
-        self, local_path=None, temp_file_compression=None, line_delimited=False
-    ):
+    def to_json(self, local_path=None, temp_file_compression=None, line_delimited=False):
         """
         Outputs table to a JSON file
 
@@ -817,9 +807,7 @@ class ToFrom(object):
             return cls(petl.fromjson(local_path, header=header))
 
     @classmethod
-    def from_redshift(
-        cls, sql, username=None, password=None, host=None, db=None, port=None
-    ):
+    def from_redshift(cls, sql, username=None, password=None, host=None, db=None, port=None):
         """
         Create a ``parsons table`` from a Redshift query.
 
@@ -850,9 +838,7 @@ class ToFrom(object):
         return rs.query(sql)
 
     @classmethod
-    def from_postgres(
-        cls, sql, username=None, password=None, host=None, db=None, port=None
-    ):
+    def from_postgres(cls, sql, username=None, password=None, host=None, db=None, port=None):
         """
         Args:
             sql: str

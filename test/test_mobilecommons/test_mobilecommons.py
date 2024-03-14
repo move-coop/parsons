@@ -24,9 +24,7 @@ class TestMobileCommons(unittest.TestCase):
     def setUp(self, m):
         self.base_uri = "https://secure.mcommons.com/api/"
 
-        self.mc = MobileCommons(
-            username=MOBILECOMMONS_USERNAME, password=MOBILECOMMONS_PASSWORD
-        )
+        self.mc = MobileCommons(username=MOBILECOMMONS_USERNAME, password=MOBILECOMMONS_PASSWORD)
 
     @requests_mock.Mocker()
     def test_parse_get_request(self, m):
@@ -75,8 +73,7 @@ class TestMobileCommons(unittest.TestCase):
         self.assertEqual(
             profiles[0]["first_name"],
             "James",
-            "MobileCommons.get_profiles method not returning a table structured"
-            "as expected",
+            "MobileCommons.get_profiles method not returning a table structured" "as expected",
         )
 
     @requests_mock.Mocker()
@@ -95,8 +92,7 @@ class TestMobileCommons(unittest.TestCase):
         self.assertEqual(
             broadcasts[0]["id"],
             "2543129",
-            "MobileCommons.get_broadcasts method not returning a table structured"
-            "as expected",
+            "MobileCommons.get_broadcasts method not returning a table structured" "as expected",
         )
 
     @requests_mock.Mocker()

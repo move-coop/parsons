@@ -34,8 +34,7 @@ jobs:
         PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
       run: |
         python -m pip install -U pip
-        python -m pip install .[all]
-        python -m pip install -r requirements-dev.txt
+        python -m pip install .[all,dev]
 
     - name: Run tests
       run: pytest -rf test/

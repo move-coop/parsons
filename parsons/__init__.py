@@ -91,6 +91,7 @@ for module_path, connector_name in (
     ("parsons.turbovote.turbovote", "TurboVote"),
     ("parsons.twilio.twilio", "Twilio"),
     ("parsons.zoom.zoom", "Zoom"),
+    ("parsons.openfield.openfield", "OpenField"),
 ):
     try:
         globals()[connector_name] = getattr(

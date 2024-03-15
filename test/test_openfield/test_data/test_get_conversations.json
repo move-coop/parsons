@@ -1,0 +1,27 @@
+{
+    "count": 1,
+    "next": "http://api.example.org/accounts/?page=4",
+    "previous": "http://api.example.org/accounts/?page=2",
+    "results": [
+        {
+            "pk": 999,
+            "id": 999,
+            "canvasser": "John Doe",
+            "contacted_id": 555,
+            "conversation_time": "2019-08-24T14:15:22Z",
+            "conversation_type": "VK",
+            "contact_type": "NH",
+            "contact": true,
+            "conversation_code": 111,
+            "contact_script": 222,
+            "contacted_national_address_id": 333,
+            "contacted_phone": "5555555555",
+            "relationship_type": "0R",
+            "languages_of_conversation": 1,
+            "questions_set": [
+                "Can we count on you to support Joe Biden in the upcoming election?",
+                "Are you interested in volunteering?"
+            ]
+        }
+    ]
+}

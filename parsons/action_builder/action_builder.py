@@ -279,7 +279,7 @@ class ActionBuilder(object):
             {
                 "action_builder:name": tag,
                 "action_builder:field": field,
-                "action_builder:section": section
+                "action_builder:section": section,
             }
             for field, tag in field_values.items()
         ]

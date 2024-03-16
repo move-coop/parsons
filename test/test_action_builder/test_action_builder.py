@@ -127,7 +127,7 @@ class TestActionBuilder(unittest.TestCase):
 
         self.fake_field_values = {
             "Fake Field 2": "Fake Tag 5",
-            self.fake_field_1: self.fake_tag_4
+            self.fake_field_1: self.fake_tag_4,
         }
 
         self.fake_tagging = [
@@ -140,7 +140,7 @@ class TestActionBuilder(unittest.TestCase):
                 "action_builder:name": "Fake Tag 5",
                 "action_builder:field": "Fake Field 2",
                 "action_builder:section": self.fake_section,
-            }
+            },
         ]
 
         self.fake_entity_id = "fake-entity-id-1"
@@ -162,7 +162,7 @@ class TestActionBuilder(unittest.TestCase):
                     "status": "unsubscribed",
                     "source": "api",
                 }
-            ]
+            ],
         }
 
         self.fake_upsert_person = {
@@ -179,9 +179,9 @@ class TestActionBuilder(unittest.TestCase):
                         "action_builder:identifier": "action_builder:fake-email-id-1",
                         "address": "fakey@mcfakerson.com",
                         "address_type": "Work",
-                        "status": "unsubscribed"
+                        "status": "unsubscribed",
                     }
-                ]
+                ],
             }
         }
 
@@ -197,7 +197,7 @@ class TestActionBuilder(unittest.TestCase):
                     "created_date": self.fake_datetime,
                     "modified_date": self.fake_datetime,
                 }
-            }
+            },
         }
 
         self.fake_update_person = {
@@ -234,7 +234,8 @@ class TestActionBuilder(unittest.TestCase):
             text=json.dumps({"_embedded": {"osdi:tags": []}}),
         )
         assert_matching_tables(
-            self.bldr._get_all_records(self.campaign, "tags"), Table(self.fake_tags_list)
+            self.bldr._get_all_records(self.campaign, "tags"),
+            Table(self.fake_tags_list),
         )
 
     @requests_mock.Mocker()
@@ -274,14 +275,15 @@ class TestActionBuilder(unittest.TestCase):
         # Internal method to compare a reference dict to a new incoming one, keeping only common
         # keys whose values are not lists (i.e. nested).
 
-        common_keys = {key for key, value in dict1.items() if key in dict2
-                       and not isinstance(value, list)}
+        common_keys = {
+            key
+            for key, value in dict1.items()
+            if key in dict2 and not isinstance(value, list)
+        }
 
-        dict1_comp = {key: value for key, value in dict1.items()
-                      if key in common_keys}
+        dict1_comp = {key: value for key, value in dict1.items() if key in common_keys}
 
-        dict2_comp = {key: value for key, value in dict2.items()
-                      if key in common_keys}
+        dict2_comp = {key: value for key, value in dict2.items() if key in common_keys}
 
         return dict1_comp, dict2_comp
 
@@ -291,7 +293,9 @@ class TestActionBuilder(unittest.TestCase):
 
         # Flatten and remove items added for spreadable arguments
         upsert_person = self.fake_upsert_person["person"]
-        upsert_response = self.bldr._upsert_entity(self.fake_upsert_person, self.campaign)
+        upsert_response = self.bldr._upsert_entity(
+            self.fake_upsert_person, self.campaign
+        )
 
         person_comp, upsert_response_comp = self.prepare_dict_key_intersection(
             upsert_person, upsert_response
@@ -348,15 +352,13 @@ class TestActionBuilder(unittest.TestCase):
         tagging_data = post_data["add_tags"]
 
         # Force the sort to allow for predictable comparison
-        return sorted(tagging_data, key=lambda k: k['action_builder:name'])
+        return sorted(tagging_data, key=lambda k: k["action_builder:name"])
 
     @requests_mock.Mocker()
     def test_add_section_field_values_to_record(self, m):
         m.post(f"{self.api_url}/people", json=self.tagging_callback)
         add_tags_response = self.bldr.add_section_field_values_to_record(
-            self.fake_entity_id,
-            self.fake_section,
-            self.fake_field_values
+            self.fake_entity_id, self.fake_section, self.fake_field_values
         )
         self.assertEqual(add_tags_response, self.fake_tagging)
 

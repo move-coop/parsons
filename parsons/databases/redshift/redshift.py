@@ -293,7 +293,7 @@ class Redshift(
         bucket_region=None,
         strict_length=True,
         template_table=None,
-        encoding='utf-8'
+        encoding="utf-8",
     ):
         """
         Copy a file from s3 to Redshift.
@@ -411,8 +411,9 @@ class Redshift(
 
                     local_path = s3.get_file(bucket, key)
                     if data_type == "csv":
-                        tbl = Table.from_csv(local_path, delimiter=csv_delimiter, 
-                                             encoding=encoding)
+                        tbl = Table.from_csv(
+                            local_path, delimiter=csv_delimiter, encoding=encoding
+                        )
                     else:
                         raise TypeError("Invalid data type provided")
 

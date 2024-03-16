@@ -316,12 +316,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
         # check that the method did the right things
-        gcs_client.copy_s3_to_gcs.assert_called_once_with(
+        gcs_client.copy_bucket_to_gcs.assert_called_once_with(
             aws_source_bucket=bucket,
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
             gcs_sink_bucket=tmp_gcs_bucket,
-            aws_s3_key=key,
+            source_path=key,
         )
         bq.copy_from_gcs.assert_called_once()
         gcs_client.delete_blob.assert_called_once()

@@ -89,11 +89,13 @@ class TestActionKit(unittest.TestCase):
         type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
         self.actionkit.conn = resp_mock
 
-        self.actionkit.update_user(123, last_name="new name")
+        res = self.actionkit.update_user(123, last_name="new name")
         self.actionkit.conn.patch.assert_called_with(
             "https://domain.actionkit.com/rest/v1/user/123/",
             data=json.dumps({"last_name": "new name"}),
         )
+
+        assert res.status_code == 202
 
     def test_update_event(self):
         # Test update event

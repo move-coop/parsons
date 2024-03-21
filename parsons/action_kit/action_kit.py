@@ -177,6 +177,8 @@ class ActionKit(object):
         )
         logger.info(f"{resp.status_code}: {user_id}")
 
+        return resp
+
     def get_event(self, event_id):
         """Get an event.
 

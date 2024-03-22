@@ -4,6 +4,7 @@ import unittest
 from test.utils import assert_matching_tables
 
 import petl
+
 from parsons import Table
 from parsons.utilities import zip_archive
 
@@ -66,6 +67,8 @@ class TestParsonsTable(unittest.TestCase):
         self.assertRaises(ValueError, Table, list_of_invalid)
 
     def test_from_empty_petl(self):
+        # This test ensures that this would fail: Table(None)
+        # Even while allowing Table() to work
         self.assertRaises(ValueError, Table, None)
 
     def test_from_empty_list(self):

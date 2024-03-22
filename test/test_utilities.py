@@ -150,6 +150,20 @@ def test_redact_credentials():
     assert sql_helpers.redact_credentials(test_str) == test_result
 
 
+def test_get_sql_from_file():
+
+    # Test query string
+    test_str = "select * from schema.tablename limit 10"
+
+    # Create fake file.
+    os.mkdir("tmp")
+    test_file_name = "tmp/sql_file.txt"
+    with open(test_file_name, "w+") as sql_file:
+        sql_file.write(test_str)
+
+    assert sql_helpers.get_sql_from_file(test_file_name) == test_str
+
+
 class TestCheckEnv(unittest.TestCase):
     def test_environment_field(self):
         """Test check field"""

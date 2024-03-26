@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import patch, MagicMock
 import requests_mock
 import json
 from parsons import Table, ActionNetwork
@@ -4575,7 +4574,7 @@ class TestActionNetwork(unittest.TestCase):
         )
 
     # SQL Mirror
-    @patch("parsons.action_network.ActionNetwork.query_sql_mirror")
+    @unittest.mock.patch("parsons.action_network.ActionNetwork.query_sql_mirror")
     def test_query_sql_mirror(self, mock_function):
         mock_function.return_value = [("result1", "result2")]
         test_query = "SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE';"

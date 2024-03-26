@@ -1,7 +1,8 @@
 import unittest
 import requests_mock
 import json
-from parsons import Table, ActionNetwork
+from parsons import Table
+from parsons.action_network import ActionNetwork
 
 from test.utils import assert_matching_tables
 
@@ -4575,9 +4576,7 @@ class TestActionNetwork(unittest.TestCase):
 
     # SQL Mirror
     def test_query_sql_mirror(self):
-        # mock_function.return_value = [("result1", "result2")]
         mock_execute_query = unittest.mock.MagicMock(return_value=[("result1", "result2")])
-        # functionMock.cursor.return_value = [("result1", "result2")]
         self.an.query_sql_mirror = mock_execute_query
         test_query = "SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE';"
         result = self.an.query_sql_mirror(ssh_host="ssh_host",

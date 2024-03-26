@@ -2056,6 +2056,8 @@ class ActionNetwork(object):
             https://actionnetwork.org/mirroring/docs
         """
         output = None
+        server = None
+        con = None
         try:
             server = sshtunnel.SSHTunnelForwarder(
                 (ssh_host, int(ssh_port)),
@@ -2064,6 +2066,8 @@ class ActionNetwork(object):
                 remote_bind_address=(mirror_host, int(mirror_port)),
             )
             server.start()
+            logging.info("SSH tunnel established successfully.")
+
             con = psycopg2.connect(
                 host="localhost",
                 port=server.local_bind_port,
@@ -2071,20 +2075,20 @@ class ActionNetwork(object):
                 user=mirror_username,
                 password=mirror_password,
             )
+            logging.info("Database connection established successfully.")
 
-            print("Server connected")
-        except Exception as e:
-            print("Something went wrong with connecting to server", e)
-        try:
-            print("Server queried")
             cursor = con.cursor()
             cursor.execute(query)
             records = cursor.fetchall()
-            print(records)
             output = records
+            logging.info(f"Query executed successfully: {records}")
         except Exception as e:
-            print("something went wrong querying server", e)
+            logging.error(f"Error during query execution: {e}")
         finally:
+            if con:
+                con.close()
+                logging.info("Database connection closed.")
             if server:
-                server.close()
-            return output
+                server.stop()
+                logging.info("SSH tunnel closed.")
+        return output

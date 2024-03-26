@@ -4520,6 +4520,7 @@ class TestActionNetwork(unittest.TestCase):
             self.an.delete_tagging("123", "123"),
             {"notice": "This tagging was successfully deleted."},
         )
+
     @requests_mock.Mocker()
     def test_get_unique_id_lists(self, m):
         m.get(
@@ -4528,18 +4529,28 @@ class TestActionNetwork(unittest.TestCase):
         )
         assert_matching_tables(
             self.an.get_unique_id_lists(1),
-            self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
+            self.fake_unique_id_lists["_embedded"][
+                list(self.fake_unique_id_lists["_embedded"])[0]
+            ],
         )
+
     @requests_mock.Mocker()
     def test_get_unique_id_list(self, m):
         m.get(
             f"{self.api_url}/unique_id_lists/123",
-            text=json.dumps(self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]]),
+            text=json.dumps(
+                self.fake_unique_id_lists["_embedded"][
+                    list(self.fake_unique_id_lists["_embedded"])[0]
+                ]
+            ),
         )
         assert_matching_tables(
             self.an.get_unique_id_list("123"),
-            self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
+            self.fake_unique_id_lists["_embedded"][
+                list(self.fake_unique_id_lists["_embedded"])[0]
+            ],
         )
+
     # Wrappers
     @requests_mock.Mocker()
     def test_get_wrappers(self, m):

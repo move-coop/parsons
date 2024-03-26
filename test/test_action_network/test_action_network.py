@@ -4574,7 +4574,7 @@ class TestActionNetwork(unittest.TestCase):
         )
 
     # SQL Mirror
-    @unittest.mock.patch("parsons.action_network.ActionNetwork.query_sql_mirror")
+    @unittest.mock.patch("parsons.ActionNetwork.query_sql_mirror")
     def test_query_sql_mirror(self, mock_function):
         mock_function.return_value = [("result1", "result2")]
         test_query = "SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE';"

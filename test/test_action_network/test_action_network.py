@@ -4574,9 +4574,11 @@ class TestActionNetwork(unittest.TestCase):
         )
 
     # SQL Mirror
-    @unittest.mock.patch("parsons.ActionNetwork.query_sql_mirror")
-    def test_query_sql_mirror(self, mock_function):
-        mock_function.return_value = [("result1", "result2")]
+    def test_query_sql_mirror(self):
+        # mock_function.return_value = [("result1", "result2")]
+        mock_execute_query = unittest.mock.MagicMock(return_value=[("result1", "result2")])
+        # functionMock.cursor.return_value = [("result1", "result2")]
+        self.an.query_sql_mirror = mock_execute_query
         test_query = "SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE';"
         result = self.an.query_sql_mirror(ssh_host="ssh_host",
                                           ssh_port="ssh_port",
@@ -4588,4 +4590,5 @@ class TestActionNetwork(unittest.TestCase):
                                           mirror_username="mirror_username",
                                           mirror_password="mirror_password",
                                           query=test_query)
-        assert result == mock_function.return_value
+        self.assertEqual(result, [("result1", "result2")])
+

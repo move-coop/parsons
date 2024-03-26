@@ -4580,8 +4580,10 @@ class TestActionNetwork(unittest.TestCase):
             return_value=[("result1", "result2")]
         )
         self.an.query_sql_mirror = mock_execute_query
-        test_query = "SELECT table_name FROM information_schema.tables" \
-                     " WHERE table_type = 'BASE TABLE';"
+        test_query = (
+            "SELECT table_name FROM information_schema.tables"
+            " WHERE table_type = 'BASE TABLE';"
+        )
         result = self.an.query_sql_mirror(
             ssh_host="ssh_host",
             ssh_port="ssh_port",

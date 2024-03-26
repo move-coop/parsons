@@ -3326,7 +3326,52 @@ class TestActionNetwork(unittest.TestCase):
             "modified_date": "2014-03-18T22:25:38Z",
             "item_type": "osdi:person",
         }
-
+        self.fake_unique_id_lists = {
+            "total_pages": 3,
+            "per_page": 25,
+            "page": 1,
+            "total_records": 50,
+            "_links": {
+                "next": {"href": f"{self.api_url}/unique_id_lists?page=2"},
+                "self": {"href": f"{self.api_url}/unique_id_lists"},
+                "osdi:unique_id_lists": [
+                    {"href": f"{self.api_url}/unique_id_lists/fake_id"},
+                    {"href": f"{self.api_url}/unique_id_lists/fake_id"},
+                ],
+                "curies": [
+                    {
+                        "name": "osdi",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                    {
+                        "name": "action_network",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                ],
+            },
+            "_embedded": {
+                "osdi:unique_id_lists": [
+                    {
+                        "identifiers": ["action_network:fake_id"],
+                        "name": "Example Unique ID List",
+                        "created_date": "2022-01-01T00:00:00Z",
+                        "modified_date": "2022-01-01T00:00:00Z",
+                        "description": "This is an example unique ID list.",
+                        "administrative_url": "https://actionnetwork.org/unique_id_lists/1/edit",
+                    },
+                    {
+                        "identifiers": ["action_network:fake_id"],
+                        "name": "Another Unique ID List",
+                        "created_date": "2022-01-02T00:00:00Z",
+                        "modified_date": "2022-01-02T00:00:00Z",
+                        "description": "This is another example unique ID list.",
+                        "administrative_url": "https://actionnetwork.org/unique_id_lists/2/edit",
+                    },
+                ],
+            },
+        }
         # Wrappers
         self.fake_wrappers = {
             "total_pages": 7,
@@ -4475,7 +4520,26 @@ class TestActionNetwork(unittest.TestCase):
             self.an.delete_tagging("123", "123"),
             {"notice": "This tagging was successfully deleted."},
         )
-
+    @requests_mock.Mocker()
+    def test_get_unique_id_lists(self, m):
+        m.get(
+            f"{self.api_url}/unique_id_lists",
+            text=json.dumps(self.fake_unique_id_lists),
+        )
+        assert_matching_tables(
+            self.an.get_unique_id_lists(1),
+            self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
+        )
+    @requests_mock.Mocker()
+    def test_get_unique_id_list(self, m):
+        m.get(
+            f"{self.api_url}/unique_id_lists/123",
+            text=json.dumps(self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]]),
+        )
+        assert_matching_tables(
+            self.an.get_unique_id_list("123"),
+            self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
+        )
     # Wrappers
     @requests_mock.Mocker()
     def test_get_wrappers(self, m):

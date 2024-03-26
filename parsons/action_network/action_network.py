@@ -1942,6 +1942,37 @@ class ActionNetwork(object):
         """
         return self.api.delete_request(f"tags/{tag_id}/taggings/{tagging_id}")
 
+    # Unique ID Lists
+    def get_unique_id_lists(self, limit=None, per_page=25, page=None, filter=None):
+        """
+        Get a list of unique ID lists associated with your API key.
+
+        Args:
+            limit: The maximum number of unique ID lists to return. When None, returns all unique ID lists.
+            per_page: The number of unique ID lists to return per page. Default is 25.
+            page: The specific page of unique ID lists to return.
+            filter: The filter criteria to apply when retrieving unique ID lists.
+
+        Returns:
+            A JSON response with the unique ID lists.
+        Documentation Reference:
+            https://actionnetwork.org/docs/v2/unique_id_lists
+        """
+        if page:
+            return self._get_page(f"unique_id_lists", page, per_page, filter)
+        return self._get_entry_list("unique_id_lists", limit, per_page, filter)
+    def get_unique_id_list(self, unique_id_list_id):
+        """
+        `Args:`
+            unique_id_list_id:
+                The unique id of the unique ID list
+
+        `Returns:`
+            A JSON response with the unique ID list details
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/unique_id_lists
+        """
+        return self.api.get_request(f"unique_id_lists/{unique_id_list_id}")
     # Wrappers
     def get_wrappers(self, limit=None, per_page=25, page=None, filter=None):
         """

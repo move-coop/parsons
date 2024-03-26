@@ -4576,18 +4576,21 @@ class TestActionNetwork(unittest.TestCase):
 
     # SQL Mirror
     def test_query_sql_mirror(self):
-        mock_execute_query = unittest.mock.MagicMock(return_value=[("result1", "result2")])
+        mock_execute_query = unittest.mock.MagicMock(
+            return_value=[("result1", "result2")]
+        )
         self.an.query_sql_mirror = mock_execute_query
         test_query = "SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE';"
-        result = self.an.query_sql_mirror(ssh_host="ssh_host",
-                                          ssh_port="ssh_port",
-                                          ssh_username="ssh_username",
-                                          ssh_password="ssh_password",
-                                          mirror_host="mirror_host",
-                                          mirror_port="mirror_port",
-                                          mirror_db_name="mirror_db_name",
-                                          mirror_username="mirror_username",
-                                          mirror_password="mirror_password",
-                                          query=test_query)
+        result = self.an.query_sql_mirror(
+            ssh_host="ssh_host",
+            ssh_port="ssh_port",
+            ssh_username="ssh_username",
+            ssh_password="ssh_password",
+            mirror_host="mirror_host",
+            mirror_port="mirror_port",
+            mirror_db_name="mirror_db_name",
+            mirror_username="mirror_username",
+            mirror_password="mirror_password",
+            query=test_query,
+        )
         self.assertEqual(result, [("result1", "result2")])
-

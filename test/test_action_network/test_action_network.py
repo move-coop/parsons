@@ -4575,23 +4575,20 @@ class TestActionNetwork(unittest.TestCase):
         )
 
     # SQL Mirror
-    @patch('parsons.ActionNetwork.query_sql_mirror')
-    def test_query_sql_mirror(self,mock_function):
-        mock_function.return_value = [('result1', 'result2')]
+    @patch("parsons.ActionNetwork.query_sql_mirror")
+    def test_query_sql_mirror(self, mock_function):
+        mock_function.return_value = [("result1", "result2")]
         test_query = "SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE';"
-        test_params = ['ssh_host',
-                       'ssh_port',
-                       'ssh_username',
-                       'ssh_password',
-                       'mirror_host',
-                       'mirror_port',
-                       'mirror_db_name',
-                       'mirror_username',
-                       'mirror_password'
-                       ]
-        result = self.an.query_sql_mirror(*test_params,test_query)
+        test_params = [
+            "ssh_host",
+            "ssh_port",
+            "ssh_username",
+            "ssh_password",
+            "mirror_host",
+            "mirror_port",
+            "mirror_db_name",
+            "mirror_username",
+            "mirror_password",
+        ]
+        result = self.an.query_sql_mirror(*test_params, test_query)
         assert result == mock_function.return_value
-
-
-
-

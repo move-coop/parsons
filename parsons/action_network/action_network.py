@@ -9,6 +9,7 @@ from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 import psycopg2
 import sshtunnel
+
 logger = logging.getLogger(__name__)
 
 API_URL = "https://actionnetwork.org/api/v2"
@@ -2013,7 +2014,19 @@ class ActionNetwork(object):
         """
         return self.api.get_request(f"wrappers/{wrapper_id}")
 
-    def query_sql_mirror(self,ssh_host,ssh_port,ssh_username,ssh_password,mirror_host,mirror_port,mirror_db_name,mirror_username,mirror_password,query):
+    def query_sql_mirror(
+        self,
+        ssh_host,
+        ssh_port,
+        ssh_username,
+        ssh_password,
+        mirror_host,
+        mirror_port,
+        mirror_db_name,
+        mirror_username,
+        mirror_password,
+        query,
+    ):
         """
         `Args:`
             ssh_host:
@@ -2044,18 +2057,24 @@ class ActionNetwork(object):
         """
         output = None
         try:
-            server = sshtunnel.SSHTunnelForwarder((ssh_host, int(ssh_port)),
-                                                  ssh_username=ssh_username,
-                                                  ssh_password=ssh_password,
-                                                  remote_bind_address=(mirror_host, int(mirror_port))
-                                                  )
+            server = sshtunnel.SSHTunnelForwarder(
+                (ssh_host, int(ssh_port)),
+                ssh_username=ssh_username,
+                ssh_password=ssh_password,
+                remote_bind_address=(mirror_host, int(mirror_port)),
+            )
             server.start()
-            con = psycopg2.connect(host='localhost', port=server.local_bind_port, database=mirror_db_name,
-                                        user=mirror_username, password=mirror_password)
+            con = psycopg2.connect(
+                host="localhost",
+                port=server.local_bind_port,
+                database=mirror_db_name,
+                user=mirror_username,
+                password=mirror_password,
+            )
 
             print("Server connected")
         except Exception as e:
-            print("Something went wrong with connecting to server",e)
+            print("Something went wrong with connecting to server", e)
         try:
             print("Server queried")
             cursor = con.cursor()
@@ -2064,8 +2083,8 @@ class ActionNetwork(object):
             print(records)
             output = records
         except Exception as e:
-            print('something went wrong querying server', e)
+            print("something went wrong querying server", e)
         finally:
-            if (server):
+            if server:
                 server.close()
             return output

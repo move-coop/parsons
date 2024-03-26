@@ -89,7 +89,7 @@ def main():
         ],
         python_requires=">=3.7.0,<3.11.0",
         long_description=long_description,
-        long_description_content_type='text/markdown'
+        long_description_content_type="text/markdown",
     )
 
 

@@ -4,6 +4,7 @@ import unittest
 from test.utils import assert_matching_tables
 
 import petl
+
 from parsons import Table
 from parsons.utilities import zip_archive
 
@@ -66,6 +67,8 @@ class TestParsonsTable(unittest.TestCase):
         self.assertRaises(ValueError, Table, list_of_invalid)
 
     def test_from_empty_petl(self):
+        # This test ensures that this would fail: Table(None)
+        # Even while allowing Table() to work
         self.assertRaises(ValueError, Table, None)
 
     def test_from_empty_list(self):
@@ -996,4 +999,16 @@ class TestParsonsTable(unittest.TestCase):
         )
         tbl_expected = Table([["a", "b", "c"], [1, 2, 3], [1, 3, 2], [2, 3, 4]])
         tbl.deduplicate(["a", "b"])
+        assert_matching_tables(tbl_expected, tbl)
+
+    def test_head(self):
+        tbl = Table([["a", "b"], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
+        tbl_expected = Table([["a", "b"], [1, 2], [3, 4]])
+        tbl.head(2)
+        assert_matching_tables(tbl_expected, tbl)
+
+    def test_tail(self):
+        tbl = Table([["a", "b"], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
+        tbl_expected = Table([["a", "b"], [7, 8], [9, 10]])
+        tbl.tail(2)
         assert_matching_tables(tbl_expected, tbl)

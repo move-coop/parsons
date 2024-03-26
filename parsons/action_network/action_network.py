@@ -7,7 +7,8 @@ from typing import Dict, List, Union
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-
+import psycopg2
+import sshtunnel
 logger = logging.getLogger(__name__)
 
 API_URL = "https://actionnetwork.org/api/v2"
@@ -1945,8 +1946,6 @@ class ActionNetwork(object):
     # Unique ID Lists
     def get_unique_id_lists(self, limit=None, per_page=25, page=None, filter=None):
         """
-        Get a list of unique ID lists associated with your API key.
-
         Args:
             limit: The maximum number of unique ID lists to return.
             When None, returns all unique ID lists.
@@ -2013,3 +2012,60 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/wrappers
         """
         return self.api.get_request(f"wrappers/{wrapper_id}")
+
+    def query_sql_mirror(self,ssh_host,ssh_port,ssh_username,ssh_password,mirror_host,mirror_port,mirror_db_name,mirror_username,mirror_password,query):
+        """
+        `Args:`
+            ssh_host:
+                The host for the SSH connection
+            ssh_port:
+                The port for the SSH connection
+            ssh_username:
+                The username for the SSH connection
+            ssh_password:
+                The password for the SSH connection
+            mirror_host:
+                The host for the mirror connection
+            mirror_port:
+                The port for the mirror connection
+            mirror_db_name:
+                The name of the mirror database
+            mirror_username:
+                The username for the mirror database
+            mirror_password:
+                The password for the mirror database
+            query:
+                The SQL query to execute
+
+        `Returns:`
+            A list of records resulting from the query or None if something went wrong
+        `Documentation Reference`:
+            https://actionnetwork.org/mirroring/docs
+        """
+        output = None
+        try:
+            server = sshtunnel.SSHTunnelForwarder((ssh_host, int(ssh_port)),
+                                                  ssh_username=ssh_username,
+                                                  ssh_password=ssh_password,
+                                                  remote_bind_address=(mirror_host, int(mirror_port))
+                                                  )
+            server.start()
+            con = psycopg2.connect(host='localhost', port=server.local_bind_port, database=mirror_db_name,
+                                        user=mirror_username, password=mirror_password)
+
+            print("Server connected")
+        except Exception as e:
+            print("Something went wrong with connecting to server",e)
+        try:
+            print("Server queried")
+            cursor = con.cursor()
+            cursor.execute(query)
+            records = cursor.fetchall()
+            print(records)
+            output = records
+        except Exception as e:
+            print('something went wrong querying server', e)
+        finally:
+            if (server):
+                server.close()
+            return output

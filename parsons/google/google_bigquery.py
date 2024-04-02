@@ -34,6 +34,7 @@ BIGQUERY_TYPE_MAP = {
     "NoneType": "STRING",
     "UUID": "STRING",
     "timestamp": "TIMESTAMP",
+    "list": "ARRAY",
 }
 
 # Max number of rows that we query at a time, so we can avoid loading huge

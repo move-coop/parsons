@@ -7,6 +7,7 @@ from parsons.google.utitities import setup_google_application_credentials
 from parsons.tools.credential_tools import decode_credential
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+from google.oauth2.service_account import Credentials
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +42,7 @@ class GoogleSlides:
             credentials_dict, scopes=scope, subject=subject
         )
 
-        self.gsheets_client = build('slides', 'v1', credentials=credentials)
+        self.client = build('slides', 'v1', credentials=credentials)
 
     
     def create_presentation(self, title):
@@ -54,7 +55,7 @@ class GoogleSlides:
         """
 
         body = {"title": title}
-        presentation = self.presentations().create(body=body).execute()
+        presentation = self.client.presentations().create(body=body).execute()
         logger.info(
             f"Created presentation with ID:" f"{(presentation.get('presentationId'))}"
         )
@@ -71,7 +72,7 @@ class GoogleSlides:
         """
 
         presentation = (
-            self.presentations().get(presentationId=presentation_id).execute()
+            self.client.presentations().get(presentationId=presentation_id).execute()
         )
 
         return presentation
@@ -88,26 +89,28 @@ class GoogleSlides:
             the slide object
         """
 
-        presentation = self.get_presentation(self, presentation_id)
+        presentation = self.get_presentation(presentation_id)
         slide = presentation["slides"][slide_number - 1]
 
         return slide
 
 
-    def duplicate_slide(self, source_slide_id, presentation_id):
+    def duplicate_slide(self, source_slide_number, presentation_id):
         """
         `Args:`
-            source_slide_id: str
-                this is the ID of the source slide to be duplicated
+            source_slide_number: int
+                this should reflect the slide # (e.g. 2 = 2nd slide)
             presentation_id: str
                 this is the ID of the presentation to put the duplicated slide
         `Returns:`
             the ID of the duplicated slide
         """
+        source_slide = self.get_slide(presentation_id, source_slide_number)
+        source_slide_id = source_slide['objectId']
 
         batch_request = {"requests": [{"duplicateObject": {"objectId": source_slide_id}}]}
         response = (
-            self.presentations()
+            self.client.presentations()
             .batchUpdate(presentationId=presentation_id, body=batch_request)
             .execute()
         )
@@ -118,12 +121,14 @@ class GoogleSlides:
 
 
     def replace_slide_text(
-        self, presentation_id, slide_id, original_text, replace_text
+        self, presentation_id, slide_number, original_text, replace_text
     ):
         """
         `Args:`
             presentation_id: str
                 this is the ID of the presentation to put the duplicated slide
+            slide_number: int
+                this should reflect the slide # (e.g. 2 = 2nd slide)
             origianl_text: str
                 the text to be replaced
             replace_text: str
@@ -131,6 +136,9 @@ class GoogleSlides:
         `Returns:`
             None
         """
+
+        slide = self.get_slide(presentation_id, slide_number)
+        slide_id = slide['objectId']
 
         reqs = [
             {
@@ -140,43 +148,68 @@ class GoogleSlides:
                     "pageObjectIds": [slide_id],
                 }
             },
-        ]s
+        ]
 
-        self.presentations().batchUpdate(
+        self.client.presentations().batchUpdate(
             body={"requests": reqs}, presentationId=presentation_id
         ).execute()
 
         return None
 
 
-    def replace_slide_image(self, presentation_id, slide, obj, img_url):
+    def get_slide_images(self, presentation_id, slide_number):
         """
         `Args:`
             presentation_id: str
                 this is the ID of the presentation to put the duplicated slide
-            slide: dict
-                the slide object
-            replace_text: str
-                the desired new text
+            slide_number: int
+                this should reflect the slide # (e.g. 2 = 2nd slide)
+        `Returns:`
+            a list of object dicts for image objects
+        """
+
+        slide = self.get_slide(presentation_id, slide_number)
+
+        images = []
+        for x in slide['pageElements']:
+            if 'image' in x.keys():
+                images.append(x)
+
+        return images
+
+
+    def replace_slide_image(self, presentation_id, slide_number, image_obj, new_image_url):
+        """
+        `Args:`
+            presentation_id: str
+                this is the ID of the presentation to put the duplicated slide
+            slide_number: int
+                this should reflect the slide # (e.g. 2 = 2nd slide)
+            image_obj: dict
+                the image object -- can use `get_slide_images()`
+            new_image_url: str
+                the url that contains the desired image
         `Returns:`
             None
         """
 
-        reqs = [
-            {
-                "createImage": {
-                    "url": img_url,
-                    "elementProperties": {
-                        "pageObjectId": slide["objectId"],
-                        "size": obj["size"],
-                        "transform": obj["transform"],
-                    },
-                }
-            },
-            {"deleteObject": {"objectId": obj["objectId"]}},
-        ]
+        slide = self.get_slide(presentation_id, slide_number)
 
-        self.presentations().batchUpdate(
+        reqs = [
+        {
+            "createImage": {
+                "url": new_image_url,
+                "elementProperties": {
+                    "pageObjectId": slide["objectId"],
+                    "size": image_obj["size"],
+                    "transform": image_obj["transform"],
+                },
+            }
+        },
+        {"deleteObject": {"objectId": image_obj["objectId"]}},
+    ]
+
+        self.client.presentations().batchUpdate(
             body={"requests": reqs}, presentationId=presentation_id
         ).execute()
 

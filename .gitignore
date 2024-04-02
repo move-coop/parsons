@@ -129,3 +129,4 @@ docs/dirhtml
 
 # bin files
 bin/
+settings.json

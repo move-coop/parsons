@@ -51,7 +51,6 @@ API
 .. autoclass:: parsons.google.google_admin.GoogleAdmin
    :inherited-members:
 
-
 ********
 BigQuery
 ********
@@ -257,7 +256,60 @@ You can also retrieve represntative information such as offices, officals, etc.
 API
 ===
 
-.. autoclass :: parsons.google.google_civic.GoogleCivic
+.. autoclass:: parsons.google.google_civic.GoogleCivic
+   :inherited-members:
+
+*************
+Google Drive
+*************
+
+========
+Overview
+========
+
+The GoogleDrive class allows you to interact with Google Drive. You can update permissions with this connector.
+
+In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON file locally and pass the path to the file as a string in the ``GOOGLE_DRIVE_CREDENTIALS`` environment variable. You can follow these steps:
+
+- Go to the `Google Developer Console <https://console.cloud.google.com/apis/dashboard>`_ and make sure the "Google Drive API" is enabled.
+- Go to the credentials page via the lefthand sidebar. On the credentials page, click "create credentials".
+- Choose the "Service Account" option and fill out the form provided. This should generate your credentials.
+- Select your newly created Service Account on the credentials main page.
+- select "keys", then "add key", then "create new key". Pick the key type JSON. The credentials should start to automatically download.
+
+You can now copy and paste the data from the key into your script or (recommended) save it locally as a JSON file.
+
+==========
+Quickstart
+==========
+
+To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable ``GOOGLE_DRIVE_CREDENTIALS`` to contain a path to the JSON file containing the dict.
+
+.. code-block:: python
+
+   from parsons import GoogleDrive
+
+   # First approach: Use API credentials via environmental variables
+   drive = GoogleDrive()
+
+   # Second approach: Pass API credentials as argument
+   credential_filename = 'google_drive_service_credentials.json'
+   credentials = json.load(open(credential_filename))
+   drive = GoogleDrive(google_keyfile_dict=credentials)
+
+You can then retreive and edit the permissions for Google Drive objects.
+
+.. code-block:: python
+
+   email_addresses = ["bob@bob.com"]
+   shared = drive.share_object(file_id, email_addresses)
+
+
+===
+API
+===
+
+.. autoclass:: parsons.google.google_drive.GoogleDrive
    :inherited-members:
 
 
@@ -269,7 +321,7 @@ Google Sheets
 Overview
 ========
 
-The GoogleSheets class allows you to interact with Google service account spreadsheets, called "Google Sheets." You can create, modify, read, format, share and delete sheets with this connector.
+The GoogleSlides class allows you to interact with Google Slides. You can create and modify Google Slides with this connector.
 
 In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON file locally and pass the path to the file as a string in the ``GOOGLE_DRIVE_CREDENTIALS`` environment variable. You can follow these steps:
 
@@ -314,5 +366,59 @@ API
 ===
 
 .. autoclass:: parsons.google.google_sheets.GoogleSheets
+   :inherited-members:
+
+*************
+Google Slides
+*************
+
+========
+Overview
+========
+
+The GoogleSheets class allows you to interact with Google service account spreadsheets, called "Google Sheets." You can create, modify, read, format, share and delete sheets with this connector.
+
+In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON file locally and pass the path to the file as a string in the ``GOOGLE_DRIVE_CREDENTIALS`` environment variable. You can follow these steps:
+
+- Go to the `Google Developer Console <https://console.cloud.google.com/apis/dashboard>`_ and make sure the "Google Drive API" and the "Google Sheets API" are both enabled.
+- Go to the credentials page via the lefthand sidebar. On the credentials page, click "create credentials".
+- Choose the "Service Account" option and fill out the form provided. This should generate your credentials.
+- Select your newly created Service Account on the credentials main page.
+- select "keys", then "add key", then "create new key". Pick the key type JSON. The credentials should start to automatically download.
+
+You can now copy and paste the data from the key into your script or (recommended) save it locally as a JSON file.
+
+==========
+Quickstart
+==========
+
+To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable ``GOOGLE_DRIVE_CREDENTIALS`` to contain a path to the JSON file containing the dict.
+
+.. code-block:: python
+
+   from parsons import GoogleSlides
+
+   # First approach: Use API credentials via environmental variables
+   slides = GoogleSlides()
+
+   # Second approach: Pass API credentials as argument
+   credential_filename = 'google_drive_service_credentials.json'
+   credentials = json.load(open(credential_filename))
+   slides = GoogleSlides(google_keyfile_dict=credentials)
+
+You can then create/modify/retrieve slides using instance methods:
+
+.. code-block:: python
+
+   slides.create_presentation("Parsons is Fun")
+
+
+You can use the GoogleDrive() connector to share the slide deck.
+
+===
+API
+===
+
+.. autoclass:: parsons.google.google_slides.GoogleSlides
    :inherited-members:
 

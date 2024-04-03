@@ -40,7 +40,7 @@ class GoogleSlides:
             credentials_dict, scopes=scope, subject=subject
         )
 
-        self.client = build('slides', 'v1', credentials=credentials)
+        self.client = build("slides", "v1", credentials=credentials)
 
     def create_presentation(self, title):
         """
@@ -84,9 +84,11 @@ class GoogleSlides:
             the duplicated slide object
         """
         source_slide = self.get_slide(presentation_id, source_slide_number)
-        source_slide_id = source_slide['objectId']
+        source_slide_id = source_slide["objectId"]
 
-        batch_request = {"requests": [{"duplicateObject": {"objectId": source_slide_id}}]}
+        batch_request = {
+            "requests": [{"duplicateObject": {"objectId": source_slide_id}}]
+        }
         response = (
             self.client.presentations()
             .batchUpdate(presentationId=presentation_id, body=batch_request)
@@ -125,8 +127,7 @@ class GoogleSlides:
         """
         slide = self.get_slide(presentation_id, slide_number)
         self.client.presentations().pages().delete(
-            presentationId=presentation_id,
-            pageObjectId=slide['objectId']
+            presentationId=presentation_id, pageObjectId=slide["objectId"]
         ).execute()
 
         return None
@@ -149,7 +150,7 @@ class GoogleSlides:
         """
 
         slide = self.get_slide(presentation_id, slide_number)
-        slide_id = slide['objectId']
+        slide_id = slide["objectId"]
 
         reqs = [
             {
@@ -181,13 +182,15 @@ class GoogleSlides:
         slide = self.get_slide(presentation_id, slide_number)
 
         images = []
-        for x in slide['pageElements']:
-            if 'image' in x.keys():
+        for x in slide["pageElements"]:
+            if "image" in x.keys():
                 images.append(x)
 
         return images
 
-    def replace_slide_image(self, presentation_id, slide_number, image_obj, new_image_url):
+    def replace_slide_image(
+        self, presentation_id, slide_number, image_obj, new_image_url
+    ):
         """
         `Args:`
             presentation_id: str
@@ -205,18 +208,18 @@ class GoogleSlides:
         slide = self.get_slide(presentation_id, slide_number)
 
         reqs = [
-        {
-            "createImage": {
-                "url": new_image_url,
-                "elementProperties": {
-                    "pageObjectId": slide["objectId"],
-                    "size": image_obj["size"],
-                    "transform": image_obj["transform"],
-                },
-            }
-        },
-        {"deleteObject": {"objectId": image_obj["objectId"]}},
-    ]
+            {
+                "createImage": {
+                    "url": new_image_url,
+                    "elementProperties": {
+                        "pageObjectId": slide["objectId"],
+                        "size": image_obj["size"],
+                        "transform": image_obj["transform"],
+                    },
+                }
+            },
+            {"deleteObject": {"objectId": image_obj["objectId"]}},
+        ]
 
         self.client.presentations().batchUpdate(
             body={"requests": reqs}, presentationId=presentation_id

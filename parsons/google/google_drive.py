@@ -25,7 +25,7 @@ class GoogleDrive:
 
     def __init__(self, google_keyfile_dict=None, subject=None):
 
-        scope = ['https://www.googleapis.com/auth/drive']
+        scope = ["https://www.googleapis.com/auth/drive"]
 
         setup_google_application_credentials(
             google_keyfile_dict, "GOOGLE_DRIVE_CREDENTIALS"
@@ -37,7 +37,7 @@ class GoogleDrive:
             credentials_dict, scopes=scope, subject=subject
         )
 
-        self.client = build('drive', 'v3', credentials=credentials)
+        self.client = build("drive", "v3", credentials=credentials)
 
     def get_permissions(self, file_id):
         """
@@ -47,19 +47,23 @@ class GoogleDrive:
         `Returns:`
             permission dict
         """
-        
+
         p = self.client.permissions().list(fileId=file_id).execute()
 
         return p
 
     def _share_object(self, file_id, permission_dict):
-    
+
         # Send the request to share the file
-        p = self.client.permissions().create(fileId=file_id, body=permission_dict).execute()
+        p = (
+            self.client.permissions()
+            .create(fileId=file_id, body=permission_dict)
+            .execute()
+        )
 
         return p
 
-    def share_object(self, file_id, email_addresses=None, role='reader', type='user'):
+    def share_object(self, file_id, email_addresses=None, role="reader", type="user"):
         """
         `Args:`
             file_id: str
@@ -71,31 +75,40 @@ class GoogleDrive:
             role: str
                 Options are -- owner, organizer, fileOrganizer, writer, commenter, reader
                 https://developers.google.com/drive/api/guides/ref-roles
-            type: str 
+            type: str
                 Options are -- user, group, domain, anyone
         `Returns:`
             List of permission objects
         """
-        if role not in ['owner', 'organizer', 'fileOrganizer', 'writer', 'commenter', 'reader']:
-            raise Exception(f"{role} not from the allowed list of: \
-                                owner, organizer, fileOrganizer, writer, commenter, reader")
+        if role not in [
+            "owner",
+            "organizer",
+            "fileOrganizer",
+            "writer",
+            "commenter",
+            "reader",
+        ]:
+            raise Exception(
+                f"{role} not from the allowed list of: \
+                                owner, organizer, fileOrganizer, writer, commenter, reader"
+            )
 
-        if type not in ['user', 'group', 'domain', 'anyone']:
-            raise Exception(f"{type} not from the allowed list of: \
-                                user, group, domain, anyone")
+        if type not in ["user", "group", "domain", "anyone"]:
+            raise Exception(
+                f"{type} not from the allowed list of: \
+                                user, group, domain, anyone"
+            )
 
-        if type=='domain':
-            permissions = [{
-                'type': type,
-                'role': role,
-                'domain': email
-            } for email in email_addresses]
+        if type == "domain":
+            permissions = [
+                {"type": type, "role": role, "domain": email}
+                for email in email_addresses
+            ]
         else:
-            permissions = [{
-                'type': type,
-                'role': role,
-                'emailAddress': email
-            } for email in email_addresses]
+            permissions = [
+                {"type": type, "role": role, "emailAddress": email}
+                for email in email_addresses
+            ]
 
         new_permissions = []
         for permission in permissions:
@@ -117,22 +130,24 @@ class GoogleDrive:
         permissions = self.client.permissions().list(fileId=file_id).execute()
 
         # Find the current owner
-        current_owner_permission = next((p for p in permissions.get('permissions', []) if 'owner' in p), None)
+        current_owner_permission = next(
+            (p for p in permissions.get("permissions", []) if "owner" in p), None
+        )
 
         if current_owner_permission:
             # Update the permission to transfer ownership
             new_owner_permission = {
-                'type': 'user',
-                'role': 'owner',
-                'emailAddress': new_owner_email
+                "type": "user",
+                "role": "owner",
+                "emailAddress": new_owner_email,
             }
-            self.client.permissions().update(fileId=file_id, 
-                                            permissionId=current_owner_permission['id'], 
-                                            body=new_owner_permission).execute()
+            self.client.permissions().update(
+                fileId=file_id,
+                permissionId=current_owner_permission["id"],
+                body=new_owner_permission,
+            ).execute()
             logger.info(f"Ownership transferred successfully to {new_owner_email}.")
         else:
             logger.info("File does not have a current owner.")
 
         return None
-
-    

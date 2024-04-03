@@ -2,14 +2,12 @@ import os
 import json
 import logging
 
-from parsons.etl.table import Table
 from parsons.google.utitities import setup_google_application_credentials
-from parsons.tools.credential_tools import decode_credential
-from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from google.oauth2.service_account import Credentials
 
 logger = logging.getLogger(__name__)
+
 
 class GoogleSlides:
     """
@@ -44,7 +42,6 @@ class GoogleSlides:
 
         self.client = build('slides', 'v1', credentials=credentials)
 
-    
     def create_presentation(self, title):
         """
         `Args:`
@@ -61,7 +58,6 @@ class GoogleSlides:
         )
         return presentation
 
-
     def get_presentation(self, presentation_id):
         """
         `Args:`
@@ -77,6 +73,29 @@ class GoogleSlides:
 
         return presentation
 
+    def duplicate_slide(self, presentation_id, source_slide_number):
+        """
+        `Args:`
+            presentation_id: str
+                this is the ID of the presentation to put the duplicated slide
+            source_slide_number: int
+                this should reflect the slide # (e.g. 2 = 2nd slide)
+        `Returns:`
+            the duplicated slide object
+        """
+        source_slide = self.get_slide(presentation_id, source_slide_number)
+        source_slide_id = source_slide['objectId']
+
+        batch_request = {"requests": [{"duplicateObject": {"objectId": source_slide_id}}]}
+        response = (
+            self.client.presentations()
+            .batchUpdate(presentationId=presentation_id, body=batch_request)
+            .execute()
+        )
+
+        duplicated_slide = response["replies"][0]["duplicateObject"]
+
+        return duplicated_slide
 
     def get_slide(self, presentation_id, slide_number):
         """
@@ -94,31 +113,23 @@ class GoogleSlides:
 
         return slide
 
-
-    def duplicate_slide(self, source_slide_number, presentation_id):
+    def delete_slide(self, presentation_id, slide_number):
         """
         `Args:`
-            source_slide_number: int
-                this should reflect the slide # (e.g. 2 = 2nd slide)
             presentation_id: str
                 this is the ID of the presentation to put the duplicated slide
+            slide_number: int
+                the slide number you are seeking
         `Returns:`
-            the ID of the duplicated slide
+            None
         """
-        source_slide = self.get_slide(presentation_id, source_slide_number)
-        source_slide_id = source_slide['objectId']
+        slide = self.get_slide(presentation_id, slide_number)
+        self.client.presentations().pages().delete(
+            presentationId=presentation_id,
+            pageObjectId=slide['objectId']
+        ).execute()
 
-        batch_request = {"requests": [{"duplicateObject": {"objectId": source_slide_id}}]}
-        response = (
-            self.client.presentations()
-            .batchUpdate(presentationId=presentation_id, body=batch_request)
-            .execute()
-        )
-
-        duplicated_slide_id = response["replies"][0]["duplicateObject"]["objectId"]
-
-        return duplicated_slide_id
-
+        return None
 
     def replace_slide_text(
         self, presentation_id, slide_number, original_text, replace_text
@@ -156,7 +167,6 @@ class GoogleSlides:
 
         return None
 
-
     def get_slide_images(self, presentation_id, slide_number):
         """
         `Args:`
@@ -176,7 +186,6 @@ class GoogleSlides:
                 images.append(x)
 
         return images
-
 
     def replace_slide_image(self, presentation_id, slide_number, image_obj, new_image_url):
         """

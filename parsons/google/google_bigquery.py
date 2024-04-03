@@ -8,6 +8,7 @@ from typing import List, Optional, Union
 
 import google
 import petl
+import json
 from google.cloud import bigquery, exceptions
 from google.cloud.bigquery import dbapi
 from google.cloud.bigquery.job import LoadJobConfig
@@ -1167,6 +1168,11 @@ class GoogleBigQuery(DatabaseConnector):
                 )
         # if load is coming from a Parsons table, use that to generate schema
         if parsons_table:
+            # BQ can handle JSON but struggles with dictionaries that don't have
+            # defined schemas, so we need to convert dicts to JSON
+            parsons_table.convert_table(
+                (lambda v: json.dumps(v) if isinstance(v, dict) else v)
+            )
             return self._generate_schema_from_parsons_table(parsons_table)
 
         return None

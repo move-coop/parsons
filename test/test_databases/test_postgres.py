@@ -12,9 +12,7 @@ TEMP_SCHEMA = "parsons_test"
 class TestPostgresCreateStatement(unittest.TestCase):
     def setUp(self):
 
-        self.pg = Postgres(
-            username="test", password="test", host="test", db="test", port=123
-        )
+        self.pg = Postgres(username="test", password="test", host="test", db="test", port=123)
 
         self.tbl = Table([["ID", "Name"], [1, "Jim"], [2, "John"], [3, "Sarah"]])
 
@@ -30,11 +28,8 @@ class TestPostgresCreateStatement(unittest.TestCase):
                 ["g", "", 9, "NA", 1.4, 1, 2],
             ]
         )
-
         self.mapping = self.pg.generate_data_types(self.tbl)
         self.mapping2 = self.pg.generate_data_types(self.tbl2)
-        self.pg.DO_PARSE_BOOLS = True
-        self.mapping3 = self.pg.generate_data_types(self.tbl2)
 
     def test_connection(self):
 
@@ -56,7 +51,6 @@ class TestPostgresCreateStatement(unittest.TestCase):
         self.assertEqual(pg_env.port, 5432)
 
     def test_data_type(self):
-        self.pg.DO_PARSE_BOOLS = False
         # Test smallint
         self.assertEqual(self.pg.data_type(1, ""), "smallint")
         self.assertEqual(self.pg.data_type(2, ""), "smallint")
@@ -66,20 +60,18 @@ class TestPostgresCreateStatement(unittest.TestCase):
         self.assertEqual(self.pg.data_type(2147483648, ""), "bigint")
         # Test varchar that looks like an int
         self.assertEqual(self.pg.data_type("00001", ""), "varchar")
-        # Test varchar that looks like a bool
-        self.assertEqual(self.pg.data_type(True, ""), "varchar")
         # Test a float as a decimal
         self.assertEqual(self.pg.data_type(5.001, ""), "decimal")
         # Test varchar
         self.assertEqual(self.pg.data_type("word", ""), "varchar")
-        # Test int with underscore
+        # Test int with underscore as string
         self.assertEqual(self.pg.data_type("1_2", ""), "varchar")
-        # Test int with leading zero
+        # Test int with leading zero as string
         self.assertEqual(self.pg.data_type("01", ""), "varchar")
+        # Test int with underscore
+        self.assertEqual(self.pg.data_type(1_2, ""), "smallint")
 
         # Test bool
-        self.pg.DO_PARSE_BOOLS = True
-        self.assertEqual(self.pg.data_type(1, ""), "bool")
         self.assertEqual(self.pg.data_type(True, ""), "bool")
 
     def test_generate_data_types(self):
@@ -99,10 +91,6 @@ class TestPostgresCreateStatement(unittest.TestCase):
                 "smallint",
                 "varchar",
             ],
-        )
-        self.assertEqual(
-            self.mapping3["type_list"],
-            ["varchar", "varchar", "decimal", "varchar", "decimal", "bool", "varchar"],
         )
         # Test correct lengths
         self.assertEqual(self.mapping["longest"], [1, 5])
@@ -167,9 +155,7 @@ class TestPostgresCreateStatement(unittest.TestCase):
 # These tests interact directly with the Postgres database
 
 
-@unittest.skipIf(
-    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
-)
+@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestPostgresDB(unittest.TestCase):
     def setUp(self):
 
@@ -225,9 +211,7 @@ class TestPostgresDB(unittest.TestCase):
 
         # Copy a table and ensure table exists
         self.pg.copy(self.tbl, f"{self.temp_schema}.test_copy", if_exists="drop")
-        r = self.pg.query(
-            f"select * from {self.temp_schema}.test_copy where name='Jim'"
-        )
+        r = self.pg.query(f"select * from {self.temp_schema}.test_copy where name='Jim'")
         self.assertEqual(r[0]["id"], 1)
 
         # Copy table and ensure truncate works.
@@ -246,9 +230,7 @@ class TestPostgresDB(unittest.TestCase):
         self.assertEqual(tbl.first, 6)
 
         # Try to copy the table and ensure that default fail works.
-        self.assertRaises(
-            ValueError, self.pg.copy, self.tbl, f"{self.temp_schema}.test_copy"
-        )
+        self.assertRaises(ValueError, self.pg.copy, self.tbl, f"{self.temp_schema}.test_copy")
 
         # Try to copy the table and ensure that explicit fail works.
         self.assertRaises(
@@ -262,9 +244,7 @@ class TestPostgresDB(unittest.TestCase):
     def test_to_postgres(self):
 
         self.tbl.to_postgres(f"{self.temp_schema}.test_copy")
-        r = self.pg.query(
-            f"select * from {self.temp_schema}.test_copy where name='Jim'"
-        )
+        r = self.pg.query(f"select * from {self.temp_schema}.test_copy where name='Jim'")
         self.assertEqual(r[0]["id"], 1)
 
     def test_from_postgres(self):

@@ -15,14 +15,17 @@ class Airtable(object):
         table_name: str
             The name of the table in the base. The table name is the equivilant of the sheet name
             in Excel or GoogleDocs.
-        api_key: str
-            The Airtable provided api key. Not required if ``AIRTABLE_API_KEY`` env variable set.
+        personal_access_token: str
+            The Airtable personal access token. Not required if ``AIRTABLE_PERSONAL_ACCESS_TOKEN``
+            env variable set.
     """
 
-    def __init__(self, base_key, table_name, api_key=None):
+    def __init__(self, base_key, table_name, personal_access_token=None):
 
-        self.api_key = check_env.check("AIRTABLE_API_KEY", api_key)
-        self.client = client(base_key, table_name, self.api_key)
+        self.personal_access_token = check_env.check(
+            "AIRTABLE_PERSONAL_ACCESS_TOKEN", personal_access_token
+        )
+        self.client = client(base_key, table_name, self.personal_access_token)
 
     def get_record(self, record_id):
         """
@@ -94,6 +97,8 @@ class Airtable(object):
                 See :ref:`parsons-table` for output options.
         """
 
+        if isinstance(fields, str):
+            fields = [fields]
         # Raises an error if sort is None type. Thus, only adding if populated.
         kwargs = {
             "fields": fields,
@@ -147,16 +152,17 @@ class Airtable(object):
         order of the columns is irrelevant.
 
         `Args:`
-            table: A Parsons Table
-                Insert a Parsons table
+            table: A Parsons Table or list of dicts
+                Insert a Parsons table or list
             typecast: boolean
                 Automatic data conversion from string values.
         `Returns:`
             List of dictionaries of inserted rows
         """
-
+        if isinstance(table, Table):
+            table = table.to_dicts()
         resp = self.client.batch_insert(table, typecast=typecast)
-        logger.info(f"{table.num_rows} records inserted.")
+        logger.info(f"{len(table)} records inserted.")
         return resp
 
     def update_record(self, record_id, fields, typecast=False):

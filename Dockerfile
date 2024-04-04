@@ -1,4 +1,4 @@
-FROM python:3.7
+FROM --platform=linux/amd64 python:3.7
 
 ####################
 ## Selenium setup ##
@@ -42,4 +42,4 @@ RUN python setup.py develop
 RUN mkdir /app
 WORKDIR /app
 # Useful for importing modules that are associated with your python scripts:
-env PYTHONPATH=.:/app
+ENV PYTHONPATH=.:/app

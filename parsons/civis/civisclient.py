@@ -30,9 +30,7 @@ class CivisClient(object):
         can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`_.
         """  # noqa: E501
 
-    def query(
-        self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True
-    ):
+    def query(self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True):
         """
         Execute a SQL statement as a Civis query.
 
@@ -89,7 +87,7 @@ class CivisClient(object):
         sortkey1=None,
         sortkey2=None,
         wait=True,
-        **civisargs
+        **civisargs,
     ):
         """
         Write the table to a Civis Redshift cluster. Additional key word
@@ -135,7 +133,7 @@ class CivisClient(object):
             sortkey1=sortkey1,
             sortkey2=sortkey2,
             headers=True,
-            **civisargs
+            **civisargs,
         )
 
         if wait:

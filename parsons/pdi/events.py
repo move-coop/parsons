@@ -11,7 +11,7 @@ class Events:
         self.calendars_url = self.base_url + "/calendars"
         self.eventactivities_url = self.base_url + "/eventActivities"
         self.activites_url = self.base_url + "/activities"
-        self.activityassignment_url = self.base_url + "/eventActivityAssignements"
+        self.activityassignment_url = self.base_url + "/eventActivityAssignments"
 
         super().__init__()
 
@@ -54,9 +54,7 @@ class Events:
 
         params = {"expand": expand}
 
-        return self._request(
-            f"{self.events_url}/{event_id}/invitations", args=params, limit=limit
-        )
+        return self._request(f"{self.events_url}/{event_id}/invitations", args=params, limit=limit)
 
     def create_event(
         self,
@@ -226,9 +224,7 @@ class Events:
         response = self._request(
             self.eventactivities_url, req_type="POST", post_data=event_activity_payload
         )
-        logger.info(
-            f"Created activity {activity_name} for event {event_name} (id: {event_id})"
-        )
+        logger.info(f"Created activity {activity_name} for event {event_name} (id: {event_id})")
 
         return response
 
@@ -341,9 +337,7 @@ class Events:
         }
 
         if specific_occurrence_start:
-            event_invitation_payload[
-                "specificOcurrenceStartUtc"
-            ] = specific_occurrence_start
+            event_invitation_payload["specificOcurrenceStartUtc"] = specific_occurrence_start
 
         response = self._request(
             self.events_url + f"/{event_id}/invitations",
@@ -394,9 +388,7 @@ class Events:
         if attended is not None:
             event_invitation_payload["attended"] = attended
         if specific_occurrence_start:
-            event_invitation_payload[
-                "specificOcurrenceStartUtc"
-            ] = specific_occurrence_start
+            event_invitation_payload["specificOcurrenceStartUtc"] = specific_occurrence_start
 
         response = self._request(
             self.events_url + f"/{event_id}/invitations/{invitation_id}",
@@ -506,3 +498,82 @@ class Events:
         )
 
         return response
+
+    def get_event_activity_assignments(self, start_date, end_date, expand, limit=None):
+        """
+        Get a list of event activity assignments.
+        Relevant API docs:
+            https://api.bluevote.com/docs/index#/EventActivityAssignments
+
+        `Args`:
+            start_date: str
+                Earliest records to be returned in the API response
+                Per the API docs, use "YYYY-MM-DD" format
+
+            end_date: str
+                Latest records to be returned in the API response.
+                Per the API docs, use "YYYY-MM-DD" format
+
+            expand: bool
+                Parameter to determine if we return the list of shift assigments
+                expanded or not
+
+            limit: int
+                Specify limit to return (max=2000)
+
+        `Returns`:
+            Parsons Table with event activity assignment responses
+        """
+
+        if limit and limit > 2000:
+            raise ValueError("Maximum allowed limit is 2000")
+
+        params = {"startDate": start_date, "endDate": end_date, "expand": expand}
+        return self._request(self.activityassignment_url, args=params, limit=limit)
+
+    def get_event_activities(self, start_date, end_date, limit=None):
+        """
+        Get a list of event activities.
+        Relevant API docs:
+            https://api.bluevote.com/docs/index#!/EventActivities/EventActivities_GetAll
+
+        `Args`:
+            start_date: str
+                Earliest records to be returned in the API response
+                Per the API docs, use "YYYY-MM-DD" format
+
+            end_date: str
+                Latest records to be returned in the API response.
+                Per the API docs, use "YYYY-MM-DD" format
+
+            limit: int
+                Specify limit to return (max=2000)
+
+        `Returns`:
+            Parsons Table with event activity responses
+        """
+
+        if limit and limit > 2000:
+            raise ValueError("Maximum allowed limit is 2000")
+
+        params = {"startDate": start_date, "endDate": end_date}
+        return self._request(self.eventactivities_url, args=params, limit=limit)
+
+    def get_calendars(self, limit=None):
+        """
+        Gets a list of calendars.
+        Relevant API docs:
+            https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll
+
+        `Args`:
+            limit: int
+                Specify limit to return (max=2000)
+
+        `Returns`:
+            Parsons Table object with id, name, description, and timeZone records
+        """
+
+        if limit and limit > 2000:
+            raise ValueError("Maximum allowed limit is 2000")
+
+        return self._request(self.calendars_url, limit=limit)

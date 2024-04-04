@@ -1,5 +1,5 @@
 import base64
-from apiclient import errors
+from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
@@ -72,12 +72,9 @@ class Gmail(SendMail):
 
         try:
             message = (
-                self.service.users()
-                .messages()
-                .send(userId=self.user_id, body=message)
-                .execute()
+                self.service.users().messages().send(userId=self.user_id, body=message).execute()
             )
-        except errors.HttpError:
+        except HttpError:
             self.log.exception("An error occurred: while attempting to send a message.")
             raise
         else:

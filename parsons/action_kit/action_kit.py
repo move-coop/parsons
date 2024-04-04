@@ -2,6 +2,7 @@ import json
 import logging
 import requests
 import time
+import math
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
@@ -171,9 +172,7 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.patch(
-            self._base_endpoint("user", user_id), data=json.dumps(kwargs)
-        )
+        resp = self.conn.patch(self._base_endpoint("user", user_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {user_id}")
 
     def get_event(self, event_id):
@@ -228,10 +227,65 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.patch(
-            self._base_endpoint("event", event_id), data=json.dumps(kwargs)
-        )
+        resp = self.conn.patch(self._base_endpoint("event", event_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {event_id}")
+
+    def get_blackholed_email(self, email):
+        """
+        Get a blackholed email. A blackholed email is an email that has been prevented from
+        receiving bulk and transactional emails from ActionKit. `Documentation <https://\
+        docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole>`_.
+
+        `Args:`
+            email: str
+                Blackholed email of the record to get.
+        `Returns`:
+            Parsons.Table
+                The blackholed email data.
+        """
+
+        return self.paginated_get("blackholedemail", email=email)
+
+    def blackhole_email(self, email):
+        """
+        Prevent an email from receiving bulk and transactional emails from ActionKit.
+        `Documentation <https://docs.actionkit.com/docs/manual/guide/\
+        mailings_tools.html#blackhole>`_.
+
+        `Args:`
+            user_id: str
+                Email to blackhole
+        `Returns:`
+            API location of new resource
+        """
+
+        return self._base_post(
+            endpoint="blackholedemail",
+            exception_message="Could not blackhole email",
+            email=email,
+        )
+
+    def delete_user_data(self, email, **kwargs):
+        """
+        Delete user data.
+
+        `Args:`
+            email: str
+                Email of user to delete data
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://docs.actionkit.com/docs/manual/api/\
+                rest/users.html>`_.
+        `Returns:`
+            API location of anonymized user
+        """
+
+        return self._base_post(
+            endpoint="eraser",
+            exception_message="Could not delete user data",
+            email=email,
+            **kwargs,
+        )
 
     def delete_user(self, user_id):
         """
@@ -577,9 +631,7 @@ class ActionKit(object):
         copy a mailer
         returns new copy of mailer which should be updatable.
         """
-        resp = self.conn.post(
-            self._base_endpoint("mailer", entity_id=mailer_id) + "/copy"
-        )
+        resp = self.conn.post(self._base_endpoint("mailer", entity_id=mailer_id) + "/copy")
         return resp
 
     def update_mailing(self, mailer_id, **kwargs):
@@ -594,13 +646,12 @@ class ActionKit(object):
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns:`
-            ``None``
+            ``HTTP response from the patch request``
         """
 
-        resp = self.conn.patch(
-            self._base_endpoint("mailer", mailer_id), data=json.dumps(kwargs)
-        )
+        resp = self.conn.patch(self._base_endpoint("mailer", mailer_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {mailer_id}")
+        return resp
 
     def rebuild_mailer(self, mailing_id):
         """
@@ -777,10 +828,25 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.patch(
-            self._base_endpoint("order", order_id), data=json.dumps(kwargs)
-        )
+        resp = self.conn.patch(self._base_endpoint("order", order_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {order_id}")
+
+    def get_orderrecurring(self, orderrecurring_id):
+        """
+        Get an orderrecurring.
+
+        `Args:`
+            orderrecurring_id: int
+                The orderrecurring id of the record to get.
+        `Returns`:
+            User json object
+        """
+
+        return self._base_get(
+            endpoint="orderrecurring",
+            entity_id=orderrecurring_id,
+            exception_message="Orderrecurring not found",
+        )
 
     def cancel_orderrecurring(self, recurring_id):
         """
@@ -793,11 +859,30 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.post(
-            self._base_endpoint("orderrecurring", str(recurring_id) + "/cancel")
-        )
+        resp = self.conn.post(self._base_endpoint("orderrecurring", str(recurring_id) + "/cancel"))
         logger.info(f"{resp.status_code}: {recurring_id}")
         return resp
+
+    def update_orderrecurring(self, orderrecurring_id, **kwargs):
+        """
+        Update a recurring order.
+
+        `Args:`
+            orderrecurring_id: int
+                The id of the orderrecurring to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(
+            self._base_endpoint("orderrecurring", orderrecurring_id),
+            data=json.dumps(kwargs),
+        )
+        logger.info(f"{resp.status_code}: {orderrecurring_id}")
 
     def get_orders(self, limit=None, **kwargs):
         """Get multiple orders.
@@ -819,7 +904,7 @@ class ActionKit(object):
                     ak.get_orders(import_id="my-import-123")
         `Returns:`
             Parsons.Table
-                The events data.
+                The orders data.
         """
         return self.paginated_get("order", limit=limit, **kwargs)
 
@@ -996,7 +1081,7 @@ class ActionKit(object):
                     ak.get_transactions(order="order-1")
         `Returns:`
             Parsons.Table
-                The events data.
+                The transactions data.
         """
         return self.paginated_get("transaction", limit=limit, **kwargs)
 
@@ -1146,13 +1231,7 @@ class ActionKit(object):
         results = []
         for tbl in upload_tables:
             user_fields_only = int(
-                not any(
-                    [
-                        h
-                        for h in tbl.columns
-                        if h != "email" and not h.startswith("user_")
-                    ]
-                )
+                not any([h for h in tbl.columns if h != "email" and not h.startswith("user_")])
             )
             results.append(
                 self.bulk_upload_csv(
@@ -1169,9 +1248,9 @@ class ActionKit(object):
         # uploading combo of user_id and email column should be mutually exclusive
         blank_columns_test = table.columns
         if not no_overwrite_on_empty:
-            blank_columns_test = set(
-                ["user_id", "email"] + (set_only_columns or [])
-            ).intersection(table.columns)
+            blank_columns_test = set(["user_id", "email"] + (set_only_columns or [])).intersection(
+                table.columns
+            )
         for row in table:
             blanks = tuple(k for k in blank_columns_test if row.get(k) in (None, ""))
             grp = table_groups.setdefault(blanks, [])
@@ -1211,15 +1290,30 @@ class ActionKit(object):
         for res in result_array:
             upload_id = res.get("id")
             if upload_id:
+                # Pend until upload is complete
                 while True:
                     upload = self._base_get(endpoint="upload", entity_id=upload_id)
-                    if not upload or upload.get("status") != "new":
+                    if upload.get("is_completed"):
                         break
                     else:
                         time.sleep(1)
-                error_data = self._base_get(
-                    endpoint="uploaderror", params={"upload": upload_id}
-                )
-                logger.debug(f"error collect result: {error_data}")
-                errors.extend(error_data.get("objects") or [])
+
+                # ActionKit limits length of error list returned
+                # Iterate until all errors are gathered
+                error_count = upload.get("has_errors")
+                limit = 20
+
+                error_pages = math.ceil(error_count / limit)
+                for page in range(0, error_pages):
+                    error_data = self._base_get(
+                        endpoint="uploaderror",
+                        params={
+                            "upload": upload_id,
+                            "_limit": limit,
+                            "_offset": page * limit,
+                        },
+                    )
+                    logger.debug(f"error collect result: {error_data}")
+                    errors.extend(error_data.get("objects", []))
+
         return errors

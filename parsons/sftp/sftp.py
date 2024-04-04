@@ -1,12 +1,13 @@
+import logging
+import re
 from contextlib import contextmanager
 from stat import S_ISDIR, S_ISREG
-import logging
-import paramiko
-import re
 
-from parsons.utilities import files as file_utilities
+import paramiko
+
 from parsons.etl import Table
 from parsons.sftp.utilities import connect
+from parsons.utilities import files as file_utilities
 
 logger = logging.getLogger(__name__)
 
@@ -197,8 +198,7 @@ class SFTP(object):
                 files_to_download.extend(
                     f
                     for file_list in [
-                        self.list_files(directory, connection, pattern)
-                        for directory in remote
+                        self.list_files(directory, connection, pattern) for directory in remote
                     ]
                     for f in file_list
                 )
@@ -245,7 +245,22 @@ class SFTP(object):
 
         return Table.from_csv(self.get_file(remote_path, connection=connection))
 
-    def put_file(self, local_path, remote_path, connection=None):
+    def _convert_bytes_to_megabytes(self, size_in_bytes: int) -> int:
+        result = int(size_in_bytes / (1024 * 1024))
+        return result
+
+    def _progress(self, transferred: int, to_be_transferred: int) -> None:
+        """Return progress every 5 MB"""
+        if self._convert_bytes_to_megabytes(transferred) % 5 != 0:
+            return
+        logger.info(
+            f"Transferred: {self._convert_bytes_to_megabytes(transferred)} MB \t"
+            f"out of: {self._convert_bytes_to_megabytes(to_be_transferred)} MB"
+        )
+
+    def put_file(
+        self, local_path: str, remote_path: str, connection=None, verbose: bool = True
+    ) -> None:
         """
         Put a file on the SFTP server
 
@@ -256,11 +271,18 @@ class SFTP(object):
                 The remote path of the new file
             connection: obj
                 An SFTP connection object
+            verbose: bool
+                Log progress every 5MB. Defaults to True.
         """
+        if verbose:
+            callback = self._progress
+        else:
+            callback = None
         if connection:
-            connection.put(local_path, remote_path)
-        with self.create_connection() as connection:
-            connection.put(local_path, remote_path)
+            connection.put(local_path, remote_path, callback=callback)
+        else:
+            with self.create_connection() as connection:
+                connection.put(local_path, remote_path, callback=callback)
 
     def remove_file(self, remote_path, connection=None):
         """
@@ -275,8 +297,9 @@ class SFTP(object):
 
         if connection:
             connection.remove(remote_path)
-        with self.create_connection() as connection:
-            connection.remove(remote_path)
+        else:
+            with self.create_connection() as connection:
+                connection.remove(remote_path)
 
     def get_file_size(self, remote_path, connection=None):
         """
@@ -316,9 +339,7 @@ class SFTP(object):
                 entry_pathname = remote_path + "/" + entry.filename
                 for method, pattern, do_search_full_path, paths in dirs_and_files:
                     string = entry_pathname if do_search_full_path else entry.filename
-                    if method(entry.st_mode) and (
-                        not pattern or re.search(pattern, string)
-                    ):
+                    if method(entry.st_mode) and (not pattern or re.search(pattern, string)):
                         paths.append(entry_pathname)
         except FileNotFoundError:  # This error is raised when a directory is empty
             pass
@@ -433,9 +454,7 @@ class SFTP(object):
 
         depth += 1
 
-        dirs, files = self._list_contents(
-            remote_path, connection, dir_pattern, file_pattern
-        )
+        dirs, files = self._list_contents(remote_path, connection, dir_pattern, file_pattern)
 
         if download:
             self.get_files(files_to_download=files)

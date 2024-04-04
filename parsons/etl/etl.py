@@ -7,8 +7,38 @@ logger = logging.getLogger(__name__)
 
 class ETL(object):
     def __init__(self):
-
         pass
+
+    def head(self, n=5):
+        """
+        Return the first n rows of the table
+
+        `Args:`
+            n: int
+                The number of rows to return. Defaults to 5.
+        `Returns:`
+            `Parsons Table`
+        """
+
+        self.table = petl.head(self.table, n)
+
+        return self
+
+    def tail(self, n=5):
+        """
+        Return the last n rows of the table. Defaults to 5.
+
+        `Args:`
+            n: int
+                The number of rows to return
+
+        `Returns:`
+            `Parsons Table`
+        """
+
+        self.table = petl.tail(self.table, n)
+
+        return self
 
     def add_column(self, column, value=None, index=None, if_exists="fail"):
         """
@@ -71,6 +101,35 @@ class ETL(object):
             raise ValueError(f"Column {new_column_name} already exists")
 
         self.table = petl.rename(self.table, column_name, new_column_name)
+
+        return self
+
+    def rename_columns(self, column_map):
+        """
+        Rename multiple columns
+
+        `Args:`
+            column_map: dict
+                A dictionary of columns and new names.
+                The key is the old name and the value is the new name.
+
+                Example dictionary:
+                {'old_name': 'new_name',
+                'old_name2': 'new_name2'}
+
+        `Returns:`
+            `Parsons Table` and also updates self
+        """
+
+        # Check if old column name exists and new column name does not exist
+        for old_name, new_name in column_map.items():
+            if old_name not in self.table.columns():
+                raise KeyError(f"Column name {old_name} does not exist")
+            if new_name in self.table.columns():
+                raise ValueError(f"Column name {new_name} already exists")
+
+        # Uses the underlying petl method
+        self.table = petl.rename(self.table, column_map)
 
         return self
 
@@ -177,7 +236,6 @@ class ETL(object):
         max_width = 0
 
         for v in petl.values(self.table, column):
-
             if len(str(v).encode("utf-8")) > max_width:
                 max_width = len(str(v).encode("utf-8"))
 
@@ -285,7 +343,6 @@ class ETL(object):
         """
 
         for col in self.columns:
-
             if not exact_match:
                 cleaned_col = col.lower().replace("_", "").replace(" ", "")
             else:
@@ -374,10 +431,7 @@ class ETL(object):
                 A list of dicts, each containing a column 'name' and a 'type' list
         """
 
-        return [
-            {"name": col, "type": self.get_column_types(col)}
-            for col in self.table.columns()
-        ]
+        return [{"name": col, "type": self.get_column_types(col)} for col in self.table.columns()]
 
     def convert_table(self, *args):
         """
@@ -551,11 +605,7 @@ class ETL(object):
         """
 
         if isinstance(expand_original, int) and expand_original is not True:
-            lengths = {
-                len(row[column])
-                for row in self
-                if isinstance(row[column], (dict, list))
-            }
+            lengths = {len(row[column]) for row in self if isinstance(row[column], (dict, list))}
             max_len = sorted(lengths, reverse=True)[0]
             if max_len > expand_original:
                 expand_original = False
@@ -567,9 +617,7 @@ class ETL(object):
         else:
             # Otherwise, include only key and column, but keep all non-dict types in table_list
             table = self.cut(key, column)
-            table_list = table.select_rows(
-                lambda row: not isinstance(row[column], dict)
-            )
+            table_list = table.select_rows(lambda row: not isinstance(row[column], dict))
 
         # All the columns other than column to ignore while melting
         ignore_cols = table.columns
@@ -606,17 +654,13 @@ class ETL(object):
 
         if expand_original:
             # Add unpacked rows to the original table (minus packed rows)
-            orig = self.select_rows(
-                lambda row: not isinstance(row[column], (dict, list))
-            )
+            orig = self.select_rows(lambda row: not isinstance(row[column], (dict, list)))
             orig.concat(melted_list)
             # Add unique id column by hashing all the other fields
             if "uid" not in self.columns:
                 orig.add_column(
                     "uid",
-                    lambda row: hashlib.md5(
-                        str.encode("".join([str(x) for x in row]))
-                    ).hexdigest(),
+                    lambda row: hashlib.md5(str.encode("".join([str(x) for x in row]))).hexdigest(),
                 )
                 orig.move_column("uid", 0)
 
@@ -631,9 +675,7 @@ class ETL(object):
             # Add unique id column by hashing all the other fields
             melted_list.add_column(
                 "uid",
-                lambda row: hashlib.md5(
-                    str.encode("".join([str(x) for x in row]))
-                ).hexdigest(),
+                lambda row: hashlib.md5(str.encode("".join([str(x) for x in row]))).hexdigest(),
             )
             melted_list.move_column("uid", 0)
             output = melted_list
@@ -698,7 +740,7 @@ class ETL(object):
                 The new long table
         """
 
-        if type(key) == str:
+        if type(key) is str:
             key = [key]
 
         lt = self.cut(*key, column)  # Create a table of key and column
@@ -801,7 +843,6 @@ class ETL(object):
         new_dict = {}
 
         for k, v in dict_obj.items():
-
             new_dict[prepend + "_" + k] = v
 
         return new_dict
@@ -866,8 +907,7 @@ class ETL(object):
         from parsons.etl import Table
 
         return [
-            Table(petl.rowslice(self.table, i, i + rows))
-            for i in range(0, self.num_rows, rows)
+            Table(petl.rowslice(self.table, i, i + rows)) for i in range(0, self.num_rows, rows)
         ]
 
     @staticmethod
@@ -917,14 +957,10 @@ class ETL(object):
 
         from parsons.etl import Table  # Just trying to avoid recursive imports.
 
-        normalize_fn = (
-            Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
-        )
+        normalize_fn = Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
 
         # Create a mapping of our "normalized" name to the original column name
-        current_columns_normalized = {
-            normalize_fn(col): col for col in reversed(self.columns)
-        }
+        current_columns_normalized = {normalize_fn(col): col for col in reversed(self.columns)}
 
         # Track any columns we need to add to our current table from our desired columns
         columns_to_add = []
@@ -955,8 +991,7 @@ class ETL(object):
                 elif if_missing_columns != "ignore":
                     # If it's not ignore, add, or fail, then it's not a valid strategy
                     raise TypeError(
-                        f"Invalid option {if_missing_columns} for "
-                        "argument `if_missing_columns`"
+                        f"Invalid option {if_missing_columns} for " "argument `if_missing_columns`"
                     )
             else:
                 # We have found this in our current columns, so take it out of our list to search
@@ -980,8 +1015,7 @@ class ETL(object):
             elif if_extra_columns != "remove":
                 # If it's not ignore, add, or fail, then it's not a valid strategy
                 raise TypeError(
-                    f"Invalid option {if_extra_columns} for "
-                    "argument `if_extra_columns`"
+                    f"Invalid option {if_extra_columns} for " "argument `if_extra_columns`"
                 )
 
         # Add any columns we need to add
@@ -1167,3 +1201,91 @@ class ETL(object):
         from parsons.etl.table import Table
 
         return Table(getattr(petl, petl_method)(self.table, *args, **kwargs))
+
+    def deduplicate(self, keys=None, presorted=False):
+        """
+        Deduplicates table based on an optional ``keys`` argument,
+        which can contain any number of keys or None.
+
+        Method considers all keys specified in the ``keys`` argument
+        when deduplicating, not each key individually. For example,
+        if ``keys=['a', 'b']``, the method will not remove a record
+        unless it's identical to another record in both columns ``a`` and ``b``.
+
+        .. code-block:: python
+
+            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]])
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 3 |
+            +---+---+
+            | 1 | 2 |
+            +---+---+
+            | 1 | 2 |
+            +---+---+
+            | 2 | 3 |
+            +---+---+
+
+            >>> tbl.deduplicate('a')
+            >>> # removes all subsequent rows with {'a': 1}
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 3 |
+            +---+---+
+            | 2 | 3 |
+            +---+---+
+
+            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
+            >>> tbl.deduplicate(['a', 'b'])
+            >>> # sorted on both ('a', 'b') so (1, 2) was placed before (1, 3)
+            >>> # did not remove second instance of {'a': 1} or {'b': 3}
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 2 |
+            +---+---+
+            | 1 | 3 |
+            +---+---+
+            | 2 | 3 |
+            +---+---+
+
+
+            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
+            >>> tbl.deduplicate('a').deduplicate('b')
+            >>> # can chain method to sort/dedupe on 'a', then sort/dedupe on 'b'
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 3 |
+            +---+---+
+
+            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
+            >>> tbl.deduplicate('b').deduplicate('a')
+            >>> # Order DOES matter when deduping on one column at a time
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 2 |
+            +---+---+
+
+        `Args:`
+            keys: str or list[str] or None
+                keys to deduplicate (and optionally sort) on.
+            presorted: bool
+                If false, the row will be sorted.
+        `Returns`:
+            `Parsons Table` and also updates self
+
+        """
+
+        deduped = petl.transform.dedup.distinct(self.table, key=keys, presorted=presorted)
+        self.table = deduped
+
+        return self

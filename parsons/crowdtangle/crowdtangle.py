@@ -177,9 +177,7 @@ class CrowdTangle(object):
         self._unpack(pt)
         return pt
 
-    def get_leaderboard(
-        self, start_date=None, end_date=None, list_ids=None, account_ids=None
-    ):
+    def get_leaderboard(self, start_date=None, end_date=None, list_ids=None, account_ids=None):
         """
         Return leaderboard data.
 
@@ -219,9 +217,7 @@ class CrowdTangle(object):
         self._unpack(pt)
         return pt
 
-    def get_links(
-        self, link, start_date=None, end_date=None, include_summary=None, platforms=None
-    ):
+    def get_links(self, link, start_date=None, end_date=None, include_summary=None, platforms=None):
         """
         Return up to 100 posts based on a specific link. It is strongly recommended to
         use the ``start_date`` parameter to limit queries to relevant dates.

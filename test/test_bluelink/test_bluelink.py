@@ -99,9 +99,7 @@ class TestBluelink(unittest.TestCase):
         # expected:
         person1 = BluelinkPerson(
             identifiers=[
-                BluelinkIdentifier(
-                    source="FAKESOURCE", identifier="bart@springfield.net"
-                )
+                BluelinkIdentifier(source="FAKESOURCE", identifier="bart@springfield.net")
             ],
             emails=[BluelinkEmail(address="bart@springfield.net", primary=True)],
             family_name="Simpson",
@@ -109,9 +107,7 @@ class TestBluelink(unittest.TestCase):
         )
         person2 = BluelinkPerson(
             identifiers=[
-                BluelinkIdentifier(
-                    source="FAKESOURCE", identifier="homer@springfield.net"
-                )
+                BluelinkIdentifier(source="FAKESOURCE", identifier="homer@springfield.net")
             ],
             emails=[BluelinkEmail(address="homer@springfield.net", primary=True)],
             family_name="Simpson",

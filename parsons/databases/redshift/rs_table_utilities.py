@@ -9,7 +9,7 @@ class RedshiftTableUtilities(object):
     def __init__(self):
         pass
 
-    def table_exists(self, table_name, view=True):
+    def table_exists(self, table_name: str, view: bool = True) -> bool:
         """
         Check if a table or view exists in the database.
 
@@ -205,9 +205,7 @@ class RedshiftTableUtilities(object):
                 The column to use as the sortkey for the table.
         """
         with self.connection() as conn:
-            should_create = self._create_table_precheck(
-                conn, destination_table, if_exists
-            )
+            should_create = self._create_table_precheck(conn, destination_table, if_exists)
 
             if should_create:
                 logger.info(f"Creating table {destination_table} from query...")
@@ -252,9 +250,7 @@ class RedshiftTableUtilities(object):
         """
 
         with self.connection() as conn:
-            should_create = self._create_table_precheck(
-                conn, destination_table, if_exists
-            )
+            should_create = self._create_table_precheck(conn, destination_table, if_exists)
 
             if should_create:
                 logger.info(f"Creating {destination_table} from {source_table}...")
@@ -428,6 +424,13 @@ class RedshiftTableUtilities(object):
         `Returns:`
             A list of column names.
         """
+        schema = f'"{schema}"' if not (schema.startswith('"') and schema.endswith('"')) else schema
+
+        table_name = (
+            f'"{table_name}"'
+            if not (table_name.startswith('"') and table_name.endswith('"'))
+            else table_name
+        )
 
         first_row = self.query(f"select * from {schema}.{table_name} limit 1")
 
@@ -529,9 +532,7 @@ class RedshiftTableUtilities(object):
                 The column containing the values
         """
 
-        return self.query(f"SELECT MAX({value_column}) value from {table_name}")[0][
-            "value"
-        ]
+        return self.query(f"SELECT MAX({value_column}) value from {table_name}")[0]["value"]
 
     def get_object_type(self, object_name):
         """

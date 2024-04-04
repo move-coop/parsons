@@ -193,6 +193,7 @@ Indices and tables
    box
    braintree
    capitolcanary
+   census
    civis
    controlshift
    copper
@@ -200,11 +201,13 @@ Indices and tables
    databases
    donorbox
    facebook_ads
+   formstack
    freshdesk
    github
    google
    hustle
    mailchimp
+   mobilecommons
    mobilize_america
    nation_builder
    newmode

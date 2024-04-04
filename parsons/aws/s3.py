@@ -1,6 +1,7 @@
 import re
 import boto3
 from botocore.client import ClientError
+
 from parsons.utilities import files
 import logging
 import os
@@ -194,16 +195,10 @@ class S3(object):
                     continue
 
                 # Match timestamp parsing
-                if (
-                    date_modified_before
-                    and not key["LastModified"] < date_modified_before
-                ):
+                if date_modified_before and not key["LastModified"] < date_modified_before:
                     continue
 
-                if (
-                    date_modified_after
-                    and not key["LastModified"] > date_modified_after
-                ):
+                if date_modified_after and not key["LastModified"] > date_modified_after:
                     continue
 
                 # Convert date to iso string
@@ -274,9 +269,7 @@ class S3(object):
 
         self.client.create_bucket(Bucket=bucket)
 
-    def put_file(
-        self, bucket, key, local_path, acl="bucket-owner-full-control", **kwargs
-    ):
+    def put_file(self, bucket, key, local_path, acl="bucket-owner-full-control", **kwargs):
         """
         Uploads an object to an S3 bucket
 
@@ -295,9 +288,7 @@ class S3(object):
                 info.
         """
 
-        self.client.upload_file(
-            local_path, bucket, key, ExtraArgs={"ACL": acl, **kwargs}
-        )
+        self.client.upload_file(local_path, bucket, key, ExtraArgs={"ACL": acl, **kwargs})
 
     def remove_file(self, bucket, key):
         """
@@ -441,9 +432,7 @@ class S3(object):
                 dest_key = key
 
             copy_source = {"Bucket": origin_bucket, "Key": key}
-            self.client.copy(
-                copy_source, destination_bucket, dest_key, ExtraArgs=kwargs
-            )
+            self.client.copy(copy_source, destination_bucket, dest_key, ExtraArgs=kwargs)
             if remove_original:
                 try:
                     self.remove_file(origin_bucket, origin_key)
@@ -455,3 +444,22 @@ class S3(object):
                 object_acl.put(ACL="public-read")
 
         logger.info(f"Finished syncing {len(key_list)} keys")
+
+    def get_buckets_with_subname(self, bucket_subname):
+        """
+        Grabs a type of bucket based on naming convention.
+
+        `Args:`
+            subname: str
+                This will most commonly be a 'vendor'
+
+        `Returns:`
+            list
+                list of buckets
+
+        """
+
+        all_buckets = self.list_buckets()
+        buckets = [x for x in all_buckets if bucket_subname in x.split("-")]
+
+        return buckets

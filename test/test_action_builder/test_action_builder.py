@@ -203,11 +203,17 @@ class TestActionBuilder(unittest.TestCase):
         self.fake_update_person = {
             k: v for k, v in self.fake_insert_person.items() if k != "entity_type"
         }
-        self.fake_update_person["identifier"] = [
-            f"action_builder:{self.fake_entity_id}"
-        ]
+        self.fake_update_person["identifier"] = [f"action_builder:{self.fake_entity_id}"]
 
-        self.fake_connection = {"person_id": "fake-entity-id-2"}
+        self.fake_tag_id = "fake_tag_id"
+        self.fake_tagging_id = "fake_tagging_id"
+        self.fake_remove_tag_resp = {"message": "Tag has been removed from Taggable Logbook"}
+
+        # self.fake_connection = {"person_id": "fake-entity-id-2"}
+        self.fake_connection = {
+            "person_id": "fake-entity-id-2",
+            "identifiers": ["action_builder:fake-connection-id"],
+        }
 
     @requests_mock.Mocker()
     def test_get_page(self, m):
@@ -215,9 +221,7 @@ class TestActionBuilder(unittest.TestCase):
             f"{self.api_url}/tags?page=2&per_page=2",
             text=json.dumps(self.fake_tags_list_2),
         )
-        self.assertEqual(
-            self.bldr._get_page(self.campaign, "tags", 2, 2), self.fake_tags_list_2
-        )
+        self.assertEqual(self.bldr._get_page(self.campaign, "tags", 2, 2), self.fake_tags_list_2)
 
     @requests_mock.Mocker()
     def test_get_all_records(self, m):
@@ -252,9 +256,7 @@ class TestActionBuilder(unittest.TestCase):
             f"{self.api_url}/tags?page=3&per_page=25",
             text=json.dumps({"_embedded": {"osdi:tags": []}}),
         )
-        assert_matching_tables(
-            self.bldr.get_campaign_tags(), Table(self.fake_tags_list)
-        )
+        assert_matching_tables(self.bldr.get_campaign_tags(), Table(self.fake_tags_list))
 
     @requests_mock.Mocker()
     def test_get_tag_by_name(self, m):
@@ -362,11 +364,31 @@ class TestActionBuilder(unittest.TestCase):
         )
         self.assertEqual(add_tags_response, self.fake_tagging)
 
+    @requests_mock.Mocker()
+    def test_remove_tagging(self, m):
+        m.delete(
+            f"{self.api_url}/tags/{self.fake_tag_id}/taggings/{self.fake_tagging_id}",
+            json=self.fake_remove_tag_resp,
+        )
+        remove_tag_resp = self.bldr.remove_tagging(
+            tag_id=self.fake_tag_id, tagging_id=self.fake_tagging_id
+        )
+        self.assertEqual(remove_tag_resp, self.fake_remove_tag_resp)
+
     def connect_callback(self, request, context):
         # Internal method for returning constructed connection data to test
 
         post_data = request.json()
-        connection_data = post_data["connection"]
+        connection_data = post_data
+
+        if request.method != "PUT":
+            connection_data = post_data["connection"]
+
+        url_pieces = [x for x in request.url.split("/") if x]
+
+        # Grab ID if connections is penultimate in url path
+        if url_pieces.index("connections") == len(url_pieces) - 2:
+            connection_data["identifiers"] = [f"action_builder:{url_pieces[-1]}"]
         return connection_data
 
     @requests_mock.Mocker()
@@ -375,7 +397,47 @@ class TestActionBuilder(unittest.TestCase):
             f"{self.api_url}/people/{self.fake_entity_id}/connections",
             json=self.connect_callback,
         )
-        connect_response = self.bldr.upsert_connection(
-            [self.fake_entity_id, "fake-entity-id-2"]
+        connect_response = self.bldr.upsert_connection([self.fake_entity_id, "fake-entity-id-2"])
+        self.assertEqual(
+            connect_response,
+            {
+                **{k: v for k, v in self.fake_connection.items() if k != "identifiers"},
+                **{"inactive": False},
+            },
         )
-        self.assertEqual(connect_response, self.fake_connection)
+
+    @requests_mock.Mocker()
+    def test_deactivate_connection_post(self, m):
+        m.post(
+            f"{self.api_url}/people/{self.fake_entity_id}/connections",
+            json=self.connect_callback,
+        )
+        connect_response = self.bldr.deactivate_connection(
+            self.fake_entity_id, to_identifier="fake-entity-id-2"
+        )
+        self.assertEqual(
+            connect_response,
+            {
+                **{k: v for k, v in self.fake_connection.items() if k != "identifiers"},
+                **{"inactive": True},
+            },
+        )
+
+    @requests_mock.Mocker()
+    def test_deactivate_connection_put(self, m):
+        conn_endpoint = f"{self.api_url}/people/{self.fake_entity_id}/connections"
+        conn_endpoint += "/fake-connection-id"
+        m.put(
+            conn_endpoint,
+            json=self.connect_callback,
+        )
+        connect_response = self.bldr.deactivate_connection(
+            self.fake_entity_id, connection_identifier="fake-connection-id"
+        )
+        self.assertEqual(
+            connect_response,
+            {
+                **{k: v for k, v in self.fake_connection.items() if k != "person_id"},
+                **{"inactive": True},
+            },
+        )

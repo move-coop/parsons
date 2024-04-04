@@ -9,7 +9,6 @@ S3_TEMP_KEY_PREFIX = "Parsons_RedshiftCopyTable"
 
 
 class RedshiftCopyTable(object):
-
     aws_access_key_id = None
     aws_secret_access_key = None
     iam_role = None
@@ -42,8 +41,9 @@ class RedshiftCopyTable(object):
         aws_secret_access_key=None,
         compression=None,
         bucket_region=None,
+        json_option="auto",
     ):
-
+        logger.info(f"Data type is {data_type}")
         # Source / Destination
         source = f"s3://{bucket}/{key}"
 
@@ -60,9 +60,7 @@ class RedshiftCopyTable(object):
             sql += "manifest \n"
         if bucket_region:
             sql += f"region '{bucket_region}'\n"
-            logger.info(
-                "Copying data from S3 bucket %s in region %s", bucket, bucket_region
-            )
+            logger.info("Copying data from S3 bucket %s in region %s", bucket, bucket_region)
         sql += f"maxerror {max_errors} \n"
 
         # Redshift has some default behavior when statupdate is left out
@@ -101,6 +99,8 @@ class RedshiftCopyTable(object):
         # Data Type
         if data_type == "csv":
             sql += f"csv delimiter '{csv_delimiter}' \n"
+        elif data_type == "json":
+            sql += f"json '{json_option}' \n"
         else:
             raise TypeError("Invalid data type specified.")
 
@@ -112,7 +112,6 @@ class RedshiftCopyTable(object):
         return sql
 
     def get_creds(self, aws_access_key_id, aws_secret_access_key):
-
         if aws_access_key_id and aws_secret_access_key:
             # When we have credentials, then we don't need to set them again
             pass
@@ -122,19 +121,14 @@ class RedshiftCopyTable(object):
             return f"credentials 'aws_iam_role={self.iam_role}'\n"
 
         elif self.aws_access_key_id and self.aws_secret_access_key:
-
             aws_access_key_id = self.aws_access_key_id
             aws_secret_access_key = self.aws_secret_access_key
 
-        elif (
-            "AWS_ACCESS_KEY_ID" in os.environ and "AWS_SECRET_ACCESS_KEY" in os.environ
-        ):
-
+        elif "AWS_ACCESS_KEY_ID" in os.environ and "AWS_SECRET_ACCESS_KEY" in os.environ:
             aws_access_key_id = os.environ["AWS_ACCESS_KEY_ID"]
             aws_secret_access_key = os.environ["AWS_SECRET_ACCESS_KEY"]
 
         else:
-
             s3 = S3(use_env_token=self.use_env_token)
             creds = s3.aws.session.get_credentials()
             aws_access_key_id = creds.access_key
@@ -151,7 +145,6 @@ class RedshiftCopyTable(object):
         aws_secret_access_key=None,
         csv_encoding="utf-8",
     ):
-
         if not self.s3_temp_bucket:
             raise KeyError(
                 (
@@ -184,6 +177,5 @@ class RedshiftCopyTable(object):
         return key
 
     def temp_s3_delete(self, key):
-
         if key:
             self.s3.remove_file(self.s3_temp_bucket, key)

@@ -56,9 +56,7 @@ class CapitolCanary(object):
 
         return json
 
-    def get_advocates(
-        self, state=None, campaign_id=None, updated_since=None, page=None
-    ):
+    def get_advocates(self, state=None, campaign_id=None, updated_since=None, page=None):
         """
         Return advocates (person records).
 
@@ -251,9 +249,7 @@ class CapitolCanary(object):
         # Validate the passed in arguments
 
         if not campaigns:
-            raise ValueError(
-                "When creating an advocate, you must specify one or more campaigns."
-            )
+            raise ValueError("When creating an advocate, you must specify one or more campaigns.")
 
         if not email and not phone:
             raise ValueError(

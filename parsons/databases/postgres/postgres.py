@@ -1,6 +1,8 @@
 from parsons.databases.postgres.postgres_core import PostgresCore
 from parsons.databases.table import BaseTable
 from parsons.databases.alchemy import Alchemy
+from parsons.databases.database_connector import DatabaseConnector
+from parsons.etl.table import Table
 import logging
 import os
 
@@ -8,7 +10,7 @@ import os
 logger = logging.getLogger(__name__)
 
 
-class Postgres(PostgresCore, Alchemy):
+class Postgres(PostgresCore, Alchemy, DatabaseConnector):
     """
     A Postgres class to connect to database. Credentials can be passed from a ``.pgpass`` file
     stored in your home directory or with environmental variables.
@@ -28,9 +30,7 @@ class Postgres(PostgresCore, Alchemy):
             Seconds to timeout if connection not established.
     """
 
-    def __init__(
-        self, username=None, password=None, host=None, db=None, port=5432, timeout=10
-    ):
+    def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
         super().__init__()
 
         self.username = username or os.environ.get("PGUSER")
@@ -52,7 +52,13 @@ class Postgres(PostgresCore, Alchemy):
         self.timeout = timeout
         self.dialect = "postgres"
 
-    def copy(self, tbl, table_name, if_exists="fail", strict_length=False):
+    def copy(
+        self,
+        tbl: Table,
+        table_name: str,
+        if_exists: str = "fail",
+        strict_length: bool = False,
+    ):
         """
         Copy a :ref:`parsons-table` to Postgres.
 
@@ -68,19 +74,15 @@ class Postgres(PostgresCore, Alchemy):
                 If the database table needs to be created, strict_length determines whether
                 the created table's column sizes will be sized to exactly fit the current data,
                 or if their size will be rounded up to account for future values being larger
-                then the current dataset
+                then the current dataset. Defaults to ``False``.
         """
 
         with self.connection() as connection:
-
             # Auto-generate table
             if self._create_table_precheck(connection, table_name, if_exists):
-
                 # Create the table
                 # To Do: Pass in the advanced configuration parameters.
-                sql = self.create_statement(
-                    tbl, table_name, strict_length=strict_length
-                )
+                sql = self.create_statement(tbl, table_name, strict_length=strict_length)
 
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"{table_name} created.")

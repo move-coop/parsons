@@ -43,16 +43,21 @@ for module_path, connector_name in (
     ("parsons.box.box", "Box"),
     ("parsons.braintree.braintree", "Braintree"),
     ("parsons.capitol_canary.capitol_canary", "CapitolCanary"),
+    ("parsons.catalist.catalist", "CatalistMatch"),
+    ("parsons.census.census", "Census"),
     ("parsons.civis.civisclient", "CivisClient"),
     ("parsons.controlshift.controlshift", "Controlshift"),
     ("parsons.copper.copper", "Copper"),
     ("parsons.crowdtangle.crowdtangle", "CrowdTangle"),
+    ("parsons.databases.database_connector", "DatabaseConnector"),
+    ("parsons.databases.discover_database", "discover_database"),
     ("parsons.databases.db_sync", "DBSync"),
     ("parsons.databases.mysql.mysql", "MySQL"),
     ("parsons.databases.postgres.postgres", "Postgres"),
     ("parsons.databases.redshift.redshift", "Redshift"),
     ("parsons.donorbox.donorbox", "Donorbox"),
     ("parsons.facebook_ads.facebook_ads", "FacebookAds"),
+    ("parsons.formstack.formstack", "Formstack"),
     ("parsons.freshdesk.freshdesk", "Freshdesk"),
     ("parsons.geocode.census_geocoder", "CensusGeocoder"),
     ("parsons.github.github", "GitHub"),
@@ -63,6 +68,7 @@ for module_path, connector_name in (
     ("parsons.google.google_sheets", "GoogleSheets"),
     ("parsons.hustle.hustle", "Hustle"),
     ("parsons.mailchimp.mailchimp", "Mailchimp"),
+    ("parsons.mobilecommons.mobilecommons", "MobileCommons"),
     ("parsons.mobilize_america.ma", "MobilizeAmerica"),
     ("parsons.nation_builder.nation_builder", "NationBuilder"),
     ("parsons.newmode.newmode", "Newmode"),
@@ -87,9 +93,7 @@ for module_path, connector_name in (
     ("parsons.zoom.zoom", "Zoom"),
 ):
     try:
-        globals()[connector_name] = getattr(
-            importlib.import_module(module_path), connector_name
-        )
+        globals()[connector_name] = getattr(importlib.import_module(module_path), connector_name)
         __all__.append(connector_name)
     except ImportError:
         logger.debug(f"Could not import {module_path}.{connector_name}; skipping")

@@ -175,6 +175,8 @@ class ActionKit(object):
         resp = self.conn.patch(self._base_endpoint("user", user_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {user_id}")
 
+        return resp
+
     def get_event(self, event_id):
         """Get an event.
 

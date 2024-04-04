@@ -148,7 +148,7 @@
              
   <h1>Source code for parsons.notifications.gmail</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">base64</span>
-<span class="kn">from</span> <span class="nn">apiclient</span> <span class="kn">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">googleapiclient.errors</span> <span class="kn">import</span> <span class="n">HttpError</span>
 <span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="kn">import</span> <span class="n">build</span>
 <span class="kn">from</span> <span class="nn">httplib2</span> <span class="kn">import</span> <span class="n">Http</span>
 <span class="kn">from</span> <span class="nn">oauth2client</span> <span class="kn">import</span> <span class="n">file</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">tools</span>
@@ -223,7 +223,7 @@
             <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">users</span><span class="p">()</span><span class="o">.</span><span class="n">messages</span><span class="p">()</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">userId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
             <span class="p">)</span>
-        <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">HttpError</span><span class="p">:</span>
+        <span class="k">except</span> <span class="n">HttpError</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;An error occurred: while attempting to send a message.&quot;</span><span class="p">)</span>
             <span class="k">raise</span>
         <span class="k">else</span><span class="p">:</span>

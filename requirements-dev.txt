@@ -1,5 +1,5 @@
 # Testing Requirements
-black==24.2.0
+black==24.3.0
 Flake8-pyproject==1.2.3
 flake8==7.0.0
 pytest-datadir==1.5.0

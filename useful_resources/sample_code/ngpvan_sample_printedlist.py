@@ -3,19 +3,26 @@
 This script pulls turf information (i.e. precinct name, list number, people count, door count, etc.)
 from a specificed NGP VAN folder and creates a master check list and pdf printouts to circumvent
 the sometimes lengthy process in VAN.
-To use the script, be sure to set your environmental variables for VAN_API_KEY and GOOGLE_DRIVE_CREDENTIALS. 
-The blog post explaining contextual information for this script can be found here: . 
-Please also note that due to the inability to test the script, I decided to pare it down. It does not 
-include turf prioritization, apartment demarcation, and walkability scores as shown in the blog post.
+
+To use the script, be sure to set your environmental variables for VAN_API_KEY and
+GOOGLE_DRIVE_CREDENTIALS.
+
+The blog post explaining contextual information for this script can be found here: .
+
+Please also note that due to the inability to test the script,
+I decided to pare it down. It does not include turf prioritization, apartment demarcation,
+and walkability scores as shown in the blog post.
+
 To execute the script, run:
-    python3 ngpvan_sample_printedlist.py --van_folder_name="{Name of NGP VAN folder where printed lists are stored}" --gsheet_uri={URI for gsheet where NGP VAN data will be stored}""
+    python3 ngpvan_sample_printedlist.py \
+    --van_folder_name="{Name of NGP VAN folder where printed lists are stored}" \
+    --gsheet_uri="{URI for gsheet where NGP VAN data will be stored}"
 """
 
-import pandas as pd
 from fpdf import FPDF
 from parsons import VAN, GoogleSheets, Table
-import json
 import click
+
 
 # ~~~~~~~~~~~~~~ Get Printed and Saved List Info From VAN ~~~~~~~~~~~~~~~~#
 

@@ -321,9 +321,7 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
@@ -378,9 +376,7 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">event_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">event_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_blackholed_email"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_blackholed_email">[docs]</a>    <span class="k">def</span> <span class="nf">get_blackholed_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
@@ -784,9 +780,7 @@
 <span class="sd">        copy a mailer</span>
 <span class="sd">        returns new copy of mailer which should be updatable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">mailer_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/copy&quot;</span>
-        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">mailer_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/copy&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="ActionKit.update_mailing"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_mailing">[docs]</a>    <span class="k">def</span> <span class="nf">update_mailing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -804,9 +798,7 @@
 <span class="sd">            ``HTTP response from the patch request``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">mailer_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
@@ -985,9 +977,7 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="n">order_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="n">order_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">order_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_orderrecurring"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_orderrecurring">[docs]</a>    <span class="k">def</span> <span class="nf">get_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orderrecurring_id</span><span class="p">):</span>
@@ -1018,9 +1008,7 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;orderrecurring&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">recurring_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/cancel&quot;</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;orderrecurring&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">recurring_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/cancel&quot;</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">recurring_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
@@ -1392,13 +1380,7 @@
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">tbl</span> <span class="ow">in</span> <span class="n">upload_tables</span><span class="p">:</span>
             <span class="n">user_fields_only</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
-                <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
-                    <span class="p">[</span>
-                        <span class="n">h</span>
-                        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span>
-                        <span class="k">if</span> <span class="n">h</span> <span class="o">!=</span> <span class="s2">&quot;email&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">h</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;user_&quot;</span><span class="p">)</span>
-                    <span class="p">]</span>
-                <span class="p">)</span>
+                <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">h</span> <span class="o">!=</span> <span class="s2">&quot;email&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">h</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;user_&quot;</span><span class="p">)])</span>
             <span class="p">)</span>
             <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">bulk_upload_csv</span><span class="p">(</span>
@@ -1415,9 +1397,9 @@
         <span class="c1"># uploading combo of user_id and email column should be mutually exclusive</span>
         <span class="n">blank_columns_test</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">no_overwrite_on_empty</span><span class="p">:</span>
-            <span class="n">blank_columns_test</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
-                <span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">set_only_columns</span> <span class="ow">or</span> <span class="p">[])</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+            <span class="n">blank_columns_test</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">set_only_columns</span> <span class="ow">or</span> <span class="p">[]))</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                <span class="n">table</span><span class="o">.</span><span class="n">columns</span>
+            <span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
             <span class="n">blanks</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">blank_columns_test</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
             <span class="n">grp</span> <span class="o">=</span> <span class="n">table_groups</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">blanks</span><span class="p">,</span> <span class="p">[])</span>

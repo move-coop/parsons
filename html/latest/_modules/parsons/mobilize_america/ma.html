@@ -264,12 +264,7 @@
 <span class="sd">        `Returns`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">uri</span>
-            <span class="o">+</span> <span class="s2">&quot;organizations/&quot;</span>
-            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">organization_id</span><span class="p">)</span>
-            <span class="o">+</span> <span class="s2">&quot;/promoted_organizations&quot;</span>
-        <span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;organizations/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">organization_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/promoted_organizations&quot;</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request_paginate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="MobilizeAmerica.get_events"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_events">[docs]</a>    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span>

@@ -343,9 +343,7 @@
 <span class="sd">                The path of the file</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
-        <span class="n">petl</span><span class="o">.</span><span class="n">appendcsv</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">local_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span>
-        <span class="p">)</span>
+        <span class="n">petl</span><span class="o">.</span><span class="n">appendcsv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">local_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">local_path</span></div>
 
 <div class="viewcode-block" id="ToFrom.to_zip_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_zip_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_zip_csv</span><span class="p">(</span>
@@ -395,22 +393,14 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">archive_path</span><span class="p">:</span>
             <span class="n">archive_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.zip&quot;</span><span class="p">)</span>
 
-        <span class="n">cf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
-            <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="n">write_header</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span>
-        <span class="p">)</span>
+        <span class="n">cf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="n">write_header</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">csv_name</span><span class="p">:</span>
-            <span class="n">csv_name</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">files</span><span class="o">.</span><span class="n">extract_file_name</span><span class="p">(</span><span class="n">archive_path</span><span class="p">,</span> <span class="n">include_suffix</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span>
-            <span class="p">)</span>
+            <span class="n">csv_name</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">extract_file_name</span><span class="p">(</span><span class="n">archive_path</span><span class="p">,</span> <span class="n">include_suffix</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span>
 
-        <span class="k">return</span> <span class="n">zip_archive</span><span class="o">.</span><span class="n">create_archive</span><span class="p">(</span>
-            <span class="n">archive_path</span><span class="p">,</span> <span class="n">cf</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">csv_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">zip_archive</span><span class="o">.</span><span class="n">create_archive</span><span class="p">(</span><span class="n">archive_path</span><span class="p">,</span> <span class="n">cf</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">csv_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ToFrom.to_json"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">temp_file_compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line_delimited</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="ToFrom.to_json"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">temp_file_compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line_delimited</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Outputs table to a JSON file</span>
 
@@ -966,9 +956,7 @@
             <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromjson</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="ToFrom.from_redshift"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_redshift">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_redshift</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_redshift</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` from a Redshift query.</span>
 
@@ -999,9 +987,7 @@
         <span class="k">return</span> <span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ToFrom.from_postgres"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_postgres">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_postgres</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_postgres</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            sql: str</span>

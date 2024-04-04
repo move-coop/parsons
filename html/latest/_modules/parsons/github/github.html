@@ -226,9 +226,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GITHUB_USERNAME&quot;</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GITHUB_PASSWORD&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span>
-            <span class="s2">&quot;GITHUB_ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GITHUB_ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">PyGithub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
@@ -344,9 +342,7 @@
 <span class="sd">                Table with page of organization repos</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Listing page </span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2"> of repos for organization </span><span class="si">{</span><span class="n">organization_name</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Listing page </span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2"> of repos for organization </span><span class="si">{</span><span class="n">organization_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_table</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_organization</span><span class="p">(</span><span class="n">organization_name</span><span class="p">)</span><span class="o">.</span><span class="n">get_repos</span><span class="p">(),</span>
@@ -555,9 +551,7 @@
         <span class="k">if</span> <span class="n">branch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">branch</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">default_branch</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">repo_name</span><span class="si">}</span><span class="s2">, branch </span><span class="si">{</span><span class="n">branch</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">repo_name</span><span class="si">}</span><span class="s2">, branch </span><span class="si">{</span><span class="n">branch</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="n">headers</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="p">:</span>
@@ -584,9 +578,7 @@
 
         <span class="k">return</span> <span class="n">local_path</span></div>
 
-<div class="viewcode-block" id="GitHub.download_table"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.download_table">[docs]</a>    <span class="k">def</span> <span class="nf">download_table</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="GitHub.download_table"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.download_table">[docs]</a>    <span class="k">def</span> <span class="nf">download_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a CSV file from a repo by path and branch as a Parsons Table.</span>
 
 <span class="sd">        Args:</span>

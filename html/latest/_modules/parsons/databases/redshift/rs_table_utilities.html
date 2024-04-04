@@ -354,9 +354,7 @@
 <span class="sd">                The column to use as the sortkey for the table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
-            <span class="n">should_create</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span>
-                <span class="n">conn</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span>
-            <span class="p">)</span>
+            <span class="n">should_create</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">should_create</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating table </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2"> from query...&quot;</span><span class="p">)</span>
@@ -401,9 +399,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
-            <span class="n">should_create</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span>
-                <span class="n">conn</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span>
-            <span class="p">)</span>
+            <span class="n">should_create</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">should_create</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
@@ -577,11 +573,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A list of column names.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">schema</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">schema</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">schema</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">))</span>
-            <span class="k">else</span> <span class="n">schema</span>
-        <span class="p">)</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s1">&quot;&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">schema</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">schema</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">))</span> <span class="k">else</span> <span class="n">schema</span>
 
         <span class="n">table_name</span> <span class="o">=</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
@@ -689,9 +681,7 @@
 <span class="sd">                The column containing the values</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT MAX(</span><span class="si">{</span><span class="n">value_column</span><span class="si">}</span><span class="s2">) value from </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span>
-            <span class="s2">&quot;value&quot;</span>
-        <span class="p">]</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT MAX(</span><span class="si">{</span><span class="n">value_column</span><span class="si">}</span><span class="s2">) value from </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="RedshiftTableUtilities.get_object_type"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_object_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_object_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

@@ -148,6 +148,7 @@
              
   <h1>Source code for parsons.ngpvan.bulk_import</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Bulk Import Endpoints&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">cloud_storage</span>
 
@@ -258,9 +259,7 @@
 <span class="sd">                A mapping type fields json</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;bulkImportMappingTypes/</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2">/values&quot;</span>
-        <span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;bulkImportMappingTypes/</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2">/values&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2"> bulk import mapping type field values.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 

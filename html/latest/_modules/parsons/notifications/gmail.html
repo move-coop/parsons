@@ -221,10 +221,7 @@
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">users</span><span class="p">()</span>
-                <span class="o">.</span><span class="n">messages</span><span class="p">()</span>
-                <span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">userId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">users</span><span class="p">()</span><span class="o">.</span><span class="n">messages</span><span class="p">()</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">userId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">HttpError</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;An error occurred: while attempting to send a message.&quot;</span><span class="p">)</span>

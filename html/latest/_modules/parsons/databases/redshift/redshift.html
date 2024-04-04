@@ -244,9 +244,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;REDSHIFT_DB&quot;</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;REDSHIFT_PORT&quot;</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;Connection info missing. Most include as kwarg or &quot;</span> <span class="s2">&quot;env variable.&quot;</span>
-            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Connection info missing. Most include as kwarg or &quot;</span> <span class="s2">&quot;env variable.&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">error</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
@@ -831,9 +829,7 @@
                 <span class="p">}</span>
 
                 <span class="c1"># Copy from S3 to Redshift</span>
-                <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_statement</span><span class="p">(</span>
-                    <span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span>
-                <span class="p">)</span>
+                <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_statement</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
                 <span class="n">sql_censored</span> <span class="o">=</span> <span class="n">sql_helpers</span><span class="o">.</span><span class="n">redact_credentials</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
 
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Copy SQL command: </span><span class="si">{</span><span class="n">sql_censored</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1302,9 +1298,7 @@
             <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql_depend</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
             <span class="n">dropped_views</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;table_name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">tbl</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">dropped_views</span><span class="p">:</span>
-                <span class="n">sql_drop</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;drop view </span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2"> CASCADE;&quot;</span> <span class="k">for</span> <span class="n">view</span> <span class="ow">in</span> <span class="n">dropped_views</span><span class="p">]</span>
-                <span class="p">)</span>
+                <span class="n">sql_drop</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;drop view </span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2"> CASCADE;&quot;</span> <span class="k">for</span> <span class="n">view</span> <span class="ow">in</span> <span class="n">dropped_views</span><span class="p">])</span>
                 <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql_drop</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dropped the following views: </span><span class="si">{</span><span class="n">dropped_views</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -1335,9 +1329,7 @@
         <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_full_table_name</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_columns</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
         <span class="n">rc</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;max_length&quot;</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cols</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;data_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;character varying&quot;</span>
+            <span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;max_length&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cols</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;data_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;character varying&quot;</span>
         <span class="p">}</span>  <span class="c1"># noqa: E501, E261</span>
 
         <span class="c1"># Figure out if any of the destination table varchar columns are smaller than the</span>
@@ -1353,13 +1345,9 @@
                     <span class="n">new_size</span> <span class="o">=</span> <span class="n">pc</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">drop_dependencies</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">drop_dependencies_for_cols</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="p">[</span><span class="n">c</span><span class="p">])</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">alter_table_column_type</span><span class="p">(</span>
-                    <span class="n">table_name</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s2">&quot;varchar&quot;</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="n">new_size</span>
-                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">alter_table_column_type</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s2">&quot;varchar&quot;</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="n">new_size</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">alter_table_column_type</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">alter_table_column_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Alter a column type of an existing table.</span>
 

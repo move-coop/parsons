@@ -199,9 +199,7 @@
 <span class="sd">            Response (dict containing the URL) or an error</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dashboard&quot;</span><span class="p">:</span> <span class="n">dashboard_id</span><span class="p">,</span> <span class="s2">&quot;chart&quot;</span><span class="p">:</span> <span class="n">chart_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
-            <span class="s2">&quot;shared_dashboard/create&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;shared_dashboard/create&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Sisense.list_shared_dashboards"><a class="viewcode-back" href="../../../sisense.html#parsons.Sisense.list_shared_dashboards">[docs]</a>    <span class="k">def</span> <span class="nf">list_shared_dashboards</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dashboard_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -232,9 +230,7 @@
 <span class="sd">            Response or an error</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="n">token</span><span class="p">}</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
-            <span class="s2">&quot;shared_dashboard/delete&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
-        <span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;shared_dashboard/delete&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span></div></div>
 </pre></div>
 
            </div>

@@ -530,9 +530,7 @@
             <span class="s2">&quot;since&quot;</span><span class="p">:</span> <span class="n">since</span><span class="p">,</span>
         <span class="p">}</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;reports/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">/email-activity&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span>
-        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;reports/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">/email-activity&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;emails&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">tbl</span>
@@ -574,9 +572,7 @@
             <span class="s2">&quot;offset&quot;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
         <span class="p">}</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;reports/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">/unsubscribed&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span>
-        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;reports/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">/unsubscribed&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;unsubscribes&quot;</span><span class="p">])</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> unsubscribes for </span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>

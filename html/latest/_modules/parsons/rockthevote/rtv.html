@@ -244,9 +244,7 @@
 
         <span class="k">if</span> <span class="n">report_type</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">report_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">VALID_REPORT_TYPES</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">RTVFailure</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Invalid report type. Must be one of </span><span class="si">{</span><span class="n">VALID_REPORT_TYPES</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">RTVFailure</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid report type. Must be one of </span><span class="si">{</span><span class="n">VALID_REPORT_TYPES</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">report_parameters</span><span class="p">[</span><span class="s2">&quot;report_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">report_type</span>
         <span class="k">if</span> <span class="n">since</span><span class="p">:</span>
             <span class="n">since_date</span> <span class="o">=</span> <span class="n">parse_date</span><span class="p">(</span><span class="n">since</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATETIME_FORMAT</span><span class="p">)</span>
@@ -316,9 +314,7 @@
 
         <span class="c1"># Let&#39;s figure out at what time should we just give up because we waited</span>
         <span class="c1"># too long</span>
-        <span class="n">end_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span>
-            <span class="n">seconds</span><span class="o">=</span><span class="n">report_timeout_seconds</span>
-        <span class="p">)</span>
+        <span class="n">end_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">report_timeout_seconds</span><span class="p">)</span>
 
         <span class="c1"># If we have a download URL, we can move on and just download the</span>
         <span class="c1"># report. Otherwise, as long as we haven&#39;t run out of time, we will</span>
@@ -365,9 +361,7 @@
 
             <span class="c1"># Transform the data from the report&#39;s CSV format to something more</span>
             <span class="c1"># Pythonic (snake case)</span>
-            <span class="n">normalized_column_names</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span>
-            <span class="p">]</span>
+            <span class="n">normalized_column_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
             <span class="n">normalized_column_names</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^A-Za-z\d_]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">normalized_column_names</span>
             <span class="p">]</span>
@@ -410,8 +404,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">report_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">report_type</span><span class="si">}</span><span class="s2"> report&quot;</span> <span class="k">if</span> <span class="n">report_type</span> <span class="k">else</span> <span class="s2">&quot;report&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Running </span><span class="si">{</span><span class="n">report_str</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span><span class="si">}</span><span class="s2"> &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;for dates: </span><span class="si">{</span><span class="n">since</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">before</span><span class="si">}</span><span class="s2">...&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Running </span><span class="si">{</span><span class="n">report_str</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="sa">f</span><span class="s2">&quot;for dates: </span><span class="si">{</span><span class="n">since</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">before</span><span class="si">}</span><span class="s2">...&quot;</span>
         <span class="p">)</span>
         <span class="n">report_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_registration_report</span><span class="p">(</span>
             <span class="n">before</span><span class="o">=</span><span class="n">before</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="n">since</span><span class="p">,</span> <span class="n">report_type</span><span class="o">=</span><span class="n">report_type</span>
@@ -459,9 +452,7 @@
         <span class="k">if</span> <span class="n">callback</span><span class="p">:</span>
             <span class="n">params</span><span class="p">[</span><span class="s2">&quot;callback&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">callback</span>
 
-        <span class="n">requirements_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">requirements_url</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span>
-        <span class="p">)</span>
+        <span class="n">requirements_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">requirements_url</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">requirements_response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
             <span class="n">response_json</span> <span class="o">=</span> <span class="n">requirements_response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>

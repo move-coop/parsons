@@ -246,9 +246,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;advocacy_campaigns/</span><span class="si">{</span><span class="n">advocacy_campaign_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
     <span class="c1"># Attendances</span>
-<div class="viewcode-block" id="ActionNetwork.get_person_attendances"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person_attendances">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_attendances</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="ActionNetwork.get_person_attendances"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person_attendances">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_attendances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            person_id:</span>
@@ -268,16 +266,10 @@
 <span class="sd">            https://actionnetwork.org/docs/v2/attendances</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/attendances&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/attendances&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-        <span class="p">)</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/attendances&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/attendances&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionNetwork.get_event_attendances"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_event_attendances">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_attendances</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="ActionNetwork.get_event_attendances"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_event_attendances">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_attendances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            event_id: the unique id of the event</span>
@@ -296,12 +288,8 @@
 <span class="sd">            https://actionnetwork.org/docs/v2/attendances</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">/attendances&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">/attendances&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-        <span class="p">)</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">/attendances&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">/attendances&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.get_event_attendance"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_event_attendance">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_attendance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">attendance_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -367,9 +355,7 @@
 <span class="sd">        `Documentation Reference`:</span>
 <span class="sd">            https://actionnetwork.org/docs/v2/attendances</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">/attendances/</span><span class="si">{</span><span class="n">attendance_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">payload</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">/attendances/</span><span class="si">{</span><span class="n">attendance_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
 
     <span class="c1"># Campaigns</span>
 <div class="viewcode-block" id="ActionNetwork.get_campaigns"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_campaigns">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaigns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -485,9 +471,7 @@
             <span class="nb">filter</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionNetwork.get_person_donations"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person_donations">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_donations</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="ActionNetwork.get_person_donations"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person_donations">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_donations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">             person_id: The id of the person</span>
@@ -626,9 +610,7 @@
 <span class="sd">        `Documentation Reference`:</span>
 <span class="sd">            https://actionnetwork.org/docs/v2/event_campaigns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;event_campaigns/</span><span class="si">{</span><span class="n">event_campaign_id</span><span class="si">}</span><span class="s2">/events&quot;</span><span class="p">,</span> <span class="n">payload</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;event_campaigns/</span><span class="si">{</span><span class="n">event_campaign_id</span><span class="si">}</span><span class="s2">/events&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.update_event_campaign"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_event_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">update_event_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_campaign_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -750,9 +732,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">location</span>
 
-        <span class="n">event_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
-            <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/events&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">event_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/events&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
 
         <span class="n">an_event_id</span> <span class="o">=</span> <span class="n">event_dict</span><span class="p">[</span><span class="s2">&quot;_links&quot;</span><span class="p">][</span><span class="s2">&quot;self&quot;</span><span class="p">][</span><span class="s2">&quot;href&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">event_dict</span><span class="p">[</span><span class="s2">&quot;event_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">an_event_id</span>
@@ -1146,9 +1126,7 @@
             <span class="nb">filter</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionNetwork.get_person_outreaches"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person_outreaches">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_outreaches</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="ActionNetwork.get_person_outreaches"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person_outreaches">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_outreaches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            person_id:</span>
@@ -1169,12 +1147,8 @@
 <span class="sd">            https://actionnetwork.org/docs/v2/outreaches</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/outreaches&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/outreaches&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-        <span class="p">)</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/outreaches&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/outreaches&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.get_advocacy_campaign_outreach"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_advocacy_campaign_outreach">[docs]</a>    <span class="k">def</span> <span class="nf">get_advocacy_campaign_outreach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">advocacy_campaign_id</span><span class="p">,</span> <span class="n">outreach_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1391,9 +1365,7 @@
                 <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;[^0-9]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">mobile_number</span><span class="p">),</span> <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">mobile_status</span><span class="p">}</span>
             <span class="p">]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">),</span> <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">mobile_status</span><span class="p">}</span>
-            <span class="p">]</span>
+            <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">),</span> <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">mobile_status</span><span class="p">}]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="p">(</span><span class="s2">&quot;Action Network allows only 1 phone number per activist&quot;</span><span class="p">)</span>
@@ -1443,9 +1415,7 @@
 
         <span class="n">identifiers</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;identifiers&quot;</span><span class="p">]</span>
         <span class="n">person_id</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">entry_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">entry_id</span> <span class="ow">in</span> <span class="n">identifiers</span>
-            <span class="k">if</span> <span class="s2">&quot;action_network:&quot;</span> <span class="ow">in</span> <span class="n">entry_id</span>
+            <span class="n">entry_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry_id</span> <span class="ow">in</span> <span class="n">identifiers</span> <span class="k">if</span> <span class="s2">&quot;action_network:&quot;</span> <span class="ow">in</span> <span class="n">entry_id</span>
         <span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">person_id</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Response gave no valid person_id: </span><span class="si">{</span><span class="n">identifiers</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1473,9 +1443,7 @@
 <span class="sd">        Creates a person in the database. WARNING: this endpoint has been deprecated in favor of</span>
 <span class="sd">        upsert_person.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">&quot;Method &#39;add_person&#39; has been deprecated. Please use &#39;upsert_person&#39;.&quot;</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Method &#39;add_person&#39; has been deprecated. Please use &#39;upsert_person&#39;.&quot;</span><span class="p">)</span>
         <span class="c1"># Pass inputs to preferred method:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">upsert_person</span><span class="p">(</span>
             <span class="n">email_address</span><span class="o">=</span><span class="n">email_address</span><span class="p">,</span>
@@ -1695,9 +1663,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;queries/</span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
     <span class="c1"># Signatures</span>
-<div class="viewcode-block" id="ActionNetwork.get_petition_signatures"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_petition_signatures">[docs]</a>    <span class="k">def</span> <span class="nf">get_petition_signatures</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">petition_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="ActionNetwork.get_petition_signatures"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_petition_signatures">[docs]</a>    <span class="k">def</span> <span class="nf">get_petition_signatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">petition_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            petition_id:</span>
@@ -1717,16 +1683,10 @@
 <span class="sd">            https://actionnetwork.org/docs/v2/signatures</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">/signatures&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">/signatures&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-        <span class="p">)</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">/signatures&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">/signatures&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionNetwork.get_person_signatures"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person_signatures">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_signatures</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="ActionNetwork.get_person_signatures"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person_signatures">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_signatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            person_id:</span>
@@ -1748,12 +1708,8 @@
 <span class="sd">            https://actionnetwork.org/docs/v2/signatures</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/signatures&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/signatures&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-        <span class="p">)</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/signatures&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/signatures&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.get_petition_signature"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_petition_signature">[docs]</a>    <span class="k">def</span> <span class="nf">get_petition_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">petition_id</span><span class="p">,</span> <span class="n">signature_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1767,9 +1723,7 @@
 <span class="sd">        `Documentation Reference`:</span>
 <span class="sd">            https://actionnetwork.org/docs/v2/signatures</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">/signatures/</span><span class="si">{</span><span class="n">signature_id</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">/signatures/</span><span class="si">{</span><span class="n">signature_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.get_person_signature"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person_signature">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">signature_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1822,14 +1776,10 @@
 <span class="sd">        `Documentation Reference`:</span>
 <span class="sd">            https://actionnetwork.org/docs/v2/signatures</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">/signatures/</span><span class="si">{</span><span class="n">signature_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">data</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;petitions/</span><span class="si">{</span><span class="n">petition_id</span><span class="si">}</span><span class="s2">/signatures/</span><span class="si">{</span><span class="n">signature_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
     <span class="c1"># Submissions</span>
-<div class="viewcode-block" id="ActionNetwork.get_form_submissions"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_form_submissions">[docs]</a>    <span class="k">def</span> <span class="nf">get_form_submissions</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">form_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="ActionNetwork.get_form_submissions"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_form_submissions">[docs]</a>    <span class="k">def</span> <span class="nf">get_form_submissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            form_id:</span>
@@ -1850,16 +1800,10 @@
 <span class="sd">            https://actionnetwork.org/docs/v2/submissions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;forms/</span><span class="si">{</span><span class="n">form_id</span><span class="si">}</span><span class="s2">/submissions&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;forms/</span><span class="si">{</span><span class="n">form_id</span><span class="si">}</span><span class="s2">/submissions&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-        <span class="p">)</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;forms/</span><span class="si">{</span><span class="n">form_id</span><span class="si">}</span><span class="s2">/submissions&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;forms/</span><span class="si">{</span><span class="n">form_id</span><span class="si">}</span><span class="s2">/submissions&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionNetwork.get_person_submissions"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person_submissions">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_submissions</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="ActionNetwork.get_person_submissions"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person_submissions">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_submissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            person_id:</span>
@@ -1879,12 +1823,8 @@
 <span class="sd">            https://actionnetwork.org/docs/v2/submissions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/submissions&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/submissions&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span>
-        <span class="p">)</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/submissions&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">/submissions&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.get_form_submission"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_form_submission">[docs]</a>    <span class="k">def</span> <span class="nf">get_form_submission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_id</span><span class="p">,</span> <span class="n">submission_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1928,14 +1868,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;_links&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;osdi:person&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;https://actionnetwork.org/api/v2/people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="p">}</span>
+                <span class="s2">&quot;osdi:person&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;https://actionnetwork.org/api/v2/people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
             <span class="p">}</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;forms/</span><span class="si">{</span><span class="n">form_id</span><span class="si">}</span><span class="s2">/submissions&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;forms/</span><span class="si">{</span><span class="n">form_id</span><span class="si">}</span><span class="s2">/submissions&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.update_submission"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_submission">[docs]</a>    <span class="k">def</span> <span class="nf">update_submission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_id</span><span class="p">,</span> <span class="n">submission_id</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2004,14 +1940,10 @@
 <span class="sd">            https://actionnetwork.org/docs/v2/tags</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">}</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
-            <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/tags&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/tags&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="n">identifiers</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;identifiers&quot;</span><span class="p">]</span>
         <span class="n">person_id</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">entry_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">entry_id</span> <span class="ow">in</span> <span class="n">identifiers</span>
-            <span class="k">if</span> <span class="s2">&quot;action_network:&quot;</span> <span class="ow">in</span> <span class="n">entry_id</span>
+            <span class="n">entry_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry_id</span> <span class="ow">in</span> <span class="n">identifiers</span> <span class="k">if</span> <span class="s2">&quot;action_network:&quot;</span> <span class="ow">in</span> <span class="n">entry_id</span>
         <span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tag </span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2"> successfully added to tags.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span></div>
@@ -2073,9 +2005,7 @@
 <span class="sd">        `Documentation Reference`:</span>
 <span class="sd">            https://actionnetwork.org/docs/v2/taggings</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">/taggings&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">/taggings&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.delete_tagging"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.delete_tagging">[docs]</a>    <span class="k">def</span> <span class="nf">delete_tagging</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">,</span> <span class="n">tagging_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

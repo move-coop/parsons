@@ -174,9 +174,7 @@
 <span class="sd">            The Nation Builder access_token Not required if ``NB_ACCESS_TOKEN`` env variable set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">slug</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;NB_SLUG&quot;</span><span class="p">,</span> <span class="n">slug</span><span class="p">)</span>
         <span class="n">token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;NB_ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="n">access_token</span><span class="p">)</span>
 
@@ -301,9 +299,7 @@
 
         <span class="k">return</span> <span class="n">response</span></div>
 
-<div class="viewcode-block" id="NationBuilder.upsert_person"><a class="viewcode-back" href="../../../nation_builder.html#parsons.NationBuilder.upsert_person">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_person</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">person</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
+<div class="viewcode-block" id="NationBuilder.upsert_person"><a class="viewcode-back" href="../../../nation_builder.html#parsons.NationBuilder.upsert_person">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates a matched person or creates a new one if the person doesn&#39;t exist.</span>
 

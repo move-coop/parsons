@@ -289,9 +289,7 @@
 <span class="sd">            Parsons Table</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;donor_id&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span>
-                <span class="s2">&quot;donor_id&quot;</span>
-            <span class="p">)</span>  <span class="c1"># switch to Donorbox&#39;s (less specific) name</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;donor_id&quot;</span><span class="p">)</span>  <span class="c1"># switch to Donorbox&#39;s (less specific) name</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;donors&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 

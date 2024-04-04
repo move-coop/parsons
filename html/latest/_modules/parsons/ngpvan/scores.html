@@ -331,9 +331,7 @@
 
         <span class="c1"># Move to cloud storage</span>
         <span class="n">file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span>
-            <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span>
-        <span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table uploaded to </span><span class="si">{</span><span class="n">url_type</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Generate shell request</span>

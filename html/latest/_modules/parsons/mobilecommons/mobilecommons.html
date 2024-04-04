@@ -233,9 +233,7 @@
         <span class="c1"># Set get request params</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="n">page_limit</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">default_params</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">}</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Working on fetching first </span><span class="si">{</span><span class="n">page_limit</span><span class="si">}</span><span class="s2"> rows. This can take a long time.&quot;</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Working on fetching first </span><span class="si">{</span><span class="n">page_limit</span><span class="si">}</span><span class="s2"> rows. This can take a long time.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Make get call and parse XML into list of dicts</span>
         <span class="n">page</span> <span class="o">=</span> <span class="mi">1</span>
@@ -294,18 +292,14 @@
                 <span class="sa">f</span><span class="s2">&quot;of </span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
             <span class="c1"># Send get request</span>
-            <span class="n">response_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_get_request</span><span class="p">(</span>
-                <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">page_params</span>
-            <span class="p">)</span>
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">page_params</span><span class="p">)</span>
             <span class="c1"># Check to see if page was empty if num parameter is available</span>
             <span class="k">if</span> <span class="n">page_indicator</span> <span class="o">==</span> <span class="s2">&quot;num&quot;</span><span class="p">:</span>
                 <span class="n">empty_page</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="n">first_data_key</span><span class="p">][</span><span class="s2">&quot;num&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">empty_page</span><span class="p">:</span>
                 <span class="c1"># Extract data</span>
-                <span class="n">response_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
-                    <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="n">first_data_key</span><span class="p">][</span><span class="n">second_data_key</span><span class="p">]</span>
-                <span class="p">)</span>
+                <span class="n">response_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="n">first_data_key</span><span class="p">][</span><span class="n">second_data_key</span><span class="p">])</span>
                 <span class="c1"># Append to final table</span>
                 <span class="n">final_table</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">response_table</span><span class="p">)</span>
                 <span class="n">final_table</span><span class="o">.</span><span class="n">materialize</span><span class="p">()</span>

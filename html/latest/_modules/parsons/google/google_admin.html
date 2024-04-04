@@ -197,9 +197,7 @@
 
         <span class="c1"># Return type from Google Admin is a tuple of length 2. Extract desired result from 2nd item</span>
         <span class="c1"># in tuple and convert to json</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">req_url</span> <span class="o">+</span> <span class="n">param_str</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">req_url</span> <span class="o">+</span> <span class="n">param_str</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
 
         <span class="c1"># Paginate</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
@@ -212,9 +210,9 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">param_arr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;pageToken=&quot;</span> <span class="o">+</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;nextPageToken&quot;</span><span class="p">]</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">req_url</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="s2">&quot;&amp;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">param_arr</span><span class="p">),</span> <span class="s2">&quot;GET&quot;</span><span class="p">)[</span>
-                        <span class="mi">1</span>
-                    <span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">req_url</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="s2">&quot;&amp;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">param_arr</span><span class="p">),</span> <span class="s2">&quot;GET&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
+                        <span class="s2">&quot;utf-8&quot;</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
                 <span class="n">ret</span> <span class="o">+=</span> <span class="n">res</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span>
 
@@ -233,9 +231,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Table Class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate_request</span><span class="p">(</span>
-            <span class="s2">&quot;groups/&quot;</span> <span class="o">+</span> <span class="n">group_key</span> <span class="o">+</span> <span class="s2">&quot;/aliases&quot;</span><span class="p">,</span> <span class="s2">&quot;aliases&quot;</span><span class="p">,</span> <span class="n">params</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate_request</span><span class="p">(</span><span class="s2">&quot;groups/&quot;</span> <span class="o">+</span> <span class="n">group_key</span> <span class="o">+</span> <span class="s2">&quot;/aliases&quot;</span><span class="p">,</span> <span class="s2">&quot;aliases&quot;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GoogleAdmin.get_all_group_members"><a class="viewcode-back" href="../../../google.html#parsons.google.google_admin.GoogleAdmin.get_all_group_members">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_group_members</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -250,9 +246,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Table Class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate_request</span><span class="p">(</span>
-            <span class="s2">&quot;groups/&quot;</span> <span class="o">+</span> <span class="n">group_key</span> <span class="o">+</span> <span class="s2">&quot;/members&quot;</span><span class="p">,</span> <span class="s2">&quot;members&quot;</span><span class="p">,</span> <span class="n">params</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate_request</span><span class="p">(</span><span class="s2">&quot;groups/&quot;</span> <span class="o">+</span> <span class="n">group_key</span> <span class="o">+</span> <span class="s2">&quot;/members&quot;</span><span class="p">,</span> <span class="s2">&quot;members&quot;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GoogleAdmin.get_all_groups"><a class="viewcode-back" href="../../../google.html#parsons.google.google_admin.GoogleAdmin.get_all_groups">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

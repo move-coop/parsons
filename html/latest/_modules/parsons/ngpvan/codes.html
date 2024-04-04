@@ -148,6 +148,7 @@
              
   <h1>Source code for parsons.ngpvan.codes</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Code Endpoints&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
@@ -159,9 +160,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
-<div class="viewcode-block" id="Codes.get_codes"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.get_codes">[docs]</a>    <span class="k">def</span> <span class="nf">get_codes</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">supported_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code_type</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="Codes.get_codes"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.get_codes">[docs]</a>    <span class="k">def</span> <span class="nf">get_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">supported_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get codes.</span>
 

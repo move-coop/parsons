@@ -26,9 +26,7 @@ class BillCom(object):
             "orgId": org_id,
             "devKey": dev_key,
         }
-        response = requests.post(
-            url="%sLogin.json" % api_url, data=params, headers=self.headers
-        )
+        response = requests.post(url="%sLogin.json" % api_url, data=params, headers=self.headers)
         self.dev_key = dev_key
         self.api_url = api_url
         self.session_id = response.json()["response_data"]["sessionId"]
@@ -257,13 +255,7 @@ class BillCom(object):
         return self._get_request_response(data, "Create", "Customer")
 
     def create_invoice(
-        self,
-        customer_id,
-        invoice_number,
-        invoice_date,
-        due_date,
-        invoice_line_items,
-        **kwargs
+        self, customer_id, invoice_number, invoice_date, due_date, invoice_line_items, **kwargs
     ):
         """
         `Args:`
@@ -302,13 +294,7 @@ class BillCom(object):
         return self._get_request_response(data, "Create", "Invoice")
 
     def send_invoice(
-        self,
-        invoice_id,
-        from_user_id,
-        to_email_addresses,
-        message_subject,
-        message_body,
-        **kwargs
+        self, invoice_id, from_user_id, to_email_addresses, message_subject, message_body, **kwargs
     ):
         """
         `Args:`

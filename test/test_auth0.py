@@ -37,9 +37,7 @@ class TestAuth0(unittest.TestCase):
             f"{self.auth0.base_url}/api/v2/users-by-email?email={email}",
             json=mock_users,
         )
-        assert_matching_tables(
-            self.auth0.get_users_by_email(email), Table(mock_users), True
-        )
+        assert_matching_tables(self.auth0.get_users_by_email(email), Table(mock_users), True)
 
     @requests_mock.Mocker()
     def test_retrieve_all_users(self, m):

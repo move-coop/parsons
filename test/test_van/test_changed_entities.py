@@ -86,9 +86,7 @@ class TestNGPVAN(unittest.TestCase):
         tbl = Table([{"a": 1, "b": 2}])
 
         m.post(self.van.connection.uri + "changedEntityExportJobs", json=json)
-        m.get(
-            self.van.connection.uri + "changedEntityExportJobs/2170181229", json=json2
-        )
+        m.get(self.van.connection.uri + "changedEntityExportJobs/2170181229", json=json2)
 
         Table.from_csv = mock.MagicMock()
         Table.from_csv.return_value = tbl

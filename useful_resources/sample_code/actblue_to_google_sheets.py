@@ -55,17 +55,11 @@ spreadsheet_name = "Contributions - January"
 # your email address. Once the sheet has been created you may add user permissions in Google Sheets.
 editor_email = ""
 if not editor_email:
-    raise ValueError(
-        "editor_email is required to enable access to the new Google Sheet"
-    )
+    raise ValueError("editor_email is required to enable access to the new Google Sheet")
 
 # Step 2: Specify what contribution data you want from ActBlue
-date_range_start = (
-    "2022-01-01"  # Start of date range to withdraw contribution data (inclusive).
-)
-date_range_end = (
-    "2022-02-01"  # End of date range to withdraw contribution data (exclusive).
-)
+date_range_start = "2022-01-01"  # Start of date range to withdraw contribution data (inclusive).
+date_range_end = "2022-02-01"  # End of date range to withdraw contribution data (exclusive).
 csv_type = "paid_contributions"
 # csv_type options:
 #     'paid_contributions':
@@ -79,9 +73,7 @@ csv_type = "paid_contributions"
 #         form.
 
 # Step 3: Retrieve data from ActBlue and hold it in a Parsons Table.
-contribution_data = actblue.get_contributions(
-    csv_type, date_range_start, date_range_end
-)
+contribution_data = actblue.get_contributions(csv_type, date_range_start, date_range_end)
 
 # Step 4: Create a spreadsheet on Google Sheets
 sheet_id = google_sheets.create_spreadsheet(spreadsheet_name, editor_email=editor_email)

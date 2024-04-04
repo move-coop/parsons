@@ -101,11 +101,7 @@ class DatabaseCreateStatement:
         # then it's a valid sql number
         # Also check the first character is not zero
         try:
-            if (
-                (float(val) or 1)
-                and "_" not in val
-                and (val in ("0", "0.0") or val[0] != "0")
-            ):
+            if (float(val) or 1) and "_" not in val and (val in ("0", "0.0") or val[0] != "0"):
                 return True
             else:
                 return False
@@ -156,9 +152,7 @@ class DatabaseCreateStatement:
         # The value is very likely an int
         # let's get its size
         # If the compare types are empty and use the types of the current value
-        elif isinstance(value, int) and cmp_type in (
-            self.INT_TYPES + [None, "", self.BOOL]
-        ):
+        elif isinstance(value, int) and cmp_type in (self.INT_TYPES + [None, "", self.BOOL]):
             # Use smallest possible int type above TINYINT
             if self.SMALLINT_MIN < value < self.SMALLINT_MAX:
                 result = self.get_bigger_int(self.SMALLINT, cmp_type)

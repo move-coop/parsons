@@ -139,9 +139,7 @@ class TargetSmartAutomation(object):
             self.match_status(job_name)
 
             # Download the resulting file
-            tbl = Table.from_csv(
-                self.sftp.get_file(f"{self.sftp_dir}/{job_name}_output.csv")
-            )
+            tbl = Table.from_csv(self.sftp.get_file(f"{self.sftp_dir}/{job_name}_output.csv"))
 
         finally:
             # Clean up files
@@ -159,9 +157,7 @@ class TargetSmartAutomation(object):
         """
         self.match(*args, **kwargs)
 
-    def create_job_xml(
-        self, job_type, job_name, emails=None, status_key=None, call_back=None
-    ):
+    def create_job_xml(self, job_type, job_name, emails=None, status_key=None, call_back=None):
         # Internal method to create a valid job xml
 
         job = ET.Element("job")
@@ -240,18 +236,14 @@ class TargetSmartAutomation(object):
 
                 if file_name == f"{job_name}.finish.xml":
 
-                    xml_file = self.sftp.get_file(
-                        f"{self.sftp_dir}/{job_name}.finish.xml"
-                    )
+                    xml_file = self.sftp.get_file(f"{self.sftp_dir}/{job_name}.finish.xml")
                     with open(xml_file, "rb") as x:
                         xml = xmltodict.parse(x, dict_constructor=dict)
 
                     if xml["jobcontext"]["state"] == "error":
                         # To Do: Parse these in a pretty way
                         logger.info(f"Match Error: {xml['jobcontext']['errors']}")
-                        raise ValueError(
-                            f"Match job failed. {xml['jobcontext']['errors']}"
-                        )
+                        raise ValueError(f"Match job failed. {xml['jobcontext']['errors']}")
 
                     elif xml["jobcontext"]["state"] == "success":
                         logger.info("Match complete.")

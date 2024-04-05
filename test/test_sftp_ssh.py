@@ -143,9 +143,7 @@ def test_table_to_sftp_csv(live_sftp, simple_table, compression):  # noqa: F811
 
 @mark_live_test
 @pytest.mark.parametrize("compression", [None, "gzip"])
-def test_table_to_sftp_csv_no_password(
-    live_sftp, simple_table, compression  # noqa: F811
-):
+def test_table_to_sftp_csv_no_password(live_sftp, simple_table, compression):  # noqa: F811
     host = os.environ.get("SFTP_HOST")
     username = os.environ.get("SFTP_USERNAME")
     rsa_private_key_file = os.environ.get("SFTP_RSA_PRIVATE_KEY_FILE")

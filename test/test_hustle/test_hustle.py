@@ -17,9 +17,7 @@ class TestHustle(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_auth_token(self, m):
-        self.assertEqual(
-            self.hustle.auth_token, expected_json.auth_token["access_token"]
-        )
+        self.assertEqual(self.hustle.auth_token, expected_json.auth_token["access_token"])
 
     @requests_mock.Mocker()
     def test_get_organizations(self, m):
@@ -48,9 +46,7 @@ class TestHustle(unittest.TestCase):
     @requests_mock.Mocker()
     def test_create_lead(self, m):
         m.post(HUSTLE_URI + "groups/cMCH0hxwGt/leads", json=expected_json.lead)
-        lead = self.hustle.create_lead(
-            "cMCH0hxwGt", "Barack", "5126993336", last_name="Obama"
-        )
+        lead = self.hustle.create_lead("cMCH0hxwGt", "Barack", "5126993336", last_name="Obama")
         self.assertEqual(lead, expected_json.lead)
 
     @requests_mock.Mocker()
@@ -132,15 +128,11 @@ class TestHustle(unittest.TestCase):
     @requests_mock.Mocker()
     def test_update_agent(self, m):
         m.put(HUSTLE_URI + "agents/CrJUBI1CF", json=expected_json.agent)
-        updated_agent = self.hustle.update_agent(
-            "CrJUBI1CF", name="Angela", full_name="Jones"
-        )
+        updated_agent = self.hustle.update_agent("CrJUBI1CF", name="Angela", full_name="Jones")
         self.assertEqual(updated_agent, expected_json.agent)
 
     @requests_mock.Mocker()
     def test_create_group_membership(self, m):
         m.post(HUSTLE_URI + "groups/zajXdqtzRt/memberships", json=expected_json.group)
-        group_membership = self.hustle.create_group_membership(
-            "zajXdqtzRt", "A6ebDlAtqB"
-        )
+        group_membership = self.hustle.create_group_membership("zajXdqtzRt", "A6ebDlAtqB")
         self.assertEqual(group_membership, expected_json.group)

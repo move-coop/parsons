@@ -78,9 +78,7 @@ class TestCodes(unittest.TestCase):
         # Test that it doesn't throw and error
         r = self.van.create_code(
             "Test Code",
-            supported_entities=[
-                {"name": "Events", "is_searchable": True, "is_applicable": True}
-            ],
+            supported_entities=[{"name": "Events", "is_searchable": True, "is_applicable": True}],
         )
 
         self.assertEqual(r, 1004960)

@@ -29,9 +29,7 @@ class Bluelink:
             "Content-Type": "application/json",
         }
         self.api_url = API_URL
-        self.api = APIConnector(
-            self.api_url, auth=(self.user, self.password), headers=self.headers
-        )
+        self.api = APIConnector(self.api_url, auth=(self.user, self.password), headers=self.headers)
 
     def upsert_person(self, source, person=None):
         """

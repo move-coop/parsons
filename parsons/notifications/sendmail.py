@@ -153,9 +153,7 @@ class SendMail(ABC):
                 fp.close()
 
             content_type, encoding = mimetypes.guess_type(filename)
-            self.log.debug(
-                f"(File: {f}, Content-type: {content_type}, " f"Encoding: {encoding})"
-            )
+            self.log.debug(f"(File: {f}, Content-type: {content_type}, " f"Encoding: {encoding})")
 
             if content_type is None or encoding is not None:
                 content_type = "application/octet-stream"
@@ -202,9 +200,7 @@ class SendMail(ABC):
 
         return True
 
-    def send_email(
-        self, sender, to, subject, message_text, message_html=None, files=None
-    ):
+    def send_email(self, sender, to, subject, message_text, message_html=None, files=None):
         """Send an email message.
 
         `Args:`
@@ -248,9 +244,7 @@ class SendMail(ABC):
 
         elif not files:
             msg_type = "html"
-            msg = self._create_message_html(
-                sender, to, subject, message_text, message_html
-            )
+            msg = self._create_message_html(sender, to, subject, message_text, message_html)
         else:
             msg_type = "attachments"
             if isinstance(files, str):

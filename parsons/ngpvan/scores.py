@@ -182,9 +182,7 @@ class Scores(object):
 
         # Move to cloud storage
         file_name = str(uuid.uuid1())
-        url = cloud_storage.post_file(
-            tbl, url_type, file_path=file_name + ".zip", **url_kwargs
-        )
+        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + ".zip", **url_kwargs)
         logger.info(f"Table uploaded to {url_type}.")
 
         # Generate shell request

@@ -122,9 +122,7 @@ class DBSync:
         primary_key: str,
         distinct_check: bool = True,
         verify_row_count: bool = True,
-        strategy: Literal[
-            "primary_key", "append_updates", "upsert_updates"
-        ] = "primary_key",
+        strategy: Literal["primary_key", "append_updates", "upsert_updates"] = "primary_key",
         updated_at_column: str = "updated_at",
         **kwargs,
     ):
@@ -230,9 +228,7 @@ class DBSync:
                 primary_key,
             )
 
-            logger.info(
-                "Upserted %s updated rows to %s.", rows_upserted, destination_table
-            )
+            logger.info("Upserted %s updated rows to %s.", rows_upserted, destination_table)
 
         if verify_row_count:
             if strategy == "append_updates":
@@ -450,13 +446,9 @@ class DBSync:
 
             # If our buffer reaches our write threshold, write it out
             if not len(rows) or len(buffer) >= self.write_chunk_size:
-                logger.debug(
-                    "Copying %s rows to %s", len(buffer), destination_table_name
-                )
+                logger.debug("Copying %s rows to %s", len(buffer), destination_table_name)
                 if not self.dest_db.table_exists(destination_table_name):
-                    self.dest_db.copy(
-                        buffer, destination_table_name, if_exists="append"
-                    )
+                    self.dest_db.copy(buffer, destination_table_name, if_exists="append")
                 else:
                     # Load buffer to temp table, upsert from temp table
                     temp_table_name = (

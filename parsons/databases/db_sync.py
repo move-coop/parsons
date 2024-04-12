@@ -1,6 +1,6 @@
 import datetime
 import logging
-from typing import Literal
+from typing import Literal, Union
 
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.etl.table import Table
@@ -400,7 +400,9 @@ class DBSync:
         self,
         source_table_name: str,
         destination_table_name: str,
-        cutoff,
+        cutoff: Union[
+            str, int, float, datetime.date, datetime.datetime
+        ],  # Type hint is probably incomplete
         updated_at_column: str,
         primary_key: str,
     ) -> int:

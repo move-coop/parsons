@@ -141,7 +141,6 @@ class GoogleCloudStorage(object):
         bucket_name,
         max_results=None,
         prefix=None,
-        match_glob=None,
         include_file_details=False,
     ):
         """
@@ -154,10 +153,6 @@ class GoogleCloudStorage(object):
                 Maximum number of blobs to return
             prefix: str
                 A prefix to filter files
-            match_glob: str
-                Filters files based on glob string. NOTE that the match_glob
-                parameter runs on the full blob URI, include a preceding wildcard
-                value to account for nested files (*/ for one level, **/ for n levels)
             include_file_details: bool
                 If True, returns a list of `Blob` objects with accessible metadata. For
                 documentation of attributes associated with `Blob` objects see
@@ -166,9 +161,7 @@ class GoogleCloudStorage(object):
             A list of blob names (or `Blob` objects if `include_file_details` is invoked)
         """
 
-        blobs = self.client.list_blobs(
-            bucket_name, max_results=max_results, prefix=prefix, match_glob=match_glob
-        )
+        blobs = self.client.list_blobs(bucket_name, max_results=max_results, prefix=prefix)
 
         if include_file_details:
             lst = [b for b in blobs]

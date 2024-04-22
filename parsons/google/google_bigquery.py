@@ -17,7 +17,10 @@ from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
 from parsons.etl import Table
 from parsons.google.google_cloud_storage import GoogleCloudStorage
-from parsons.google.utitities import setup_google_application_credentials
+from parsons.google.utilities import (
+    load_google_application_credentials,
+    setup_google_application_credentials,
+)
 from parsons.utilities import check_env
 from parsons.utilities.files import create_temp_file
 
@@ -160,8 +163,9 @@ class GoogleBigQuery(DatabaseConnector):
         if isinstance(app_creds, Credentials):
             self.credentials = app_creds
         else:
-            self.credentials = None
-            setup_google_application_credentials(app_creds)
+            env_credential_path = str(uuid.uuid4())
+            setup_google_application_credentials(app_creds, target_env_var_name=env_credential_path)
+            self.credentials = load_google_application_credentials(env_credential_path)
 
         self.project = project
         self.location = location
@@ -695,7 +699,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         # copy from S3 to GCS
         tmp_gcs_bucket = check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
-        gcs_client = gcs_client or GoogleCloudStorage()
+        gcs_client = gcs_client or GoogleCloudStorage(app_creds=self.app_creds)
         temp_blob_uri = gcs_client.copy_s3_to_gcs(
             aws_source_bucket=bucket,
             aws_access_key_id=aws_access_key_id,
@@ -808,7 +812,7 @@ class GoogleBigQuery(DatabaseConnector):
             schema.append(schema_row)
         job_config.schema = schema
 
-        gcs_client = gcs_client or GoogleCloudStorage()
+        gcs_client = gcs_client or GoogleCloudStorage(app_creds=self.app_creds)
         temp_blob_name = f"{uuid.uuid4()}.{data_type}"
         temp_blob_uri = gcs_client.upload_table(tbl, tmp_gcs_bucket, temp_blob_name)
 

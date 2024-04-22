@@ -4,6 +4,7 @@ from typing import Literal, Union
 
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.etl.table import Table
+from parsons.google.google_bigquery import GoogleBigQuery
 
 logger = logging.getLogger(__name__)
 
@@ -456,7 +457,18 @@ class DBSync:
                         + "__stg_upsert_"
                         + datetime.datetime.today().strftime("%Y%m%d%H%M%S")
                     )
-                    self.dest_db.copy(buffer, temp_table_name, if_exists="drop")
+
+                    # If certain columns in buffer are null, the types may not line up
+                    # in destination db. We need a way to deal with this, but there is
+                    # no unified API for handling schema
+                    if isinstance(self.dest_db, GoogleBigQuery):
+                        kwargs = {
+                            "schema": self.dest_db.client.get_table(destination_table_name).schema
+                        }
+                    else:
+                        kwargs = {}
+
+                    self.dest_db.copy(buffer, temp_table_name, if_exists="drop", **kwargs)
                     try:
                         self.dest_db.query(
                             f"""

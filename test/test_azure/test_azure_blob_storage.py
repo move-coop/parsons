@@ -50,9 +50,7 @@ class TestAzureBlobStorage(unittest.TestCase):
     def test_get_container(self):
 
         # Assert that a ContainerClient object is returned
-        self.assertIsInstance(
-            self.azure_blob.get_container(TEST_CONTAINER_NAME), ContainerClient
-        )
+        self.assertIsInstance(self.azure_blob.get_container(TEST_CONTAINER_NAME), ContainerClient)
 
     def test_create_container(self):
 
@@ -97,9 +95,7 @@ class TestAzureBlobStorage(unittest.TestCase):
     def test_blob_exists(self):
 
         # Assert that blob created in setup exists
-        self.assertTrue(
-            self.azure_blob.blob_exists(TEST_CONTAINER_NAME, TEST_FILE_NAME)
-        )
+        self.assertTrue(self.azure_blob.blob_exists(TEST_CONTAINER_NAME, TEST_FILE_NAME))
 
         # Assert that invalid blob does not exist
         self.assertFalse(self.azure_blob.blob_exists(TEST_CONTAINER_NAME, "FAKE_BLOB"))
@@ -114,9 +110,7 @@ class TestAzureBlobStorage(unittest.TestCase):
     def test_get_blob_url(self):
 
         # Assert that get_blob_url returns a URL with a shared access signature
-        blob_url = self.azure_blob.get_blob_url(
-            TEST_CONTAINER_NAME, TEST_FILE_NAME, permission="r"
-        )
+        blob_url = self.azure_blob.get_blob_url(TEST_CONTAINER_NAME, TEST_FILE_NAME, permission="r")
         parsed_blob_url = urlparse(blob_url)
         parsed_blob_query = parse_qs(parsed_blob_url.query)
         self.assertIn("sas", parsed_blob_query)
@@ -137,9 +131,7 @@ class TestAzureBlobStorage(unittest.TestCase):
     def test_download_blob(self):
 
         # Download blob and ensure that it has the expected file contents
-        download_blob_path = self.azure_blob.download_blob(
-            TEST_CONTAINER_NAME, TEST_FILE_NAME
-        )
+        download_blob_path = self.azure_blob.download_blob(TEST_CONTAINER_NAME, TEST_FILE_NAME)
         with open(download_blob_path, "r") as f:
             self.assertEqual(f.read(), TEST_FILE_CONTENTS)
 
@@ -150,15 +142,11 @@ class TestAzureBlobStorage(unittest.TestCase):
         # Upload a blob, assert that it exists
         tmp_file_path = files.string_to_temp_file(TEST_FILE_CONTENTS, suffix=".txt")
         self.azure_blob.put_blob(TEST_CONTAINER_NAME, delete_blob_name, tmp_file_path)
-        self.assertTrue(
-            self.azure_blob.blob_exists(TEST_CONTAINER_NAME, delete_blob_name)
-        )
+        self.assertTrue(self.azure_blob.blob_exists(TEST_CONTAINER_NAME, delete_blob_name))
 
         # Delete the blob, assert that it no longer exists
         self.azure_blob.delete_blob(TEST_CONTAINER_NAME, delete_blob_name)
-        self.assertFalse(
-            self.azure_blob.blob_exists(TEST_CONTAINER_NAME, delete_blob_name)
-        )
+        self.assertFalse(self.azure_blob.blob_exists(TEST_CONTAINER_NAME, delete_blob_name))
 
     def test_upload_table(self):
 
@@ -170,9 +158,7 @@ class TestAzureBlobStorage(unittest.TestCase):
             test_table, TEST_CONTAINER_NAME, test_table_blob_name, data_type="csv"
         )
         table_blob_client_properties = table_blob_client.get_blob_properties()
-        self.assertEqual(
-            table_blob_client_properties.content_settings.content_type, "text/csv"
-        )
+        self.assertEqual(table_blob_client_properties.content_settings.content_type, "text/csv")
 
         # Remove blob after assertion
         self.azure_blob.delete_blob(TEST_CONTAINER_NAME, test_table_blob_name)

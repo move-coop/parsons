@@ -39,16 +39,12 @@ class TestTargetSmartAutomation(unittest.TestCase):
     def test_config_status(self):
 
         # Find good configuration
-        self.sftp.put_file(
-            self.test_xml, f"{self.ts.sftp_dir}/{self.job_name}.job.xml.good"
-        )
+        self.sftp.put_file(self.test_xml, f"{self.ts.sftp_dir}/{self.job_name}.job.xml.good")
         self.assertTrue(self.ts.config_status(self.job_name))
         self.ts.remove_files(self.job_name)
 
         # Find bad configuration
-        self.sftp.put_file(
-            self.test_xml, f"{self.ts.sftp_dir}/{self.job_name}.job.xml.bad"
-        )
+        self.sftp.put_file(self.test_xml, f"{self.ts.sftp_dir}/{self.job_name}.job.xml.bad")
         self.assertRaises(ValueError, self.ts.config_status, self.job_name)
 
     @mark_live_test

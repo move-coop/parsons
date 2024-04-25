@@ -432,31 +432,17 @@ class TestActionNetwork(unittest.TestCase):
                                 "languages_spoken": ["en"],
                                 "_links": {
                                     "self": {"href": f"{self.api_url}/people/fake_url"},
-                                    "osdi:attendances": {
-                                        "href": f"{self.api_url}/people/fake_url"
-                                    },
-                                    "osdi:signatures": {
-                                        "href": f"{self.api_url}/people/fake_url"
-                                    },
-                                    "osdi:submissions": {
-                                        "href": f"{self.api_url}/people/fake_url"
-                                    },
-                                    "osdi:donations": {
-                                        "href": f"{self.api_url}/people/fake_url"
-                                    },
-                                    "osdi:outreaches": {
-                                        "href": f"{self.api_url}/people/fake_url"
-                                    },
-                                    "osdi:taggings": {
-                                        "href": f"{self.api_url}/people/fake_url"
-                                    },
+                                    "osdi:attendances": {"href": f"{self.api_url}/people/fake_url"},
+                                    "osdi:signatures": {"href": f"{self.api_url}/people/fake_url"},
+                                    "osdi:submissions": {"href": f"{self.api_url}/people/fake_url"},
+                                    "osdi:donations": {"href": f"{self.api_url}/people/fake_url"},
+                                    "osdi:outreaches": {"href": f"{self.api_url}/people/fake_url"},
+                                    "osdi:taggings": {"href": f"{self.api_url}/people/fake_url"},
                                 },
                             }
                         },
                         "_links": {
-                            "self": {
-                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
-                            },
+                            "self": {"href": f"{self.api_url}/advocacy_campaigns/fake_url"},
                             "osdi:outreaches": {
                                 "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
@@ -522,31 +508,17 @@ class TestActionNetwork(unittest.TestCase):
                                 "languages_spoken": ["en"],
                                 "_links": {
                                     "self": {"href": f"{self.api_url}/people/fake_url"},
-                                    "osdi:attendances": {
-                                        "href": f"{self.api_url}/people/fake_url"
-                                    },
-                                    "osdi:signatures": {
-                                        "href": f"{self.api_url}/people/fake_url"
-                                    },
-                                    "osdi:submissions": {
-                                        "href": f"{self.api_url}/people/fake_url"
-                                    },
-                                    "osdi:donations": {
-                                        "href": f"{self.api_url}/people/fake_url"
-                                    },
-                                    "osdi:outreaches": {
-                                        "href": f"{self.api_url}/people/fake_url"
-                                    },
-                                    "osdi:taggings": {
-                                        "href": f"{self.api_url}/people/fake_url"
-                                    },
+                                    "osdi:attendances": {"href": f"{self.api_url}/people/fake_url"},
+                                    "osdi:signatures": {"href": f"{self.api_url}/people/fake_url"},
+                                    "osdi:submissions": {"href": f"{self.api_url}/people/fake_url"},
+                                    "osdi:donations": {"href": f"{self.api_url}/people/fake_url"},
+                                    "osdi:outreaches": {"href": f"{self.api_url}/people/fake_url"},
+                                    "osdi:taggings": {"href": f"{self.api_url}/people/fake_url"},
                                 },
                             }
                         },
                         "_links": {
-                            "self": {
-                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
-                            },
+                            "self": {"href": f"{self.api_url}/advocacy_campaigns/fake_url"},
                             "osdi:outreaches": {
                                 "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
@@ -562,9 +534,7 @@ class TestActionNetwork(unittest.TestCase):
                     {
                         "created_date": "2021-01-06T21:02:39Z",
                         "modified_date": "2021-01-11T19:34:59Z",
-                        "identifiers": [
-                            "action_network:44618be7-29cb-439e-bc68-70e6e85dda1b"
-                        ],
+                        "identifiers": ["action_network:44618be7-29cb-439e-bc68-70e6e85dda1b"],
                         "origin_system": "Action Network",
                         "name": "Call your elected officials",
                         "title": "Call your elected officials",
@@ -585,9 +555,7 @@ class TestActionNetwork(unittest.TestCase):
                                     "templated": True,
                                 },
                             ],
-                            "self": {
-                                "href": f"{self.api_url}/advocacy_campaigns/fake_url"
-                            },
+                            "self": {"href": f"{self.api_url}/advocacy_campaigns/fake_url"},
                             "osdi:outreaches": {
                                 "href": f"{self.api_url}/advocacy_campaigns/fake_url"
                             },
@@ -653,24 +621,12 @@ class TestActionNetwork(unittest.TestCase):
                     "languages_spoken": ["en"],
                     "_links": {
                         "self": {"href": f"{self.api_url}/people/fake_id"},
-                        "osdi:attendances": {
-                            "href": f"{self.api_url}/people/fake_id/attendances"
-                        },
-                        "osdi:signatures": {
-                            "href": f"{self.api_url}/people/fake_id/signatures"
-                        },
-                        "osdi:submissions": {
-                            "href": f"{self.api_url}/people/fake_id/submissions"
-                        },
-                        "osdi:donations": {
-                            "href": f"{self.api_url}/people/fake_id/donations"
-                        },
-                        "osdi:outreaches": {
-                            "href": f"{self.api_url}/people/fake_id/outreaches"
-                        },
-                        "osdi:taggings": {
-                            "href": f"{self.api_url}/people/fake_id/taggings"
-                        },
+                        "osdi:attendances": {"href": f"{self.api_url}/people/fake_id/attendances"},
+                        "osdi:signatures": {"href": f"{self.api_url}/people/fake_id/signatures"},
+                        "osdi:submissions": {"href": f"{self.api_url}/people/fake_id/submissions"},
+                        "osdi:donations": {"href": f"{self.api_url}/people/fake_id/donations"},
+                        "osdi:outreaches": {"href": f"{self.api_url}/people/fake_id/outreaches"},
+                        "osdi:taggings": {"href": f"{self.api_url}/people/fake_id/taggings"},
                         "curies": [
                             {
                                 "name": "osdi",
@@ -741,18 +697,14 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "osdi:attendances": [
                     {
-                        "identifiers": [
-                            "action_network:d51ca19e-9fe9-11e3-a2e9-12313d316c29"
-                        ],
+                        "identifiers": ["action_network:d51ca19e-9fe9-11e3-a2e9-12313d316c29"],
                         "created_date": "2014-02-18T20:52:59Z",
                         "modified_date": "2014-02-18T20:53:00Z",
                         "status": "accepted",
                         "action_network:person_id": "fake_id",
                         "action_network:event_id": "fake_id",
                         "_links": {
-                            "self": {
-                                "href": f"{self.api_url}/events/fake_id/attendances/fake_id"
-                            },
+                            "self": {"href": f"{self.api_url}/events/fake_id/attendances/fake_id"},
                             "osdi:event": {"href": f"{self.api_url}/events/fake_id"},
                             "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
@@ -765,9 +717,7 @@ class TestActionNetwork(unittest.TestCase):
                         "action_network:person_id": "fake_id",
                         "action_network:event_id": "fake_id",
                         "_links": {
-                            "self": {
-                                "href": f"{self.api_url}/events/fake_id/attendances/fake_id"
-                            },
+                            "self": {"href": f"{self.api_url}/events/fake_id/attendances/fake_id"},
                             "osdi:event": {"href": f"{self.api_url}/events/fake_id"},
                             "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
@@ -854,9 +804,7 @@ class TestActionNetwork(unittest.TestCase):
                                 "browser_url": "fake_url",
                             },
                         ],
-                        "_links": {
-                            "self": {"href": f"{self.api_url}/campaigns/fake_id"}
-                        },
+                        "_links": {"self": {"href": f"{self.api_url}/campaigns/fake_id"}},
                     },
                     {
                         "identifiers": ["action_network:fake_id"],
@@ -881,9 +829,7 @@ class TestActionNetwork(unittest.TestCase):
                                 "browser_url": "fake_url",
                             },
                         ],
-                        "_links": {
-                            "self": {"href": f"{self.api_url}/campaigns/fake_id"}
-                        },
+                        "_links": {"self": {"href": f"{self.api_url}/campaigns/fake_id"}},
                     },
                 ]
             },
@@ -936,11 +882,7 @@ class TestActionNetwork(unittest.TestCase):
             "name": "Custom Fields",
             "description": "The collection of custom fields available at this endpoint.",
             "_links": {
-                "self": [
-                    {
-                        "href": "https://dev.actionnetwork.org/api/v2/metadata/custom_fields"
-                    }
-                ],
+                "self": [{"href": "https://dev.actionnetwork.org/api/v2/metadata/custom_fields"}],
                 "curies": [
                     {
                         "name": "osdi",
@@ -991,12 +933,8 @@ class TestActionNetwork(unittest.TestCase):
             "_links": {
                 "self": {"href": f"{self.api_url}/fundraising_pages/fake_id/donations"},
                 "osdi:donations": [
-                    {
-                        "href": f"{self.api_url}/fundraising_pages/fake_id/donations/fake_id"
-                    },
-                    {
-                        "href": f"{self.api_url}/fundraising_pages/fake_id/donations/fake_id"
-                    },
+                    {"href": f"{self.api_url}/fundraising_pages/fake_id/donations/fake_id"},
+                    {"href": f"{self.api_url}/fundraising_pages/fake_id/donations/fake_id"},
                 ],
                 "curies": [
                     {
@@ -1014,9 +952,7 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "osdi:donations": [
                     {
-                        "identifiers": [
-                            "action_network:f1119c4e-b8ca-44ff-bfa7-f78f7ca3ec16"
-                        ],
+                        "identifiers": ["action_network:f1119c4e-b8ca-44ff-bfa7-f78f7ca3ec16"],
                         "created_date": "2014-03-27T17:42:21Z",
                         "modified_date": "2014-03-27T17:42:24Z",
                         "currency": "USD",
@@ -1041,19 +977,13 @@ class TestActionNetwork(unittest.TestCase):
                         "action_network:person_id": "fake_id",
                         "action_network:fundraising_page_id": "fake_id",
                         "_links": {
-                            "self": {
-                                "href": f"{self.api_url}/fundraising_pages/fake_url"
-                            },
-                            "osdi:fundraising_page": {
-                                "href": f"{self.api_url}/fake_url"
-                            },
+                            "self": {"href": f"{self.api_url}/fundraising_pages/fake_url"},
+                            "osdi:fundraising_page": {"href": f"{self.api_url}/fake_url"},
                             "osdi:person": {"href": f"{self.api_url}/people/fake_url"},
                         },
                     },
                     {
-                        "identifiers": [
-                            "action_network:d86538c1-e8f7-46e1-8320-552da81bd48d"
-                        ],
+                        "identifiers": ["action_network:d86538c1-e8f7-46e1-8320-552da81bd48d"],
                         "created_date": "2014-03-27T17:40:56Z",
                         "modified_date": "2014-03-27T17:41:11Z",
                         "currency": "USD",
@@ -1074,9 +1004,7 @@ class TestActionNetwork(unittest.TestCase):
                         "action_network:person_id": "fake_id",
                         "action_network:fundraising_page_id": "fake_id",
                         "_links": {
-                            "self": {
-                                "href": "fundraising_pages/fake_id/donations/fake_id"
-                            },
+                            "self": {"href": "fundraising_pages/fake_id/donations/fake_id"},
                             "osdi:fundraising_page": {
                                 "href": f"{self.api_url}/fundraising_pages/fake_id"
                             },
@@ -1106,12 +1034,8 @@ class TestActionNetwork(unittest.TestCase):
             "action_network:person_id": "fake_id",
             "action_network:fundraising_page_id": "fake_id",
             "_links": {
-                "self": {
-                    "href": f"{self.api_url}/fundraising_pages/fake_id/donations/fake_id"
-                },
-                "osdi:fundraising_page": {
-                    "href": f"{self.api_url}/fundraising_pages/fake_id"
-                },
+                "self": {"href": f"{self.api_url}/fundraising_pages/fake_id/donations/fake_id"},
+                "osdi:fundraising_page": {"href": f"{self.api_url}/fundraising_pages/fake_id"},
                 "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                 "curies": [
                     {
@@ -1300,12 +1224,8 @@ class TestActionNetwork(unittest.TestCase):
             },
             "_links": {
                 "self": {"href": f"{self.api_url}/event_campaigns/fake_id"},
-                "osdi:events": {
-                    "href": f"{self.api_url}/event_campaigns/fake_id/events"
-                },
-                "action_network:embed": {
-                    "href": f"{self.api_url}/event_campaigns/fake_id/embed"
-                },
+                "osdi:events": {"href": f"{self.api_url}/event_campaigns/fake_id/events"},
+                "action_network:embed": {"href": f"{self.api_url}/event_campaigns/fake_id/embed"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -1388,9 +1308,7 @@ class TestActionNetwork(unittest.TestCase):
                             "osdi:record_attendance_helper": {
                                 "href": f"{self.api_url}/events/fake_id/attendances"
                             },
-                            "osdi:organizer": {
-                                "href": f"{self.api_url}/people/fake_id"
-                            },
+                            "osdi:organizer": {"href": f"{self.api_url}/people/fake_id"},
                             "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                             "action_network:embed": {
                                 "href": f"{self.api_url}/events/fake_id/embed"
@@ -1441,9 +1359,7 @@ class TestActionNetwork(unittest.TestCase):
                             "osdi:record_attendance_helper": {
                                 "href": f"{self.api_url}/events/fake_id/attendances"
                             },
-                            "osdi:organizer": {
-                                "href": f"{self.api_url}/people/fake_id"
-                            },
+                            "osdi:organizer": {"href": f"{self.api_url}/people/fake_id"},
                             "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
                             "action_network:embed": {
                                 "href": f"{self.api_url}/events/fake_id/embed"
@@ -1486,17 +1402,13 @@ class TestActionNetwork(unittest.TestCase):
             },
             "_links": {
                 "self": {"href": f"{self.api_url}/events/fake_id"},
-                "osdi:attendances": {
-                    "href": f"{self.api_url}/events/fake_id/attendances"
-                },
+                "osdi:attendances": {"href": f"{self.api_url}/events/fake_id/attendances"},
                 "osdi:record_attendance_helper": {
                     "href": f"{self.api_url}/events/fake_id/attendances"
                 },
                 "osdi:organizer": {"href": f"{self.api_url}/people/fake_id"},
                 "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
-                "action_network:embed": {
-                    "href": f"{self.api_url}/events/fake_id/embed"
-                },
+                "action_network:embed": {"href": f"{self.api_url}/events/fake_id/embed"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -1522,9 +1434,7 @@ class TestActionNetwork(unittest.TestCase):
                 "next": {"href": f"{self.api_url}/forms?page=2"},
                 "self": {"href": f"{self.api_url}/forms"},
                 "osdi:forms": [
-                    {
-                        "href": f"{self.api_url}/forms/65345d7d-cd24-466a-a698-4a7686ef684f"
-                    },
+                    {"href": f"{self.api_url}/forms/65345d7d-cd24-466a-a698-4a7686ef684f"},
                     {"href": f"{self.api_url}/forms/fake_id"},
                 ],
                 "curies": [
@@ -1624,9 +1534,7 @@ class TestActionNetwork(unittest.TestCase):
                                 "href": f"{self.api_url}/forms/fake_id/submissions"
                             },
                             "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
-                            "action_network:embed": {
-                                "href": f"{self.api_url}/forms/fake_id/embed"
-                            },
+                            "action_network:embed": {"href": f"{self.api_url}/forms/fake_id/embed"},
                         },
                     },
                     {
@@ -1711,9 +1619,7 @@ class TestActionNetwork(unittest.TestCase):
                                 "href": f"{self.api_url}/forms/fake_id/submissions"
                             },
                             "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
-                            "action_network:embed": {
-                                "href": f"{self.api_url}/forms/fake_id/embed"
-                            },
+                            "action_network:embed": {"href": f"{self.api_url}/forms/fake_id/embed"},
                         },
                     },
                 ]
@@ -1771,24 +1677,12 @@ class TestActionNetwork(unittest.TestCase):
                     "languages_spoken": ["en"],
                     "_links": {
                         "self": {"href": f"{self.api_url}/people/fake_id"},
-                        "osdi:attendances": {
-                            "href": f"{self.api_url}/people/fake_id/attendances"
-                        },
-                        "osdi:signatures": {
-                            "href": f"{self.api_url}/people/fake_id/signatures"
-                        },
-                        "osdi:submissions": {
-                            "href": f"{self.api_url}/people/fake_id/submissions"
-                        },
-                        "osdi:donations": {
-                            "href": f"{self.api_url}/people/fake_id/donations"
-                        },
-                        "osdi:outreaches": {
-                            "href": f"{self.api_url}/people/fake_id/outreaches"
-                        },
-                        "osdi:taggings": {
-                            "href": f"{self.api_url}/people/fake_id/taggings"
-                        },
+                        "osdi:attendances": {"href": f"{self.api_url}/people/fake_id/attendances"},
+                        "osdi:signatures": {"href": f"{self.api_url}/people/fake_id/signatures"},
+                        "osdi:submissions": {"href": f"{self.api_url}/people/fake_id/submissions"},
+                        "osdi:donations": {"href": f"{self.api_url}/people/fake_id/donations"},
+                        "osdi:outreaches": {"href": f"{self.api_url}/people/fake_id/outreaches"},
+                        "osdi:taggings": {"href": f"{self.api_url}/people/fake_id/taggings"},
                         "curies": [
                             {
                                 "name": "osdi",
@@ -1806,9 +1700,7 @@ class TestActionNetwork(unittest.TestCase):
             },
             "_links": {
                 "self": {"href": f"{self.api_url}/forms/fake_id"},
-                "osdi:submissions": {
-                    "href": f"{self.api_url}/forms/fake_id/submissions"
-                },
+                "osdi:submissions": {"href": f"{self.api_url}/forms/fake_id/submissions"},
                 "osdi:record_submission_helper": {
                     "href": f"{self.api_url}/forms/fake_id/submissions"
                 },
@@ -1923,24 +1815,12 @@ class TestActionNetwork(unittest.TestCase):
                     "languages_spoken": ["en"],
                     "_links": {
                         "self": {"href": f"{self.api_url}/people/fake_id"},
-                        "osdi:attendances": {
-                            "href": f"{self.api_url}/people/fake_id/attendances"
-                        },
-                        "osdi:signatures": {
-                            "href": f"{self.api_url}/people/fake_id/signatures"
-                        },
-                        "osdi:submissions": {
-                            "href": f"{self.api_url}/people/fake_id/submissions"
-                        },
-                        "osdi:donations": {
-                            "href": f"{self.api_url}/people/fake_id/donations"
-                        },
-                        "osdi:outreaches": {
-                            "href": f"{self.api_url}/people/fake_id/outreaches"
-                        },
-                        "osdi:taggings": {
-                            "href": f"{self.api_url}/people/fake_id/taggings"
-                        },
+                        "osdi:attendances": {"href": f"{self.api_url}/people/fake_id/attendances"},
+                        "osdi:signatures": {"href": f"{self.api_url}/people/fake_id/signatures"},
+                        "osdi:submissions": {"href": f"{self.api_url}/people/fake_id/submissions"},
+                        "osdi:donations": {"href": f"{self.api_url}/people/fake_id/donations"},
+                        "osdi:outreaches": {"href": f"{self.api_url}/people/fake_id/outreaches"},
+                        "osdi:taggings": {"href": f"{self.api_url}/people/fake_id/taggings"},
                         "curies": [
                             {
                                 "name": "osdi",
@@ -1962,16 +1842,12 @@ class TestActionNetwork(unittest.TestCase):
             },
             "_links": {
                 "self": {"href": f"{self.api_url}/fundraising_pages/fake_id"},
-                "osdi:donations": {
-                    "href": f"{self.api_url}/fundraising_pages/fake_id/donations"
-                },
+                "osdi:donations": {"href": f"{self.api_url}/fundraising_pages/fake_id/donations"},
                 "osdi:record_donation_helper": {
                     "href": f"{self.api_url}/fundraising_pages/fake_id/donations"
                 },
                 "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
-                "action_network:embed": {
-                    "href": f"{self.api_url}/fundraising_pages/fake_id/embed"
-                },
+                "action_network:embed": {"href": f"{self.api_url}/fundraising_pages/fake_id/embed"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -2015,9 +1891,7 @@ class TestActionNetwork(unittest.TestCase):
                 "osdi:items": [
                     {
                         "_links": {
-                            "self": {
-                                "href": f"{self.api_url}/lists/fake_id/items/fake_id"
-                            },
+                            "self": {"href": f"{self.api_url}/lists/fake_id/items/fake_id"},
                             "osdi:list": {"href": f"{self.api_url}/lists/fake_id"},
                             "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
@@ -2030,9 +1904,7 @@ class TestActionNetwork(unittest.TestCase):
                     },
                     {
                         "_links": {
-                            "self": {
-                                "href": f"{self.api_url}/lists/fake_id/items/fake_id"
-                            },
+                            "self": {"href": f"{self.api_url}/lists/fake_id/items/fake_id"},
                             "osdi:list": {"href": f"{self.api_url}/lists/fake_id"},
                             "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
@@ -2110,9 +1982,7 @@ class TestActionNetwork(unittest.TestCase):
                         "browser_url": "fake_url",
                         "_links": {
                             "self": {"href": f"{self.api_url}/lists/fake_id"},
-                            "osdi:items": {
-                                "href": f"{self.api_url}/lists/fake_id/items"
-                            },
+                            "osdi:items": {"href": f"{self.api_url}/lists/fake_id/items"},
                         },
                     },
                     {
@@ -2125,9 +1995,7 @@ class TestActionNetwork(unittest.TestCase):
                         "browser_url": "fake_url",
                         "_links": {
                             "self": {"href": f"{self.api_url}/lists/fake_id"},
-                            "osdi:items": {
-                                "href": f"{self.api_url}/lists/fake_id/items"
-                            },
+                            "osdi:items": {"href": f"{self.api_url}/lists/fake_id/items"},
                         },
                     },
                 ]
@@ -2215,15 +2083,11 @@ class TestActionNetwork(unittest.TestCase):
                         },
                         "_links": {
                             "self": {"href": f"{self.api_url}/messages/fake_id"},
-                            "osdi:wrapper": {
-                                "href": f"{self.api_url}/wrappers/fake_id"
-                            },
+                            "osdi:wrapper": {"href": f"{self.api_url}/wrappers/fake_id"},
                             "osdi:recipients": {
                                 "href": f"{self.api_url}/lists/950e9954-606f-43e6-be99-2bc0bc2072a1"
                             },
-                            "osdi:send_helper": {
-                                "href": f"{self.api_url}/messages/fake_id/send"
-                            },
+                            "osdi:send_helper": {"href": f"{self.api_url}/messages/fake_id/send"},
                             "osdi:schedule_helper": {
                                 "href": f"{self.api_url}/messages/fake_id/schedule"
                             },
@@ -2249,9 +2113,7 @@ class TestActionNetwork(unittest.TestCase):
                         "targets": [],
                         "_links": {
                             "self": {"href": f"{self.api_url}/messages/fake_id"},
-                            "osdi:send_helper": {
-                                "href": f"{self.api_url}/messages/fake_id/send"
-                            },
+                            "osdi:send_helper": {"href": f"{self.api_url}/messages/fake_id/send"},
                             "osdi:schedule_helper": {
                                 "href": f"{self.api_url}/messages/fake_id/schedule"
                             },
@@ -2293,9 +2155,7 @@ class TestActionNetwork(unittest.TestCase):
                     "href": f"{self.api_url}/lists/950e9954-606f-43e6-be99-2bc0bc2072a1"
                 },
                 "osdi:send_helper": {"href": f"{self.api_url}/messages/fake_id/send"},
-                "osdi:schedule_helper": {
-                    "href": f"{self.api_url}/messages/fake_id/schedule"
-                },
+                "osdi:schedule_helper": {"href": f"{self.api_url}/messages/fake_id/schedule"},
             },
         }
 
@@ -2329,16 +2189,10 @@ class TestActionNetwork(unittest.TestCase):
             "page": 1,
             "total_records": 6,
             "_links": {
-                "self": {
-                    "href": f"{self.api_url}/advocacy_campaigns/fake_id/outreaches"
-                },
+                "self": {"href": f"{self.api_url}/advocacy_campaigns/fake_id/outreaches"},
                 "osdi:outreaches": [
-                    {
-                        "href": f"{self.api_url}/advocacy_campaigns/fake_id/outreaches/fake_id"
-                    },
-                    {
-                        "href": f"{self.api_url}/advocacy_campaigns/fake_id/outreaches/dfake_id"
-                    },
+                    {"href": f"{self.api_url}/advocacy_campaigns/fake_id/outreaches/fake_id"},
+                    {"href": f"{self.api_url}/advocacy_campaigns/fake_id/outreaches/dfake_id"},
                 ],
                 "curies": [
                     {
@@ -2356,9 +2210,7 @@ class TestActionNetwork(unittest.TestCase):
             "_embedded": {
                 "osdi:outreaches": [
                     {
-                        "identifiers": [
-                            "action_network:f1119c4e-b8ca-44ff-bfa7-f78f7ca3ec16"
-                        ],
+                        "identifiers": ["action_network:f1119c4e-b8ca-44ff-bfa7-f78f7ca3ec16"],
                         "created_date": "2014-03-27T17:42:21Z",
                         "modified_date": "2014-03-27T17:42:24Z",
                         "type": "email",
@@ -2375,9 +2227,7 @@ class TestActionNetwork(unittest.TestCase):
                         "action_network:person_id": "fake_id",
                         "action_network:advocacy_campaign_id": "fake_id",
                         "_links": {
-                            "self": {
-                                "href": "/advocacy_campaigns/fake_id/outreaches/fake_id"
-                            },
+                            "self": {"href": "/advocacy_campaigns/fake_id/outreaches/fake_id"},
                             "osdi:advocacy_campaign": {
                                 "href": f"{self.api_url}/advocacy_campaigns/fake_id"
                             },
@@ -2385,9 +2235,7 @@ class TestActionNetwork(unittest.TestCase):
                         },
                     },
                     {
-                        "identifiers": [
-                            "action_network:d86538c1-e8f7-46e1-8320-552da81bd48d"
-                        ],
+                        "identifiers": ["action_network:d86538c1-e8f7-46e1-8320-552da81bd48d"],
                         "created_date": "2014-03-27T17:40:56Z",
                         "modified_date": "2014-03-27T17:41:11Z",
                         "type": "email",
@@ -2404,9 +2252,7 @@ class TestActionNetwork(unittest.TestCase):
                         "action_network:person_id": "fake_id",
                         "action_network:advocacy_campaign_id": "fake_id",
                         "_links": {
-                            "self": {
-                                "href": "advocacy_campaigns/fake_id/outreaches/fake_id"
-                            },
+                            "self": {"href": "advocacy_campaigns/fake_id/outreaches/fake_id"},
                             "osdi:advocacy_campaign": {
                                 "href": f"{self.api_url}/advocacy_campaigns/fake_id"
                             },
@@ -2434,12 +2280,8 @@ class TestActionNetwork(unittest.TestCase):
             "action_network:person_id": "fake_id",
             "action_network:advocacy_campaign_id": "fake_id",
             "_links": {
-                "self": {
-                    "href": f"{self.api_url}/fundraising_page/fake_id/outreaches/fake_id"
-                },
-                "osdi:advocacy_campaign": {
-                    "href": f"{self.api_url}/advocacy_campaigns/fake_id"
-                },
+                "self": {"href": f"{self.api_url}/fundraising_page/fake_id/outreaches/fake_id"},
+                "osdi:advocacy_campaign": {"href": f"{self.api_url}/advocacy_campaigns/fake_id"},
                 "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                 "curies": [
                     {
@@ -2538,15 +2380,11 @@ class TestActionNetwork(unittest.TestCase):
                             "osdi:submissions": {
                                 "href": f"{self.api_url}/people/fake_id/submissions"
                             },
-                            "osdi:donations": {
-                                "href": f"{self.api_url}/people/fake_id/donations"
-                            },
+                            "osdi:donations": {"href": f"{self.api_url}/people/fake_id/donations"},
                             "osdi:outreaches": {
                                 "href": f"{self.api_url}/people/fake_id/outreaches"
                             },
-                            "osdi:taggings": {
-                                "href": f"{self.api_url}/people/fake_id/taggings"
-                            },
+                            "osdi:taggings": {"href": f"{self.api_url}/people/fake_id/taggings"},
                         },
                     },
                     {
@@ -2597,15 +2435,11 @@ class TestActionNetwork(unittest.TestCase):
                             "osdi:submissions": {
                                 "href": f"{self.api_url}/people/fake_id/submissions"
                             },
-                            "osdi:donations": {
-                                "href": f"{self.api_url}/people/fake_id/donations"
-                            },
+                            "osdi:donations": {"href": f"{self.api_url}/people/fake_id/donations"},
                             "osdi:outreaches": {
                                 "href": f"{self.api_url}/people/fake_id/outreaches"
                             },
-                            "osdi:taggings": {
-                                "href": f"{self.api_url}/people/fake_id/taggings"
-                            },
+                            "osdi:taggings": {"href": f"{self.api_url}/people/fake_id/taggings"},
                         },
                     },
                 ]
@@ -2878,24 +2712,12 @@ class TestActionNetwork(unittest.TestCase):
                     "languages_spoken": ["en"],
                     "_links": {
                         "self": {"href": f"{self.api_url}/people/fake_id"},
-                        "osdi:attendances": {
-                            "href": f"{self.api_url}/people/fake_id/attendances"
-                        },
-                        "osdi:signatures": {
-                            "href": f"{self.api_url}/people/fake_id/signatures"
-                        },
-                        "osdi:submissions": {
-                            "href": f"{self.api_url}/people/fake_id/submissions"
-                        },
-                        "osdi:donations": {
-                            "href": f"{self.api_url}/people/fake_id/donations"
-                        },
-                        "osdi:outreaches": {
-                            "href": f"{self.api_url}/people/fake_id/outreaches"
-                        },
-                        "osdi:taggings": {
-                            "href": f"{self.api_url}/people/fake_id/taggings"
-                        },
+                        "osdi:attendances": {"href": f"{self.api_url}/people/fake_id/attendances"},
+                        "osdi:signatures": {"href": f"{self.api_url}/people/fake_id/signatures"},
+                        "osdi:submissions": {"href": f"{self.api_url}/people/fake_id/submissions"},
+                        "osdi:donations": {"href": f"{self.api_url}/people/fake_id/donations"},
+                        "osdi:outreaches": {"href": f"{self.api_url}/people/fake_id/outreaches"},
+                        "osdi:taggings": {"href": f"{self.api_url}/people/fake_id/taggings"},
                         "curies": [
                             {
                                 "name": "osdi",
@@ -2913,16 +2735,12 @@ class TestActionNetwork(unittest.TestCase):
             },
             "_links": {
                 "self": {"href": f"{self.api_url}/petitions/fake_id"},
-                "osdi:signatures": {
-                    "href": f"{self.api_url}/petitions/fake_id/signatures"
-                },
+                "osdi:signatures": {"href": f"{self.api_url}/petitions/fake_id/signatures"},
                 "osdi:record_signature_helper": {
                     "href": f"{self.api_url}/petitions/fake_id/signatures"
                 },
                 "osdi:creator": {"href": f"{self.api_url}/people/fake_id"},
-                "action_network:embed": {
-                    "href": f"{self.api_url}/petitions/fake_id/embed"
-                },
+                "action_network:embed": {"href": f"{self.api_url}/petitions/fake_id/embed"},
                 "curies": [
                     {
                         "name": "osdi",
@@ -3048,16 +2866,12 @@ class TestActionNetwork(unittest.TestCase):
                             "self": {
                                 "href": f"{self.api_url}/petitions/fake_id/signatures/fake_id"
                             },
-                            "osdi:petition": {
-                                "href": f"{self.api_url}/petitions/fake_id"
-                            },
+                            "osdi:petition": {"href": f"{self.api_url}/petitions/fake_id"},
                             "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
                     },
                     {
-                        "identifiers": [
-                            "action_network:71497ab2-b3e7-4896-af46-126ac7287dab"
-                        ],
+                        "identifiers": ["action_network:71497ab2-b3e7-4896-af46-126ac7287dab"],
                         "created_date": "2014-03-26T16:07:10Z",
                         "modified_date": "2014-03-26T16:07:10Z",
                         "comments": "Stop doing the thing",
@@ -3067,9 +2881,7 @@ class TestActionNetwork(unittest.TestCase):
                             "self": {
                                 "href": f"{self.api_url}/petitions/fake_id/signatures/fake_id"
                             },
-                            "osdi:petition": {
-                                "href": f"{self.api_url}/petitions/fake_id"
-                            },
+                            "osdi:petition": {"href": f"{self.api_url}/petitions/fake_id"},
                             "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
                     },
@@ -3084,9 +2896,7 @@ class TestActionNetwork(unittest.TestCase):
             "action_network:petition_id": "fake_id",
             "comments": "Stop doing the thing",
             "_links": {
-                "self": {
-                    "href": f"{self.api_url}/petitions/fake_id/signatures/fake_id"
-                },
+                "self": {"href": f"{self.api_url}/petitions/fake_id/signatures/fake_id"},
                 "osdi:petition": {"href": f"{self.api_url}/petitions/fake_id"},
                 "osdi:person": {
                     "href": f"{self.api_url}/people/699da712-929f-11e3-a2e9-12313d316c29"
@@ -3140,9 +2950,7 @@ class TestActionNetwork(unittest.TestCase):
                         "action:person_id": "fake_id",
                         "action_network:form_id": "fake_id",
                         "_links": {
-                            "self": {
-                                "href": f"{self.api_url}/forms/fake_id/submissions/fake_id"
-                            },
+                            "self": {"href": f"{self.api_url}/forms/fake_id/submissions/fake_id"},
                             "osdi:form": {"href": f"{self.api_url}/forms/fake_id"},
                             "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
@@ -3157,9 +2965,7 @@ class TestActionNetwork(unittest.TestCase):
                         "action:person_id": "fake_id",
                         "action_network:form_id": "fake_id",
                         "_links": {
-                            "self": {
-                                "href": f"{self.api_url}/forms/fake_id/submissions/fake_id"
-                            },
+                            "self": {"href": f"{self.api_url}/forms/fake_id/submissions/fake_id"},
                             "osdi:form": {"href": f"{self.api_url}/forms/fake_id"},
                             "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
@@ -3227,9 +3033,7 @@ class TestActionNetwork(unittest.TestCase):
                         "name": "Volunteers",
                         "_links": {
                             "self": {"href": f"{self.api_url}/tags/fake_id"},
-                            "osdi:taggings": {
-                                "href": f"{self.api_url}/tags/fake_id/taggings"
-                            },
+                            "osdi:taggings": {"href": f"{self.api_url}/tags/fake_id/taggings"},
                         },
                     },
                     {
@@ -3239,9 +3043,7 @@ class TestActionNetwork(unittest.TestCase):
                         "name": "Economic Justice",
                         "_links": {
                             "self": {"href": f"{self.api_url}/tags/fake_id"},
-                            "osdi:taggings": {
-                                "href": f"{self.api_url}/tags/fake_id/taggings"
-                            },
+                            "osdi:taggings": {"href": f"{self.api_url}/tags/fake_id/taggings"},
                         },
                     },
                 ]
@@ -3278,9 +3080,7 @@ class TestActionNetwork(unittest.TestCase):
                 "osdi:taggings": [
                     {
                         "_links": {
-                            "self": {
-                                "href": f"{self.api_url}/tags/fake_id/taggings/fake_id"
-                            },
+                            "self": {"href": f"{self.api_url}/tags/fake_id/taggings/fake_id"},
                             "osdi:tag": {"href": f"{self.api_url}/tags/fake_id"},
                             "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
@@ -3291,9 +3091,7 @@ class TestActionNetwork(unittest.TestCase):
                     },
                     {
                         "_links": {
-                            "self": {
-                                "href": f"{self.api_url}/tags/fake_id/taggings/fake_id"
-                            },
+                            "self": {"href": f"{self.api_url}/tags/fake_id/taggings/fake_id"},
                             "osdi:tag": {"href": f"{self.api_url}/tags/fake_id"},
                             "osdi:person": {"href": f"{self.api_url}/people/fake_id"},
                         },
@@ -3432,9 +3230,7 @@ class TestActionNetwork(unittest.TestCase):
                         "action_network:suffix": " via ProgressivePower.org",
                         "wrapper_type": "email",
                         "default": True,
-                        "_links": {
-                            "self": {"href": f"{self.api_url}/wrappers/fake_id"}
-                        },
+                        "_links": {"self": {"href": f"{self.api_url}/wrappers/fake_id"}},
                     },
                     {
                         "identifiers": ["action_network:fake_id"],
@@ -3463,9 +3259,7 @@ class TestActionNetwork(unittest.TestCase):
                         " </tr>\r\n</table>",
                         "wrapper_type": "email",
                         "default": False,
-                        "_links": {
-                            "self": {"href": f"{self.api_url}/wrappers/fake_id"}
-                        },
+                        "_links": {"self": {"href": f"{self.api_url}/wrappers/fake_id"}},
                     },
                 ]
             },
@@ -3538,9 +3332,7 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/people?page=3&per_page=25",
             text=json.dumps({"_embedded": {"osdi:people": []}}),
         )
-        assert_matching_tables(
-            self.an._get_entry_list("people"), Table(self.fake_people_list)
-        )
+        assert_matching_tables(self.an._get_entry_list("people"), Table(self.fake_people_list))
 
     @requests_mock.Mocker()
     def test_filter_get_people(self, m):
@@ -3630,9 +3422,7 @@ class TestActionNetwork(unittest.TestCase):
         )
         assert_matching_tables(
             self.an.get_person_attendances("123", 1),
-            self.fake_attendances["_embedded"][
-                list(self.fake_attendances["_embedded"])[0]
-            ],
+            self.fake_attendances["_embedded"][list(self.fake_attendances["_embedded"])[0]],
         )
 
     @requests_mock.Mocker()
@@ -3643,9 +3433,7 @@ class TestActionNetwork(unittest.TestCase):
         )
         assert_matching_tables(
             self.an.get_event_attendances("123", 1),
-            self.fake_attendances["_embedded"][
-                list(self.fake_attendances["_embedded"])[0]
-            ],
+            self.fake_attendances["_embedded"][list(self.fake_attendances["_embedded"])[0]],
         )
 
     @requests_mock.Mocker()
@@ -3752,9 +3540,7 @@ class TestActionNetwork(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_person_donations(self, m):
-        m.get(
-            f"{self.api_url}/people/123/donations", text=json.dumps(self.fake_donations)
-        )
+        m.get(f"{self.api_url}/people/123/donations", text=json.dumps(self.fake_donations))
         assert_matching_tables(
             self.an.get_person_donations("123", 1),
             self.fake_donations["_embedded"][list(self.fake_donations["_embedded"])[0]],
@@ -3786,9 +3572,7 @@ class TestActionNetwork(unittest.TestCase):
         )
         assert_matching_tables(
             self.an.get_event_campaigns(1),
-            self.fake_event_campaigns["_embedded"][
-                list(self.fake_event_campaigns["_embedded"])[0]
-            ],
+            self.fake_event_campaigns["_embedded"][list(self.fake_event_campaigns["_embedded"])[0]],
         )
 
     @requests_mock.Mocker()
@@ -3805,9 +3589,7 @@ class TestActionNetwork(unittest.TestCase):
     @requests_mock.Mocker()
     def test_create_event_campaign(self, m):
         payload = {"title": "Canvassing Events", "origin_system": "AmyforTexas.com"}
-        m.post(
-            f"{self.api_url}/event_campaigns", text=json.dumps(self.fake_event_campaign)
-        )
+        m.post(f"{self.api_url}/event_campaigns", text=json.dumps(self.fake_event_campaign))
         self.assertEqual(
             self.fake_event_campaign,
             self.an.create_event_campaign(payload),
@@ -4040,11 +3822,7 @@ class TestActionNetwork(unittest.TestCase):
             "from": "Progressive Action Now",
             "reply_to": "jane@progressiveactionnow.org",
             "targets": [{"href": "https://actionnetwork.org/api/v2/queries/123"}],
-            "_links": {
-                "osdi:wrapper": {
-                    "href": "https://actionnetwork.org/api/v2/wrappers/123"
-                }
-            },
+            "_links": {"osdi:wrapper": {"href": "https://actionnetwork.org/api/v2/wrappers/123"}},
         }
         m.post(f"{self.api_url}/messages", text=json.dumps(self.fake_message))
         assert_matching_tables(
@@ -4083,9 +3861,7 @@ class TestActionNetwork(unittest.TestCase):
         )
         assert_matching_tables(
             self.an.get_advocacy_campaign_outreaches("123", 1),
-            self.fake_outreaches["_embedded"][
-                list(self.fake_outreaches["_embedded"])[0]
-            ],
+            self.fake_outreaches["_embedded"][list(self.fake_outreaches["_embedded"])[0]],
         )
 
     @requests_mock.Mocker()
@@ -4096,9 +3872,7 @@ class TestActionNetwork(unittest.TestCase):
         )
         assert_matching_tables(
             self.an.get_person_outreaches("123", 1),
-            self.fake_outreaches["_embedded"][
-                list(self.fake_outreaches["_embedded"])[0]
-            ],
+            self.fake_outreaches["_embedded"][list(self.fake_outreaches["_embedded"])[0]],
         )
 
     @requests_mock.Mocker()
@@ -4127,9 +3901,7 @@ class TestActionNetwork(unittest.TestCase):
     def test_create_outreach(self, m):
         payload = {
             "targets": [{"given_name": "Joe", "family_name": "Schmoe"}],
-            "_links": {
-                "osdi:person": {"href": "https://actionnetwork.org/api/v2/people/123"}
-            },
+            "_links": {"osdi:person": {"href": "https://actionnetwork.org/api/v2/people/123"}},
         }
         id = self.fake_advocacy_campaign["identifiers"][0].split(":")[-1]
         m.post(
@@ -4186,9 +3958,7 @@ class TestActionNetwork(unittest.TestCase):
     @requests_mock.Mocker()
     def test_upsert_person(self, m):
         m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upsert_person))
-        self.assertEqual(
-            self.an.upsert_person(**self.fake_upsert_person), self.fake_upsert_person
-        )
+        self.assertEqual(self.an.upsert_person(**self.fake_upsert_person), self.fake_upsert_person)
 
     @requests_mock.Mocker()
     def test_update_person(self, m):
@@ -4255,9 +4025,7 @@ class TestActionNetwork(unittest.TestCase):
         }
 
         m.put(
-            self.api_url
-            + "/petitions/"
-            + self.fake_petition["identifiers"][0].split(":")[1],
+            self.api_url + "/petitions/" + self.fake_petition["identifiers"][0].split(":")[1],
             text=json.dumps(fake_petition_data),
         )
         response = self.an.update_petition(
@@ -4298,9 +4066,7 @@ class TestActionNetwork(unittest.TestCase):
         )
         assert_matching_tables(
             self.an.get_petition_signatures("123", 1),
-            self.fake_signatures["_embedded"][
-                list(self.fake_signatures["_embedded"])[0]
-            ],
+            self.fake_signatures["_embedded"][list(self.fake_signatures["_embedded"])[0]],
         )
 
     @requests_mock.Mocker()
@@ -4311,9 +4077,7 @@ class TestActionNetwork(unittest.TestCase):
         )
         assert_matching_tables(
             self.an.get_person_signatures("123", 1),
-            self.fake_signatures["_embedded"][
-                list(self.fake_signatures["_embedded"])[0]
-            ],
+            self.fake_signatures["_embedded"][list(self.fake_signatures["_embedded"])[0]],
         )
 
     @requests_mock.Mocker()
@@ -4344,9 +4108,7 @@ class TestActionNetwork(unittest.TestCase):
         fake_signature_data = {
             "comments": self.fake_signature["comments"],
             "_links": {
-                "osdi:person": {
-                    "href": self.fake_signature["_links"]["osdi:person"]["href"]
-                }
+                "osdi:person": {"href": self.fake_signature["_links"]["osdi:person"]["href"]}
             },
         }
 
@@ -4376,9 +4138,7 @@ class TestActionNetwork(unittest.TestCase):
         )
 
         # Call the method to update the signature
-        updated_signature = self.an.update_signature(
-            "456", "123", updated_signature_data
-        )
+        updated_signature = self.an.update_signature("456", "123", updated_signature_data)
 
         # Assert that the correct data is being sent and the response is handled correctly
         assert_matching_tables(updated_signature, self.fake_signature)
@@ -4392,9 +4152,7 @@ class TestActionNetwork(unittest.TestCase):
         )
         assert_matching_tables(
             self.an.get_form_submissions("123", 1),
-            self.fake_submissions["_embedded"][
-                list(self.fake_submissions["_embedded"])[0]
-            ],
+            self.fake_submissions["_embedded"][list(self.fake_submissions["_embedded"])[0]],
         )
 
     @requests_mock.Mocker()
@@ -4405,9 +4163,7 @@ class TestActionNetwork(unittest.TestCase):
         )
         assert_matching_tables(
             self.an.get_person_submissions("123", 1),
-            self.fake_submissions["_embedded"][
-                list(self.fake_submissions["_embedded"])[0]
-            ],
+            self.fake_submissions["_embedded"][list(self.fake_submissions["_embedded"])[0]],
         )
 
     @requests_mock.Mocker()
@@ -4451,9 +4207,7 @@ class TestActionNetwork(unittest.TestCase):
             json={"identifiers": ["other-system:230125s"]},
         )
         assert_matching_tables(
-            self.an.update_submission(
-                "123", "123", {"identifiers": ["other-system:230125s"]}
-            ),
+            self.an.update_submission("123", "123", {"identifiers": ["other-system:230125s"]}),
             self.fake_submission,
         )
 
@@ -4474,9 +4228,7 @@ class TestActionNetwork(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_tag(self, m):
-        m.get(
-            f"{self.api_url}/tags/{self.fake_tag_id_1}", text=json.dumps(self.fake_tag)
-        )
+        m.get(f"{self.api_url}/tags/{self.fake_tag_id_1}", text=json.dumps(self.fake_tag))
         self.assertEqual(self.an.get_tag(self.fake_tag_id_1), self.fake_tag)
 
     # Taggings
@@ -4493,9 +4245,7 @@ class TestActionNetwork(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_tagging(self, m):
-        m.get(
-            f"{self.api_url}/tags/123/taggings/123", text=json.dumps(self.fake_tagging)
-        )
+        m.get(f"{self.api_url}/tags/123/taggings/123", text=json.dumps(self.fake_tagging))
         assert_matching_tables(
             self.an.get_tagging("123", "123"),
             self.fake_tagging,
@@ -4532,9 +4282,7 @@ class TestActionNetwork(unittest.TestCase):
         )
         assert_matching_tables(
             self.an.get_unique_id_lists(1),
-            self.fake_unique_id_lists["_embedded"][
-                list(self.fake_unique_id_lists["_embedded"])[0]
-            ],
+            self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
         )
 
     @requests_mock.Mocker()
@@ -4549,9 +4297,7 @@ class TestActionNetwork(unittest.TestCase):
         )
         assert_matching_tables(
             self.an.get_unique_id_list("123"),
-            self.fake_unique_id_lists["_embedded"][
-                list(self.fake_unique_id_lists["_embedded"])[0]
-            ],
+            self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
         )
 
     # Wrappers
@@ -4576,13 +4322,10 @@ class TestActionNetwork(unittest.TestCase):
 
     # SQL Mirror
     def test_query_sql_mirror(self):
-        mock_execute_query = unittest.mock.MagicMock(
-            return_value=[("result1", "result2")]
-        )
+        mock_execute_query = unittest.mock.MagicMock(return_value=[("result1", "result2")])
         self.an.query_sql_mirror = mock_execute_query
         test_query = (
-            "SELECT table_name FROM information_schema.tables"
-            " WHERE table_type = 'BASE TABLE';"
+            "SELECT table_name FROM information_schema.tables" " WHERE table_type = 'BASE TABLE';"
         )
         result = self.an.query_sql_mirror(
             ssh_host="ssh_host",

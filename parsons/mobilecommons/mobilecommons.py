@@ -84,9 +84,7 @@ class MobileCommons:
         # Set get request params
         params = {"limit": page_limit, **self.default_params, **params}
 
-        logger.info(
-            f"Working on fetching first {page_limit} rows. This can take a long time."
-        )
+        logger.info(f"Working on fetching first {page_limit} rows. This can take a long time.")
 
         # Make get call and parse XML into list of dicts
         page = 1
@@ -145,18 +143,14 @@ class MobileCommons:
                 f"of {limit}"
             )
             # Send get request
-            response_dict = self._parse_get_request(
-                endpoint=endpoint, params=page_params
-            )
+            response_dict = self._parse_get_request(endpoint=endpoint, params=page_params)
             # Check to see if page was empty if num parameter is available
             if page_indicator == "num":
                 empty_page = int(response_dict["response"][first_data_key]["num"]) > 0
 
             if not empty_page:
                 # Extract data
-                response_table = Table(
-                    response_dict["response"][first_data_key][second_data_key]
-                )
+                response_table = Table(response_dict["response"][first_data_key][second_data_key])
                 # Append to final table
                 final_table.concat(response_table)
                 final_table.materialize()

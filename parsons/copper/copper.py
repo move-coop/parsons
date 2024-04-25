@@ -202,9 +202,7 @@ class Copper(object):
         # Retrieve and process a standard endpoint object (e.g. people, companies, etc.)
 
         logger.info(f"Retrieving {object_name} records.")
-        blob = self.paginate_request(
-            f"/{object_name}/search", req_type="POST", filters=filters
-        )
+        blob = self.paginate_request(f"/{object_name}/search", req_type="POST", filters=filters)
 
         return self.process_json(blob, object_name, tidy=tidy)
 
@@ -320,14 +318,10 @@ class Copper(object):
                     logger.debug(p, "needs to be unpacked into rows")
 
                     # Determine whether or not to expand based on tidy
-                    unpacked_tidy = obj_table.unpack_nested_columns_as_rows(
-                        p, expand_original=tidy
-                    )
+                    unpacked_tidy = obj_table.unpack_nested_columns_as_rows(p, expand_original=tidy)
                     # Check if column was removed as sign it was unpacked into separate table
                     if p not in obj_table.columns:
-                        table_list.append(
-                            {"name": f"{obj_type}_{p}", "tbl": unpacked_tidy}
-                        )
+                        table_list.append({"name": f"{obj_type}_{p}", "tbl": unpacked_tidy})
                     else:
                         obj_table = unpacked_tidy
 

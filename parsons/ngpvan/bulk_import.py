@@ -1,4 +1,5 @@
 """NGPVAN Bulk Import Endpoints"""
+
 from parsons.etl.table import Table
 from parsons.utilities import cloud_storage
 
@@ -109,9 +110,7 @@ class BulkImport(object):
                 A mapping type fields json
         """
 
-        r = self.connection.get_request(
-            f"bulkImportMappingTypes/{type_name}/{field_name}/values"
-        )
+        r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}/{field_name}/values")
         logger.info(f"Found {type_name} bulk import mapping type field values.")
         return r
 

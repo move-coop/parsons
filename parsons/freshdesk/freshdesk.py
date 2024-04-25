@@ -66,7 +66,6 @@ class Freshdesk:
                 The JSON response from the API.
         """
         url = self.uri + endpoint
-        headers = {"Content-Type": "application/json"}
         r = self.client.request(url, "POST", json=data)
         self.client.validate_response(r)
         return r.json()

@@ -176,3 +176,4 @@ class TestNationBuilder(unittest.TestCase):
         self.assertEqual(person["first_name"], "Foo")
         self.assertEqual(person["last_name"], "Bar")
         self.assertEqual(person["email"], "foo@example.com")
+

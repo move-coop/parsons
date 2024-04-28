@@ -41,10 +41,9 @@ def hexavigesimal(n: int) -> str:
             The hexavigeseimal representation of n
     """
     if n < 1:
-        raise ValueError(
-            f"This function only works for positive integers. Provided value {n}.")
-    
-    chars = ''
+        raise ValueError(f"This function only works for positive integers. Provided value {n}.")
+
+    chars = ""
     while n != 0:
         chars = chr((n - 1) % 26 + 65) + chars  # 65 makes us start at A
         n = (n - 1) // 26

@@ -321,10 +321,14 @@ class GoogleSheets:
 
         if not number_of_rows or not number_of_columns:  # No data to paste
             return
-        
+
         data_range = (
-            hexavigesimal(startcol + 1) + str(startrow + 1) + ":" +
-            hexavigesimal(startcol + number_of_columns) + str(startrow + number_of_rows))
+            hexavigesimal(startcol + 1)
+            + str(startrow + 1)
+            + ":"
+            + hexavigesimal(startcol + number_of_columns)
+            + str(startrow + number_of_rows)
+        )
 
         # Unpack data. Hopefully this is small enough for memory
         data = [[]] * table.num_rows

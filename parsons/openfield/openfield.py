@@ -52,10 +52,19 @@ class OpenField:
             return f"{url}{entity_id}/"
         return url
 
-    def _base_get(self, endpoint, entity_id=None, exception_message=None, params=None):
+    def _base_get(
+        self,
+        endpoint,
+        entity_id=None,
+        exception_message=None,
+        params=None,
+    ):
         # Make a general GET request
 
-        resp = self.conn.get(self._base_endpoint(endpoint, entity_id), params=params)
+        resp = self.conn.get(
+            self._base_endpoint(endpoint, entity_id),
+            params=params,
+        )
         if resp.status_code >= 400:
             raise Exception(self.parse_error(resp, exception_message))
         return resp.json()
@@ -63,7 +72,10 @@ class OpenField:
     def _base_post(self, endpoint, data, exception_message=None):
         # Make a general POST request
 
-        resp = self.conn.post(self._base_endpoint(endpoint), data=json.dumps(data))
+        resp = self.conn.post(
+            self._base_endpoint(endpoint),
+            data=json.dumps(data),
+        )
 
         if resp.status_code >= 400:
             raise Exception(self.parse_error(resp, exception_message))
@@ -140,10 +152,19 @@ class OpenField:
         """
 
         return self._base_get(
-            endpoint="people", entity_id=person_id, exception_message="Person not found"
+            endpoint="people",
+            entity_id=person_id,
+            exception_message="Person not found",
         )
 
-    def list_people(self, page=1, page_size=100, search=None, ordering=None, **kwargs):
+    def list_people(
+        self,
+        page=1,
+        page_size=100,
+        search=None,
+        ordering=None,
+        **kwargs,
+    ):
         """
         List people
 
@@ -158,8 +179,9 @@ class OpenField:
             ordering: string
                 Which field to use when ordering the results.
             **kwargs:
-                Optional arguments to pass to the client. A full list can be found
-                in the `OpenField API docs <https://openfield.ai/wp-content/uploads/2024/02/redoc-static.html#tag/people/operation/listPeoples>
+                Optional arguments to pass to the client. A full list can be
+                found in the `OpenField API docs
+                <https://openfield.ai/wp-content/uploads/2024/02/redoc-static.html#tag/people/operation/listPeoples>
 
         `Returns:`
             Parsons.Table
@@ -186,13 +208,16 @@ class OpenField:
         `Args:`
             person: dict
                 Shape of the record
-                `Full list of fields <https://openfield.ai/wp-content/uploads/2024/02/redoc-static.html#tag/people/operation/createPeople>`_
+                `Full list of fields
+                <https://openfield.ai/wp-content/uploads/2024/02/redoc-static.html#tag/people/operation/createPeople>`_
         `Returns:`
             JSON object
         """
 
         return self._base_post(
-            endpoint="people", data=person, exception_message="Could not create person"
+            endpoint="people",
+            data=person,
+            exception_message="Could not create person",
         )
 
     def bulk_upsert_people(self, people):
@@ -203,7 +228,8 @@ class OpenField:
         `Args:`
             people: list of dicts
                 List containing the records
-                `Full list of fields <https://openfield.ai/wp-content/uploads/2024/02/redoc-static.html#tag/people/operation/createPeople>`_
+                `Full list of fields
+                <https://openfield.ai/wp-content/uploads/2024/02/redoc-static.html#tag/people/operation/createPeople>`_
         `Returns:`
             Parsons.Table
                 The people data.
@@ -225,12 +251,17 @@ class OpenField:
                 The id of the record.
             data: dict
                 Person data to update
-                `Full list of fields <https://openfield.ai/wp-content/uploads/2024/02/redoc-static.html#tag/people/operation/createPeople>`_
+                `Full list of fields
+                <https://openfield.ai/wp-content/uploads/2024/02/redoc-static.html#tag/people/operation/createPeople>`_
         `Returns:`
             JSON object
         """
 
-        return self._base_put(endpoint="people", entity_id=person_id, data=data)
+        return self._base_put(
+            endpoint="people",
+            entity_id=person_id,
+            data=data,
+        )
 
     def destroy_person(self, person_id):
         """
@@ -244,7 +275,9 @@ class OpenField:
         """
 
         return self._base_delete(
-            endpoint="people", entity_id=person_id, exception_message="Person not found"
+            endpoint="people",
+            entity_id=person_id,
+            exception_message="Person not found",
         )
 
     def retrieve_label(self, label_id):
@@ -259,10 +292,19 @@ class OpenField:
         """
 
         return self._base_get(
-            endpoint="labels", entity_id=label_id, exception_message="Label not found"
+            endpoint="labels",
+            entity_id=label_id,
+            exception_message="Label not found",
         )
 
-    def list_labels(self, page=1, page_size=100, search=None, ordering=None, **kwargs):
+    def list_labels(
+        self,
+        page=1,
+        page_size=100,
+        search=None,
+        ordering=None,
+        **kwargs,
+    ):
         """
         List labels
 
@@ -277,8 +319,9 @@ class OpenField:
             ordering: string
                 Which field to use when ordering the results.
             **kwargs:
-                Optional arguments to pass to the client. A full list can be found
-                in the `OpenField API docs <https://openfield.ai/wp-content/uploads/2024/02/redoc-static.html#tag/labels/operation/listLabels>`_
+                Optional arguments to pass to the client. A full list can be
+                found in the `OpenField API docs
+                <https://openfield.ai/wp-content/uploads/2024/02/redoc-static.html#tag/labels/operation/listLabels>`_
 
         `Returns:`
             Parsons.Table

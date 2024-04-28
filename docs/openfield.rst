@@ -50,16 +50,16 @@ You can then call various endpoints:
     openfield.create_person(person=person)
 
     # Fetch person
-    user_fields = openfield.get_person(person_id=123)
+    person = openfield.retrieve_person(person_id=123)
 
     # Update person fields
     data= {
-      "phone1": '5558765432'
+      "phone1": '5558765432',
     }
-    openfield.update_user(user_id=123, data=data)
+    updated_person = openfield.update_person(person_id=123, data=data)
 
     # Delete person
-    openfield.destroy_user(user_id=123)
+    openfield.destroy_person(person_id=123)
 
 ***
 API

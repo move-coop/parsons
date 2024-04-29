@@ -111,10 +111,19 @@ class OpenField:
         except ValueError:
             return None
 
-    def _base_delete(self, endpoint, entity_id=None, exception_message=None):
+    def _base_delete(
+        self,
+        endpoint,
+        entity_id=None,
+        exception_message=None,
+        params=None,
+    ):
         # Make a general DELETE request
 
-        resp = self.conn.delete(self._base_endpoint(endpoint, entity_id))
+        resp = self.conn.delete(
+            self._base_endpoint(endpoint, entity_id),
+            params=params,
+        )
 
         if resp.status_code >= 400:
             raise Exception(self.parse_error(resp, exception_message))
@@ -386,7 +395,7 @@ class OpenField:
         Bulk apply labels to people.
 
         `Args:`
-            data: list of dicts with keys `person_id` and `label_id`
+            data: list of dicts with keys `people`: int and `label`: int
         `Returns:`
             JSON object
         """

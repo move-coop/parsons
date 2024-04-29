@@ -116,14 +116,10 @@ class OpenField:
         endpoint,
         entity_id=None,
         exception_message=None,
-        params=None,
     ):
         # Make a general DELETE request
 
-        resp = self.conn.delete(
-            self._base_endpoint(endpoint, entity_id),
-            params=params,
-        )
+        resp = self.conn.delete(self._base_endpoint(endpoint, entity_id))
 
         if resp.status_code >= 400:
             raise Exception(self.parse_error(resp, exception_message))
@@ -405,20 +401,15 @@ class OpenField:
             data=data,
         )
 
-    def remove_person_label(self, person_id, label_id):
+    def remove_person_label(self, junction_id):
         """
         Remove a label from a person.
 
         `Args:`
-            person_id: int
-                ID of the person
-            label_id: int
-                ID of the label
+            junction_id: int
+                Primary Key ID of the `people_labels` junction table
         `Returns:`
             JSON object
         """
 
-        return self._base_delete(
-            endpoint="people-labels",
-            params={"person_id": person_id, "label_id": label_id},
-        )
+        return self._base_delete(endpoint="people-labels", entity_id=junction_id)

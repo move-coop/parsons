@@ -412,4 +412,25 @@ class OpenField:
             JSON object
         """
 
-        return self._base_delete(endpoint="people-labels", entity_id=junction_id)
+        return self._base_delete(
+            endpoint="people-labels",
+            entity_id=junction_id,
+        )
+
+    def create_conversation_code(self, conversation_code):
+        """
+        Create a conversation code.
+
+        `Args:`
+            conversation_code: dict
+                `Full list of fields
+                <https://openfield.ai/wp-content/uploads/2024/02/redoc-static.html#tag/people/operation/createConversationCode>`_
+        `Returns:`
+            JSON object
+        """
+
+        return self._base_post(
+            endpoint="conversation-codes",
+            data=conversation_code,
+            exception_message="Could not create conversation code",
+        )

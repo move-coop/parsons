@@ -1,3 +1,4 @@
+import copy
 import datetime
 import logging
 import pickle
@@ -31,6 +32,7 @@ BIGQUERY_TYPE_MAP = {
     "date": "DATE",
     "time": "TIME",
     "dict": "RECORD",
+    "list": "JSON",
     "NoneType": "STRING",
     "UUID": "STRING",
     "timestamp": "TIMESTAMP",
@@ -344,6 +346,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
         schema: Optional[List[dict]] = None,
+        type_map_overrides: Optional[dict] = None,
         job_config: Optional[LoadJobConfig] = None,
         force_unzip_blobs: bool = False,
         compression_type: str = "gzip",
@@ -393,6 +396,10 @@ class GoogleBigQuery(DatabaseConnector):
                     {"name": "another_column_name", "type": INT}
                 ]
                 ```
+            type_map_overrides: dict
+                In the form of { "python_type": "bigquery_type" }, this overrides the default type mapping
+                when loading tables. This is useful when the table is too large to manually specify the entire
+                schema but the default type mappings are insufficient.
             job_config: object
                 A LoadJobConfig object to provide to the underlying call to load_table_from_uri
                 on the BigQuery client. The function will create its own if not provided. Note
@@ -429,6 +436,7 @@ class GoogleBigQuery(DatabaseConnector):
             quote=quote,
             custom_schema=schema,
             template_table=template_table,
+            type_map_overrides=type_map_overrides
         )
 
         # load CSV from Cloud Storage into BigQuery
@@ -503,6 +511,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
         schema: Optional[List[dict]] = None,
+        type_map_overrides: Optional[dict] = None,
         job_config: Optional[LoadJobConfig] = None,
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
@@ -552,6 +561,10 @@ class GoogleBigQuery(DatabaseConnector):
                     {"name": "another_column_name", "type": INT}
                 ]
                 ```
+            type_map_overrides: dict
+                In the form of { "python_type": "bigquery_type" }, this overrides the default type mapping
+                when loading tables. This is useful when the table is too large to manually specify the entire
+                schema but the default type mappings are insufficient.
             job_config: object
                 A LoadJobConfig object to provide to the underlying call to load_table_from_uri
                 on the BigQuery client. The function will create its own if not provided. Note
@@ -586,6 +599,7 @@ class GoogleBigQuery(DatabaseConnector):
             quote=quote,
             custom_schema=schema,
             template_table=template_table,
+            type_map_overrides=type_map_overrides,
         )
 
         # TODO - See if this inheritance is happening in other places
@@ -739,6 +753,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
         schema: Optional[List[dict]] = None,
+        type_map_overrides: Optional[dict] = None,
         **load_kwargs,
     ):
         """
@@ -768,6 +783,19 @@ class GoogleBigQuery(DatabaseConnector):
             template_table: str
                 Table name to be used as the load schema. Load operation wil use the same
                 columns and data types as the template table.
+            schema: list
+                BigQuery expects a list of dictionaries in the following format
+                ```
+                schema = [
+                    {"name": "column_name", "type": STRING},
+                    {"name": "another_column_name", "type": INT}
+                ]
+                ```
+            type_map_overrides: dict
+                In the form of { "python_type": "bigquery_type" }, this overrides the default type mapping
+                when loading tables. This is useful when the table is too large to manually specify the entire
+                schema but the default type mappings are insufficient.
+                
             **load_kwargs: kwargs
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
@@ -795,6 +823,7 @@ class GoogleBigQuery(DatabaseConnector):
             allow_jagged_rows=allow_jagged_rows,
             quote=quote,
             custom_schema=schema,
+            type_map_overrides=type_map_overrides,
         )
 
         # Reorder schema to match table to ensure compatibility
@@ -1145,6 +1174,7 @@ class GoogleBigQuery(DatabaseConnector):
         parsons_table: Optional[Table] = None,
         custom_schema: Optional[list] = None,
         template_table: Optional[str] = None,
+        type_map_overrides: Optional[dict] = None,
     ) -> Optional[List[bigquery.SchemaField]]:
         # if job.schema already set in job_config, do nothing
         if job_config.schema:
@@ -1167,11 +1197,11 @@ class GoogleBigQuery(DatabaseConnector):
                 )
         # if load is coming from a Parsons table, use that to generate schema
         if parsons_table:
-            return self._generate_schema_from_parsons_table(parsons_table)
+            return self._generate_schema_from_parsons_table(parsons_table, type_map_overrides=type_map_overrides)
 
         return None
 
-    def _generate_schema_from_parsons_table(self, tbl):
+    def _generate_schema_from_parsons_table(self, tbl, type_map_overrides=None):
         """BigQuery schema generation based on contents of Parsons table.
 
         Not usually necessary to use this. BigQuery is able to
@@ -1199,7 +1229,7 @@ class GoogleBigQuery(DatabaseConnector):
                     if isinstance(value, datetime.datetime) and value.tzinfo:
                         best_type = "timestamp"
 
-            field_type = self._bigquery_type(best_type)
+            field_type = self._bigquery_type(type=best_type, type_map_overrides=type_map_overrides)
             field = bigquery.schema.SchemaField(stat["name"], field_type)
             fields.append(field)
         return fields
@@ -1220,6 +1250,7 @@ class GoogleBigQuery(DatabaseConnector):
         custom_schema: Optional[list] = None,
         template_table: Optional[str] = None,
         parsons_table: Optional[Table] = None,
+        type_map_overrides: Optional[dict] = None,
     ) -> LoadJobConfig:
         """
         Internal function to neatly process a user-supplied job configuration object.
@@ -1244,6 +1275,7 @@ class GoogleBigQuery(DatabaseConnector):
             parsons_table=parsons_table,
             custom_schema=custom_schema,
             template_table=template_table,
+            type_map_overrides=type_map_overrides,
         )
         if not job_config.schema:
             job_config.autodetect = True
@@ -1350,8 +1382,11 @@ class GoogleBigQuery(DatabaseConnector):
             raise e
 
     @staticmethod
-    def _bigquery_type(tp):
-        return BIGQUERY_TYPE_MAP[tp]
+    def _bigquery_type(type, type_overrides):
+        type_map = copy.copy(BIGQUERY_TYPE_MAP)
+        if type_overrides:
+            type_map.update(type_overrides)
+        return type_map[type]
 
     def table(self, table_name):
         # Return a MySQL table object

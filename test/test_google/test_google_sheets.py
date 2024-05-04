@@ -153,6 +153,15 @@ class TestGoogleSheets(unittest.TestCase):
             ]
         )
 
+        expected_table = Table(
+            [
+                {"col1": 1, "col2": 2, "col3": 3, "col4": 4},
+                {"col1": 5, "col2": 6, "col3": 7, "col4": 8},
+                {"col1": 9, "col2": 10, "col3": 11, "col4": 12},
+                {"col1": 13, "col2": 14, "col3": 15, "col4": 16},
+            ]
+        )
+
         self.google_sheets.paste_data_in_sheet(
             self.spreadsheet_id, paste_table1, worksheet=3, header=True, startrow=0, startcol=0
         )
@@ -167,12 +176,7 @@ class TestGoogleSheets(unittest.TestCase):
         )
 
         result_table = self.google_sheets.read_worksheet(self.spreadsheet_id, 3)
-        results_dict = result_table.to_dicts()
-
-        self.assertEquals(results_dict[0]["col4"], 4)
-        self.assertEquals(results_dict[1]["col4"], 8)
-        self.assertEquals(results_dict[2]["col4"], 12)
-        self.assertEquals(results_dict[3]["col4"], 16)
+        self.assertEquals(result_table.data, expected_table.data)
 
     def test_overwrite_spreadsheet(self):
         new_table = Table(

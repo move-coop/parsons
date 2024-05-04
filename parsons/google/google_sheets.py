@@ -298,7 +298,10 @@ class GoogleSheets:
     ):
         """
         Pastes data from a Parsons table to a Google sheet. Note that this may overwrite
-        presently existing data.
+        presently existing data. This function is useful for adding data to a subsection
+        if an existint sheet that will have other existing data - constrast to
+        `overwrite_sheet` (which will fully replace any existing data) and `append_to_sheet`
+        (whuch sticks the data only after all other existing data).
 
         `Args:`
             spreadsheet_id: str
@@ -320,8 +323,13 @@ class GoogleSheets:
         number_of_rows = table.num_rows + 1 if header else table.num_rows
 
         if not number_of_rows or not number_of_columns:  # No data to paste
+            logger.warning(
+                f"No data available to paste, table size "
+                f"({number_of_rows}, {number_of_columns}). Skipping."
+            )
             return
 
+        # gspread uses ranges like "C3:J7", so we need to convert to this format
         data_range = (
             hexavigesimal(startcol + 1)
             + str(startrow + 1)

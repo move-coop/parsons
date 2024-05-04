@@ -153,6 +153,7 @@ class TestGoogleSheets(unittest.TestCase):
             ]
         )
 
+        # When we read the spreadsheet, it assumes data is all strings
         expected_table = Table(
             [
                 {"col1": "1", "col2": "2", "col3": "3", "col4": "4"},
@@ -196,7 +197,7 @@ class TestGoogleSheets(unittest.TestCase):
         )
 
         result_table = self.google_sheets.get_worksheet(self.spreadsheet_id, "PasteDataSheet")
-        self.assertEqual(result_table.to_dicts()[0], expected_table.to_dicts()[0])
+        self.assertEqual(result_table.to_dicts(), expected_table.to_dicts())
 
     def test_overwrite_spreadsheet(self):
         new_table = Table(

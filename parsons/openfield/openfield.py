@@ -111,15 +111,50 @@ class OpenField:
         except ValueError:
             return None
 
+    def _base_patch(
+        self,
+        endpoint,
+        entity_id=None,
+        data=None,
+        params=None,
+        exception_message=None,
+    ):
+        # Make a general PATCH request
+
+        endpoint = self._base_endpoint(endpoint, entity_id)
+
+        resp = self.conn.patch(
+            endpoint,
+            data=json.dumps(data),
+            params=params,
+        )
+
+        if resp.status_code >= 400:
+            raise Exception(self.parse_error(resp, exception_message))
+
+        # Not all responses return a json
+        try:
+            return resp.json()
+
+        except ValueError:
+            return None
+
     def _base_delete(
         self,
         endpoint,
         entity_id=None,
+        data=None,
         exception_message=None,
     ):
         # Make a general DELETE request
 
-        resp = self.conn.delete(self._base_endpoint(endpoint, entity_id))
+        resp = self.conn.delete(
+            self._base_endpoint(
+                endpoint,
+                entity_id,
+                data=json.dumps(data) if data else None,
+            )
+        )
 
         if resp.status_code >= 400:
             raise Exception(self.parse_error(resp, exception_message))
@@ -433,4 +468,48 @@ class OpenField:
             endpoint="conversation-codes",
             data=conversation_code,
             exception_message="Could not create conversation code",
+        )
+
+    def add_people_to_conversation_code(
+        self,
+        conversation_code_id,
+        people_ids,
+    ):
+        """
+        Adds people to a conversation code.
+
+        `Args:`
+            conversation_code_id: int
+                ID of the conversation code
+            people_ids: list of ints
+                List of people IDs to add to the conversation code
+        `Returns:`
+            JSON object
+        """
+
+        return self._base_patch(
+            endpoint=f"conversation-codes/{conversation_code_id}/people",
+            data={"people_ids": people_ids},
+        )
+
+    def remove_people_from_conversation_code(
+        self,
+        conversation_code_id,
+        people_ids,
+    ):
+        """
+        Removes people from a conversation code.
+
+        `Args:`
+            conversation_code_id: int
+                ID of the conversation code
+            people_ids: list of ints
+                List of people IDs to remove from the conversation code
+        `Returns:`
+            JSON object
+        """
+
+        return self._base_delete(
+            endpoint=f"conversation-codes/{conversation_code_id}/people",
+            data={"people_ids": people_ids},
         )

@@ -148,12 +148,11 @@ class OpenField:
     ):
         # Make a general DELETE request
 
+        endpoint = self._base_endpoint(endpoint, entity_id)
+
         resp = self.conn.delete(
-            self._base_endpoint(
-                endpoint,
-                entity_id,
-                data=json.dumps(data) if data else None,
-            )
+            endpoint,
+            data=json.dumps(data) if data else None,
         )
 
         if resp.status_code >= 400:

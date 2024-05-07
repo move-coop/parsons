@@ -254,7 +254,7 @@ You can also retrieve represntative information such as offices, officals, etc.
 API
 ===
 
-.. autoclass :: parsons.google.google_civic.GoogleCivic
+.. autoclass:: parsons.google.google_civic.GoogleCivic
    :inherited-members:
 
 *************

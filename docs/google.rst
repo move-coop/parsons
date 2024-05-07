@@ -312,7 +312,7 @@ API
 
 
 *************
-Google Slides
+Google Sheets
 *************
 
 ========
@@ -367,7 +367,7 @@ API
    :inherited-members:
 
 *************
-Google Sheets
+Google Slides
 *************
 
 ========

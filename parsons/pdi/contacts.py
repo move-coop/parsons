@@ -174,9 +174,7 @@ class Contacts:
             "dateOfBirth": date_of_birth,
             "gender": gender,
         }
-        res = self._request(
-            f"{self.url_contacts}/{id}", req_type="PUT", post_data=payload
-        )
+        res = self._request(f"{self.url_contacts}/{id}", req_type="PUT", post_data=payload)
         if res["code"] == 201:
             return True
 

@@ -13,7 +13,7 @@ jobs:
   build:
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10']
+        python-version: ['3.8', '3.9', '3.10', '3.11']
         limited-dependencies: ['','TRUE']
         os: [ubuntu-latest]   # add in windows-latest to add windows testing
 
@@ -40,8 +40,8 @@ jobs:
     - name: Run tests
       run: pytest -rf test/
 
-    - name: check linting
+    - name: Check linting
       run: |
         # E203 and W503 don't work well with black
-        flake8 parsons/ test/ useful_resources/ --extend-ignore=E203,W503
+        flake8 parsons/ test/ useful_resources/
         black --check parsons/ test/ useful_resources/

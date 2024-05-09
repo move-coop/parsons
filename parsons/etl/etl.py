@@ -431,10 +431,7 @@ class ETL(object):
                 A list of dicts, each containing a column 'name' and a 'type' list
         """
 
-        return [
-            {"name": col, "type": self.get_column_types(col)}
-            for col in self.table.columns()
-        ]
+        return [{"name": col, "type": self.get_column_types(col)} for col in self.table.columns()]
 
     def convert_table(self, *args):
         """
@@ -608,11 +605,7 @@ class ETL(object):
         """
 
         if isinstance(expand_original, int) and expand_original is not True:
-            lengths = {
-                len(row[column])
-                for row in self
-                if isinstance(row[column], (dict, list))
-            }
+            lengths = {len(row[column]) for row in self if isinstance(row[column], (dict, list))}
             max_len = sorted(lengths, reverse=True)[0]
             if max_len > expand_original:
                 expand_original = False
@@ -624,9 +617,7 @@ class ETL(object):
         else:
             # Otherwise, include only key and column, but keep all non-dict types in table_list
             table = self.cut(key, column)
-            table_list = table.select_rows(
-                lambda row: not isinstance(row[column], dict)
-            )
+            table_list = table.select_rows(lambda row: not isinstance(row[column], dict))
 
         # All the columns other than column to ignore while melting
         ignore_cols = table.columns
@@ -663,17 +654,13 @@ class ETL(object):
 
         if expand_original:
             # Add unpacked rows to the original table (minus packed rows)
-            orig = self.select_rows(
-                lambda row: not isinstance(row[column], (dict, list))
-            )
+            orig = self.select_rows(lambda row: not isinstance(row[column], (dict, list)))
             orig.concat(melted_list)
             # Add unique id column by hashing all the other fields
             if "uid" not in self.columns:
                 orig.add_column(
                     "uid",
-                    lambda row: hashlib.md5(
-                        str.encode("".join([str(x) for x in row]))
-                    ).hexdigest(),
+                    lambda row: hashlib.md5(str.encode("".join([str(x) for x in row]))).hexdigest(),
                 )
                 orig.move_column("uid", 0)
 
@@ -688,9 +675,7 @@ class ETL(object):
             # Add unique id column by hashing all the other fields
             melted_list.add_column(
                 "uid",
-                lambda row: hashlib.md5(
-                    str.encode("".join([str(x) for x in row]))
-                ).hexdigest(),
+                lambda row: hashlib.md5(str.encode("".join([str(x) for x in row]))).hexdigest(),
             )
             melted_list.move_column("uid", 0)
             output = melted_list
@@ -922,8 +907,7 @@ class ETL(object):
         from parsons.etl import Table
 
         return [
-            Table(petl.rowslice(self.table, i, i + rows))
-            for i in range(0, self.num_rows, rows)
+            Table(petl.rowslice(self.table, i, i + rows)) for i in range(0, self.num_rows, rows)
         ]
 
     @staticmethod
@@ -973,14 +957,10 @@ class ETL(object):
 
         from parsons.etl import Table  # Just trying to avoid recursive imports.
 
-        normalize_fn = (
-            Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
-        )
+        normalize_fn = Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
 
         # Create a mapping of our "normalized" name to the original column name
-        current_columns_normalized = {
-            normalize_fn(col): col for col in reversed(self.columns)
-        }
+        current_columns_normalized = {normalize_fn(col): col for col in reversed(self.columns)}
 
         # Track any columns we need to add to our current table from our desired columns
         columns_to_add = []
@@ -1011,8 +991,7 @@ class ETL(object):
                 elif if_missing_columns != "ignore":
                     # If it's not ignore, add, or fail, then it's not a valid strategy
                     raise TypeError(
-                        f"Invalid option {if_missing_columns} for "
-                        "argument `if_missing_columns`"
+                        f"Invalid option {if_missing_columns} for " "argument `if_missing_columns`"
                     )
             else:
                 # We have found this in our current columns, so take it out of our list to search
@@ -1036,8 +1015,7 @@ class ETL(object):
             elif if_extra_columns != "remove":
                 # If it's not ignore, add, or fail, then it's not a valid strategy
                 raise TypeError(
-                    f"Invalid option {if_extra_columns} for "
-                    "argument `if_extra_columns`"
+                    f"Invalid option {if_extra_columns} for " "argument `if_extra_columns`"
                 )
 
         # Add any columns we need to add
@@ -1307,9 +1285,7 @@ class ETL(object):
 
         """
 
-        deduped = petl.transform.dedup.distinct(
-            self.table, key=keys, presorted=presorted
-        )
+        deduped = petl.transform.dedup.distinct(self.table, key=keys, presorted=presorted)
         self.table = deduped
 
         return self

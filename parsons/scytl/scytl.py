@@ -11,9 +11,7 @@ from dataclasses import dataclass
 
 CLARITY_URL = "https://results.enr.clarityelections.com/"
 
-CURRENT_VERSION_URL_TEMPLATE = (
-    CLARITY_URL + "{administrator}/{election_id}/current_ver.txt"
-)
+CURRENT_VERSION_URL_TEMPLATE = CLARITY_URL + "{administrator}/{election_id}/current_ver.txt"
 SUMMARY_CSV_ZIP_URL_TEMPLATE = (
     CLARITY_URL + "{administrator}/{election_id}/{version_num}/reports/summary.zip"
 )
@@ -85,9 +83,7 @@ class Scytl:
         self.state = state
         self.county = county.replace(" ", "_")
 
-        self.administrator = (
-            f"{self.state}/{self.county}" if self.county else self.state
-        )
+        self.administrator = f"{self.state}/{self.county}" if self.county else self.state
         self.election_id = election_id
 
         self.previous_summary_version_num = None
@@ -187,9 +183,7 @@ class Scytl:
             state=state, election_id=election_id, version_num=version_num
         )
 
-        settings_json_res = requests.get(
-            config_settings_json_url, headers=BROWSER_HEADERS
-        )
+        settings_json_res = requests.get(config_settings_json_url, headers=BROWSER_HEADERS)
         settings_json = settings_json_res.json()
 
         participating_counties = settings_json["settings"]["electiondetails"][
@@ -294,9 +288,7 @@ class Scytl:
                                 "precinct_name": precinct_name,
                                 "recorded_votes": cand_votes[precinct_name],
                                 "voter_turnout": precinct_turnout.get("voter_turnout"),
-                                "percent_reporting": precinct_turnout.get(
-                                    "percent_reporting"
-                                ),
+                                "percent_reporting": precinct_turnout.get("percent_reporting"),
                                 "timestamp_last_updated": county_details.county_update_date,
                             }
 
@@ -304,9 +296,7 @@ class Scytl:
 
         return precinct_votes
 
-    def _parse_state_xml_data_to_counties(
-        self, state_data: bytes, state: str
-    ) -> t.List[t.Dict]:
+    def _parse_state_xml_data_to_counties(self, state_data: bytes, state: str) -> t.List[t.Dict]:
         """
         Parse a detail XML file for a state into a list of election
         results by county and vote method.
@@ -330,9 +320,7 @@ class Scytl:
 
         for child in root:
 
-            if (
-                child.tag == "Timestamp"
-            ):  # <Timestamp>1/5/2021 3:22:30 PM EST</Timestamp>
+            if child.tag == "Timestamp":  # <Timestamp>1/5/2021 3:22:30 PM EST</Timestamp>
                 timestamp = self._parse_date_to_utc(child.text)
 
             if child.tag == "ElectionVoterTurnout":
@@ -373,12 +361,8 @@ class Scytl:
                                 "office": office,
                                 "ballots_cast": county_turnout.get("ballotsCast"),
                                 "reg_voters": county_turnout.get("totalVoters"),
-                                "precincts_reporting": county_turnout.get(
-                                    "precinctsReported"
-                                ),
-                                "total_precincts": county_turnout.get(
-                                    "precinctsParticipating"
-                                ),
+                                "precincts_reporting": county_turnout.get("precinctsReported"),
+                                "total_precincts": county_turnout.get("precinctsParticipating"),
                                 "vote_method": vote_type_label,
                                 "candidate_name": cand_name,
                                 "candidate_party": cand_party,
@@ -559,17 +543,11 @@ class Scytl:
         county_data = self._parse_file_from_zip_url(detail_xml_url, "detail.xml")
 
         if self.county:
-            county_details = CountyDetails(
-                self.state, self.county, self.election_id, version_num
-            )
+            county_details = CountyDetails(self.state, self.county, self.election_id, version_num)
 
-            parsed_data = self._parse_county_xml_data_to_precincts(
-                county_data, county_details
-            )
+            parsed_data = self._parse_county_xml_data_to_precincts(county_data, county_details)
         else:
-            parsed_data = self._parse_state_xml_data_to_counties(
-                county_data, self.state
-            )
+            parsed_data = self._parse_state_xml_data_to_counties(county_data, self.state)
 
         self.previous_details_version_num = version_num
 
@@ -662,9 +640,7 @@ class Scytl:
             )
 
             try:
-                county_data = self._parse_file_from_zip_url(
-                    detail_xml_url, "detail.xml"
-                )
+                county_data = self._parse_file_from_zip_url(detail_xml_url, "detail.xml")
 
             except requests.exceptions.RequestException:
                 try:
@@ -683,9 +659,7 @@ class Scytl:
                         parsed_data += summary_data
 
             else:
-                parsed_data += self._parse_county_xml_data_to_precincts(
-                    county_data, county_details
-                )
+                parsed_data += self._parse_county_xml_data_to_precincts(county_data, county_details)
 
                 fetched_counties.append(county_name)
 

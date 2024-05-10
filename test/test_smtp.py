@@ -55,13 +55,9 @@ class TestSMTP(unittest.TestCase):
         self.assertTrue(self.quit_ran)
 
     def test_send_message_manualclose(self):
-        smtp = SMTP(
-            "fake.example.com", username="fake", password="fake", close_manually=True
-        )
+        smtp = SMTP("fake.example.com", username="fake", password="fake", close_manually=True)
         smtp.conn = FakeConnection(self)
-        smtp.send_email(
-            "foo@example.com", "recipient1@example.com", "Simple subject", "Fake body"
-        )
+        smtp.send_email("foo@example.com", "recipient1@example.com", "Simple subject", "Fake body")
         self.assertFalse(self.quit_ran)
 
     def test_send_message_files(self):

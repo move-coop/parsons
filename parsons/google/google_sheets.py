@@ -32,9 +32,7 @@ class GoogleSheets:
             "https://www.googleapis.com/auth/drive",
         ]
 
-        setup_google_application_credentials(
-            google_keyfile_dict, "GOOGLE_DRIVE_CREDENTIALS"
-        )
+        setup_google_application_credentials(google_keyfile_dict, "GOOGLE_DRIVE_CREDENTIALS")
         google_credential_file = open(os.environ["GOOGLE_DRIVE_CREDENTIALS"])
         credentials_dict = json.load(google_credential_file)
 
@@ -49,16 +47,12 @@ class GoogleSheets:
 
         # Check if the worksheet is an integer, if so find the sheet by index
         if isinstance(worksheet, int):
-            return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(
-                worksheet
-            )
+            return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(worksheet)
 
         elif isinstance(worksheet, str):
             idx = self.list_worksheets(spreadsheet_id).index(worksheet)
             try:
-                return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(
-                    idx
-                )
+                return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(idx)
             except:  # noqa: E722
                 raise ValueError(f"Couldn't find worksheet {worksheet}")
 
@@ -282,9 +276,7 @@ class GoogleSheets:
 
         # If the existing sheet is blank, then just overwrite the table.
         if existing_table.num_rows == 0:
-            return self.overwrite_sheet(
-                spreadsheet_id, table, worksheet, user_entered_value
-            )
+            return self.overwrite_sheet(spreadsheet_id, table, worksheet, user_entered_value)
 
         cells = []
         for row_num, row in enumerate(table.data):

@@ -1,7 +1,6 @@
 from test.utils import mark_live_test
 from parsons import Table
 
-
 #####
 
 START_DATE = "2020-01-01"
@@ -18,7 +17,7 @@ UPPER_LIMIT = 2001
 def test_get_calendars(live_pdi):
     response = live_pdi.get_calendars()
 
-    assert type(response) == Table
+    assert isinstance(response, Table)
 
 
 @mark_live_test
@@ -32,7 +31,7 @@ def test_get_calendars_with_limit(live_pdi):
 def test_get_event_activities(live_pdi):
     response = live_pdi.get_event_activities(start_date=START_DATE, end_date=END_DATE)
 
-    assert type(response) == Table
+    assert isinstance(response, Table)
 
 
 @mark_live_test
@@ -50,7 +49,7 @@ def test_get_event_activity_assignments(live_pdi):
         start_date=START_DATE, end_date=END_DATE, expand=EXPAND
     )
 
-    assert type(response) == Table
+    assert isinstance(response, Table)
 
 
 @mark_live_test

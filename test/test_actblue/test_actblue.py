@@ -31,9 +31,7 @@ class TestActBlue(unittest.TestCase):
     def setUp(self, m):
         self.ab = ActBlue(TEST_CLIENT_UUID, TEST_CLIENT_SECRET, TEST_URI)
         self.from_csv = Table.from_csv
-        test_csv_data = Table.from_csv_string(
-            open("test/test_actblue/test_csv_data.csv").read()
-        )
+        test_csv_data = Table.from_csv_string(open("test/test_actblue/test_csv_data.csv").read())
         Table.from_csv = MagicMock(name="mocked from_csv", return_value=test_csv_data)
 
     def tearDown(self):
@@ -43,9 +41,7 @@ class TestActBlue(unittest.TestCase):
     def test_successful_post_request(self, m):
         m.post(f"{TEST_URI}/csvs", json=TEST_POST_RESPONSE)
 
-        response = self.ab.post_request(
-            TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END
-        )
+        response = self.ab.post_request(TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END)
         assert response["id"] == TEST_POST_RESPONSE["id"]
 
     @requests_mock.Mocker()
@@ -77,7 +73,5 @@ class TestActBlue(unittest.TestCase):
         m.post(f"{TEST_URI}/csvs", json=TEST_POST_RESPONSE)
         m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=TEST_GET_RESPONSE)
 
-        table = self.ab.get_contributions(
-            TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END
-        )
+        table = self.ab.get_contributions(TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END)
         assert test_columns_data.expected_table_columns == table.columns

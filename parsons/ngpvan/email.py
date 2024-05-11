@@ -142,7 +142,6 @@ class Email(object):
                         "unsubscribeCount"
                     ]
             except TypeError as e:
-                print(str(e))
                 logger.info(str(e))
                 pass
 

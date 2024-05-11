@@ -5,41 +5,49 @@ logger = logging.getLogger(__name__)
 
 
 class Email(object):
+    """
+    Instantiate the Email class.
+
+    You can find the docs for the NGP VAN Email API here:
+    https://docs.ngpvan.com/reference/email-overview
+    """
+
     def __init__(self, van_connection):
 
         self.connection = van_connection
 
-    def get_emails(
-        self,
-        orderby=None,
-    ):
+    def get_emails(self, ascending: bool = True) -> Table:
         """
         Get emails.
 
-        Note that it takes some time for the system to aggregate opens and click-throughs,
-        so data can be delayed up to 15 minutes.
-
         `Args:`
-            orderby : str
-                Optional; sorts results in ascending (asc) or descending (desc) order
-                for the dateModified field.
+            ascending : Bool
+                sorts results in ascending or descending order
+                for the dateModified field. Defaults to True (ascending).
 
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-
-        params = {
-            "$orderby": orderby,
-        }
+        if ascending:
+            params = {
+                "$orderby": "dateModified asc",
+            }
+        if not ascending:
+            params = {
+                "$orderby": "dateModified desc",
+            }
 
         tbl = Table(self.connection.get_request("email/messages", params=params))
         logger.debug(f"Found {tbl.num_rows} emails.")
         return tbl
 
-    def get_email(self, email_id, expand=True):
+    def get_email(self, email_id: int, expand: bool = True) -> Table:
         """
         Get an email.
+
+        Note that it takes some time for the system to aggregate opens and click-throughs,
+        so data can be delayed up to 15 minutes.
 
         `Args:`
             email_id : int
@@ -64,9 +72,9 @@ class Email(object):
         logger.debug(f"Found email {email_id}.")
         return r
 
-    def get_email_stats(self):
+    def get_email_stats(self) -> Table:
         """
-        Get stats for all emails.
+        Get stats for all emails, aggregating any A/B tests.
 
         `Args:`
             emails : list

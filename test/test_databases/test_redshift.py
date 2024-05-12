@@ -595,6 +595,36 @@ class TestRedshiftDB(unittest.TestCase):
         # Check that files are there
         self.assertTrue(self.s3.key_exists(self.temp_s3_bucket, "unload_test"))
 
+    def test_unload_json_format(self):
+        # Setup
+        self.rs.copy(self.tbl, f"{self.temp_schema}.test_copy", if_exists="drop")
+
+        # Unload with JSON format
+        self.rs.unload(
+            f"select * from {self.temp_schema}.test_copy",
+            self.temp_s3_bucket,
+            "unload_test_json",
+            format="json",
+        )
+
+        # Check that files are there
+        self.assertTrue(self.s3.key_exists(self.temp_s3_bucket, "unload_test_json"))
+
+    def test_unload_parquet_format(self):
+        # Setup
+        self.rs.copy(self.tbl, f"{self.temp_schema}.test_copy", if_exists="drop")
+
+        # Unload with Parquet format
+        self.rs.unload(
+            f"select * from {self.temp_schema}.test_copy",
+            self.temp_s3_bucket,
+            "unload_test_parquet",
+            format="parquet",
+        )
+
+        # Check that files are there
+        self.assertTrue(self.s3.key_exists(self.temp_s3_bucket, "unload_test_parquet"))
+
     def test_drop_and_unload(self):
 
         rs_table_test = f"{self.temp_schema}.test_copy"

@@ -710,6 +710,7 @@ class Redshift(
         max_file_size="6.2 GB",
         extension=None,
         aws_region=None,
+        format=None,
         aws_access_key_id=None,
         aws_secret_access_key=None,
     ):
@@ -760,6 +761,8 @@ class Redshift(
             The AWS Region where the target Amazon S3 bucket is located. REGION is required for
             UNLOAD to an Amazon S3 bucket that is not in the same AWS Region as the Amazon Redshift
             cluster.
+        format: str
+            The format of the unload file (CSV, PARQUET, JSON).
         aws_access_key_id:
             An AWS access key granted to the bucket where the file is located. Not required
             if keys are stored as environmental variables.
@@ -799,6 +802,12 @@ class Redshift(
             statement += f"EXTENSION '{extension}' \n"
         if aws_region:
             statement += f"REGION {aws_region} \n"
+        if format:
+            if format.lower() in ["json", "parquet"]:  # json and parquet shouldn't have a delimiter
+                if f"DELIMITER as '{delimiter}' \n" in statement:
+                    statement = statement.replace(f"DELIMITER as '{delimiter}' \n", "")
+                    delimiter = None
+            statement += f"FORMAT AS {format} \n"
 
         logger.info(f"Unloading data to s3://{bucket}/{key_prefix}")
         # Censor sensitive data
@@ -823,6 +832,7 @@ class Redshift(
         parallel=True,
         max_file_size="6.2 GB",
         aws_region=None,
+        format=None,
     ):
         """
         Unload data to s3, and then drop Redshift table
@@ -846,7 +856,8 @@ class Redshift(
             None
         """
         query_end = "cascade" if cascade else ""
-
+        if format in ["json", "parquet"]:
+            delimiter = None
         self.unload(
             sql=f"select * from {rs_table}",
             bucket=bucket,
@@ -861,6 +872,7 @@ class Redshift(
             parallel=parallel,
             max_file_size=max_file_size,
             aws_region=aws_region,
+            format=format,
         )
 
         self.query(f"drop table if exists {rs_table} {query_end}")

@@ -856,7 +856,7 @@ class Redshift(
             None
         """
         query_end = "cascade" if cascade else ""
-        if format in ["json", "parquet"]:
+        if format.lower() in ["json", "parquet"]:
             delimiter = None
         self.unload(
             sql=f"select * from {rs_table}",

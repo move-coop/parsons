@@ -622,8 +622,20 @@ class TestRedshiftDB(unittest.TestCase):
             format="parquet",
         )
 
+    def test_unload_csv_format(self):
+        # Setup
+        self.rs.copy(self.tbl, f"{self.temp_schema}.test_copy", if_exists="drop")
+
+        # Unload with Parquet format
+        self.rs.unload(
+            f"select * from {self.temp_schema}.test_copy",
+            self.temp_s3_bucket,
+            "unload_test_csv",
+            format="csv",
+        )
+
         # Check that files are there
-        self.assertTrue(self.s3.key_exists(self.temp_s3_bucket, "unload_test_parquet"))
+        self.assertTrue(self.s3.key_exists(self.temp_s3_bucket, "unload_test_csv"))
 
     def test_drop_and_unload(self):
 

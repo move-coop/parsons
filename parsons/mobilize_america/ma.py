@@ -115,12 +115,7 @@ class MobilizeAmerica(object):
         `Returns`
             Parsons Table
         """
-        url = (
-            self.uri
-            + "organizations/"
-            + str(organization_id)
-            + "/promoted_organizations"
-        )
+        url = self.uri + "organizations/" + str(organization_id) + "/promoted_organizations"
         return Table(self._request_paginate(url, auth=True))
 
     def get_events(

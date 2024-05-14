@@ -89,11 +89,13 @@ class TestActionKit(unittest.TestCase):
         type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
         self.actionkit.conn = resp_mock
 
-        self.actionkit.update_user(123, last_name="new name")
+        res = self.actionkit.update_user(123, last_name="new name")
         self.actionkit.conn.patch.assert_called_with(
             "https://domain.actionkit.com/rest/v1/user/123/",
             data=json.dumps({"last_name": "new name"}),
         )
+
+        assert res.status_code == 202
 
     def test_update_event(self):
         # Test update event
@@ -218,9 +220,7 @@ class TestActionKit(unittest.TestCase):
         type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
         self.actionkit.conn = resp_mock
 
-        self.actionkit.create_event_create_page(
-            name="new_page", campaign_id="123", title="title"
-        )
+        self.actionkit.create_event_create_page(name="new_page", campaign_id="123", title="title")
         self.actionkit.conn.post.assert_called_with(
             "https://domain.actionkit.com/rest/v1/eventcreatepage/",
             data=json.dumps(
@@ -247,9 +247,7 @@ class TestActionKit(unittest.TestCase):
         type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
         self.actionkit.conn = resp_mock
 
-        self.actionkit.create_event_create_form(
-            page_id="123", thank_you_text="thank you"
-        )
+        self.actionkit.create_event_create_form(page_id="123", thank_you_text="thank you")
         self.actionkit.conn.post.assert_called_with(
             "https://domain.actionkit.com/rest/v1/eventcreateform/",
             data=json.dumps(
@@ -272,9 +270,7 @@ class TestActionKit(unittest.TestCase):
         type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
         self.actionkit.conn = resp_mock
 
-        self.actionkit.create_event_signup_page(
-            name="new_name", campaign_id="123", title="title"
-        )
+        self.actionkit.create_event_signup_page(name="new_name", campaign_id="123", title="title")
         self.actionkit.conn.post.assert_called_with(
             "https://domain.actionkit.com/rest/v1/eventsignuppage/",
             data=json.dumps(
@@ -301,14 +297,10 @@ class TestActionKit(unittest.TestCase):
         type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
         self.actionkit.conn = resp_mock
 
-        self.actionkit.create_event_signup_form(
-            page_id="123", thank_you_text="thank you"
-        )
+        self.actionkit.create_event_signup_form(page_id="123", thank_you_text="thank you")
         self.actionkit.conn.post.assert_called_with(
             "https://domain.actionkit.com/rest/v1/eventsignupform/",
-            data=json.dumps(
-                {"page": "/rest/v1/page/123/", "thank_you_text": "thank you"}
-            ),
+            data=json.dumps({"page": "/rest/v1/page/123/", "thank_you_text": "thank you"}),
         )
 
     def test_update_event_signup(self):
@@ -696,16 +688,12 @@ class TestActionKit(unittest.TestCase):
         assert_matching_tables(tables[0], Table([("x", "y"), ("a", "b")]))
         assert_matching_tables(tables[1], Table([("x", "z"), ("1", "3"), ("4", "6")]))
 
-        test2 = Table(
-            [("x", "y", "z"), ("a", "b", "c"), ("1", "2", "3"), ("4", "5", "6")]
-        )
+        test2 = Table([("x", "y", "z"), ("a", "b", "c"), ("1", "2", "3"), ("4", "5", "6")])
         tables2 = self.actionkit._split_tables_no_empties(test2, True, [])
         self.assertEqual(len(tables2), 1)
         assert_matching_tables(tables2[0], test2)
 
-        test3 = Table(
-            [("x", "y", "z"), ("a", "b", ""), ("1", "2", "3"), ("4", "5", "6")]
-        )
+        test3 = Table([("x", "y", "z"), ("a", "b", ""), ("1", "2", "3"), ("4", "5", "6")])
         tables3 = self.actionkit._split_tables_no_empties(test3, False, ["z"])
         self.assertEqual(len(tables3), 2)
         assert_matching_tables(tables3[0], Table([("x", "y"), ("a", "b")]))

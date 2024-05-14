@@ -2,7 +2,7 @@ airtable-python-wrapper==0.13.0
 azure-storage-blob==12.3.2
 boto3>=1.17.98
 boxsdk==2.10.0
-braintree==4.0.0
+braintree==4.17.1
 bs4==0.0.1
 censusgeocode==0.4.3.post1
 civis==1.16.0

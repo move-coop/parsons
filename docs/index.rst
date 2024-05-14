@@ -189,7 +189,6 @@ Indices and tables
    azure
    bill_com
    bloomerang
-   bluelink
    box
    braintree
    capitolcanary
@@ -201,6 +200,7 @@ Indices and tables
    databases
    donorbox
    facebook_ads
+   formstack
    freshdesk
    github
    google

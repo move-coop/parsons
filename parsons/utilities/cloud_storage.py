@@ -8,9 +8,7 @@ Google Cloud Storage.
 """
 
 
-def post_file(
-    tbl, type, file_path=None, quoting=csv.QUOTE_MINIMAL, **file_storage_args
-):
+def post_file(tbl, type, file_path=None, quoting=csv.QUOTE_MINIMAL, **file_storage_args):
     """
     This utility method is a generalizable method for moving files to an
     online file storage class. It is used by methods that require access
@@ -40,9 +38,7 @@ def post_file(
         if "key" in file_storage_args:
             file_storage_args["key"] = file_path
 
-        return tbl.to_s3_csv(
-            public_url=True, key=file_path, quoting=quoting, **file_storage_args
-        )
+        return tbl.to_s3_csv(public_url=True, key=file_path, quoting=quoting, **file_storage_args)
 
     elif type.upper() == "GCS":
 

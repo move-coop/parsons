@@ -163,9 +163,5 @@ class TestTargets(unittest.TestCase):
             ]
         )
 
-        assert_matching_tables(
-            self.van.get_target_export(export_job_id), expected_result
-        )
-        self.assertEqual(
-            fromcsv.call_args, unittest.mock.call(download_url, encoding="utf-8-sig")
-        )
+        assert_matching_tables(self.van.get_target_export(export_job_id), expected_result)
+        self.assertEqual(fromcsv.call_args, unittest.mock.call(download_url, encoding="utf-8-sig"))

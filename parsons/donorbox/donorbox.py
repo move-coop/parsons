@@ -140,9 +140,7 @@ class Donorbox(object):
             Parsons Table
         """
         if "donor_id" in kwargs:
-            kwargs["id"] = kwargs.pop(
-                "donor_id"
-            )  # switch to Donorbox's (less specific) name
+            kwargs["id"] = kwargs.pop("donor_id")  # switch to Donorbox's (less specific) name
         data = self.client.get_request("donors", params=kwargs)
         return Table(data)
 

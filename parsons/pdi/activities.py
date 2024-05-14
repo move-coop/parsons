@@ -49,6 +49,4 @@ class Activities:
             canvassing_shift bool: The canvassing shift
         """
         payload = {"activityName": activity_name, "canvassingShift": canvassing_shift}
-        return self._request(
-            f"{self.url_activites}/{id}", req_type="PUT", post_data=payload
-        )
+        return self._request(f"{self.url_activites}/{id}", req_type="PUT", post_data=payload)

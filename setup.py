@@ -40,12 +40,15 @@ def main():
                 "oauth2client",
                 "validate-email",
             ],
-            "mysql": ["mysql-connector-python", "SQLAlchemy"],
+            "mysql": [
+                "mysql-connector-python",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+            ],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["bs4"],
-            "postgres": ["psycopg2-binary>=2.9.9", "SQLAlchemy"],
-            "redshift": ["boto3", "psycopg2-binary>=2.9.9", "SQLAlchemy"],
+            "postgres": ["psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",],
+            "redshift": ["boto3", "psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
             "sftp": ["paramiko"],
@@ -89,7 +92,7 @@ def main():
         ],
         python_requires=">=3.7.0,<3.12.0",
         long_description=long_description,
-        long_description_content_type='text/markdown'
+        long_description_content_type="text/markdown",
     )
 
 

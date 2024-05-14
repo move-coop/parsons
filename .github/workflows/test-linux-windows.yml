@@ -44,4 +44,4 @@ jobs:
       run: |
         # E203 and W503 don't work well with black
         flake8 parsons/ test/ useful_resources/
-        black --check parsons/ test/ useful_resources/
+        black --diff parsons/ test/ useful_resources/

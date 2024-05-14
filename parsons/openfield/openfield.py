@@ -469,6 +469,28 @@ class OpenField:
             exception_message="Could not create conversation code",
         )
 
+    def update_conversation_code(self, conversation_code_id, data):
+        """
+        Update a conversation code.
+
+        `Args:`
+            person_id: int
+                The id of the record.
+            data: dict
+                Conversation code data to update
+                `Full list of fields
+                <https://openfield.ai/wp-content/uploads/2024/02/redoc-static.html#tag/people/operation/updateConversationCode>`_
+        `Returns:`
+            JSON object
+        """
+
+        return self._base_put(
+            endpoint="conversation-codes",
+            entity_id=conversation_code_id,
+            data=data,
+            exception_message="Could not update conversation code",
+        )
+
     def add_people_to_conversation_code(
         self,
         conversation_code_id,

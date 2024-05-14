@@ -8,6 +8,21 @@ from parsons.utilities import check_env
 logger = logging.getLogger(__name__)
 
 
+class FailureException(Exception):
+    def __init__(self, resp, message="Error in request"):
+        self.status_code = resp.status_code
+        message = f"{resp.status_code} - {message}"
+
+        try:
+            self.json = resp.json()
+        except ValueError:
+            self.json = None
+            if resp.text:
+                message = f"{message}\n{resp.text}"
+
+        super(FailureException, self).__init__(message)
+
+
 class OpenField:
     """
     Instantiate the OpenField class
@@ -66,7 +81,8 @@ class OpenField:
             params=params,
         )
         if resp.status_code >= 400:
-            raise Exception(self.parse_error(resp, exception_message))
+            raise FailureException(resp, exception_message)
+
         return resp.json()
 
     def _base_post(self, endpoint, data, exception_message=None):
@@ -78,7 +94,7 @@ class OpenField:
         )
 
         if resp.status_code >= 400:
-            raise Exception(self.parse_error(resp, exception_message))
+            raise FailureException(resp, exception_message)
 
         # Not all responses return a json
         try:
@@ -102,7 +118,7 @@ class OpenField:
         resp = self.conn.put(endpoint, data=json.dumps(data), params=params)
 
         if resp.status_code >= 400:
-            raise Exception(self.parse_error(resp, exception_message))
+            raise FailureException(resp, exception_message)
 
         # Not all responses return a json
         try:
@@ -130,7 +146,7 @@ class OpenField:
         )
 
         if resp.status_code >= 400:
-            raise Exception(self.parse_error(resp, exception_message))
+            raise FailureException(resp, exception_message)
 
         # Not all responses return a json
         try:
@@ -156,7 +172,7 @@ class OpenField:
         )
 
         if resp.status_code >= 400:
-            raise Exception(self.parse_error(resp, exception_message))
+            raise FailureException(resp, exception_message)
 
         # Not all responses return a json
         try:
@@ -164,20 +180,6 @@ class OpenField:
 
         except ValueError:
             return None
-
-    def parse_error(self, resp, exception_message):
-        """
-        Parse error responses from the API
-        """
-        message = f"Status {str(resp.status_code)}"
-        if exception_message:
-            message += exception_message
-
-        try:
-            json = resp.json()
-            return message + "\n" + str(json)
-        except ValueError:
-            return message
 
     def retrieve_person(self, person_id):
         """
@@ -272,11 +274,16 @@ class OpenField:
         `Returns:`
             Parsons.Table
                 The people data.
+            If there is an error in any of the rows' columns, you will get
+            Exception.status_code == 400, and you can use Exception.json attr
+            to map back to the list you provided and fix any issues in the
+            columns it has flagged.
         """
 
         res = self._base_post(
             endpoint="people/bulk-upsert",
             data=people,
+            exception_message="Failed to upsert people, check Exception.json",
         )
 
         return Table(res)

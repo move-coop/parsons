@@ -150,7 +150,13 @@ class MobileCommons:
 
             if not empty_page:
                 # Extract data
-                response_table = Table(response_dict["response"][first_data_key][second_data_key])
+                response_data = response_dict["response"][first_data_key][second_data_key]
+                # When only one row of data it is returned as dict instead of list, which cannot be put into table
+                if isinstance(response_data, dict):
+                    response_data = [response_data]
+
+                response_table = Table(response_data)
+
                 # Append to final table
                 final_table.concat(response_table)
                 final_table.materialize()
@@ -418,9 +424,11 @@ class MobileCommons:
             "city": city,
             "state": state,
             "opt_in_path_id": opt_in_path_id,
-            **custom_column_values,
             **self.default_params,
         }
+
+        if custom_column_values:
+            params = params.merge(custom_column_values)
 
         response = self._mc_post_request("profile_update", params=params)
         return response["profile"]["id"]

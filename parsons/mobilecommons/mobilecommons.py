@@ -353,6 +353,8 @@ class MobileCommons:
         custom_cols = "true" if include_custom_columns else "false"
         subscriptions = "true" if include_subscriptions else "false"
 
+        phones = ",".join(phones)
+
         params = {
             "phone_number": phones,
             "from": _format_date(first_date),

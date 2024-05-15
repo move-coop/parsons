@@ -151,7 +151,8 @@ class MobileCommons:
             if not empty_page:
                 # Extract data
                 response_data = response_dict["response"][first_data_key][second_data_key]
-                # When only one row of data it is returned as dict instead of list, which cannot be put into table
+                # When only one row of data it is returned as dict instead of list, which
+                # cannot be put into table
                 if isinstance(response_data, dict):
                     response_data = [response_data]
 
@@ -411,7 +412,8 @@ class MobileCommons:
                 ID of the opt-in path to send new profile through. This will determine the welcome
                 text they receive.
             custom_column_values: dict
-                Dictionary with custom column names as keys and custom column values as dictionary values
+                Dictionary with custom column names as keys and custom column values
+                as dictionary values
 
         `Returns:`
             ID of created/updated  profile

@@ -450,11 +450,11 @@ class GoogleSheets:
             else:
                 ordinal = "th"
 
-            logger.info(f"trying to {method} for the {i}{ordinal} time")
+            logger.debug(f"trying to {method} for the {i}{ordinal} time")
             if i < max:
                 time.sleep(wait_time)
                 i += 1
-                output = self.attempt_gsheet_method(method, i, max, wait_time, **kwargs)
+                return self.attempt_gsheet_method(method, i, max, wait_time, **kwargs)
 
             else:
                 raise e
@@ -469,7 +469,7 @@ class GoogleSheets:
                 The IDs of the Google Spreadsheets with that data to be combined. Can be a
                 comma-separated string of IDs or a list.
 
-            worksheet_id: str
+            worksheet_id: str (optional)
                 If None, the first worksheet (ID = 0) is assumed.
 
         `Returns:` obj
@@ -493,7 +493,7 @@ class GoogleSheets:
         # Non-DB table options yield a list, convert to Parsons table with default worksheet col
         if sheet_id_list:
             sheet_id_tbl = Table(
-                [{"sheet_id": x, "worksheet_id": 0} for x in sheet_id_list]
+                [{id_col: x, "worksheet_id": 0} for x in sheet_id_list]
             )
 
         if not worksheet_id:
@@ -529,10 +529,11 @@ class GoogleSheets:
             data.add_column("spreadsheet_id", sheet_id[id_col])
 
             # Retrieve sheet title (with attempts to handle rate limits) and add as a column
-            globals()["sheet_obj"] = self.attempt_gsheet_method(
+            self.__sheet_obj = self.attempt_gsheet_method(
                 "gs.gspread_client.open_by_key", key=sheet_id[id_col]
             )
             sheet_title = str(self.attempt_gsheet_method("sheet_obj.title"))
+            del self.__sheet_obj
             data.add_column("spreadsheet_title", sheet_title)
 
             # Accumulate and materialize

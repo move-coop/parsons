@@ -39,7 +39,6 @@ for module_path, connector_name in (
     ("parsons.azure.azure_blob_storage", "AzureBlobStorage"),
     ("parsons.bill_com.bill_com", "BillCom"),
     ("parsons.bloomerang.bloomerang", "Bloomerang"),
-    ("parsons.bluelink", "Bluelink"),
     ("parsons.box.box", "Box"),
     ("parsons.braintree.braintree", "Braintree"),
     ("parsons.capitol_canary.capitol_canary", "CapitolCanary"),

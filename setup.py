@@ -1,6 +1,7 @@
 import os
-from setuptools import find_packages
 from distutils.core import setup
+from pathlib import Path
+from setuptools import find_packages
 
 
 def main():
@@ -21,6 +22,10 @@ def main():
             "braintree": ["braintree"],
             "catalist": ["paramiko"],
             "civis": ["civis"],
+            "dbt-redshift": ["dbt-redshift", "slackclient<2"],
+            "dbt-bigquery": ["dbt-bigquery", "slackclient<2"],
+            "dbt-postgres": ["dbt-postgres", "slackclient<2"],
+            "dbt-snowflake": ["dbt-snowflake", "slackclient<2"],
             "facebook": ["joblib", "facebook-business"],
             "geocode": ["censusgeocode", "urllib3==1.26.18"],
             "github": ["PyGitHub"],
@@ -35,12 +40,15 @@ def main():
                 "oauth2client",
                 "validate-email",
             ],
-            "mysql": ["mysql-connector-python", "SQLAlchemy"],
+            "mysql": [
+                "mysql-connector-python",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+            ],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["bs4"],
-            "postgres": ["psycopg2-binary", "SQLAlchemy"],
-            "redshift": ["boto3", "psycopg2-binary", "SQLAlchemy"],
+            "postgres": ["psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",],
+            "redshift": ["boto3", "psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
             "sftp": ["paramiko"],
@@ -60,9 +68,12 @@ def main():
         # No op for forward-compatibility
         extras_require = {"all": []}
 
+    this_directory = Path(__file__).parent
+    long_description = (this_directory / "README.md").read_text()
+
     setup(
         name="parsons",
-        version="3.0.0",
+        version="3.1.0",
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url="https://github.com/move-coop/parsons",
@@ -77,8 +88,11 @@ def main():
             "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
+            "Programming Language :: Python :: 3.11",
         ],
-        python_requires=">=3.7.0,<3.11.0",
+        python_requires=">=3.7.0,<3.12.0",
+        long_description=long_description,
+        long_description_content_type="text/markdown",
     )
 
 

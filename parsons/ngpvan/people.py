@@ -1,4 +1,5 @@
 from parsons.utilities import json_format
+from typing import Union, List, Dict
 import logging
 
 logger = logging.getLogger(__name__)
@@ -188,16 +189,14 @@ class People(object):
             A person dict
         """
 
-        return self._people_search(
-            id=id, id_type=id_type, match_json=match_json, create=True
-        )
+        return self._people_search(id=id, id_type=id_type, match_json=match_json, create=True)
 
     def upsert_person(
         self,
         first_name=None,
         last_name=None,
         date_of_birth=None,
-        email=None,
+        email: Union[str, List[Dict[str, Union[str, bool]]], None] = None,
         phone=None,
         phone_type=None,
         street_number=None,
@@ -227,8 +226,10 @@ class People(object):
                 The person's last name
             dob: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
-            email: str
-                The person's email address
+            email: Union[str, List[Dict[str, Union[str, bool]]], None]
+                The person's email address or a list of email dicts.
+                e.g. [{'email': 'abcd@gmail.com', 'isSubscribed': False}]
+                See https://docs.everyaction.com/reference/people-common-models#email
             phone: str
                 Phone number of any type (Work, Cell, Home)
             phone_type: str
@@ -298,7 +299,7 @@ class People(object):
         first_name=None,
         last_name=None,
         date_of_birth=None,
-        email=None,
+        email: Union[str, List[Dict[str, Union[str, bool]]], None] = None,
         phone=None,
         phone_type="H",
         street_number=None,
@@ -320,7 +321,12 @@ class People(object):
 
             # Will fail if empty dicts are provided, hence needed to add if exist
             if email:
-                json["emails"] = [{"email": email}]
+                if isinstance(email, str):
+                    json["emails"] = [{"email": email}]
+                elif isinstance(email, list):
+                    json["emails"] = email
+                else:
+                    raise ValueError(f"Unexpected data type for email argument: {type(email)}")
             if phone:  # To Do: Strip out non-integers from phone
                 json["phones"] = [{"phoneNumber": phone, "phoneType": phone_type}]
             if date_of_birth:
@@ -660,9 +666,7 @@ class People(object):
             or contact_type_id == 149  # Paid SMS
         ):
             if not phone:
-                raise Exception(
-                    "A phone number must be provided if canvassed via phone or SMS"
-                )
+                raise Exception("A phone number must be provided if canvassed via phone or SMS")
 
         if phone:
             json["canvassContext"]["phone"] = {

@@ -84,9 +84,7 @@ class FlagIDs:
 
         return True
 
-    def update_flag_id(
-        self, id, flag_id, is_default, flag_description=None, compile=None
-    ):
+    def update_flag_id(self, id, flag_id, is_default, flag_description=None, compile=None):
         """Update a flag id.
 
         `Args:`
@@ -114,8 +112,6 @@ class FlagIDs:
             "compile": compile,
             "isDefault": is_default,
         }
-        data = self._request(
-            f"{self.url_flag_ids}/{id}", req_type="PUT", post_data=payload
-        )
+        data = self._request(f"{self.url_flag_ids}/{id}", req_type="PUT", post_data=payload)
 
         return data["id"]

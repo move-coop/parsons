@@ -1,7 +1,9 @@
-from oauthlib.oauth2 import BackendApplicationClient
-from requests_oauthlib import OAuth2Session
-from parsons.utilities.api_connector import APIConnector
 import urllib.parse
+from typing import Dict, Optional
+
+from oauthlib.oauth2 import BackendApplicationClient
+from parsons.utilities.api_connector import APIConnector
+from requests_oauthlib import OAuth2Session
 
 
 class OAuth2APIConnector(APIConnector):
@@ -13,16 +15,6 @@ class OAuth2APIConnector(APIConnector):
     `Args:`
         uri: str
             The base uri for the api. Must include a trailing '/' (e.g. ``http://myapi.com/v1/``)
-        headers: dict
-            The request headers
-        auth: dict
-            The request authorization parameters
-        pagination_key: str
-            The name of the key in the response json where the pagination url is
-            located. Required for pagination.
-        data_key: str
-            The name of the key in the response json where the data is contained. Required
-            if the data is nested in the response json
         client_id: str
             The client id for acquiring and exchanging tokens from the OAuth2 application
         client_secret: str
@@ -31,40 +23,56 @@ class OAuth2APIConnector(APIConnector):
             The URL for acquiring new tokens from the OAuth2 Application
         auto_refresh_url: str
             If provided, the URL for refreshing tokens from the OAuth2 Application
+        headers: dict
+            The request headers
+        pagination_key: str
+            The name of the key in the response json where the pagination url is
+            located. Required for pagination.
+        data_key: str
+            The name of the key in the response json where the data is contained. Required
+            if the data is nested in the response json
     `Returns`:
         OAuthAPIConnector class
     """
 
     def __init__(
         self,
-        uri,
-        headers=None,
-        auth=None,
-        pagination_key=None,
-        data_key=None,
-        client_id=None,
-        client_secret=None,
-        token_url=None,
-        auto_refresh_url=None,
+        uri: str,
+        client_id: str,
+        client_secret: str,
+        token_url: str,
+        auto_refresh_url: Optional[str],
+        headers: Optional[Dict[str, str]] = None,
+        pagination_key: Optional[str] = None,
+        data_key: Optional[str] = None,
+        grant_type: str = "client_credentials",
+        authorization_kwargs: Optional[Dict[str, str]] = None,
     ):
         super().__init__(
             uri,
             headers=headers,
-            auth=auth,
             pagination_key=pagination_key,
             data_key=data_key,
         )
 
+        if not authorization_kwargs:
+            authorization_kwargs = {}
+
         client = BackendApplicationClient(client_id=client_id)
+        client.grant_type = grant_type
         oauth = OAuth2Session(client=client)
         self.token = oauth.fetch_token(
-            token_url=token_url, client_id=client_id, client_secret=client_secret
+            token_url=token_url,
+            client_id=client_id,
+            client_secret=client_secret,
+            **authorization_kwargs,
         )
         self.client = OAuth2Session(
             client_id,
             token=self.token,
             auto_refresh_url=auto_refresh_url,
             token_updater=self.token_saver,
+            auto_refresh_kwargs=authorization_kwargs,
         )
 
     def request(self, url, req_type, json=None, data=None, params=None):

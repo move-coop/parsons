@@ -22,9 +22,7 @@ class TestSisense(unittest.TestCase):
         self.assertEqual(sisense.site_name, "my_site_name")
         self.assertEqual(sisense.api_key, "my_api_key")
         self.assertEqual(sisense.api.uri, "https://app.periscopedata.com/api/v1/")
-        self.assertEqual(
-            sisense.api.headers["HTTP-X-PARTNER-AUTH"], "my_site_name:my_api_key"
-        )
+        self.assertEqual(sisense.api.headers["HTTP-X-PARTNER-AUTH"], "my_site_name:my_api_key")
 
     @requests_mock.Mocker()
     def test_publish_shared_dashboard(self, m):
@@ -39,9 +37,7 @@ class TestSisense(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_list_shared_dashboards(self, m):
-        m.post(
-            f"{self.sisense.uri}shared_dashboard/list", json=TEST_LIST_SHARED_DASHBOARDS
-        )
+        m.post(f"{self.sisense.uri}shared_dashboard/list", json=TEST_LIST_SHARED_DASHBOARDS)
         self.assertEqual(
             self.sisense.list_shared_dashboards(dashboard_id="1234"),
             TEST_LIST_SHARED_DASHBOARDS,

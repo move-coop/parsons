@@ -179,16 +179,16 @@ class BaseTable:
             all columns and inserting those into a partition statement for
             row_number().
         Args:
-            order_by_column_name: str
+            order_by_column_name: str (optional)
                 Column name of specific column that you would like to dedup using order by
-            order_by_direction: str
+            order_by_direction: str (optional)
                 Order by direction, if you would like to dedup by ordering by a specific column,
                 this is the direction of the order by
                 example: 'asc'
-            cascade: bool
+            cascade: bool (optional)
                 Set to True if you want any dependent views to be dropped -
                 queries will fail if there are dependent views and this is set to False.
-           columns_to_ignore: list
+           columns_to_ignore: list (optional)
                 List any columns that should be ignored in the dedup
         """
         current_timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
@@ -214,18 +214,17 @@ class BaseTable:
         partition = ", ".join(columns_list)
 
         dedup_query = f"""
-            alter table {self.table}
-            rename to {self.table}_temp_{current_timestamp};
-            create table {self.table} as
-            select * from
+            create table {self.table}_temp_{current_timestamp} as
             (select *
             , row_number() over (partition by {partition}
             order by {order_by_column_name} {order_by_direction}) as dup
-            from {self.table}_temp_{current_timestamp})
+            from {self.table})
             where dup=1;
-            alter table {self.table}
+            alter table {self.table}_temp_{current_timestamp}
             drop column dup;
-            drop table {self.table}temp_{current_timestamp} {run_cascade};
+            truncate table {self.table}
+            insert into {self.table} (select * from {self.table}_temp_{current_timestamp})
+             {run_cascade};
         """
 
         self.db.query(dedup_query)

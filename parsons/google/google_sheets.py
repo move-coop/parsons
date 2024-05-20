@@ -576,9 +576,7 @@ class GoogleSheets:
             data.add_column("spreadsheet_id", sheet_id[id_col])
 
             # Retrieve sheet title (with attempts to handle rate limits) and add as a column
-            self.__sheet_obj = self.attempt_gsheet_method(
-                "gs.gspread_client.open_by_key", key=sheet_id[id_col]
-            )
+            self.__sheet_obj = self.gspread_client.open_by_key(sheet_id[id_col])
             sheet_title = str(self.attempt_gsheet_method("sheet_obj.title"))
             del self.__sheet_obj
             data.add_column("spreadsheet_title", sheet_title)

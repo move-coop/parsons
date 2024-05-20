@@ -6,9 +6,7 @@ import os
 
 
 # These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"
-@unittest.skipIf(
-    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
-)
+@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestMySQLLive(unittest.TestCase):
     def setUp(self):
 
@@ -47,9 +45,7 @@ class TestMySQLLive(unittest.TestCase):
 
 
 # These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"
-@unittest.skipIf(
-    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
-)
+@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestMySQL(unittest.TestCase):
     def setUp(self):
 
@@ -145,9 +141,7 @@ class TestMySQL(unittest.TestCase):
 class TestMySQL(unittest.TestCase):  # noqa
     def setUp(self):
 
-        self.mysql = MySQL(
-            username="test", password="test", host="test", db="test", port=123
-        )
+        self.mysql = MySQL(username="test", password="test", host="test", db="test", port=123)
 
         self.tbl = Table(
             [

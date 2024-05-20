@@ -10,9 +10,7 @@ TEMP_BUCKET_NAME = "parsons_test"
 TEMP_FILE_NAME = "tmp_file_01.txt"
 
 
-@unittest.skipIf(
-    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
-)
+@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestGoogleStorageBuckets(unittest.TestCase):
     def setUp(self):
 
@@ -46,9 +44,7 @@ class TestGoogleStorageBuckets(unittest.TestCase):
     def test_get_bucket(self):
 
         # Assert that a bucket object is returned
-        self.assertIsInstance(
-            self.cloud.get_bucket(TEMP_BUCKET_NAME), storage.bucket.Bucket
-        )
+        self.assertIsInstance(self.cloud.get_bucket(TEMP_BUCKET_NAME), storage.bucket.Bucket)
 
     def test_create_bucket(self):
 

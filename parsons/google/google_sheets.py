@@ -541,9 +541,7 @@ class GoogleSheets:
 
         # Non-DB table options yield a list, convert to Parsons table with default worksheet col
         if sheet_id_list:
-            sheet_id_tbl = Table(
-                [{id_col: x, "worksheet_id": 0} for x in sheet_id_list]
-            )
+            sheet_id_tbl = [{"sheet_id": x, "worksheet_id": 0} for x in sheet_id_list]
 
         if not worksheet_id:
             worksheet_id = "worksheet_id"

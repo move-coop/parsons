@@ -513,6 +513,11 @@ class GoogleSheets:
     def combine_multiple_sheet_data(self, sheet_ids, worksheet_id=None):
         """
         Combines data from multiple Google Sheets into a Parsons Table.
+        The spreadsheets will be treated as if they are concatenated, meaning columns would
+        need to align positionally with matching data types.
+        This function also adds a spreedsheet_id and spreadsheet_title
+        columns to the resulting table.
+
         `Args:`
             sheet_ids: str, list
                 The IDs of the Google Spreadsheets with that data to be combined. Can be a
@@ -571,7 +576,6 @@ class GoogleSheets:
                 spreadsheet_id=sheet_id[id_col],
                 worksheet=sheet_id[worksheet_id],
             )
-
             # Add the sheet ID as a column
             data.add_column("spreadsheet_id", sheet_id[id_col])
 
@@ -584,7 +588,6 @@ class GoogleSheets:
             # Accumulate and materialize
             combined.concat(data)
             temp_files.append(combined.materialize_to_file())
-
         return combined
 
     def read_sheet(self, spreadsheet_id, sheet_index=0):

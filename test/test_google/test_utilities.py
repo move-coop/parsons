@@ -1,9 +1,9 @@
 import json
-import unittest
 import os
 import tempfile
+import unittest
 
-from parsons.google import utitities as util
+from parsons.google import utilities as util
 
 
 class FakeCredentialTest(unittest.TestCase):

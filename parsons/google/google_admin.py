@@ -1,4 +1,3 @@
-import json
 import uuid
 
 from google.auth.transport.requests import AuthorizedSession
@@ -51,7 +50,9 @@ class GoogleAdmin(object):
 
         # Return type from Google Admin is a tuple of length 2. Extract desired result from 2nd item
         # in tuple and convert to json
-        res = json.loads(self.client.request(req_url + param_str, "GET")[1].decode("utf-8"))
+        res = self.client.request("GET", req_url + param_str).json()
+        if "error" in res:
+            raise RuntimeError(res["error"].get("message"))
 
         # Paginate
         ret = []
@@ -63,12 +64,10 @@ class GoogleAdmin(object):
                     param_arr.append("pageToken=" + res["nextPageToken"])
                 else:
                     param_arr[-1] = "pageToken=" + res["nextPageToken"]
-                res = json.loads(
-                    self.client.request(req_url + "?" + "&".join(param_arr), "GET")[1].decode(
-                        "utf-8"
-                    )
-                )
-                ret += res[collection]
+                response = self.client.request("GET", req_url + "?" + "&".join(param_arr)).json()
+                if "error" in response:
+                    raise RuntimeError(response["error"].get("message"))
+                ret += response[collection]
 
         return Table(ret)
 

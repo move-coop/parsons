@@ -870,7 +870,7 @@ class Redshift(
             allow_overwrite=allow_overwrite,
             parallel=parallel,
             max_file_size=max_file_size,
-            aws_region=aws_region
+            aws_region=aws_region,
         )
 
         self.query(f"drop table if exists {rs_table} {query_end}")

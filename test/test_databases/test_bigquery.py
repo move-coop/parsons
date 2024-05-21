@@ -6,9 +6,15 @@ from typing import Union
 
 from google.cloud import bigquery, exceptions
 
-from parsons import GoogleBigQuery as BigQuery
+from parsons import GoogleBigQuery
 from parsons import Table
 from parsons.google.google_cloud_storage import GoogleCloudStorage
+
+
+class BigQuery(GoogleBigQuery):
+    @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
+    def __init__(self, load_creds_mock, app_creds=None, **kwargs):
+        super().__init__(app_creds=app_creds, **kwargs)
 
 
 class FakeClient:

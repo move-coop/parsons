@@ -834,7 +834,6 @@ class Redshift(
         parallel=True,
         max_file_size="6.2 GB",
         aws_region=None,
-        format=None,
     ):
         """
         Unload data to s3, and then drop Redshift table
@@ -858,8 +857,6 @@ class Redshift(
             None
         """
         query_end = "cascade" if cascade else ""
-        if format.lower() in ["json", "parquet"]:
-            delimiter = None
         self.unload(
             sql=f"select * from {rs_table}",
             bucket=bucket,
@@ -873,8 +870,7 @@ class Redshift(
             allow_overwrite=allow_overwrite,
             parallel=parallel,
             max_file_size=max_file_size,
-            aws_region=aws_region,
-            format=format,
+            aws_region=aws_region
         )
 
         self.query(f"drop table if exists {rs_table} {query_end}")

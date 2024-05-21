@@ -163,9 +163,11 @@ class GoogleBigQuery(DatabaseConnector):
         if isinstance(app_creds, Credentials):
             self.credentials = app_creds
         else:
-            env_credential_path = str(uuid.uuid4())
-            setup_google_application_credentials(app_creds, target_env_var_name=env_credential_path)
-            self.credentials = load_google_application_credentials(env_credential_path)
+            self.env_credential_path = str(uuid.uuid4())
+            setup_google_application_credentials(
+                app_creds, target_env_var_name=self.env_credential_path
+            )
+            self.credentials = load_google_application_credentials(self.env_credential_path)
 
         self.project = project
         self.location = location

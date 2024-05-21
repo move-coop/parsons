@@ -622,6 +622,8 @@ class TestRedshiftDB(unittest.TestCase):
             format="parquet",
         )
 
+        self.assertTrue(self.s3.key_exists(self.temp_s3_bucket, "unload_test_parquet"))
+
     def test_unload_csv_format(self):
         # Setup
         self.rs.copy(self.tbl, f"{self.temp_schema}.test_copy", if_exists="drop")

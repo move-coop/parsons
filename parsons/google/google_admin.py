@@ -1,6 +1,6 @@
 from oauth2client.service_account import ServiceAccountCredentials
 from parsons.etl.table import Table
-from parsons.google.utitities import setup_google_application_credentials
+from parsons.google.utilities import setup_google_application_credentials
 import httplib2
 import json
 import os

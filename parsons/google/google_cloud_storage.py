@@ -1,7 +1,7 @@
 import google
 from google.cloud import storage
 from google.cloud import storage_transfer
-from parsons.google.utitities import setup_google_application_credentials
+from parsons.google.utilities import setup_google_application_credentials
 from parsons.utilities import files
 import datetime
 import gzip

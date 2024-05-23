@@ -248,7 +248,7 @@ class BaseTable:
             truncate table {self.table};
             insert into {self.table} (select * from {self.table}_temp_{current_timestamp})
             {run_cascade};
-            drop table {self.table}_temp_{current_timestamp}
+            drop view {self.table}_temp_{current_timestamp}
         """
 
         self.db.query(dedup_query)

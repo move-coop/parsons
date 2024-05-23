@@ -109,6 +109,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#parsons.DBSync.table_sync_incremental"><code class="docutils literal notranslate"><span class="pre">DBSync.table_sync_incremental()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.DBSync.copy_rows"><code class="docutils literal notranslate"><span class="pre">DBSync.copy_rows()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.DBSync.create_table"><code class="docutils literal notranslate"><span class="pre">DBSync.create_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.DBSync.upsert_rows"><code class="docutils literal notranslate"><span class="pre">DBSync.upsert_rows()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -202,7 +203,7 @@ distinct primary keys.</p>
 <h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.DBSync">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">DBSync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">DBSync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DatabaseConnector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DatabaseConnector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync" title="Permalink to this definition"></a></dt>
 <dd><p>Sync tables between databases. Works with <code class="docutils literal notranslate"><span class="pre">Postgres</span></code>, <code class="docutils literal notranslate"><span class="pre">Redshift</span></code>, <code class="docutils literal notranslate"><span class="pre">MySQL</span></code>
 databases.</p>
 <dl class="simple">
@@ -258,11 +259,11 @@ are the same at the end of the sync.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.DBSync.table_sync_incremental">
-<span class="sig-name descname"><span class="pre">table_sync_incremental</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verify_row_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.table_sync_incremental"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync.table_sync_incremental" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">table_sync_incremental</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct_check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verify_row_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'primary_key'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'append_updates'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'upsert_updates'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'primary_key'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'updated_at'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.table_sync_incremental"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync.table_sync_incremental" title="Permalink to this definition"></a></dt>
 <dd><p>Incremental sync of table from a source database to a destination database
-using an incremental primary key.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
+using an incremental primary key or an update timestamp.</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
 <dt>source_table: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
 </dd>
 <dt>destination_table: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
@@ -275,6 +276,20 @@ sync. If it is not, an error will be raised.</p>
 </dd>
 <dt>verify_row_count: bool</dt><dd><p>Whether or not to verify the count of rows in the source and destination table
 are the same at the end of the sync.</p>
+</dd>
+<dt>strategy: Literal[“primary_key”, “append_updates”, “upsert_updates”]</dt><dd><p>Which strategy to use for incremental load.
+- primary_key: Loads all new rows with a primary key value larger than</p>
+<blockquote>
+<div><p>those in the target table</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>append_updates: Uses a configurable updated_at column to find all rows
+that have an updated_at value larger than the max in the target table, and
+appends all those rows to the target table</p></li>
+<li><p>upsert_updates: Uses a configurable updated_at column to find all rows
+that have an updated_at value larger than the max in the target table, and
+upserts all those rows to the target table</p></li>
+</ul>
 </dd>
 <dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: args</dt><dd><p>Optional copy arguments for destination database.</p>
 </dd>
@@ -313,6 +328,29 @@ are the same at the end of the sync.</p>
 <span class="sig-name descname"><span class="pre">create_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.create_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync.create_table" title="Permalink to this definition"></a></dt>
 <dd><p>Create the empty table in the destination database based on the source
 database schema structure. This method utilizes the Alchemy subclass.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.DBSync.upsert_rows">
+<span class="sig-name descname"><span class="pre">upsert_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">date</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.upsert_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync.upsert_rows" title="Permalink to this definition"></a></dt>
+<dd><p>Upsert rows from the source to the destination based on updated_at_column</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>source_table_name: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
+</dd>
+<dt>destination_table_name: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
+</dd>
+<dt>cutoff:</dt><dd><p>Start value to use as a minimum for updates.</p>
+</dd>
+<dt>updated_at_column:</dt><dd><p>Column which tracks the update timestamp</p>
+</dd>
+<dt>primary_key:</dt><dd><p>Column which serves as unique primary key</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>total_rows_written: int</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

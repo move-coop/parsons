@@ -241,10 +241,10 @@
                 <span class="n">cursor</span><span class="o">.</span><span class="n">copy_expert</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(),</span> <span class="s2">&quot;r&quot;</span><span class="p">))</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows copied to </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+<div class="viewcode-block" id="Postgres.table"><a class="viewcode-back" href="../../../../databases.html#parsons.Postgres.table">[docs]</a>    <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="c1"># Return a Postgres table object</span>
 
-        <span class="k">return</span> <span class="n">PostgresTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">PostgresTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span></div></div>
 
 
 <span class="k">class</span> <span class="nc">PostgresTable</span><span class="p">(</span><span class="n">BaseTable</span><span class="p">):</span>

@@ -58,9 +58,7 @@ def main():
             "twilio": ["twilio"],
             "zoom": ["PyJWT"],
         }
-        extras_require["all"] = sorted(
-            {lib for libs in extras_require.values() for lib in libs}
-        )
+        extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
     else:
         THIS_DIR = os.path.abspath(os.path.dirname(__file__))
         with open(os.path.join(THIS_DIR, "requirements.txt")) as reqs:

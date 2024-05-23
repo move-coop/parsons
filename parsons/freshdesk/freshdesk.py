@@ -247,9 +247,9 @@ class Freshdesk:
                 The priority of the ticket.
             status: int
                 The status of the ticket.
-            cc_emails: list
+            cc_emails: list (optional)
                 List of email addresses to CC.
-            custom_fields: dict
+            custom_fields: dict (optional)
                 Custom fields data.
         `Returns:`
             dict

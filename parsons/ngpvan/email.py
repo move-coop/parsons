@@ -62,9 +62,7 @@ class Email(object):
 
         params = {
             "$expand": (
-                "emailMessageContent, EmailMessageContentDistributions"
-                if expand
-                else None
+                "emailMessageContent, EmailMessageContentDistributions" if expand else None
             ),
         }
 
@@ -116,12 +114,8 @@ class Email(object):
             d["unsubscribeCount"] = 0
             try:
                 for i in email["emailMessageContent"]:
-                    d["recipientCount"] += i["emailMessageContentDistributions"][
-                        "recipientCount"
-                    ]
-                    d["bounceCount"] += i["emailMessageContentDistributions"][
-                        "bounceCount"
-                    ]
+                    d["recipientCount"] += i["emailMessageContentDistributions"]["recipientCount"]
+                    d["bounceCount"] += i["emailMessageContentDistributions"]["bounceCount"]
                     d["contributionCount"] += i["emailMessageContentDistributions"][
                         "contributionCount"
                     ]

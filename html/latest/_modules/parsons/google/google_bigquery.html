@@ -1499,10 +1499,10 @@
     <span class="k">def</span> <span class="nf">_bigquery_type</span><span class="p">(</span><span class="n">tp</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">BIGQUERY_TYPE_MAP</span><span class="p">[</span><span class="n">tp</span><span class="p">]</span>
 
-<div class="viewcode-block" id="GoogleBigQuery.table"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.table">[docs]</a>    <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="c1"># Return a MySQL table object</span>
 
-        <span class="k">return</span> <span class="n">BigQueryTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">BigQueryTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span></div>
 
 
 <span class="k">class</span> <span class="nc">BigQueryTable</span><span class="p">(</span><span class="n">BaseTable</span><span class="p">):</span>

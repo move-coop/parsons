@@ -193,18 +193,14 @@ class BaseTable:
         """
         current_timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
         run_cascade = "CASCADE" if cascade else ""
-        order_by_column_name = (
-            "random()" if order_by_column_name is None else order_by_column_name
-        )
+        order_by_column_name = "random()" if order_by_column_name is None else order_by_column_name
         if order_by_direction is None and order_by_column_name is not None:
             raise Exception("order_by_direction argument is blank")
 
         columns_list = self.columns
 
         # remove order_by columns
-        columns_list.remove(
-            order_by_column_name
-        ) if order_by_column_name is not None else None
+        columns_list.remove(order_by_column_name) if order_by_column_name is not None else None
 
         # remove ignore columns
         if columns_to_ignore is not None:
@@ -222,9 +218,10 @@ class BaseTable:
             where dup=1;
             alter table {self.table}_temp_{current_timestamp}
             drop column dup;
-            truncate table {self.table}
+            truncate table {self.table};
             insert into {self.table} (select * from {self.table}_temp_{current_timestamp})
-             {run_cascade};
+            {run_cascade};
+            drop table {self.table}_temp_{current_timestamp}
         """
 
         self.db.query(dedup_query)

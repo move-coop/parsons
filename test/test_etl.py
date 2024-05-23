@@ -4,6 +4,7 @@ import unittest
 from test.utils import assert_matching_tables
 
 import petl
+
 from parsons import Table
 from parsons.utilities import zip_archive
 
@@ -66,6 +67,8 @@ class TestParsonsTable(unittest.TestCase):
         self.assertRaises(ValueError, Table, list_of_invalid)
 
     def test_from_empty_petl(self):
+        # This test ensures that this would fail: Table(None)
+        # Even while allowing Table() to work
         self.assertRaises(ValueError, Table, None)
 
     def test_from_empty_list(self):
@@ -514,14 +517,10 @@ class TestParsonsTable(unittest.TestCase):
             ]
         )
 
-        expanded = test_table.unpack_nested_columns_as_rows(
-            "nested", expand_original=True
-        )
+        expanded = test_table.unpack_nested_columns_as_rows("nested", expand_original=True)
 
         # Check that the columns are as expected
-        self.assertEqual(
-            ["uid", "id", "extra", "nested", "nested_value"], expanded.columns
-        )
+        self.assertEqual(["uid", "id", "extra", "nested", "nested_value"], expanded.columns)
 
         # Check that the row count is as expected
         self.assertEqual(expanded.num_rows, 12)
@@ -537,9 +536,7 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_row_select(self):
 
-        tbl = Table(
-            [["foo", "bar", "baz"], ["c", 4, 9.3], ["a", 2, 88.2], ["b", 1, 23.3]]
-        )
+        tbl = Table([["foo", "bar", "baz"], ["c", 4, 9.3], ["a", 2, 88.2], ["b", 1, 23.3]])
         expected = Table([{"foo": "a", "bar": 2, "baz": 88.2}])
 
         # Try with this method
@@ -715,9 +712,7 @@ class TestParsonsTable(unittest.TestCase):
         )
         tbl.match_columns(desired_tbl.columns)
         desired_tbl = (
-            Table(desired_raw)
-            .remove_column("middle_name")
-            .add_column("middle_name", index=1)
+            Table(desired_raw).remove_column("middle_name").add_column("middle_name", index=1)
         )
         assert_matching_tables(desired_tbl, tbl)
 
@@ -991,9 +986,19 @@ class TestParsonsTable(unittest.TestCase):
         assert_matching_tables(tbl_expected, tbl)
 
         # Confirm deduplicate works for multiple keys
-        tbl = Table(
-            [["a", "b", "c"], [1, 2, 3], [1, 2, 3], [1, 2, 4], [1, 3, 2], [2, 3, 4]]
-        )
+        tbl = Table([["a", "b", "c"], [1, 2, 3], [1, 2, 3], [1, 2, 4], [1, 3, 2], [2, 3, 4]])
         tbl_expected = Table([["a", "b", "c"], [1, 2, 3], [1, 3, 2], [2, 3, 4]])
         tbl.deduplicate(["a", "b"])
+        assert_matching_tables(tbl_expected, tbl)
+
+    def test_head(self):
+        tbl = Table([["a", "b"], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
+        tbl_expected = Table([["a", "b"], [1, 2], [3, 4]])
+        tbl.head(2)
+        assert_matching_tables(tbl_expected, tbl)
+
+    def test_tail(self):
+        tbl = Table([["a", "b"], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
+        tbl_expected = Table([["a", "b"], [7, 8], [9, 10]])
+        tbl.tail(2)
         assert_matching_tables(tbl_expected, tbl)

@@ -7,9 +7,7 @@ from test_responses import geographies_resp, locations_resp, batch_resp, coord_r
 from test.utils import assert_matching_tables
 
 
-@unittest.skipIf(
-    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
-)
+@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestCensusGeocoder(unittest.TestCase):
     def setUp(self):
 

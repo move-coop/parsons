@@ -294,11 +294,18 @@
             <span class="n">response_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">page_params</span><span class="p">)</span>
             <span class="c1"># Check to see if page was empty if num parameter is available</span>
             <span class="k">if</span> <span class="n">page_indicator</span> <span class="o">==</span> <span class="s2">&quot;num&quot;</span><span class="p">:</span>
-                <span class="n">empty_page</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="n">first_data_key</span><span class="p">][</span><span class="s2">&quot;num&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                <span class="n">empty_page</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="n">first_data_key</span><span class="p">][</span><span class="s2">&quot;num&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">empty_page</span><span class="p">:</span>
                 <span class="c1"># Extract data</span>
-                <span class="n">response_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="n">first_data_key</span><span class="p">][</span><span class="n">second_data_key</span><span class="p">])</span>
+                <span class="n">response_data</span> <span class="o">=</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="n">first_data_key</span><span class="p">][</span><span class="n">second_data_key</span><span class="p">]</span>
+                <span class="c1"># When only one row of data it is returned as dict instead of list, which</span>
+                <span class="c1"># cannot be put into table</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response_data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">response_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">response_data</span><span class="p">]</span>
+
+                <span class="n">response_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">response_data</span><span class="p">)</span>
+
                 <span class="c1"># Append to final table</span>
                 <span class="n">final_table</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">response_table</span><span class="p">)</span>
                 <span class="n">final_table</span><span class="o">.</span><span class="n">materialize</span><span class="p">()</span>
@@ -495,6 +502,9 @@
         <span class="n">custom_cols</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span> <span class="k">if</span> <span class="n">include_custom_columns</span> <span class="k">else</span> <span class="s2">&quot;false&quot;</span>
         <span class="n">subscriptions</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span> <span class="k">if</span> <span class="n">include_subscriptions</span> <span class="k">else</span> <span class="s2">&quot;false&quot;</span>
 
+        <span class="k">if</span> <span class="n">phones</span><span class="p">:</span>
+            <span class="n">phones</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">phones</span><span class="p">)</span>
+
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;phone_number&quot;</span><span class="p">:</span> <span class="n">phones</span><span class="p">,</span>
             <span class="s2">&quot;from&quot;</span><span class="p">:</span> <span class="n">_format_date</span><span class="p">(</span><span class="n">first_date</span><span class="p">),</span>
@@ -524,9 +534,10 @@
         <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">opt_in_path_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">custom_column_values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A function for creating a single MobileCommons profile</span>
+<span class="sd">        A function for creating or updating a single MobileCommons profile</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            phone: str</span>
@@ -548,9 +559,12 @@
 <span class="sd">            opt_in_path_id: str</span>
 <span class="sd">                ID of the opt-in path to send new profile through. This will determine the welcome</span>
 <span class="sd">                text they receive.</span>
+<span class="sd">            custom_column_values: dict</span>
+<span class="sd">                Dictionary with custom column names as keys and custom column values</span>
+<span class="sd">                as dictionary values</span>
 
 <span class="sd">        `Returns:`</span>
-<span class="sd">            ID of created profile</span>
+<span class="sd">            ID of created/updated  profile</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
@@ -565,6 +579,9 @@
             <span class="s2">&quot;opt_in_path_id&quot;</span><span class="p">:</span> <span class="n">opt_in_path_id</span><span class="p">,</span>
             <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">default_params</span><span class="p">,</span>
         <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">custom_column_values</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">custom_column_values</span><span class="p">)</span>
 
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mc_post_request</span><span class="p">(</span><span class="s2">&quot;profile_update&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;profile&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]</span></div></div>

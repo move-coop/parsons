@@ -35,9 +35,7 @@ class Bloomerang(object):
 
     def __init__(self, api_key=None, client_id=None, client_secret=None):
         self.api_key = check_env.check("BLOOMERANG_API_KEY", api_key, optional=True)
-        self.client_id = check_env.check(
-            "BLOOMERANG_CLIENT_ID", client_id, optional=True
-        )
+        self.client_id = check_env.check("BLOOMERANG_CLIENT_ID", client_id, optional=True)
         self.client_secret = check_env.check(
             "BLOOMERANG_CLIENT_SECRET", client_secret, optional=True
         )
@@ -108,9 +106,7 @@ class Bloomerang(object):
         )
 
     def _base_get(self, endpoint, entity_id=None, params=None):
-        return self.conn.get_request(
-            url=self._base_endpoint(endpoint, entity_id), params=params
-        )
+        return self.conn.get_request(url=self._base_endpoint(endpoint, entity_id), params=params)
 
     def _base_delete(self, endpoint, entity_id=None):
         return self.conn.delete_request(url=self._base_endpoint(endpoint, entity_id))
@@ -227,9 +223,7 @@ class Bloomerang(object):
         """
         return self._base_delete("transaction", entity_id=transaction_id)
 
-    def get_transactions(
-        self, page_number=1, page_size=50, order_by=None, order_direction=None
-    ):
+    def get_transactions(self, page_number=1, page_size=50, order_by=None, order_direction=None):
         """
         `Args:`
             page_number: int

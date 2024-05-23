@@ -39,9 +39,7 @@ class Shopify(object):
         access_token=None,
     ):
         self.subdomain = check_env.check("SHOPIFY_SUBDOMAIN", subdomain)
-        self.access_token = check_env.check(
-            "SHOPIFY_ACCESS_TOKEN", access_token, optional=True
-        )
+        self.access_token = check_env.check("SHOPIFY_ACCESS_TOKEN", access_token, optional=True)
         self.password = check_env.check("SHOPIFY_PASSWORD", password, optional=True)
         self.api_key = check_env.check("SHOPIFY_API_KEY", api_key, optional=True)
         self.api_version = check_env.check("SHOPIFY_API_VERSION", api_version)
@@ -49,18 +47,14 @@ class Shopify(object):
             self.subdomain,
             self.api_version,
         )
-        if self.access_token is None and (
-            self.password is None or self.api_key is None
-        ):
+        if self.access_token is None and (self.password is None or self.api_key is None):
             raise KeyError("Must set either access_token or both api_key and password.")
         if self.access_token is not None:
             self.client = APIConnector(
                 self.base_url, headers={"X-Shopify-Access-Token": access_token}
             )
         else:
-            self.client = APIConnector(
-                self.base_url, auth=(self.api_key, self.password)
-            )
+            self.client = APIConnector(self.base_url, auth=(self.api_key, self.password))
 
     def get_count(self, query_date=None, since_id=None, table_name=None):
         """
@@ -77,9 +71,7 @@ class Shopify(object):
             int
         """
         return (
-            self.client.request(
-                self.get_query_url(query_date, since_id, table_name), "GET"
-            )
+            self.client.request(self.get_query_url(query_date, since_id, table_name), "GET")
             .json()
             .get("count", 0)
         )
@@ -144,9 +136,7 @@ class Shopify(object):
 
         return Table(orders)
 
-    def get_query_url(
-        self, query_date=None, since_id=None, table_name=None, count=True
-    ):
+    def get_query_url(self, query_date=None, since_id=None, table_name=None, count=True):
         """
         Get the URL of a Shopify API request
         `Args:`
@@ -192,9 +182,7 @@ class Shopify(object):
             dict
         """
         return (
-            self.client.request(
-                self.base_url + "graphql.json", "POST", json={"query": query}
-            )
+            self.client.request(self.base_url + "graphql.json", "POST", json={"query": query})
             .json()
             .get("data")
         )

@@ -1,4 +1,7 @@
 import logging
+from typing import Optional
+
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
@@ -27,19 +30,22 @@ class BaseTable:
 
         return self.db.query(f"SELECT COUNT(*) FROM {self.table}").first
 
+    def max_value(self, column: str):
+        """Get the max value of this column from the table."""
+        return self.db.query(
+            f"""
+            SELECT {column}
+            FROM {self.table}
+            ORDER BY {column} DESC
+            LIMIT 1
+            """
+        ).first
+
     def max_primary_key(self, primary_key):
         """
         Get the maximum primary key in the table.
         """
-
-        return self.db.query(
-            f"""
-            SELECT {primary_key}
-            FROM {self.table}
-            ORDER BY {primary_key} DESC
-            LIMIT 1
-        """
-        ).first
+        return self.max_value(primary_key)
 
     def distinct_primary_key(self, primary_key):
         """
@@ -144,6 +150,28 @@ class BaseTable:
         sql += f" OFFSET {offset}"
 
         return self.db.query(sql, parameters)
+
+    def get_updated_rows(
+        self,
+        updated_at_column: str,
+        cutoff_value,
+        offset: int = 0,
+        chunk_size: Optional[int] = None,
+    ) -> Table:
+        """Get rows that have a greater updated_at_column value than the one provided."""
+        sql = f"""
+            SELECT *
+            FROM {self.table}
+            WHERE {updated_at_column} > %s
+        """
+        if chunk_size:
+            sql += f" LIMIT {chunk_size}"
+
+        sql += f" OFFSET {offset}"
+
+        result = self.db.query(sql, parameters=[cutoff_value])
+
+        return result
 
     def drop(self, cascade=False):
         """

@@ -11,6 +11,7 @@ import petl
 from google.cloud import bigquery, exceptions
 from google.cloud.bigquery import dbapi
 from google.cloud.bigquery.job import LoadJobConfig
+from google.oauth2.credentials import Credentials
 
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
@@ -143,7 +144,7 @@ class GoogleBigQuery(DatabaseConnector):
 
     def __init__(
         self,
-        app_creds=None,
+        app_creds: Optional[Union[str, dict, Credentials]] = None,
         project=None,
         location=None,
         client_options: dict = {
@@ -156,7 +157,11 @@ class GoogleBigQuery(DatabaseConnector):
     ):
         self.app_creds = app_creds
 
-        setup_google_application_credentials(app_creds)
+        if isinstance(app_creds, Credentials):
+            self.credentials = app_creds
+        else:
+            self.credentials = None
+            setup_google_application_credentials(app_creds)
 
         self.project = project
         self.location = location
@@ -185,6 +190,7 @@ class GoogleBigQuery(DatabaseConnector):
                 project=self.project,
                 location=self.location,
                 client_options=self.client_options,
+                credentials=self.credentials,
             )
 
         return self._client
@@ -1106,6 +1112,10 @@ class GoogleBigQuery(DatabaseConnector):
     def get_row_count(self, schema: str, table_name: str) -> int:
         """
         Gets the row count for a BigQuery materialization.
+
+        Caution: This method uses SELECT COUNT(*) which can be expensive for large tables,
+        especially those with many columns. This is because BigQuery scans all table data
+        to perform the count, even though only the row count is returned.
 
         `Args`:
             schema: str

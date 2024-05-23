@@ -3,7 +3,7 @@ import json
 import logging
 
 from parsons.etl.table import Table
-from parsons.google.utitities import setup_google_application_credentials
+from parsons.google.utitities import setup_google_application_credentials, hexavigesimal
 
 import gspread
 from google.oauth2.service_account import Credentials
@@ -292,6 +292,63 @@ class GoogleSheets:
         # Update the data in one batch
         sheet.update_cells(cells, value_input_option=value_input_option)
         logger.info(f"Appended {table.num_rows} rows to worksheet.")
+
+    def paste_data_in_sheet(
+        self, spreadsheet_id, table, worksheet=0, header=True, startrow=0, startcol=0
+    ):
+        """
+        Pastes data from a Parsons table to a Google sheet. Note that this may overwrite
+        presently existing data. This function is useful for adding data to a subsection
+        if an existint sheet that will have other existing data - constrast to
+        `overwrite_sheet` (which will fully replace any existing data) and `append_to_sheet`
+        (whuch sticks the data only after all other existing data).
+
+        `Args:`
+            spreadsheet_id: str
+                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL).
+            table: obj
+                Parsons table
+            worksheet: str or int
+                The index or the title of the worksheet. The index begins with 0.
+            header: bool
+                Whether or not the header row gets pasted with the data.
+            startrow: int
+                Starting row position of pasted data. Counts from 0.
+            startcol: int
+                Starting column position of pasted data. Counts from 0.
+        """
+        sheet = self._get_worksheet(spreadsheet_id, worksheet)
+
+        number_of_columns = len(table.columns)
+        number_of_rows = table.num_rows + 1 if header else table.num_rows
+
+        if not number_of_rows or not number_of_columns:  # No data to paste
+            logger.warning(
+                f"No data available to paste, table size "
+                f"({number_of_rows}, {number_of_columns}). Skipping."
+            )
+            return
+
+        # gspread uses ranges like "C3:J7", so we need to convert to this format
+        data_range = (
+            hexavigesimal(startcol + 1)
+            + str(startrow + 1)
+            + ":"
+            + hexavigesimal(startcol + number_of_columns)
+            + str(startrow + number_of_rows)
+        )
+
+        # Unpack data. Hopefully this is small enough for memory
+        data = [[]] * table.num_rows
+        for row_num, row in enumerate(table.data):
+            data[row_num] = list(row)
+
+        if header:
+            sheet.update(data_range, [table.columns] + data)
+        else:
+            sheet.update(data_range, data)
+
+        logger.info(f"Pasted data to {data_range} in worksheet.")
 
     def overwrite_sheet(
         self, spreadsheet_id, table, worksheet=0, user_entered_value=False, **kwargs

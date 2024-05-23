@@ -1,5 +1,5 @@
 airtable-python-wrapper==0.13.0
-azure-storage-blob==12.3.2
+azure-storage-blob==12.13.0
 boto3>=1.17.98
 boxsdk==2.10.0
 braintree==4.0.0

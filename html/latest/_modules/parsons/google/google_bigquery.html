@@ -1261,6 +1261,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the row count for a BigQuery materialization.</span>
 
+<span class="sd">        Caution: This method uses SELECT COUNT(*) which can be expensive for large tables,</span>
+<span class="sd">        especially those with many columns. This is because BigQuery scans all table data</span>
+<span class="sd">        to perform the count, even though only the row count is returned.</span>
+
 <span class="sd">        `Args`:</span>
 <span class="sd">            schema: str</span>
 <span class="sd">                The schema name</span>

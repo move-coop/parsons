@@ -884,6 +884,9 @@ The extra info is a dict with format</p>
 <dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.get_row_count">
 <span class="sig-name descname"><span class="pre">get_row_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.get_row_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.get_row_count" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the row count for a BigQuery materialization.</p>
+<p>Caution: This method uses SELECT COUNT(*) which can be expensive for large tables,
+especially those with many columns. This is because BigQuery scans all table data
+to perform the count, even though only the row count is returned.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
 <dt>schema: str</dt><dd><p>The schema name</p>

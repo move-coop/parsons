@@ -1476,13 +1476,14 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Only supports csv or json files [data_type = </span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_load_table_from_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_uris</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">job_config</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">):</span>
+        <span class="n">load_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">load_table_from_uri</span><span class="p">(</span>
+            <span class="n">source_uris</span><span class="o">=</span><span class="n">source_uris</span><span class="p">,</span>
+            <span class="n">destination</span><span class="o">=</span><span class="n">destination</span><span class="p">,</span>
+            <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">load_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">load_table_from_uri</span><span class="p">(</span>
-                <span class="n">source_uris</span><span class="o">=</span><span class="n">source_uris</span><span class="p">,</span>
-                <span class="n">destination</span><span class="o">=</span><span class="n">destination</span><span class="p">,</span>
-                <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
-                <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
-            <span class="p">)</span>
             <span class="n">load_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
             <span class="k">return</span> <span class="n">load_job</span>
         <span class="k">except</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">BadRequest</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>

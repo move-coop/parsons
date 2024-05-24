@@ -1,7 +1,5 @@
 import logging
 import datetime
-from typing import Optional
-from parsons import Table
 
 logger = logging.getLogger(__name__)
 

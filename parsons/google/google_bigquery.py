@@ -1113,6 +1113,10 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Gets the row count for a BigQuery materialization.
 
+        Caution: This method uses SELECT COUNT(*) which can be expensive for large tables,
+        especially those with many columns. This is because BigQuery scans all table data
+        to perform the count, even though only the row count is returned.
+
         `Args`:
             schema: str
                 The schema name
@@ -1324,13 +1328,14 @@ class GoogleBigQuery(DatabaseConnector):
             raise ValueError(f"Only supports csv or json files [data_type = {data_type}]")
 
     def _load_table_from_uri(self, source_uris, destination, job_config, **load_kwargs):
+        load_job = self.client.load_table_from_uri(
+            source_uris=source_uris,
+            destination=destination,
+            job_config=job_config,
+            **load_kwargs,
+        )
+
         try:
-            load_job = self.client.load_table_from_uri(
-                source_uris=source_uris,
-                destination=destination,
-                job_config=job_config,
-                **load_kwargs,
-            )
             load_job.result()
             return load_job
         except exceptions.BadRequest as e:

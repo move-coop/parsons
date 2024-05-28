@@ -448,7 +448,7 @@ class GoogleSheets:
         ws.format(range, cell_format)
         logger.info("Formatted worksheet")
 
-    def attempt_gsheet_method(self, method, i=1, max=6, wait_time=15, **kwargs):
+    def attempt_gsheet_method(self, method, max=6, wait_time=15, **kwargs):
         """
         The Google Sheets API has notoriously strict rate limits (e.g. 60 calls per minute). This
         function calls itself (i.e. is recursive) to help configure wait times and retry attempts
@@ -469,46 +469,47 @@ class GoogleSheets:
 
         """
 
-        # Recursively account for nested methods as needed
-        nested_methods = method.split(".")
+        def inner_attempt_gsheet_method(method, i, max=6, wait_time=15, **kwargs):
+            # Recursively account for nested methods as needed
+            nested_methods = method.split(".")
 
-        if len(nested_methods) == 1:
-            final_method = self
-        else:
-            final_method = self[nested_methods[0]]
-            nested_methods.pop(0)
-
-        try:
-
-            # If final_method isn't callable, then the API call is made in the loop, not below
-            for m in nested_methods:
-                final_method = getattr(final_method, m)
-
-            # Using getattr allows the method/attribute to be user-provided
-            if callable(final_method):
-                output = final_method(**kwargs)
+            if len(nested_methods) == 1:
+                final_method = self
             else:
-                output = final_method
+                final_method = self[nested_methods[0]]
+                nested_methods.pop(0)
 
-        except (APIError, HTTPError, ReadTimeout, ConnectionError) as e:
-            # Lets get the ordinals right, because why not
-            if i % 10 == 1:
-                ordinal = "st"
-            elif i % 10 == 2:
-                ordinal = "nd"
-            else:
-                ordinal = "th"
+            try:
 
-            logger.debug(f"trying to {method} for the {i}{ordinal} time")
-            if i < max:
-                time.sleep(wait_time)
-                i += 1
-                return self.attempt_gsheet_method(method, i, max, wait_time, **kwargs)
+                # If final_method isn't callable, then the API call is made in the loop, not below
+                for m in nested_methods:
+                    final_method = getattr(final_method, m)
 
-            else:
-                raise e
+                # Using getattr allows the method/attribute to be user-provided
+                if callable(final_method):
+                    output = final_method(**kwargs)
+                else:
+                    output = final_method
 
-        return output
+            except (APIError, HTTPError, ReadTimeout, ConnectionError) as e:
+                # Lets get the ordinals right, because why not
+                if i % 10 == 1:
+                    ordinal = "st"
+                elif i % 10 == 2:
+                    ordinal = "nd"
+                else:
+                    ordinal = "th"
+
+                logger.debug(f"trying to {method} for the {i}{ordinal} time")
+                if i < max:
+                    time.sleep(wait_time)
+                    return inner_attempt_gsheet_method(method, i + 1, max, wait_time, **kwargs)
+
+                else:
+                    raise e
+
+            inner_attempt_gsheet_method(method, 0, max, wait_time, **kwargs)
+            return output
 
     def combine_multiple_sheet_data(self, sheet_ids, worksheet_id=None):
         """
@@ -588,6 +589,11 @@ class GoogleSheets:
             # Accumulate and materialize
             combined.concat(data)
             temp_files.append(combined.materialize_to_file())
+
+        if len(temp_files) > 1:
+            utilities.files.close_temp_file(temp_files[0])
+            temp_files.remove(temp_files[0])
+
         return combined
 
     def read_sheet(self, spreadsheet_id, sheet_index=0):

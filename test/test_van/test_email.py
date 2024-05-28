@@ -180,5 +180,5 @@ class TestEmail(unittest.TestCase):
         assert len(response_t.to_dicts()) == 5
         assert len(response_f.to_dicts()) == 6
 
-        # sassert response_t.to_dicts()[4]["recipientCount"] == 7
+        assert response_t.to_dicts()[4]["recipientCount"] == 7
         assert response_f.to_dicts()[4]["recipientCount"] == 3

@@ -151,14 +151,20 @@ class TestEmail(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_email_message(self, m):
         m.get(
+            self.van.connection.uri + "email/message/0",
+            json=mock_response[0],
+            status_code=200,
+        )
+        m.get(
             self.van.connection.uri + "email/message/1",
             json=mock_response_enriched[0],
             status_code=200,
         )
+        response0 = self.van.get_email(0, expand=False)
+        response1 = self.van.get_email(1)
 
-        response = self.van.get_email(1)
-
-        assert_matching_tables(response, mock_response_enriched[0])
+        assert_matching_tables(response0, mock_response[0])
+        assert_matching_tables(response1, mock_response_enriched[0])
 
     @requests_mock.Mocker()
     def test_get_email_message_stats_agg(self, m):

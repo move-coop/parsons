@@ -581,7 +581,7 @@
         <span class="p">}</span>
 
         <span class="k">if</span> <span class="n">custom_column_values</span><span class="p">:</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">custom_column_values</span><span class="p">)</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">custom_column_values</span><span class="p">)</span>
 
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mc_post_request</span><span class="p">(</span><span class="s2">&quot;profile_update&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;profile&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]</span></div></div>

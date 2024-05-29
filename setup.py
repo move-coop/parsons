@@ -40,12 +40,15 @@ def main():
                 "oauth2client",
                 "validate-email",
             ],
-            "mysql": ["mysql-connector-python", "SQLAlchemy"],
+            "mysql": [
+                "mysql-connector-python",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+            ],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["bs4"],
-            "postgres": ["psycopg2-binary", "SQLAlchemy"],
-            "redshift": ["boto3", "psycopg2-binary", "SQLAlchemy"],
+            "postgres": ["psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",],
+            "redshift": ["boto3", "psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
             "sftp": ["paramiko"],
@@ -55,9 +58,7 @@ def main():
             "twilio": ["twilio"],
             "zoom": ["PyJWT"],
         }
-        extras_require["all"] = sorted(
-            {lib for libs in extras_require.values() for lib in libs}
-        )
+        extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
     else:
         THIS_DIR = os.path.abspath(os.path.dirname(__file__))
         with open(os.path.join(THIS_DIR, "requirements.txt")) as reqs:
@@ -89,7 +90,7 @@ def main():
         ],
         python_requires=">=3.7.0,<3.12.0",
         long_description=long_description,
-        long_description_content_type='text/markdown'
+        long_description_content_type="text/markdown",
     )
 
 

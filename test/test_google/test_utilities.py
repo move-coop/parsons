@@ -72,3 +72,16 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
                 actual = fsnd.read()
                 self.assertEqual(self.cred_contents, json.loads(actual))
                 self.assertEqual(ffst.read(), actual)
+
+
+class TestHexavigesimal(unittest.TestCase):
+
+    def test_returns_A_on_1(self):
+        self.assertEqual(util.hexavigesimal(1), "A")
+
+    def test_returns_AA_on_27(self):
+        self.assertEqual(util.hexavigesimal(27), "AA")
+
+    def test_returns_error_on_0(self):
+        with self.assertRaises(ValueError):
+            util.hexavigesimal(0)

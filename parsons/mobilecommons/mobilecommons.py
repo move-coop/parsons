@@ -433,7 +433,7 @@ class MobileCommons:
         }
 
         if custom_column_values:
-            params = params.merge(custom_column_values)
+            params = params.update(custom_column_values)
 
         response = self._mc_post_request("profile_update", params=params)
         return response["profile"]["id"]

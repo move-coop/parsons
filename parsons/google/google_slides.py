@@ -125,9 +125,23 @@ class GoogleSlides:
         `Returns:`
             None
         """
-        slide = self.get_slide(presentation_id, slide_number)
-        self.client.presentations().pages().delete(
-            presentationId=presentation_id, pageObjectId=slide["objectId"]
+        slide_object_id = self.get_slide(presentation_id, slide_number)['objectId']
+        
+        requests = [
+            {
+                'deleteObject': {
+                    'objectId': slide_object_id
+                }
+            }
+        ]
+
+        # Execute the request
+        body = {
+            'requests': requests
+        }
+        self.client.presentations().batchUpdate(
+            presentationId=presentation_id,
+            body=body
         ).execute()
 
         return None

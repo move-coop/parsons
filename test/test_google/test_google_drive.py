@@ -1,6 +1,8 @@
 import unittest
 import os
 from parsons import GoogleDrive
+import random
+import string
 
 # Test Slides: https://docs.google.com/presentation/d/19I-kicyaJV53KoPNwt77KJL10fHzWFdZ_c2mW4XJaxc
 
@@ -22,7 +24,10 @@ class TestGoogleDrive(unittest.TestCase):
     def test_share_object(self):
 
         file_id = "19I-kicyaJV53KoPNwt77KJL10fHzWFdZ_c2mW4XJaxc"
-        email_addresses = ["bob@bob.com"]
+        email = ''.join(random.choices(string.ascii_letters, k=10))+"@gmail.com"
+        email_addresses = [email]
 
-        shared = self.gd.share_object(file_id, email_addresses)
-        self.assertTrue(True, list(set([x in p["permissions"] for x in shared]))[0])
+        before = self.gd.get_permissions(file_id)['permissions']
+        self.gd.share_object(file_id, email_addresses)
+        after = self.gd.get_permissions(file_id)['permissions']
+        self.assertTrue(True, len(after) > len(before))

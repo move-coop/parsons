@@ -114,15 +114,22 @@ class Email(object):
             "machineOpenCount",
             "openCount",
             "unsubscribeCount",
+            # "subject"  # included here for clarity, but has some special logic
         ]
+        # If we are aggregating, we have one entry per foreignMessageId (outer loop) and
+        # sum over the values inside the inner loop. If we are not, then we need to loop
+        # over foreignMessageId and each component of emailMessageContent, so we loop
+        # over both and pull out data (with no aggregation) for each.
         if aggregate_ab:
-            for email in email_list:
+            for email in email_list:  # One row per foreignMessageId
                 outer = {field: email[field] for field in outer_fields}
                 inner = {field: 0 for field in inner_fields}
                 for i in email["emailMessageContent"]:
                     try:
-                        for field in inner_fields:
+                        for field in inner_fields:  # Aggregation of all inner values
                             inner[field] += i["emailMessageContentDistributions"][field]
+                            # Just replacing subject to get the last one
+                            inner["subject"] = i["subject"]
                     except KeyError as e:
                         logger.info(str(e))
                         pass
@@ -130,11 +137,13 @@ class Email(object):
         else:
             for email in email_list:
                 for i in email["emailMessageContent"]:
+                    # One row per foreignMessageId / emailMessageContent entry
                     outer = {field: email[field] for field in outer_fields}
                     inner = {field: 0 for field in inner_fields}
                     try:
                         for field in inner_fields:
                             inner[field] = i["emailMessageContentDistributions"][field]
+                            inner["subject"] = i["subject"]
                     except KeyError as e:
                         logger.info(str(e))
                     final_email_list.append({**outer, **inner})

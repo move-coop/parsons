@@ -29,45 +29,112 @@ def assert_matching_tables(table1, table2, ignore_headers=False):
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 
-sample_content = {
-    "name": "Test A",
-    "senderDisplayName": "Joe Biden",
-    "senderEmailAddress": "joe@biden.com",
-    "createdBy": "Joe Biden",
-    "dateCreated": "2024-02-01T11:55:00Z",
-    "emailMessageContentDistributions": {
-        "dateSent": "2024-02-01T11:55:00Z",
-        "recipientCount": 3,
-        "openCount": 1,
-        "machineOpenCount": 1,
-        "linksClickedCount": 1,
-        "unsubscribeCount": 0,
-        "bounceCount": 0,
-        "contributionTotal": 0.0,
-        "formSubmissionCount": 0,
-        "contributionCount": 0,
-    },
-}
 
-sample_content2 = {
-    "name": "Test B",
-    "senderDisplayName": "Kamala Harris",
-    "senderEmailAddress": "kamala@harris.com",
-    "createdBy": "Kamala Harris",
-    "dateCreated": "2024-02-01T11:55:00Z",
-    "emailMessageContentDistributions": {
-        "dateSent": "2024-02-01T11:55:00Z",
-        "recipientCount": 4,
-        "openCount": 2,
-        "machineOpenCount": 2,
-        "linksClickedCount": 2,
-        "unsubscribeCount": 1,
-        "bounceCount": 1,
-        "contributionTotal": 1.0,
-        "formSubmissionCount": 1,
-        "contributionCount": 1,
+sample_content_full = [
+    {
+        "name": "Email Name",
+        "senderDisplayName": "Joe Biden",
+        "senderEmailAddress": "joe@biden.org",
+        "subject": "This is Joe",
+        "createdBy": "Random Intern",
+        "dateCreated": "2023-05-17T15:04:00Z",
+        "emailMessageContentDistributions": {
+            "dateSent": "2023-05-17T15:05:00Z",
+            "recipientCount": 10,
+            "openCount": 0,
+            "linksClickedCount": 0,
+            "unsubscribeCount": 0,
+            "bounceCount": 0,
+            "contributionTotal": 0.0,
+            "formSubmissionCount": 0,
+            "contributionCount": 0,
+            "machineOpenCount": 0,
+        },
     },
-}
+    {
+        "name": "Email Name_B",
+        "senderDisplayName": "Kamala Harris",
+        "senderEmailAddress": "kamala@harris.org",
+        "subject": "This is Kamala",
+        "createdBy": "Random Intern",
+        "dateCreated": "2023-05-17T15:04:00Z",
+        "emailMessageContentDistributions": {
+            "dateSent": "2023-05-17T15:05:00Z",
+            "recipientCount": 10,
+            "openCount": 1,
+            "linksClickedCount": 1,
+            "unsubscribeCount": 1,
+            "bounceCount": 0,
+            "contributionTotal": 1.0,
+            "formSubmissionCount": 0,
+            "contributionCount": 1,
+            "machineOpenCount": 1,
+        },
+    },
+    {
+        "name": "Email Name_C",
+        "senderDisplayName": "Commander Biden",
+        "senderEmailAddress": "commander@barkbark.org",
+        "subject": "Bark Bark",
+        "createdBy": "Random Intern",
+        "dateCreated": "2023-05-17T15:04:00Z",
+        "emailMessageContentDistributions": {
+            "dateSent": "2023-05-17T15:05:00Z",
+            "recipientCount": 10,
+            "openCount": 5,
+            "linksClickedCount": 0,
+            "unsubscribeCount": 0,
+            "bounceCount": 0,
+            "contributionTotal": 0.0,
+            "formSubmissionCount": 0,
+            "contributionCount": 0,
+            "machineOpenCount": 2,
+        },
+    },
+    {
+        "name": "Email Name_Winner",
+        "senderDisplayName": "Commander Biden",
+        "senderEmailAddress": "commander@barkbark.org",
+        "subject": "Bark Bark",
+        "createdBy": "TargetedEmail InternalAPIUser",
+        "dateCreated": "2023-05-17T17:06:00Z",
+        "emailMessageContentDistributions": {
+            "dateSent": "2023-05-17T17:06:00Z",
+            "recipientCount": 100,
+            "openCount": 30,
+            "linksClickedCount": 10,
+            "unsubscribeCount": 10,
+            "bounceCount": 10,
+            "contributionTotal": 500.0,
+            "formSubmissionCount": 0,
+            "contributionCount": 3,
+            "machineOpenCount": 30,
+        },
+    },
+]
+
+sample_content_single = [
+    {
+        "name": "Email Name",
+        "senderDisplayName": "Joe Biden",
+        "senderEmailAddress": "joe@biden.org",
+        "subject": "This is Joe",
+        "createdBy": "Random Intern",
+        "dateCreated": "2023-05-17T15:04:00Z",
+        "emailMessageContentDistributions": {
+            "dateSent": "2023-05-17T15:05:00Z",
+            "recipientCount": 10,
+            "openCount": 0,
+            "linksClickedCount": 0,
+            "unsubscribeCount": 0,
+            "bounceCount": 0,
+            "contributionTotal": 0.0,
+            "formSubmissionCount": 0,
+            "contributionCount": 0,
+            "machineOpenCount": 0,
+        },
+    }
+]
 
 mock_response = [
     {
@@ -123,11 +190,11 @@ mock_response = [
 ]
 
 mock_response_enriched = deepcopy(mock_response)
-mock_response_enriched[0]["emailMessageContent"] = [sample_content]
-mock_response_enriched[1]["emailMessageContent"] = [sample_content]
-mock_response_enriched[2]["emailMessageContent"] = [sample_content]
-mock_response_enriched[3]["emailMessageContent"] = [sample_content]
-mock_response_enriched[4]["emailMessageContent"] = [sample_content, sample_content2]
+mock_response_enriched[0]["emailMessageContent"] = sample_content_single
+mock_response_enriched[1]["emailMessageContent"] = sample_content_single
+mock_response_enriched[2]["emailMessageContent"] = sample_content_single
+mock_response_enriched[3]["emailMessageContent"] = sample_content_single
+mock_response_enriched[4]["emailMessageContent"] = sample_content_full
 
 print(mock_response_enriched)
 
@@ -184,7 +251,7 @@ class TestEmail(unittest.TestCase):
         response_f = self.van.get_email_stats(aggregate_ab=False)
 
         assert len(response_t.to_dicts()) == 5
-        assert len(response_f.to_dicts()) == 6
+        assert len(response_f.to_dicts()) == 8
 
-        assert response_t.to_dicts()[4]["recipientCount"] == 7
-        assert response_f.to_dicts()[4]["recipientCount"] == 3
+        assert response_t.to_dicts()[4]["recipientCount"] == 130
+        assert response_f.to_dicts()[4]["recipientCount"] == 10

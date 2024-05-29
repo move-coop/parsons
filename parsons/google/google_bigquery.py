@@ -30,7 +30,6 @@ BIGQUERY_TYPE_MAP = {
     "datetime": "DATETIME",
     "date": "DATE",
     "time": "TIME",
-    "dict": "JSON",
     "NoneType": "STRING",
     "UUID": "STRING",
     "timestamp": "TIMESTAMP",

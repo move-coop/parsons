@@ -128,8 +128,8 @@ class Email(object):
                     try:
                         for field in inner_fields:  # Aggregation of all inner values
                             inner[field] += i["emailMessageContentDistributions"][field]
-                            # Just replacing subject to get the last one
-                            inner["subject"] = i["subject"]
+                        # Just replacing subject to get the last one
+                        inner["subject"] = i["subject"]
                     except KeyError as e:
                         logger.info(str(e))
                         pass
@@ -143,7 +143,7 @@ class Email(object):
                     try:
                         for field in inner_fields:
                             inner[field] = i["emailMessageContentDistributions"][field]
-                            inner["subject"] = i["subject"]
+                        inner["subject"] = i["subject"]
                     except KeyError as e:
                         logger.info(str(e))
                     final_email_list.append({**outer, **inner})

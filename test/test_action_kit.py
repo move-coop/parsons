@@ -97,6 +97,22 @@ class TestActionKit(unittest.TestCase):
 
         assert res.status_code == 202
 
+    def test_update_phone(self):
+        # Test update phone
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+
+        res = self.actionkit.update_phone(123, type="mobile")
+        self.actionkit.conn.patch.assert_called_with(
+            "https://domain.actionkit.com/rest/v1/phone/123/",
+            data=json.dumps({"type": "mobile"}),
+        )
+
+        assert res.status_code == 202
+
     def test_update_event(self):
         # Test update event
 
@@ -453,6 +469,22 @@ class TestActionKit(unittest.TestCase):
             data=json.dumps({"account": "test"}),
         )
 
+    def test_update_order_user_detail(self):
+        # Test update order user detail
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+
+        res = self.actionkit.update_order_user_detail(123, first_name="new name")
+        self.actionkit.conn.patch.assert_called_with(
+            "https://domain.actionkit.com/rest/v1/orderuserdetail/123/",
+            data=json.dumps({"first_name": "new name"}),
+        )
+
+        assert res.status_code == 202
+
     def test_get_orders(self):
         # Test get orders
         resp_mock = mock.MagicMock()
@@ -637,6 +669,22 @@ class TestActionKit(unittest.TestCase):
             "https://domain.actionkit.com/rest/v1/action/",
             data=json.dumps({"email": "bob@bob.com", "page": "my_action"}),
         )
+
+    def test_update_import_action(self):
+        # Test update import action
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+
+        res = self.actionkit.update_import_action(123, source="new source")
+        self.actionkit.conn.patch.assert_called_with(
+            "https://domain.actionkit.com/rest/v1/importaction/123/",
+            data=json.dumps({"source": "new source"}),
+        )
+
+        assert res.status_code == 202
 
     def test_bulk_upload_table(self):
         resp_mock = mock.MagicMock()

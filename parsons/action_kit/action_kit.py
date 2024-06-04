@@ -169,11 +169,31 @@ class ActionKit(object):
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns:`
-            ``None``
+            ``HTTP response from the patch request``
         """
 
         resp = self.conn.patch(self._base_endpoint("user", user_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {user_id}")
+
+        return resp
+
+    def update_phone(self, phone_id, **kwargs):
+        """
+        Update a phone record.
+
+        `Args:`
+            phone_id: int
+                The phone id of the phone to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``HTTP response from the patch request``
+        """
+
+        resp = self.conn.patch(self._base_endpoint("phone", phone_id), data=json.dumps(kwargs))
+        logger.info(f"{resp.status_code}: {phone_id}")
 
         return resp
 
@@ -833,6 +853,28 @@ class ActionKit(object):
         resp = self.conn.patch(self._base_endpoint("order", order_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {order_id}")
 
+    def update_order_user_detail(self, user_detail_id, **kwargs):
+        """
+        Update an order user detail.
+
+        `Args:`
+            user_detail_id: int
+                The id of the order user detail to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``HTTP response from the patch request``
+        """
+
+        resp = self.conn.patch(
+            self._base_endpoint("orderuserdetail", user_detail_id), data=json.dumps(kwargs)
+        )
+        logger.info(f"{resp.status_code}: {user_detail_id}")
+
+        return resp
+
     def get_orderrecurring(self, orderrecurring_id):
         """
         Get an orderrecurring.
@@ -1118,6 +1160,28 @@ class ActionKit(object):
             return_full_json=True,
             **kwargs,
         )
+
+    def update_import_action(self, action_id, **kwargs):
+        """
+        Update an import action.
+
+        `Args:`
+            action_id: int
+                The action id of the import action to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``HTTP response from the patch request``
+        """
+
+        resp = self.conn.patch(
+            self._base_endpoint("importaction", action_id), data=json.dumps(kwargs)
+        )
+        logger.info(f"{resp.status_code}: {action_id}")
+
+        return resp
 
     def bulk_upload_csv(
         self,

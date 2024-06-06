@@ -152,10 +152,11 @@
 <span class="kn">from</span> <span class="nn">parsons.google.utitities</span> <span class="kn">import</span> <span class="n">setup_google_application_credentials</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">petl</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
-<span class="kn">import</span> <span class="nn">gzip</span>
 <span class="kn">import</span> <span class="nn">zipfile</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
@@ -459,7 +460,14 @@
         <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">blob_name</span><span class="p">,</span> <span class="n">bucket</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
-            <span class="n">local_file</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">()</span>
+            <span class="c1"># If a parsons Table is loaded from a CSV and has had no</span>
+            <span class="c1"># transformations, the Table.table object will be a petl</span>
+            <span class="c1"># CSVView. Once any transformations are made, the Table.table</span>
+            <span class="c1"># becomes a different petl class</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">petl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">csv_py3</span><span class="o">.</span><span class="n">CSVView</span><span class="p">):</span>
+                <span class="n">local_file</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">filename</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">local_file</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">()</span>
             <span class="n">content_type</span> <span class="o">=</span> <span class="s2">&quot;text/csv&quot;</span>
         <span class="k">elif</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
             <span class="n">local_file</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>

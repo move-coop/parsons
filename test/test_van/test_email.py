@@ -196,8 +196,6 @@ mock_response_enriched[2]["emailMessageContent"] = sample_content_single
 mock_response_enriched[3]["emailMessageContent"] = sample_content_single
 mock_response_enriched[4]["emailMessageContent"] = sample_content_full
 
-print(mock_response_enriched)
-
 
 class TestEmail(unittest.TestCase):
     def setUp(self):

@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 from parsons.etl.table import Table
-from parsons.databases.table import BaseTable
 
 
 class DatabaseConnector(ABC):
@@ -188,9 +187,4 @@ class DatabaseConnector(ABC):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-        pass
-
-    @abstractmethod
-    def table(self, table_name: str) -> BaseTable:
-        """Return a table instance."""
         pass

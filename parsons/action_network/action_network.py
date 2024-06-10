@@ -3,12 +3,12 @@ import logging
 import re
 import warnings
 from typing import Dict, List, Union
-
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-import psycopg2
-import sshtunnel
+from parsons import Redshift
+from parsons.utilities.ssh_utilities import SSHTunnelUtility
+
 
 logger = logging.getLogger(__name__)
 
@@ -1944,6 +1944,7 @@ class ActionNetwork(object):
         """
         return self.api.get_request(f"wrappers/{wrapper_id}")
 
+    # SQL Mirror
     def query_sql_mirror(
         self,
         ssh_host,
@@ -1959,6 +1960,8 @@ class ActionNetwork(object):
     ):
         """
         `Args:`
+            self:
+                The ActionNetwork instance
             ssh_host:
                 The host for the SSH connection
             ssh_port:
@@ -1985,40 +1988,22 @@ class ActionNetwork(object):
         `Documentation Reference`:
             https://actionnetwork.org/mirroring/docs
         """
-        output = None
-        server = None
-        con = None
-        try:
-            server = sshtunnel.SSHTunnelForwarder(
-                (ssh_host, int(ssh_port)),
-                ssh_username=ssh_username,
-                ssh_password=ssh_password,
-                remote_bind_address=(mirror_host, int(mirror_port)),
-            )
-            server.start()
-            logging.info("SSH tunnel established successfully.")
-
-            con = psycopg2.connect(
-                host="localhost",
-                port=server.local_bind_port,
-                database=mirror_db_name,
-                user=mirror_username,
+        # Use SSHTunnelUtility to create an SSH tunnel
+        with SSHTunnelUtility(
+            ssh_host=ssh_host,
+            ssh_port=ssh_port,
+            ssh_username=ssh_username,
+            ssh_password=ssh_password,
+            remote_bind_address=(mirror_host, mirror_port),
+        ) as tunnel:
+            # Redshift connection now uses the local end of the tunnel
+            rs = Redshift(
+                username=mirror_username,
                 password=mirror_password,
+                host="127.0.0.1",  # Connect to localhost where the tunnel is bound
+                db=mirror_db_name,
+                port=tunnel.local_bind_port,  # Use the dynamically assigned local port
             )
-            logging.info("Database connection established successfully.")
-
-            cursor = con.cursor()
-            cursor.execute(query)
-            records = cursor.fetchall()
-            output = records
-            logging.info(f"Query executed successfully: {records}")
-        except Exception as e:
-            logging.error(f"Error during query execution: {e}")
-        finally:
-            if con:
-                con.close()
-                logging.info("Database connection closed.")
-            if server:
-                server.stop()
-                logging.info("SSH tunnel closed.")
-        return output
+            # Perform the query
+            result = rs.query(query)
+            return result

@@ -1988,22 +1988,26 @@ class ActionNetwork(object):
         `Documentation Reference`:
             https://actionnetwork.org/mirroring/docs
         """
-        # Use SSHTunnelUtility to create an SSH tunnel
-        with SSHTunnelUtility(
-            ssh_host=ssh_host,
-            ssh_port=ssh_port,
-            ssh_username=ssh_username,
-            ssh_password=ssh_password,
-            remote_bind_address=(mirror_host, mirror_port),
-        ) as tunnel:
-            # Redshift connection now uses the local end of the tunnel
-            rs = Redshift(
-                username=mirror_username,
-                password=mirror_password,
-                host="127.0.0.1",  # Connect to localhost where the tunnel is bound
-                db=mirror_db_name,
-                port=tunnel.local_bind_port,  # Use the dynamically assigned local port
-            )
-            # Perform the query
-            result = rs.query(query)
-            return result
+        try:
+            # Use SSHTunnelUtility to create an SSH tunnel
+            with SSHTunnelUtility(
+                ssh_host=ssh_host,
+                ssh_port=ssh_port,
+                ssh_username=ssh_username,
+                ssh_password=ssh_password,
+                remote_bind_address=(mirror_host, mirror_port),
+            ) as tunnel:
+                # Redshift connection now uses the local end of the tunnel
+                rs = Redshift(
+                    username=mirror_username,
+                    password=mirror_password,
+                    host="127.0.0.1",  # Connect to localhost where the tunnel is bound
+                    db=mirror_db_name,
+                    port=tunnel.local_bind_port,  # Use the dynamically assigned local port
+                )
+                # Perform the query
+                result = rs.query(query)
+                return result
+        except Exception as e:
+            print(e)
+            return None

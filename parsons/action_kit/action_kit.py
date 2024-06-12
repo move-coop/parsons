@@ -186,8 +186,7 @@ class ActionKit(object):
                 The phone id of the phone to update
             **kwargs:
                 Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                at the /rest/v1/phone/schema/ path on any ActionKit instance.
         `Returns:`
             ``HTTP response from the patch request``
         """
@@ -862,8 +861,7 @@ class ActionKit(object):
                 The id of the order user detail to update
             **kwargs:
                 Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                at the /rest/v1/orderuserdetail/schema/ path on any ActionKit instance.
         `Returns:`
             ``HTTP response from the patch request``
         """
@@ -1170,8 +1168,7 @@ class ActionKit(object):
                 The action id of the import action to update
             **kwargs:
                 Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                at the /rest/v1/importaction/schema/ path on any ActionKit instance.
         `Returns:`
             ``HTTP response from the patch request``
         """

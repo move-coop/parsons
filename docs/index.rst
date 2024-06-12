@@ -199,6 +199,7 @@ Indices and tables
    crowdtangle
    databases
    donorbox
+   empower
    facebook_ads
    formstack
    freshdesk

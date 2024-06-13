@@ -12,6 +12,11 @@ somewhere on the local filesystem.
 If slack-related arguments or environment variables are not provided,
 no log message will be sent to slack.
 
+The dbt command will inherit environment variables from the python
+process shell, so if your dbt profiles.yml file uses environment
+variables, ensure those are set in python or the parent shell before
+running this dbt utility.
+
 Example usage:
 ```
 from parsons.utilities.dbt import dbtRunner
@@ -19,10 +24,10 @@ from parsons.utilities.dbt import dbtRunner
 dbt_runner = dbtRunner(
     commands=['run', 'test'],
     dbt_project_directory='/home/ubuntu/code/dbt_project/',
-    dbt_schema='dbt_dev'
 )
 dbt_runner.run()
 ```
+
 """
 
 import datetime
@@ -36,7 +41,6 @@ import time
 from typing import List, Literal, Optional
 
 from parsons.notifications.slack import Slack
-from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 
@@ -206,12 +210,6 @@ class dbtRunner:
         self,
         commands: List[str],
         dbt_project_directory: pathlib.Path,
-        dbt_schema: Optional[str] = None,
-        username: Optional[str] = None,
-        password: Optional[str] = None,
-        host: Optional[str] = None,
-        port: Optional[int] = None,
-        db: Optional[str] = None,
         raise_errors: bool = False,
         slack_channel: Optional[str] = None,
         slack_webhook: Optional[str] = None,
@@ -227,35 +225,6 @@ class dbtRunner:
             dbt_project_directory: pathlib.Path
                 The path to find the dbt project, as a working
                 directory for dbt commands to run
-            dbt_schema: Optional[str]
-                Populates an environment variable DBT_SCHEMA
-                which can be used in your dbt profile.
-                Not required if the `DBT_SCHEMA` environment variable set.
-            username: Optional[str]
-                Populates an environment variable REDSHIFT_USERNAME
-                which can be used in your dbt profile
-                Not requried if the `REDSHIFT_USERNAME`
-                environment variable set.
-            password: Optional[str]
-                Populates an environment variable REDSHIFT_PASSWORD
-                which can be used in your dbt profile
-                Not requried if the `REDSHIFT_PASSWORD`
-                environment variable set.
-            host: Optional[str]
-                Populates an environment variable REDSHIFT_HOST
-                which can be used in your dbt profile
-                Not requried if the `REDSHIFT_HOST`
-                environment variable set.
-            port: Optional[str]
-                Populates an environment variable REDSHIFT_PORT
-                which can be used in your dbt profile
-                Not requried if the `REDSHIFT_PORT`
-                environment variable set.
-            db: Optional[str]
-                Populates an environment variable REDSHIFT_DB
-                which can be used in your dbt profile
-                Not requried if the `REDSHIFT_DB`
-                environment variable set.
             raise_errors: bool
                 Default value: False
                 A flag indicating whether errors encountered by
@@ -273,12 +242,6 @@ class dbtRunner:
                 Can be set with environment variable `SLACK_API_KEY`
         """
         self.commands = commands
-        self.dbt_schema = check_env.check("DBT_SCHEMA", dbt_schema)
-        self.username = check_env.check("REDSHIFT_USERNAME", username)
-        self.password = check_env.check("REDSHIFT_PASSWORD", password)
-        self.host = check_env.check("REDSHIFT_HOST", host)
-        self.port = check_env.check("REDSHIFT_PORT", port)
-        self.db = check_env.check("REDSHIFT_DB", db)
         self.dbt_project_directory = dbt_project_directory
         self.raise_errors = raise_errors
         self.dbt_logger = dbtLogger(
@@ -303,18 +266,9 @@ class dbtRunner:
         dbt_executable_path = shutil.which("dbt")
         commands = [dbt_executable_path, "--log-format", "json"] + command.split(" ")
 
-        shell_environment = {
-            "REDSHIFT_USERNAME": self.username,
-            "REDSHIFT_PASSWORD": self.password,
-            "REDSHIFT_HOST": self.host,
-            "REDSHIFT_PORT": self.port,
-            "REDSHIFT_DB": self.db,
-            "DBT_SCHEMA": self.dbt_schema,
-        }
-
         process = subprocess.run(
             commands,
-            env=shell_environment,
+            env=os.environ.copy(),
             cwd=self.dbt_project_directory,
             text=True,
             capture_output=True,

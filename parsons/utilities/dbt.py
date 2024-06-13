@@ -241,6 +241,8 @@ class dbtRunner:
                 of slack_webhook or slack_api_key is necessary.
                 Can be set with environment variable `SLACK_API_KEY`
         """
+        if isinstance(commands, str):
+            commands = [commands]
         self.commands = commands
         self.dbt_project_directory = dbt_project_directory
         self.raise_errors = raise_errors

@@ -29,7 +29,9 @@ class TestTwilio(unittest.TestCase):
     def test_get_messages(self):
 
         self.twilio.get_messages(date_sent="2019-10-29")
-        self.twilio.client.messages.list.assert_called_with(to=None, from_=None, date_sent='2019-10-29', date_sent_before=None, date_sent_after=None)
+        self.twilio.client.messages.list.assert_called_with(
+            to=None, from_=None, date_sent="2019-10-29", date_sent_before=None, date_sent_after=None
+        )
 
     def test_get_account_usage(self):
 
@@ -50,4 +52,3 @@ class TestTwilio(unittest.TestCase):
         self.twilio.client.usage.records.monthly.list.assert_called_with(start_date="10-19-2019")
         self.twilio.get_account_usage(group_by="yearly", start_date="10-19-2019")
         self.twilio.client.usage.records.yearly.list.assert_called_with(start_date="10-19-2019")
-    

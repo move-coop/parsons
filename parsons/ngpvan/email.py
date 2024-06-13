@@ -70,13 +70,13 @@ class Email(object):
         logger.debug(f"Found email {email_id}.")
         return r
 
-    def get_email_stats(self) -> Table:
+    def get_email_stats(self, aggregate_ab: bool = True) -> Table:
         """
         Get stats for all emails, aggregating any A/B tests.
 
         `Args:`
-            emails : list
-                A list of email message details.
+            aggregate_ab : bool
+                If A/B test results for emails should get aggregated.
 
         `Returns:`
             Parsons Table
@@ -95,50 +95,57 @@ class Email(object):
             email = self.get_email(fmid)
             email_list.append(email)
 
-        for email in email_list:
-            d = {}
-            d["name"] = email["name"]
-            d["createdBy"] = email["createdBy"]
-            d["dateCreated"] = email["dateCreated"]
-            d["dateModified"] = email["dateModified"]
-            d["dateScheduled"] = email["dateScheduled"]
-            d["foreignMessageId"] = email["foreignMessageId"]
-            d["recipientCount"] = 0
-            d["bounceCount"] = 0
-            d["contributionCount"] = 0
-            d["contributionTotal"] = 0
-            d["formSubmissionCount"] = 0
-            d["linksClickedCount"] = 0
-            d["machineOpenCount"] = 0
-            d["openCount"] = 0
-            d["unsubscribeCount"] = 0
-            try:
+        # Outside and inside emailMessageContentDistributions field
+        outer_fields = [
+            "name",
+            "createdBy",
+            "dateCreated",
+            "dateModified",
+            "dateScheduled",
+            "foreignMessageId",
+        ]
+        inner_fields = [
+            "recipientCount",
+            "bounceCount",
+            "contributionCount",
+            "contributionTotal",
+            "formSubmissionCount",
+            "linksClickedCount",
+            "machineOpenCount",
+            "openCount",
+            "unsubscribeCount",
+            # "subject"  # included here for clarity, but has some special logic
+        ]
+        # If we are aggregating, we have one entry per foreignMessageId (outer loop) and
+        # sum over the values inside the inner loop. If we are not, then we need to loop
+        # over foreignMessageId and each component of emailMessageContent, so we loop
+        # over both and pull out data (with no aggregation) for each.
+        if aggregate_ab:
+            for email in email_list:  # One row per foreignMessageId
+                outer = {field: email[field] for field in outer_fields}
+                inner = {field: 0 for field in inner_fields}
                 for i in email["emailMessageContent"]:
-                    d["recipientCount"] += i["emailMessageContentDistributions"]["recipientCount"]
-                    d["bounceCount"] += i["emailMessageContentDistributions"]["bounceCount"]
-                    d["contributionCount"] += i["emailMessageContentDistributions"][
-                        "contributionCount"
-                    ]
-                    d["contributionTotal"] += i["emailMessageContentDistributions"][
-                        "contributionTotal"
-                    ]
-                    d["formSubmissionCount"] += i["emailMessageContentDistributions"][
-                        "formSubmissionCount"
-                    ]
-                    d["linksClickedCount"] += i["emailMessageContentDistributions"][
-                        "linksClickedCount"
-                    ]
-                    d["machineOpenCount"] += i["emailMessageContentDistributions"][
-                        "machineOpenCount"
-                    ]
-                    d["openCount"] += i["emailMessageContentDistributions"]["openCount"]
-                    d["unsubscribeCount"] += i["emailMessageContentDistributions"][
-                        "unsubscribeCount"
-                    ]
-            except TypeError as e:
-                logger.info(str(e))
-                pass
-
-            final_email_list.append(d)
+                    try:
+                        for field in inner_fields:  # Aggregation of all inner values
+                            inner[field] += i["emailMessageContentDistributions"][field]
+                        # Just replacing subject to get the last one
+                        inner["subject"] = i["subject"]
+                    except KeyError as e:
+                        logger.info(str(e))
+                        pass
+                final_email_list.append({**outer, **inner})
+        else:
+            for email in email_list:
+                for i in email["emailMessageContent"]:
+                    # One row per foreignMessageId / emailMessageContent entry
+                    outer = {field: email[field] for field in outer_fields}
+                    inner = {field: 0 for field in inner_fields}
+                    try:
+                        for field in inner_fields:
+                            inner[field] = i["emailMessageContentDistributions"][field]
+                        inner["subject"] = i["subject"]
+                    except KeyError as e:
+                        logger.info(str(e))
+                    final_email_list.append({**outer, **inner})
 
         return Table(final_email_list)

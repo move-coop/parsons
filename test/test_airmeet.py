@@ -273,7 +273,8 @@ class TestAirmeet(unittest.TestCase):
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "statusCode": 202,
-                "statusMessage": "Preparing your results. Try after 5 minutes to get the updated results",
+                "statusMessage": "Preparing your results. Try after 5 minutes"
+                + "to get the updated results",
             }
         )
 
@@ -281,8 +282,8 @@ class TestAirmeet(unittest.TestCase):
             self.airmeet.fetch_session_attendance("test_session_id")
 
     def test_fetch_session_attendance_exception_400(self):
-        # Test that the sessions attendees API raises an exception if it returns
-        # a statusCode == 400.
+        # Test that the sessions attendees API raises an exception if it
+        # returns a statusCode == 400.
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "data": {},

@@ -266,8 +266,22 @@ class TestAirmeet(unittest.TestCase):
         assert len(result) == 1, "The result should contain exactly one record"
 
     def test_fetch_session_attendance_exception(self):
+        # Test that the sessions attendees API raises an exception if it returns
+        # a statusCode == 400.
+        self.airmeet.client.get_request = mock.MagicMock(
+            return_value={
+                "data": {},
+                "statusCode": 400,
+                "statusMessage": "Session status is not valid",
+            }
+        )
+
+        with pytest.raises(Exception):
+            self.airmeet.fetch_session_attendance("test_session_id")
+
+    def test_fetch_session_attendance_exception(self):
         # Test that an asynchronous API raises an exception if it returns
-        # a statusCode != 200.
+        # a statusCode == 202.
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "statusCode": 202,
@@ -475,3 +489,17 @@ class TestAirmeet(unittest.TestCase):
         )
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 1, "The result should contain exactly one record"
+
+    def test_fetch_event_replay_attendance_exception(self):
+        # Test that the replay attendees API raises an exception if it returns
+        # a statusCode == 400.
+        self.airmeet.client.get_request = mock.MagicMock(
+            return_value={
+                "data": {},
+                "statusCode": 400,
+                "statusMessage": "Airmeet status is not valid",
+            }
+        )
+
+        with pytest.raises(Exception):
+            self.airmeet.fetch_event_replay_attendance("test_airmeet_id")

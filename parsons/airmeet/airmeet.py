@@ -219,8 +219,8 @@ class Airmeet(object):
         Get all attendees for an Airmeet, handling pagination based on the
         returned pageCount.
 
-        Results are available only for events with a status of `FINISHED`.
-        Maximum number of results per page = 50.
+        Results include attendance only from sessions with a status of
+        `FINISHED`. Maximum number of results per page = 50.
 
         "This is an Asynchronous API. If you get a 202 code in response,
         please try again after 5 minutes."
@@ -266,7 +266,7 @@ class Airmeet(object):
                 List of booths for this Airmeet
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/booths")
-        return Table(response["booths"])
+        return Table(response["booths"] or [])
 
     def fetch_booth_attendance(self, airmeet_id, booth_id) -> Table:
         """

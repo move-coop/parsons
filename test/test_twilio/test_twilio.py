@@ -35,22 +35,19 @@ class TestTwilio(unittest.TestCase):
 
         # Make sure that it is calling the correct Twilio methods
         self.twilio.get_account_usage(time_period="today")
-        self.twilio.client.usage.records.today.list.assert_called_with(time_period="today")
+        self.twilio.client.usage.records.today.list.assert_called_with()
         self.twilio.get_account_usage(time_period="last_month")
-        self.twilio.client.usage.records.last_month.list.assert_called_with(
-            time_period="last_month"
-        )
+        self.twilio.client.usage.records.last_month.list.assert_called_with()
         self.twilio.get_account_usage(time_period="this_month")
-        self.twilio.client.usage.records.this_month.list.assert_called_with(
-            time_period="this_month"
-        )
+        self.twilio.client.usage.records.this_month.list.assert_called_with()
         self.twilio.get_account_usage(time_period="yesterday")
-        self.twilio.client.usage.records.today.list.assert_called_with(time_period="yesterday")
+        self.twilio.client.usage.records.yesterday.list.assert_called_with()
 
         # Make sure that it is calling the correct Twilio methods
-        self.twilio.get_account_usage(time_period="daily", start_date="10-19-2019")
+        self.twilio.get_account_usage(group_by="daily", start_date="10-19-2019")
         self.twilio.client.usage.records.daily.list.assert_called_with(start_date="10-19-2019")
-        self.twilio.get_account_usage(time_period="monthly", start_date="10-19-2019")
+        self.twilio.get_account_usage(group_by="monthly", start_date="10-19-2019")
         self.twilio.client.usage.records.monthly.list.assert_called_with(start_date="10-19-2019")
-        self.twilio.get_account_usage(time_period="yearly", start_date="10-19-2019")
+        self.twilio.get_account_usage(group_by="yearly", start_date="10-19-2019")
         self.twilio.client.usage.records.yearly.list.assert_called_with(start_date="10-19-2019")
+    

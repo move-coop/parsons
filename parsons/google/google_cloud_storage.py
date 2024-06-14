@@ -4,10 +4,11 @@ from google.cloud import storage_transfer
 from parsons.google.utitities import setup_google_application_credentials
 from parsons.utilities import files
 import datetime
+import gzip
+import petl
 import logging
 import time
 import uuid
-import gzip
 import zipfile
 from typing import Optional
 
@@ -311,7 +312,14 @@ class GoogleCloudStorage(object):
         blob = storage.Blob(blob_name, bucket)
 
         if data_type == "csv":
-            local_file = table.to_csv()
+            # If a parsons Table is loaded from a CSV and has had no
+            # transformations, the Table.table object will be a petl
+            # CSVView. Once any transformations are made, the Table.table
+            # becomes a different petl class
+            if isinstance(table.table, petl.io.csv_py3.CSVView):
+                local_file = table.table.source.filename
+            else:
+                local_file = table.to_csv()
             content_type = "text/csv"
         elif data_type == "json":
             local_file = table.to_json()

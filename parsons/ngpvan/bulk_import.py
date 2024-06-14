@@ -477,8 +477,9 @@ class BulkImport(object):
               - A valid VANID primary key
             * - ***``CF{CustomFieldID}``
               - Yes
-              - At least one custom field column to be loaded associated with the provided custom_field_group_id.
-                The column name should be a valid Custom Field ID prefixed with ``CF``, i.e. CF123.
+              - At least one custom field column to be loaded associated with the provided
+                custom_field_group_id. The column name should be a valid Custom Field ID
+                prefixed with ``CF``, i.e. CF123.
 
         `Args:`
             custom_field_group_id: int

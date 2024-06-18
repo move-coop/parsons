@@ -143,6 +143,28 @@ class ActionKit(object):
             **kwargs,
         )
 
+    def add_phone(self, user_id, phone_type, phone):
+        """
+        Add a phone number to a user.
+
+        `Args:`
+            user_id: string
+                The id of the user.
+            phone_type: string
+                The type of the phone (e.g., "Home").
+            phone: string
+                The phone number.
+        `Returns:`
+            Phone json object
+        """
+        return self._base_post(
+            endpoint="phone",
+            exception_message="Could not create phone",
+            user=f"/rest/v1/user/{user_id}/",
+            phone_type=phone_type,
+            phone=phone,
+        )
+
     def delete_actionfield(self, actionfield_id):
         """
         Delete an actionfield.
@@ -250,6 +272,54 @@ class ActionKit(object):
 
         resp = self.conn.patch(self._base_endpoint("event", event_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {event_id}")
+
+    def create_event_field(self, event_id, name, value):
+        """
+        Create an event field (custom field on an event). Note that if an event
+        field with this name already exists, this will add a second record.
+
+        `Args:`
+            event_id: int
+                The id for the event.
+            name: string
+                The name of the event field.
+            value: string
+                The value of the event field.
+        `Returns:`
+            Event field json object
+        """
+        return self._base_post(
+            endpoint="eventfield",
+            exception_message="Could not create event field",
+            event=f"/rest/v1/event/{event_id}/",
+            name=name,
+            value=value,
+        )
+
+    def update_event_field(self, eventfield_id, name, value):
+        """
+        Update an event field.
+
+        `Args:`
+            eventfield_id: int
+                The id of the event field to update.
+            name: string
+                The name of the event field.
+            value: string
+                The value of the event field.
+        `Returns:`
+            ``None``
+        """
+        resp = self.conn.patch(
+            self._base_endpoint("eventfield", eventfield_id),
+            data=json.dumps(
+                {
+                    "name": name,
+                    "value": value,
+                }
+            ),
+        )
+        logger.info(f"{resp.status_code}: {eventfield_id}")
 
     def get_blackholed_email(self, email):
         """
@@ -370,6 +440,73 @@ class ActionKit(object):
             endpoint="campaign",
             exception_message="Could not create campaign",
             name=name,
+            **kwargs,
+        )
+
+    def search_events_in_campaign(
+        self,
+        campaign_id,
+        limit=None,
+        order_by="id",
+        ascdesc="asc",
+        filters=None,
+        exclude=None,
+        **kwargs,
+    ):
+        """
+        Get events in a campaign, with optional search filters.
+
+        `Args:`
+            campaign_id: int
+                The id of the event campaign.
+            limit: int
+                The maximum number of objects to return.
+            order_by: string
+                Event attribute to order the results by. Defaults to id, which will normally
+                be equivalent to ordering by created_at. See `ActionKit's docs on ordering
+                <https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering>`_.
+            ascdesc: string
+                If "asc" (the default), returns events ordered by the attribute specified by
+                the order_by parameter. If "desc", returns events in reverse order.
+            filters: dictionary
+                A dictionary for filtering by the attributes of the event or related object.
+                Not all attributes are available for filtering, but an eventfield will work.
+                For additional info, visit `Django's docs on field lookups
+                <https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups>`_ and
+                `ActionKit's docs on the search API
+                <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`_.
+
+                .. code-block:: python
+
+                    {
+                        "title": "Example Event Title",
+                        "field__name": "example_event_field_name",
+                        "field__value": "Example event field value",
+                    }
+            exclude: dictionary
+                A dictionary for excluding by the attributes of the event or related object.
+                Uses the same format as the filters argument.
+            **kwargs:
+                A dictionary of other options for filtering. See `ActionKit's docs on the
+                search API
+                <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`_.
+        `Returns:`
+            Parsons.Table
+                The list of events.
+        """
+        if filters:
+            for field, value in filters.items():
+                kwargs[f"filter[{field}]"] = value
+        if exclude:
+            for field, value in exclude.items():
+                kwargs[f"exclude[{field}]"] = value
+        if ascdesc == "asc":
+            kwargs["order_by"] = order_by
+        else:
+            kwargs["order_by"] = f"-{order_by}"
+        return self.paginated_get(
+            f"campaign/{campaign_id}/event_search",
+            limit=limit,
             **kwargs,
         )
 

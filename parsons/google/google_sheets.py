@@ -263,7 +263,7 @@ class GoogleSheets:
         """
 
         if not table.num_rows:
-            logger.warning(f"No data provided to append, skipping.")
+            logger.warning("No data provided to append, skipping.")
             return
 
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
@@ -376,7 +376,7 @@ class GoogleSheets:
         """
 
         if not len(table.columns) and not table.num_rows:
-            logger.warning(f"No data provided to overwrite sheet, skipping.")
+            logger.warning("No data provided to overwrite sheet, skipping.")
             return
 
         # This is in here to ensure backwards compatibility with previous versions of Parsons.

@@ -262,6 +262,10 @@ class GoogleSheets:
                 Otherwise, values will be entered as strings or numbers only.
         """
 
+        if not table.num_rows:
+            logger.warning(f"No data provided to append, skipping.")
+            return
+
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
         if "sheet_index" in kwargs:
             worksheet = kwargs["sheet_index"]
@@ -299,9 +303,9 @@ class GoogleSheets:
         """
         Pastes data from a Parsons table to a Google sheet. Note that this may overwrite
         presently existing data. This function is useful for adding data to a subsection
-        if an existint sheet that will have other existing data - constrast to
+        if an existing sheet that will have other existing data - contrast to
         `overwrite_sheet` (which will fully replace any existing data) and `append_to_sheet`
-        (whuch sticks the data only after all other existing data).
+        (which sticks the data only after all other existing data).
 
         `Args:`
             spreadsheet_id: str
@@ -317,6 +321,7 @@ class GoogleSheets:
             startcol: int
                 Starting column position of pasted data. Counts from 0.
         """
+
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
 
         number_of_columns = len(table.columns)
@@ -369,6 +374,10 @@ class GoogleSheets:
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
         """
+
+        if not len(table.columns) and not table.num_rows:
+            logger.warning(f"No data provided to overwrite sheet, skipping.")
+            return
 
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
         if "sheet_index" in kwargs:

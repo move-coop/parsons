@@ -7,6 +7,10 @@ from parsons.google.utitities import setup_google_application_credentials, hexav
 
 import gspread
 from google.oauth2.service_account import Credentials
+from gspread.exceptions import APIError
+from requests.exceptions import HTTPError, ReadTimeout
+import time
+import utilities
 
 logger = logging.getLogger(__name__)
 
@@ -443,6 +447,154 @@ class GoogleSheets:
         ws = self._get_worksheet(spreadsheet_id, worksheet)
         ws.format(range, cell_format)
         logger.info("Formatted worksheet")
+
+    def attempt_gsheet_method(self, method, max=6, wait_time=15, **kwargs):
+        """
+        The Google Sheets API has notoriously strict rate limits (e.g. 60 calls per minute). This
+        function calls itself (i.e. is recursive) to help configure wait times and retry attempts
+        needed to wait out rate limit errors instead of letting them derail a script.
+        `Args:`
+            method: str
+                The name of the Parsons GoogleSheets method to be attempted
+            i: int
+                Where to start the retry count - defaults to 0; mostly needed for recursive calls
+            max: int
+                How many attempts to make before giving up - defaults to 4
+            wait_time: int
+                Number of seconds to wait between attempts - defaults to 15
+            kwargs: dict
+                Any arguments required by `method` - note that positional args will have to be named
+        `Returns:`
+            Whatever `method` is supposed to return
+
+        """
+
+        def inner_attempt_gsheet_method(method, i, max=6, wait_time=15, **kwargs):
+            # Recursively account for nested methods as needed
+            nested_methods = method.split(".")
+
+            if len(nested_methods) == 1:
+                final_method = self
+            else:
+                final_method = self[nested_methods[0]]
+                nested_methods.pop(0)
+
+            try:
+
+                # If final_method isn't callable, then the API call is made in the loop, not below
+                for m in nested_methods:
+                    final_method = getattr(final_method, m)
+
+                # Using getattr allows the method/attribute to be user-provided
+                if callable(final_method):
+                    output = final_method(**kwargs)
+                else:
+                    output = final_method
+
+            except (APIError, HTTPError, ReadTimeout, ConnectionError) as e:
+                # Lets get the ordinals right, because why not
+                if i % 10 == 1:
+                    ordinal = "st"
+                elif i % 10 == 2:
+                    ordinal = "nd"
+                else:
+                    ordinal = "th"
+
+                logger.debug(f"trying to {method} for the {i}{ordinal} time")
+                if i < max:
+                    time.sleep(wait_time)
+                    return inner_attempt_gsheet_method(method, i + 1, max, wait_time, **kwargs)
+
+                else:
+                    raise e
+
+            inner_attempt_gsheet_method(method, 0, max, wait_time, **kwargs)
+            return output
+
+    def combine_multiple_sheet_data(self, sheet_ids, worksheet_id=None):
+        """
+        Combines data from multiple Google Sheets into a Parsons Table.
+        The spreadsheets will be treated as if they are concatenated, meaning columns would
+        need to align positionally with matching data types.
+        This function also adds a spreedsheet_id and spreadsheet_title
+        columns to the resulting table.
+
+        `Args:`
+            sheet_ids: str, list
+                The IDs of the Google Spreadsheets with that data to be combined. Can be a
+                comma-separated string of IDs or a list.
+
+            worksheet_id: str (optional)
+                If None, the first worksheet (ID = 0) is assumed.
+
+        `Returns:` obj
+            Parsons Table containing the concatenated data from all the sheets.
+        """
+        id_col = "sheet_id"
+        sheet_id_list = []
+
+        # Parse different possible sheet_ids types
+        if isinstance(sheet_ids, list):
+            # Already a list!
+            sheet_id_list = sheet_ids
+
+        elif "," in sheet_ids:
+            # Comma-separated string
+            sheet_id_list = [x.strip() for x in sheet_ids.split(",")]
+
+        else:
+            raise ValueError(f"{sheet_ids} is not a valid string or list GSheet IDs")
+
+        # Non-DB table options yield a list, convert to Parsons table with default worksheet col
+        if sheet_id_list:
+            sheet_id_tbl = [{"sheet_id": x, "worksheet_id": 0} for x in sheet_id_list]
+
+        if not worksheet_id:
+            worksheet_id = "worksheet_id"
+
+        # Empty table to accumulate data from spreadsheets
+        combined = Table()
+
+        # Set for path to temp file to keep storage/memory in check for large lists
+        temp_files = []
+
+        logger.info(
+            f"Found {sheet_id_tbl.num_rows} Spreadsheets. Looping to get data from each one."
+        )
+
+        for sheet_id in sheet_id_tbl:
+
+            # Keep a lid on how many temp files result from materializing below
+            if len(temp_files) > 1:
+                utilities.files.close_temp_file(temp_files[0])
+                temp_files.remove(temp_files[0])
+
+            # Grab the sheet's data
+            data = self.attempt_gsheet_method(
+                "get_worksheet",
+                max=10,
+                wait_time=60,
+                spreadsheet_id=sheet_id[id_col],
+                worksheet=sheet_id[worksheet_id],
+            )
+            # Add the sheet ID as a column
+            data.add_column("spreadsheet_id", sheet_id[id_col])
+
+            # Retrieve sheet title (with attempts to handle rate limits) and add as a column
+            self.__sheet_obj = self.gspread_client.open_by_key(sheet_id[id_col])
+            sheet_title = str(self.attempt_gsheet_method("sheet_obj.title"))
+            del self.__sheet_obj
+            data.add_column("spreadsheet_title", sheet_title)
+
+            # Accumulate and materialize
+            combined.concat(data)
+            temp_files.append(combined.materialize_to_file())
+
+        if len(temp_files) > 1:
+            utilities.files.close_temp_file(temp_files[0])
+            temp_files.remove(temp_files[0])
+
+        return combined
 
     def read_sheet(self, spreadsheet_id, sheet_index=0):
         # Deprecated method v0.14 of Parsons.

@@ -205,6 +205,7 @@ Indices and tables
    github
    google
    hustle
+   identity_resolution
    mailchimp
    mobilecommons
    mobilize_america

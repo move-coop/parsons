@@ -66,6 +66,7 @@ for module_path, connector_name in (
     ("parsons.google.google_cloud_storage", "GoogleCloudStorage"),
     ("parsons.google.google_sheets", "GoogleSheets"),
     ("parsons.hustle.hustle", "Hustle"),
+    ("parsons.identity_resolution.idrt_connector", "IDRT"),
     ("parsons.mailchimp.mailchimp", "Mailchimp"),
     ("parsons.mobilecommons.mobilecommons", "MobileCommons"),
     ("parsons.mobilize_america.ma", "MobilizeAmerica"),

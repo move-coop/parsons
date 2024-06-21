@@ -375,10 +375,6 @@ class GoogleSheets:
                 Otherwise, values will be entered as strings or numbers only.
         """
 
-        if not len(table.columns) and not table.num_rows:
-            logger.warning("No data provided to overwrite sheet, skipping.")
-            return
-
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
         if "sheet_index" in kwargs:
             worksheet = kwargs["sheet_index"]
@@ -387,6 +383,10 @@ class GoogleSheets:
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
         sheet.clear()
 
+        if not len(table.columns):
+            logger.warning("No data provided, worksheet is empty.")
+            return
+
         value_input_option = "RAW"
         if user_entered_value:
             value_input_option = "USER_ENTERED"
@@ -394,14 +394,18 @@ class GoogleSheets:
         # Add header row
         sheet.append_row(table.columns, value_input_option=value_input_option)
 
-        cells = []
-        for row_num, row in enumerate(table.data):
-            for col_num, cell in enumerate(row):
-                # We start at row #2 to keep room for the header row we added above
-                cells.append(gspread.Cell(row_num + 2, col_num + 1, row[col_num]))
+        if table.num_rows:
+            cells = []
+            for row_num, row in enumerate(table.data):
+                for col_num, _ in enumerate(row):
+                    # We start at row #2 to keep room for the header row we added above
+                    cells.append(gspread.Cell(row_num + 2, col_num + 1, row[col_num]))
 
-        # Update the data in one batch
-        sheet.update_cells(cells, value_input_option=value_input_option)
+            # Update the data in one batch
+            sheet.update_cells(cells, value_input_option=value_input_option)
+        else:
+            logger.warning("No rows provided.")
+
         logger.info("Overwrote worksheet.")
 
     def format_cells(self, spreadsheet_id, range, cell_format, worksheet=0):

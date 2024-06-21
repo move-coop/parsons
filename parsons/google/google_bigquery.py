@@ -1356,6 +1356,26 @@ class GoogleBigQuery(DatabaseConnector):
 
         return BigQueryTable(self, table_name)
 
+    def extract(
+        self,
+        dataset: str,
+        table_name: str,
+        gcs_bucket: str,
+        gcs_blob_name: str,
+        project: Optional[str] = None,
+    ) -> None:
+        dataset_ref = bigquery.DatasetReference(project or self.client.project, dataset)
+        table_ref = dataset_ref.table(table_name)
+        gs_destination = f"gs://{gcs_bucket}/{gcs_blob_name}"
+
+        extract_job = self.client.extract_table(
+            table_ref,
+            gs_destination,
+        )
+        extract_job.result()  # Waits for job to complete.
+
+        logger.info(f"Finished exporting query result to {gs_destination}.")
+
 
 class BigQueryTable(BaseTable):
     """BigQuery table object."""

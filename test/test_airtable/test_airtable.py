@@ -155,7 +155,13 @@ class TestAirtable(unittest.TestCase):
 
         m.patch(self.base_uri, json=update_responses)
 
-        tbl = Table(update_responses["records"]).cut("id", "fields")
+        tbl = Table(
+            [
+                {"id": "recaBMSHTgXREa5ef", "Name": "Updated Name1"},
+                {"id": "recObtmLUrD5dOnmD", "Name": "Updated Name2"},
+                {"id": "recmeBNnj4cuHPOSI", "Name": "Updated Name3"},
+            ]
+        )
 
         resp = self.at.update_records(tbl)
 
@@ -166,26 +172,38 @@ class TestAirtable(unittest.TestCase):
 
         m.patch(self.base_uri, json=upsert_with_id_responses)
 
-        tbl = Table(upsert_with_key_responses["records"]).cut("id", "fields")
+        tbl = Table(
+            [
+                {"id": "recz9W2ojGNwMdN2y", "Name": "Updated Name1"},
+                {"id": "recB5njCET7AvHBbg", "Name": "Updated Name2"},
+                {"id": "recz9W2ojgPwMdN2y", "Name": "New Name3"},
+            ]
+        )
 
         resp = self.at.upsert_records(tbl)
 
         self.assertTrue(len(upsert_with_id_responses["records"]), len(resp))
-        self.assertTrue(len(resp["updatedRecords"]), 2)
-        self.assertTrue(len(resp["createdRecords"]), 1)
+        self.assertTrue(len(resp["updated_records"]), 2)
+        self.assertTrue(len(resp["created_records"]), 1)
 
     @requests_mock.Mocker()
     def test_upsert_records_with_key(self, m):
 
         m.patch(self.base_uri, json=upsert_with_key_responses)
 
-        tbl = Table(upsert_with_key_responses["records"]).cut("fields")
+        tbl = Table(
+            [
+                {"key": "1", "Name": "New Name1"},
+                {"key": "2", "Name": "New Name2"},
+                {"key": "3", "Name": "Updated Name3"},
+            ]
+        )
 
         resp = self.at.upsert_records(tbl, key_fields=["key"])
 
         self.assertTrue(len(upsert_with_key_responses["records"]), len(resp))
-        self.assertTrue(len(resp["updatedRecords"]), 1)
-        self.assertTrue(len(resp["createdRecords"]), 2)
+        self.assertTrue(len(resp["updated_records"]), 1)
+        self.assertTrue(len(resp["created_records"]), 2)
 
     @requests_mock.Mocker()
     def test_delete_record(self, m):

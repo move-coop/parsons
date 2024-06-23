@@ -189,7 +189,7 @@ class Airtable(object):
             Dictionary of updated row
         """
 
-        resp = self.table.update(record_id, fields, typecast=typecast)
+        resp = self.table.update(record_id, fields, typecast=typecast, replace=replace)
         logger.info(f"{record_id} updated")
         return resp
 
@@ -201,7 +201,8 @@ class Airtable(object):
 
         `Args:`
             table: A Parsons Table or list of dicts
-                Insert a Parsons table or list. Record `id` column required.
+                Insert a Parsons table or list. Record must contain the record `id` column
+                and columns containing the fields to update
             typecast: boolean
                 Automatic data conversion from string values.
             replace: boolean
@@ -209,25 +210,27 @@ class Airtable(object):
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
         `Returns:`
-            List of dictionaries of updated rows
+            List of dicts of updated records
         """
-        if isinstance(table, Table):
-            table = table.to_dicts()
+
+        table = list(map(map_update_fields, table))
 
         resp = self.table.batch_update(table, typecast=typecast, replace=replace)
-        logger.info(f"{len(table)} records inserted.")
+
+        logger.info(f"{len(resp)} records updated.")
         return resp
 
     def upsert_records(self, table, key_fields=None, typecast=False, replace=False):
         """
-        Update or create records, either using `id` (if included) or using a set of fields
-        (`key_fields`) to look for matches. The columns in your Parsons table must
+        Update and/or create records, either using `id` (if included) or using a set of
+        fields (`key_fields`) to look for matches. The columns in your Parsons table must
         exist in the Airtable. The method will attempt to map based on column name,
         so the order of the columns is irrelevant.
 
         `Args:`
             table: A Parsons Table or list of dicts
-                Insert a Parsons table or list.
+                Parsons table or list with records to upsert. Records must contain the record
+                `id` column or the column(s) defined in `key_fields`.
             key_fields: list of str
               List of field names that Airtable should use to match records in the input
               with existing records.
@@ -238,15 +241,28 @@ class Airtable(object):
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
         `Returns:`
-            List of dictionaries of updated rows
+            Dict containing:
+                - `updated_records`: list of updated record `id`s
+                - `created_records`: list of created records `id`s
+                - `records`: list of records
         """
 
-        if isinstance(table, Table):
-            table = table.to_dicts()
+        table = list(map(map_update_fields, table))
 
         resp = self.table.batch_upsert(table, key_fields, typecast=typecast, replace=replace)
-        logger.info(f"{len(table)} records inserted.")
-        return resp
+
+        updated_records = resp["updatedRecords"]
+        created_records = resp["createdRecords"]
+
+        logger.info(
+            f"{len(updated_records)} records updated, {len(created_records)} records created."
+        )
+
+        return {
+            "records": resp["records"],
+            "updated_records": updated_records,
+            "created_records": created_records,
+        }
 
     def delete_record(self, record_id):
         """
@@ -256,7 +272,7 @@ class Airtable(object):
             record_id: str
                 The Airtable record `id`
         `Returns:`
-            Dictionary of record `id` and `deleted` status
+            Dict of record `id` and `deleted` status
         """
 
         resp = self.table.delete(record_id)
@@ -270,17 +286,24 @@ class Airtable(object):
         `Args:`
             table: A Parsons Table or list containing the record `id`s to delete.
         `Returns:`
-            List of dicts of record `id` and `deleted` status
+            List of dicts with record `id` and `deleted` status
         """
 
         if isinstance(table, Table):
             table = table.to_dicts()
 
-        if any("id" in record for record in table):
-            table = list(map(lambda x: x["id"], table))
-
-        print(table)
+        if any(isinstance(row, dict) for row in table):
+            table = list(map(lambda row: row["id"], table))
 
         resp = self.table.batch_delete(table)
         logger.info(f"{len(table)} records deleted.")
         return resp
+
+
+def map_update_fields(record):
+    record_id = record.get("id")
+    if "id" in record:
+        del record["id"]
+        return {"id": record_id, "fields": record}
+
+    return {"fields": record}

@@ -27,8 +27,7 @@ class Airtable(object):
         self.personal_access_token = check_env.check(
             "AIRTABLE_PERSONAL_ACCESS_TOKEN", personal_access_token
         )
-        self.client = client(self.personal_access_token)
-        self.table = self.client.table(base_key, table_name)
+        self.client = client(self.personal_access_token).table(base_key, table_name)
 
     def get_record(self, record_id):
         """
@@ -41,7 +40,7 @@ class Airtable(object):
             A dictionary of the record
         """
 
-        return self.table.get(record_id)
+        return self.client.get(record_id)
 
     def get_records(
         self,
@@ -112,7 +111,7 @@ class Airtable(object):
         if sort:
             kwargs["sort"] = sort
 
-        tbl = Table(self.table.all(**kwargs))
+        tbl = Table(self.client.all(**kwargs))
 
         # If the results are empty, then return an empty table.
         if "fields" not in tbl.columns:
@@ -143,7 +142,7 @@ class Airtable(object):
             Dictionary of inserted row
         """
 
-        resp = self.table.create(row, typecast=typecast)
+        resp = self.client.create(row, typecast=typecast)
         logger.info("Record inserted")
         return resp
 
@@ -159,13 +158,13 @@ class Airtable(object):
             typecast: boolean
                 Automatic data conversion from string values.
         `Returns:`
-            List of dictionaries of inserted rows
+            List of dicts of inserted rows
         """
 
         if isinstance(table, Table):
             table = table.to_dicts()
 
-        resp = self.table.batch_create(table, typecast=typecast)
+        resp = self.client.batch_create(table, typecast=typecast)
         logger.info(f"{len(table)} records inserted.")
         return resp
 
@@ -189,7 +188,7 @@ class Airtable(object):
             Dictionary of updated row
         """
 
-        resp = self.table.update(record_id, fields, typecast=typecast, replace=replace)
+        resp = self.client.update(record_id, fields, typecast=typecast, replace=replace)
         logger.info(f"{record_id} updated")
         return resp
 
@@ -215,8 +214,7 @@ class Airtable(object):
 
         table = list(map(map_update_fields, table))
 
-        resp = self.table.batch_update(table, typecast=typecast, replace=replace)
-
+        resp = self.client.batch_update(table, typecast=typecast, replace=replace)
         logger.info(f"{len(resp)} records updated.")
         return resp
 
@@ -241,7 +239,7 @@ class Airtable(object):
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
         `Returns:`
-            Dict containing:
+            Dictionary containing:
                 - `updated_records`: list of updated record `id`s
                 - `created_records`: list of created records `id`s
                 - `records`: list of records
@@ -249,7 +247,7 @@ class Airtable(object):
 
         table = list(map(map_update_fields, table))
 
-        resp = self.table.batch_upsert(table, key_fields, typecast=typecast, replace=replace)
+        resp = self.client.batch_upsert(table, key_fields, typecast=typecast, replace=replace)
 
         updated_records = resp["updatedRecords"]
         created_records = resp["createdRecords"]
@@ -272,10 +270,10 @@ class Airtable(object):
             record_id: str
                 The Airtable record `id`
         `Returns:`
-            Dict of record `id` and `deleted` status
+            Dictionary of record `id` and `deleted` status
         """
 
-        resp = self.table.delete(record_id)
+        resp = self.client.delete(record_id)
         logger.info(f"{record_id} updated")
         return resp
 
@@ -295,7 +293,7 @@ class Airtable(object):
         if any(isinstance(row, dict) for row in table):
             table = list(map(lambda row: row["id"], table))
 
-        resp = self.table.batch_delete(table)
+        resp = self.client.batch_delete(table)
         logger.info(f"{len(table)} records deleted.")
         return resp
 

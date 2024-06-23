@@ -15,7 +15,7 @@ def main():
             "simplejson",
         ]
         extras_require = {
-            "airtable": ["airtable-python-wrapper==0.13.0"],
+            "airtable": ["pyairtable"],
             "alchemer": ["surveygizmo"],
             "azure": ["azure-storage-blob"],
             "box": ["boxsdk"],
@@ -47,8 +47,15 @@ def main():
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["bs4"],
-            "postgres": ["psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",],
-            "redshift": ["boto3", "psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",],
+            "postgres": [
+                "psycopg2-binary>=2.9.9",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+            ],
+            "redshift": [
+                "boto3",
+                "psycopg2-binary>=2.9.9",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+            ],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
             "sftp": ["paramiko"],

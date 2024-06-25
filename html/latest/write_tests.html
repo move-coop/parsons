@@ -255,7 +255,7 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Call the query method with a fake value</span>
 <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sf</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;FAKESOQL&#39;</span><span class="p">)</span>
 <span class="c1"># Check that our mock client&#39;s query_all method was also called with the fake value</span>
-<span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">sf</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">query_all</span><span class="o">.</span><span class="n">called_with</span><span class="p">(</span><span class="s1">&#39;FAKESOQL&#39;</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">sf</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">query_all</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="s1">&#39;FAKESOQL&#39;</span><span class="p">)</span>
 <span class="c1"># Check that the response from our query method is what we expect</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="s1">&#39;FAKE&#39;</span><span class="p">)</span>
 </pre></div>

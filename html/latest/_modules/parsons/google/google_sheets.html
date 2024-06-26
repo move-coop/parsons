@@ -410,6 +410,10 @@
 <span class="sd">                Otherwise, values will be entered as strings or numbers only.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No data provided to append, skipping.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
         <span class="c1"># This is in here to ensure backwards compatibility with previous versions of Parsons.</span>
         <span class="k">if</span> <span class="s2">&quot;sheet_index&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">worksheet</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;sheet_index&quot;</span><span class="p">]</span>
@@ -447,9 +451,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pastes data from a Parsons table to a Google sheet. Note that this may overwrite</span>
 <span class="sd">        presently existing data. This function is useful for adding data to a subsection</span>
-<span class="sd">        if an existint sheet that will have other existing data - constrast to</span>
+<span class="sd">        if an existing sheet that will have other existing data - contrast to</span>
 <span class="sd">        `overwrite_sheet` (which will fully replace any existing data) and `append_to_sheet`</span>
-<span class="sd">        (whuch sticks the data only after all other existing data).</span>
+<span class="sd">        (which sticks the data only after all other existing data).</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            spreadsheet_id: str</span>
@@ -465,6 +469,7 @@
 <span class="sd">            startcol: int</span>
 <span class="sd">                Starting column position of pasted data. Counts from 0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">sheet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_worksheet</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">worksheet</span><span class="p">)</span>
 
         <span class="n">number_of_columns</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
@@ -526,6 +531,10 @@
         <span class="n">sheet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_worksheet</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">worksheet</span><span class="p">)</span>
         <span class="n">sheet</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No data provided, worksheet is empty.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
         <span class="n">value_input_option</span> <span class="o">=</span> <span class="s2">&quot;RAW&quot;</span>
         <span class="k">if</span> <span class="n">user_entered_value</span><span class="p">:</span>
             <span class="n">value_input_option</span> <span class="o">=</span> <span class="s2">&quot;USER_ENTERED&quot;</span>
@@ -533,14 +542,18 @@
         <span class="c1"># Add header row</span>
         <span class="n">sheet</span><span class="o">.</span><span class="n">append_row</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">value_input_option</span><span class="o">=</span><span class="n">value_input_option</span><span class="p">)</span>
 
-        <span class="n">cells</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">row_num</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">col_num</span><span class="p">,</span> <span class="n">cell</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-                <span class="c1"># We start at row #2 to keep room for the header row we added above</span>
-                <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gspread</span><span class="o">.</span><span class="n">Cell</span><span class="p">(</span><span class="n">row_num</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">col_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">col_num</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="p">:</span>
+            <span class="n">cells</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">row_num</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">col_num</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+                    <span class="c1"># We start at row #2 to keep room for the header row we added above</span>
+                    <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gspread</span><span class="o">.</span><span class="n">Cell</span><span class="p">(</span><span class="n">row_num</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">col_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">col_num</span><span class="p">]))</span>
 
-        <span class="c1"># Update the data in one batch</span>
-        <span class="n">sheet</span><span class="o">.</span><span class="n">update_cells</span><span class="p">(</span><span class="n">cells</span><span class="p">,</span> <span class="n">value_input_option</span><span class="o">=</span><span class="n">value_input_option</span><span class="p">)</span>
+            <span class="c1"># Update the data in one batch</span>
+            <span class="n">sheet</span><span class="o">.</span><span class="n">update_cells</span><span class="p">(</span><span class="n">cells</span><span class="p">,</span> <span class="n">value_input_option</span><span class="o">=</span><span class="n">value_input_option</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No rows provided.&quot;</span><span class="p">)</span>
+
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Overwrote worksheet.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GoogleSheets.format_cells"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.format_cells">[docs]</a>    <span class="k">def</span> <span class="nf">format_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="nb">range</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">,</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>

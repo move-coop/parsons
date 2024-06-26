@@ -15,7 +15,7 @@ class Airtable(object):
             prefixed with `app`.
         table_name: str
             The name or key/ID of the table in the base. The table name is the
-            equivalent of the sheet name in Excel or GoogleDocs. The ID casn be
+            equivalent of the sheet name in Excel or GoogleDocs. The ID can be
             found in the URL and is typically prefixed with `tbl`.
         personal_access_token: str
             The Airtable personal access token. Not required if ``AIRTABLE_PERSONAL_ACCESS_TOKEN``
@@ -158,7 +158,7 @@ class Airtable(object):
             typecast: boolean
                 Automatic data conversion from string values.
         `Returns:`
-            List of dicts of inserted rows
+            List of dictionaries of inserted rows
         """
 
         if isinstance(table, Table):

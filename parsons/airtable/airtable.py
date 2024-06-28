@@ -212,6 +212,10 @@ class Airtable(object):
             List of dicts of updated records
         """
 
+        # the update/upsert API call expects a dict/object shape of:
+        # { id: string, fields: { column_name: value, ... } }
+        # the map_update_fields helper will convert the flat table column
+        # into this nested structure
         table = list(map(map_update_fields, table))
 
         resp = self.client.batch_update(table, typecast=typecast, replace=replace)
@@ -245,6 +249,10 @@ class Airtable(object):
                 - `records`: list of records
         """
 
+        # the update/upsert API call expects a dict/object shape of:
+        # { id: string, fields: { column_name: value, ... } }
+        # the map_update_fields helper will convert the flat table column
+        # into this nested structure
         table = list(map(map_update_fields, table))
 
         resp = self.client.batch_upsert(table, key_fields, typecast=typecast, replace=replace)

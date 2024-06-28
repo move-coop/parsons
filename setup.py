@@ -15,7 +15,7 @@ def main():
             "simplejson",
         ]
         extras_require = {
-            "airtable": ["airtable-python-wrapper==0.13.0"],
+            "airtable": ["pyairtable"],
             "alchemer": ["surveygizmo"],
             "azure": ["azure-storage-blob"],
             "box": ["boxsdk"],

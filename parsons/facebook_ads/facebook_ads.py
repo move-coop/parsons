@@ -272,7 +272,7 @@ class FacebookAds(object):
 
         # Note that the FB SDK handles basic normalization and hashing of the data
         CustomAudience(audience_id).add_users(schema, batch, is_raw=True)
-        logger.info(f"Added {added_so_far+len(batch)}/{total_rows} users to custom audience...")
+        logger.info(f"Added {added_so_far + len(batch)} / {total_rows} users to custom audience...")
 
     def add_users_to_custom_audience(self, audience_id, users_table):
         """

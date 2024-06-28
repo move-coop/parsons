@@ -291,7 +291,8 @@ class Airtable(object):
             table = table.to_dicts()
 
         # the API expects a list of ids which this method can accept directly;
-        # otherwise convert the list of dicts / table with the `id` key/col
+        # otherwise if a table or list of dicts containing the `id` key/column
+        # is provided then map the ids into the expected list of id strings.
 
         if any(isinstance(row, dict) for row in table):
             table = list(map(lambda row: row["id"], table))

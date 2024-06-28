@@ -1,12 +1,14 @@
-import os
-import json
 import logging
-
-from parsons.etl.table import Table
-from parsons.google.utitities import setup_google_application_credentials, hexavigesimal
+import uuid
 
 import gspread
-from google.oauth2.service_account import Credentials
+
+from parsons.etl.table import Table
+from parsons.google.utilities import (
+    load_google_application_credentials,
+    setup_google_application_credentials,
+    hexavigesimal,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -32,12 +34,15 @@ class GoogleSheets:
             "https://www.googleapis.com/auth/drive",
         ]
 
-        setup_google_application_credentials(google_keyfile_dict, "GOOGLE_DRIVE_CREDENTIALS")
-        google_credential_file = open(os.environ["GOOGLE_DRIVE_CREDENTIALS"])
-        credentials_dict = json.load(google_credential_file)
+        env_credentials_path = str(uuid.uuid4())
+        setup_google_application_credentials(
+            google_keyfile_dict,
+            "GOOGLE_DRIVE_CREDENTIAL",
+            target_env_var_name=env_credentials_path,
+        )
 
-        credentials = Credentials.from_service_account_info(
-            credentials_dict, scopes=scope, subject=subject
+        credentials = load_google_application_credentials(
+            env_credentials_path, scopes=scope, subject=subject
         )
 
         self.gspread_client = gspread.authorize(credentials)
@@ -47,12 +52,16 @@ class GoogleSheets:
 
         # Check if the worksheet is an integer, if so find the sheet by index
         if isinstance(worksheet, int):
-            return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(worksheet)
+            return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(
+                worksheet
+            )
 
         elif isinstance(worksheet, str):
             idx = self.list_worksheets(spreadsheet_id).index(worksheet)
             try:
-                return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(idx)
+                return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(
+                    idx
+                )
             except:  # noqa: E722
                 raise ValueError(f"Couldn't find worksheet {worksheet}")
 
@@ -280,7 +289,9 @@ class GoogleSheets:
 
         # If the existing sheet is blank, then just overwrite the table.
         if existing_table.num_rows == 0:
-            return self.overwrite_sheet(spreadsheet_id, table, worksheet, user_entered_value)
+            return self.overwrite_sheet(
+                spreadsheet_id, table, worksheet, user_entered_value
+            )
 
         cells = []
         for row_num, row in enumerate(table.data):

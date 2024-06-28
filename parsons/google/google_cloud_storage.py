@@ -1,8 +1,3 @@
-import google
-from google.cloud import storage
-from google.cloud import storage_transfer
-from parsons.google.utitities import setup_google_application_credentials
-from parsons.utilities import files
 import datetime
 import gzip
 import petl
@@ -11,6 +6,15 @@ import time
 import uuid
 import zipfile
 from typing import Optional
+
+import google
+from google.cloud import storage, storage_transfer
+
+from parsons.google.utilities import (
+    load_google_application_credentials,
+    setup_google_application_credentials,
+)
+from parsons.utilities import files
 
 logger = logging.getLogger(__name__)
 
@@ -42,17 +46,21 @@ class GoogleCloudStorage(object):
     """
 
     def __init__(self, app_creds=None, project=None):
-        setup_google_application_credentials(app_creds)
+        env_credentials_path = str(uuid.uuid4())
+        setup_google_application_credentials(
+            app_creds, target_env_var_name=env_credentials_path
+        )
+        credentials = load_google_application_credentials(env_credentials_path)
         self.project = project
 
         # Throws an error if you pass project=None, so adding if/else statement.
         if not self.project:
-            self.client = storage.Client()
+            self.client = storage.Client(credentials=credentials)
             """
             Access all methods of `google.cloud` package
             """
         else:
-            self.client = storage.Client(project=self.project)
+            self.client = storage.Client(credentials=credentials, project=self.project)
 
     def list_buckets(self):
         """
@@ -289,7 +297,9 @@ class GoogleCloudStorage(object):
         blob.delete()
         logger.info(f"{blob_name} blob in {bucket_name} bucket deleted.")
 
-    def upload_table(self, table, bucket_name, blob_name, data_type="csv", default_acl=None):
+    def upload_table(
+        self, table, bucket_name, blob_name, data_type="csv", default_acl=None
+    ):
         """
         Load the data from a Parsons table into a blob.
 
@@ -325,7 +335,9 @@ class GoogleCloudStorage(object):
             local_file = table.to_json()
             content_type = "application/json"
         else:
-            raise ValueError(f"Unknown data_type value ({data_type}): must be one of: csv or json")
+            raise ValueError(
+                f"Unknown data_type value ({data_type}): must be one of: csv or json"
+            )
 
         try:
             blob.upload_from_filename(
@@ -395,7 +407,9 @@ class GoogleCloudStorage(object):
                 Secret key to authenticate storage transfer
         """
         if source not in ["gcs", "s3"]:
-            raise ValueError(f"Blob transfer only supports gcs and s3 sources [source={source}]")
+            raise ValueError(
+                f"Blob transfer only supports gcs and s3 sources [source={source}]"
+            )
         if source_path and source_path[-1] != "/":
             raise ValueError("Source path much end in a '/'")
 
@@ -582,9 +596,13 @@ class GoogleCloudStorage(object):
         }
 
         file_extension = compression_params[compression_type]["file_extension"]
-        compression_function = compression_params[compression_type]["compression_function"]
+        compression_function = compression_params[compression_type][
+            "compression_function"
+        ]
 
-        compressed_filepath = self.download_blob(bucket_name=bucket_name, blob_name=blob_name)
+        compressed_filepath = self.download_blob(
+            bucket_name=bucket_name, blob_name=blob_name
+        )
 
         decompressed_filepath = compressed_filepath.replace(file_extension, "")
         decompressed_blob_name = (
@@ -616,7 +634,9 @@ class GoogleCloudStorage(object):
         bucket_name = kwargs.pop("bucket_name")
 
         with gzip.open(compressed_filepath, "rb") as f_in:
-            logger.debug(f"Uploading uncompressed file to GCS: {decompressed_blob_name}")
+            logger.debug(
+                f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
+            )
             bucket = self.get_bucket(bucket_name=bucket_name)
             blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
             blob.upload_from_file(file_obj=f_in, rewind=True, timeout=3600)
@@ -636,7 +656,9 @@ class GoogleCloudStorage(object):
         with zipfile.ZipFile(compressed_filepath) as path_:
             # Open the underlying file
             with path_.open(decompressed_blob_in_archive) as f_in:
-                logger.debug(f"Uploading uncompressed file to GCS: {decompressed_blob_name}")
+                logger.debug(
+                    f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
+                )
                 bucket = self.get_bucket(bucket_name=bucket_name)
                 blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
                 blob.upload_from_file(file_obj=f_in, rewind=True, timeout=3600)

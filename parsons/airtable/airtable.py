@@ -290,6 +290,9 @@ class Airtable(object):
         if isinstance(table, Table):
             table = table.to_dicts()
 
+        # the API expects a list of ids which this method can accept directly;
+        # otherwise convert the list of dicts / table with the `id` key/col
+
         if any(isinstance(row, dict) for row in table):
             table = list(map(lambda row: row["id"], table))
 

@@ -63,7 +63,6 @@ def main():
             "smtp": ["validate-email"],
             "targetsmart": ["xmltodict"],
             "twilio": ["twilio"],
-            "zoom": ["PyJWT"],
         }
         extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
     else:

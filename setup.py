@@ -15,7 +15,7 @@ def main():
             "simplejson",
         ]
         extras_require = {
-            "airtable": ["airtable-python-wrapper==0.13.0"],
+            "airtable": ["pyairtable"],
             "alchemer": ["surveygizmo"],
             "azure": ["azure-storage-blob"],
             "box": ["boxsdk"],
@@ -27,7 +27,7 @@ def main():
             "dbt-postgres": ["dbt-postgres", "slackclient<2"],
             "dbt-snowflake": ["dbt-snowflake", "slackclient<2"],
             "facebook": ["joblib", "facebook-business"],
-            "geocode": ["censusgeocode", "urllib3==1.26.18"],
+            "geocode": ["censusgeocode", "urllib3==1.26.19"],
             "github": ["PyGitHub"],
             "google": [
                 "apiclient",
@@ -47,8 +47,15 @@ def main():
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["bs4"],
-            "postgres": ["psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",],
-            "redshift": ["boto3", "psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",],
+            "postgres": [
+                "psycopg2-binary>=2.9.9",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+            ],
+            "redshift": [
+                "boto3",
+                "psycopg2-binary>=2.9.9",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+            ],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
             "sftp": ["paramiko"],
@@ -58,9 +65,7 @@ def main():
             "twilio": ["twilio"],
             "zoom": ["PyJWT"],
         }
-        extras_require["all"] = sorted(
-            {lib for libs in extras_require.values() for lib in libs}
-        )
+        extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
     else:
         THIS_DIR = os.path.abspath(os.path.dirname(__file__))
         with open(os.path.join(THIS_DIR, "requirements.txt")) as reqs:
@@ -89,8 +94,9 @@ def main():
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
         ],
-        python_requires=">=3.7.0,<3.12.0",
+        python_requires=">=3.7.0,<3.13.0",
         long_description=long_description,
         long_description_content_type="text/markdown",
     )

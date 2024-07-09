@@ -622,6 +622,8 @@ class People(object):
                 attempts.
             phone: str
                 `Optional`; Phone number of any type (Work, Cell, Home)
+            campaignId: int
+                `Optional`; a valid Campaign ID.
         `Returns:`
             ``True`` if successful
 

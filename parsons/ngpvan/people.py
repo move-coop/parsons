@@ -586,6 +586,7 @@ class People(object):
         result_code_id=None,
         omit_contact=False,
         phone=None,
+        campaignId=None,
     ):
         """
         Apply responses such as survey questions, activist codes, and volunteer actions
@@ -648,6 +649,7 @@ class People(object):
                 "inputTypeId": input_type_id,
                 "dateCanvassed": date_canvassed,
                 "omitActivistCodeContactHistory": omit_contact,
+                "campaignId": campaignId,
             },
             "resultCodeId": result_code_id,
         }

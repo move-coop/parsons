@@ -179,7 +179,6 @@
     <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="s2">&quot;DATETIME&quot;</span><span class="p">,</span>
     <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;DATE&quot;</span><span class="p">,</span>
     <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;TIME&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dict&quot;</span><span class="p">:</span> <span class="s2">&quot;RECORD&quot;</span><span class="p">,</span>
     <span class="s2">&quot;NoneType&quot;</span><span class="p">:</span> <span class="s2">&quot;STRING&quot;</span><span class="p">,</span>
     <span class="s2">&quot;UUID&quot;</span><span class="p">:</span> <span class="s2">&quot;STRING&quot;</span><span class="p">,</span>
     <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;TIMESTAMP&quot;</span><span class="p">,</span>
@@ -1348,7 +1347,14 @@
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">tzinfo</span><span class="p">:</span>
                         <span class="n">best_type</span> <span class="o">=</span> <span class="s2">&quot;timestamp&quot;</span>
 
-            <span class="n">field_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bigquery_type</span><span class="p">(</span><span class="n">best_type</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">field_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bigquery_type</span><span class="p">(</span><span class="n">best_type</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="s2">&quot;Column type not supported for load to BigQuery. &quot;</span>
+                    <span class="s2">&quot;Consider converting to another type. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;[type=</span><span class="si">{</span><span class="n">best_type</span><span class="si">}</span><span class="s2">]&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
             <span class="n">field</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">SchemaField</span><span class="p">(</span><span class="n">stat</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">field_type</span><span class="p">)</span>
             <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">fields</span>

@@ -3,7 +3,7 @@ from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 from parsons import Table
 import datetime
 import logging
-from typing import Literal, Optional, Dict
+from typing import Literal, Optional, Dict, Union
 import uuid
 
 logger = logging.getLogger(__name__)
@@ -356,7 +356,7 @@ class Zoom:
 
         return self.__handle_nested_json(table=tbl, column="questions")
 
-    def get_past_meeting_poll_metadata(self, meeting_id) -> Table:
+    def get_past_meeting_poll_metadata(self, meeting_id) -> Union[Table, None]:
         """
         List poll metadata of a past meeting.
 
@@ -379,7 +379,7 @@ class Zoom:
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
 
-        return self.__handle_nested_json(table=tbl, column="prompts")
+        return self.__process_poll_results(tbl=tbl)
 
     def get_webinar_poll_metadata(self, webinar_id, poll_id) -> Table:
         """

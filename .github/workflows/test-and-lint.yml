@@ -3,20 +3,16 @@ name: Pytest, Flake8, Black
 on:
   pull_request:
     paths:
-      - .github/workflows/test-pytest-flake-black.yml
+      - .github/workflows/test-and-lint.yml
       - requirements*.txt
       - "**.py"
-      - .flake8
       - setup.py
-      - pytest.ini
   push:
     paths:
-      - .github/workflows/test-pytest-flake-black.yml
+      - .github/workflows/test-and-lint.yml
       - requirements*.txt
       - "**.py"
-      - .flake8
       - setup.py
-      - pytest.ini
 
 env:
   TESTING: 1

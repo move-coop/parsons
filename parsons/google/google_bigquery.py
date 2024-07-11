@@ -31,7 +31,6 @@ BIGQUERY_TYPE_MAP = {
     "datetime": "DATETIME",
     "date": "DATE",
     "time": "TIME",
-    "dict": "RECORD",
     "NoneType": "STRING",
     "UUID": "STRING",
     "timestamp": "TIMESTAMP",
@@ -1200,7 +1199,14 @@ class GoogleBigQuery(DatabaseConnector):
                     if isinstance(value, datetime.datetime) and value.tzinfo:
                         best_type = "timestamp"
 
-            field_type = self._bigquery_type(best_type)
+            try:
+                field_type = self._bigquery_type(best_type)
+            except KeyError as e:
+                raise KeyError(
+                    "Column type not supported for load to BigQuery. "
+                    "Consider converting to another type. "
+                    f"[type={best_type}]"
+                ) from e
             field = bigquery.schema.SchemaField(stat["name"], field_type)
             fields.append(field)
         return fields

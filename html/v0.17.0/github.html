@@ -66,10 +66,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">GitHub</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.GitHub"><code class="docutils literal notranslate"><span class="pre">GitHub</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
@@ -188,29 +185,6 @@ environmental variable (<code class="docutils literal notranslate"><span class="
 </section>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.GitHub">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">GitHub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/github/github.html#GitHub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.GitHub" title="Permalink to this definition"></a></dt>
-<dd><p>Creates a GitHub class for accessing the GitHub API.</p>
-<p>Uses <code class="docutils literal notranslate"><span class="pre">parsons.utilities.check_env</span></code> to load credentials from environment variables if not
-supplied. Supports either a username and password or an access token for authentication. The
-client also supports unauthenticated access.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>username: Optional[str]</dt><dd><p>Username of account to use for credentials. Can be set with <code class="docutils literal notranslate"><span class="pre">GITHUB_USERNAME</span></code>
-environment variable.</p>
-</dd>
-<dt>password: Optional[str]</dt><dd><p>Password of account to use for credentials. Can be set with <code class="docutils literal notranslate"><span class="pre">GITHUB_PASSWORD</span></code>
-environment variable.</p>
-</dd>
-<dt>access_token: Optional[str]</dt><dd><p>Access token to use for credentials. Can be set with <code class="docutils literal notranslate"><span class="pre">GITHUB_ACCESS_TOKEN</span></code> environment
-variable.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 </section>
 

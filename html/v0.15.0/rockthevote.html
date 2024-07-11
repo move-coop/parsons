@@ -73,15 +73,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Rock the Vote</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">QuickStart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.rockthevote.rtv.RockTheVote"><code class="docutils literal notranslate"><span class="pre">RockTheVote</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.rockthevote.rtv.RockTheVote.create_registration_report"><code class="docutils literal notranslate"><span class="pre">RockTheVote.create_registration_report()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.rockthevote.rtv.RockTheVote.get_registration_report"><code class="docutils literal notranslate"><span class="pre">RockTheVote.get_registration_report()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.rockthevote.rtv.RockTheVote.run_registration_report"><code class="docutils literal notranslate"><span class="pre">RockTheVote.run_registration_report()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
@@ -180,92 +172,6 @@ data.</p>
 </section>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.rockthevote.rtv.RockTheVote">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.rockthevote.rtv.</span></span><span class="sig-name descname"><span class="pre">RockTheVote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">partner_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partner_api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote" title="Permalink to this definition"></a></dt>
-<dd><dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>partner_id: str</dt><dd><p>The RockTheVote partner ID for the RTV account</p>
-</dd>
-<dt>partner_api_key: str</dt><dd><p>The API Key for the partner</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns</cite>:</dt><dd><p>RockTheVote class</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.rockthevote.rtv.RockTheVote.create_registration_report">
-<span class="sig-name descname"><span class="pre">create_registration_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote.create_registration_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote.create_registration_report" title="Permalink to this definition"></a></dt>
-<dd><p>Create a new registration report.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>before: str</dt><dd><p>Date before which to return registrations for</p>
-</dd>
-<dt>since: str</dt><dd><p>Date for filtering registrations</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>int</dt><dd><p>The ID of the created report.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.rockthevote.rtv.RockTheVote.get_registration_report">
-<span class="sig-name descname"><span class="pre">get_registration_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_interval_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_timeout_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3600</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote.get_registration_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote.get_registration_report" title="Permalink to this definition"></a></dt>
-<dd><p>Get data from an existing registration report.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>report_id: int</dt><dd><p>The ID of the report to get data from</p>
-</dd>
-<dt>block: bool</dt><dd><p>Whether or not to block execution until the report is complete</p>
-</dd>
-<dt>poll_interval_seconds: int</dt><dd><p>If blocking, how long to pause between attempts to check if the report is done</p>
-</dd>
-<dt>report_timeout_seconds: int</dt><dd><p>If blocking, how long to wait for the report before timing out</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Parsons Table</dt><dd><p>Parsons table with the report data.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.rockthevote.rtv.RockTheVote.run_registration_report">
-<span class="sig-name descname"><span class="pre">run_registration_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_interval_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_timeout_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3600</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote.run_registration_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote.run_registration_report" title="Permalink to this definition"></a></dt>
-<dd><p>Run a new registration report.</p>
-<p>This method will block until the report has finished generating, or until the specified
-timeout is reached.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>before: str</dt><dd><p>Date before which to return registrations for</p>
-</dd>
-<dt>since: str</dt><dd><p>Date for filtering registrations</p>
-</dd>
-<dt>poll_interval_seconds: int</dt><dd><p>If blocking, how long to pause between attempts to check if the report is done</p>
-</dd>
-<dt>report_timeout_seconds: int</dt><dd><p>If blocking, how long to wait for the report before timing out</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>int</dt><dd><p>The ID of the created report.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 

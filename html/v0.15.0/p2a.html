@@ -68,14 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Phone2Action</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#parsons.Phone2Action"><code class="docutils literal notranslate"><span class="pre">Phone2Action</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.Phone2Action.get_advocates"><code class="docutils literal notranslate"><span class="pre">Phone2Action.get_advocates()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.Phone2Action.get_campaigns"><code class="docutils literal notranslate"><span class="pre">Phone2Action.get_campaigns()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
@@ -129,89 +122,6 @@
 <h1>Phone2Action<a class="headerlink" href="#phone2action" title="Permalink to this heading"></a></h1>
 <p><a class="reference external" href="https://phone2action.com/">Phone2Action</a> is a digital advocacy tool used by progressive organizations. This class
 allows you to interact with the tool by leveraging their <a class="reference external" href="http://docs.phone2action.com/#overview">API</a>.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.Phone2Action">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Phone2Action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Phone2Action" title="Permalink to this definition"></a></dt>
-<dd><p>Instantiate Phone2Action Class</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>app_id: str</dt><dd><p>The Phone2Action provided application id. Not required if <code class="docutils literal notranslate"><span class="pre">PHONE2ACTION_APP_ID</span></code>
-env variable set.</p>
-</dd>
-<dt>app_key: str</dt><dd><p>The Phone2Action provided application key. Not required if <code class="docutils literal notranslate"><span class="pre">PHONE2ACTION_APP_KEY</span></code>
-env variable set.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Phone2Action Class</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Phone2Action.get_advocates">
-<span class="sig-name descname"><span class="pre">get_advocates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action.get_advocates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Phone2Action.get_advocates" title="Permalink to this definition"></a></dt>
-<dd><p>Return advocates (person records).</p>
-<p>If no page is specified, the method will automatically paginate through the available
-advocates.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>state: str</dt><dd><p>Filter by US postal abbreviation for a state
-or territory e.g., “CA” “NY” or “DC”</p>
-</dd>
-<dt>campaign_id: int</dt><dd><p>Filter to specific campaign</p>
-</dd>
-<dt>updated_since: str</dt><dd><p>Fetch all advocates updated since UTC date time provided
-using (ex. ‘2014-01-05 23:59:43’)</p>
-</dd>
-<dt>page: int</dt><dd><p>Page number of data to fetch; if this is specified, call will only return one
-page.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>A dict of parsons tables:</dt><dd><ul class="simple">
-<li><p>emails</p></li>
-<li><p>phones</p></li>
-<li><p>memberships</p></li>
-<li><p>tags</p></li>
-<li><p>ids</p></li>
-<li><p>fields</p></li>
-<li><p>advocates</p></li>
-</ul>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Phone2Action.get_campaigns">
-<span class="sig-name descname"><span class="pre">get_campaigns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_generic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_private</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_content</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action.get_campaigns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Phone2Action.get_campaigns" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a list of campaigns</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>state: str</dt><dd><p>Filter by US postal abbreviation for a state or territory e.g., “CA” “NY” or “DC”</p>
-</dd>
-<dt>zip: int</dt><dd><p>Filter by 5 digit zip code</p>
-</dd>
-<dt>include_generic: boolean</dt><dd><p>When filtering by state or ZIP code, include unrestricted campaigns</p>
-</dd>
-<dt>include_private: boolean</dt><dd><p>If true, will include private campaigns in results</p>
-</dd>
-<dt>include_content: boolean</dt><dd><p>If true, include campaign content fields, which may vary. This may cause
-sync errors.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 
 

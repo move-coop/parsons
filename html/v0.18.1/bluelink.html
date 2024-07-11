@@ -61,14 +61,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.bluelink.Bluelink"><code class="docutils literal notranslate"><span class="pre">Bluelink</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.bluelink.Bluelink.upsert_person"><code class="docutils literal notranslate"><span class="pre">Bluelink.upsert_person()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.bluelink.Bluelink.bulk_upsert_person"><code class="docutils literal notranslate"><span class="pre">Bluelink.bulk_upsert_person()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
@@ -212,69 +205,6 @@ BLUELINK_WEBHOOK_USER and BLUELINK_WEBHOOK_PASSWORD environment variables.</p>
 </section>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.bluelink.Bluelink">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.bluelink.</span></span><span class="sig-name descname"><span class="pre">Bluelink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bluelink/bluelink.html#Bluelink"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.bluelink.Bluelink" title="Permalink to this definition"></a></dt>
-<dd><p>Instantiate a Bluelink connector.
-Allows for a simple method of inserting person data to Bluelink via a webhook.
-# see: <a class="reference external" href="https://bluelinkdata.github.io/docs/BluelinkApiGuide#webhook">https://bluelinkdata.github.io/docs/BluelinkApiGuide#webhook</a></p>
-<dl class="simple">
-<dt><cite>Args:</cite>:</dt><dd><dl class="simple">
-<dt>user: str</dt><dd><p>Bluelink webhook user name.</p>
-</dd>
-<dt>password: str</dt><dd><p>Bluelink webhook password.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.bluelink.Bluelink.upsert_person">
-<span class="sig-name descname"><span class="pre">upsert_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">person</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bluelink/bluelink.html#Bluelink.upsert_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.bluelink.Bluelink.upsert_person" title="Permalink to this definition"></a></dt>
-<dd><p>Upsert a BluelinkPerson object into Bluelink.
-Rows will update, as opposed to being inserted, if an existing person record in
-Bluelink has a matching BluelinkIdentifier (same source and id) as the BluelinkPerson object
-passed into this function.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>source: str</dt><dd><p>String to identify that the data came from your system. For example,
-your company name.</p>
-</dd>
-<dt>person: BluelinkPerson</dt><dd><p>A BluelinkPerson object.
-Will be inserted to Bluelink, or updated if a matching record is found.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>int
-An http status code from the http post request to the Bluelink webhook.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.bluelink.Bluelink.bulk_upsert_person">
-<span class="sig-name descname"><span class="pre">bulk_upsert_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tbl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_to_person</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bluelink/bluelink.html#Bluelink.bulk_upsert_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.bluelink.Bluelink.bulk_upsert_person" title="Permalink to this definition"></a></dt>
-<dd><p>Upsert all rows into Bluelink, using the row_to_person function to
-transform rows to BluelinkPerson objects.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>source: str</dt><dd><p>String to identify that the data came from your system.
-For example, your company name.</p>
-</dd>
-<dt>tbl: Table</dt><dd><p>A parsons Table that represents people data.</p>
-</dd>
-<dt>row_to_person: Callable[[dict],BluelinkPerson]</dt><dd><p>A function that takes a dict representation of a row from the passed in tbl
-and returns a BluelinkPerson object.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>list[int]
-A list of https response status codes, one response for each row in the table.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 

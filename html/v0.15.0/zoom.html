@@ -79,16 +79,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Zoom</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.Zoom"><code class="docutils literal notranslate"><span class="pre">Zoom</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Zoom.get_users"><code class="docutils literal notranslate"><span class="pre">Zoom.get_users()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Zoom.get_meetings"><code class="docutils literal notranslate"><span class="pre">Zoom.get_meetings()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Zoom.get_past_meeting"><code class="docutils literal notranslate"><span class="pre">Zoom.get_past_meeting()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Zoom.get_past_meeting_participants"><code class="docutils literal notranslate"><span class="pre">Zoom.get_past_meeting_participants()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 </ul>
@@ -154,123 +145,6 @@
 </section>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.Zoom">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Zoom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom" title="Permalink to this definition"></a></dt>
-<dd><p>Instantiate the Zoom class.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>api_key: str</dt><dd><p>A valid Zoom api key. Not required if <code class="docutils literal notranslate"><span class="pre">ZOOM_API_KEY</span></code> env
-variable set.</p>
-</dd>
-<dt>api_secret:</dt><dd><p>A valid Zoom api secret. Not required if <code class="docutils literal notranslate"><span class="pre">ZOOM_API_SECRET</span></code> env
-variable set.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Zoom.get_users">
-<span class="sig-name descname"><span class="pre">get_users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'active'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_users" title="Permalink to this definition"></a></dt>
-<dd><p>Get users.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>status: str</dt><dd><p>Filter by the user status. Must be one of following: <code class="docutils literal notranslate"><span class="pre">active</span></code>,
-<code class="docutils literal notranslate"><span class="pre">inactive</span></code>, or <code class="docutils literal notranslate"><span class="pre">pending</span></code>.</p>
-</dd>
-<dt>role_id: str</dt><dd><p>Filter by the user role.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Zoom.get_meetings">
-<span class="sig-name descname"><span class="pre">get_meetings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meeting_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'scheduled'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meetings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meetings" title="Permalink to this definition"></a></dt>
-<dd><p>Get meetings scheduled by a user.</p>
-<dl>
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>user_id: str</dt><dd><p>A user id or email address of the meeting host.</p>
-</dd>
-</dl>
-<p>meeting_type: str</p>
-<blockquote>
-<div><table class="colwidths-given docutils align-default">
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 67%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Type</p></th>
-<th class="head"><p>Notes</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">scheduled</span></code></p></td>
-<td><p>This includes all valid past meetings, live meetings and upcoming
-scheduled meetings. It is the equivalent to the combined list of
-“Previous Meetings” and “Upcoming Meetings” displayed in the user’s
-Meetings page.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">live</span></code></p></td>
-<td><p>All the ongoing meetings.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">upcoming</span></code></p></td>
-<td><p>All upcoming meetings including live meetings.</p></td>
-</tr>
-</tbody>
-</table>
-</div></blockquote>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Zoom.get_past_meeting">
-<span class="sig-name descname"><span class="pre">get_past_meeting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_uuid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_meeting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_meeting" title="Permalink to this definition"></a></dt>
-<dd><p>Get metadata regarding a past meeting.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>meeting_id: str</dt><dd><p>The meeting id</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Zoom.get_past_meeting_participants">
-<span class="sig-name descname"><span class="pre">get_past_meeting_participants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_meeting_participants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_meeting_participants" title="Permalink to this definition"></a></dt>
-<dd><p>Get past meeting participants</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>meeting_id:</dt><dd><p>The meeting id</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 

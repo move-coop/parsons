@@ -31,36 +31,41 @@ class TestGoogleAdmin(unittest.TestCase):
         self.google_admin = MockGoogleAdmin()
 
     def test_aliases(self):
-        self.google_admin.client.request = MagicMock(
-            return_value=(
-                "",
-                '{"aliases": [{"alias": "fakeemail7@fakedomain.com"},'
-                '{"alias": "fakeemail8@fakedomain'
-                '.com"}]}'.encode(),
-            )
-        )
+        response_mock = MagicMock()
+        self.google_admin.client.request = MagicMock(return_value=response_mock)
+        response_mock.json.return_value = {
+            "aliases": [
+                {"alias": "fakeemail7@fakedomain.com"},
+                {"alias": "fakeemail8@fakedomain.com"},
+            ]
+        }
         assert_matching_tables(self.google_admin.get_aliases("1"), self.mock_aliases)
 
     def test_all_group_members(self):
-        self.google_admin.client.request = MagicMock(
-            return_value=(
-                "",
-                '{"members": [{"email": "fakeemail4@fakedomain.com"}]}'.encode(),
-            )
-        )
+        response_mock = MagicMock()
+        self.google_admin.client.request = MagicMock(return_value=response_mock)
+        response_mock.json.return_value = {"members": [{"email": "fakeemail4@fakedomain.com"}]}
         assert_matching_tables(
             self.google_admin.get_all_group_members("1"), self.mock_all_group_members
         )
 
     def test_all_groups(self):
-        self.google_admin.client.request = MagicMock(
-            return_value=(
-                "",
-                '{"groups": [{"aliases": ["fakeemail7@fakedomain.com", "fakeemail8@fakedomain.com"], "e'  # noqa: E501
-                'mail": "fakeemail4@fakedomain.com", "id": 1}, {"email": "fakeemail5@fakedomain.com", "'  # noqa: E501
-                'id": 2}, {"email": "fakeemail6@fakedomain.com", "id": 3}]}'.encode(),
-            )
-        )
+        response_mock = MagicMock()
+        self.google_admin.client.request = MagicMock(return_value=response_mock)
+        response_mock.json.return_value = {
+            "groups": [
+                {
+                    "aliases": [
+                        "fakeemail7@fakedomain.com",
+                        "fakeemail8@fakedomain.com",
+                    ],
+                    "email": "fakeemail4@fakedomain.com",
+                    "id": 1,
+                },
+                {"email": "fakeemail5@fakedomain.com", "id": 2},
+                {"email": "fakeemail6@fakedomain.com", "id": 3},
+            ]
+        }
         assert_matching_tables(
             self.google_admin.get_all_groups({"domain": "fakedomain.com"}),
             self.mock_all_groups,

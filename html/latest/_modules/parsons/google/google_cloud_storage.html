@@ -146,12 +146,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.google.google_cloud_storage</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">google</span>
-<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">storage</span>
-<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">storage_transfer</span>
-<span class="kn">from</span> <span class="nn">parsons.google.utitities</span> <span class="kn">import</span> <span class="n">setup_google_application_credentials</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">gzip</span>
 <span class="kn">import</span> <span class="nn">petl</span>
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -159,6 +154,15 @@
 <span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">import</span> <span class="nn">zipfile</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">google</span>
+<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">storage</span><span class="p">,</span> <span class="n">storage_transfer</span>
+
+<span class="kn">from</span> <span class="nn">parsons.google.utilities</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">load_google_application_credentials</span><span class="p">,</span>
+    <span class="n">setup_google_application_credentials</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -190,17 +194,21 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">setup_google_application_credentials</span><span class="p">(</span><span class="n">app_creds</span><span class="p">)</span>
+        <span class="n">env_credentials_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+        <span class="n">setup_google_application_credentials</span><span class="p">(</span>
+            <span class="n">app_creds</span><span class="p">,</span> <span class="n">target_env_var_name</span><span class="o">=</span><span class="n">env_credentials_path</span>
+        <span class="p">)</span>
+        <span class="n">credentials</span> <span class="o">=</span> <span class="n">load_google_application_credentials</span><span class="p">(</span><span class="n">env_credentials_path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">project</span>
 
         <span class="c1"># Throws an error if you pass project=None, so adding if/else statement.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">)</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Access all methods of `google.cloud` package</span>
 <span class="sd">            &quot;&quot;&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GoogleCloudStorage.list_buckets"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.list_buckets">[docs]</a>    <span class="k">def</span> <span class="nf">list_buckets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -437,7 +445,9 @@
         <span class="n">blob</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> blob in </span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> bucket deleted.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleCloudStorage.upload_table"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">default_acl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleCloudStorage.upload_table"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">upload_table</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">default_acl</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load the data from a Parsons table into a blob.</span>
 
@@ -473,7 +483,9 @@
             <span class="n">local_file</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
             <span class="n">content_type</span> <span class="o">=</span> <span class="s2">&quot;application/json&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown data_type value (</span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s2">): must be one of: csv or json&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unknown data_type value (</span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s2">): must be one of: csv or json&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_filename</span><span class="p">(</span>
@@ -543,7 +555,9 @@
 <span class="sd">                Secret key to authenticate storage transfer</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">source</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;gcs&quot;</span><span class="p">,</span> <span class="s2">&quot;s3&quot;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Blob transfer only supports gcs and s3 sources [source=</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Blob transfer only supports gcs and s3 sources [source=</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">]&quot;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">source_path</span> <span class="ow">and</span> <span class="n">source_path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Source path much end in a &#39;/&#39;&quot;</span><span class="p">)</span>
 
@@ -730,9 +744,13 @@
         <span class="p">}</span>
 
         <span class="n">file_extension</span> <span class="o">=</span> <span class="n">compression_params</span><span class="p">[</span><span class="n">compression_type</span><span class="p">][</span><span class="s2">&quot;file_extension&quot;</span><span class="p">]</span>
-        <span class="n">compression_function</span> <span class="o">=</span> <span class="n">compression_params</span><span class="p">[</span><span class="n">compression_type</span><span class="p">][</span><span class="s2">&quot;compression_function&quot;</span><span class="p">]</span>
+        <span class="n">compression_function</span> <span class="o">=</span> <span class="n">compression_params</span><span class="p">[</span><span class="n">compression_type</span><span class="p">][</span>
+            <span class="s2">&quot;compression_function&quot;</span>
+        <span class="p">]</span>
 
-        <span class="n">compressed_filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">download_blob</span><span class="p">(</span><span class="n">bucket_name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="o">=</span><span class="n">blob_name</span><span class="p">)</span>
+        <span class="n">compressed_filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">download_blob</span><span class="p">(</span>
+            <span class="n">bucket_name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="o">=</span><span class="n">blob_name</span>
+        <span class="p">)</span>
 
         <span class="n">decompressed_filepath</span> <span class="o">=</span> <span class="n">compressed_filepath</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">file_extension</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="n">decompressed_blob_name</span> <span class="o">=</span> <span class="p">(</span>
@@ -764,7 +782,9 @@
         <span class="n">bucket_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;bucket_name&quot;</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">compressed_filepath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Uploading uncompressed file to GCS: </span><span class="si">{</span><span class="n">decompressed_blob_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Uploading uncompressed file to GCS: </span><span class="si">{</span><span class="n">decompressed_blob_name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
             <span class="n">bucket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">)</span>
             <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">decompressed_blob_name</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">)</span>
             <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_file</span><span class="p">(</span><span class="n">file_obj</span><span class="o">=</span><span class="n">f_in</span><span class="p">,</span> <span class="n">rewind</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3600</span><span class="p">)</span>
@@ -784,7 +804,9 @@
         <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">compressed_filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">path_</span><span class="p">:</span>
             <span class="c1"># Open the underlying file</span>
             <span class="k">with</span> <span class="n">path_</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">decompressed_blob_in_archive</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Uploading uncompressed file to GCS: </span><span class="si">{</span><span class="n">decompressed_blob_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Uploading uncompressed file to GCS: </span><span class="si">{</span><span class="n">decompressed_blob_name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
                 <span class="n">bucket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">)</span>
                 <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">decompressed_blob_name</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">)</span>
                 <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_file</span><span class="p">(</span><span class="n">file_obj</span><span class="o">=</span><span class="n">f_in</span><span class="p">,</span> <span class="n">rewind</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3600</span><span class="p">)</span></div>

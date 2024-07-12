@@ -146,15 +146,17 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.google.google_sheets</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.google.utitities</span> <span class="kn">import</span> <span class="n">setup_google_application_credentials</span><span class="p">,</span> <span class="n">hexavigesimal</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
 
 <span class="kn">import</span> <span class="nn">gspread</span>
-<span class="kn">from</span> <span class="nn">google.oauth2.service_account</span> <span class="kn">import</span> <span class="n">Credentials</span>
+
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.google.utilities</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">load_google_application_credentials</span><span class="p">,</span>
+    <span class="n">setup_google_application_credentials</span><span class="p">,</span>
+    <span class="n">hexavigesimal</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -180,12 +182,15 @@
             <span class="s2">&quot;https://www.googleapis.com/auth/drive&quot;</span><span class="p">,</span>
         <span class="p">]</span>
 
-        <span class="n">setup_google_application_credentials</span><span class="p">(</span><span class="n">google_keyfile_dict</span><span class="p">,</span> <span class="s2">&quot;GOOGLE_DRIVE_CREDENTIALS&quot;</span><span class="p">)</span>
-        <span class="n">google_credential_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;GOOGLE_DRIVE_CREDENTIALS&quot;</span><span class="p">])</span>
-        <span class="n">credentials_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">google_credential_file</span><span class="p">)</span>
+        <span class="n">env_credentials_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+        <span class="n">setup_google_application_credentials</span><span class="p">(</span>
+            <span class="n">google_keyfile_dict</span><span class="p">,</span>
+            <span class="s2">&quot;GOOGLE_DRIVE_CREDENTIAL&quot;</span><span class="p">,</span>
+            <span class="n">target_env_var_name</span><span class="o">=</span><span class="n">env_credentials_path</span><span class="p">,</span>
+        <span class="p">)</span>
 
-        <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="o">.</span><span class="n">from_service_account_info</span><span class="p">(</span>
-            <span class="n">credentials_dict</span><span class="p">,</span> <span class="n">scopes</span><span class="o">=</span><span class="n">scope</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="n">subject</span>
+        <span class="n">credentials</span> <span class="o">=</span> <span class="n">load_google_application_credentials</span><span class="p">(</span>
+            <span class="n">env_credentials_path</span><span class="p">,</span> <span class="n">scopes</span><span class="o">=</span><span class="n">scope</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="n">subject</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span> <span class="o">=</span> <span class="n">gspread</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">credentials</span><span class="p">)</span>
@@ -195,12 +200,16 @@
 
         <span class="c1"># Check if the worksheet is an integer, if so find the sheet by index</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">worksheet</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span><span class="o">.</span><span class="n">get_worksheet</span><span class="p">(</span><span class="n">worksheet</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span><span class="o">.</span><span class="n">get_worksheet</span><span class="p">(</span>
+                <span class="n">worksheet</span>
+            <span class="p">)</span>
 
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">worksheet</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_worksheets</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">worksheet</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span><span class="o">.</span><span class="n">get_worksheet</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span><span class="o">.</span><span class="n">get_worksheet</span><span class="p">(</span>
+                    <span class="n">idx</span>
+                <span class="p">)</span>
             <span class="k">except</span><span class="p">:</span>  <span class="c1"># noqa: E722</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Couldn&#39;t find worksheet </span><span class="si">{</span><span class="n">worksheet</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -428,7 +437,9 @@
 
         <span class="c1"># If the existing sheet is blank, then just overwrite the table.</span>
         <span class="k">if</span> <span class="n">existing_table</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">overwrite_sheet</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">worksheet</span><span class="p">,</span> <span class="n">user_entered_value</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">overwrite_sheet</span><span class="p">(</span>
+                <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">worksheet</span><span class="p">,</span> <span class="n">user_entered_value</span>
+            <span class="p">)</span>
 
         <span class="n">cells</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">row_num</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>

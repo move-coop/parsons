@@ -37,7 +37,7 @@ class GoogleSheets:
         env_credentials_path = str(uuid.uuid4())
         setup_google_application_credentials(
             google_keyfile_dict,
-            "GOOGLE_DRIVE_CREDENTIAL",
+            "GOOGLE_DRIVE_CREDENTIALS",
             target_env_var_name=env_credentials_path,
         )
 

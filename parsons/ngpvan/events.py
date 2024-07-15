@@ -215,7 +215,7 @@ class Events(object):
         }
 
         if location_ids:
-            event["locations"] = ([{"locationId": location_id} for location_id in location_ids],)
+            event["locations"] = [{"locationId": location_id} for location_id in location_ids]
 
         if code_ids:
             event["codes"] = [{"codeID": c} for c in code_ids]

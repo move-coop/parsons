@@ -1,7 +1,9 @@
 import unittest
 import requests_mock
 import json
-from parsons import Table, ActionNetwork
+from parsons import Table
+from parsons.action_network import ActionNetwork
+from unittest.mock import patch
 from test.utils import assert_matching_tables
 
 
@@ -3124,7 +3126,52 @@ class TestActionNetwork(unittest.TestCase):
             "modified_date": "2014-03-18T22:25:38Z",
             "item_type": "osdi:person",
         }
-
+        self.fake_unique_id_lists = {
+            "total_pages": 3,
+            "per_page": 25,
+            "page": 1,
+            "total_records": 50,
+            "_links": {
+                "next": {"href": f"{self.api_url}/unique_id_lists?page=2"},
+                "self": {"href": f"{self.api_url}/unique_id_lists"},
+                "osdi:unique_id_lists": [
+                    {"href": f"{self.api_url}/unique_id_lists/fake_id"},
+                    {"href": f"{self.api_url}/unique_id_lists/fake_id"},
+                ],
+                "curies": [
+                    {
+                        "name": "osdi",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                    {
+                        "name": "action_network",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                ],
+            },
+            "_embedded": {
+                "osdi:unique_id_lists": [
+                    {
+                        "identifiers": ["action_network:fake_id"],
+                        "name": "Example Unique ID List",
+                        "created_date": "2022-01-01T00:00:00Z",
+                        "modified_date": "2022-01-01T00:00:00Z",
+                        "description": "This is an example unique ID list.",
+                        "administrative_url": "https://actionnetwork.org/unique_id_lists/1/edit",
+                    },
+                    {
+                        "identifiers": ["action_network:fake_id"],
+                        "name": "Another Unique ID List",
+                        "created_date": "2022-01-02T00:00:00Z",
+                        "modified_date": "2022-01-02T00:00:00Z",
+                        "description": "This is another example unique ID list.",
+                        "administrative_url": "https://actionnetwork.org/unique_id_lists/2/edit",
+                    },
+                ],
+            },
+        }
         # Wrappers
         self.fake_wrappers = {
             "total_pages": 7,
@@ -4226,6 +4273,33 @@ class TestActionNetwork(unittest.TestCase):
             {"notice": "This tagging was successfully deleted."},
         )
 
+    # Unique ID Lists
+    @requests_mock.Mocker()
+    def test_get_unique_id_lists(self, m):
+        m.get(
+            f"{self.api_url}/unique_id_lists",
+            text=json.dumps(self.fake_unique_id_lists),
+        )
+        assert_matching_tables(
+            self.an.get_unique_id_lists(1),
+            self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
+        )
+
+    @requests_mock.Mocker()
+    def test_get_unique_id_list(self, m):
+        m.get(
+            f"{self.api_url}/unique_id_lists/123",
+            text=json.dumps(
+                self.fake_unique_id_lists["_embedded"][
+                    list(self.fake_unique_id_lists["_embedded"])[0]
+                ]
+            ),
+        )
+        assert_matching_tables(
+            self.an.get_unique_id_list("123"),
+            self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
+        )
+
     # Wrappers
     @requests_mock.Mocker()
     def test_get_wrappers(self, m):
@@ -4245,3 +4319,34 @@ class TestActionNetwork(unittest.TestCase):
             self.an.get_wrapper("123"),
             self.fake_wrapper,
         )
+
+    # SQL Mirror
+    @patch("parsons.action_network.action_network.SSHTunnelUtility")
+    @patch("parsons.action_network.action_network.Redshift")
+    def test_query_sql_mirror(self, mock_redshift, mock_tunnel):
+        # Setup mock for SSHTunnelUtility
+        mock_tunnel_instance = mock_tunnel.return_value.__enter__.return_value
+        mock_tunnel_instance.local_bind_port = 12345
+        # Setup mock for Redshift
+        mock_rs_instance = mock_redshift.return_value
+        mock_rs_instance.query.return_value = "Expected Result"
+        # Parameters for the function
+        params = {
+            "ssh_host": "ssh.example.com",
+            "ssh_port": 22,
+            "ssh_username": "user",
+            "ssh_password": "password",
+            "mirror_host": "db.example.com",
+            "mirror_port": 5439,
+            "mirror_db_name": "testdb",
+            "mirror_username": "dbuser",
+            "mirror_password": "dbpass",
+            "query": "SELECT * FROM table",
+        }
+        result = self.an.query_sql_mirror(**params)
+        # Assert the expected result
+        self.assertEqual(result, "Expected Result")
+        mock_redshift.assert_called_with(
+            username="dbuser", password="dbpass", host="127.0.0.1", db="testdb", port=12345
+        )
+        mock_rs_instance.query.assert_called_with("SELECT * FROM table")

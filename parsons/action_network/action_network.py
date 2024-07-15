@@ -3,10 +3,12 @@ import logging
 import re
 import warnings
 from typing import Dict, List, Union
-
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons import Redshift
+from parsons.utilities.ssh_utilities import SSHTunnelUtility
+
 
 logger = logging.getLogger(__name__)
 
@@ -1872,6 +1874,38 @@ class ActionNetwork(object):
         """
         return self.api.delete_request(f"tags/{tag_id}/taggings/{tagging_id}")
 
+    # Unique ID Lists
+    def get_unique_id_lists(self, limit=None, per_page=25, page=None, filter=None):
+        """
+        Args:
+            limit: The maximum number of unique ID lists to return.
+            When None, returns all unique ID lists.
+            per_page: The number of unique ID lists to return per page. Default is 25.
+            page: The specific page of unique ID lists to return.
+            filter: The filter criteria to apply when retrieving unique ID lists.
+
+        Returns:
+            A JSON response with the unique ID lists.
+        Documentation Reference:
+            https://actionnetwork.org/docs/v2/unique_id_lists
+        """
+        if page:
+            return self._get_page("unique_id_lists", page, per_page, filter)
+        return self._get_entry_list("unique_id_lists", limit, per_page, filter)
+
+    def get_unique_id_list(self, unique_id_list_id):
+        """
+        `Args:`
+            unique_id_list_id:
+                The unique id of the unique ID list
+
+        `Returns:`
+            A JSON response with the unique ID list details
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/unique_id_lists
+        """
+        return self.api.get_request(f"unique_id_lists/{unique_id_list_id}")
+
     # Wrappers
     def get_wrappers(self, limit=None, per_page=25, page=None, filter=None):
         """
@@ -1909,3 +1943,71 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/wrappers
         """
         return self.api.get_request(f"wrappers/{wrapper_id}")
+
+    # SQL Mirror
+    def query_sql_mirror(
+        self,
+        ssh_host,
+        ssh_port,
+        ssh_username,
+        ssh_password,
+        mirror_host,
+        mirror_port,
+        mirror_db_name,
+        mirror_username,
+        mirror_password,
+        query,
+    ):
+        """
+        `Args:`
+            self:
+                The ActionNetwork instance
+            ssh_host:
+                The host for the SSH connection
+            ssh_port:
+                The port for the SSH connection
+            ssh_username:
+                The username for the SSH connection
+            ssh_password:
+                The password for the SSH connection
+            mirror_host:
+                The host for the mirror connection
+            mirror_port:
+                The port for the mirror connection
+            mirror_db_name:
+                The name of the mirror database
+            mirror_username:
+                The username for the mirror database
+            mirror_password:
+                The password for the mirror database
+            query:
+                The SQL query to execute
+
+        `Returns:`
+            A list of records resulting from the query or None if something went wrong
+        `Documentation Reference`:
+            https://actionnetwork.org/mirroring/docs
+        """
+        try:
+            # Use SSHTunnelUtility to create an SSH tunnel
+            with SSHTunnelUtility(
+                ssh_host=ssh_host,
+                ssh_port=ssh_port,
+                ssh_username=ssh_username,
+                ssh_password=ssh_password,
+                remote_bind_address=(mirror_host, mirror_port),
+            ) as tunnel:
+                # Redshift connection now uses the local end of the tunnel
+                rs = Redshift(
+                    username=mirror_username,
+                    password=mirror_password,
+                    host="127.0.0.1",  # Connect to localhost where the tunnel is bound
+                    db=mirror_db_name,
+                    port=tunnel.local_bind_port,  # Use the dynamically assigned local port
+                )
+                # Perform the query
+                result = rs.query(query)
+                return result
+        except Exception as e:
+            print(e)
+            return None

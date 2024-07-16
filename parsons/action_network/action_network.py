@@ -1990,8 +1990,16 @@ class ActionNetwork(object):
             # We import here to avoid making redshift and sshtunnel
             # dependencies for all users of the ActionNetwork
             # connector
-            from parsons.utilities.ssh_utilities import SSHTunnelUtility
-            from parsons.databases.redshift import Redshift
+            try:
+                from parsons.utilities.ssh_utilities import SSHTunnelUtility
+                from parsons.databases.redshift import Redshift
+            except ImportError as e:
+                raise ImportError(
+                    "If you are using friendly dependencies "
+                    "Parsons install, you will need to explicitly "
+                    "include the sshtunnel package as well as the "
+                    "redshift extra."
+                ) from e
 
             # Use SSHTunnelUtility to create an SSH tunnel
             with SSHTunnelUtility(

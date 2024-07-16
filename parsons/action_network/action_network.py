@@ -6,7 +6,8 @@ from typing import Dict, List, Union
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-from parsons import Redshift
+
+from parsons.databases.redshift import Redshift
 from parsons.utilities.ssh_utilities import SSHTunnelUtility
 
 

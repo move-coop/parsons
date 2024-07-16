@@ -151,13 +151,10 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
 <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
-
-<span class="kn">from</span> <span class="nn">parsons.databases.redshift</span> <span class="kn">import</span> <span class="n">Redshift</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.ssh_utilities</span> <span class="kn">import</span> <span class="n">SSHTunnelUtility</span>
-
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -2023,38 +2020,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">/taggings/</span><span class="si">{</span><span class="n">tagging_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-    <span class="c1"># Unique ID Lists</span>
-<div class="viewcode-block" id="ActionNetwork.get_unique_id_lists"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_unique_id_lists">[docs]</a>    <span class="k">def</span> <span class="nf">get_unique_id_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Args:</span>
-<span class="sd">            limit: The maximum number of unique ID lists to return.</span>
-<span class="sd">            When None, returns all unique ID lists.</span>
-<span class="sd">            per_page: The number of unique ID lists to return per page. Default is 25.</span>
-<span class="sd">            page: The specific page of unique ID lists to return.</span>
-<span class="sd">            filter: The filter criteria to apply when retrieving unique ID lists.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            A JSON response with the unique ID lists.</span>
-<span class="sd">        Documentation Reference:</span>
-<span class="sd">            https://actionnetwork.org/docs/v2/unique_id_lists</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;unique_id_lists&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="s2">&quot;unique_id_lists&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionNetwork.get_unique_id_list"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_unique_id_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_unique_id_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unique_id_list_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        `Args:`</span>
-<span class="sd">            unique_id_list_id:</span>
-<span class="sd">                The unique id of the unique ID list</span>
-
-<span class="sd">        `Returns:`</span>
-<span class="sd">            A JSON response with the unique ID list details</span>
-<span class="sd">        `Documentation Reference`:</span>
-<span class="sd">            https://actionnetwork.org/docs/v2/unique_id_lists</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unique_id_lists/</span><span class="si">{</span><span class="n">unique_id_list_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
     <span class="c1"># Wrappers</span>
 <div class="viewcode-block" id="ActionNetwork.get_wrappers"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_wrappers">[docs]</a>    <span class="k">def</span> <span class="nf">get_wrappers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2091,75 +2056,7 @@
 <span class="sd">        `Documentation Reference`:</span>
 <span class="sd">            https://actionnetwork.org/docs/v2/wrappers</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;wrappers/</span><span class="si">{</span><span class="n">wrapper_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
-    <span class="c1"># SQL Mirror</span>
-<div class="viewcode-block" id="ActionNetwork.query_sql_mirror"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.query_sql_mirror">[docs]</a>    <span class="k">def</span> <span class="nf">query_sql_mirror</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">ssh_host</span><span class="p">,</span>
-        <span class="n">ssh_port</span><span class="p">,</span>
-        <span class="n">ssh_username</span><span class="p">,</span>
-        <span class="n">ssh_password</span><span class="p">,</span>
-        <span class="n">mirror_host</span><span class="p">,</span>
-        <span class="n">mirror_port</span><span class="p">,</span>
-        <span class="n">mirror_db_name</span><span class="p">,</span>
-        <span class="n">mirror_username</span><span class="p">,</span>
-        <span class="n">mirror_password</span><span class="p">,</span>
-        <span class="n">query</span><span class="p">,</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        `Args:`</span>
-<span class="sd">            self:</span>
-<span class="sd">                The ActionNetwork instance</span>
-<span class="sd">            ssh_host:</span>
-<span class="sd">                The host for the SSH connection</span>
-<span class="sd">            ssh_port:</span>
-<span class="sd">                The port for the SSH connection</span>
-<span class="sd">            ssh_username:</span>
-<span class="sd">                The username for the SSH connection</span>
-<span class="sd">            ssh_password:</span>
-<span class="sd">                The password for the SSH connection</span>
-<span class="sd">            mirror_host:</span>
-<span class="sd">                The host for the mirror connection</span>
-<span class="sd">            mirror_port:</span>
-<span class="sd">                The port for the mirror connection</span>
-<span class="sd">            mirror_db_name:</span>
-<span class="sd">                The name of the mirror database</span>
-<span class="sd">            mirror_username:</span>
-<span class="sd">                The username for the mirror database</span>
-<span class="sd">            mirror_password:</span>
-<span class="sd">                The password for the mirror database</span>
-<span class="sd">            query:</span>
-<span class="sd">                The SQL query to execute</span>
-
-<span class="sd">        `Returns:`</span>
-<span class="sd">            A list of records resulting from the query or None if something went wrong</span>
-<span class="sd">        `Documentation Reference`:</span>
-<span class="sd">            https://actionnetwork.org/mirroring/docs</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Use SSHTunnelUtility to create an SSH tunnel</span>
-            <span class="k">with</span> <span class="n">SSHTunnelUtility</span><span class="p">(</span>
-                <span class="n">ssh_host</span><span class="o">=</span><span class="n">ssh_host</span><span class="p">,</span>
-                <span class="n">ssh_port</span><span class="o">=</span><span class="n">ssh_port</span><span class="p">,</span>
-                <span class="n">ssh_username</span><span class="o">=</span><span class="n">ssh_username</span><span class="p">,</span>
-                <span class="n">ssh_password</span><span class="o">=</span><span class="n">ssh_password</span><span class="p">,</span>
-                <span class="n">remote_bind_address</span><span class="o">=</span><span class="p">(</span><span class="n">mirror_host</span><span class="p">,</span> <span class="n">mirror_port</span><span class="p">),</span>
-            <span class="p">)</span> <span class="k">as</span> <span class="n">tunnel</span><span class="p">:</span>
-                <span class="c1"># Redshift connection now uses the local end of the tunnel</span>
-                <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">(</span>
-                    <span class="n">username</span><span class="o">=</span><span class="n">mirror_username</span><span class="p">,</span>
-                    <span class="n">password</span><span class="o">=</span><span class="n">mirror_password</span><span class="p">,</span>
-                    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span>  <span class="c1"># Connect to localhost where the tunnel is bound</span>
-                    <span class="n">db</span><span class="o">=</span><span class="n">mirror_db_name</span><span class="p">,</span>
-                    <span class="n">port</span><span class="o">=</span><span class="n">tunnel</span><span class="o">.</span><span class="n">local_bind_port</span><span class="p">,</span>  <span class="c1"># Use the dynamically assigned local port</span>
-                <span class="p">)</span>
-                <span class="c1"># Perform the query</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">result</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;wrappers/</span><span class="si">{</span><span class="n">wrapper_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

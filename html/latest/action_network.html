@@ -135,11 +135,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_tagging"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_tagging()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_tagging"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_tagging()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.delete_tagging"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.delete_tagging()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_unique_id_lists"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_unique_id_lists()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_unique_id_list"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_unique_id_list()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_wrappers"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_wrappers()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_wrapper"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_wrapper()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.query_sql_mirror"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.query_sql_mirror()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -2330,39 +2327,6 @@ When None, no filter is applied.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="parsons.ActionNetwork.get_unique_id_lists">
-<span class="sig-name descname"><span class="pre">get_unique_id_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_unique_id_lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_unique_id_lists" title="Permalink to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>Args:</dt><dd><p>limit: The maximum number of unique ID lists to return.
-When None, returns all unique ID lists.
-per_page: The number of unique ID lists to return per page. Default is 25.
-page: The specific page of unique ID lists to return.
-filter: The filter criteria to apply when retrieving unique ID lists.</p>
-</dd>
-<dt>Returns:</dt><dd><p>A JSON response with the unique ID lists.</p>
-</dd>
-<dt>Documentation Reference:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/unique_id_lists">https://actionnetwork.org/docs/v2/unique_id_lists</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.ActionNetwork.get_unique_id_list">
-<span class="sig-name descname"><span class="pre">get_unique_id_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unique_id_list_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_unique_id_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_unique_id_list" title="Permalink to this definition"></a></dt>
-<dd><dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>unique_id_list_id:</dt><dd><p>The unique id of the unique ID list</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>A JSON response with the unique ID list details</p>
-</dd>
-<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/unique_id_lists">https://actionnetwork.org/docs/v2/unique_id_lists</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionNetwork.get_wrappers">
 <span class="sig-name descname"><span class="pre">get_wrappers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_wrappers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_wrappers" title="Permalink to this definition"></a></dt>
 <dd><dl>
@@ -2403,42 +2367,6 @@ When None, no filter is applied.</p>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the wrapper entry</p>
 </dd>
 <dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/wrappers">https://actionnetwork.org/docs/v2/wrappers</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.ActionNetwork.query_sql_mirror">
-<span class="sig-name descname"><span class="pre">query_sql_mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssh_port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssh_username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssh_password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mirror_host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mirror_port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mirror_db_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mirror_username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mirror_password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.query_sql_mirror"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.query_sql_mirror" title="Permalink to this definition"></a></dt>
-<dd><dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>self:</dt><dd><p>The ActionNetwork instance</p>
-</dd>
-<dt>ssh_host:</dt><dd><p>The host for the SSH connection</p>
-</dd>
-<dt>ssh_port:</dt><dd><p>The port for the SSH connection</p>
-</dd>
-<dt>ssh_username:</dt><dd><p>The username for the SSH connection</p>
-</dd>
-<dt>ssh_password:</dt><dd><p>The password for the SSH connection</p>
-</dd>
-<dt>mirror_host:</dt><dd><p>The host for the mirror connection</p>
-</dd>
-<dt>mirror_port:</dt><dd><p>The port for the mirror connection</p>
-</dd>
-<dt>mirror_db_name:</dt><dd><p>The name of the mirror database</p>
-</dd>
-<dt>mirror_username:</dt><dd><p>The username for the mirror database</p>
-</dd>
-<dt>mirror_password:</dt><dd><p>The password for the mirror database</p>
-</dd>
-<dt>query:</dt><dd><p>The SQL query to execute</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>A list of records resulting from the query or None if something went wrong</p>
-</dd>
-<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/mirroring/docs">https://actionnetwork.org/mirroring/docs</a></p>
 </dd>
 </dl>
 </dd></dl>

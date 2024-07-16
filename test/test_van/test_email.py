@@ -1,6 +1,7 @@
 import unittest
 import os
 import requests_mock
+from copy import deepcopy
 from parsons import VAN, Table
 
 
@@ -28,6 +29,113 @@ def assert_matching_tables(table1, table2, ignore_headers=False):
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 
+
+sample_content_full = [
+    {
+        "name": "Email Name",
+        "senderDisplayName": "Joe Biden",
+        "senderEmailAddress": "joe@biden.org",
+        "subject": "This is Joe",
+        "createdBy": "Random Intern",
+        "dateCreated": "2023-05-17T15:04:00Z",
+        "emailMessageContentDistributions": {
+            "dateSent": "2023-05-17T15:05:00Z",
+            "recipientCount": 10,
+            "openCount": 0,
+            "linksClickedCount": 0,
+            "unsubscribeCount": 0,
+            "bounceCount": 0,
+            "contributionTotal": 0.0,
+            "formSubmissionCount": 0,
+            "contributionCount": 0,
+            "machineOpenCount": 0,
+        },
+    },
+    {
+        "name": "Email Name_B",
+        "senderDisplayName": "Kamala Harris",
+        "senderEmailAddress": "kamala@harris.org",
+        "subject": "This is Kamala",
+        "createdBy": "Random Intern",
+        "dateCreated": "2023-05-17T15:04:00Z",
+        "emailMessageContentDistributions": {
+            "dateSent": "2023-05-17T15:05:00Z",
+            "recipientCount": 10,
+            "openCount": 1,
+            "linksClickedCount": 1,
+            "unsubscribeCount": 1,
+            "bounceCount": 0,
+            "contributionTotal": 1.0,
+            "formSubmissionCount": 0,
+            "contributionCount": 1,
+            "machineOpenCount": 1,
+        },
+    },
+    {
+        "name": "Email Name_C",
+        "senderDisplayName": "Commander Biden",
+        "senderEmailAddress": "commander@barkbark.org",
+        "subject": "Bark Bark",
+        "createdBy": "Random Intern",
+        "dateCreated": "2023-05-17T15:04:00Z",
+        "emailMessageContentDistributions": {
+            "dateSent": "2023-05-17T15:05:00Z",
+            "recipientCount": 10,
+            "openCount": 5,
+            "linksClickedCount": 0,
+            "unsubscribeCount": 0,
+            "bounceCount": 0,
+            "contributionTotal": 0.0,
+            "formSubmissionCount": 0,
+            "contributionCount": 0,
+            "machineOpenCount": 2,
+        },
+    },
+    {
+        "name": "Email Name_Winner",
+        "senderDisplayName": "Commander Biden",
+        "senderEmailAddress": "commander@barkbark.org",
+        "subject": "Bark Bark",
+        "createdBy": "TargetedEmail InternalAPIUser",
+        "dateCreated": "2023-05-17T17:06:00Z",
+        "emailMessageContentDistributions": {
+            "dateSent": "2023-05-17T17:06:00Z",
+            "recipientCount": 100,
+            "openCount": 30,
+            "linksClickedCount": 10,
+            "unsubscribeCount": 10,
+            "bounceCount": 10,
+            "contributionTotal": 500.0,
+            "formSubmissionCount": 0,
+            "contributionCount": 3,
+            "machineOpenCount": 30,
+        },
+    },
+]
+
+sample_content_single = [
+    {
+        "name": "Email Name",
+        "senderDisplayName": "Joe Biden",
+        "senderEmailAddress": "joe@biden.org",
+        "subject": "This is Joe",
+        "createdBy": "Random Intern",
+        "dateCreated": "2023-05-17T15:04:00Z",
+        "emailMessageContentDistributions": {
+            "dateSent": "2023-05-17T15:05:00Z",
+            "recipientCount": 10,
+            "openCount": 0,
+            "linksClickedCount": 0,
+            "unsubscribeCount": 0,
+            "bounceCount": 0,
+            "contributionTotal": 0.0,
+            "formSubmissionCount": 0,
+            "contributionCount": 0,
+            "machineOpenCount": 0,
+        },
+    }
+]
+
 mock_response = [
     {
         "foreignMessageId": "oK2ahdAcEe6F-QAiSCI3lA2",
@@ -50,7 +158,7 @@ mock_response = [
         "emailMessageContent": None,
     },
     {
-        "foreignMessageId": "_E1AfcnkEe6F-QAiSCI3lA2",
+        "foreignMessageId": "E1AfcnkEe6F-QAiSCI3lA2",
         "name": "Test Email 3",
         "createdBy": "Joe Biden",
         "dateCreated": "2024-02-12T15:26:00Z",
@@ -81,6 +189,13 @@ mock_response = [
     },
 ]
 
+mock_response_enriched = deepcopy(mock_response)
+mock_response_enriched[0]["emailMessageContent"] = sample_content_single
+mock_response_enriched[1]["emailMessageContent"] = sample_content_single
+mock_response_enriched[2]["emailMessageContent"] = sample_content_single
+mock_response_enriched[3]["emailMessageContent"] = sample_content_single
+mock_response_enriched[4]["emailMessageContent"] = sample_content_full
+
 
 class TestEmail(unittest.TestCase):
     def setUp(self):
@@ -101,11 +216,40 @@ class TestEmail(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_email_message(self, m):
         m.get(
-            self.van.connection.uri + "email/message/1",
+            self.van.connection.uri + "email/message/0",
             json=mock_response[0],
             status_code=200,
         )
+        m.get(
+            self.van.connection.uri + "email/message/1",
+            json=mock_response_enriched[0],
+            status_code=200,
+        )
+        response0 = self.van.get_email(0, expand=False)
+        response1 = self.van.get_email(1)
 
-        response = self.van.get_email(1)
+        assert_matching_tables(response0, mock_response[0])
+        assert_matching_tables(response1, mock_response_enriched[0])
 
-        assert_matching_tables(response, mock_response[0])
+    @requests_mock.Mocker()
+    def test_get_email_message_stats_agg(self, m):
+        m.get(
+            self.van.connection.uri + "email/messages",
+            json=mock_response_enriched,
+            status_code=200,
+        )
+        for resp in mock_response_enriched:
+            m.get(
+                self.van.connection.uri + f"email/message/{resp['foreignMessageId']}",
+                json=resp,
+                status_code=200,
+            )
+
+        response_t = self.van.get_email_stats(aggregate_ab=True)
+        response_f = self.van.get_email_stats(aggregate_ab=False)
+
+        assert len(response_t.to_dicts()) == 5
+        assert len(response_f.to_dicts()) == 8
+
+        assert response_t.to_dicts()[4]["recipientCount"] == 130
+        assert response_f.to_dicts()[4]["recipientCount"] == 10

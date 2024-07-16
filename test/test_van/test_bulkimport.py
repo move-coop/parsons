@@ -164,6 +164,45 @@ class TestBulkImport(unittest.TestCase):
 
         self.assertEqual(job_id, 54679)
 
+    @requests_mock.Mocker()
+    def test_bulk_apply_canvass_results(self, m):
+
+        # Mock Cloud Storage
+        cloud_storage.post_file = mock.MagicMock()
+        cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
+
+        tbl = Table(
+            [
+                ["vanid", "contacttypeid", "resultid", "datecanvassed", "canvassedby", "phone"],
+                [1234, 1, 1, "2020-01-01", 987, "5554443210"],
+            ]
+        )
+
+        m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
+
+        job_id = self.van.bulk_apply_canvass_results(tbl, url_type="S3", bucket="my-bucket")
+
+        self.assertEqual(job_id, 54679)
+
+    @requests_mock.Mocker()
+    def test_bulk_apply_contact_custom_fields(self, m):
+
+        # Mock Cloud Storage
+        cloud_storage.post_file = mock.MagicMock()
+        cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
+
+        tbl = Table([["vanid", "CF123", "CF124"], [1234, "Test String Value", 999]])
+
+        m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
+
+        custom_field_group_id = 1234
+
+        job_id = self.van.bulk_apply_contact_custom_fields(
+            custom_field_group_id, tbl, url_type="S3", bucket="my-bucket"
+        )
+
+        self.assertEqual(job_id, 54679)
+
 
 mapping_type = {
     "name": "ActivistCode",

@@ -654,7 +654,7 @@ class TestRedshiftDB(unittest.TestCase):
             key=key,
         )
 
-        key_prefix = f"{key}/{self.tbl.replace('.','_')}/"
+        key_prefix = f"{key}/{self.tbl.replace('.', '_')}/"
 
         # Check that files are there
         self.assertTrue(self.s3.key_exists(self.temp_s3_bucket, key_prefix))

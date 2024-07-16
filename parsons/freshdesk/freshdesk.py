@@ -51,6 +51,23 @@ class Freshdesk:
 
         return data
 
+    def _post_request(self, endpoint, data):
+        """
+        Send a POST request to the specified Freshdesk endpoint.
+        `Args:`
+            endpoint: str
+                The endpoint of the Freshdesk API to which the request is being sent.
+            data: dict
+                The data to be sent in the request body.
+        `Returns:`
+            dict
+                The JSON response from the API.
+        """
+        url = self.uri + endpoint
+        r = self.client.request(url, "POST", json=data)
+        self.client.validate_response(r)
+        return r.json()
+
     @staticmethod
     def _transform_table(tbl, expand_custom_fields=None):
         if tbl.num_rows > 0:
@@ -213,3 +230,39 @@ class Freshdesk:
         tbl.remove_column("signature")  # Removing since raw HTML might cause issues.
 
         return tbl
+
+    def create_ticket(
+        self, subject, description, email, priority, status, cc_emails=None, custom_fields=None
+    ):
+        """
+        Create a ticket in Freshdesk.
+        `Args:`
+            subject: str
+                The subject of the ticket.
+            description: str
+                The description of the ticket.
+            email: str
+                The email address of the requester.
+            priority: int
+                The priority of the ticket.
+            status: int
+                The status of the ticket.
+            cc_emails: list (optional)
+                List of email addresses to CC.
+            custom_fields: dict (optional)
+                Custom fields data.
+        `Returns:`
+            dict
+                JSON response from the API.
+        """
+        endpoint = "tickets"
+        data = {
+            "subject": subject,
+            "description": description,
+            "email": email,
+            "priority": priority,
+            "status": status,
+            "cc_emails": cc_emails if cc_emails else [],
+            "custom_fields": custom_fields if custom_fields else {},
+        }
+        return self._post_request(endpoint, data)

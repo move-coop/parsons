@@ -8,6 +8,10 @@ from airtable_responses import (
     insert_responses,
     records_response,
     records_response_with_more_columns,
+    update_responses,
+    upsert_with_id_responses,
+    upsert_with_key_responses,
+    delete_responses,
 )
 
 
@@ -32,7 +36,7 @@ class TestAirtable(unittest.TestCase):
         record_id = "recObtmLUrD5dOnmD"
 
         response = {
-            "id": "recObtmLUrD5dOnmD",
+            "id": record_id,
             "fields": {},
             "createdTime": "2019-05-08T19:37:58.000Z",
         }
@@ -131,17 +135,102 @@ class TestAirtable(unittest.TestCase):
         self.assertEqual(len(resp), 2)
 
     @requests_mock.Mocker()
+    def test_update_record(self, m):
+
+        record_id = "recObtmLUrD5dOnmD"
+
+        update_response = {
+            "id": record_id,
+            "fields": {"Name": "AName"},
+            "createdTime": "2023-05-22T21:24:15.333134Z",
+        }
+
+        m.patch(self.base_uri + "/" + record_id, json=update_response)
+
+        # Assert the method returns expected dict response
+        self.assertEqual(self.at.update_record(record_id, {"Name": "AName"}), update_response)
+
+    @requests_mock.Mocker()
     def test_update_records(self, m):
+
+        m.patch(self.base_uri, json=update_responses)
+
+        tbl = Table(
+            [
+                {"id": "recaBMSHTgXREa5ef", "Name": "Updated Name1"},
+                {"id": "recObtmLUrD5dOnmD", "Name": "Updated Name2"},
+                {"id": "recmeBNnj4cuHPOSI", "Name": "Updated Name3"},
+            ]
+        )
+
+        resp = self.at.update_records(tbl)
+
+        self.assertTrue(len(update_responses["records"]), len(resp))
+
+    @requests_mock.Mocker()
+    def test_upsert_records_with_id(self, m):
+
+        m.patch(self.base_uri, json=upsert_with_id_responses)
+
+        tbl = Table(
+            [
+                {"id": "recz9W2ojGNwMdN2y", "Name": "Updated Name1"},
+                {"id": "recB5njCET7AvHBbg", "Name": "Updated Name2"},
+                {"id": "recz9W2ojgPwMdN2y", "Name": "New Name3"},
+            ]
+        )
+
+        resp = self.at.upsert_records(tbl)
+
+        self.assertTrue(len(upsert_with_id_responses["records"]), len(resp))
+        self.assertTrue(len(resp["updated_records"]), 2)
+        self.assertTrue(len(resp["created_records"]), 1)
+
+    @requests_mock.Mocker()
+    def test_upsert_records_with_key(self, m):
+
+        m.patch(self.base_uri, json=upsert_with_key_responses)
+
+        tbl = Table(
+            [
+                {"key": "1", "Name": "New Name1"},
+                {"key": "2", "Name": "New Name2"},
+                {"key": "3", "Name": "Updated Name3"},
+            ]
+        )
+
+        resp = self.at.upsert_records(tbl, key_fields=["key"])
+
+        self.assertTrue(len(upsert_with_key_responses["records"]), len(resp))
+        self.assertTrue(len(resp["updated_records"]), 1)
+        self.assertTrue(len(resp["created_records"]), 2)
+
+    @requests_mock.Mocker()
+    def test_delete_record(self, m):
 
         record_id = "recObtmLUrD5dOnmD"
 
         response = {
-            "id": "recObtmLUrD5dOnmD",
-            "fields": {"Name": "AName"},
-            "createdTime": "2019-05-13T17:36:28.000Z",
+            "id": record_id,
+            "deleted": True,
         }
 
-        m.patch(self.base_uri + "/" + record_id, json=response)
+        m.delete(self.base_uri + "/" + record_id, json=response)
 
         # Assert the method returns expected dict response
-        self.assertEqual(self.at.update_record(record_id, {"Name": "AName"}), response)
+        self.assertEqual(
+            self.at.delete_record(record_id),
+            response,
+        )
+
+    @requests_mock.Mocker()
+    def test_delete_records(self, m):
+
+        m.delete(self.base_uri, json=delete_responses)
+
+        tbl = Table(delete_responses["records"]).cut("id")
+
+        resp = self.at.delete_records(tbl)
+
+        self.assertEqual(len(delete_responses["records"]), len(resp))
+        self.assertTrue(all([r["deleted"] for r in resp]))

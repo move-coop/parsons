@@ -7,9 +7,6 @@ from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 
-from parsons.databases.redshift import Redshift
-from parsons.utilities.ssh_utilities import SSHTunnelUtility
-
 
 logger = logging.getLogger(__name__)
 
@@ -1990,6 +1987,12 @@ class ActionNetwork(object):
             https://actionnetwork.org/mirroring/docs
         """
         try:
+            # We import here to avoid making redshift and sshtunnel
+            # dependencies for all users of the ActionNetwork
+            # connector
+            from parsons.utilities.ssh_utilities import SSHTunnelUtility
+            from parsons.databases.redshift import Redshift
+
             # Use SSHTunnelUtility to create an SSH tunnel
             with SSHTunnelUtility(
                 ssh_host=ssh_host,

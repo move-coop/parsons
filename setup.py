@@ -15,6 +15,7 @@ def main():
             "simplejson",
         ]
         extras_require = {
+            "actionnetwork": ["sshtunnel"],
             "airtable": ["pyairtable"],
             "alchemer": ["surveygizmo"],
             "azure": ["azure-storage-blob"],

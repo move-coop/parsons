@@ -1,72 +1,80 @@
-from sshtunnel import SSHTunnelForwarder
+import logging
+import sshtunnel
+import psycopg2
 
 
-class SSHTunnelUtility:
+def query_through_ssh(
+    ssh_host,
+    ssh_port,
+    ssh_username,
+    ssh_password,
+    db_host,
+    db_port,
+    db_name,
+    db_username,
+    db_password,
+    query,
+):
     """
-    A utility class for managing SSH tunnels.
+    `Args:`
+        ssh_host:
+            The host for the SSH connection
+        ssh_port:
+            The port for the SSH connection
+        ssh_username:
+            The username for the SSH connection
+        ssh_password:
+            The password for the SSH connection
+        db_host:
+            The host for the mirror connection
+        db_port:
+            The port for the mirror connection
+        db_name:
+            The name of the mirror database
+        db_username:
+            The username for the mirror database
+        db_password:
+            The password for the mirror database
+        query:
+            The SQL query to execute
 
-    `Args`:
-        ssh_host (str): The hostname or IP address of the SSH server.
-        ssh_port (int): The port number of the SSH server. Defaults to 22.
-        ssh_username (str): The username to authenticate with.
-        ssh_password (str): The password to authenticate with.
-        remote_bind_address (tuple): A tuple of the address (host) and port of the remote service.
-
-    `Returns`:
-        SSHTunnelUtility: An instance of the SSHTunnelUtility class.
+    `Returns:`
+        A list of records resulting from the query or None if something went wrong
     """
-
-    def __init__(
-        self,
-        ssh_host=None,
-        ssh_port=22,
-        ssh_username=None,
-        ssh_password=None,
-        remote_bind_address=None,
-    ):
-        self.ssh_host = ssh_host
-        self.ssh_port = ssh_port
-        self.ssh_username = ssh_username
-        self.ssh_password = ssh_password
-        self.remote_bind_address = remote_bind_address
-        self.server = None
-
-    def __enter__(self):
-        """
-        Start the SSH tunnel on entering the context.
-
-        This method sets up the SSH tunnel using the provided credentials and
-        connection details, and starts the tunnel.
-
-        `Returns`:
-            SSHTunnelForwarder: The active tunnel server instance, which can be
-            used to interact with the remote service through a local port.
-        """
-        self.server = SSHTunnelForwarder(
-            (self.ssh_host, self.ssh_port),
-            ssh_username=self.ssh_username,
-            ssh_password=self.ssh_password,
-            remote_bind_address=self.remote_bind_address,
+    output = None
+    server = None
+    con = None
+    try:
+        server = sshtunnel.SSHTunnelForwarder(
+            (ssh_host, int(ssh_port)),
+            ssh_username=ssh_username,
+            ssh_password=ssh_password,
+            remote_bind_address=(db_host, int(db_port)),
         )
-        self.server.start()
-        return self.server
+        server.start()
+        logging.info("SSH tunnel established successfully.")
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        Stop the SSH tunnel on exiting the context.
+        con = psycopg2.connect(
+            host="localhost",
+            port=server.local_bind_port,
+            database=db_name,
+            user=db_username,
+            password=db_password,
+        )
+        logging.info("Database connection established successfully.")
 
-        This method is called when exiting the context of the `with` statement.
-        It stops the SSH tunnel and cleans up the resources, ensuring that the
-        connection is closed properly, even if an exception occurs within the
-        context block.
-
-        `Args`:
-            exc_type: Exception type if an exception was raised in the context.
-            exc_val: Exception value if an exception was raised.
-            exc_tb: Traceback object if an exception was raised.
-
-        `Returns`:
-            None
-        """
-        if self.server:
-            self.server.stop()
+        cursor = con.cursor()
+        cursor.execute(query)
+        records = cursor.fetchall()
+        output = records
+        logging.info(f"Query executed successfully: {records}")
+    except Exception as e:
+        logging.error(f"Error during query execution: {e}")
+    finally:
+        if con:
+            con.close()
+            logging.info("Database connection closed.")
+        if server:
+            server.stop()
+            logging.info("SSH tunnel closed.")
+    return output

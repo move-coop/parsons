@@ -1,12 +1,14 @@
-import os
-import json
 import logging
-
-from parsons.etl.table import Table
-from parsons.google.utitities import setup_google_application_credentials, hexavigesimal
+import uuid
 
 import gspread
-from google.oauth2.service_account import Credentials
+
+from parsons.etl.table import Table
+from parsons.google.utilities import (
+    load_google_application_credentials,
+    setup_google_application_credentials,
+    hexavigesimal,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -32,12 +34,15 @@ class GoogleSheets:
             "https://www.googleapis.com/auth/drive",
         ]
 
-        setup_google_application_credentials(google_keyfile_dict, "GOOGLE_DRIVE_CREDENTIALS")
-        google_credential_file = open(os.environ["GOOGLE_DRIVE_CREDENTIALS"])
-        credentials_dict = json.load(google_credential_file)
+        env_credentials_path = str(uuid.uuid4())
+        setup_google_application_credentials(
+            google_keyfile_dict,
+            "GOOGLE_DRIVE_CREDENTIALS",
+            target_env_var_name=env_credentials_path,
+        )
 
-        credentials = Credentials.from_service_account_info(
-            credentials_dict, scopes=scope, subject=subject
+        credentials = load_google_application_credentials(
+            env_credentials_path, scopes=scope, subject=subject
         )
 
         self.gspread_client = gspread.authorize(credentials)
@@ -47,12 +52,16 @@ class GoogleSheets:
 
         # Check if the worksheet is an integer, if so find the sheet by index
         if isinstance(worksheet, int):
-            return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(worksheet)
+            return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(
+                worksheet
+            )
 
         elif isinstance(worksheet, str):
             idx = self.list_worksheets(spreadsheet_id).index(worksheet)
             try:
-                return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(idx)
+                return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(
+                    idx
+                )
             except:  # noqa: E722
                 raise ValueError(f"Couldn't find worksheet {worksheet}")
 
@@ -262,6 +271,10 @@ class GoogleSheets:
                 Otherwise, values will be entered as strings or numbers only.
         """
 
+        if not table.num_rows:
+            logger.warning("No data provided to append, skipping.")
+            return
+
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
         if "sheet_index" in kwargs:
             worksheet = kwargs["sheet_index"]
@@ -276,7 +289,9 @@ class GoogleSheets:
 
         # If the existing sheet is blank, then just overwrite the table.
         if existing_table.num_rows == 0:
-            return self.overwrite_sheet(spreadsheet_id, table, worksheet, user_entered_value)
+            return self.overwrite_sheet(
+                spreadsheet_id, table, worksheet, user_entered_value
+            )
 
         cells = []
         for row_num, row in enumerate(table.data):
@@ -299,9 +314,9 @@ class GoogleSheets:
         """
         Pastes data from a Parsons table to a Google sheet. Note that this may overwrite
         presently existing data. This function is useful for adding data to a subsection
-        if an existint sheet that will have other existing data - constrast to
+        if an existing sheet that will have other existing data - contrast to
         `overwrite_sheet` (which will fully replace any existing data) and `append_to_sheet`
-        (whuch sticks the data only after all other existing data).
+        (which sticks the data only after all other existing data).
 
         `Args:`
             spreadsheet_id: str
@@ -317,6 +332,7 @@ class GoogleSheets:
             startcol: int
                 Starting column position of pasted data. Counts from 0.
         """
+
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
 
         number_of_columns = len(table.columns)
@@ -378,6 +394,10 @@ class GoogleSheets:
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
         sheet.clear()
 
+        if not len(table.columns):
+            logger.warning("No data provided, worksheet is empty.")
+            return
+
         value_input_option = "RAW"
         if user_entered_value:
             value_input_option = "USER_ENTERED"
@@ -385,14 +405,18 @@ class GoogleSheets:
         # Add header row
         sheet.append_row(table.columns, value_input_option=value_input_option)
 
-        cells = []
-        for row_num, row in enumerate(table.data):
-            for col_num, cell in enumerate(row):
-                # We start at row #2 to keep room for the header row we added above
-                cells.append(gspread.Cell(row_num + 2, col_num + 1, row[col_num]))
+        if table.num_rows:
+            cells = []
+            for row_num, row in enumerate(table.data):
+                for col_num, _ in enumerate(row):
+                    # We start at row #2 to keep room for the header row we added above
+                    cells.append(gspread.Cell(row_num + 2, col_num + 1, row[col_num]))
 
-        # Update the data in one batch
-        sheet.update_cells(cells, value_input_option=value_input_option)
+            # Update the data in one batch
+            sheet.update_cells(cells, value_input_option=value_input_option)
+        else:
+            logger.warning("No rows provided.")
+
         logger.info("Overwrote worksheet.")
 
     def format_cells(self, spreadsheet_id, range, cell_format, worksheet=0):

@@ -2056,7 +2056,37 @@
 <span class="sd">        `Documentation Reference`:</span>
 <span class="sd">            https://actionnetwork.org/docs/v2/wrappers</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;wrappers/</span><span class="si">{</span><span class="n">wrapper_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;wrappers/</span><span class="si">{</span><span class="n">wrapper_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="c1"># Unique ID Lists</span>
+<div class="viewcode-block" id="ActionNetwork.get_unique_id_lists"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_unique_id_lists">[docs]</a>    <span class="k">def</span> <span class="nf">get_unique_id_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            limit: The maximum number of unique ID lists to return.</span>
+<span class="sd">            When None, returns all unique ID lists.</span>
+<span class="sd">            per_page: The number of unique ID lists to return per page. Default is 25.</span>
+<span class="sd">            page: The specific page of unique ID lists to return.</span>
+<span class="sd">            filter: The filter criteria to apply when retrieving unique ID lists.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            A JSON response with the unique ID lists.</span>
+<span class="sd">        Documentation Reference:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/unique_id_lists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;unique_id_lists&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="s2">&quot;unique_id_lists&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.get_unique_id_list"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_unique_id_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_unique_id_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unique_id_list_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            unique_id_list_id:</span>
+<span class="sd">                The unique id of the unique ID list</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response with the unique ID list details</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/unique_id_lists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unique_id_lists/</span><span class="si">{</span><span class="n">unique_id_list_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

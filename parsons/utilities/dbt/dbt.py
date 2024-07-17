@@ -2,6 +2,7 @@
 
 import json
 import logging
+import time
 import os
 import pathlib
 import shutil
@@ -74,7 +75,13 @@ class dbtRunner:
         if completed_process.returncode == 2:
             raise RuntimeError(completed_process.stderr)
 
-        with open(os.path.join(self.dbt_project_directory, "target", "run_results.json")) as file:
+        run_results_filepath = os.path.join(
+            self.dbt_project_directory, "target", "run_results.json"
+        )
+        if not os.path.exists(run_results_filepath):
+            # Sometimes it takes a few seconds for this file to materialize
+            time.sleep(5)
+        with open(run_results_filepath) as file:
             raw_result = json.loads(file.read())
 
         result = dbtCommandResult(command=command, **raw_result)

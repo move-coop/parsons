@@ -10,7 +10,7 @@ from rich.console import Console
 from rich.logging import RichHandler
 from rich.markdown import Markdown
 
-from parsons.utilities.dbt.models import dbtCommandResult
+from dbt.contracts.graph.manifest import Manifest
 
 logger = logging.getLogger(__name__)
 
@@ -35,10 +35,10 @@ def human_readable_duration(seconds: int | float) -> str:
 class dbtLogger(ABC):
     """Abstract base class for aggregating logs from dbt commands."""
 
-    commands: list[dbtCommandResult]
+    commands: list[Manifest]
 
     @abstractmethod
-    def format_command_result(self, command: dbtCommandResult) -> str:
+    def format_command_result(self, manifest: Manifest) -> str:
         pass
 
     @abstractmethod
@@ -46,17 +46,17 @@ class dbtLogger(ABC):
         pass
 
     @abstractmethod
-    def send(self, dbt_command_results: list[dbtCommandResult]) -> None:
+    def send(self, manifests: list[Manifest]) -> None:
         """The send method is called to execute logging.
 
-        dbt_command_results are passed to this method directly (rather
+        manifests are passed to this method directly (rather
         than on initialization) so that the logger class can be
         initialized before the dbt commands have been run. This is
         mostly necessary for loggers that need to be initialized with
         credentials or options before being provided to the
         run_dbt_commands method.
         """
-        self.commands = dbt_command_results
+        self.commands = manifests
         log_text = self.format_result()  # noqa
         ...
 
@@ -64,44 +64,46 @@ class dbtLogger(ABC):
 class dbtLoggerMarkdown(dbtLogger):
     def format_command_result(
         self,
-        command: dbtCommandResult,
+        manifest: Manifest,
     ) -> str:
         log_message = ""
 
         # Header
-        if command.errors:
+        if manifest.errors:
             log_message += "\U0001F534"  # Red box
             status = "Error"
-        elif command.warnings:
+        elif manifest.warnings:
             log_message += "\U0001F7E0"  # Orange circle
             status = "Warning"
         else:
             log_message += "\U0001F7E2"  # Green circle
             status = "Success"
 
-        time_str = human_readable_duration(command.elapsed_time)
-        log_message += f"Invoke dbt with `dbt {command.command}` ({status} in {time_str})"
+        time_str = human_readable_duration(manifest.elapsed_time)
+        log_message += f"Invoke dbt with `dbt {manifest.command}` ({status} in {time_str})"
 
-        log_summary_str = ", ".join([f"{node}: {count}" for node, count in command.summary.items()])
+        log_summary_str = ", ".join(
+            [f"{node}: {count}" for node, count in manifest.summary.items()]
+        )
         if not log_summary_str:
             log_summary_str = "No models ran."
         log_message += "\n*Summary*: `{}`".format(log_summary_str)
 
         # Errors
-        if command.errors:
+        if manifest.errors:
             log_message += "\nError messages:\n```{}```".format(
-                "\n\n".join([i.node + ": " + i.message for i in command.errors])
+                "\n\n".join([i.node.name + ": " + i.message for i in manifest.errors])
             )
 
         # Warnings
-        if command.warnings:
+        if manifest.warnings:
             log_message += "\nWarn messages:\n```{}```".format(
-                "\n\n".join([i.node + ": " + i.message for i in command.warnings])
+                "\n\n".join([i.node.name + ": " + i.message for i in manifest.warnings])
             )
 
         # Skips
-        if command.skips:
-            skips = set([i.node for i in command.skips])
+        if manifest.skips:
+            skips = set([i.node.name for i in manifest.skips])
             log_message += "\nSkipped:\n```{}```".format(", ".join(skips))
 
         return log_message
@@ -133,8 +135,8 @@ class dbtLoggerMarkdown(dbtLogger):
 
 
 class dbtLoggerStdout(dbtLoggerMarkdown):
-    def send(self, dbt_command_results: list[dbtCommandResult]) -> None:
-        self.commands = dbt_command_results
+    def send(self, manifests: list[Manifest]) -> None:
+        self.commands = manifests
         log_text = self.format_result()
 
         md = Markdown(log_text)
@@ -143,8 +145,8 @@ class dbtLoggerStdout(dbtLoggerMarkdown):
 
 
 class dbtLoggerPython(dbtLoggerMarkdown):
-    def send(self, dbt_command_results: list[dbtCommandResult]) -> None:
-        self.commands = dbt_command_results
+    def send(self, manifests: list[Manifest]) -> None:
+        self.commands = manifests
         log_text = self.format_result()
 
         if "RichHandler" not in [handler.__class__.__name__ for handler in logger.handlers]:
@@ -163,8 +165,8 @@ class dbtLoggerSlack(dbtLoggerMarkdown):
         self.slack_webhook = slack_webhook
         self.slack_channel = slack_channel
 
-    def send(self, dbt_command_results: list[dbtCommandResult]) -> None:
-        self.commands = dbt_command_results
+    def send(self, manifests: list[Manifest]) -> None:
+        self.commands = manifests
         log_text = self.format_result()
 
         # Importing here to avoid needing to make slackclient a dependency for all dbt users

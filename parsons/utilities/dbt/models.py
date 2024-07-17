@@ -1,59 +1,45 @@
 """Pydantic data models for use with dbt utilities."""
 
-from pydantic.v1 import BaseModel, Field, validator
 import collections
-from typing import Literal
+from dbt.contracts.graph.manifest import Manifest as dbtManifest
+from dbt.contracts.results import NodeResult
 
 
-class dbtResult(BaseModel):
-    """For each dbt SQL operation, one dbtResult object is generated."""
+class Manifest:
+    def __init__(self, command: str, dbt_manifest: dbtManifest) -> None:
+        self.command = command
+        self.dbt_manifest = dbt_manifest
 
-    status: Literal["success", "pass", "warn", "error", "fail", "skipped"]
-    execution_time: float
-    node: str = Field(alias="unique_id")
-    message: str | None = None
-    bytes_processed: int | None = Field(default=None, alias="adapter_response")
+    def __getattr__(self, key):
+        if key in self.__dict__:
+            result = self.__dict__[key]
+        else:
+            result = getattr(self.dbt_manifest, key)
+        return result
 
-    @validator("bytes_processed", pre=True)
-    def unnest_bytes_processed(cls, value: dict) -> int | None:
-        """Fetch bytes_processed from adapter_response"""
-        return value.get("bytes_processed")
-
-
-class dbtCommandResult(BaseModel):
-    """Results from the execution of a dbt command.
-
-    These results are fetched from the dbt-generated run_results.json
-    file.
-    """
-
-    command: str
-    elapsed_time: float
-    results: list[dbtResult]
-
-    def filter_results(self, **kwargs) -> list[dbtResult]:
+    def filter_results(self, **kwargs) -> list[NodeResult]:
         """Subset of results based on filter"""
         filtered_results = [
             result
-            for result in self.results
-            if all([getattr(result, key) == value for key, value in kwargs.items()])
+            for result in self.dbt_manifest
+            if all([str(getattr(result, key)) == value for key, value in kwargs.items()])
         ]
         return filtered_results
 
     @property
-    def warnings(self) -> list[dbtResult]:
+    def warnings(self) -> list[NodeResult]:
         return self.filter_results(status="warn")
 
     @property
-    def errors(self) -> list[dbtResult]:
+    def errors(self) -> list[NodeResult]:
         return self.filter_results(status="error")
 
     @property
-    def skips(self) -> list[dbtResult]:
+    def skips(self) -> list[NodeResult]:
         return self.filter_results(status="skipped")
 
     @property
     def summary(self) -> collections.Counter:
         """Counts of pass, warn, fail, error & skip."""
-        result = collections.Counter([i.status for i in self.results])
+        result = collections.Counter([str(i.status) for i in self.dbt_manifest])
         return result

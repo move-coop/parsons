@@ -1,21 +1,19 @@
 """Core methods for running dbt commands."""
 
-import json
 import logging
-import time
-import os
 import pathlib
-import shutil
-import subprocess
 from typing import List, Optional, Type, Union
 
 from parsons.utilities.dbt.logging import dbtLogger
-from parsons.utilities.dbt.models import dbtCommandResult
+from parsons.utilities.dbt.models import Manifest
+
+from dbt.cli.main import dbtRunner, dbtRunnerResult
+
 
 logger = logging.getLogger(__name__)
 
 
-class dbtRunner:
+class dbtRunnerParsons:
     def __init__(
         self,
         commands: Union[str, List[str]],
@@ -37,7 +35,7 @@ class dbtRunner:
         self.commands = commands
         self.dbt_project_directory = dbt_project_directory
 
-    def run(self) -> list[dbtCommandResult]:
+    def run(self) -> list[Manifest]:
         """Executes dbt commands one by one, returns all results."""
         results = []
 
@@ -47,7 +45,7 @@ class dbtRunner:
 
         return results
 
-    def execute_dbt_command(self, command: str) -> dbtCommandResult:
+    def execute_dbt_command(self, command: str) -> Manifest:
         """Runs dbt command and logs results after process is completed.
 
         If raise_error is set, this method will raise an error if the dbt
@@ -55,45 +53,29 @@ class dbtRunner:
         """
         if command.startswith("dbt "):
             command = command[4:]
-        dbt_executable_path = shutil.which("dbt")
-        if not dbt_executable_path:
-            raise RuntimeError("dbt executable not found.")
 
-        commands = [dbt_executable_path, "--log-format", "json"] + command.split(" ")
+        # initialize
+        dbt = dbtRunner()
 
-        completed_process = subprocess.run(
-            commands,
-            env=os.environ.copy(),
-            cwd=self.dbt_project_directory,
-            text=True,
-            capture_output=True,
-        )
+        # create CLI args as a list of strings
+        cli_args = command.split(" ")
+        cli_args.extend(["--project-dir", str(self.dbt_project_directory)])
 
-        logger.debug(completed_process.stdout)
-        logger.debug(completed_process.stderr)
+        # run the command
+        result: dbtRunnerResult = dbt.invoke(cli_args)
+        manifest = Manifest(command=command, dbt_manifest=result.result)
 
-        if completed_process.returncode == 2:
-            raise RuntimeError(completed_process.stderr)
+        if result.exception:
+            raise result.exception
 
-        run_results_filepath = os.path.join(
-            self.dbt_project_directory, "target", "run_results.json"
-        )
-        if not os.path.exists(run_results_filepath):
-            # Sometimes it takes a few seconds for this file to materialize
-            time.sleep(5)
-        with open(run_results_filepath) as file:
-            raw_result = json.loads(file.read())
-
-        result = dbtCommandResult(command=command, **raw_result)
-
-        return result
+        return manifest
 
 
 def run_dbt_commands(
     commands: Union[str, List[str]],
     dbt_project_directory: pathlib.Path,
     loggers: Optional[list[Union[dbtLogger, Type[dbtLogger]]]] = None,
-) -> list[dbtCommandResult]:
+) -> list[Manifest]:
     """Executes dbt commands within a directory, optionally logs results.
 
     Parameters:
@@ -114,7 +96,7 @@ def run_dbt_commands(
 
     Returns:
     --------
-    list[dbtCommandResult]
+    list[Manifest]
         A list of result objects from the executed dbt commands.
 
     Example:
@@ -131,7 +113,7 @@ def run_dbt_commands(
     ...     loggers=[dbtLoggerPython, dbtLoggerSlack]
     ... )
     """
-    dbt_runner = dbtRunner(commands, dbt_project_directory)
+    dbt_runner = dbtRunnerParsons(commands, dbt_project_directory)
 
     dbt_command_results = dbt_runner.run()
 

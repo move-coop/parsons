@@ -26,15 +26,15 @@ def query_through_ssh(
         ssh_password:
             The password for the SSH connection
         db_host:
-            The host for the mirror connection
+            The host for the db connection
         db_port:
-            The port for the mirror connection
+            The port for the db connection
         db_name:
-            The name of the mirror database
+            The name of the db database
         db_username:
-            The username for the mirror database
+            The username for the db database
         db_password:
-            The password for the mirror database
+            The password for the db database
         query:
             The SQL query to execute
 
@@ -70,6 +70,7 @@ def query_through_ssh(
         logging.info(f"Query executed successfully: {records}")
     except Exception as e:
         logging.error(f"Error during query execution: {e}")
+        raise e
     finally:
         if con:
             con.close()

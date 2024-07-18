@@ -63,6 +63,7 @@ def main():
             "smtp": ["validate-email"],
             "targetsmart": ["xmltodict"],
             "twilio": ["twilio"],
+            "ssh": ["sshtunnel", "psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0"]
         }
         extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
     else:

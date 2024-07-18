@@ -6,8 +6,6 @@ from typing import Dict, List, Union
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-from parsons.utilities.ssh_utilities import query_through_ssh
-
 
 logger = logging.getLogger(__name__)
 
@@ -1940,65 +1938,3 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/unique_id_lists
         """
         return self.api.get_request(f"unique_id_lists/{unique_id_list_id}")
-
-    # SQL Mirror
-    def query_sql_mirror(
-        self,
-        ssh_host,
-        ssh_port,
-        ssh_username,
-        ssh_password,
-        mirror_host,
-        mirror_port,
-        mirror_db_name,
-        mirror_username,
-        mirror_password,
-        query,
-    ):
-        """
-        `Args:`
-            self:
-                The ActionNetwork instance
-            ssh_host:
-                The host for the SSH connection
-            ssh_port:
-                The port for the SSH connection
-            ssh_username:
-                The username for the SSH connection
-            ssh_password:
-                The password for the SSH connection
-            mirror_host:
-                The host for the mirror connection
-            mirror_port:
-                The port for the mirror connection
-            mirror_db_name:
-                The name of the mirror database
-            mirror_username:
-                The username for the mirror database
-            mirror_password:
-                The password for the mirror database
-            query:
-                The SQL query to execute
-
-        `Returns:`
-            A list of records resulting from the query or None if something went wrong
-        `Documentation Reference`:
-            https://actionnetwork.org/mirroring/docs
-        """
-        try:
-            result = query_through_ssh(
-                ssh_host,
-                ssh_port,
-                ssh_username,
-                ssh_password,
-                mirror_host,
-                mirror_port,
-                mirror_db_name,
-                mirror_username,
-                mirror_password,
-                query,
-            )
-            return result
-        except Exception as e:
-            print(e)
-            return None

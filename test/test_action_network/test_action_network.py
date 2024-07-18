@@ -3,7 +3,6 @@ import requests_mock
 import json
 from parsons import Table
 from parsons.action_network import ActionNetwork
-from unittest.mock import patch, MagicMock
 from test.utils import assert_matching_tables
 
 
@@ -4321,65 +4320,3 @@ class TestActionNetwork(unittest.TestCase):
             self.an.get_unique_id_list("123"),
             self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
         )
-
-    # SQL Mirror
-    @patch("parsons.utilities.ssh_utilities.sshtunnel.SSHTunnelForwarder")
-    @patch("parsons.utilities.ssh_utilities.psycopg2.connect")
-    def test_query_sql_mirror(self, mock_connect, mock_tunnel):
-        # Mock SSHTunnelForwarder to not perform DNS resolution or open a real tunnel
-        mock_tunnel_instance = MagicMock()
-        mock_tunnel.return_value = mock_tunnel_instance
-        mock_tunnel_instance.start.return_value = None
-        mock_tunnel_instance.stop.return_value = None
-        mock_tunnel_instance.local_bind_port = 12345
-
-        # Mock psycopg2.connect to simulate database connection
-        mock_conn_instance = MagicMock()
-        mock_connect.return_value = mock_conn_instance
-        mock_cursor = MagicMock()
-        mock_conn_instance.cursor.return_value = mock_cursor
-        mock_cursor.fetchall.return_value = [("row1",), ("row2",)]
-
-        # Parameters for the test
-        ssh_host = "ssh.example.com"
-        ssh_port = 22
-        ssh_username = "user"
-        ssh_password = "pass"
-        mirror_host = "db.example.com"
-        mirror_port = 5432
-        mirror_db_name = "testdb"
-        mirror_username = "dbuser"
-        mirror_password = "dbpass"
-        query = "SELECT * FROM table"
-
-        # Execute the method under test
-        result = self.an.query_sql_mirror(
-            ssh_host,
-            ssh_port,
-            ssh_username,
-            ssh_password,
-            mirror_host,
-            mirror_port,
-            mirror_db_name,
-            mirror_username,
-            mirror_password,
-            query,
-        )
-
-        # Assert that the result is as expected
-        self.assertEqual(result, [("row1",), ("row2",)])
-        mock_tunnel.assert_called_once_with(
-            (ssh_host, ssh_port),
-            ssh_username=ssh_username,
-            ssh_password=ssh_password,
-            remote_bind_address=(mirror_host, mirror_port),
-        )
-        mock_connect.assert_called_once_with(
-            host="localhost",
-            port=12345,
-            database=mirror_db_name,
-            user=mirror_username,
-            password=mirror_password,
-        )
-        mock_cursor.execute.assert_called_once_with(query)
-        mock_cursor.fetchall.assert_called_once()

@@ -104,7 +104,8 @@ SQL Mirror
 ***********
 
 .. code-block:: python
-from parsons.utilities.ssh_utilities import query_through_ssh
+
+   from parsons.utilities.ssh_utilities import query_through_ssh
 
 	# Define SSH and database parameters
 	ssh_host = 'ssh.example.com'

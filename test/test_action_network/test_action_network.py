@@ -1,7 +1,8 @@
 import unittest
 import requests_mock
 import json
-from parsons import Table, ActionNetwork
+from parsons import Table
+from parsons.action_network import ActionNetwork
 from test.utils import assert_matching_tables
 
 
@@ -4293,8 +4294,7 @@ class TestActionNetwork(unittest.TestCase):
             self.fake_wrapper,
         )
 
-        # Unique ID Lists
-
+    # Unique ID Lists
     @requests_mock.Mocker()
     def test_get_unique_id_lists(self, m):
         m.get(

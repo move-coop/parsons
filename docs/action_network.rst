@@ -6,7 +6,8 @@ Overview
 ********
 
 `Action Network <https://actionnetwork.org/>`_ is an online tool for storing information
-and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see `Action Network developer docs <https://actionnetwork.org/docs>`_
+and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see `Action Network developer docs <https://actionnetwork.org/docs>`_, `SQL Mirror developer docs <https://actionnetwork.org/mirroring/docs>`_
+
 
 .. note::
   Authentication

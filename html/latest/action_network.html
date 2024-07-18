@@ -53,6 +53,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Action Network</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sql-mirror">SQL Mirror</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#parsons.ActionNetwork"><code class="docutils literal notranslate"><span class="pre">ActionNetwork</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_advocacy_campaigns"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_advocacy_campaigns()</span></code></a></li>
@@ -247,7 +248,7 @@
 <section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://actionnetwork.org/">Action Network</a> is an online tool for storing information
-and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see <a class="reference external" href="https://actionnetwork.org/docs">Action Network developer docs</a></p>
+and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see <a class="reference external" href="https://actionnetwork.org/docs">Action Network developer docs</a>, <a class="reference external" href="https://actionnetwork.org/mirroring/docs">SQL Mirror developer docs</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <dl class="simple">
@@ -335,6 +336,33 @@ and organizing volunteers and donors. It is used primarily for digital organizin
 
 <span class="c1"># Get a specific wrapper</span>
 <span class="n">specific_wrapper</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_wrapper</span><span class="p">(</span><span class="s1">&#39;wrapper_id&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="sql-mirror">
+<h2>SQL Mirror<a class="headerlink" href="#sql-mirror" title="Permalink to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.utilities.ssh_utilities</span> <span class="kn">import</span> <span class="n">query_through_ssh</span>
+
+     <span class="c1"># Define SSH and database parameters</span>
+     <span class="n">ssh_host</span> <span class="o">=</span> <span class="s1">&#39;ssh.example.com&#39;</span>
+     <span class="n">ssh_port</span> <span class="o">=</span> <span class="mi">22</span>
+     <span class="n">ssh_username</span> <span class="o">=</span> <span class="s1">&#39;user&#39;</span>
+     <span class="n">ssh_password</span> <span class="o">=</span> <span class="s1">&#39;pass&#39;</span>
+     <span class="n">db_host</span> <span class="o">=</span> <span class="s1">&#39;db.example.com&#39;</span>
+     <span class="n">db_port</span> <span class="o">=</span> <span class="mi">5432</span>
+     <span class="n">db_name</span> <span class="o">=</span> <span class="s1">&#39;testdb&#39;</span>
+     <span class="n">db_username</span> <span class="o">=</span> <span class="s1">&#39;dbuser&#39;</span>
+     <span class="n">db_password</span> <span class="o">=</span> <span class="s1">&#39;dbpass&#39;</span>
+     <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;SELECT * FROM table&#39;</span>
+
+     <span class="c1"># Use the function to query through SSH</span>
+     <span class="n">result</span> <span class="o">=</span> <span class="n">query_through_ssh</span><span class="p">(</span>
+             <span class="n">ssh_host</span><span class="p">,</span> <span class="n">ssh_port</span><span class="p">,</span> <span class="n">ssh_username</span><span class="p">,</span> <span class="n">ssh_password</span><span class="p">,</span>
+             <span class="n">db_host</span><span class="p">,</span> <span class="n">db_port</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">db_username</span><span class="p">,</span> <span class="n">db_password</span><span class="p">,</span> <span class="n">query</span>
+     <span class="p">)</span>
+
+     <span class="c1"># Output the result</span>
+     <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

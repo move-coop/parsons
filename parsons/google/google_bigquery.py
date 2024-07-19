@@ -1362,7 +1362,7 @@ class GoogleBigQuery(DatabaseConnector):
             raise ValueError(f"Only supports csv or json files [data_type = {data_type}]")
 
     def _load_table_from_uri(self, source_uris, destination, job_config, max_timeout,
-        **load_kwargs):
+                             **load_kwargs):
         load_job = self.client.load_table_from_uri(
             source_uris=source_uris,
             destination=destination,

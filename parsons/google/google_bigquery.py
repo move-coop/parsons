@@ -844,7 +844,7 @@ class GoogleBigQuery(DatabaseConnector):
                 source_uris=temp_blob_uri,
                 destination=self.get_table_ref(table_name=table_name),
                 job_config=job_config,
-                max_timeout=max_timeout
+                max_timeout=max_timeout,
                 **load_kwargs,
             )
         finally:

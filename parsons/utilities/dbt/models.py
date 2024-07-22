@@ -35,6 +35,10 @@ class Manifest:
         return self.filter_results(status="error")
 
     @property
+    def fails(self) -> list[NodeResult]:
+        return self.filter_results(status="fail")
+
+    @property
     def skips(self) -> list[NodeResult]:
         return self.filter_results(status="skipped")
 

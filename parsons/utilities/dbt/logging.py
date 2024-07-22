@@ -90,9 +90,11 @@ class dbtLoggerMarkdown(dbtLogger):
         log_message += "\n*Summary*: `{}`".format(log_summary_str)
 
         # Errors
-        if manifest.errors:
+        if manifest.errors or manifest.fails:
             log_message += "\nError messages:\n```{}```".format(
-                "\n\n".join([i.node.name + ": " + i.message for i in manifest.errors])
+                "\n\n".join(
+                    [i.node.name + ": " + i.message for i in [*manifest.errors, *manifest.fails]]
+                )
             )
 
         # Warnings

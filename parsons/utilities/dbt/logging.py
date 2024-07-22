@@ -182,9 +182,15 @@ class dbtLoggerSlack(dbtLoggerMarkdown):
 class dbtLoggerDatabase(dbtLogger, ABC):
     """Log dbt artifacts by loading to a database."""
 
-    def __init__(self, database_connector: DatabaseConnector, destination_table: str) -> None:
+    def __init__(
+        self,
+        database_connector: DatabaseConnector,
+        destination_table: str,
+        **copy_kwargs,
+    ) -> None:
         self.db_connector = database_connector
         self.destination_table = destination_table
+        self.copy_kwargs = copy_kwargs
 
     def format_command_result(self, manifest: Manifest) -> Table:
         """Loads all artifact results into a Parsons Table."""
@@ -231,4 +237,6 @@ class dbtLoggerDatabase(dbtLogger, ABC):
         self.commands = manifests
         log_tbl = self.format_result()
 
-        self.db_connector.copy(log_tbl, self.destination_table, if_exists="append")
+        self.db_connector.copy(
+            log_tbl, self.destination_table, if_exists="append", **self.copy_kwargs
+        )

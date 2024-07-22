@@ -63,7 +63,11 @@ def main():
             "smtp": ["validate-email"],
             "targetsmart": ["xmltodict"],
             "twilio": ["twilio"],
-            "ssh": ["sshtunnel", "psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0"]
+            "ssh": [
+                "sshtunnel",
+                "psycopg2-binary>=2.9.9",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+            ],
         }
         extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
     else:
@@ -78,7 +82,7 @@ def main():
 
     setup(
         name="parsons",
-        version="3.1.0",
+        version="3.2.0",
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url="https://github.com/move-coop/parsons",

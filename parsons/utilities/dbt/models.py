@@ -13,6 +13,11 @@ class Manifest:
     def __getattr__(self, key):
         if key in self.__dict__:
             result = self.__dict__[key]
+        elif (
+            getattr(self.dbt_manifest, "metadata", {})
+            and key in self.dbt_manifest.metadata.__dict__
+        ):
+            result = getattr(self.dbt_manifest.metadata, key)
         else:
             result = getattr(self.dbt_manifest, key)
         return result

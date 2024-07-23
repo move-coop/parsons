@@ -107,19 +107,18 @@ encountered. If no failures are identified, then you are good to go!
 **Note:*** Some tests are written to call out to external API’s, and will be skipped as part of standard unit testing.
 This is expected.
 
-See the [pytest documentation](https://docs.pytest.org/en/latest/contents.html) for more info and many more options.
+See the [pytest documentation](https://docs.astral.sh/ruff) for more info and many more options.
 
 #### Linting
 
-We use the [black](https://github.com/psf/black) and [flake8](http://flake8.pycqa.org/en/latest/) tools
+We use the [ruff](https://github.com/psf/black)
 to [lint](https://en.wikipedia.org/wiki/Lint_(software)) the code in the repository to make sure it matches our
-preferred style. Both tools are installed as part of the Parsons dependencies.
+preferred style. Ruff is installed as part of the Parsons dependencies.
 
 Run the following commands from the root of the Parsons repository to lint your code changes:
 
 ```bash
-> flake8 parsons/ test/ useful_resources/
-> black parsons/ test/ useful_resources/
+> ruff parsons/ test/ useful_resources/
 ```
 
 Pre-commit hooks are available to enforce black and isort formatting on

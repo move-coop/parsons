@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -148,6 +147,7 @@
              
   <h1>Source code for parsons.ngpvan.supporter_groups</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Supporter Groups Endpoints&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
@@ -233,9 +233,7 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;supporterGroups/</span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;supporterGroups/</span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added person </span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2"> supporter group.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
@@ -252,12 +250,8 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;supporterGroups/</span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Deleted person </span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2"> supporter group.&quot;</span>
-        <span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;supporterGroups/</span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deleted person </span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2"> supporter group.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div></div>
 </pre></div>
 

@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -175,9 +174,7 @@
             <span class="s2">&quot;orgId&quot;</span><span class="p">:</span> <span class="n">org_id</span><span class="p">,</span>
             <span class="s2">&quot;devKey&quot;</span><span class="p">:</span> <span class="n">dev_key</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-            <span class="n">url</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">Login.json&quot;</span> <span class="o">%</span> <span class="n">api_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span>
-        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">Login.json&quot;</span> <span class="o">%</span> <span class="n">api_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dev_key</span> <span class="o">=</span> <span class="n">dev_key</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_url</span> <span class="o">=</span> <span class="n">api_url</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session_id</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;response_data&quot;</span><span class="p">][</span><span class="s2">&quot;sessionId&quot;</span><span class="p">]</span>
@@ -406,13 +403,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Create&quot;</span><span class="p">,</span> <span class="s2">&quot;Customer&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BillCom.create_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.create_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">create_invoice</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">customer_id</span><span class="p">,</span>
-        <span class="n">invoice_number</span><span class="p">,</span>
-        <span class="n">invoice_date</span><span class="p">,</span>
-        <span class="n">due_date</span><span class="p">,</span>
-        <span class="n">invoice_line_items</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">,</span> <span class="n">invoice_number</span><span class="p">,</span> <span class="n">invoice_date</span><span class="p">,</span> <span class="n">due_date</span><span class="p">,</span> <span class="n">invoice_line_items</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
@@ -451,13 +442,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Create&quot;</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BillCom.send_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.send_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">send_invoice</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">invoice_id</span><span class="p">,</span>
-        <span class="n">from_user_id</span><span class="p">,</span>
-        <span class="n">to_email_addresses</span><span class="p">,</span>
-        <span class="n">message_subject</span><span class="p">,</span>
-        <span class="n">message_body</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">invoice_id</span><span class="p">,</span> <span class="n">from_user_id</span><span class="p">,</span> <span class="n">to_email_addresses</span><span class="p">,</span> <span class="n">message_subject</span><span class="p">,</span> <span class="n">message_body</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>

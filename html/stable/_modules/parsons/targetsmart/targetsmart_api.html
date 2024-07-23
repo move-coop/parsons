@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -152,6 +151,7 @@
 
 <span class="sd">https://docs.targetsmart.com/developers/tsapis/v2/index.html</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">petl</span>
@@ -209,9 +209,7 @@
 
         <span class="k">if</span> <span class="n">search_id_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;smartvan&quot;</span><span class="p">,</span> <span class="s2">&quot;votebuilder&quot;</span><span class="p">,</span> <span class="s2">&quot;voter&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-                <span class="s2">&quot;Search ID type &#39;</span><span class="si">{}</span><span class="s2">&#39; requires state kwarg&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">search_id_type</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Search ID type &#39;</span><span class="si">{}</span><span class="s2">&#39; requires state kwarg&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">search_id_type</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">search_id_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span>
             <span class="s2">&quot;voterbase&quot;</span><span class="p">,</span>
@@ -354,9 +352,7 @@
         <span class="p">}</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="p">([</span><span class="n">itm</span> <span class="k">for</span> <span class="n">itm</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span>
-            <span class="s2">&quot;data_fields&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">([</span><span class="n">itm</span> <span class="k">for</span> <span class="n">itm</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s2">&quot;data_fields&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">phone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -439,9 +435,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Search type &#39;zip&#39; requires &#39;zip5&#39; and &#39;zip4&#39; arguments&quot;</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s2">&quot;point&quot;</span> <span class="ow">and</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Search type &#39;point&#39; requires &#39;latitude&#39; and &#39;longitude&#39; arguments&quot;</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Search type &#39;point&#39; requires &#39;latitude&#39; and &#39;longitude&#39; arguments&quot;</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s2">&quot;address&quot;</span> <span class="ow">and</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">address</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Search type &#39;address&#39; requires &#39;address&#39; argument&quot;</span><span class="p">)</span>

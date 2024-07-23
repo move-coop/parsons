@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -257,9 +256,7 @@
         <span class="k">if</span> <span class="n">expand_fields</span><span class="p">:</span>
             <span class="n">expand_fields</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expand_fields</span><span class="p">)</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;$expand&quot;</span><span class="p">:</span> <span class="n">expand_fields</span><span class="p">}</span>
-        <span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;events/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;$expand&quot;</span><span class="p">:</span> <span class="n">expand_fields</span><span class="p">})</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found event </span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
@@ -338,9 +335,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">shifts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">shifts</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Default Shift&quot;</span><span class="p">,</span> <span class="s2">&quot;startTime&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span> <span class="s2">&quot;endTime&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">}</span>
-            <span class="p">]</span>
+            <span class="n">shifts</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Default Shift&quot;</span><span class="p">,</span> <span class="s2">&quot;startTime&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span> <span class="s2">&quot;endTime&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">}]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">shifts</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="p">{</span>
@@ -368,9 +363,7 @@
         <span class="p">}</span>
 
         <span class="k">if</span> <span class="n">location_ids</span><span class="p">:</span>
-            <span class="n">event</span><span class="p">[</span><span class="s2">&quot;locations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="p">[{</span><span class="s2">&quot;locationId&quot;</span><span class="p">:</span> <span class="n">location_id</span><span class="p">}</span> <span class="k">for</span> <span class="n">location_id</span> <span class="ow">in</span> <span class="n">location_ids</span><span class="p">],</span>
-            <span class="p">)</span>
+            <span class="n">event</span><span class="p">[</span><span class="s2">&quot;locations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;locationId&quot;</span><span class="p">:</span> <span class="n">location_id</span><span class="p">}</span> <span class="k">for</span> <span class="n">location_id</span> <span class="ow">in</span> <span class="n">location_ids</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">code_ids</span><span class="p">:</span>
             <span class="n">event</span><span class="p">[</span><span class="s2">&quot;codes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;codeID&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">code_ids</span><span class="p">]</span>

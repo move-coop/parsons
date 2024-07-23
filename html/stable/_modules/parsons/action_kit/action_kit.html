@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -292,6 +291,28 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
+<div class="viewcode-block" id="ActionKit.add_phone"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.add_phone">[docs]</a>    <span class="k">def</span> <span class="nf">add_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">phone_type</span><span class="p">,</span> <span class="n">phone</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a phone number to a user.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            user_id: string</span>
+<span class="sd">                The id of the user.</span>
+<span class="sd">            phone_type: string</span>
+<span class="sd">                The type of the phone (e.g., &quot;Home&quot;).</span>
+<span class="sd">            phone: string</span>
+<span class="sd">                The phone number.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Phone json object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;phone&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not create phone&quot;</span><span class="p">,</span>
+            <span class="n">user</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;/rest/v1/user/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
+            <span class="n">phone_type</span><span class="o">=</span><span class="n">phone_type</span><span class="p">,</span>
+            <span class="n">phone</span><span class="o">=</span><span class="n">phone</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
 <div class="viewcode-block" id="ActionKit.delete_actionfield"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_actionfield">[docs]</a>    <span class="k">def</span> <span class="nf">delete_actionfield</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actionfield_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete an actionfield.</span>
@@ -318,13 +339,32 @@
 <span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
 <span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            ``None``</span>
+<span class="sd">            ``HTTP response from the patch request``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">resp</span></div>
+
+<div class="viewcode-block" id="ActionKit.update_phone"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_phone">[docs]</a>    <span class="k">def</span> <span class="nf">update_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phone_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a phone record.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            phone_id: int</span>
+<span class="sd">                The phone id of the phone to update</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                at the /rest/v1/phone/schema/ path on any ActionKit instance.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``HTTP response from the patch request``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;phone&quot;</span><span class="p">,</span> <span class="n">phone_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">phone_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get an event.</span>
@@ -378,10 +418,56 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">event_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">event_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.create_event_field"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_field">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create an event field (custom field on an event). Note that if an event</span>
+<span class="sd">        field with this name already exists, this will add a second record.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            event_id: int</span>
+<span class="sd">                The id for the event.</span>
+<span class="sd">            name: string</span>
+<span class="sd">                The name of the event field.</span>
+<span class="sd">            value: string</span>
+<span class="sd">                The value of the event field.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Event field json object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventfield&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not create event field&quot;</span><span class="p">,</span>
+            <span class="n">event</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;/rest/v1/event/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.update_event_field"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event_field">[docs]</a>    <span class="k">def</span> <span class="nf">update_event_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eventfield_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update an event field.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            eventfield_id: int</span>
+<span class="sd">                The id of the event field to update.</span>
+<span class="sd">            name: string</span>
+<span class="sd">                The name of the event field.</span>
+<span class="sd">            value: string</span>
+<span class="sd">                The value of the event field.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;eventfield&quot;</span><span class="p">,</span> <span class="n">eventfield_id</span><span class="p">),</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">eventfield_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_blackholed_email"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_blackholed_email">[docs]</a>    <span class="k">def</span> <span class="nf">get_blackholed_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -502,6 +588,73 @@
             <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;campaign&quot;</span><span class="p">,</span>
             <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not create campaign&quot;</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.search_events_in_campaign"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.search_events_in_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">search_events_in_campaign</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">campaign_id</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">order_by</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span>
+        <span class="n">ascdesc</span><span class="o">=</span><span class="s2">&quot;asc&quot;</span><span class="p">,</span>
+        <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get events in a campaign, with optional search filters.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            campaign_id: int</span>
+<span class="sd">                The id of the event campaign.</span>
+<span class="sd">            limit: int</span>
+<span class="sd">                The maximum number of objects to return.</span>
+<span class="sd">            order_by: string</span>
+<span class="sd">                Event attribute to order the results by. Defaults to id, which will normally</span>
+<span class="sd">                be equivalent to ordering by created_at. See `ActionKit&#39;s docs on ordering</span>
+<span class="sd">                &lt;https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering&gt;`_.</span>
+<span class="sd">            ascdesc: string</span>
+<span class="sd">                If &quot;asc&quot; (the default), returns events ordered by the attribute specified by</span>
+<span class="sd">                the order_by parameter. If &quot;desc&quot;, returns events in reverse order.</span>
+<span class="sd">            filters: dictionary</span>
+<span class="sd">                A dictionary for filtering by the attributes of the event or related object.</span>
+<span class="sd">                Not all attributes are available for filtering, but an eventfield will work.</span>
+<span class="sd">                For additional info, visit `Django&#39;s docs on field lookups</span>
+<span class="sd">                &lt;https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups&gt;`_ and</span>
+<span class="sd">                `ActionKit&#39;s docs on the search API</span>
+<span class="sd">                &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html&gt;`_.</span>
+
+<span class="sd">                .. code-block:: python</span>
+
+<span class="sd">                    {</span>
+<span class="sd">                        &quot;title&quot;: &quot;Example Event Title&quot;,</span>
+<span class="sd">                        &quot;field__name&quot;: &quot;example_event_field_name&quot;,</span>
+<span class="sd">                        &quot;field__value&quot;: &quot;Example event field value&quot;,</span>
+<span class="sd">                    }</span>
+<span class="sd">            exclude: dictionary</span>
+<span class="sd">                A dictionary for excluding by the attributes of the event or related object.</span>
+<span class="sd">                Uses the same format as the filters argument.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                A dictionary of other options for filtering. See `ActionKit&#39;s docs on the</span>
+<span class="sd">                search API</span>
+<span class="sd">                &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html&gt;`_.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons.Table</span>
+<span class="sd">                The list of events.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">filters</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">filters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;filter[</span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="n">exclude</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">exclude</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;exclude[</span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="n">ascdesc</span> <span class="o">==</span> <span class="s2">&quot;asc&quot;</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;order_by&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_by</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;order_by&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">order_by</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;campaign/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">/event_search&quot;</span><span class="p">,</span>
+            <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
@@ -784,9 +937,7 @@
 <span class="sd">        copy a mailer</span>
 <span class="sd">        returns new copy of mailer which should be updatable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">mailer_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/copy&quot;</span>
-        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">mailer_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/copy&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="ActionKit.update_mailing"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_mailing">[docs]</a>    <span class="k">def</span> <span class="nf">update_mailing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -804,9 +955,7 @@
 <span class="sd">            ``HTTP response from the patch request``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">mailer_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
@@ -985,10 +1134,29 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="n">order_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="n">order_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">order_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.update_order_user_detail"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_order_user_detail">[docs]</a>    <span class="k">def</span> <span class="nf">update_order_user_detail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_detail_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update an order user detail.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            user_detail_id: int</span>
+<span class="sd">                The id of the order user detail to update</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                at the /rest/v1/orderuserdetail/schema/ path on any ActionKit instance.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``HTTP response from the patch request``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;orderuserdetail&quot;</span><span class="p">,</span> <span class="n">user_detail_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">user_detail_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_orderrecurring"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_orderrecurring">[docs]</a>    <span class="k">def</span> <span class="nf">get_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orderrecurring_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1018,9 +1186,7 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;orderrecurring&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">recurring_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/cancel&quot;</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;orderrecurring&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">recurring_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/cancel&quot;</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">recurring_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
@@ -1278,6 +1444,27 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
+<div class="viewcode-block" id="ActionKit.update_import_action"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_import_action">[docs]</a>    <span class="k">def</span> <span class="nf">update_import_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update an import action.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            action_id: int</span>
+<span class="sd">                The action id of the import action to update</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                at the /rest/v1/importaction/schema/ path on any ActionKit instance.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``HTTP response from the patch request``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;importaction&quot;</span><span class="p">,</span> <span class="n">action_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">action_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">resp</span></div>
+
 <div class="viewcode-block" id="ActionKit.bulk_upload_csv"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_csv">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_csv</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">csv_file</span><span class="p">,</span>
@@ -1392,13 +1579,7 @@
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">tbl</span> <span class="ow">in</span> <span class="n">upload_tables</span><span class="p">:</span>
             <span class="n">user_fields_only</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
-                <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
-                    <span class="p">[</span>
-                        <span class="n">h</span>
-                        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span>
-                        <span class="k">if</span> <span class="n">h</span> <span class="o">!=</span> <span class="s2">&quot;email&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">h</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;user_&quot;</span><span class="p">)</span>
-                    <span class="p">]</span>
-                <span class="p">)</span>
+                <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">h</span> <span class="o">!=</span> <span class="s2">&quot;email&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">h</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;user_&quot;</span><span class="p">)])</span>
             <span class="p">)</span>
             <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">bulk_upload_csv</span><span class="p">(</span>
@@ -1415,9 +1596,9 @@
         <span class="c1"># uploading combo of user_id and email column should be mutually exclusive</span>
         <span class="n">blank_columns_test</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">no_overwrite_on_empty</span><span class="p">:</span>
-            <span class="n">blank_columns_test</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
-                <span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">set_only_columns</span> <span class="ow">or</span> <span class="p">[])</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+            <span class="n">blank_columns_test</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">set_only_columns</span> <span class="ow">or</span> <span class="p">[]))</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                <span class="n">table</span><span class="o">.</span><span class="n">columns</span>
+            <span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
             <span class="n">blanks</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">blank_columns_test</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
             <span class="n">grp</span> <span class="o">=</span> <span class="n">table_groups</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">blanks</span><span class="p">,</span> <span class="p">[])</span>

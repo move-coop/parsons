@@ -58,7 +58,6 @@
 <li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="capitolcanary.html">CapitolCanary</a></li>
@@ -256,7 +255,7 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Call the query method with a fake value</span>
 <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sf</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;FAKESOQL&#39;</span><span class="p">)</span>
 <span class="c1"># Check that our mock client&#39;s query_all method was also called with the fake value</span>
-<span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">sf</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">query_all</span><span class="o">.</span><span class="n">called_with</span><span class="p">(</span><span class="s1">&#39;FAKESOQL&#39;</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">sf</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">query_all</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="s1">&#39;FAKESOQL&#39;</span><span class="p">)</span>
 <span class="c1"># Check that the response from our query method is what we expect</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="s1">&#39;FAKE&#39;</span><span class="p">)</span>
 </pre></div>

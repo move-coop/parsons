@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -288,9 +287,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">match_status</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
 
             <span class="c1"># Download the resulting file</span>
-            <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">_output.csv&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">_output.csv&quot;</span><span class="p">))</span>
 
         <span class="k">finally</span><span class="p">:</span>
             <span class="c1"># Clean up files</span>
@@ -308,9 +305,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">create_job_xml</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">job_type</span><span class="p">,</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">emails</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">call_back</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">create_job_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_type</span><span class="p">,</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">emails</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">call_back</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Internal method to create a valid job xml</span>
 
         <span class="n">job</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s2">&quot;job&quot;</span><span class="p">)</span>
@@ -389,18 +384,14 @@
 
                 <span class="k">if</span> <span class="n">file_name</span> <span class="o">==</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">.finish.xml&quot;</span><span class="p">:</span>
 
-                    <span class="n">xml_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">.finish.xml&quot;</span>
-                    <span class="p">)</span>
+                    <span class="n">xml_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">.finish.xml&quot;</span><span class="p">)</span>
                     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">xml_file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">x</span><span class="p">:</span>
                         <span class="n">xml</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dict_constructor</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
 
                     <span class="k">if</span> <span class="n">xml</span><span class="p">[</span><span class="s2">&quot;jobcontext&quot;</span><span class="p">][</span><span class="s2">&quot;state&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span>
                         <span class="c1"># To Do: Parse these in a pretty way</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Match Error: </span><span class="si">{</span><span class="n">xml</span><span class="p">[</span><span class="s1">&#39;jobcontext&#39;</span><span class="p">][</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">&quot;Match job failed. </span><span class="si">{</span><span class="n">xml</span><span class="p">[</span><span class="s1">&#39;jobcontext&#39;</span><span class="p">][</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
-                        <span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Match job failed. </span><span class="si">{</span><span class="n">xml</span><span class="p">[</span><span class="s1">&#39;jobcontext&#39;</span><span class="p">][</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
                     <span class="k">elif</span> <span class="n">xml</span><span class="p">[</span><span class="s2">&quot;jobcontext&quot;</span><span class="p">][</span><span class="s2">&quot;state&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;success&quot;</span><span class="p">:</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Match complete.&quot;</span><span class="p">)</span>

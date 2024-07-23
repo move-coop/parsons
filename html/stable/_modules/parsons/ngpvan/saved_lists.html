@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -176,9 +175,7 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;savedLists&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;folderId&quot;</span><span class="p">:</span> <span class="n">folder_id</span><span class="p">})</span>
-        <span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;savedLists&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;folderId&quot;</span><span class="p">:</span> <span class="n">folder_id</span><span class="p">}))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> saved lists.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
@@ -276,9 +273,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rando</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>
         <span class="n">file_name</span> <span class="o">=</span> <span class="n">rando</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span>
-            <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">rando</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span>
-        <span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">rando</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table uploaded to </span><span class="si">{</span><span class="n">url_type</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="c1"># VAN errors for this method are not particularly useful or helpful. For that reason, we</span>
@@ -287,10 +282,7 @@
         <span class="k">if</span> <span class="n">folder_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;folderId&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_folders</span><span class="p">()]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Folder does not exist or is not shared with API user.&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">list_name</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_saved_lists</span><span class="p">(</span><span class="n">folder_id</span><span class="p">)]</span>
-            <span class="ow">and</span> <span class="ow">not</span> <span class="n">overwrite</span>
-        <span class="p">):</span>
+        <span class="k">if</span> <span class="n">list_name</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_saved_lists</span><span class="p">(</span><span class="n">folder_id</span><span class="p">)]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Saved list already exists. Set overwrite &quot;</span>
                 <span class="s2">&quot;argument to list ID or change list name.&quot;</span>
@@ -328,13 +320,10 @@
         <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
             <span class="n">json</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;overwriteExistingListId&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">overwrite</span>
 
-        <span class="n">file_load_job_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
-            <span class="s2">&quot;fileLoadingJobs&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span>
-        <span class="p">)</span>
+        <span class="n">file_load_job_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;fileLoadingJobs&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
         <span class="n">job_id</span> <span class="o">=</span> <span class="n">file_load_job_response</span><span class="p">[</span><span class="s2">&quot;jobId&quot;</span><span class="p">]</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Saved list job </span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2"> created. Reference &quot;</span>
-            <span class="s2">&quot;callback url to check for job status&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Saved list job </span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2"> created. Reference &quot;</span> <span class="s2">&quot;callback url to check for job status&quot;</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">file_load_job_response</span></div>
 
@@ -380,9 +369,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Move to cloud storage</span>
         <span class="n">file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span>
-            <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span>
-        <span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table uploaded to </span><span class="si">{</span><span class="n">url_type</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="c1"># VAN errors for this method are not particularly useful or helpful. For that reason, we</span>
@@ -407,9 +394,7 @@
                 <span class="s2">&quot;uploading a list of vanids.&quot;</span>
             <span class="p">)</span>
         <span class="c1"># Create XML</span>
-        <span class="n">xml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">soap_client</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="s2">&quot;CreateAndStoreSavedListMetaData&quot;</span>
-        <span class="p">)</span>
+        <span class="n">xml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">soap_client</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;CreateAndStoreSavedListMetaData&quot;</span><span class="p">)</span>
         <span class="n">xml</span><span class="o">.</span><span class="n">SavedList</span><span class="o">.</span><span class="n">_Name</span> <span class="o">=</span> <span class="n">list_name</span>
         <span class="n">xml</span><span class="o">.</span><span class="n">DestinationFolder</span><span class="o">.</span><span class="n">_ID</span> <span class="o">=</span> <span class="n">folder_id</span>
         <span class="n">xml</span><span class="o">.</span><span class="n">SourceFile</span><span class="o">.</span><span class="n">FileName</span> <span class="o">=</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span>
@@ -418,9 +403,7 @@
         <span class="n">xml</span><span class="o">.</span><span class="n">Options</span><span class="o">.</span><span class="n">OverwriteExistingList</span> <span class="o">=</span> <span class="n">replace</span>
 
         <span class="c1"># Describe file</span>
-        <span class="n">file_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">soap_client</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="s2">&quot;SeparatedFileFormatDescription&quot;</span>
-        <span class="p">)</span>
+        <span class="n">file_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">soap_client</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;SeparatedFileFormatDescription&quot;</span><span class="p">)</span>
         <span class="n">file_desc</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s2">&quot;csv&quot;</span>
         <span class="n">file_desc</span><span class="o">.</span><span class="n">HasHeaderRow</span> <span class="o">=</span> <span class="kc">True</span>
 
@@ -434,9 +417,7 @@
         <span class="n">file_desc</span><span class="o">.</span><span class="n">Columns</span><span class="o">.</span><span class="n">Column</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
         <span class="n">xml</span><span class="o">.</span><span class="n">SourceFile</span><span class="o">.</span><span class="n">Format</span> <span class="o">=</span> <span class="n">file_desc</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">Client</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">soap_client</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">CreateAndStoreSavedList</span><span class="p">(</span><span class="n">xml</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Client</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">soap_client</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">CreateAndStoreSavedList</span><span class="p">(</span><span class="n">xml</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">r</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Uploaded </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;ListSize&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> records to </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;_Name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> saved list.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div></div>
@@ -497,9 +478,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> export job types.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="ExportJobs.export_job_create"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ExportJobs.export_job_create">[docs]</a>    <span class="k">def</span> <span class="nf">export_job_create</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">list_id</span><span class="p">,</span> <span class="n">export_type</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">webhookUrl</span><span class="o">=</span><span class="s2">&quot;https://www.nothing.com&quot;</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="ExportJobs.export_job_create"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ExportJobs.export_job_create">[docs]</a>    <span class="k">def</span> <span class="nf">export_job_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_id</span><span class="p">,</span> <span class="n">export_type</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">webhookUrl</span><span class="o">=</span><span class="s2">&quot;https://www.nothing.com&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an export job</span>
 

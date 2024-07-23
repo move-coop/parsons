@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -180,18 +179,11 @@
 <span class="sd">        visit https://secure.actblue.com/docs/csv_api#authentication.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">actblue_client_uuid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actblue_client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actblue_uri</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">actblue_client_uuid</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span>
-            <span class="s2">&quot;ACTBLUE_CLIENT_UUID&quot;</span><span class="p">,</span> <span class="n">actblue_client_uuid</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">actblue_client_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span>
-            <span class="s2">&quot;ACTBLUE_CLIENT_SECRET&quot;</span><span class="p">,</span> <span class="n">actblue_client_secret</span>
-        <span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actblue_client_uuid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actblue_client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actblue_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actblue_client_uuid</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTBLUE_CLIENT_UUID&quot;</span><span class="p">,</span> <span class="n">actblue_client_uuid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actblue_client_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTBLUE_CLIENT_SECRET&quot;</span><span class="p">,</span> <span class="n">actblue_client_secret</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTBLUE_URI&quot;</span><span class="p">,</span> <span class="n">actblue_uri</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="ow">or</span> <span class="n">ACTBLUE_API_ENDPOINT</span>
+            <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTBLUE_URI&quot;</span><span class="p">,</span> <span class="n">actblue_uri</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="ow">or</span> <span class="n">ACTBLUE_API_ENDPOINT</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
@@ -235,9 +227,7 @@
             <span class="s2">&quot;date_range_start&quot;</span><span class="p">:</span> <span class="n">date_range_start</span><span class="p">,</span>
             <span class="s2">&quot;date_range_end&quot;</span><span class="p">:</span> <span class="n">date_range_end</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Requesting </span><span class="si">{</span><span class="n">csv_type</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">date_range_start</span><span class="si">}</span><span class="s2"> up to </span><span class="si">{</span><span class="n">date_range_end</span><span class="si">}</span><span class="s2">.&quot;</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Requesting </span><span class="si">{</span><span class="n">csv_type</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">date_range_start</span><span class="si">}</span><span class="s2"> up to </span><span class="si">{</span><span class="n">date_range_end</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;csvs&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">body</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span></div>
 
@@ -309,9 +299,7 @@
 <span class="sd">            Contents of the generated contribution CSV as a Parsons table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">post_request_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
-            <span class="n">csv_type</span><span class="p">,</span> <span class="n">date_range_start</span><span class="p">,</span> <span class="n">date_range_end</span>
-        <span class="p">)</span>
+        <span class="n">post_request_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">csv_type</span><span class="p">,</span> <span class="n">date_range_start</span><span class="p">,</span> <span class="n">date_range_end</span><span class="p">)</span>
         <span class="n">csv_id</span> <span class="o">=</span> <span class="n">post_request_response</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
         <span class="n">download_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">poll_for_download_url</span><span class="p">(</span><span class="n">csv_id</span><span class="p">)</span>
         <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">download_url</span><span class="p">)</span>

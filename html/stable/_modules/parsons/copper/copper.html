@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -351,9 +350,7 @@
         <span class="c1"># Retrieve and process a standard endpoint object (e.g. people, companies, etc.)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving </span><span class="si">{</span><span class="n">object_name</span><span class="si">}</span><span class="s2"> records.&quot;</span><span class="p">)</span>
-        <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">object_name</span><span class="si">}</span><span class="s2">/search&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span>
-        <span class="p">)</span>
+        <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">object_name</span><span class="si">}</span><span class="s2">/search&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_json</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span>
 
@@ -469,14 +466,10 @@
                     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s2">&quot;needs to be unpacked into rows&quot;</span><span class="p">)</span>
 
                     <span class="c1"># Determine whether or not to expand based on tidy</span>
-                    <span class="n">unpacked_tidy</span> <span class="o">=</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">unpack_nested_columns_as_rows</span><span class="p">(</span>
-                        <span class="n">p</span><span class="p">,</span> <span class="n">expand_original</span><span class="o">=</span><span class="n">tidy</span>
-                    <span class="p">)</span>
+                    <span class="n">unpacked_tidy</span> <span class="o">=</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">unpack_nested_columns_as_rows</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">expand_original</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span>
                     <span class="c1"># Check if column was removed as sign it was unpacked into separate table</span>
                     <span class="k">if</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-                        <span class="n">table_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;tbl&quot;</span><span class="p">:</span> <span class="n">unpacked_tidy</span><span class="p">}</span>
-                        <span class="p">)</span>
+                        <span class="n">table_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;tbl&quot;</span><span class="p">:</span> <span class="n">unpacked_tidy</span><span class="p">})</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">obj_table</span> <span class="o">=</span> <span class="n">unpacked_tidy</span>
 

@@ -58,7 +58,6 @@
 <li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="capitolcanary.html">CapitolCanary</a></li>
@@ -80,6 +79,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#parsons.Freshdesk.get_contacts"><code class="docutils literal notranslate"><span class="pre">Freshdesk.get_contacts()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.Freshdesk.get_companies"><code class="docutils literal notranslate"><span class="pre">Freshdesk.get_companies()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.Freshdesk.get_agents"><code class="docutils literal notranslate"><span class="pre">Freshdesk.get_agents()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.Freshdesk.create_ticket"><code class="docutils literal notranslate"><span class="pre">Freshdesk.create_ticket()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -344,6 +344,38 @@ for more information.</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><dl class="simple">
 <dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Freshdesk.create_ticket">
+<span class="sig-name descname"><span class="pre">create_ticket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cc_emails</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.create_ticket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Freshdesk.create_ticket" title="Permalink to this definition"></a></dt>
+<dd><p>Create a ticket in Freshdesk.
+<cite>Args:</cite></p>
+<blockquote>
+<div><dl class="simple">
+<dt>subject: str</dt><dd><p>The subject of the ticket.</p>
+</dd>
+<dt>description: str</dt><dd><p>The description of the ticket.</p>
+</dd>
+<dt>email: str</dt><dd><p>The email address of the requester.</p>
+</dd>
+<dt>priority: int</dt><dd><p>The priority of the ticket.</p>
+</dd>
+<dt>status: int</dt><dd><p>The status of the ticket.</p>
+</dd>
+<dt>cc_emails: list (optional)</dt><dd><p>List of email addresses to CC.</p>
+</dd>
+<dt>custom_fields: dict (optional)</dt><dd><p>Custom fields data.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>dict</dt><dd><p>JSON response from the API.</p>
 </dd>
 </dl>
 </dd>

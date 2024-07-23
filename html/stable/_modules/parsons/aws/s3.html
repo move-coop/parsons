@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -344,16 +343,10 @@
                     <span class="k">continue</span>
 
                 <span class="c1"># Match timestamp parsing</span>
-                <span class="k">if</span> <span class="p">(</span>
-                    <span class="n">date_modified_before</span>
-                    <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;LastModified&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">date_modified_before</span>
-                <span class="p">):</span>
+                <span class="k">if</span> <span class="n">date_modified_before</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;LastModified&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">date_modified_before</span><span class="p">:</span>
                     <span class="k">continue</span>
 
-                <span class="k">if</span> <span class="p">(</span>
-                    <span class="n">date_modified_after</span>
-                    <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;LastModified&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">date_modified_after</span>
-                <span class="p">):</span>
+                <span class="k">if</span> <span class="n">date_modified_after</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;LastModified&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">date_modified_after</span><span class="p">:</span>
                     <span class="k">continue</span>
 
                 <span class="c1"># Convert date to iso string</span>
@@ -424,9 +417,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_bucket</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="S3.put_file"><a class="viewcode-back" href="../../../aws.html#parsons.S3.put_file">[docs]</a>    <span class="k">def</span> <span class="nf">put_file</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="s2">&quot;bucket-owner-full-control&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="S3.put_file"><a class="viewcode-back" href="../../../aws.html#parsons.S3.put_file">[docs]</a>    <span class="k">def</span> <span class="nf">put_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="s2">&quot;bucket-owner-full-control&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Uploads an object to an S3 bucket</span>
 
@@ -445,9 +436,7 @@
 <span class="sd">                info.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span>
-            <span class="n">local_path</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">ExtraArgs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ACL&quot;</span><span class="p">:</span> <span class="n">acl</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
-        <span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">ExtraArgs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ACL&quot;</span><span class="p">:</span> <span class="n">acl</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="S3.remove_file"><a class="viewcode-back" href="../../../aws.html#parsons.S3.remove_file">[docs]</a>    <span class="k">def</span> <span class="nf">remove_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -591,9 +580,7 @@
                 <span class="n">dest_key</span> <span class="o">=</span> <span class="n">key</span>
 
             <span class="n">copy_source</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Bucket&quot;</span><span class="p">:</span> <span class="n">origin_bucket</span><span class="p">,</span> <span class="s2">&quot;Key&quot;</span><span class="p">:</span> <span class="n">key</span><span class="p">}</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
-                <span class="n">copy_source</span><span class="p">,</span> <span class="n">destination_bucket</span><span class="p">,</span> <span class="n">dest_key</span><span class="p">,</span> <span class="n">ExtraArgs</span><span class="o">=</span><span class="n">kwargs</span>
-            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">copy_source</span><span class="p">,</span> <span class="n">destination_bucket</span><span class="p">,</span> <span class="n">dest_key</span><span class="p">,</span> <span class="n">ExtraArgs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">remove_original</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">remove_file</span><span class="p">(</span><span class="n">origin_bucket</span><span class="p">,</span> <span class="n">origin_key</span><span class="p">)</span>

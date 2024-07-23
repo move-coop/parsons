@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -224,9 +223,7 @@
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">(</span><span class="s2">&quot;t.catalist.us&quot;</span><span class="p">,</span> <span class="n">sftp_username</span><span class="p">,</span> <span class="n">sftp_password</span><span class="p">)</span>
 
-<div class="viewcode-block" id="CatalistMatch.load_table_to_sftp"><a class="viewcode-back" href="../../../catalist.html#parsons.CatalistMatch.load_table_to_sftp">[docs]</a>    <span class="k">def</span> <span class="nf">load_table_to_sftp</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">input_subfolder</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="CatalistMatch.load_table_to_sftp"><a class="viewcode-back" href="../../../catalist.html#parsons.CatalistMatch.load_table_to_sftp">[docs]</a>    <span class="k">def</span> <span class="nf">load_table_to_sftp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">input_subfolder</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load table to Catalist sftp bucket as gzipped CSV for matching.</span>
 
 <span class="sd">        If input_subfolder is specific, the file will be uploaded to a subfolder of the</span>
@@ -346,9 +343,7 @@
 
         <span class="c1"># upload table to s3 temp location</span>
         <span class="n">sftp_file_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_table_to_sftp</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">input_subfolder</span><span class="p">)</span>
-        <span class="n">sftp_file_path_encoded</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span>
-            <span class="n">sftp_file_path</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
+        <span class="n">sftp_file_path_encoded</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">sftp_file_path</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">export</span><span class="p">:</span>
             <span class="n">action</span> <span class="o">=</span> <span class="s2">&quot;export%2Cpublish&quot;</span>
@@ -372,9 +367,7 @@
         <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">endpoint_params</span><span class="p">)</span>
 
         <span class="c1"># Assemble query parameters</span>
-        <span class="n">query_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">token</span><span class="p">[</span><span class="s2">&quot;access_token&quot;</span><span class="p">]</span>
-        <span class="p">}</span>
+        <span class="n">query_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">token</span><span class="p">[</span><span class="s2">&quot;access_token&quot;</span><span class="p">]}</span>
         <span class="k">if</span> <span class="n">copy_to_sandbox</span><span class="p">:</span>
             <span class="n">query_params</span><span class="p">[</span><span class="s2">&quot;copyToSandbox&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
         <span class="k">if</span> <span class="n">static_values</span><span class="p">:</span>
@@ -511,9 +504,7 @@
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
 
         <span class="n">remote_filepaths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">list_directory</span><span class="p">(</span><span class="s2">&quot;/myDownloads/&quot;</span><span class="p">)</span>
-        <span class="n">remote_filename</span> <span class="o">=</span> <span class="p">[</span><span class="n">filename</span> <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">remote_filepaths</span> <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">][</span>
-            <span class="mi">0</span>
-        <span class="p">]</span>
+        <span class="n">remote_filename</span> <span class="o">=</span> <span class="p">[</span><span class="n">filename</span> <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">remote_filepaths</span> <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">remote_filepath</span> <span class="o">=</span> <span class="s2">&quot;/myDownloads/&quot;</span> <span class="o">+</span> <span class="n">remote_filename</span>
         <span class="n">temp_file_zip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">remote_filepath</span><span class="p">)</span>
         <span class="n">temp_dir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
@@ -567,9 +558,7 @@
             <span class="n">errors</span><span class="p">[</span><span class="s2">&quot;missing_required_columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">missing_required_columns</span>
 
         <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Input table does not have the right structure. </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">errors</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input table does not have the right structure. </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Table structure validated.&quot;</span><span class="p">)</span></div></div>
 </pre></div>

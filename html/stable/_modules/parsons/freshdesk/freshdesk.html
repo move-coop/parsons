@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -199,6 +198,23 @@
             <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 
         <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">_post_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send a POST request to the specified Freshdesk endpoint.</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            endpoint: str</span>
+<span class="sd">                The endpoint of the Freshdesk API to which the request is being sent.</span>
+<span class="sd">            data: dict</span>
+<span class="sd">                The data to be sent in the request body.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            dict</span>
+<span class="sd">                The JSON response from the API.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="n">endpoint</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">validate_response</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -361,7 +377,43 @@
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s2">&quot;contact&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">tbl</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="s2">&quot;signature&quot;</span><span class="p">)</span>  <span class="c1"># Removing since raw HTML might cause issues.</span>
 
-        <span class="k">return</span> <span class="n">tbl</span></div></div>
+        <span class="k">return</span> <span class="n">tbl</span></div>
+
+<div class="viewcode-block" id="Freshdesk.create_ticket"><a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.create_ticket">[docs]</a>    <span class="k">def</span> <span class="nf">create_ticket</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">priority</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">cc_emails</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">custom_fields</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a ticket in Freshdesk.</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            subject: str</span>
+<span class="sd">                The subject of the ticket.</span>
+<span class="sd">            description: str</span>
+<span class="sd">                The description of the ticket.</span>
+<span class="sd">            email: str</span>
+<span class="sd">                The email address of the requester.</span>
+<span class="sd">            priority: int</span>
+<span class="sd">                The priority of the ticket.</span>
+<span class="sd">            status: int</span>
+<span class="sd">                The status of the ticket.</span>
+<span class="sd">            cc_emails: list (optional)</span>
+<span class="sd">                List of email addresses to CC.</span>
+<span class="sd">            custom_fields: dict (optional)</span>
+<span class="sd">                Custom fields data.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            dict</span>
+<span class="sd">                JSON response from the API.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;tickets&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;subject&quot;</span><span class="p">:</span> <span class="n">subject</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">,</span>
+            <span class="s2">&quot;priority&quot;</span><span class="p">:</span> <span class="n">priority</span><span class="p">,</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">,</span>
+            <span class="s2">&quot;cc_emails&quot;</span><span class="p">:</span> <span class="n">cc_emails</span> <span class="k">if</span> <span class="n">cc_emails</span> <span class="k">else</span> <span class="p">[],</span>
+            <span class="s2">&quot;custom_fields&quot;</span><span class="p">:</span> <span class="n">custom_fields</span> <span class="k">if</span> <span class="n">custom_fields</span> <span class="k">else</span> <span class="p">{},</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post_request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

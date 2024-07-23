@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -580,10 +579,7 @@
 <span class="sd">                A list of dicts, each containing a column &#39;name&#39; and a &#39;type&#39; list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="p">[</span>
-            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">col</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column_types</span><span class="p">(</span><span class="n">col</span><span class="p">)}</span>
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">()</span>
-        <span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">col</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column_types</span><span class="p">(</span><span class="n">col</span><span class="p">)}</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">()]</span></div>
 
 <div class="viewcode-block" id="ETL.convert_table"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.convert_table">[docs]</a>    <span class="k">def</span> <span class="nf">convert_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -757,11 +753,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expand_original</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">expand_original</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">lengths</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">])</span>
-                <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span>
-            <span class="p">}</span>
+            <span class="n">lengths</span> <span class="o">=</span> <span class="p">{</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">))}</span>
             <span class="n">max_len</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lengths</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">max_len</span> <span class="o">&gt;</span> <span class="n">expand_original</span><span class="p">:</span>
                 <span class="n">expand_original</span> <span class="o">=</span> <span class="kc">False</span>
@@ -773,9 +765,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Otherwise, include only key and column, but keep all non-dict types in table_list</span>
             <span class="n">table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span>
-            <span class="n">table_list</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">table_list</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="nb">dict</span><span class="p">))</span>
 
         <span class="c1"># All the columns other than column to ignore while melting</span>
         <span class="n">ignore_cols</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span>
@@ -812,17 +802,13 @@
 
         <span class="k">if</span> <span class="n">expand_original</span><span class="p">:</span>
             <span class="c1"># Add unpacked rows to the original table (minus packed rows)</span>
-            <span class="n">orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span>
-            <span class="p">)</span>
+            <span class="n">orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">)))</span>
             <span class="n">orig</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">melted_list</span><span class="p">)</span>
             <span class="c1"># Add unique id column by hashing all the other fields</span>
             <span class="k">if</span> <span class="s2">&quot;uid&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
                 <span class="n">orig</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span>
                     <span class="s2">&quot;uid&quot;</span><span class="p">,</span>
-                    <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span>
-                        <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]))</span>
-                    <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span>
+                    <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span>
                 <span class="p">)</span>
                 <span class="n">orig</span><span class="o">.</span><span class="n">move_column</span><span class="p">(</span><span class="s2">&quot;uid&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
@@ -837,9 +823,7 @@
             <span class="c1"># Add unique id column by hashing all the other fields</span>
             <span class="n">melted_list</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span>
                 <span class="s2">&quot;uid&quot;</span><span class="p">,</span>
-                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span>
-                    <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]))</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span>
+                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span>
             <span class="p">)</span>
             <span class="n">melted_list</span><span class="o">.</span><span class="n">move_column</span><span class="p">(</span><span class="s2">&quot;uid&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">output</span> <span class="o">=</span> <span class="n">melted_list</span>
@@ -1071,8 +1055,7 @@
         <span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
 
         <span class="k">return</span> <span class="p">[</span>
-            <span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">rowslice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">rows</span><span class="p">))</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">)</span>
+            <span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">rowslice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">rows</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">)</span>
         <span class="p">]</span></div>
 
 <div class="viewcode-block" id="ETL.get_normalized_column_name"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.get_normalized_column_name">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -1122,14 +1105,10 @@
 
         <span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>  <span class="c1"># Just trying to avoid recursive imports.</span>
 
-        <span class="n">normalize_fn</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">Table</span><span class="o">.</span><span class="n">get_normalized_column_name</span> <span class="k">if</span> <span class="n">fuzzy_match</span> <span class="k">else</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">normalize_fn</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">get_normalized_column_name</span> <span class="k">if</span> <span class="n">fuzzy_match</span> <span class="k">else</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="p">)</span>
 
         <span class="c1"># Create a mapping of our &quot;normalized&quot; name to the original column name</span>
-        <span class="n">current_columns_normalized</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">normalize_fn</span><span class="p">(</span><span class="n">col</span><span class="p">):</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-        <span class="p">}</span>
+        <span class="n">current_columns_normalized</span> <span class="o">=</span> <span class="p">{</span><span class="n">normalize_fn</span><span class="p">(</span><span class="n">col</span><span class="p">):</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)}</span>
 
         <span class="c1"># Track any columns we need to add to our current table from our desired columns</span>
         <span class="n">columns_to_add</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1160,8 +1139,7 @@
                 <span class="k">elif</span> <span class="n">if_missing_columns</span> <span class="o">!=</span> <span class="s2">&quot;ignore&quot;</span><span class="p">:</span>
                     <span class="c1"># If it&#39;s not ignore, add, or fail, then it&#39;s not a valid strategy</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_missing_columns</span><span class="si">}</span><span class="s2"> for &quot;</span>
-                        <span class="s2">&quot;argument `if_missing_columns`&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_missing_columns</span><span class="si">}</span><span class="s2"> for &quot;</span> <span class="s2">&quot;argument `if_missing_columns`&quot;</span>
                     <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># We have found this in our current columns, so take it out of our list to search</span>
@@ -1185,8 +1163,7 @@
             <span class="k">elif</span> <span class="n">if_extra_columns</span> <span class="o">!=</span> <span class="s2">&quot;remove&quot;</span><span class="p">:</span>
                 <span class="c1"># If it&#39;s not ignore, add, or fail, then it&#39;s not a valid strategy</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_extra_columns</span><span class="si">}</span><span class="s2"> for &quot;</span>
-                    <span class="s2">&quot;argument `if_extra_columns`&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_extra_columns</span><span class="si">}</span><span class="s2"> for &quot;</span> <span class="s2">&quot;argument `if_extra_columns`&quot;</span>
                 <span class="p">)</span>
 
         <span class="c1"># Add any columns we need to add</span>
@@ -1456,9 +1433,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">deduped</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">dedup</span><span class="o">.</span><span class="n">distinct</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span> <span class="n">presorted</span><span class="o">=</span><span class="n">presorted</span>
-        <span class="p">)</span>
+        <span class="n">deduped</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">dedup</span><span class="o">.</span><span class="n">distinct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span> <span class="n">presorted</span><span class="o">=</span><span class="n">presorted</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">deduped</span>
 
         <span class="k">return</span> <span class="bp">self</span></div></div>

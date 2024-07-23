@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -223,9 +222,7 @@
         <span class="s2">&quot;DOB YYYYMMDD&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;dob&quot;</span><span class="p">,</span> <span class="s2">&quot;vb_voterbase_dob&quot;</span><span class="p">,</span> <span class="s2">&quot;vb_tsmart_dob&quot;</span><span class="p">]</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ad_account_id</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ad_account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">app_id</span> <span class="o">=</span> <span class="n">app_id</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;FB_APP_ID&quot;</span><span class="p">]</span>
@@ -234,8 +231,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ad_account_id</span> <span class="o">=</span> <span class="n">ad_account_id</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;FB_AD_ACCOUNT_ID&quot;</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;FB Marketing API credentials missing. Must be specified as env vars &quot;</span>
-                <span class="s2">&quot;or kwargs&quot;</span>
+                <span class="s2">&quot;FB Marketing API credentials missing. Must be specified as env vars &quot;</span> <span class="s2">&quot;or kwargs&quot;</span>
             <span class="p">)</span>
             <span class="k">raise</span> <span class="n">error</span>
 
@@ -269,15 +265,9 @@
         <span class="c1"># Parse the DOB column into 3 new columns, and remove the original column</span>
         <span class="c1"># TODO Throw an error if the values are not 6 characters long?</span>
 
-        <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span>
-            <span class="n">FBKeySchema</span><span class="o">.</span><span class="n">doby</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">][:</span><span class="mi">4</span><span class="p">]</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="p">)</span>
-        <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span>
-            <span class="n">FBKeySchema</span><span class="o">.</span><span class="n">dobm</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">][</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="p">)</span>
-        <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span>
-            <span class="n">FBKeySchema</span><span class="o">.</span><span class="n">dobd</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">][</span><span class="mi">6</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="p">)</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">FBKeySchema</span><span class="o">.</span><span class="n">doby</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">][:</span><span class="mi">4</span><span class="p">]</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">FBKeySchema</span><span class="o">.</span><span class="n">dobm</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">][</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">FBKeySchema</span><span class="o">.</span><span class="n">dobd</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">][</span><span class="mi">6</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">table</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
@@ -430,9 +420,7 @@
 
         <span class="c1"># Note that the FB SDK handles basic normalization and hashing of the data</span>
         <span class="n">CustomAudience</span><span class="p">(</span><span class="n">audience_id</span><span class="p">)</span><span class="o">.</span><span class="n">add_users</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">is_raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Added </span><span class="si">{</span><span class="n">added_so_far</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total_rows</span><span class="si">}</span><span class="s2"> users to custom audience...&quot;</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added </span><span class="si">{</span><span class="n">added_so_far</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">total_rows</span><span class="si">}</span><span class="s2"> users to custom audience...&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="FacebookAds.add_users_to_custom_audience"><a class="viewcode-back" href="../../../facebook_ads.html#parsons.FacebookAds.add_users_to_custom_audience">[docs]</a>    <span class="k">def</span> <span class="nf">add_users_to_custom_audience</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">audience_id</span><span class="p">,</span> <span class="n">users_table</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -510,8 +498,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Adding custom audience users from provided table with &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">users_table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Adding custom audience users from provided table with &quot;</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">users_table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows&quot;</span>
         <span class="p">)</span>
 
         <span class="n">match_table</span> <span class="o">=</span> <span class="n">FacebookAds</span><span class="o">.</span><span class="n">get_match_table_for_users_table</span><span class="p">(</span><span class="n">users_table</span><span class="p">)</span>

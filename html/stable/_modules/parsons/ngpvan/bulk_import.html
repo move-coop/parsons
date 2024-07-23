@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
@@ -148,6 +147,7 @@
              
   <h1>Source code for parsons.ngpvan.bulk_import</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Bulk Import Endpoints&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">cloud_storage</span>
 
@@ -258,9 +258,7 @@
 <span class="sd">                A mapping type fields json</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;bulkImportMappingTypes/</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2">/values&quot;</span>
-        <span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;bulkImportMappingTypes/</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2">/values&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2"> bulk import mapping type field values.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
@@ -339,6 +337,9 @@
 <span class="sd">            * - ``datecanvassed``</span>
 <span class="sd">              - No</span>
 <span class="sd">              - An ISO formatted date</span>
+<span class="sd">            * - ``canvassedby``</span>
+<span class="sd">              - No</span>
+<span class="sd">              - A valid User ID; Required when DateCanvassed is provided</span>
 <span class="sd">            * - ``contacttypeid``</span>
 <span class="sd">              - No</span>
 <span class="sd">              - The method of contact.</span>
@@ -399,7 +400,7 @@
 <span class="sd">              -</span>
 <span class="sd">              -</span>
 <span class="sd">            * - First Name</span>
-<span class="sd">              - ``fn``, ``firstname``, ``last``</span>
+<span class="sd">              - ``fn``, ``firstname``, ``first``</span>
 <span class="sd">              -</span>
 <span class="sd">            * - Middle Name</span>
 <span class="sd">              - ``mn``, ``middlename``, ``middle``</span>
@@ -408,8 +409,8 @@
 <span class="sd">              - ``ln``, ``lastname``, ``last``</span>
 <span class="sd">              -</span>
 <span class="sd">            * - Date of Birth</span>
-<span class="sd">              - ``dob``, ``dateofbirth`` ``birthdate``</span>
-<span class="sd">              - What type of thing does this need?</span>
+<span class="sd">              - ``dob``, ``dateofbirth``, ``birthdate``</span>
+<span class="sd">              - An ISO formatted date</span>
 <span class="sd">            * - Sex</span>
 <span class="sd">              - ``sex``, ``gender``</span>
 <span class="sd">              -</span>
@@ -430,6 +431,9 @@
 <span class="sd">              -</span>
 <span class="sd">            * - State Or Province</span>
 <span class="sd">              - ``state``, ``st``, ``stateorprovince``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Zip or Postal Code</span>
+<span class="sd">              - ``ziporpostal``, ``postal``, ``postalcode``, ``zip``, ``zipcode``</span>
 <span class="sd">              -</span>
 <span class="sd">            * - Country Code</span>
 <span class="sd">              - ``countrycode``, ``country``</span>
@@ -459,6 +463,9 @@
 <span class="sd">            * - Email</span>
 <span class="sd">              - ``email``, ``emailaddress``</span>
 <span class="sd">              -</span>
+<span class="sd">            * - Other Email</span>
+<span class="sd">              - ``otheremail``, ``email2``, ``emailaddress2``</span>
+<span class="sd">              -</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            table: Parsons table</span>
@@ -475,7 +482,7 @@
 <span class="sd">                The bulk import job id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">map_columns</span><span class="p">(</span><span class="n">COLUMN_MAP</span><span class="p">,</span> <span class="n">exact_match</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">map_columns</span><span class="p">(</span><span class="n">CONTACTS_COLUMN_MAP</span><span class="p">,</span> <span class="n">exact_match</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_bulk_import</span><span class="p">(</span>
             <span class="n">tbl</span><span class="p">,</span>
@@ -489,13 +496,13 @@
 
 <div class="viewcode-block" id="BulkImport.bulk_apply_suppressions"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_apply_suppressions">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_apply_suppressions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Bulk apply contact suppressions codes.</span>
+<span class="sd">        Bulk apply contact suppression codes.</span>
 
 <span class="sd">        The table may include the following columns. The first column</span>
 <span class="sd">        must be ``vanid``.</span>
 
 <span class="sd">        .. list-table::</span>
-<span class="sd">            :widths: 25 25</span>
+<span class="sd">            :widths: 25 25 50</span>
 <span class="sd">            :header-rows: 1</span>
 
 <span class="sd">            * - Column Name</span>
@@ -529,13 +536,142 @@
             <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Suppressions&quot;</span><span class="p">}],</span>
             <span class="s2">&quot;Apply Suppressions&quot;</span><span class="p">,</span>
             <span class="o">**</span><span class="n">url_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BulkImport.bulk_apply_canvass_results"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_apply_canvass_results">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_apply_canvass_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bulk apply contact canvass results.</span>
+
+<span class="sd">        The table may include the following columns. The first column</span>
+<span class="sd">        must be ``vanid``.</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 25 25 50</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Column Name</span>
+<span class="sd">              - Required</span>
+<span class="sd">              - Description</span>
+<span class="sd">            * - ``vanid``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - A valid VANID primary key</span>
+<span class="sd">            * - ``contacttypeid``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - Valid Contact Type ID</span>
+<span class="sd">            * - ``resultid``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - Valid Contact Result ID</span>
+<span class="sd">            * - ``datecanvassed``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - ISO Date Format</span>
+<span class="sd">            * - ``canvassedby``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - Valid User ID</span>
+<span class="sd">            * - ``phone``</span>
+<span class="sd">              - No</span>
+<span class="sd">              - Attempted Phone Number</span>
+<span class="sd">            * - ``countrycode``</span>
+<span class="sd">              - No</span>
+<span class="sd">              - Country Code (ISO 3166-1 alpha-2)</span>
+<span class="sd">            * - ``phonetypeid``</span>
+<span class="sd">              - No</span>
+<span class="sd">              - Phone Type</span>
+<span class="sd">            * - ``phoneoptinstatusid``</span>
+<span class="sd">              - No</span>
+<span class="sd">              - SMS Opt-In Status</span>
+<span class="sd">            * - ``addressid``</span>
+<span class="sd">              - No</span>
+<span class="sd">              - The Contact Address ID of the address that was canvassed</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            table: Parsons table</span>
+<span class="sd">                A Parsons table.</span>
+<span class="sd">            url_type: str</span>
+<span class="sd">                The cloud file storage to use to post the file (``S3`` or ``GCS``).</span>
+<span class="sd">                See :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
+<span class="sd">            **url_kwargs: kwargs</span>
+<span class="sd">                Arguments to configure your cloud storage url type. See</span>
+<span class="sd">                :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            int</span>
+<span class="sd">                The bulk import job id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_bulk_import</span><span class="p">(</span>
+            <span class="n">tbl</span><span class="p">,</span>
+            <span class="n">url_type</span><span class="p">,</span>
+            <span class="s2">&quot;Contacts&quot;</span><span class="p">,</span>
+            <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;CanvassResults&quot;</span><span class="p">}],</span>
+            <span class="s2">&quot;Apply Canvass Results&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">url_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BulkImport.bulk_apply_contact_custom_fields"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_apply_contact_custom_fields">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_apply_contact_custom_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">custom_field_group_id</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bulk apply contact custom fields.</span>
+
+<span class="sd">        The table may include the following columns. The first column</span>
+<span class="sd">        must be ``vanid``.</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 25 25 60</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Column Name</span>
+<span class="sd">              - Required</span>
+<span class="sd">              - Description</span>
+<span class="sd">            * - ``vanid``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - A valid VANID primary key</span>
+<span class="sd">            * - ***``CF{CustomFieldID}``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - At least one custom field column to be loaded associated with the provided</span>
+<span class="sd">                custom_field_group_id. The column name should be a valid Custom Field ID</span>
+<span class="sd">                prefixed with ``CF``, i.e. CF123.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            custom_field_group_id: int</span>
+<span class="sd">                Valid Custom Contact Field Group ID; must be the parent of</span>
+<span class="sd">                the provided Custom Field IDs in the file.</span>
+<span class="sd">            table: Parsons table</span>
+<span class="sd">                A Parsons table.</span>
+<span class="sd">            url_type: str</span>
+<span class="sd">                The cloud file storage to use to post the file (``S3`` or ``GCS``).</span>
+<span class="sd">                See :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
+<span class="sd">            **url_kwargs: kwargs</span>
+<span class="sd">                Arguments to configure your cloud storage url type. See</span>
+<span class="sd">                :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            int</span>
+<span class="sd">                The bulk import job id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">mapping_types</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplyContactCustomFields&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;fieldValueMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;CustomFieldGroupID&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;staticValue&quot;</span><span class="p">:</span> <span class="n">custom_field_group_id</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">],</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_bulk_import</span><span class="p">(</span>
+            <span class="n">tbl</span><span class="p">,</span>
+            <span class="n">url_type</span><span class="p">,</span>
+            <span class="s2">&quot;Contacts&quot;</span><span class="p">,</span>
+            <span class="n">mapping_types</span><span class="p">,</span>
+            <span class="s2">&quot;Apply Contact Custom Fields&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">url_kwargs</span><span class="p">,</span>
         <span class="p">)</span></div></div>
 
 
 <span class="c1"># This is a column mapper that is used to accept additional column names and provide</span>
 <span class="c1"># flexibility for the user.</span>
 
-<span class="n">COLUMN_MAP</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">CONTACTS_COLUMN_MAP</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;firstname&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;fn&quot;</span><span class="p">,</span> <span class="s2">&quot;first&quot;</span><span class="p">],</span>
     <span class="s2">&quot;middlename&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;mn&quot;</span><span class="p">,</span> <span class="s2">&quot;middle&quot;</span><span class="p">],</span>
     <span class="s2">&quot;lastname&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ln&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">],</span>
@@ -546,6 +682,7 @@
     <span class="s2">&quot;addressline3&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;addressline3&quot;</span><span class="p">,</span> <span class="s2">&quot;address3&quot;</span><span class="p">],</span>
     <span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="p">[],</span>
     <span class="s2">&quot;stateorprovince&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;st&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;ziporpostal&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;postal&quot;</span><span class="p">,</span> <span class="s2">&quot;postalcode&quot;</span><span class="p">,</span> <span class="s2">&quot;zip&quot;</span><span class="p">,</span> <span class="s2">&quot;zipcode&quot;</span><span class="p">],</span>
     <span class="s2">&quot;countrycode&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">],</span>
     <span class="s2">&quot;displayasentered&quot;</span><span class="p">:</span> <span class="p">[],</span>
     <span class="s2">&quot;cellphone&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;cell&quot;</span><span class="p">],</span>
@@ -553,6 +690,7 @@
     <span class="s2">&quot;phone&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">,</span> <span class="s2">&quot;homephone&quot;</span><span class="p">],</span>
     <span class="s2">&quot;phonecountrycode&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;phonecountrycode&quot;</span><span class="p">],</span>
     <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;emailaddress&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;otheremail&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;email2&quot;</span><span class="p">,</span> <span class="s2">&quot;emailaddress2&quot;</span><span class="p">],</span>
 <span class="p">}</span>
 </pre></div>
 

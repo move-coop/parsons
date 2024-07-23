@@ -53,6 +53,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Action Network</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sql-mirror">SQL Mirror</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#parsons.ActionNetwork"><code class="docutils literal notranslate"><span class="pre">ActionNetwork</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_advocacy_campaigns"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_advocacy_campaigns()</span></code></a></li>
@@ -137,6 +138,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.delete_tagging"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.delete_tagging()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_wrappers"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_wrappers()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_wrapper"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_wrapper()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_unique_id_lists"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_unique_id_lists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_unique_id_list"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_unique_id_list()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -150,7 +153,6 @@
 <li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="capitolcanary.html">CapitolCanary</a></li>
@@ -246,7 +248,7 @@
 <section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://actionnetwork.org/">Action Network</a> is an online tool for storing information
-and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see <a class="reference external" href="https://actionnetwork.org/docs">Action Network developer docs</a></p>
+and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see <a class="reference external" href="https://actionnetwork.org/docs">Action Network developer docs</a>, <a class="reference external" href="https://actionnetwork.org/mirroring/docs">SQL Mirror developer docs</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <dl class="simple">
@@ -334,6 +336,33 @@ and organizing volunteers and donors. It is used primarily for digital organizin
 
 <span class="c1"># Get a specific wrapper</span>
 <span class="n">specific_wrapper</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_wrapper</span><span class="p">(</span><span class="s1">&#39;wrapper_id&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="sql-mirror">
+<h2>SQL Mirror<a class="headerlink" href="#sql-mirror" title="Permalink to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.utilities.ssh_utilities</span> <span class="kn">import</span> <span class="n">query_through_ssh</span>
+
+     <span class="c1"># Define SSH and database parameters</span>
+     <span class="n">ssh_host</span> <span class="o">=</span> <span class="s1">&#39;ssh.example.com&#39;</span>
+     <span class="n">ssh_port</span> <span class="o">=</span> <span class="mi">22</span>
+     <span class="n">ssh_username</span> <span class="o">=</span> <span class="s1">&#39;user&#39;</span>
+     <span class="n">ssh_password</span> <span class="o">=</span> <span class="s1">&#39;pass&#39;</span>
+     <span class="n">db_host</span> <span class="o">=</span> <span class="s1">&#39;db.example.com&#39;</span>
+     <span class="n">db_port</span> <span class="o">=</span> <span class="mi">5432</span>
+     <span class="n">db_name</span> <span class="o">=</span> <span class="s1">&#39;testdb&#39;</span>
+     <span class="n">db_username</span> <span class="o">=</span> <span class="s1">&#39;dbuser&#39;</span>
+     <span class="n">db_password</span> <span class="o">=</span> <span class="s1">&#39;dbpass&#39;</span>
+     <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;SELECT * FROM table&#39;</span>
+
+     <span class="c1"># Use the function to query through SSH</span>
+     <span class="n">result</span> <span class="o">=</span> <span class="n">query_through_ssh</span><span class="p">(</span>
+             <span class="n">ssh_host</span><span class="p">,</span> <span class="n">ssh_port</span><span class="p">,</span> <span class="n">ssh_username</span><span class="p">,</span> <span class="n">ssh_password</span><span class="p">,</span>
+             <span class="n">db_host</span><span class="p">,</span> <span class="n">db_port</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">db_username</span><span class="p">,</span> <span class="n">db_password</span><span class="p">,</span> <span class="n">query</span>
+     <span class="p">)</span>
+
+     <span class="c1"># Output the result</span>
+     <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -2368,6 +2397,39 @@ When None, no filter is applied.</p>
 <dt><cite>Returns:</cite></dt><dd><p>A  JSON with the wrapper entry</p>
 </dd>
 <dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/wrappers">https://actionnetwork.org/docs/v2/wrappers</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_unique_id_lists">
+<span class="sig-name descname"><span class="pre">get_unique_id_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_unique_id_lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_unique_id_lists" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Args:</dt><dd><p>limit: The maximum number of unique ID lists to return.
+When None, returns all unique ID lists.
+per_page: The number of unique ID lists to return per page. Default is 25.
+page: The specific page of unique ID lists to return.
+filter: The filter criteria to apply when retrieving unique ID lists.</p>
+</dd>
+<dt>Returns:</dt><dd><p>A JSON response with the unique ID lists.</p>
+</dd>
+<dt>Documentation Reference:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/unique_id_lists">https://actionnetwork.org/docs/v2/unique_id_lists</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.get_unique_id_list">
+<span class="sig-name descname"><span class="pre">get_unique_id_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unique_id_list_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_unique_id_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_unique_id_list" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>unique_id_list_id:</dt><dd><p>The unique id of the unique ID list</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response with the unique ID list details</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/unique_id_lists">https://actionnetwork.org/docs/v2/unique_id_lists</a></p>
 </dd>
 </dl>
 </dd></dl>

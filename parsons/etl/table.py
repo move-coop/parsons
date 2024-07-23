@@ -65,7 +65,7 @@ class Table(ETL, ToFrom):
             else:
                 row_type = type(lst[0])
                 # Check for list of dicts
-                if row_type == dict:
+                if row_type is dict:
                     self.table = petl.fromdicts(lst)
                 # Check for list of lists
                 elif row_type in [list, tuple]:

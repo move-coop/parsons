@@ -39,16 +39,13 @@ output_list = [
 
 class TestTargetSmartAPI(unittest.TestCase):
     def setUp(self):
-
         self.ts = TargetSmartAPI(api_key="FAKEKEY")
 
     def tearDown(self):
-
         pass
 
     @requests_mock.Mocker()
     def test_data_enhance(self, m):
-
         json = {
             "input": {"search_id": "IL-12568670", "search_id_type": "voterbase"},
             "error": None,
@@ -108,7 +105,6 @@ class TestTargetSmartAPI(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_radius_search(self, m):
-
         m.get(self.ts.connection.uri + "person/radius-search", json=radius_response)
 
         expected = [
@@ -165,7 +161,6 @@ class TestTargetSmartAPI(unittest.TestCase):
         self.assertTrue(validate_list(expected, rad_search()))
 
     def test_district_args(self):
-
         self.assertRaises(ValueError, self.ts.district, search_type="address")
         self.assertRaises(ValueError, self.ts.district, search_type="zip", zip4=9)
         self.assertRaises(ValueError, self.ts.district, search_type="zip", zip5=0)
@@ -174,7 +169,6 @@ class TestTargetSmartAPI(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_district_point(self, m):
-
         # Test Points
         m.get(self.ts.connection.uri + "service/district", json=district_point)
         self.assertTrue(
@@ -208,7 +202,6 @@ class TestTargetSmartAPI(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_phone(self, m):
-
         # Test phone
         m.get(self.ts.connection.uri + "person/phone-search", json=phone_response)
         self.assertTrue(

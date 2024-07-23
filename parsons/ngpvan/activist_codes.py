@@ -9,7 +9,6 @@ logger = logging.getLogger(__name__)
 
 class ActivistCodes(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_activist_codes(self):

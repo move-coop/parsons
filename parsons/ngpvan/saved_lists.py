@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 
 class SavedLists(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_saved_lists(self, folder_id=None):
@@ -277,7 +276,6 @@ class SavedLists(object):
 
 class Folders(object):
     def __init__(self, van_connection):
-
         # Some sort of test if the van_connection is not present.
 
         self.connection = van_connection
@@ -314,7 +312,6 @@ class Folders(object):
 
 class ExportJobs(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_export_job_types(self):

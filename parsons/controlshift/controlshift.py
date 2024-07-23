@@ -25,7 +25,6 @@ class Controlshift(object):
     """
 
     def __init__(self, hostname=None, client_id=None, client_secret=None):
-
         self.hostname = check_env.check("CONTROLSHIFT_HOSTNAME", hostname)
 
         # Hostname must start with 'https://'

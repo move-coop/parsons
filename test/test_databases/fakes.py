@@ -47,11 +47,9 @@ class FakeDatabase:
         tbl.data.concat(data)
 
     def get_table_object(self, table_name):
-
         pass
 
     def create_table(self, table_object, table_name):
-
         pass
 
 

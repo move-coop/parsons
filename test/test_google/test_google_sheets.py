@@ -9,7 +9,6 @@ from test.utils import assert_matching_tables
 @unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestGoogleSheets(unittest.TestCase):
     def setUp(self):
-
         self.google_sheets = GoogleSheets()
 
         self.spreadsheet_id = self.google_sheets.create_spreadsheet("parsons_test_01")

@@ -10,16 +10,13 @@ os.environ["VAN_API_KEY"] = "SOME_KEY"
 
 class TestTargets(unittest.TestCase):
     def setUp(self):
-
         self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
 
     def tearDown(self):
-
         pass
 
     @requests_mock.Mocker()
     def test_get_targets(self, m):
-
         # Create response
         json = {
             "count": 2,
@@ -61,7 +58,6 @@ class TestTargets(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_target(self, m):
-
         # Create response
         json = {
             "targetId": 15723,
@@ -89,7 +85,6 @@ class TestTargets(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_create_target_export(self, m):
-
         export_job_id = '{"exportJobId": "455961790"}'
         target_id = 12827
 
@@ -107,7 +102,6 @@ class TestTargets(unittest.TestCase):
     @unittest.mock.patch.object(petl, "fromcsv", autospec=True)
     @requests_mock.Mocker()
     def test_get_target_export(self, fromcsv, m):
-
         export_job_id = 455961790
         json = {
             "targetId": 12827,
@@ -124,7 +118,9 @@ class TestTargets(unittest.TestCase):
             "jobStatus": "Complete",
         }
 
-        download_url = "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv"  # noqa: E501
+        download_url = (
+            "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv"  # noqa: E501
+        )
         fromcsv.return_value = petl.fromcolumns(
             [
                 ["12827", "12827"],

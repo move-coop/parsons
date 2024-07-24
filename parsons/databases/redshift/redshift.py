@@ -851,7 +851,7 @@ class Redshift(
         self.unload(
             sql=f"select * from {rs_table}",
             bucket=bucket,
-            key_prefix=f"{key}/{rs_table.replace('.','_')}/",
+            key_prefix=f"{key}/{rs_table.replace('.', '_')}/",
             manifest=manifest,
             header=header,
             delimiter=delimiter,

@@ -17,7 +17,10 @@ from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
 from parsons.etl import Table
 from parsons.google.google_cloud_storage import GoogleCloudStorage
-from parsons.google.utitities import setup_google_application_credentials
+from parsons.google.utilities import (
+    load_google_application_credentials,
+    setup_google_application_credentials,
+)
 from parsons.utilities import check_env
 from parsons.utilities.files import create_temp_file
 
@@ -31,7 +34,6 @@ BIGQUERY_TYPE_MAP = {
     "datetime": "DATETIME",
     "date": "DATE",
     "time": "TIME",
-    "dict": "RECORD",
     "NoneType": "STRING",
     "UUID": "STRING",
     "timestamp": "TIMESTAMP",
@@ -160,8 +162,11 @@ class GoogleBigQuery(DatabaseConnector):
         if isinstance(app_creds, Credentials):
             self.credentials = app_creds
         else:
-            self.credentials = None
-            setup_google_application_credentials(app_creds)
+            self.env_credential_path = str(uuid.uuid4())
+            setup_google_application_credentials(
+                app_creds, target_env_var_name=self.env_credential_path
+            )
+            self.credentials = load_google_application_credentials(self.env_credential_path)
 
         self.project = project
         self.location = location
@@ -695,7 +700,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         # copy from S3 to GCS
         tmp_gcs_bucket = check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
-        gcs_client = gcs_client or GoogleCloudStorage()
+        gcs_client = gcs_client or GoogleCloudStorage(app_creds=self.app_creds)
         temp_blob_uri = gcs_client.copy_s3_to_gcs(
             aws_source_bucket=bucket,
             aws_access_key_id=aws_access_key_id,
@@ -808,7 +813,7 @@ class GoogleBigQuery(DatabaseConnector):
             schema.append(schema_row)
         job_config.schema = schema
 
-        gcs_client = gcs_client or GoogleCloudStorage()
+        gcs_client = gcs_client or GoogleCloudStorage(app_creds=self.app_creds)
         temp_blob_name = f"{uuid.uuid4()}.{data_type}"
         temp_blob_uri = gcs_client.upload_table(tbl, tmp_gcs_bucket, temp_blob_name)
 
@@ -1200,7 +1205,14 @@ class GoogleBigQuery(DatabaseConnector):
                     if isinstance(value, datetime.datetime) and value.tzinfo:
                         best_type = "timestamp"
 
-            field_type = self._bigquery_type(best_type)
+            try:
+                field_type = self._bigquery_type(best_type)
+            except KeyError as e:
+                raise KeyError(
+                    "Column type not supported for load to BigQuery. "
+                    "Consider converting to another type. "
+                    f"[type={best_type}]"
+                ) from e
             field = bigquery.schema.SchemaField(stat["name"], field_type)
             fields.append(field)
         return fields
@@ -1355,6 +1367,26 @@ class GoogleBigQuery(DatabaseConnector):
         # Return a MySQL table object
 
         return BigQueryTable(self, table_name)
+
+    def extract(
+        self,
+        dataset: str,
+        table_name: str,
+        gcs_bucket: str,
+        gcs_blob_name: str,
+        project: Optional[str] = None,
+    ) -> None:
+        dataset_ref = bigquery.DatasetReference(project or self.client.project, dataset)
+        table_ref = dataset_ref.table(table_name)
+        gs_destination = f"gs://{gcs_bucket}/{gcs_blob_name}"
+
+        extract_job = self.client.extract_table(
+            table_ref,
+            gs_destination,
+        )
+        extract_job.result()  # Waits for job to complete.
+
+        logger.info(f"Finished exporting query result to {gs_destination}.")
 
 
 class BigQueryTable(BaseTable):

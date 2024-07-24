@@ -15,7 +15,7 @@ def main():
             "simplejson",
         ]
         extras_require = {
-            "airtable": ["airtable-python-wrapper==0.13.0"],
+            "airtable": ["pyairtable"],
             "alchemer": ["surveygizmo"],
             "azure": ["azure-storage-blob"],
             "box": ["boxsdk"],
@@ -27,7 +27,7 @@ def main():
             "dbt-postgres": ["dbt-postgres", "slackclient<2"],
             "dbt-snowflake": ["dbt-snowflake", "slackclient<2"],
             "facebook": ["joblib", "facebook-business"],
-            "geocode": ["censusgeocode", "urllib3==1.26.18"],
+            "geocode": ["censusgeocode", "urllib3==1.26.19"],
             "github": ["PyGitHub"],
             "google": [
                 "apiclient",
@@ -47,8 +47,15 @@ def main():
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["bs4"],
-            "postgres": ["psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",],
-            "redshift": ["boto3", "psycopg2-binary>=2.9.9", "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",],
+            "postgres": [
+                "psycopg2-binary>=2.9.9",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+            ],
+            "redshift": [
+                "boto3",
+                "psycopg2-binary>=2.9.9",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+            ],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
             "sftp": ["paramiko"],
@@ -56,7 +63,11 @@ def main():
             "smtp": ["validate-email"],
             "targetsmart": ["xmltodict"],
             "twilio": ["twilio"],
-            "zoom": ["PyJWT"],
+            "ssh": [
+                "sshtunnel",
+                "psycopg2-binary>=2.9.9",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+            ],
         }
         extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
     else:
@@ -71,7 +82,7 @@ def main():
 
     setup(
         name="parsons",
-        version="3.1.0",
+        version="3.2.0",
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url="https://github.com/move-coop/parsons",
@@ -82,13 +93,13 @@ def main():
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Developers",
-            "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
         ],
-        python_requires=">=3.7.0,<3.12.0",
+        python_requires=">=3.8.0,<3.13.0",
         long_description=long_description,
         long_description_content_type="text/markdown",
     )

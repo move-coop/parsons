@@ -42,5 +42,5 @@ jobs:
 
     - name: Check linting
       run: |
-        ruff check --output-format=github parsons/ test/ useful_resources/
-        ruff format --output-format=github parsons/ test/ useful_resources/
+        ruff check parsons/ test/ useful_resources/
+        ruff format --diff parsons/ test/ useful_resources/

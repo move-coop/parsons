@@ -464,6 +464,7 @@ class ToFrom(object):
         self,
         bucket_name,
         blob_name,
+        gcs=None,
         app_creds=None,
         project=None,
         compression=None,
@@ -523,9 +524,11 @@ class ToFrom(object):
             **csvargs,
         )
 
-        from parsons.google.google_cloud_storage import GoogleCloudStorage
+        if not gcs:
+            from parsons.google.google_cloud_storage import GoogleCloudStorage
 
-        gcs = GoogleCloudStorage(app_creds=app_creds, project=project)
+            gcs = GoogleCloudStorage(app_creds=app_creds, project=project)
+
         gcs.put_blob(bucket_name, blob_name, local_path)
 
         if public_url:

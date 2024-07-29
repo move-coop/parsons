@@ -612,6 +612,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">bucket_name</span><span class="p">,</span>
         <span class="n">blob_name</span><span class="p">,</span>
+        <span class="n">gcs_client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -671,13 +672,15 @@
             <span class="o">**</span><span class="n">csvargs</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="kn">from</span> <span class="nn">parsons.google.google_cloud_storage</span> <span class="kn">import</span> <span class="n">GoogleCloudStorage</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">gcs_client</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">parsons.google.google_cloud_storage</span> <span class="kn">import</span> <span class="n">GoogleCloudStorage</span>
 
-        <span class="n">gcs</span> <span class="o">=</span> <span class="n">GoogleCloudStorage</span><span class="p">(</span><span class="n">app_creds</span><span class="o">=</span><span class="n">app_creds</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">)</span>
-        <span class="n">gcs</span><span class="o">.</span><span class="n">put_blob</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
+            <span class="n">gcs_client</span> <span class="o">=</span> <span class="n">GoogleCloudStorage</span><span class="p">(</span><span class="n">app_creds</span><span class="o">=</span><span class="n">app_creds</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">)</span>
+
+        <span class="n">gcs_client</span><span class="o">.</span><span class="n">put_blob</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">public_url</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">gcs</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="n">public_url_expires</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">gcs_client</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="n">public_url_expires</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 

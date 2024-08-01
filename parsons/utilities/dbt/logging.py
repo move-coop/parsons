@@ -107,7 +107,7 @@ class dbtLoggerMarkdown(dbtLogger):
 
         # Skips
         if manifest.skips:
-            skips = set([i.node.name for i in manifest.skips if i.node.name == "model"])
+            skips = set([i.node.name for i in manifest.skips])
             log_message += "\nSkipped:\n```{}```".format(", ".join(skips))
 
         return log_message

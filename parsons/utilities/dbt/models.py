@@ -45,7 +45,12 @@ class Manifest:
 
     @property
     def skips(self) -> list[NodeResult]:
-        return self.filter_results(status="skipped")
+        """Returns skipped model builds but not skipped tests."""
+        return [
+            node
+            for node in self.filter_results(status="skipped")
+            if node.node.name.split(".")[0] == "model"
+        ]
 
     @property
     def summary(self) -> collections.Counter:

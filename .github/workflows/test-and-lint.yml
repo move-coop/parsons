@@ -1,0 +1,72 @@
+name: Pytest, Flake8, Black
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/test-and-lint.yml
+      - requirements*.txt
+      - "**.py"
+      - setup.py
+  push:
+    paths:
+      - .github/workflows/test-and-lint.yml
+      - requirements*.txt
+      - "**.py"
+      - setup.py
+  workflow_dispatch:
+
+env:
+  TESTING: 1
+
+jobs:
+  test_and_lint:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.12"
+          - "3.11"
+          - "3.10"
+          - "3.9"
+          - "3.8"
+        limited-dependencies:
+          - ""
+          - "TRUE"
+        os:
+          - ubuntu-latest
+        include:
+          - os: macos-latest
+            python-version: "3.12"
+          - os: macos-latest
+            python-version: "3.12"
+            limited-dependencies: true
+          - os: macos-latest
+            python-version: "3.8"
+          - os: macos-latest
+            python-version: "3.8"
+            limited-dependencies: true
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install uv
+        run: |
+          pip install -U uv
+      - name: Install dependencies
+        env:
+          PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
+        run: |
+          uv pip install --system -U pip
+          uv pip install --system -e .[all]
+          uv pip install --system -r requirements-dev.txt
+      - name: Run tests
+        run: pytest -rf test/
+      - name: check linting
+        run: |
+          # E203 and W503 don't work well with black
+          flake8 parsons/ test/ useful_resources/ --extend-ignore=E203,W503
+          black --check parsons/ test/ useful_resources/

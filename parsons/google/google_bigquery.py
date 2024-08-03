@@ -1487,11 +1487,11 @@ class GoogleBigQuery(DatabaseConnector):
         import sys
 
         destination_table_id =       (destination_project + "."
-                                    + destination_dataset + "."
-                                    + destination_table)
+                                        + destination_dataset + "."
+                                        + destination_table)
         source_table_id =    (source_project + "."
-                            + source_dataset + "."
-                            + source_table)
+                                + source_dataset + "."
+                                + source_table)
 
         # check if destination dataset exists
         try:

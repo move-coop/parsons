@@ -1486,10 +1486,10 @@ class GoogleBigQuery(DatabaseConnector):
         from google.cloud.exceptions import NotFound
         import sys
 
-        destination_table_id = (  destination_project + "."
-                                + destination_dataset + "."
-                                + destination_table)
-        source_table_id = (   source_project + "."
+        destination_table_id =       (destination_project + "."
+                                    + destination_dataset + "."
+                                    + destination_table)
+        source_table_id =    (source_project + "."
                             + source_dataset + "."
                             + source_table)
 

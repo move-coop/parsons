@@ -1451,6 +1451,93 @@ class GoogleBigQuery(DatabaseConnector):
 
         logger.info(f"Finished exporting query result to {gs_destination}.")
 
+    def copy_between_projects(self, source_project, source_dataset, source_table,
+                              destination_project, destination_dataset, destination_table,
+                              if_dataset_not_exists='fail', if_table_exists='fail'):
+        """
+        Copy a table from one project to another. Set the flags if_dataset_not_exists and
+        if_table_exists to control behavior if target dataset for the table does not exist
+        and if the target table exists (default is to fail in both cases).
+        Fails if the source or target project does not exist.
+
+        `Args`:
+            source_project: str
+                Name of source project
+            source_dataset: str
+                Name of source dataset
+            source_table: str
+                Name of source table
+            destination_project: str
+                Name of destination project
+            destination_dataset: str
+                Name of destination dataset
+            destination_table: str
+                Name of destination table
+            if_dataset_not_exists: str
+                Action if dataset doesn't exist {'fail','create'}
+            if_table_exists: str
+                Action if table exists {'fail', 'overwrite'}
+
+        `Returns:`
+            None
+        """
+
+        from google.cloud import bigquery
+        from google.cloud.exceptions import NotFound
+        import sys
+
+        destination_table_id = (destination_project + "." +
+                                destination_dataset + "." +
+                                destination_table)
+        source_table_id = (source_project + "." +
+                           source_dataset + "." +
+                           source_table)
+
+        # check if destination dataset exists
+        try:
+            dataset_id = destination_project + "." + destination_dataset
+            self.client.get_dataset(dataset_id)  # Make an API request.
+            # if it exists: continue
+        except NotFound:
+            # if it doesn't exist: check the flag for creating it
+            if if_dataset_not_exists == 'create':  # create a new dataset in the destination
+                dataset = bigquery.Dataset(dataset_id)
+                dataset = self.client.create_dataset(dataset, timeout=30)
+            else:  # fail
+                print("BigQuery copy failed")
+                sys.exit("Dataset {0} does not exist and if_dataset_not_exists set to {1}"
+                         .format(destination_dataset, if_dataset_not_exists))
+
+        job_config = bigquery.CopyJobConfig()
+
+        # check if destination table exists
+        try:
+            # check if table exists
+            self.client.get_table(destination_table_id)
+            if if_table_exists == 'overwrite':  # if it exists
+                job_config = bigquery.CopyJobConfig()
+                job_config.write_disposition = "WRITE_TRUNCATE"
+                try:
+                    job = self.client.copy_table(source_table_id, destination_table_id,
+                                                 location='US', job_config=job_config)
+                    result = job.result()
+                except Exception as e:
+                    print("Exception during copy between projects", e)
+            else:
+                print("BigQuery copy failed")
+                sys.exit("Table {0} exists and if_table_exists set to {1}"
+                         .format(destination_table, if_table_exists))
+
+        except NotFound:
+            # table doesn't exist
+            try:
+                job = self.client.copy_table(source_table_id, destination_table_id,
+                                             location='US', job_config=job_config)
+                result = job.result()
+                print(result)
+            except Exception as e:
+                print("Exception during copy between projects", e)
+
 
 class BigQueryTable(BaseTable):
     """BigQuery table object."""

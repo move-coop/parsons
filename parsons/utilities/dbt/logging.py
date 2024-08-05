@@ -102,7 +102,7 @@ class dbtLoggerMarkdown(dbtLogger):
         # Warnings
         if manifest.warnings:
             log_message += "\nWarn messages:\n```{}```".format(
-                "\n\n".join([i.node.name + ": " + i.message for i in manifest.warnings])
+                "\n\n".join([i.node.name + ": " + (i.message or "") for i in manifest.warnings])
             )
 
         # Skips

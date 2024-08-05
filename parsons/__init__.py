@@ -45,6 +45,7 @@ for module_path, connector_name in (
     ("parsons.catalist.catalist", "CatalistMatch"),
     ("parsons.census.census", "Census"),
     ("parsons.civis.civisclient", "CivisClient"),
+    ("parsons.community.community", "Community"),
     ("parsons.controlshift.controlshift", "Controlshift"),
     ("parsons.copper.copper", "Copper"),
     ("parsons.crowdtangle.crowdtangle", "CrowdTangle"),

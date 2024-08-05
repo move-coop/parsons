@@ -100,7 +100,7 @@ class Community(object):
             Contents of the generated contribution CSV as a Parsons table.
         """
 
-        post_request_response = self.post_request(resource=resource, data_type=data_type)
+        post_request_response = self.get_request(resource=resource, data_type=data_type)
         content = post_request_response["body"]
         table = Table.from_csv(content)
         logger.info("Completed conversion to Parsons Table.")

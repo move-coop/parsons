@@ -70,9 +70,9 @@ class Community(object):
 
         logger.info(f"Requesting {resource} as {data_type}.")
         url = (
-            resource
+            f"{resource}.{data_type}.gz"
             if resource != "outbound_message_type_usage"
-            else f"{resource}/segment-based-subscription"
+            else f"{resource}.{data_type}.gz/segment-based-subscription"
         )
         response = self.client.get_request(url=url)
         return response

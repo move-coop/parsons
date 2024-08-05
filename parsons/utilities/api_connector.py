@@ -96,9 +96,12 @@ class APIConnector(object):
 
         r = self.request(url, "GET", params=params)
         self.validate_response(r)
-        logger.debug(r.json())
 
-        return r.json()
+        try:
+            logger.debug(r.json())
+            return r.json()
+        except JSONDecodeError:
+            return r.content
 
     def post_request(
         self, url, params=None, data=None, json=None, success_codes=[200, 201, 202, 204]

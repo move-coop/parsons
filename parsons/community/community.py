@@ -37,8 +37,9 @@ class Community(object):
             or f"{COMMUNITY_API_ENDPOINT}/{community_client_id}/"
         )
         self.headers = {
-            "Aurthorization": f"Bearer {self.community_access_token}",
-            "accept": "application/json",
+            "Authorization": f"Bearer {self.community_access_token}",
+            # "accept": "*/*",
+            # "accept-encoding": "gzip",
         }
         self.client = APIConnector(
             self.uri,
@@ -65,7 +66,7 @@ class Community(object):
                     'member_communities': Member Communities data
 
         `Returns:`
-            Response of POST request; a successful response includes 'body', the actual CSV or JSON formatted data
+            Response of GET request; a successful response returns the CSV or JSON formatted data
         """
 
         logger.info(f"Requesting {resource} as {data_type}.")
@@ -100,8 +101,7 @@ class Community(object):
             Contents of the generated contribution CSV as a Parsons table.
         """
 
-        post_request_response = self.get_request(resource=resource, data_type=data_type)
-        content = post_request_response["body"]
-        table = Table.from_csv(content)
-        logger.info("Completed conversion to Parsons Table.")
+        get_request_response = self.get_request(resource=resource, data_type=data_type)
+        response_string = get_request_response.decode("utf-8")
+        table = Table.from_csv_string(response_string)
         return table

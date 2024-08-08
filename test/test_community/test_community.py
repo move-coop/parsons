@@ -8,7 +8,8 @@ TEST_CLIENT_ID = "someuuid"
 TEST_CLIENT_TOKEN = "somesecret"
 
 TEST_FILENAME = "campaigns"
-TEST_URI = f"https://faketestingurl.com/{TEST_CLIENT_ID}"
+TEST_URI = "https://faketestingurl.com"
+TEST_FULL_URL = f"{TEST_URI}/{TEST_CLIENT_ID}/{TEST_FILENAME}.csv.gz"
 
 TEST_GET_RESPONSE = """\"LEADER_ID\",\"DATE_DAY\",\"OUTBOUND_MESSAGE_TYPE\",\"MESSAGE_COUNT\",\"SEGMENT_COUNT\"\n\"6e83b266-899f-4a01-b39c-e614a4929df7\",\"2022-10-03\",\"FAN_ONBOARDING\",1,3\n"""
 
@@ -36,16 +37,17 @@ class TestCommunity(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_successful_get_request(self, m):
-        m.get(f"{TEST_URI}/{TEST_CLIENT_ID}/{TEST_FILENAME}.csv.gz", json=TEST_GET_RESPONSE)
+        print(f"Test: {TEST_FULL_URL}")
+        m.get(TEST_FULL_URL, json=TEST_GET_RESPONSE)
 
         assert self.com.get_request(filename=TEST_FILENAME) == TEST_GET_RESPONSE
 
     # test get resource
     @requests_mock.Mocker()
     def test_successful_get_data_export(self, m):
-        url = f"{TEST_URI}/{TEST_CLIENT_ID}/{TEST_FILENAME}.csv.gz"
-        print(f"Test URL: {url}")
-        m.get(url, json=TEST_GET_RESPONSE)
+
+        print(f"Test URL: {TEST_FULL_URL}")
+        m.get(TEST_FULL_URL, json=TEST_GET_RESPONSE)
 
         table = self.com.get_data_export(
             TEST_FILENAME,

@@ -39,8 +39,6 @@ class Community(object):
         )
         self.headers = {
             "Authorization": f"Bearer {self.community_access_token}",
-            # "accept": "*/*",
-            # "accept-encoding": "gzip",
         }
         self.client = APIConnector(
             self.uri,

@@ -73,6 +73,7 @@ class Community(object):
             if filename != "outbound_message_type_usage"
             else f"{filename}.csv.gz/segment-based-subscription"
         )
+        print(f"URL: {url}")
         response = self.client.get_request(url=url, return_format="content")
         return response
 

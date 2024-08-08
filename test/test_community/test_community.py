@@ -38,7 +38,7 @@ class TestCommunity(unittest.TestCase):
     @requests_mock.Mocker()
     def test_successful_get_request(self, m):
         print(f"Test: {TEST_FULL_URL}")
-        m.get(TEST_FULL_URL, json=TEST_GET_RESPONSE)
+        m.get(TEST_FULL_URL, content=TEST_GET_RESPONSE)
 
         assert self.com.get_request(filename=TEST_FILENAME) == TEST_GET_RESPONSE
 
@@ -47,7 +47,7 @@ class TestCommunity(unittest.TestCase):
     def test_successful_get_data_export(self, m):
 
         print(f"Test URL: {TEST_FULL_URL}")
-        m.get(TEST_FULL_URL, json=TEST_GET_RESPONSE)
+        m.get(TEST_FULL_URL, content=TEST_GET_RESPONSE)
 
         table = self.com.get_data_export(
             TEST_FILENAME,

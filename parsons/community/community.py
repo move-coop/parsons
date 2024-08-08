@@ -5,7 +5,6 @@ from parsons.etl import Table
 
 logger = logging.getLogger(__name__)
 
-POLLING_DELAY = 1
 COMMUNITY_API_ENDPOINT = "https://dl.community.com/download/v1/files/"
 
 
@@ -21,10 +20,12 @@ class Community(object):
                 The Community provided access token. Not required if ``COMMUNITY_ACCESS_TOKEN`` env
                 variable set.
             community_uri: str
-                The URI to access the CSV API. Not required, default is
-                https://secure.actblue.com/api/v1. You can set an ``ACTBLUE_URI`` env variable or
+                The URI to access the  API. Not required, default is
+                https://dl.community.com/download/v1/files/. You can set an ``COMMUNITY_URL`` env variable or
                 use this URI parameter if a different endpoint is necessary - for example, when
                 running this code in a test environment where you don't want to hit the actual API.
+
+                API Documentation: https://dl.community.com/download/v1/files/
     """
 
     def __init__(self, community_client_id=None, community_access_token=None, community_url=None):

@@ -46,13 +46,13 @@ class Community(object):
             headers=self.headers,
         )
 
-    def get_request(self, resource):
+    def get_request(self, filename):
         """
         GET request to Community.com API to get the CSV data.
 
         `Args:`
-            resource: str
-                Data resource you are requesting.
+            filename: str
+                Data filename you are requesting.
                 Options:
                     'campaigns': Campaign Performance data
                     'outbound_message_type_usage`: Message Segment Usage data
@@ -67,22 +67,22 @@ class Community(object):
             Response of GET request; a successful response returns the CSV formatted data
         """
 
-        logger.info(f"Requesting {resource}")
+        logger.info(f"Requesting {filename}")
         url = (
-            f"{resource}.csv.gz"
-            if resource != "outbound_message_type_usage"
-            else f"{resource}.csv.gz/segment-based-subscription"
+            f"{filename}.csv.gz"
+            if filename != "outbound_message_type_usage"
+            else f"{filename}.csv.gz/segment-based-subscription"
         )
-        response = self.client.get_request(url=url)
+        response = self.client.get_request(url=url, return_format="content")
         return response
 
-    def get_resource(self, resource):
+    def get_data_export(self, filename):
         """
         Get specified data from Community.com API as Parsons table.
 
         `Args:`
-            resource: str
-                Data resource you are requesting.
+            filename: str
+                Data filename you are requesting.
                 Options:
                     'campaigns': Campaign Performance data
                     'outbound_message_type_usage`: Message Segment Usage data
@@ -97,7 +97,7 @@ class Community(object):
             Contents of the generated contribution CSV as a Parsons table.
         """
 
-        get_request_response = self.get_request(resource=resource)
+        get_request_response = self.get_request(filename=filename)
         response_string = get_request_response.decode("utf-8")
         table = Table.from_csv_string(response_string)
         return table

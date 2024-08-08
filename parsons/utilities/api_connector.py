@@ -81,7 +81,7 @@ class APIConnector(object):
             params=params,
         )
 
-    def get_request(self, url, params=None):
+    def get_request(self, url, params=None, return_format="json"):
         """
         Make a GET request.
 
@@ -97,11 +97,13 @@ class APIConnector(object):
         r = self.request(url, "GET", params=params)
         self.validate_response(r)
 
-        try:
+        if return_format == "json":
             logger.debug(r.json())
             return r.json()
-        except JSONDecodeError:
+        elif return_format == "content":
             return r.content
+        else:
+            raise RuntimeError(f"{return_format} is not a valid format, change to json or content")
 
     def post_request(
         self, url, params=None, data=None, json=None, success_codes=[200, 201, 202, 204]

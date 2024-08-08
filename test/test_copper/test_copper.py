@@ -25,7 +25,6 @@ fake_search = [{"id": "fake"}]
 
 class TestCopper(unittest.TestCase):
     def setUp(self):
-
         self.cp = Copper("usr@losr.fake", "key")
 
         # Using people as the most complicated object for test_get_standard_object()
@@ -196,13 +195,11 @@ class TestCopper(unittest.TestCase):
         )
 
     def test_init(self):
-
         self.assertEqual(self.cp.user_email, "usr@losr.fake")
         self.assertEqual(self.cp.api_key, "key")
 
     @requests_mock.Mocker()
     def test_base_request(self, m):
-
         # Assert the fake_search dict is returned
         m.post(self.cp.uri + "/people/search", json=fake_search)
         self.assertEqual(
@@ -238,7 +235,6 @@ class TestCopper(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_paginate_request(self, m):
-
         # Anonymized real output with nested columns
         self.blob = [
             {
@@ -393,7 +389,6 @@ class TestCopper(unittest.TestCase):
         )
 
     def test_process_json(self):
-
         # Stress-testing combination of unpack methods with contrived table from hell
         fake_response = [
             {
@@ -528,7 +523,6 @@ class TestCopper(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_standard_object(self, m):
-
         processed_people_emails = Table(
             [
                 {
@@ -566,7 +560,6 @@ class TestCopper(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_people(self, m):
-
         processed_people_emails = Table(
             [
                 {
@@ -607,7 +600,6 @@ class TestCopper(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_opportunities(self, m):
-
         processed_opps = Table(
             [
                 {
@@ -751,7 +743,6 @@ class TestCopper(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_opportunities2(self, m):
-
         processed_opps = Table(
             [
                 {
@@ -895,7 +886,6 @@ class TestCopper(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_companies(self, m):
-
         processed_companies = Table(
             [
                 {
@@ -1013,7 +1003,6 @@ class TestCopper(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_activities(self, m):
-
         processed_activities = Table(
             [
                 {
@@ -1075,7 +1064,6 @@ class TestCopper(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_custom_fields(self, m):
-
         m.get(
             self.cp.uri + "/custom_field_definitions/",
             json=self.paginate_callback,
@@ -1092,7 +1080,6 @@ class TestCopper(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_activity_types(self, m):
-
         processed_at = Table(
             [
                 {
@@ -1154,7 +1141,6 @@ class TestCopper(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_contact_types(self, m):
-
         processed_ct = Table(
             [
                 {"id": 501947, "name": "Potential Customer"},

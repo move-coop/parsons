@@ -64,7 +64,6 @@ class VAN(
     """
 
     def __init__(self, api_key=None, auth_name="default", db=None, raise_for_status=True):
-
         self.connection = VANConnector(api_key=api_key, db=db)
         self.api_key = api_key
         self.db = db

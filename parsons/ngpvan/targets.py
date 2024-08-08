@@ -13,7 +13,6 @@ class TargetsFailed(Exception):
 
 class Targets(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def obj_dict(obj):

@@ -75,7 +75,6 @@ class FacebookAds(object):
     }
 
     def __init__(self, app_id=None, app_secret=None, access_token=None, ad_account_id=None):
-
         try:
             self.app_id = app_id or os.environ["FB_APP_ID"]
             self.app_secret = app_secret or os.environ["FB_APP_SECRET"]

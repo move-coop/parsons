@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 
 class Scores(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_scores(self):
@@ -101,7 +100,6 @@ class Scores(object):
         """
 
         if status not in ["pending approval", "approved", "disapproved", "canceled"]:
-
             raise ValueError(
                 """Valid inputs for status are, 'pending approval',
                              'approved','disapproved','canceled'"""
@@ -230,7 +228,6 @@ class Scores(object):
 
 class FileLoadingJobs(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def create_file_load(
@@ -320,7 +317,6 @@ class FileLoadingJobs(object):
         }
 
         if auto_average and auto_tolerance:
-
             json["actions"]["approvalCriteria"] = {
                 "average": auto_average,
                 "tolerance": auto_tolerance,
@@ -405,7 +401,6 @@ class FileLoadingJobs(object):
         actions = []
 
         for score in score_map:
-
             action = {
                 "actionType": "score",
                 "personIdColumn": id_column,

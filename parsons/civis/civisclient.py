@@ -20,7 +20,6 @@ class CivisClient(object):
     """  # noqa: E501
 
     def __init__(self, db=None, api_key=None, **kwargs):
-
         self.db = check_env.check("CIVIS_DATABASE", db)
         self.api_key = check_env.check("CIVIS_API_KEY", api_key)
         self.client = civis.APIClient(api_key=api_key, **kwargs)

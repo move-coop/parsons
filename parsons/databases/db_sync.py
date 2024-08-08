@@ -36,7 +36,6 @@ class DBSync:
         write_chunk_size=None,
         retries=0,
     ):
-
         self.source_db = source_db
         self.dest_db = destination_db
         self.read_chunk_size = read_chunk_size

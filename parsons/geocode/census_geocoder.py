@@ -25,7 +25,6 @@ class CensusGeocoder(object):
     """  # noqa E501
 
     def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current"):
-
         self.cg = censusgeocode.CensusGeocode(benchmark=benchmark, vintage=vintage)
 
     def geocode_onelineaddress(self, address, return_type="geographies"):
@@ -118,7 +117,6 @@ class CensusGeocoder(object):
 
         geocoded_tbl = Table([[]])
         for tbl in chunked_tables:
-
             geocoded_tbl.concat(Table(petl.fromdicts(self.cg.addressbatch(tbl))))
             records_processed += tbl.num_rows
             logger.info(f"{records_processed} of {table.num_rows} records processed.")

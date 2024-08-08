@@ -23,7 +23,6 @@ TABLE_NAME = "TABLENAME"
 class TestAirtable(unittest.TestCase):
     @requests_mock.Mocker()
     def setUp(self, m):
-
         self.base_uri = f"https://api.airtable.com/v0/{BASE_KEY}/{TABLE_NAME}"
 
         m.get(self.base_uri, status_code=200)
@@ -32,7 +31,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_record(self, m):
-
         record_id = "recObtmLUrD5dOnmD"
 
         response = {
@@ -47,7 +45,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_records(self, m):
-
         m.get(self.base_uri, json=records_response)
 
         tbl = Table(
@@ -76,7 +73,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_records_with_1_sample(self, m):
-
         m.get(self.base_uri, json=records_response_with_more_columns)
 
         airtable_res = self.at.get_records(sample_size=1)
@@ -85,7 +81,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_records_with_5_sample(self, m):
-
         m.get(self.base_uri, json=records_response_with_more_columns)
 
         airtable_res = self.at.get_records(sample_size=5)
@@ -94,7 +89,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_records_with_explicit_headers(self, m):
-
         m.get(self.base_uri, json=records_response_with_more_columns)
 
         fields = ["Name", "SecondColumn"]
@@ -115,7 +109,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_insert_record(self, m):
-
         m.post(self.base_uri, json=insert_response)
 
         resp = self.at.insert_record({"Name": "Another row!"})
@@ -125,7 +118,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_insert_records(self, m):
-
         m.post(self.base_uri, json=insert_responses)
 
         tbl = Table([{"Name": "Another row!"}, {"Name": "Another!"}])
@@ -136,7 +128,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_update_record(self, m):
-
         record_id = "recObtmLUrD5dOnmD"
 
         update_response = {
@@ -152,7 +143,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_update_records(self, m):
-
         m.patch(self.base_uri, json=update_responses)
 
         tbl = Table(
@@ -169,7 +159,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_upsert_records_with_id(self, m):
-
         m.patch(self.base_uri, json=upsert_with_id_responses)
 
         tbl = Table(
@@ -188,7 +177,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_upsert_records_with_key(self, m):
-
         m.patch(self.base_uri, json=upsert_with_key_responses)
 
         tbl = Table(
@@ -207,7 +195,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_delete_record(self, m):
-
         record_id = "recObtmLUrD5dOnmD"
 
         response = {
@@ -225,7 +212,6 @@ class TestAirtable(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_delete_records(self, m):
-
         m.delete(self.base_uri, json=delete_responses)
 
         tbl = Table(delete_responses["records"]).cut("id")

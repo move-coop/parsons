@@ -50,7 +50,6 @@ class CapitolCanary(object):
 
         # If count of items is less than the total allowed per page, paginate
         while r["pagination"]["count"] == r["pagination"]["per_page"]:
-
             r = self.client.get_request(r["pagination"]["next_url"], args)
             json.extend(r["data"])
 

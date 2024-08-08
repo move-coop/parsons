@@ -14,7 +14,6 @@ TEMP_SCHEMA = "parsons_test"
 @unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestPostgresDBSync(unittest.TestCase):
     def setUp(self):
-
         self.temp_schema = TEMP_SCHEMA
         self.db = Postgres()
 
@@ -146,7 +145,6 @@ class TestRedshiftDBSync(TestPostgresDBSync):
     """This test inherits all of the tests from the Postgres test."""
 
     def setUp(self):
-
         self.temp_schema = TEMP_SCHEMA
         self.db = Redshift()
 

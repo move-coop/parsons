@@ -11,7 +11,6 @@ RETRY_RATE = 10
 
 class ChangedEntities(object):
     def __init__(self):
-
         pass
 
     def get_changed_entity_resources(self):
@@ -100,6 +99,5 @@ class ChangedEntities(object):
                 raise ValueError(status["message"])
 
     def _get_changed_entity_job(self, job_id):
-
         r = self.connection.get_request(f"changedEntityExportJobs/{job_id}")
         return r

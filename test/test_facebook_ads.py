@@ -29,7 +29,6 @@ users_table = Table(
 @unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestFacebookAdsIntegration(unittest.TestCase):
     def setUp(self):
-
         self.fb_ads = FacebookAds()
 
         self.audience_id = self.fb_ads.create_custom_audience(

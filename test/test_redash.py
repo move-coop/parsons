@@ -11,7 +11,6 @@ API_KEY = "abc123"
 
 
 class TestRedash(unittest.TestCase):
-
     mock_data = "foo,bar\n1,2\n3,4"
     mock_data_source = {
         "id": 1,

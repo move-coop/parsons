@@ -103,7 +103,6 @@ def live_sftp_with_mocked_get(simple_csv_path, simple_compressed_csv_path):  # n
         transport.close()
 
     def get_file(self, remote_path, local_path=None, connection=None):
-
         if not local_path:
             local_path = create_temp_file_for_path(remote_path)
 

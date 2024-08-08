@@ -41,7 +41,6 @@ QUERY = """-- Enter SQL here"""
 # There is a limit to the number of calls per minute,
 # so we use request_count to set a maximum number of tries
 def try_overwrite(table, request_count, sheet_id, tab_index):
-
     try:
         gsheets.overwrite_sheet(sheet_id, table, worksheet=tab_index, user_entered_value=False)
 

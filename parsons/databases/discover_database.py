@@ -11,7 +11,7 @@ from parsons.google.google_bigquery import GoogleBigQuery as BigQuery
 def discover_database(
     default_connector: Optional[
         Union[Type[DatabaseConnector], List[Type[DatabaseConnector]]]
-    ] = None
+    ] = None,
 ) -> DatabaseConnector:
     """Create an appropriate ``DatabaseConnector`` based on environmental variables.
 

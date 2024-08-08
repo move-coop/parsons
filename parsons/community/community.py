@@ -25,7 +25,7 @@ class Community(object):
                 use this URI parameter if a different endpoint is necessary - for example, when
                 running this code in a test environment where you don't want to hit the actual API.
 
-                API Documentation: https://dl.community.com/download/v1/files/
+                API Documentation: https://developer.community.com/reference/data-export-api-downloading-data
     """
 
     def __init__(self, community_client_id=None, community_access_token=None, community_url=None):

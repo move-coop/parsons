@@ -8,9 +8,9 @@ TEST_CLIENT_ID = "someuuid"
 TEST_CLIENT_TOKEN = "somesecret"
 
 TEST_ID = "12345"
-TEST_URI = "https://faketestingurl.com/example"
 
 TEST_CSV_TYPE = "campaigns"
+TEST_URI = f"https://faketestingurl.com/{TEST_CSV_TYPE}.csv.gz"
 
 TEST_GET_RESPONSE = """\"LEADER_ID\",\"DATE_DAY\",\"OUTBOUND_MESSAGE_TYPE\",\"MESSAGE_COUNT\",\"SEGMENT_COUNT\"\n\"6e83b266-899f-4a01-b39c-e614a4929df7\",\"2022-10-03\",\"FAN_ONBOARDING\",1,3\n"""
 

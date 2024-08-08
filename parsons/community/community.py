@@ -103,4 +103,6 @@ class Community(object):
         response_string = get_request_response.decode("utf-8")
         print(f"Response after decoding: {response_string}")
         table = Table.from_csv_string(response_string)
+        print(f"Table: {table}")
+        print(f"Number of rows: {table.num_rows}")
         return table

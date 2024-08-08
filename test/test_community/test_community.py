@@ -40,7 +40,7 @@ class TestCommunity(unittest.TestCase):
     def test_successful_get_request(self, m):
         m.get(f"{TEST_URI}/{TEST_CLIENT_ID}/{TEST_CSV_TYPE}.csv.gz", json=TEST_GET_RESPONSE)
 
-        assert self.com.get_request(resource=TEST_CSV_TYPE) == TEST_GET_RESPONSE
+        assert self.com.get_request(filename=TEST_CSV_TYPE) == TEST_GET_RESPONSE
 
     # test get resource
     @requests_mock.Mocker()

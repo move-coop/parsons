@@ -11,14 +11,14 @@ TEST_FILENAME = "campaigns"
 TEST_URI = f"https://faketestingurl.com/{TEST_CLIENT_ID}"
 TEST_FULL_URL = f"{TEST_URI}/{TEST_FILENAME}.csv.gz"
 
-TEST_GET_RESPONSE = b'"\\"LEADER_ID\\",\\"DATE_DAY\\",\\"OUTBOUND_MESSAGE_TYPE\\",\\"MESSAGE_COUNT\\",\\"SEGMENT_COUNT\\"\\n\\"6e83b266-899f-4a01-b39c-e614a4929df7\\",\\"2022-10-03\\",\\"FAN_ONBOARDING\\",1,3\\n"'
+TEST_GET_RESPONSE = b'"CAMPAIGN_ID","LEADER_ID","CHANNEL","SENT_AT","TEXT"\n"0288eb25-d795-4ca1-b90f-379ecccb42ad","6e83b266-899f-4a01-b39c-e614a4929df7","Text","2022-10-31T22:34:42.198680Z","this is for the map url field"\n'
 
 TEST_EXPECTED_COLUMNS = [
+    "CAMPAIGN_ID",
     "LEADER_ID",
-    "DATE_DAY",
-    "OUTBOUND_MESSAGE_TYPE",
-    "MESSAGE_COUNT",
-    "SEGMENT_COUNT",
+    "CHANNEL",
+    "SENT_AT",
+    "TEXT",
 ]
 
 

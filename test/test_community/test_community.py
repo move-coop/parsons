@@ -43,7 +43,9 @@ class TestCommunity(unittest.TestCase):
     # test get resource
     @requests_mock.Mocker()
     def test_successful_get_data_export(self, m):
-        m.get(f"{TEST_URI}/{TEST_CLIENT_ID}/{TEST_FILENAME}.csv.gz", json=TEST_GET_RESPONSE)
+        url = f"{TEST_URI}/{TEST_CLIENT_ID}/{TEST_FILENAME}.csv.gz"
+        print(f"Test URL: {url}")
+        m.get(url, json=TEST_GET_RESPONSE)
 
         table = self.com.get_data_export(
             TEST_FILENAME,

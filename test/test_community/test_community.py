@@ -1,6 +1,6 @@
 import unittest
 import requests_mock
-from parsons import Table, Community
+from parsons import Community
 
 
 TEST_CLIENT_ID = "someuuid"
@@ -22,9 +22,6 @@ class TestCommunity(unittest.TestCase):
     @requests_mock.Mocker()
     def setUp(self, m):
         self.com = Community(TEST_CLIENT_ID, TEST_CLIENT_TOKEN, TEST_URI)
-
-    def tearDown(self):
-        Table.from_csv = self.from_csv
 
     @requests_mock.Mocker()
     def test_successful_get_request(self, m):

@@ -70,6 +70,7 @@ class APIConnector(object):
             requests response
         """
         full_url = urllib.parse.urljoin(self.uri, url)
+        print(f"Full URL: {full_url}")
 
         return _request(
             req_type,

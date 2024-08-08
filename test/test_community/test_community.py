@@ -1,7 +1,6 @@
 import unittest
 import requests_mock
 from parsons import Table, Community
-from unittest.mock import MagicMock
 
 
 TEST_CLIENT_ID = "someuuid"
@@ -23,11 +22,6 @@ class TestCommunity(unittest.TestCase):
     @requests_mock.Mocker()
     def setUp(self, m):
         self.com = Community(TEST_CLIENT_ID, TEST_CLIENT_TOKEN, TEST_URI)
-        self.from_csv = Table.from_csv
-        test_csv_data = Table.from_csv_string(
-            open("test/test_community/test_community_data.csv").read()
-        )
-        Table.from_csv = MagicMock(name="mocked from_csv", return_value=test_csv_data)
 
     def tearDown(self):
         Table.from_csv = self.from_csv

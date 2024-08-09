@@ -1,6 +1,5 @@
 import datetime
 import gzip
-import petl
 import logging
 import time
 import uuid
@@ -322,10 +321,6 @@ class GoogleCloudStorage(object):
         blob = storage.Blob(blob_name, bucket)
 
         if data_type == "csv":
-            # If a parsons Table is loaded from a CSV and has had no
-            # transformations, the Table.table object will be a petl
-            # CSVView. Once any transformations are made, the Table.table
-            # becomes a different petl class
             local_file = table.to_csv()
             content_type = "text/csv"
         elif data_type == "json":

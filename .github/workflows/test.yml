@@ -52,13 +52,15 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+      - name: Install uv
+        run: |
+          pip install -U pip uv
       - name: Install dependencies
         env:
           PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
         run: |
-          pip install -U pip
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
+          uv pip install --system -e .[all]
+          uv pip install --system -r requirements-dev.txt
       - name: Run tests
         run: pytest -rf test/
       - name: Check linting

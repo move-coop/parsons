@@ -10,16 +10,13 @@ os.environ["VAN_API_KEY"] = "SOME_KEY"
 
 class TestNGPVAN(unittest.TestCase):
     def setUp(self):
-
         self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
 
     def tearDown(self):
-
         pass
 
     @requests_mock.Mocker()
     def test_get_events(self, m):
-
         json = {
             "count": 6,
             "items": [
@@ -79,7 +76,6 @@ class TestNGPVAN(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_event(self, m):
-
         event_id = 1062
 
         json = {
@@ -111,7 +107,6 @@ class TestNGPVAN(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_create_event(self, m):
-
         m.post(self.van.connection.uri + "events", json=750000984, status_code=204)
 
         # Test that it doesn't throw and error
@@ -130,7 +125,6 @@ class TestNGPVAN(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_event_types(self, m):
-
         json = [
             {
                 "eventTypeId": 296199,

@@ -23,7 +23,6 @@ class Airtable(object):
     """
 
     def __init__(self, base_key, table_name, personal_access_token=None):
-
         self.personal_access_token = check_env.check(
             "AIRTABLE_PERSONAL_ACCESS_TOKEN", personal_access_token
         )

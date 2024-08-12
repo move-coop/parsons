@@ -7,7 +7,6 @@ import unittest
 
 class TestCredentialTool(unittest.TestCase):
     def setUp(self):
-
         os.environ["TES_VAR1"] = "variable1"
         os.environ["TES_VAR2"] = "variable2"
 
@@ -19,7 +18,6 @@ class TestCredentialTool(unittest.TestCase):
             f.write(json.dumps({"json": "file"}))
 
     def tearDown(self):
-
         # Delete tmp folder and files
         shutil.rmtree(self.tmp_folder)
 

@@ -109,11 +109,9 @@ def parse_request_body(m):
 
 class TestP2A(unittest.TestCase):
     def setUp(self):
-
         self.p2a = Phone2Action(app_id="an_id", app_key="app_key")
 
     def tearDown(self):
-
         pass
 
     def test_init_args(self):
@@ -134,7 +132,6 @@ class TestP2A(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_advocates(self, m):
-
         m.get(self.p2a.client.uri + "advocates", json=adv_json)
 
         adv_exp = [
@@ -193,7 +190,6 @@ class TestP2A(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_advocates__by_page(self, m):
-
         response = copy.deepcopy(adv_json)
         # Make it look like there's more data
         response["pagination"]["count"] = 100
@@ -209,7 +205,6 @@ class TestP2A(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_advocates__empty(self, m):
-
         response = copy.deepcopy(adv_json)
         response["data"] = []
         # Make it look like there's more data
@@ -222,7 +217,6 @@ class TestP2A(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):
-
         camp_exp = [
             "id",
             "name",
@@ -249,7 +243,6 @@ class TestP2A(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_create_advocate(self, m):
-
         m.post(self.p2a.client.uri + "advocates", json={"advocateid": 1})
 
         # Test arg validation - create requires a phone or an email
@@ -285,7 +278,6 @@ class TestP2A(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_update_advocate(self, m):
-
         m.post(self.p2a.client.uri + "advocates")
 
         # Test arg validation - sms opt in requires a phone

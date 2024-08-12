@@ -6,7 +6,6 @@ from parsons import Newmode
 
 class TestNewmode(unittest.TestCase):
     def setUp(self):
-
         os.environ["NEWMODE_API_USER"] = "MYFAKEUSERNAME"
         os.environ["NEWMODE_API_PASSWORD"] = "MYFAKEPASSWORD"
 

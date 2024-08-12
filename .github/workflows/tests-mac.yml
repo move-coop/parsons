@@ -42,6 +42,5 @@ jobs:
 
     - name: Check linting
       run: |
-        # E203 and W503 don't work well with black
-        flake8 parsons/ test/ useful_resources/
-        black --diff parsons/ test/ useful_resources/
+        ruff check parsons/ test/ useful_resources/
+        ruff format --diff test/ useful_resources/

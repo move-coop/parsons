@@ -11,12 +11,10 @@ os.environ["VAN_API_KEY"] = "SOME_KEY"
 
 class TestBulkImport(unittest.TestCase):
     def setUp(self):
-
         self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
 
     @requests_mock.Mocker()
     def test_get_bulk_import_resources(self, m):
-
         json = ["Contacts", "Contributions", "ActivistCodes", "ContactsActivistCodes"]
 
         m.get(self.van.connection.uri + "bulkImportJobs/resources", json=json)
@@ -25,14 +23,12 @@ class TestBulkImport(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_bulk_import_job(self, m):
-
         m.get(self.van.connection.uri + "bulkImportJobs/53407", json=bulk_import_job)
 
         self.assertEqual(self.van.get_bulk_import_job(53407), bulk_import_job)
 
     @requests_mock.Mocker()
     def test_get_bulk_import_job_results(self, m):
-
         results_tbl = Table(
             [
                 [
@@ -66,14 +62,12 @@ class TestBulkImport(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_bulk_import_mapping_types(self, m):
-
         m.get(self.van.connection.uri + "bulkImportMappingTypes", json=[mapping_type])
 
         assert_matching_tables(self.van.get_bulk_import_mapping_types(), Table([mapping_type]))
 
     @requests_mock.Mocker()
     def test_get_bulk_import_mapping_type(self, m):
-
         m.get(
             self.van.connection.uri + "bulkImportMappingTypes/ActivistCode",
             json=mapping_type,
@@ -83,7 +77,6 @@ class TestBulkImport(unittest.TestCase):
 
     @requests_mock.Mocker()
     def get_bulk_import_mapping_type_fields(self, m):
-
         json = [
             {"name": "Unsubscribed", "id": "0", "parents": None},
             {"name": "Not Subscribed", "id": "1", "parents": None},
@@ -99,7 +92,6 @@ class TestBulkImport(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_post_bulk_import(self, m):
-
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
@@ -121,7 +113,6 @@ class TestBulkImport(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_bulk_apply_activist_codes(self, m):
-
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
@@ -136,7 +127,6 @@ class TestBulkImport(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_bulk_apply_suppressions(self, m):
-
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
@@ -151,7 +141,6 @@ class TestBulkImport(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_bulk_upsert_contacts(self, m):
-
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
@@ -166,7 +155,6 @@ class TestBulkImport(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_bulk_apply_canvass_results(self, m):
-
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
@@ -186,7 +174,6 @@ class TestBulkImport(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_bulk_apply_contact_custom_fields(self, m):
-
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"

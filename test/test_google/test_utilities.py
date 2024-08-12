@@ -75,7 +75,6 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
 
 
 class TestHexavigesimal(unittest.TestCase):
-
     def test_returns_A_on_1(self):
         self.assertEqual(util.hexavigesimal(1), "A")
 

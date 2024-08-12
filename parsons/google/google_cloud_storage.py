@@ -323,7 +323,10 @@ class GoogleCloudStorage(object):
             # CSVView. Once any transformations are made, the Table.table
             # becomes a different petl class
             if isinstance(table.table, petl.io.csv_py3.CSVView):
-                local_file = table.table.source.filename
+                try:
+                    local_file = table.table.source.filename
+                except AttributeError:
+                    local_file = table.to_csv()
             else:
                 local_file = table.to_csv()
             content_type = "text/csv"

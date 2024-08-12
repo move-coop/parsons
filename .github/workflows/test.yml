@@ -68,5 +68,5 @@ jobs:
         run: pytest -rf test/
       - name: Format
         run: |
-          ruff format --diff parsons/ test/ useful_resources/
+          ruff format --check --diff parsons/ test/ useful_resources/
           

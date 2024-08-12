@@ -1,4 +1,4 @@
-name: Pytest, Ruff
+name: Pytest and ruff
 
 on:
   pull_request:

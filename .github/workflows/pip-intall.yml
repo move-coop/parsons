@@ -1,4 +1,4 @@
-name: Pytest, Ruff
+name: Install with pip
 
 on:
   pull_request:
@@ -58,4 +58,3 @@ jobs:
         run: |
           pip install -r requirements-dev.txt
           pip install -e .[all]
-          

@@ -471,7 +471,10 @@
             <span class="c1"># CSVView. Once any transformations are made, the Table.table</span>
             <span class="c1"># becomes a different petl class</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">petl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">csv_py3</span><span class="o">.</span><span class="n">CSVView</span><span class="p">):</span>
-                <span class="n">local_file</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">filename</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">local_file</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">filename</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                    <span class="n">local_file</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">local_file</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">()</span>
             <span class="n">content_type</span> <span class="o">=</span> <span class="s2">&quot;text/csv&quot;</span>

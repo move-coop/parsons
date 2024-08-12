@@ -20,6 +20,8 @@ jobs:
   test_and_lint:
     strategy:
       matrix:
+        os:
+          - ubuntu-latest
         python-version:
           - "3.12"
           - "3.11"
@@ -29,8 +31,6 @@ jobs:
         limited-dependencies:
           - ""
           - "TRUE"
-        os:
-          - ubuntu-latest
         include:
           - os: macos-latest
             python-version: "3.12"

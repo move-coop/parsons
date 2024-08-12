@@ -36,12 +36,12 @@ jobs:
             python-version: "3.12"
           - os: macos-latest
             python-version: "3.12"
-            limited-dependencies: true
+            limited-dependencies: "TRUE"
           - os: macos-latest
             python-version: "3.8"
           - os: macos-latest
             python-version: "3.8"
-            limited-dependencies: true
+            limited-dependencies: "TRUE"
 
     runs-on: ${{ matrix.os }}
 

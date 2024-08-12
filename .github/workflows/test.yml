@@ -66,4 +66,6 @@ jobs:
       - name: Check linting
         run: |
           ruff check parsons/ test/ useful_resources/
+      - name: Check formatting
+        run: |
           ruff format --diff parsons/ test/ useful_resources/

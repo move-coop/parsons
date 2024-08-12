@@ -61,11 +61,12 @@ jobs:
         run: |
           uv pip install --system -e .[all]
           uv pip install --system -r requirements-dev.txt
-      - name: Run tests
-        run: pytest -rf test/
-      - name: Check linting
+      - name: Lint
         run: |
           ruff check parsons/ test/ useful_resources/
-      - name: Check formatting
+      - name: Tests
+        run: pytest -rf test/
+      - name: Format
         run: |
           ruff format --diff parsons/ test/ useful_resources/
+          

@@ -53,7 +53,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
       - name: Install dependencies
-      - env:
+        env:
           PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
         run: |
           pip install -r requirements-dev.txt

@@ -1,0 +1,72 @@
+name: Pytest and ruff
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/test.yml
+      - requirements*.txt
+      - "**.py"
+  push:
+    paths:
+      - .github/workflows/test.yml
+      - requirements*.txt
+      - "**.py"
+  workflow_dispatch:
+
+env:
+  TESTING: 1
+
+jobs:
+  test_and_lint:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        python-version:
+          - "3.12"
+          - "3.11"
+          - "3.10"
+          - "3.9"
+          - "3.8"
+        limited-dependencies:
+          - ""
+          - "TRUE"
+        include:
+          - os: macos-latest
+            python-version: "3.12"
+          - os: macos-latest
+            python-version: "3.12"
+            limited-dependencies: "TRUE"
+          - os: macos-latest
+            python-version: "3.8"
+          - os: macos-latest
+            python-version: "3.8"
+            limited-dependencies: "TRUE"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install uv
+        run: |
+          pip install -U pip uv
+      - name: Install dependencies
+        env:
+          PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
+        run: |
+          uv pip install --system -e .[all]
+          uv pip install --system -r requirements-dev.txt
+      - name: Lint
+        run: |
+          ruff check parsons/ test/ useful_resources/
+      - name: Tests
+        run: pytest -rf test/
+      - name: Format
+        run: |
+          ruff format --check --diff parsons/ test/ useful_resources/
+          

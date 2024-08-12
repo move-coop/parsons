@@ -1,0 +1,60 @@
+name: Install with pip
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/pip-install.yml
+      - requirements.txt
+      - setup.py
+  push:
+    paths:
+      - .github/workflows/pip-install.yml
+      - requirements.txt
+      - setup.py
+  workflow_dispatch:
+
+env:
+  TESTING: 1
+
+jobs:
+  pip-install:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        python-version:
+          - "3.12"
+          - "3.11"
+          - "3.10"
+          - "3.9"
+          - "3.8"
+        limited-dependencies:
+          - ""
+          - "TRUE"
+        include:
+          - os: macos-latest
+            python-version: "3.12"
+          - os: macos-latest
+            python-version: "3.12"
+            limited-dependencies: "TRUE"
+          - os: macos-latest
+            python-version: "3.8"
+          - os: macos-latest
+            python-version: "3.8"
+            limited-dependencies: "TRUE"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install dependencies
+        env:
+          PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
+        run: |
+          pip install -r requirements-dev.txt
+          pip install -e .[all]

@@ -21,10 +21,10 @@ class Community(object):
                 variable set.
             community_uri: str
                 The URI to access the  API. Not required, default is
-                <https://dl.community.com/download/v1/files/>. You can set an ``COMMUNITY_URL`` env
+                `<https://dl.community.com/download/v1/files/>`_. You can set an ``COMMUNITY_URL`` env
                 variable or use this URI parameter if a different endpoint is necessary.
 
-    API Documentation: <https://developer.community.com/reference/data-export-api-downloading-data>
+    `API Documentation <https://developer.community.com/reference/data-export-api-downloading-data>`_
     """
 
     def __init__(self, community_client_id=None, community_access_token=None, community_url=None):

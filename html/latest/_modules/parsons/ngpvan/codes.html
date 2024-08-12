@@ -156,7 +156,6 @@
 
 <div class="viewcode-block" id="Codes"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes">[docs]</a><span class="k">class</span> <span class="nc">Codes</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="Codes.get_codes"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.get_codes">[docs]</a>    <span class="k">def</span> <span class="nf">get_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">supported_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -268,7 +267,6 @@
         <span class="p">}</span>
 
         <span class="k">if</span> <span class="n">supported_entities</span><span class="p">:</span>
-
             <span class="n">se</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="p">{</span>
                     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
@@ -340,7 +338,6 @@
             <span class="n">post_data</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">description</span>
 
         <span class="k">if</span> <span class="n">supported_entities</span><span class="p">:</span>
-
             <span class="n">se</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="p">{</span>
                     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>

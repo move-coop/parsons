@@ -173,7 +173,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchmark</span><span class="o">=</span><span class="s2">&quot;Public_AR_Current&quot;</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="s2">&quot;Current_Current&quot;</span><span class="p">):</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">cg</span> <span class="o">=</span> <span class="n">censusgeocode</span><span class="o">.</span><span class="n">CensusGeocode</span><span class="p">(</span><span class="n">benchmark</span><span class="o">=</span><span class="n">benchmark</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="n">vintage</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CensusGeocoder.geocode_onelineaddress"><a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.geocode_onelineaddress">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_onelineaddress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s2">&quot;geographies&quot;</span><span class="p">):</span>
@@ -266,7 +265,6 @@
 
         <span class="n">geocoded_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([[]])</span>
         <span class="k">for</span> <span class="n">tbl</span> <span class="ow">in</span> <span class="n">chunked_tables</span><span class="p">:</span>
-
             <span class="n">geocoded_tbl</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromdicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cg</span><span class="o">.</span><span class="n">addressbatch</span><span class="p">(</span><span class="n">tbl</span><span class="p">))))</span>
             <span class="n">records_processed</span> <span class="o">+=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">records_processed</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> records processed.&quot;</span><span class="p">)</span>

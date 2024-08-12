@@ -196,7 +196,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sftp_username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sftp_password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">sftp_host</span> <span class="o">=</span> <span class="n">TS_STFP_HOST</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sftp_port</span> <span class="o">=</span> <span class="n">TS_SFTP_PORT</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span> <span class="o">=</span> <span class="n">TS_SFTP_DIR</span>
@@ -342,7 +341,6 @@
         <span class="c1">#  Poll the configuration status</span>
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">polling_interval</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_status</span><span class="p">(</span><span class="n">job_name</span><span class="p">):</span>
                 <span class="k">return</span> <span class="kc">True</span>
@@ -353,7 +351,6 @@
         <span class="c1"># the files in the SFTP directory.</span>
 
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">list_directory</span><span class="p">(</span><span class="n">remote_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="p">):</span>
-
             <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">.job.xml.good&quot;</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Match job </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2"> configured.&quot;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">True</span>
@@ -378,12 +375,9 @@
         <span class="c1"># we do. However, the actually data is only exposed on the secure SFTP.</span>
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Match running...&quot;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">list_directory</span><span class="p">(</span><span class="n">remote_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="p">):</span>
-
                 <span class="k">if</span> <span class="n">file_name</span> <span class="o">==</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">.finish.xml&quot;</span><span class="p">:</span>
-
                     <span class="n">xml_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">.finish.xml&quot;</span><span class="p">)</span>
                     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">xml_file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">x</span><span class="p">:</span>
                         <span class="n">xml</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dict_constructor</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>

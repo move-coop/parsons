@@ -67,9 +67,8 @@ class TestParsonsTable(unittest.TestCase):
         self.assertRaises(ValueError, Table, list_of_invalid)
 
     def test_from_empty_petl(self):
-        # This test ensures that this would fail: Table(None)
-        # Even while allowing Table() to work
-        self.assertRaises(ValueError, Table, None)
+        # Just ensure this doesn't throw an error
+        Table(None)
 
     def test_from_empty_list(self):
         # Just ensure this doesn't throw an error

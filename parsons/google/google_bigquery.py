@@ -1385,15 +1385,35 @@ class GoogleBigQuery(DatabaseConnector):
         gcs_bucket: str,
         gcs_blob_name: str,
         project: Optional[str] = None,
+        gzip: bool = False,
     ) -> None:
+        """
+        Extracts a BigQuery table to a Google Cloud Storage bucket.
+
+        Args:
+            dataset (str): The BigQuery dataset containing the table.
+            table_name (str): The name of the table to extract.
+            gcs_bucket (str): The GCS bucket where the table will be
+              exported.
+            gcs_blob_name (str): The name of the blob in the GCS
+              bucket.
+            project (Optional[str]): The Google Cloud project ID. If
+              not provided, the default project of the client is used.
+            gzip (bool): If True, the exported file will be compressed
+              using GZIP. Defaults to False.
+        """
+
         dataset_ref = bigquery.DatasetReference(project or self.client.project, dataset)
         table_ref = dataset_ref.table(table_name)
         gs_destination = f"gs://{gcs_bucket}/{gcs_blob_name}"
 
-        extract_job = self.client.extract_table(
-            table_ref,
-            gs_destination,
-        )
+        if gzip:
+            job_config = bigquery.job.ExtractJobConfig()
+            job_config.compression = bigquery.Compression.GZIP
+        else:
+            job_config = None
+
+        extract_job = self.client.extract_table(table_ref, gs_destination, job_config=job_config)
         extract_job.result()  # Waits for job to complete.
 
         logger.info(f"Finished exporting query result to {gs_destination}.")

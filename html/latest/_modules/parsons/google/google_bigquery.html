@@ -935,6 +935,15 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_copy_inputs</span><span class="p">(</span><span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
 
+        <span class="c1"># If our source table is loaded from CSV with no transformations</span>
+        <span class="c1"># The original source file will be directly loaded to GCS</span>
+        <span class="c1"># We may need to pass along a custom delimiter to BigQuery</span>
+        <span class="c1"># Otherwise we use the default comma</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">petl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">csv_py3</span><span class="o">.</span><span class="n">CSVView</span><span class="p">):</span>
+            <span class="n">csv_delimiter</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">csvargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;delimiter&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">csv_delimiter</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span>
+
         <span class="n">job_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_job_config</span><span class="p">(</span>
             <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
             <span class="n">destination_table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span>
@@ -949,6 +958,7 @@
             <span class="n">allow_jagged_rows</span><span class="o">=</span><span class="n">allow_jagged_rows</span><span class="p">,</span>
             <span class="n">quote</span><span class="o">=</span><span class="n">quote</span><span class="p">,</span>
             <span class="n">custom_schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span>
+            <span class="n">csv_delimiter</span><span class="o">=</span><span class="n">csv_delimiter</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="c1"># Reorder schema to match table to ensure compatibility</span>

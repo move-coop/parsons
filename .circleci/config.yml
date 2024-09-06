@@ -34,9 +34,10 @@ jobs:
           # Note that we the circleci node image installs stuff with a user "circleci", rather
           # than root. So we need to tell npm where to install stuff.
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r ./docs/requirements.txt
+            pip install uv
+            uv venv
+            source .venv/bin/activate
+            uv pip install -r ./docs/requirements.txt
       - save_cache:
           paths:
             - ./venv
@@ -44,7 +45,7 @@ jobs:
       - run:
           name: Build docs
           command: |
-            . venv/bin/activate
+            source .venv/bin/activate
             cd docs/
             make deploy_docs
             cd ..
@@ -67,9 +68,10 @@ jobs:
           command: |
             npm set prefix=/home/circleci/npm
             npm install -g --silent gh-pages@2.0.1
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r ./docs/requirements.txt
+            pip install uv
+            uv venv
+            source .venv/bin/activate
+            uv pip install -r ./docs/requirements.txt
       - save_cache:
           paths:
             - ./venv
@@ -85,7 +87,7 @@ jobs:
           # (This file tell Github Pages that we want to include all files in docs/, including those
           # that start with an underscore like _static/).
           command: |
-            . venv/bin/activate
+            source .venv/bin/activate
             cd docs/
             make deploy_docs
             cd ..

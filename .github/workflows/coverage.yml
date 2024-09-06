@@ -1,4 +1,4 @@
-name: Pytest and ruff
+name: Check coverage
 
 on:
   pull_request:
@@ -38,7 +38,7 @@ jobs:
           cache: pip
       - name: Install uv
         run: |
-          pip install -U pip uv
+          pip install uv
       - name: Install dependencies
         run: |
           uv pip install --system -e .[all]

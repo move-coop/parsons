@@ -16,7 +16,7 @@ on:
 env:
   TESTING: 1
 
-permissions:  # added using https://github.com/step-security/secure-repo
+permissions: # added using https://github.com/step-security/secure-repo
   contents: read
 
 jobs:
@@ -63,7 +63,7 @@ jobs:
           cache: pip
       - name: Install uv
         run: |
-          pip install -U pip uv
+          pip install uv
       - name: Install dependencies
         env:
           PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
@@ -72,9 +72,9 @@ jobs:
           uv pip install --system -r requirements-dev.txt
       - name: Lint
         run: |
-          ruff check parsons/ test/ useful_resources/
+          ruff check --output-format=github parsons/ test/ useful_resources/
       - name: Tests
-        run: pytest -rf test/
+        run: pytest -rf
       - name: Format
         run: |
           ruff format --check --diff parsons/ test/ useful_resources/

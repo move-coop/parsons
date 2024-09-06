@@ -76,7 +76,7 @@ docstring-code-format = false
 docstring-code-line-length = "dynamic"
 
 [tool.pytest.ini_options]
-addopts = "-rf"
+addopts = "-rf test/"
 testpaths = [
     "test",
 ]

@@ -1,0 +1,50 @@
+name: Pytest and ruff
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/coverage.yml
+      - requirements*.txt
+      - "**.py"
+  push:
+    paths:
+      - .github/workflows/coverage.yml
+      - requirements*.txt
+      - "**.py"
+  workflow_dispatch:
+
+env:
+  TESTING: 1
+
+permissions: # added using https://github.com/step-security/secure-repo
+  contents: read
+
+jobs:
+  coverage:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3 # v5.2.0
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install uv
+        run: |
+          pip install -U pip uv
+      - name: Install dependencies
+        run: |
+          uv pip install --system -e .[all]
+          uv pip install --system -r requirements-dev.txt
+      - name: Tests
+        run: |
+          coverage run -m pytest
+          coverage report -m --skip-covered --fail-under=95
+

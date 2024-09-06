@@ -6,6 +6,7 @@ braintree==4.17.1
 bs4==0.0.1
 censusgeocode==0.4.3.post1
 civis==1.16.1
+curlify==2.2.1
 dbt_redshift==1.4.0
 docutils<0.18,>=0.14
 facebook-business==13.0.0
@@ -20,7 +21,7 @@ grpcio==1.62.2
 gspread==3.7.0
 httplib2==0.22.0
 joblib==1.2.0
-mysql-connector-python==8.3.0
+mysql-connector-python==8.0.18
 newmode==0.1.6
 oauth2client==4.1.3
 paramiko==3.4.0

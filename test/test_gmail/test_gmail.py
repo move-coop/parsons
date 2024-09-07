@@ -7,7 +7,6 @@ import shutil
 import base64
 import email
 
-
 _dir = os.path.dirname(__file__)
 
 
@@ -516,8 +515,9 @@ class TestGmail(unittest.TestCase):
             {"email": "<sender@email.com>", "expected": True},
             {"email": "Sender sender@email.com", "expected": False},
             {"email": "Sender <sender2email.com>", "expected": False},
-            {"email": "Sender <sender@email,com>", "expected": True},
-            {"email": "Sender <sender+alias@email,com>", "expected": True},
+            {"email": "Sender <sender@email,com>", "expected": False},
+            {"email": "Sender <sender+alias@email.com>", "expected": True},
+            {"email": "Sender <sender+alias@email,com>", "expected": False},
         ]
 
         for e in emails:

@@ -655,7 +655,7 @@ class People(object):
                 "dateCanvassed": date_canvassed,
                 "omitActivistCodeContactHistory": omit_contact,
                 "campaignId": campaignId,
-                "skipMatching": skip_matching
+                "skipMatching": skip_matching,
             },
             "resultCodeId": result_code_id,
         }

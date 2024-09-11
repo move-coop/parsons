@@ -29,7 +29,8 @@ ENV DISPLAY=:99
 RUN mkdir /src
 
 COPY requirements.txt /src/
-RUN pip install -r /src/requirements.txt
+RUN pip install uv
+RUN uv pip install --system -r /src/requirements.txt
 
 COPY . /src/
 WORKDIR /src

@@ -203,15 +203,11 @@ class TestActionBuilder(unittest.TestCase):
         self.fake_update_person = {
             k: v for k, v in self.fake_insert_person.items() if k != "entity_type"
         }
-        self.fake_update_person["identifier"] = [
-            f"action_builder:{self.fake_entity_id}"
-        ]
+        self.fake_update_person["identifier"] = [f"action_builder:{self.fake_entity_id}"]
 
         self.fake_tag_id = "fake_tag_id"
         self.fake_tagging_id = "fake_tagging_id"
-        self.fake_remove_tag_resp = {
-            "message": "Tag has been removed from Taggable Logbook"
-        }
+        self.fake_remove_tag_resp = {"message": "Tag has been removed from Taggable Logbook"}
 
         # self.fake_connection = {"person_id": "fake-entity-id-2"}
         self.fake_connection = {
@@ -225,9 +221,7 @@ class TestActionBuilder(unittest.TestCase):
             f"{self.api_url}/tags?page=2&per_page=2",
             text=json.dumps(self.fake_tags_list_2),
         )
-        self.assertEqual(
-            self.bldr._get_page(self.campaign, "tags", 2, 2), self.fake_tags_list_2
-        )
+        self.assertEqual(self.bldr._get_page(self.campaign, "tags", 2, 2), self.fake_tags_list_2)
 
     @requests_mock.Mocker()
     def test_get_all_records(self, m):
@@ -262,9 +256,7 @@ class TestActionBuilder(unittest.TestCase):
             f"{self.api_url}/tags?page=3&per_page=25",
             text=json.dumps({"_embedded": {"osdi:tags": []}}),
         )
-        assert_matching_tables(
-            self.bldr.get_campaign_tags(), Table(self.fake_tags_list)
-        )
+        assert_matching_tables(self.bldr.get_campaign_tags(), Table(self.fake_tags_list))
 
     @requests_mock.Mocker()
     def test_get_tag_by_name(self, m):
@@ -286,9 +278,7 @@ class TestActionBuilder(unittest.TestCase):
         # keys whose values are not lists (i.e. nested).
 
         common_keys = {
-            key
-            for key, value in dict1.items()
-            if key in dict2 and not isinstance(value, list)
+            key for key, value in dict1.items() if key in dict2 and not isinstance(value, list)
         }
 
         dict1_comp = {key: value for key, value in dict1.items() if key in common_keys}
@@ -303,9 +293,7 @@ class TestActionBuilder(unittest.TestCase):
 
         # Flatten and remove items added for spreadable arguments
         upsert_person = self.fake_upsert_person["person"]
-        upsert_response = self.bldr._upsert_entity(
-            self.fake_upsert_person, self.campaign
-        )
+        upsert_response = self.bldr._upsert_entity(self.fake_upsert_person, self.campaign)
 
         person_comp, upsert_response_comp = self.prepare_dict_key_intersection(
             upsert_person, upsert_response
@@ -362,9 +350,7 @@ class TestActionBuilder(unittest.TestCase):
             json="{'message': 'Entity has been removed from the campaign'}",
         )
 
-        remove_response = self.bldr.remove_entity_record_from_campaign(
-            self.fake_entity_id
-        )
+        remove_response = self.bldr.remove_entity_record_from_campaign(self.fake_entity_id)
 
         self.assertEqual(
             remove_response,
@@ -421,9 +407,7 @@ class TestActionBuilder(unittest.TestCase):
             f"{self.api_url}/people/{self.fake_entity_id}/connections",
             json=self.connect_callback,
         )
-        connect_response = self.bldr.upsert_connection(
-            [self.fake_entity_id, "fake-entity-id-2"]
-        )
+        connect_response = self.bldr.upsert_connection([self.fake_entity_id, "fake-entity-id-2"])
         self.assertEqual(
             connect_response,
             {

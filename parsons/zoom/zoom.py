@@ -59,7 +59,8 @@ class Zoom:
             Parsons Table of API responses
         """
 
-        r = self.client.get_request(endpoint, params=params, **kwargs)
+        resp = self.client.get_request(endpoint, params=params, **kwargs)
+        r = resp
         self.client.data_key = data_key
         data = self.client.data_parse(r)
 

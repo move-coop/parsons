@@ -642,33 +642,24 @@ class TestZoom(unittest.TestCase):
     def test_get_past_meeting_poll_metadata(self, m):
         poll = {
             "id": 1,
-            "status": "started",
-            "anonymous": "False",
-            "poll_type": 1,
+            "uuid": "12345",
+            "start_time": "2024-05-03 12:34:56",
             "questions": [
                 {
-                    "answer_max_character": 1,
-                    "answer_min_character": 1,
-                    "answer_required": "False",
-                    "answers": "Larry David's Curb Your Enthusiasm",
-                    "case_sensitive": "True",
                     "name": "Secret Truth",
-                    "prompts": [
+                    "email": "larrydavid@gmail.com",
+                    "first_name": "Larry",
+                    "last_name": "David",
+                    "answer": "42",
+                    "polling_id": "12345",
+                    "question_details": [
                         {
-                            "prompt_question": "What's the secret truth of the universe?",
-                            "prompt_right_answers": [
-                                "Pizza delivery",
-                                "Larry David's Curb Your Enthusiasm",
-                            ],
+                            "question": "What's the secret truth of the univese?",
+                            "date_time": "2024-06-20  23:50:11",
+                            "polling_id": "245385359483",
+                            "answer": "pizza party",
                         }
                     ],
-                    "rating_max_label": "",
-                    "rating_max_value": 1,
-                    "rating_min_label": "",
-                    "rating_min_value": 0,
-                    "right_answers": "",
-                    "show_as_dropdown": False,
-                    "type": "short_answer",
                 }
             ],
         }
@@ -676,31 +667,22 @@ class TestZoom(unittest.TestCase):
         tbl = Table(
             [
                 {
-                    "answer_max_character": 1,
-                    "answer_min_character": 1,
-                    "answer_required": "False",
-                    "answers": "Larry David's Curb Your Enthusiasm",
-                    "case_sensitive": "True",
                     "name": "Secret Truth",
-                    "rating_max_label": "",
-                    "rating_max_value": 1,
-                    "rating_min_label": "",
-                    "rating_min_value": 0,
-                    "right_answers": "",
-                    "show_as_dropdown": False,
-                    "type": "short_answer",
-                    "prompts__prompt_question": "What's the secret truth of the universe?",
-                    "prompts__prompt_right_answers": [
-                        "Pizza delivery",
-                        "Larry David's Curb Your Enthusiasm",
-                    ],
+                    "email": "larrydavid@gmail.com",
+                    "first_name": "Larry",
+                    "last_name": "David",
+                    "answer": "pizza party",
+                    "polling_id": "245385359483",
+                    "date_time": "2024-06-20  23:50:11",
+                    "question": "What's the secret truth of the univese?",
                 }
             ]
         )
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "past_meetings/123/polls", json=poll)
-        assert_matching_tables(self.zoom.get_past_meeting_poll_metadata(123), tbl)
+        actual_result = self.zoom.get_past_meeting_poll_metadata(123)
+        assert_matching_tables(actual_result, tbl)
 
     @requests_mock.Mocker()
     def test_get_webinar_poll_metadata(self, m):

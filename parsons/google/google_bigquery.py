@@ -1,5 +1,6 @@
 import datetime
 import logging
+import json
 import pickle
 import random
 import uuid
@@ -745,6 +746,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
         schema: Optional[List[dict]] = None,
+        convert_dict_columns_to_json: bool = True,
         **load_kwargs,
     ):
         """
@@ -774,6 +776,8 @@ class GoogleBigQuery(DatabaseConnector):
             template_table: str
                 Table name to be used as the load schema. Load operation wil use the same
                 columns and data types as the template table.
+            convert_dict_columns_to_json: bool
+                If set to True, will convert any dict columns (which cannot by default be successfully loaded to BigQuery to JSON strings)
             **load_kwargs: kwargs
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
@@ -795,6 +799,19 @@ class GoogleBigQuery(DatabaseConnector):
             csv_delimiter = tbl.table.csvargs.get("delimiter", ",")
         else:
             csv_delimiter = ","
+
+        if convert_dict_columns_to_json:
+            # Convert dict columns to JSON strings
+            for field in tbl.get_columns_type_stats():
+                if "dict" in field["type"]:
+                    new_petl = tbl.table.addfield(
+                        field["name"] + "_replace", lambda row: json.dumps(row[field["name"]])
+                    )
+                    new_tbl = Table(new_petl)
+                    new_tbl.remove_column(field["name"])
+                    new_tbl.rename_column(field["name"] + "_replace", field["name"])
+                    new_tbl.materialize()
+                    tbl = new_tbl
 
         job_config = self._process_job_config(
             job_config=job_config,

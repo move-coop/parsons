@@ -11,7 +11,7 @@ on:
   # To guarantee Maintained check is occasionally updated. See
   # https://github.com/ossf/scorecard/blob/main/docs/checks.md#maintained
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "major-release" ]
   schedule:
     - cron: '45 16 * * 2'
 

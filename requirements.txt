@@ -19,7 +19,7 @@ google-cloud-storage-transfer==1.9.1
 google-cloud-storage==2.16.0
 google-resumable-media==2.7.0
 grpcio==1.62.2
-gspread==3.7.0
+gspread==6.1.3
 httplib2==0.22.0
 joblib==1.2.0
 mysql-connector-python==8.0.18

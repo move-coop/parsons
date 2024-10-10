@@ -42,19 +42,19 @@ def main():
             ],
             "mysql": [
                 "mysql-connector-python",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["bs4"],
             "postgres": [
                 "psycopg2-binary>=2.9.9",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "redshift": [
                 "boto3",
                 "psycopg2-binary>=2.9.9",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
@@ -67,7 +67,7 @@ def main():
             "ssh": [
                 "sshtunnel",
                 "psycopg2-binary>=2.9.9",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
         }
         extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})

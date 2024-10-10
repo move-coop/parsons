@@ -29,7 +29,7 @@ petl==1.7.15
 psycopg2-binary==2.9.9
 PyGitHub==1.51
 python-dateutil==2.8.2
-requests==2.32.0
+requests==2.32.3
 requests_oauthlib==1.3.0
 setuptools==70.0.0
 simple-salesforce==1.11.6

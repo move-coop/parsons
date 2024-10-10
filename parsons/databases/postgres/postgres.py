@@ -125,13 +125,18 @@ class PostgresTable(BaseTable):
         sql = f"""
             SELECT *
             FROM {self.table}
-            WHERE "{updated_at_column}" > %s
         """
+        parameters = []
+
+        if cutoff_value is not None:
+            sql += f'WHERE "{updated_at_column}" > %s'
+            parameters.append(cutoff_value)
+
         if chunk_size:
             sql += f" LIMIT {chunk_size}"
 
         sql += f" OFFSET {offset}"
 
-        result = self.db.query(sql, parameters=[cutoff_value])
+        result = self.db.query(sql, parameters=parameters)
 
         return result

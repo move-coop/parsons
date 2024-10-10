@@ -14,7 +14,7 @@ facebook-business==13.0.0
 google-api-core==2.19.2
 google-api-python-client==1.7.7
 google-auth==2.29.0
-google-cloud-bigquery==3.23.1
+google-cloud-bigquery==3.26.0
 google-cloud-storage-transfer==1.9.1
 google-cloud-storage==2.16.0
 google-resumable-media==2.7.0

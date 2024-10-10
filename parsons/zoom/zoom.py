@@ -198,6 +198,10 @@ class Zoom:
                       - All the ongoing meetings.
                     * - ``upcoming``
                       - All upcoming meetings including live meetings.
+            from_date: datetime.date or None
+                Optional start date for the range of meetings to retrieve.
+            to_date: datetime.date or None
+                Optional end date for the range of meetings to retrieve.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.

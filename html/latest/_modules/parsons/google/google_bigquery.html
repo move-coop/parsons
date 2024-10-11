@@ -291,6 +291,10 @@
 <span class="sd">            A dictionary containing any requested client options. Defaults to the required</span>
 <span class="sd">            scopes for making API calls against External tables stored in Google Drive.</span>
 <span class="sd">            Can be set to None if these permissions are not desired</span>
+<span class="sd">        gcs_temp_bucket: str</span>
+<span class="sd">            Name of the GCS bucket that will be used for storing data during bulk transfers.</span>
+<span class="sd">            Required if you intend to perform bulk data transfers (eg. the copy_from_gcs method),</span>
+<span class="sd">            and env variable ``GCS_TEMP_BUCKET`` is not populated.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -305,6 +309,7 @@
                 <span class="s2">&quot;https://www.googleapis.com/auth/cloud-platform&quot;</span><span class="p">,</span>
             <span class="p">]</span>
         <span class="p">},</span>
+        <span class="n">tmp_gcs_bucket</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">app_creds</span> <span class="o">=</span> <span class="n">app_creds</span>
 
@@ -320,6 +325,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">project</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client_options</span> <span class="o">=</span> <span class="n">client_options</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="n">tmp_gcs_bucket</span>
 
         <span class="c1"># We will not create the client until we need to use it, since creating the client</span>
         <span class="c1"># without valid GOOGLE_APPLICATION_CREDENTIALS raises an exception.</span>
@@ -832,7 +838,8 @@
 <span class="sd">                The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.</span>
 <span class="sd">            tmp_gcs_bucket: str</span>
 <span class="sd">                The name of the Google Cloud Storage bucket to use to stage the data to load</span>
-<span class="sd">                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.</span>
+<span class="sd">                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified or set on</span>
+<span class="sd">                the class instance.</span>
 <span class="sd">            template_table: str</span>
 <span class="sd">                Table name to be used as the load schema. Load operation wil use the same</span>
 <span class="sd">                columns and data types as the template table.</span>
@@ -848,8 +855,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># copy from S3 to GCS</span>
-        <span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GCS_TEMP_BUCKET&quot;</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">)</span>
-        <span class="n">gcs_client</span> <span class="o">=</span> <span class="n">gcs_client</span> <span class="ow">or</span> <span class="n">GoogleCloudStorage</span><span class="p">(</span><span class="n">app_creds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">app_creds</span><span class="p">)</span>
+        <span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">tmp_gcs_bucket</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmp_gcs_bucket</span>
+            <span class="ow">or</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GCS_TEMP_BUCKET&quot;</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">gcs_client</span> <span class="o">=</span> <span class="n">gcs_client</span> <span class="ow">or</span> <span class="n">GoogleCloudStorage</span><span class="p">()</span>
         <span class="n">temp_blob_uri</span> <span class="o">=</span> <span class="n">gcs_client</span><span class="o">.</span><span class="n">copy_s3_to_gcs</span><span class="p">(</span>
             <span class="n">aws_source_bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span>
             <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
@@ -915,7 +926,8 @@
 <span class="sd">                the job fails.</span>
 <span class="sd">            tmp_gcs_bucket: str</span>
 <span class="sd">                The name of the Google Cloud Storage bucket to use to stage the data to load</span>
-<span class="sd">                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.</span>
+<span class="sd">                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified or set on</span>
+<span class="sd">                the class instance.</span>
 <span class="sd">            gcs_client: object</span>
 <span class="sd">                The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.</span>
 <span class="sd">            job_config: object</span>
@@ -931,7 +943,11 @@
 <span class="sd">                client.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;csv&quot;</span>
-        <span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GCS_TEMP_BUCKET&quot;</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">)</span>
+        <span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">tmp_gcs_bucket</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmp_gcs_bucket</span>
+            <span class="ow">or</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GCS_TEMP_BUCKET&quot;</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">)</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">tmp_gcs_bucket</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Must set GCS_TEMP_BUCKET environment variable or pass in tmp_gcs_bucket parameter&quot;</span>

@@ -58,10 +58,11 @@ def main():
             ],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
+            "scytl": ["defusedxml", "pytz"],
             "sftp": ["paramiko"],
             "slack": ["slackclient<2"],
             "smtp": ["validate-email"],
-            "targetsmart": ["xmltodict"],
+            "targetsmart": ["xmltodict", "defusedxml"],
             "twilio": ["twilio"],
             "ssh": [
                 "sshtunnel",

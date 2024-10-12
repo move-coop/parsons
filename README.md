@@ -44,7 +44,7 @@ You can install the most recent release by running: `pip install parsons[all]`
 ### Install from Github
 
 To access the most recent code base that may contain features not yet included in the latest release, download this
-repository and then run `python setup.py develop`.
+repository and then run `python -m pip install git+https://github.com/move-coop/parsons.git`.
 
 ### Docker Container
 

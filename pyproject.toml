@@ -1,5 +1,10 @@
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
+include = [
+    "parsons/**/*.py",
+    "test/**/*.py",
+    "useful_resources/**/*.py"
+]
 exclude = [
     ".bzr",
     ".direnv",
@@ -83,4 +88,17 @@ testpaths = [
 filterwarnings = [
     # Warnings triggered by libraries we use (not our own code)
     "ignore:invalid escape sequence:DeprecationWarning"
+]
+
+[tool.bandit]
+exclude_dirs = [
+    ".venv/"
+]
+
+[tool.isort]
+profile = "hug"
+src_paths = [
+    "parsons/",
+    "test/",
+    "useful_resources/"
 ]

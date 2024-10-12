@@ -148,15 +148,16 @@
   <h1>Source code for parsons.google.google_cloud_storage</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">gzip</span>
-<span class="kn">import</span> <span class="nn">petl</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">import</span> <span class="nn">zipfile</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">google</span>
+<span class="kn">import</span> <span class="nn">petl</span>
 <span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">storage</span><span class="p">,</span> <span class="n">storage_transfer</span>
+<span class="kn">from</span> <span class="nn">google.oauth2.credentials</span> <span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="kn">from</span> <span class="nn">parsons.google.utilities</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">load_google_application_credentials</span><span class="p">,</span>
@@ -168,9 +169,11 @@
 
 
 <div class="viewcode-block" id="GoogleCloudStorage"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage">[docs]</a><span class="k">class</span> <span class="nc">GoogleCloudStorage</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class requires application credentials in the form of a json. It can be passed</span>
-<span class="sd">    in the following ways:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Google Cloud Storage connector utility</span>
+
+<span class="sd">    This class requires application credentials in the form of a</span>
+<span class="sd">    json or google oauth2 Credentials object. It can be passed in the</span>
+<span class="sd">    following ways:</span>
 
 <span class="sd">    * Set an environmental variable named ``GOOGLE_APPLICATION_CREDENTIALS`` with the</span>
 <span class="sd">      local path to the credentials json.</span>
@@ -181,22 +184,43 @@
 
 <span class="sd">    * Pass in a json string using the ``app_creds`` argument.</span>
 
+<span class="sd">    * Generate the google credentials object directly, pass in using the</span>
+<span class="sd">      ``app_creds`` argument.</span>
+
+<span class="sd">    For example, to pass in credentials from a parent shell that is</span>
+<span class="sd">    authenticated with gcloud auth:</span>
+<span class="sd">    ```</span>
+<span class="sd">    from google.auth import default</span>
+
+<span class="sd">    app_creds, _ = default()</span>
+
+<span class="sd">    gcs = GoogleCloudStorage(app_creds=app_creds)</span>
+<span class="sd">    ```</span>
+
 
 <span class="sd">    `Args:`</span>
-<span class="sd">        app_creds: str</span>
+<span class="sd">        app_creds: str, dict, or google.oauth2.credentials.Credentials object</span>
 <span class="sd">            A credentials json string or a path to a json file. Not required</span>
-<span class="sd">            if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.</span>
+<span class="sd">            if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set. Can also</span>
+<span class="sd">            pass a google oauth2 Credentials object directly.</span>
 <span class="sd">        project: str</span>
 <span class="sd">            The project which the client is acting on behalf of. If not passed</span>
 <span class="sd">            then will use the default inferred environment.</span>
 <span class="sd">    `Returns:`</span>
 <span class="sd">        GoogleCloudStorage Class</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">env_credentials_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
-        <span class="n">setup_google_application_credentials</span><span class="p">(</span><span class="n">app_creds</span><span class="p">,</span> <span class="n">target_env_var_name</span><span class="o">=</span><span class="n">env_credentials_path</span><span class="p">)</span>
-        <span class="n">credentials</span> <span class="o">=</span> <span class="n">load_google_application_credentials</span><span class="p">(</span><span class="n">env_credentials_path</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Credentials</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">app_creds</span><span class="p">,</span> <span class="n">Credentials</span><span class="p">):</span>
+            <span class="n">credentials</span> <span class="o">=</span> <span class="n">app_creds</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">env_credentials_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+            <span class="n">setup_google_application_credentials</span><span class="p">(</span>
+                <span class="n">app_creds</span><span class="p">,</span> <span class="n">target_env_var_name</span><span class="o">=</span><span class="n">env_credentials_path</span>
+            <span class="p">)</span>
+            <span class="n">credentials</span> <span class="o">=</span> <span class="n">load_google_application_credentials</span><span class="p">(</span><span class="n">env_credentials_path</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">project</span>
 
         <span class="c1"># Throws an error if you pass project=None, so adding if/else statement.</span>

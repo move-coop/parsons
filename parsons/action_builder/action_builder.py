@@ -246,6 +246,26 @@ class ActionBuilder(object):
 
         return self._upsert_entity(data=data, campaign=campaign)
 
+    def remove_entity_record_from_campaign(self, identifier, campaign=None):
+        """
+        Remove an entity record from a campaign. Records cannot be permanently deleted, but a
+        record that has been removed from a campaign will not appear in the UI.
+        `Args:`
+            identifier: str
+                The unique identifier for the record being removed. ID strings will need to begin
+                with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+        `Returns:`
+            Dict with HTTP response.
+        """
+
+        campaign = self._campaign_check(campaign)
+
+        url = f"campaigns/{campaign}/people/{identifier}"
+        return self.api.delete_request(url=url)
+
     def add_section_field_values_to_record(self, identifier, section, field_values, campaign=None):
         """
         Add one or more tags (i.e. custom field value) to an existing entity record in Action

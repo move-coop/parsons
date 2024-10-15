@@ -343,7 +343,7 @@ class People(object):
                 id = match_json["vanId"]
 
         if kwargs:
-            match_json.update(kwargs)
+            json.update(kwargs)
 
         url = "people/"
 
@@ -587,6 +587,7 @@ class People(object):
         omit_contact=False,
         phone=None,
         campaignId=None,
+        skip_matching=False,
     ):
         """
         Apply responses such as survey questions, activist codes, and volunteer actions
@@ -624,6 +625,8 @@ class People(object):
                 `Optional`; Phone number of any type (Work, Cell, Home)
             campaignId: int
                 `Optional`; a valid Campaign ID.
+            skip_matching: boolean
+                `Optional`; if set to true, skips matching/de-duping of contact history. Defaults to a null value, aka false.
         `Returns:`
             ``True`` if successful
 
@@ -652,6 +655,7 @@ class People(object):
                 "dateCanvassed": date_canvassed,
                 "omitActivistCodeContactHistory": omit_contact,
                 "campaignId": campaignId,
+                "skipMatching": skip_matching,
             },
             "resultCodeId": result_code_id,
         }

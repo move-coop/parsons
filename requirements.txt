@@ -21,7 +21,7 @@ google-resumable-media==2.7.0
 grpcio==1.62.2
 gspread==3.7.0
 httplib2==0.22.0
-joblib==1.2.0
+joblib==1.4.2
 mysql-connector-python==8.0.18
 newmode==0.1.6
 oauth2client==4.1.3

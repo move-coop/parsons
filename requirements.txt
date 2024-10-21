@@ -16,7 +16,7 @@ google-api-python-client==1.7.7
 google-auth==2.29.0
 google-cloud-bigquery==3.26.0
 google-cloud-storage-transfer==1.9.1
-google-cloud-storage==2.16.0
+google-cloud-storage==2.18.2
 google-resumable-media==2.7.0
 grpcio==1.62.2
 gspread==3.7.0

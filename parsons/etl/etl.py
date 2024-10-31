@@ -1,4 +1,5 @@
 import logging
+import sys
 
 import petl
 
@@ -658,10 +659,20 @@ class ETL(object):
             orig.concat(melted_list)
             # Add unique id column by hashing all the other fields
             if "uid" not in self.columns:
-                orig.add_column(
-                    "uid",
-                    lambda row: hashlib.md5(str.encode("".join([str(x) for x in row]))).hexdigest(),
-                )
+                if sys.version_info.minor >= 9:
+                    orig.add_column(
+                        "uid",
+                        lambda row: hashlib.md5(
+                            str.encode("".join([str(x) for x in row])), usedforsecurity=False
+                        ).hexdigest(),
+                    )
+                elif sys.version_info.minor < 9:
+                    orig.add_column(
+                        "uid",
+                        lambda row: hashlib.md5(  # nosec B324
+                            str.encode("".join([str(x) for x in row]))
+                        ).hexdigest(),
+                    )
                 orig.move_column("uid", 0)
 
             # Rename value column in case this is done again to this Table
@@ -673,10 +684,18 @@ class ETL(object):
         else:
             orig = self.remove_column(column)
             # Add unique id column by hashing all the other fields
-            melted_list.add_column(
-                "uid",
-                lambda row: hashlib.md5(str.encode("".join([str(x) for x in row]))).hexdigest(),
-            )
+            if sys.version_info.minor >= 9:
+                melted_list.add_column(
+                    "uid",
+                    lambda row: hashlib.md5(
+                        str.encode("".join([str(x) for x in row])), usedforsecurity=False
+                    ).hexdigest(),
+                )
+            elif sys.version_info.minor < 9:
+                melted_list.add_column(
+                    "uid",
+                    lambda row: hashlib.md5(str.encode("".join([str(x) for x in row]))).hexdigest(),  # nosec B324
+                )
             melted_list.move_column("uid", 0)
             output = melted_list
 

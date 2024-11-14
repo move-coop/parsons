@@ -254,3 +254,16 @@ class Empower(object):
             tbl.convert_column(col, lambda x: self._unix_convert(x))
             logger.info(f"Unable to find column {col}")
         return tbl
+
+    def get_raw_data(self):
+        """
+        Get a table of the complete, raw data as returned by the API.
+        Meant to facilitate pure ELT pipelines
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = Table(self.data)
+        return tbl

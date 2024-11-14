@@ -25,12 +25,12 @@ from parsons.sftp.sftp import SFTP
 from parsons.etl.table import Table
 from parsons.utilities.files import create_temp_file
 from parsons.utilities import check_env
-import xml.etree.ElementTree as ET
 import uuid
 import time
 import logging
-import xmltodict
 
+import defusedxml.ElementTree as ET
+import xmltodict
 
 TS_STFP_HOST = "transfer.targetsmart.com"
 TS_SFTP_PORT = 22

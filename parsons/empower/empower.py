@@ -255,7 +255,7 @@ class Empower(object):
             logger.info(f"Unable to find column {col}")
         return tbl
 
-    def get_raw_data(self):
+    def get_full_export(self):
         """
         Get a table of the complete, raw data as returned by the API.
         Meant to facilitate pure ELT pipelines
@@ -265,5 +265,5 @@ class Empower(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.data)
+        tbl = Table([self.data])
         return tbl

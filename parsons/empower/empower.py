@@ -28,11 +28,9 @@ class Empower(object):
     """
 
     def __init__(self, api_key=None, empower_uri=None, cache=True):
-
         self.api_key = check_env.check("EMPOWER_API_KEY", api_key)
         self.empower_uri = (
-            check_env.check("EMPOWER_URI", empower_uri, optional=True)
-            or EMPOWER_API_ENDPOINT
+            check_env.check("EMPOWER_URI", empower_uri, optional=True) or EMPOWER_API_ENDPOINT
         )
         self.headers = {"accept": "application/json", "secret-token": self.api_key}
         self.client = APIConnector(
@@ -86,9 +84,7 @@ class Empower(object):
         tbl = Table(self.data["profiles"])
         for col in ["createdMts", "lastUsedEmpowerMts", "updatedMts"]:
             tbl.convert_column(col, lambda x: self._unix_convert(x))
-        tbl.remove_column(
-            "activeCtaIds"
-        )  # Get as a method via get_profiles_active_ctas
+        tbl.remove_column("activeCtaIds")  # Get as a method via get_profiles_active_ctas
         return tbl
 
     def get_profiles_active_ctas(self):
@@ -152,13 +148,9 @@ class Empower(object):
             ctas.convert_column(col, lambda x: self._unix_convert(x))
         ctas.remove_column("regionIds")  # Get as a table via get_cta_regions()
         ctas.remove_column("shareables")  # Get as a table via get_cta_shareables()
-        ctas.remove_column(
-            "prioritizations"
-        )  # Get as a table via get_cta_prioritizations()
+        ctas.remove_column("prioritizations")  # Get as a table via get_cta_prioritizations()
         ctas.remove_column("questions")  # This column has been deprecated.
-        cta_prompts = ctas.long_table(
-            "id", "prompts", prepend=False, retain_original=False
-        )
+        cta_prompts = ctas.long_table("id", "prompts", prepend=False, retain_original=False)
         cta_prompts.remove_column("ctaId")
         cta_prompt_answers = cta_prompts.long_table("id", "answers", prepend=False)
 

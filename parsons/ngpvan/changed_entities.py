@@ -11,7 +11,6 @@ RETRY_RATE = 10
 
 class ChangedEntities(object):
     def __init__(self):
-
         pass
 
     def get_changed_entity_resources(self):
@@ -37,11 +36,7 @@ class ChangedEntities(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(
-            self.connection.get_request(
-                f"changedEntityExportJobs/fields/{resource_type}"
-            )
-        )
+        tbl = Table(self.connection.get_request(f"changedEntityExportJobs/fields/{resource_type}"))
         logger.info(f"Found {tbl.num_rows} fields for {resource_type}.")
         return tbl
 
@@ -104,6 +99,5 @@ class ChangedEntities(object):
                 raise ValueError(status["message"])
 
     def _get_changed_entity_job(self, job_id):
-
         r = self.connection.get_request(f"changedEntityExportJobs/{job_id}")
         return r

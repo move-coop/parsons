@@ -1,4 +1,5 @@
 """NGPVAN Signups Endpoints"""
+
 from parsons.etl.table import Table
 import logging
 
@@ -7,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 class Signups(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_signups_statuses(self, event_id=None, event_type_id=None):
@@ -69,9 +69,7 @@ class Signups(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(
-            self.connection.get_request("signups", params={"eventId": event_id})
-        )
+        tbl = Table(self.connection.get_request("signups", params={"eventId": event_id}))
         logger.info(f"Found {tbl.num_rows} signups for event {event_id}.")
         return self._unpack_signups(tbl)
 
@@ -184,7 +182,6 @@ class Signups(object):
         return r
 
     def _unpack_signups(self, table):
-
         # Unpack all of the nested jsons
         table.unpack_dict("person", prepend=False)
         table.unpack_dict("status")

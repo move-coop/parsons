@@ -1,5 +1,6 @@
 import logging
 from parsons.ngpvan.events import Events
+from parsons.ngpvan.email import Email
 from parsons.ngpvan.van_connector import VANConnector
 from parsons.ngpvan.people import People
 from parsons.ngpvan.saved_lists import SavedLists, Folders, ExportJobs
@@ -24,6 +25,7 @@ logger = logging.getLogger(__name__)
 class VAN(
     People,
     Events,
+    Email,
     SavedLists,
     PrintedLists,
     Folders,
@@ -61,10 +63,7 @@ class VAN(
         VAN object
     """
 
-    def __init__(
-        self, api_key=None, auth_name="default", db=None, raise_for_status=True
-    ):
-
+    def __init__(self, api_key=None, auth_name="default", db=None, raise_for_status=True):
         self.connection = VANConnector(api_key=api_key, db=db)
         self.api_key = api_key
         self.db = db

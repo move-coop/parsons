@@ -7,7 +7,6 @@ def action_parse(action):
     action = action.capitalize()
 
     if action not in ("Apply", "Remove"):
-
         raise ValueError("Action must be either 'Apply' or 'Remove'")
 
     return action

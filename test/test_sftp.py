@@ -29,8 +29,7 @@ REMOTE_DIR, CSV, COMPRESSED_CSV, EMPTY, SUBDIR_A, SUBDIR_B, CSV_A, CSV_B = [
 ]
 
 CSV_PATH, COMPRESSED_CSV_PATH, EMPTY_PATH, SUBDIR_A_PATH, SUBDIR_B_PATH = [
-    f"{REMOTE_DIR}/{content}"
-    for content in (CSV, COMPRESSED_CSV, EMPTY, SUBDIR_A, SUBDIR_B)
+    f"{REMOTE_DIR}/{content}" for content in (CSV, COMPRESSED_CSV, EMPTY, SUBDIR_A, SUBDIR_B)
 ]
 
 CSV_A_PATH, CSV_B_PATH = [
@@ -76,9 +75,7 @@ def live_sftp(simple_csv_path, simple_compressed_csv_path, simple_table):  # noq
 # This second live_sftp fixture is used for test_get_files so that files are never downloaded and
 # mocks can be inspected.
 @pytest.fixture
-def live_sftp_with_mocked_get(
-    simple_csv_path, simple_compressed_csv_path  # noqa: F811
-):
+def live_sftp_with_mocked_get(simple_csv_path, simple_compressed_csv_path):  # noqa: F811
     SFTP_with_mocked_get = deepcopy(SFTP)
 
     # The names of temp files are long arbitrary strings. This makes them predictable.
@@ -106,7 +103,6 @@ def live_sftp_with_mocked_get(
         transport.close()
 
     def get_file(self, remote_path, local_path=None, connection=None):
-
         if not local_path:
             local_path = create_temp_file_for_path(remote_path)
 
@@ -195,9 +191,7 @@ def test_table_to_sftp_csv(live_sftp, simple_table, compression):  # noqa F811
     remote_path = f"{REMOTE_DIR}/test_to_sftp.csv"
     if compression == "gzip":
         remote_path += ".gz"
-    simple_table.to_sftp_csv(
-        remote_path, host, username, password, compression=compression
-    )
+    simple_table.to_sftp_csv(remote_path, host, username, password, compression=compression)
 
     local_path = live_sftp.get_file(remote_path)
     assert_file_matches_table(local_path, simple_table)
@@ -293,9 +287,7 @@ def test_get_files_calls_get_to_write_to_provided_local_paths(
     live_sftp_with_mocked_get,
 ):
     live_sftp, get = live_sftp_with_mocked_get
-    results = live_sftp.get_files(
-        remote=[SUBDIR_A_PATH, SUBDIR_B_PATH], local_paths=local_paths
-    )
+    results = live_sftp.get_files(remote=[SUBDIR_A_PATH, SUBDIR_B_PATH], local_paths=local_paths)
     assert get.call_count == 2
     calls = [call(CSV_A_PATH, local_paths[0]), call(CSV_B_PATH, local_paths[1])]
     assert_has_calls(get, calls)
@@ -304,9 +296,7 @@ def test_get_files_calls_get_to_write_to_provided_local_paths(
 
 @mark_live_test
 @pytest.mark.parametrize("kwargs,expected", args_and_expected["get_files"])
-def test_get_files_calls_get_to_write_temp_files(
-    kwargs, expected, live_sftp_with_mocked_get
-):
+def test_get_files_calls_get_to_write_temp_files(kwargs, expected, live_sftp_with_mocked_get):
     live_sftp, get = live_sftp_with_mocked_get
     live_sftp.get_files(**kwargs)
     assert get.call_count == len(expected)

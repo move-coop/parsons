@@ -17,9 +17,7 @@ slack = Slack()
 
 # Configuration variables
 SLACK_CHANNEL = ""  # Slack channel where the alert will post.
-CIVIS_PROJECT = (
-    ""  # ID of the Civis project with jobs and workflows you want to see the status of.
-)
+CIVIS_PROJECT = ""  # ID of the Civis project with jobs and workflows you want to see the status of.
 
 logger = logging.getLogger(__name__)
 _handler = logging.StreamHandler()
@@ -31,7 +29,6 @@ logger.setLevel("INFO")
 
 # Cleans up datetime format for posting to Slack.
 def format_datetime(text):
-
     formatted_text = text.replace("Z", "")
     dt = datetime.datetime.fromisoformat(formatted_text)
     return dt.strftime("%Y-%m-%d")
@@ -39,7 +36,6 @@ def format_datetime(text):
 
 # Assigns an emoji for each potential run status a Civis job or workflow might have.
 def get_run_state_emoji(run_state):
-
     if run_state == "succeeded":
         return ":white_check_mark:"
     elif run_state == "failed":
@@ -52,7 +48,6 @@ def get_run_state_emoji(run_state):
 
 # Returns a Parsons table with workflow and job data from the specified Civis project.
 def get_workflows_and_jobs(project_id):
-
     project = client.projects.get(project_id)
 
     # Get workflow and the job data from the project
@@ -80,13 +75,10 @@ def get_workflows_and_jobs(project_id):
 
 # Returns the date and time of the last successful run for a Civis job or workflow.
 def get_last_success(object_id, object_type):
-
     last_success = "-"
 
     if object_type == "workflow":
-        workflow_executions = client.workflows.list_executions(
-            object_id, order="updated_at"
-        )
+        workflow_executions = client.workflows.list_executions(object_id, order="updated_at")
         for execution in workflow_executions:
             if execution["state"] != "succeeded":
                 continue
@@ -113,16 +105,11 @@ def get_last_success(object_id, object_type):
 
 
 def main():
-
     project_name = client.projects.get(CIVIS_PROJECT)["name"]
 
-    scripts_table = get_workflows_and_jobs(CIVIS_PROJECT).sort(
-        columns=["state", "name"]
-    )
+    scripts_table = get_workflows_and_jobs(CIVIS_PROJECT).sort(columns=["state", "name"])
 
-    logger.info(
-        f"Found {scripts_table.num_rows} jobs and workflows in {project_name} project."
-    )
+    logger.info(f"Found {scripts_table.num_rows} jobs and workflows in {project_name} project.")
 
     # This is a list of strings we will build with each job's status
     output_lines = []

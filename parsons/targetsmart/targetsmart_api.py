@@ -3,6 +3,7 @@ Routines for interacting with TargetSmart's developer API.
 
 https://docs.targetsmart.com/developers/tsapis/v2/index.html
 """
+
 import logging
 
 import petl
@@ -24,12 +25,10 @@ class TargetSmartConnector:
         self.headers = {"x-api-key": self.api_key}
 
     def request(self, url, args=None, raw=False):
-
         r = requests.get(url, headers=self.headers, params=args)
 
         # This allows me to deal with data that needs to be munged.
         if raw:
-
             return r.json()
 
         return Table(r.json()["output"])
@@ -37,7 +36,6 @@ class TargetSmartConnector:
 
 class Person:
     def __init__(self):
-
         return None
 
     def data_enhance(self, search_id, search_id_type="voterbase", state=None):
@@ -59,10 +57,7 @@ class Person:
         """
 
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
-
-            raise KeyError(
-                "Search ID type '{}' requires state kwarg".format(search_id_type)
-            )
+            raise KeyError("Search ID type '{}' requires state kwarg".format(search_id_type))
 
         if search_id_type not in (
             "voterbase",
@@ -74,7 +69,6 @@ class Person:
             "voter",
             "household",
         ):
-
             raise ValueError("Search_id_type is not valid")
 
         url = self.connection.uri + "person/data-enhance"
@@ -205,9 +199,7 @@ class Person:
         }
 
         r = self.connection.request(url, args=args, raw=True)
-        return Table([itm for itm in r["output"]]).unpack_dict(
-            "data_fields", prepend=False
-        )
+        return Table([itm for itm in r["output"]]).unpack_dict("data_fields", prepend=False)
 
     def phone(self, table):
         """
@@ -231,7 +223,6 @@ class Person:
 
 class Service:
     def __init__(self):
-
         return None
 
     def district(
@@ -290,9 +281,7 @@ class Service:
             raise ValueError("Search type 'zip' requires 'zip5' and 'zip4' arguments")
 
         elif search_type == "point" and None in [latitude, longitude]:
-            raise ValueError(
-                "Search type 'point' requires 'latitude' and 'longitude' arguments"
-            )
+            raise ValueError("Search type 'point' requires 'latitude' and 'longitude' arguments")
 
         elif search_type == "address" and None in [address]:
             raise ValueError("Search type 'address' requires 'address' argument")
@@ -320,7 +309,6 @@ class Service:
 
 class Voter(object):
     def __init__(self, connection):
-
         self.connection = connection
 
     def voter_registration_check(

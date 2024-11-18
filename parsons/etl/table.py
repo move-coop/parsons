@@ -1,14 +1,31 @@
+import logging
+import pickle
+from enum import Enum
+from typing import Union
+
+import petl
+
 from parsons.etl.etl import ETL
 from parsons.etl.tofrom import ToFrom
 from parsons.utilities import files
-import petl
-import pickle
-import logging
-
 
 logger = logging.getLogger(__name__)
 
 DIRECT_INDEX_WARNING_COUNT = 10
+
+
+class _EmptyDefault(Enum):
+    """Default argument for Table()
+
+    This is used because Table(None) should not be allowed, but we
+    need a default argument that isn't the mutable []
+
+    See https://stackoverflow.com/a/76606310 for discussion."""
+
+    token = 0
+
+
+_EMPTYDEFAULT = _EmptyDefault.token
 
 
 class Table(ETL, ToFrom):
@@ -27,29 +44,42 @@ class Table(ETL, ToFrom):
             The name of the table (optional)
     """
 
-    def __init__(self, lst=[]):
-
+    def __init__(
+        self,
+        lst: Union[list, tuple, petl.util.base.Table, _EmptyDefault] = _EMPTYDEFAULT,
+    ):
         self.table = None
 
-        lst_type = type(lst)
+        # Normally we would use None as the default argument here
+        # Instead of using None, we use a sentinal
+        # This allows us to maintain the existing behavior
+        # This is allowed: Table()
+        # This should fail: Table(None)
+        if lst is _EMPTYDEFAULT:
+            self.table = petl.fromdicts([])
 
-        if lst_type in [list, tuple]:
-
+        elif isinstance(lst, list) or isinstance(lst, tuple):
             # Check for empty list
             if not len(lst):
                 self.table = petl.fromdicts([])
             else:
                 row_type = type(lst[0])
                 # Check for list of dicts
-                if row_type == dict:
+                if row_type is dict:
                     self.table = petl.fromdicts(lst)
                 # Check for list of lists
                 elif row_type in [list, tuple]:
                     self.table = petl.wrap(lst)
 
-        else:
+        elif isinstance(lst, petl.util.base.Table):
             # Create from a petl table
             self.table = lst
+
+        else:
+            raise ValueError(
+                f"Could not initialize table from input type. "
+                f"Got {type(lst)}, expected list, tuple, or petl Table"
+            )
 
         if not self.is_valid_table():
             raise ValueError("Could not create Table")
@@ -59,21 +89,16 @@ class Table(ETL, ToFrom):
         self._index_count = 0
 
     def __repr__(self):
-
         return repr(petl.dicts(self.table))
 
     def __iter__(self):
-
         return iter(petl.dicts(self.table))
 
     def __getitem__(self, index):
-
         if isinstance(index, int):
-
             return self.row_data(index)
 
         elif isinstance(index, str):
-
             return self.column_data(index)
 
         elif isinstance(index, slice):
@@ -81,11 +106,9 @@ class Table(ETL, ToFrom):
             return [row for row in tblslice]
 
         else:
-
             raise TypeError("You must pass a string or an index as a value.")
 
     def __bool__(self):
-
         # Try to get a single row from our table
         head_one = petl.head(self.table)
 
@@ -239,7 +262,7 @@ class Table(ETL, ToFrom):
             bool
         """
 
-        if not self.table:
+        if not isinstance(self.table, petl.util.base.Table):
             return False
 
         try:

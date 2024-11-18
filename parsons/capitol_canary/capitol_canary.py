@@ -50,15 +50,12 @@ class CapitolCanary(object):
 
         # If count of items is less than the total allowed per page, paginate
         while r["pagination"]["count"] == r["pagination"]["per_page"]:
-
             r = self.client.get_request(r["pagination"]["next_url"], args)
             json.extend(r["data"])
 
         return json
 
-    def get_advocates(
-        self, state=None, campaign_id=None, updated_since=None, page=None
-    ):
+    def get_advocates(self, state=None, campaign_id=None, updated_since=None, page=None):
         """
         Return advocates (person records).
 
@@ -251,9 +248,7 @@ class CapitolCanary(object):
         # Validate the passed in arguments
 
         if not campaigns:
-            raise ValueError(
-                "When creating an advocate, you must specify one or more campaigns."
-            )
+            raise ValueError("When creating an advocate, you must specify one or more campaigns.")
 
         if not email and not phone:
             raise ValueError(

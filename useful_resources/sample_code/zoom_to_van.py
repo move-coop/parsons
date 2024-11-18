@@ -17,13 +17,9 @@ config_vars = {
 }
 
 VAN_DB = "MyCampaign"  # one of: MyMembers, EveryAction, MyCampaign (not MyVoters)
-ACTIVIST_CODE_NAME = (
-    ""  # name of VAN activist code, which must be created manually in VAN
-)
+ACTIVIST_CODE_NAME = ""  # name of VAN activist code, which must be created manually in VAN
 ZOOM_MEETING_ID = ""
-MINIMUM_DURATION = (
-    0  # filters out Zoom participants who stayed for less than minimum duration
-)
+MINIMUM_DURATION = 0  # filters out Zoom participants who stayed for less than minimum duration
 
 # ### CODE
 
@@ -44,9 +40,7 @@ van = VAN(db=VAN_DB)
 
 # Gets participants from Zoom meeting
 participants = zoom.get_past_meeting_participants(ZOOM_MEETING_ID)
-filtered_participants = participants.select_rows(
-    lambda row: row.duration > MINIMUM_DURATION
-)
+filtered_participants = participants.select_rows(lambda row: row.duration > MINIMUM_DURATION)
 
 # Coalesce the columns into something VAN expects
 column_map = {
@@ -68,13 +62,10 @@ for code in van.get_activist_codes():
         activist_code_id = code["activistCodeId"]
 
 for participant in filtered_participants:
-
     # generates list of parameters from matched columns, only inlcudes if row has data for column
     params = {col: participant[col] for col in column_map.keys() if participant[col]}
 
-    van_person = van.upsert_person(
-        **params
-    )  # updates if it finds a match, or inserts new user
+    van_person = van.upsert_person(**params)  # updates if it finds a match, or inserts new user
 
     if activist_code_id:
         van.apply_activist_code(

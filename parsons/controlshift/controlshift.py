@@ -12,7 +12,7 @@ class Controlshift(object):
     `Args:`
         hostname: str
             The URL for the homepage/login page of the organization's Controlshift
-            instance (e.g. demo.controlshift.app). Not required if
+            instance (e.g. https://demo.controlshift.app). Not required if
             ``CONTROLSHIFT_HOSTNAME`` env variable is set.
         client_id: str
             The Client ID for your REST API Application. Not required if
@@ -25,8 +25,14 @@ class Controlshift(object):
     """
 
     def __init__(self, hostname=None, client_id=None, client_secret=None):
-
         self.hostname = check_env.check("CONTROLSHIFT_HOSTNAME", hostname)
+
+        # Hostname must start with 'https://'
+        if self.hostname.startswith("http://"):
+            self.hostname = self.hostname.replace("http://", "https://")
+        if not self.hostname.startswith("https://"):
+            self.hostname = "https://" + self.hostname
+
         token_url = f"{self.hostname}/oauth/token"
         self.client = OAuth2APIConnector(
             self.hostname,

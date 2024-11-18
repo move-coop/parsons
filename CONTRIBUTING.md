@@ -1,8 +1,10 @@
+# Contributing to Parsons
+
 We're thrilled that you're thinking about contributing to Parsons! Welcome to our contributor community.
 
 You can find a detailed version of this guide [on our website](https://www.parsonsproject.org/pub/contributing-guide/).
 
-The best way to get involved is by joining our Slack. To join, email engineering@movementcooperative.org. In addition to all the great discussions that happen on our Slack, we also have virtual events including trainings, pairing sessions, social hangouts, discussions, and more. Every other Thursday afternoon we host 🎉 Parsons Parties 🎉 on Zoom where we work on contributions together.
+The best way to get involved is by joining our Slack. To join, email <engineering@movementcooperative.org>. In addition to all the great discussions that happen on our Slack, we also have virtual events including trainings, pairing sessions, social hangouts, discussions, and more. Every other Thursday afternoon we host 🎉 Parsons Parties 🎉 on Zoom where we work on contributions together.
 
 You can contribute by:
 

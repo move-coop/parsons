@@ -59,18 +59,13 @@ expected_loc = [
 
 class TestLocations(unittest.TestCase):
     def setUp(self):
-
-        self.van = VAN(
-            os.environ["VAN_API_KEY"], db="EveryAction", raise_for_status=False
-        )
+        self.van = VAN(os.environ["VAN_API_KEY"], db="EveryAction", raise_for_status=False)
 
     def tearDown(self):
-
         pass
 
     @requests_mock.Mocker()
     def test_get_locations(self, m):
-
         json = {"items": [location_json], "nextPageLink": None, "count": 1}
         m.get(self.van.connection.uri + "locations", json=json)
 
@@ -78,14 +73,12 @@ class TestLocations(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_location(self, m):
-
         # Valid location id
         m.get(self.van.connection.uri + "locations/34", json=location_json)
         self.assertEqual(location_json, self.van.get_location(34))
 
     @requests_mock.Mocker()
     def test_delete_location(self, m):
-
         # Test good location delete
         m.delete(self.van.connection.uri + "locations/1", status_code=200)
         self.van.delete_location(1)
@@ -96,7 +89,6 @@ class TestLocations(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_create_location(self, m):
-
         loc_id = 32
 
         m.post(

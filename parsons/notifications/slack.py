@@ -28,9 +28,7 @@ class Slack(object):
 
         self.client = SlackClient(self.api_key)
 
-    def channels(
-        self, fields=["id", "name"], exclude_archived=False, types=["public_channel"]
-    ):
+    def channels(self, fields=["id", "name"], exclude_archived=False, types=["public_channel"]):
         """
         Return a list of all channels in a Slack team.
 
@@ -58,12 +56,8 @@ class Slack(object):
             exclude_archived=exclude_archived,
         )
 
-        tbl.unpack_dict(
-            "topic", include_original=False, prepend=True, prepend_value="topic"
-        )
-        tbl.unpack_dict(
-            "purpose", include_original=False, prepend=True, prepend_value="purpose"
-        )
+        tbl.unpack_dict("topic", include_original=False, prepend=True, prepend_value="topic")
+        tbl.unpack_dict("purpose", include_original=False, prepend=True, prepend_value="purpose")
 
         rm_cols = [x for x in tbl.columns if x not in fields]
         tbl.remove_column(*rm_cols)
@@ -96,9 +90,7 @@ class Slack(object):
 
         tbl = self._paginate_request("users.list", "members", include_locale=True)
 
-        tbl.unpack_dict(
-            "profile", include_original=False, prepend=True, prepend_value="profile"
-        )
+        tbl.unpack_dict("profile", include_original=False, prepend=True, prepend_value="profile")
 
         rm_cols = [x for x in tbl.columns if x not in fields]
         tbl.remove_column(*rm_cols)

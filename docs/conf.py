@@ -187,9 +187,7 @@ texinfo_documents = [
 DOCUMENTED_VERSIONS = ["v0.18.1", "v0.18.0", "v0.17.0", "v0.16.0", "v0.15.0", "v0.14.0"]
 
 # Whitelist pattern for branches
-smv_branch_whitelist = (
-    r"^stable|latest$"  # creates version for latest master/main branch
-)
+smv_branch_whitelist = r"^stable|latest$"  # creates version for latest master/main branch
 
 # Get tags to whitelist from DOCUMENTED_VERSIONS const
 smv_tag_whitelist = "|".join(["^" + version + "$" for version in DOCUMENTED_VERSIONS])

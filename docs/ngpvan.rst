@@ -13,9 +13,10 @@ additional details and information.
 .. note::
    API Keys
       - API Keys are specific to each committee and state.
-      - There is a Parsons type API Key that can be requested via the Integrations menu on the main page.
-      	If you have an issue gaining access to this key, or an admin has questions, please email
-	<parsons@movementcooperative.org>.
+      - There was once a Parsons type API Key that could be requested via the VAN Integrations menu,
+        but that key type has been deprecated by NGPVAN. API keys should now be requested as a custom
+        integration. For additional guidance, refer to the Parsons Slack or reach out to
+        <parsons@movementcooperative.org>.
 
 
 .. warning::
@@ -356,10 +357,22 @@ Codes
 .. autoclass:: parsons.ngpvan.van.Codes
    :inherited-members:
 
+=====
+Contact Notes
+=====
+.. autoclass:: parsons.ngpvan.van.ContactNotes
+   :inherited-members:
+
 =============
 Custom Fields
 =============
 .. autoclass:: parsons.ngpvan.van.CustomFields
+   :inherited-members:
+
+======
+Email
+======
+.. autoclass:: parsons.ngpvan.van.Email
    :inherited-members:
 
 ======

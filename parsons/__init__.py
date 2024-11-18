@@ -39,12 +39,13 @@ for module_path, connector_name in (
     ("parsons.azure.azure_blob_storage", "AzureBlobStorage"),
     ("parsons.bill_com.bill_com", "BillCom"),
     ("parsons.bloomerang.bloomerang", "Bloomerang"),
-    ("parsons.bluelink", "Bluelink"),
     ("parsons.box.box", "Box"),
     ("parsons.braintree.braintree", "Braintree"),
     ("parsons.capitol_canary.capitol_canary", "CapitolCanary"),
-    ["parsons.catalist.catalist", "CatalistMatch"],
+    ("parsons.catalist.catalist", "CatalistMatch"),
+    ("parsons.census.census", "Census"),
     ("parsons.civis.civisclient", "CivisClient"),
+    ("parsons.community.community", "Community"),
     ("parsons.controlshift.controlshift", "Controlshift"),
     ("parsons.copper.copper", "Copper"),
     ("parsons.crowdtangle.crowdtangle", "CrowdTangle"),
@@ -56,6 +57,7 @@ for module_path, connector_name in (
     ("parsons.databases.redshift.redshift", "Redshift"),
     ("parsons.donorbox.donorbox", "Donorbox"),
     ("parsons.facebook_ads.facebook_ads", "FacebookAds"),
+    ("parsons.formstack.formstack", "Formstack"),
     ("parsons.freshdesk.freshdesk", "Freshdesk"),
     ("parsons.geocode.census_geocoder", "CensusGeocoder"),
     ("parsons.github.github", "GitHub"),
@@ -92,9 +94,7 @@ for module_path, connector_name in (
     ("parsons.empower.empower", "Empower"),
 ):
     try:
-        globals()[connector_name] = getattr(
-            importlib.import_module(module_path), connector_name
-        )
+        globals()[connector_name] = getattr(importlib.import_module(module_path), connector_name)
         __all__.append(connector_name)
     except ImportError:
         logger.debug(f"Could not import {module_path}.{connector_name}; skipping")

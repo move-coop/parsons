@@ -36,7 +36,6 @@ class MySQLCreateTable(DatabaseCreateStatement):
 
         # Iterate through each row in the column
         for row in column_rows:
-
             # Get the MySQL data type
             col_type = self.data_type(row, col_type)
 

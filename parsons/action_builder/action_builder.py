@@ -59,9 +59,7 @@ class ActionBuilder(object):
 
         return self.api.get_request(url=url, params=params)
 
-    def _get_all_records(
-        self, campaign, object_name, limit=None, per_page=25, filter=None
-    ):
+    def _get_all_records(self, campaign, object_name, limit=None, per_page=25, filter=None):
         # Returns a list of entries for a given object, such as people, tags, or connections.
         # See Action Builder API docs for more: https://www.actionbuilder.org/docs/v1/index.html
 
@@ -72,9 +70,7 @@ class ActionBuilder(object):
         # Keep getting the next page until record limit is exceeded or an empty result returns
         while True:
             # Get this page and increase page number to the next one
-            response = self._get_page(
-                campaign, object_name, page, per_page, filter=filter
-            )
+            response = self._get_page(campaign, object_name, page, per_page, filter=filter)
             page = page + 1
 
             # Check that there's actually data
@@ -237,9 +233,7 @@ class ActionBuilder(object):
             identifier = [identifier]
 
         # Default to assuming identifier comes from Action Builder and add prefix if missing
-        identifiers = [
-            f"action_builder:{id}" if ":" not in id else id for id in identifier
-        ]
+        identifiers = [f"action_builder:{id}" if ":" not in id else id for id in identifier]
 
         if not isinstance(data, dict):
             data = {}
@@ -252,9 +246,27 @@ class ActionBuilder(object):
 
         return self._upsert_entity(data=data, campaign=campaign)
 
-    def add_section_field_values_to_record(
-        self, identifier, section, field_values, campaign=None
-    ):
+    def remove_entity_record_from_campaign(self, identifier, campaign=None):
+        """
+        Remove an entity record from a campaign. Records cannot be permanently deleted, but a
+        record that has been removed from a campaign will not appear in the UI.
+        `Args:`
+            identifier: str
+                The unique identifier for the record being removed. ID strings will need to begin
+                with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+        `Returns:`
+            Dict with HTTP response.
+        """
+
+        campaign = self._campaign_check(campaign)
+
+        url = f"campaigns/{campaign}/people/{identifier}"
+        return self.api.delete_request(url=url)
+
+    def add_section_field_values_to_record(self, identifier, section, field_values, campaign=None):
         """
         Add one or more tags (i.e. custom field value) to an existing entity record in Action
         Builder. The tags, along with their field and section, must already exist (except for
@@ -285,9 +297,7 @@ class ActionBuilder(object):
 
         data = {"add_tags": tag_data}
 
-        return self.update_entity_record(
-            identifier=identifier, data=data, campaign=campaign
-        )
+        return self.update_entity_record(identifier=identifier, data=data, campaign=campaign)
 
     def remove_tagging(
         self,
@@ -329,9 +339,7 @@ class ActionBuilder(object):
             raise ValueError("Please supply a tag_name or tag_id!")
 
         if {identifier, tagging_id} == {None}:
-            raise ValueError(
-                "Please supply an entity or connection identifier, or a tagging id!"
-            )
+            raise ValueError("Please supply an entity or connection identifier, or a tagging id!")
 
         campaign = self._campaign_check(campaign)
         endpoint = "tags/{}/taggings"
@@ -354,10 +362,11 @@ class ActionBuilder(object):
         if tag_id and not tagging_id:
             taggings = self._get_all_records(self.campaign, endpoint.format(tag_id))
             taggings_filtered = taggings.select_rows(
-                lambda row: identifier
-                in row["_links"]["action_builder:connection"]["href"]
-                if row["item_type"] == "connection"
-                else identifier in row["osdi:person"]["href"]
+                lambda row: (
+                    identifier in row["_links"]["action_builder:connection"]["href"]
+                    if row["item_type"] == "connection"
+                    else identifier in row["osdi:person"]["href"]
+                )
             )
             tagging_id = [
                 x.split(":")[1]
@@ -370,7 +379,7 @@ class ActionBuilder(object):
             f"campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}"
         )
 
-    def upsert_connection(self, identifiers, tag_data=None, campaign=None):
+    def upsert_connection(self, identifiers, tag_data=None, campaign=None, reactivate=True):
         """
         Load or update a connection record in Action Builder between two existing entity records.
         Only one connection record is allowed per pair of entities, so if the connection already
@@ -387,6 +396,9 @@ class ActionBuilder(object):
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
+            reactivate: bool
+                Optional. Whether or not to set the `inactive` flag on a given Connection to False
+                if the Connection exists and has `inactive` set to True. True by default.
         `Returns:`
             Dict containing Action Builder connection data.
         """  # noqa: E501
@@ -409,6 +421,9 @@ class ActionBuilder(object):
             }
         }
 
+        if reactivate:
+            data["connection"]["inactive"] = False
+
         if tag_data:
             if isinstance(tag_data, dict):
                 tag_data = [tag_data]
@@ -419,3 +434,55 @@ class ActionBuilder(object):
             data["add_tags"] = tag_data
 
         return self.api.post_request(url=url, data=json.dumps(data))
+
+    def deactivate_connection(
+        self,
+        from_identifier,
+        connection_identifier=None,
+        to_identifier=None,
+        campaign=None,
+    ):
+        """
+        Deactivate an existing connection record in Action Builder between two existing entity
+        records. Only one connection record is allowed per pair of entities, so this can be done
+        by supplying the ID for the connection record, or for the two connected entity records.
+        `Args:`
+            from_identifier: str
+                Unique identifier for one of the two entities with a connection.
+            connection_identifier: str
+                Optional. The unique identifier for an entity or connection record being updated.
+                If omitted, `to_identifier` must be provided.
+            to_identifier: str
+                Optional. The second entity with a connection to `from_entity`. If omitted,
+                `connection_identifier` must be provided.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+        `Returns:`
+            Dict containing Action Builder connection data.
+        """
+
+        # Check that either connection or second entity identifier are provided
+        if {connection_identifier, to_identifier} == {None}:
+            raise ValueError("Must provide a connection ID or an ID for the second entity")
+
+        campaign = self._campaign_check(campaign)
+
+        url = f"campaigns/{campaign}/people/{from_identifier}/connections"
+
+        data = {"connection": {"inactive": True}}
+
+        # Prioritize connection ID to avoid potential confusion if to_identifier is also provided
+        # to_identifier entity could have duplicates, connection ID is more specific
+        if connection_identifier:
+            url += f"/{connection_identifier}"
+
+            # Despite the documentation, PUT requests don't require the outer "connection" key
+            data = data["connection"]
+
+            return self.api.put_request(url=url, data=json.dumps(data))
+
+        # If no connection ID then there must be a to_identifier not to have errored by now
+        else:
+            data["connection"]["person_id"] = to_identifier
+            return self.api.post_request(url=url, data=json.dumps(data))

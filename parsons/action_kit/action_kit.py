@@ -2,6 +2,7 @@ import json
 import logging
 import requests
 import time
+import math
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
@@ -142,6 +143,28 @@ class ActionKit(object):
             **kwargs,
         )
 
+    def add_phone(self, user_id, phone_type, phone):
+        """
+        Add a phone number to a user.
+
+        `Args:`
+            user_id: string
+                The id of the user.
+            phone_type: string
+                The type of the phone (e.g., "Home").
+            phone: string
+                The phone number.
+        `Returns:`
+            Phone json object
+        """
+        return self._base_post(
+            endpoint="phone",
+            exception_message="Could not create phone",
+            user=f"/rest/v1/user/{user_id}/",
+            phone_type=phone_type,
+            phone=phone,
+        )
+
     def delete_actionfield(self, actionfield_id):
         """
         Delete an actionfield.
@@ -168,13 +191,32 @@ class ActionKit(object):
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns:`
-            ``None``
+            ``HTTP response from the patch request``
         """
 
-        resp = self.conn.patch(
-            self._base_endpoint("user", user_id), data=json.dumps(kwargs)
-        )
+        resp = self.conn.patch(self._base_endpoint("user", user_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {user_id}")
+
+        return resp
+
+    def update_phone(self, phone_id, **kwargs):
+        """
+        Update a phone record.
+
+        `Args:`
+            phone_id: int
+                The phone id of the phone to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                at the /rest/v1/phone/schema/ path on any ActionKit instance.
+        `Returns:`
+            ``HTTP response from the patch request``
+        """
+
+        resp = self.conn.patch(self._base_endpoint("phone", phone_id), data=json.dumps(kwargs))
+        logger.info(f"{resp.status_code}: {phone_id}")
+
+        return resp
 
     def get_event(self, event_id):
         """Get an event.
@@ -228,10 +270,56 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.patch(
-            self._base_endpoint("event", event_id), data=json.dumps(kwargs)
-        )
+        resp = self.conn.patch(self._base_endpoint("event", event_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {event_id}")
+
+    def create_event_field(self, event_id, name, value):
+        """
+        Create an event field (custom field on an event). Note that if an event
+        field with this name already exists, this will add a second record.
+
+        `Args:`
+            event_id: int
+                The id for the event.
+            name: string
+                The name of the event field.
+            value: string
+                The value of the event field.
+        `Returns:`
+            Event field json object
+        """
+        return self._base_post(
+            endpoint="eventfield",
+            exception_message="Could not create event field",
+            event=f"/rest/v1/event/{event_id}/",
+            name=name,
+            value=value,
+        )
+
+    def update_event_field(self, eventfield_id, name, value):
+        """
+        Update an event field.
+
+        `Args:`
+            eventfield_id: int
+                The id of the event field to update.
+            name: string
+                The name of the event field.
+            value: string
+                The value of the event field.
+        `Returns:`
+            ``None``
+        """
+        resp = self.conn.patch(
+            self._base_endpoint("eventfield", eventfield_id),
+            data=json.dumps(
+                {
+                    "name": name,
+                    "value": value,
+                }
+            ),
+        )
+        logger.info(f"{resp.status_code}: {eventfield_id}")
 
     def get_blackholed_email(self, email):
         """
@@ -352,6 +440,73 @@ class ActionKit(object):
             endpoint="campaign",
             exception_message="Could not create campaign",
             name=name,
+            **kwargs,
+        )
+
+    def search_events_in_campaign(
+        self,
+        campaign_id,
+        limit=None,
+        order_by="id",
+        ascdesc="asc",
+        filters=None,
+        exclude=None,
+        **kwargs,
+    ):
+        """
+        Get events in a campaign, with optional search filters.
+
+        `Args:`
+            campaign_id: int
+                The id of the event campaign.
+            limit: int
+                The maximum number of objects to return.
+            order_by: string
+                Event attribute to order the results by. Defaults to id, which will normally
+                be equivalent to ordering by created_at. See `ActionKit's docs on ordering
+                <https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering>`_.
+            ascdesc: string
+                If "asc" (the default), returns events ordered by the attribute specified by
+                the order_by parameter. If "desc", returns events in reverse order.
+            filters: dictionary
+                A dictionary for filtering by the attributes of the event or related object.
+                Not all attributes are available for filtering, but an eventfield will work.
+                For additional info, visit `Django's docs on field lookups
+                <https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups>`_ and
+                `ActionKit's docs on the search API
+                <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`_.
+
+                .. code-block:: python
+
+                    {
+                        "title": "Example Event Title",
+                        "field__name": "example_event_field_name",
+                        "field__value": "Example event field value",
+                    }
+            exclude: dictionary
+                A dictionary for excluding by the attributes of the event or related object.
+                Uses the same format as the filters argument.
+            **kwargs:
+                A dictionary of other options for filtering. See `ActionKit's docs on the
+                search API
+                <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`_.
+        `Returns:`
+            Parsons.Table
+                The list of events.
+        """
+        if filters:
+            for field, value in filters.items():
+                kwargs[f"filter[{field}]"] = value
+        if exclude:
+            for field, value in exclude.items():
+                kwargs[f"exclude[{field}]"] = value
+        if ascdesc == "asc":
+            kwargs["order_by"] = order_by
+        else:
+            kwargs["order_by"] = f"-{order_by}"
+        return self.paginated_get(
+            f"campaign/{campaign_id}/event_search",
+            limit=limit,
             **kwargs,
         )
 
@@ -634,9 +789,7 @@ class ActionKit(object):
         copy a mailer
         returns new copy of mailer which should be updatable.
         """
-        resp = self.conn.post(
-            self._base_endpoint("mailer", entity_id=mailer_id) + "/copy"
-        )
+        resp = self.conn.post(self._base_endpoint("mailer", entity_id=mailer_id) + "/copy")
         return resp
 
     def update_mailing(self, mailer_id, **kwargs):
@@ -654,9 +807,7 @@ class ActionKit(object):
             ``HTTP response from the patch request``
         """
 
-        resp = self.conn.patch(
-            self._base_endpoint("mailer", mailer_id), data=json.dumps(kwargs)
-        )
+        resp = self.conn.patch(self._base_endpoint("mailer", mailer_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {mailer_id}")
         return resp
 
@@ -835,10 +986,29 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.patch(
-            self._base_endpoint("order", order_id), data=json.dumps(kwargs)
-        )
+        resp = self.conn.patch(self._base_endpoint("order", order_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {order_id}")
+
+    def update_order_user_detail(self, user_detail_id, **kwargs):
+        """
+        Update an order user detail.
+
+        `Args:`
+            user_detail_id: int
+                The id of the order user detail to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                at the /rest/v1/orderuserdetail/schema/ path on any ActionKit instance.
+        `Returns:`
+            ``HTTP response from the patch request``
+        """
+
+        resp = self.conn.patch(
+            self._base_endpoint("orderuserdetail", user_detail_id), data=json.dumps(kwargs)
+        )
+        logger.info(f"{resp.status_code}: {user_detail_id}")
+
+        return resp
 
     def get_orderrecurring(self, orderrecurring_id):
         """
@@ -868,9 +1038,7 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.post(
-            self._base_endpoint("orderrecurring", str(recurring_id) + "/cancel")
-        )
+        resp = self.conn.post(self._base_endpoint("orderrecurring", str(recurring_id) + "/cancel"))
         logger.info(f"{resp.status_code}: {recurring_id}")
         return resp
 
@@ -1128,6 +1296,27 @@ class ActionKit(object):
             **kwargs,
         )
 
+    def update_import_action(self, action_id, **kwargs):
+        """
+        Update an import action.
+
+        `Args:`
+            action_id: int
+                The action id of the import action to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                at the /rest/v1/importaction/schema/ path on any ActionKit instance.
+        `Returns:`
+            ``HTTP response from the patch request``
+        """
+
+        resp = self.conn.patch(
+            self._base_endpoint("importaction", action_id), data=json.dumps(kwargs)
+        )
+        logger.info(f"{resp.status_code}: {action_id}")
+
+        return resp
+
     def bulk_upload_csv(
         self,
         csv_file,
@@ -1242,13 +1431,7 @@ class ActionKit(object):
         results = []
         for tbl in upload_tables:
             user_fields_only = int(
-                not any(
-                    [
-                        h
-                        for h in tbl.columns
-                        if h != "email" and not h.startswith("user_")
-                    ]
-                )
+                not any([h for h in tbl.columns if h != "email" and not h.startswith("user_")])
             )
             results.append(
                 self.bulk_upload_csv(
@@ -1265,9 +1448,9 @@ class ActionKit(object):
         # uploading combo of user_id and email column should be mutually exclusive
         blank_columns_test = table.columns
         if not no_overwrite_on_empty:
-            blank_columns_test = set(
-                ["user_id", "email"] + (set_only_columns or [])
-            ).intersection(table.columns)
+            blank_columns_test = set(["user_id", "email"] + (set_only_columns or [])).intersection(
+                table.columns
+            )
         for row in table:
             blanks = tuple(k for k in blank_columns_test if row.get(k) in (None, ""))
             grp = table_groups.setdefault(blanks, [])
@@ -1307,15 +1490,30 @@ class ActionKit(object):
         for res in result_array:
             upload_id = res.get("id")
             if upload_id:
+                # Pend until upload is complete
                 while True:
                     upload = self._base_get(endpoint="upload", entity_id=upload_id)
-                    if not upload or upload.get("status") != "new":
+                    if upload.get("is_completed"):
                         break
                     else:
                         time.sleep(1)
-                error_data = self._base_get(
-                    endpoint="uploaderror", params={"upload": upload_id}
-                )
-                logger.debug(f"error collect result: {error_data}")
-                errors.extend(error_data.get("objects") or [])
+
+                # ActionKit limits length of error list returned
+                # Iterate until all errors are gathered
+                error_count = upload.get("has_errors")
+                limit = 20
+
+                error_pages = math.ceil(error_count / limit)
+                for page in range(0, error_pages):
+                    error_data = self._base_get(
+                        endpoint="uploaderror",
+                        params={
+                            "upload": upload_id,
+                            "_limit": limit,
+                            "_offset": page * limit,
+                        },
+                    )
+                    logger.debug(f"error collect result: {error_data}")
+                    errors.extend(error_data.get("objects", []))
+
         return errors

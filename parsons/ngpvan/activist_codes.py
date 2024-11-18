@@ -9,7 +9,6 @@ logger = logging.getLogger(__name__)
 
 class ActivistCodes(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_activist_codes(self):
@@ -57,15 +56,12 @@ class ActivistCodes(object):
         r = self.apply_response(id, response, id_type, omit_contact=omit_contact)
 
         logger.info(
-            f"{id_type.upper()} {id} {action.capitalize()} "
-            + f"activist code {activist_code_id}"
+            f"{id_type.upper()} {id} {action.capitalize()} " + f"activist code {activist_code_id}"
         )
 
         return r
 
-    def apply_activist_code(
-        self, id, activist_code_id, id_type="vanid", omit_contact=True
-    ):
+    def apply_activist_code(self, id, activist_code_id, id_type="vanid", omit_contact=True):
         """
         Apply an activist code to or from a person.
 
@@ -108,6 +104,4 @@ class ActivistCodes(object):
             ``None``
         """
 
-        return self.toggle_activist_code(
-            id, activist_code_id, "Remove", id_type=id_type
-        )
+        return self.toggle_activist_code(id, activist_code_id, "Remove", id_type=id_type)

@@ -9,16 +9,13 @@ from parsons.utilities import cloud_storage
 
 class TestSavedLists(unittest.TestCase):
     def setUp(self):
-
         self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
 
     def tearDown(self):
-
         pass
 
     @requests_mock.Mocker()
     def test_get_saved_lists(self, m):
-
         json = {
             "count": 1,
             "items": [
@@ -41,7 +38,6 @@ class TestSavedLists(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_saved_list(self, m):
-
         saved_list_id = 517612
 
         json = {
@@ -59,7 +55,6 @@ class TestSavedLists(unittest.TestCase):
         self.assertEqual(self.van.get_saved_list(saved_list_id), json)
 
     def test_upload_saved_list(self):
-
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://box.com/my_file.zip"
 
@@ -75,7 +70,6 @@ class TestSavedLists(unittest.TestCase):
 
         @requests_mock.Mocker()
         def test_upload_saved_list_rest(self):
-
             cloud_storage.post_file = mock.MagicMock()
             cloud_storage.post_file.return_value = "https://box.com/my_file.zip"
             self.van.get_folders = mock.MagicMock()
@@ -98,7 +92,6 @@ class TestSavedLists(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_folders(self, m):
-
         json = {
             "count": 2,
             "items": [
@@ -116,7 +109,6 @@ class TestSavedLists(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_folder(self, m):
-
         folder_id = 5046
 
         json = {"folderId": 5046, "name": "#2018_MN_active_universe"}
@@ -127,7 +119,6 @@ class TestSavedLists(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_export_job_types(self, m):
-
         json = {
             "count": 1,
             "items": [{"exportJobTypeId": 4, "name": "SavedListExport"}],
@@ -142,7 +133,6 @@ class TestSavedLists(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_export_job_create(self, m):
-
         saved_list_id = 517612
 
         json = {
@@ -186,7 +176,6 @@ class TestSavedLists(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_export_job(self, m):
-
         export_job_id = 448
 
         json = {

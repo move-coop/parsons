@@ -84,9 +84,7 @@ class MobileCommons:
         # Set get request params
         params = {"limit": page_limit, **self.default_params, **params}
 
-        logger.info(
-            f"Working on fetching first {page_limit} rows. This can take a long time."
-        )
+        logger.info(f"Working on fetching first {page_limit} rows. This can take a long time.")
 
         # Make get call and parse XML into list of dicts
         page = 1
@@ -145,18 +143,21 @@ class MobileCommons:
                 f"of {limit}"
             )
             # Send get request
-            response_dict = self._parse_get_request(
-                endpoint=endpoint, params=page_params
-            )
+            response_dict = self._parse_get_request(endpoint=endpoint, params=page_params)
             # Check to see if page was empty if num parameter is available
             if page_indicator == "num":
-                empty_page = int(response_dict["response"][first_data_key]["num"]) > 0
+                empty_page = int(response_dict["response"][first_data_key]["num"]) == 0
 
             if not empty_page:
                 # Extract data
-                response_table = Table(
-                    response_dict["response"][first_data_key][second_data_key]
-                )
+                response_data = response_dict["response"][first_data_key][second_data_key]
+                # When only one row of data it is returned as dict instead of list, which
+                # cannot be put into table
+                if isinstance(response_data, dict):
+                    response_data = [response_data]
+
+                response_table = Table(response_data)
+
                 # Append to final table
                 final_table.concat(response_table)
                 final_table.materialize()
@@ -353,6 +354,9 @@ class MobileCommons:
         custom_cols = "true" if include_custom_columns else "false"
         subscriptions = "true" if include_subscriptions else "false"
 
+        if phones:
+            phones = ",".join(phones)
+
         params = {
             "phone_number": phones,
             "from": _format_date(first_date),
@@ -382,9 +386,10 @@ class MobileCommons:
         city=None,
         state=None,
         opt_in_path_id=None,
+        custom_column_values=None,
     ):
         """
-        A function for creating a single MobileCommons profile
+        A function for creating or updating a single MobileCommons profile
 
         `Args:`
             phone: str
@@ -406,9 +411,12 @@ class MobileCommons:
             opt_in_path_id: str
                 ID of the opt-in path to send new profile through. This will determine the welcome
                 text they receive.
+            custom_column_values: dict
+                Dictionary with custom column names as keys and custom column values
+                as dictionary values
 
         `Returns:`
-            ID of created profile
+            ID of created/updated  profile
         """
 
         params = {
@@ -423,6 +431,9 @@ class MobileCommons:
             "opt_in_path_id": opt_in_path_id,
             **self.default_params,
         }
+
+        if custom_column_values:
+            params.update(custom_column_values)
 
         response = self._mc_post_request("profile_update", params=params)
         return response["profile"]["id"]

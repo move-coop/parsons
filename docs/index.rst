@@ -189,10 +189,10 @@ Indices and tables
    azure
    bill_com
    bloomerang
-   bluelink
    box
    braintree
    capitolcanary
+   census
    civis
    controlshift
    copper
@@ -201,6 +201,7 @@ Indices and tables
    donorbox
    empower
    facebook_ads
+   formstack
    freshdesk
    github
    google

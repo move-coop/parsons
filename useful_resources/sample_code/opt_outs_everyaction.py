@@ -52,7 +52,6 @@ rs = Redshift()
 def attempt_optout(
     every_action, row, applied_at, committeeid, success_log, error_log, attempts_left=3
 ):
-
     vanid = row["vanid"]
     phone = row["phone"]
 
@@ -154,7 +153,6 @@ def main():
 
     # Loop through each committee to opt-out phones
     for committee in COMMITTEES:
-
         api_key = committee["api_key"]
         committeeid = committee["committee_id"]
         committee_name = committee["committee"]
@@ -165,20 +163,14 @@ def main():
 
         # Here we narrow the all_opt_outs table to only the rows that correspond
         # to this committee.
-        opt_outs = all_opt_outs.select_rows(
-            lambda row: str(row.committeeid) == committeeid
-        )
+        opt_outs = all_opt_outs.select_rows(lambda row: str(row.committeeid) == committeeid)
 
-        logger.info(
-            f"Found {opt_outs.num_rows} phones to opt out in {committee_name} committee..."
-        )
+        logger.info(f"Found {opt_outs.num_rows} phones to opt out in {committee_name} committee...")
 
         # Now we actually update the records
 
         if opt_outs.num_rows > 0:
-
             for opt_out in opt_outs:
-
                 applied_at = str(datetime.now()).split(".")[0]
                 attempt_optout(
                     every_action,
@@ -195,9 +187,7 @@ def main():
     if len(success_log) > 0:
         success_parsonstable = Table(success_log)
         logger.info("Copying success data into log table...")
-        rs.copy(
-            success_parsonstable, SUCCESS_TABLE, if_exists="append", alter_table=True
-        )
+        rs.copy(success_parsonstable, SUCCESS_TABLE, if_exists="append", alter_table=True)
         logger.info("Success log complete.")
 
     if len(error_log) > 0:

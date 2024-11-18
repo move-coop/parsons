@@ -26,12 +26,9 @@ users_table = Table(
 )
 
 
-@unittest.skipIf(
-    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
-)
+@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestFacebookAdsIntegration(unittest.TestCase):
     def setUp(self):
-
         self.fb_ads = FacebookAds()
 
         self.audience_id = self.fb_ads.create_custom_audience(
@@ -66,31 +63,21 @@ class TestFacebookAdsIntegration(unittest.TestCase):
                 {"full name": "Bob Smith"},
             ]
         )
-        self.assertRaises(
-            KeyError, self.fb_ads.add_users_to_custom_audience, self.audience_id, tbl
-        )
+        self.assertRaises(KeyError, self.fb_ads.add_users_to_custom_audience, self.audience_id, tbl)
 
 
 class TestFacebookAdsUtilities(unittest.TestCase):
     def test_get_match_key_for_column(self):
         # Test just a few of the mappings
         self.assertEqual("EMAIL", FacebookAds._get_match_key_for_column("email"))
-        self.assertEqual(
-            "EMAIL", FacebookAds._get_match_key_for_column("voterbase_email")
-        )
+        self.assertEqual("EMAIL", FacebookAds._get_match_key_for_column("voterbase_email"))
         self.assertEqual("FN", FacebookAds._get_match_key_for_column("first name"))
         self.assertEqual("FN", FacebookAds._get_match_key_for_column("FIRST-NAME "))
-        self.assertEqual(
-            "FN", FacebookAds._get_match_key_for_column("vb_tsmart_first_name")
-        )
+        self.assertEqual("FN", FacebookAds._get_match_key_for_column("vb_tsmart_first_name"))
         self.assertEqual("LN", FacebookAds._get_match_key_for_column("Last Name!"))
         self.assertEqual("ST", FacebookAds._get_match_key_for_column("state code"))
-        self.assertEqual(
-            "ST", FacebookAds._get_match_key_for_column("vb_vf_source_state")
-        )
-        self.assertEqual(
-            "GEN", FacebookAds._get_match_key_for_column("vb_voterbase_gender")
-        )
+        self.assertEqual("ST", FacebookAds._get_match_key_for_column("vb_vf_source_state"))
+        self.assertEqual("GEN", FacebookAds._get_match_key_for_column("vb_voterbase_gender"))
         self.assertEqual(
             "PHONE",
             FacebookAds._get_match_key_for_column("vb_voterbase_phone_wireless"),

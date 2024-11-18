@@ -145,7 +145,6 @@ class PostgresCreateStatement(DatabaseCreateStatement):
         # Set the varchar width of a column to the maximum
 
         for c in columns:
-
             try:
                 idx = mapping["headers"].index(c)
                 mapping["longest"][idx] = self.VARCHAR_MAX
@@ -157,13 +156,9 @@ class PostgresCreateStatement(DatabaseCreateStatement):
         return mapping["longest"]
 
     def vc_trunc(self, mapping):
-
-        return [
-            self.VARCHAR_MAX if c > self.VARCHAR_MAX else c for c in mapping["longest"]
-        ]
+        return [self.VARCHAR_MAX if c > self.VARCHAR_MAX else c for c in mapping["longest"]]
 
     def vc_validate(self, mapping):
-
         return [1 if c == 0 else c for c in mapping["longest"]]
 
     def create_sql(self, table_name, mapping, distkey=None, sortkey=None):

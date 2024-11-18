@@ -1,9 +1,9 @@
 import json
-import unittest
 import os
 import tempfile
+import unittest
 
-from parsons.google import utitities as util
+from parsons.google import utilities as util
 
 
 class FakeCredentialTest(unittest.TestCase):
@@ -37,9 +37,7 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
         self.assertEqual(os.environ[self.TEST_ENV_NAME], self.cred_path)
 
     def test_accepts_dictionary(self):
-        util.setup_google_application_credentials(
-            self.cred_contents, self.TEST_ENV_NAME
-        )
+        util.setup_google_application_credentials(self.cred_contents, self.TEST_ENV_NAME)
         actual = os.environ[self.TEST_ENV_NAME]
         self.assertTrue(os.path.exists(actual))
         with open(actual, "r") as f:
@@ -62,9 +60,7 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
 
     def test_credentials_are_valid_after_double_call(self):
         # write creds to tmp file...
-        util.setup_google_application_credentials(
-            self.cred_contents, self.TEST_ENV_NAME
-        )
+        util.setup_google_application_credentials(self.cred_contents, self.TEST_ENV_NAME)
         fst = os.environ[self.TEST_ENV_NAME]
 
         # repeat w/ default args...
@@ -76,3 +72,15 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
                 actual = fsnd.read()
                 self.assertEqual(self.cred_contents, json.loads(actual))
                 self.assertEqual(ffst.read(), actual)
+
+
+class TestHexavigesimal(unittest.TestCase):
+    def test_returns_A_on_1(self):
+        self.assertEqual(util.hexavigesimal(1), "A")
+
+    def test_returns_AA_on_27(self):
+        self.assertEqual(util.hexavigesimal(27), "AA")
+
+    def test_returns_error_on_0(self):
+        with self.assertRaises(ValueError):
+            util.hexavigesimal(0)

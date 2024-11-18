@@ -41,11 +41,8 @@ QUERY = """-- Enter SQL here"""
 # There is a limit to the number of calls per minute,
 # so we use request_count to set a maximum number of tries
 def try_overwrite(table, request_count, sheet_id, tab_index):
-
     try:
-        gsheets.overwrite_sheet(
-            sheet_id, table, worksheet=tab_index, user_entered_value=False
-        )
+        gsheets.overwrite_sheet(sheet_id, table, worksheet=tab_index, user_entered_value=False)
 
     except APIError as e:
         print(f"trying to overwrite {tab_index} for the {request_count}th time")
@@ -60,31 +57,23 @@ def main():
     logger.info(f"Creating Google Sheets workbook called '{TITLE}'")
 
     try:
-        new_sheet = gsheets.create_spreadsheet(
-            title=TITLE, editor_email=None, folder_id=FOLDER_ID
-        )
+        new_sheet = gsheets.create_spreadsheet(title=TITLE, editor_email=None, folder_id=FOLDER_ID)
         # If successful new_sheet will be the spreadsheet's ID in a string
         if isinstance(new_sheet, str):
             logger.info(f"Successfully created sheet {TITLE}!")
         # If we do not get a string back from the create_spreadsheet call
         # then something went wrong. Print the response.
         else:
-            logger.info(
-                f"create_spreadsheet did not return a sheet ID. Issue: {str(new_sheet)}"
-            )
+            logger.info(f"create_spreadsheet did not return a sheet ID. Issue: {str(new_sheet)}")
 
     # If we get an error when trying to create the spreadsheet we print the error.
     except Exception as e:
-        logger.info(
-            f"There was a problem creating the Google Sheets workbook! Error: {str(e)}"
-        )
+        logger.info(f"There was a problem creating the Google Sheets workbook! Error: {str(e)}")
 
     logger.info("Querying MYSQL database...")
     query_results = mysql.query(QUERY)
 
-    logger.info(
-        f"Querying complete. Preparing to load data into Google Sheets tab {TAB_LABEL}"
-    )
+    logger.info(f"Querying complete. Preparing to load data into Google Sheets tab {TAB_LABEL}")
     query_results.convert_columns_to_str()
     request_count = 0
     tab_index = gsheets.add_sheet(new_sheet, title=TAB_LABEL)

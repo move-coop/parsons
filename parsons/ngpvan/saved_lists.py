@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 
 class SavedLists(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_saved_lists(self, folder_id=None):
@@ -27,9 +26,7 @@ class SavedLists(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(
-            self.connection.get_request("savedLists", params={"folderId": folder_id})
-        )
+        tbl = Table(self.connection.get_request("savedLists", params={"folderId": folder_id}))
         logger.info(f"Found {tbl.num_rows} saved lists.")
         return tbl
 
@@ -127,9 +124,7 @@ class SavedLists(object):
         """
         rando = str(uuid.uuid1())
         file_name = rando + ".csv"
-        url = cloud_storage.post_file(
-            tbl, url_type, file_path=rando + ".zip", **url_kwargs
-        )
+        url = cloud_storage.post_file(tbl, url_type, file_path=rando + ".zip", **url_kwargs)
         logger.info(f"Table uploaded to {url_type}.")
 
         # VAN errors for this method are not particularly useful or helpful. For that reason, we
@@ -138,10 +133,7 @@ class SavedLists(object):
         if folder_id not in [x["folderId"] for x in self.get_folders()]:
             raise ValueError("Folder does not exist or is not shared with API user.")
 
-        if (
-            list_name in [x["name"] for x in self.get_saved_lists(folder_id)]
-            and not overwrite
-        ):
+        if list_name in [x["name"] for x in self.get_saved_lists(folder_id)] and not overwrite:
             raise ValueError(
                 "Saved list already exists. Set overwrite "
                 "argument to list ID or change list name."
@@ -179,13 +171,10 @@ class SavedLists(object):
         if overwrite:
             json["actions"][0]["overwriteExistingListId"] = overwrite
 
-        file_load_job_response = self.connection.post_request(
-            "fileLoadingJobs", json=json
-        )
+        file_load_job_response = self.connection.post_request("fileLoadingJobs", json=json)
         job_id = file_load_job_response["jobId"]
         logger.info(
-            f"Saved list job {job_id} created. Reference "
-            "callback url to check for job status"
+            f"Saved list job {job_id} created. Reference " "callback url to check for job status"
         )
         return file_load_job_response
 
@@ -231,9 +220,7 @@ class SavedLists(object):
         """
         # Move to cloud storage
         file_name = str(uuid.uuid1())
-        url = cloud_storage.post_file(
-            tbl, url_type, file_path=file_name + ".zip", **url_kwargs
-        )
+        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + ".zip", **url_kwargs)
         logger.info(f"Table uploaded to {url_type}.")
 
         # VAN errors for this method are not particularly useful or helpful. For that reason, we
@@ -258,9 +245,7 @@ class SavedLists(object):
                 "uploading a list of vanids."
             )
         # Create XML
-        xml = self.connection.soap_client.factory.create(
-            "CreateAndStoreSavedListMetaData"
-        )
+        xml = self.connection.soap_client.factory.create("CreateAndStoreSavedListMetaData")
         xml.SavedList._Name = list_name
         xml.DestinationFolder._ID = folder_id
         xml.SourceFile.FileName = file_name + ".csv"
@@ -269,9 +254,7 @@ class SavedLists(object):
         xml.Options.OverwriteExistingList = replace
 
         # Describe file
-        file_desc = self.connection.soap_client.factory.create(
-            "SeparatedFileFormatDescription"
-        )
+        file_desc = self.connection.soap_client.factory.create("SeparatedFileFormatDescription")
         file_desc._name = "csv"
         file_desc.HasHeaderRow = True
 
@@ -285,9 +268,7 @@ class SavedLists(object):
         file_desc.Columns.Column.append(col)
         xml.SourceFile.Format = file_desc
 
-        r = Client.dict(
-            self.connection.soap_client.service.CreateAndStoreSavedList(xml)
-        )
+        r = Client.dict(self.connection.soap_client.service.CreateAndStoreSavedList(xml))
         if r:
             logger.info(f"Uploaded {r['ListSize']} records to {r['_Name']} saved list.")
         return r
@@ -295,7 +276,6 @@ class SavedLists(object):
 
 class Folders(object):
     def __init__(self, van_connection):
-
         # Some sort of test if the van_connection is not present.
 
         self.connection = van_connection
@@ -332,7 +312,6 @@ class Folders(object):
 
 class ExportJobs(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_export_job_types(self):
@@ -348,9 +327,7 @@ class ExportJobs(object):
         logger.info(f"Found {tbl.num_rows} export job types.")
         return tbl
 
-    def export_job_create(
-        self, list_id, export_type=4, webhookUrl="https://www.nothing.com"
-    ):
+    def export_job_create(self, list_id, export_type=4, webhookUrl="https://www.nothing.com"):
         """
         Creates an export job
 

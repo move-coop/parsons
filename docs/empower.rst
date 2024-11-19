@@ -8,17 +8,19 @@ Overview
 The Empower class allows you to interact with the Empower API. Documentation for the Empower API can be found
 in their `GitHub <https://github.com/getempower/api-documentation/blob/master/README.md>`_ repo.
 
+The Empower API only has a single endpoint to access all account data. As such, it has a very high overhead. This
+connector employs caching in order to allow the user to specify the tables to extract without additional API calls.
+You can disable caching as an argument when instantiating the class.
+
 .. note::
-    The Empower API only has a single endpoint to access all account data. As such, it has a very high overhead. This
-    connector employs caching in order to allow the user to specify the tables to extract without additional API calls.
-    You can disable caching as an argument when instantiating the class.
+    To authenticate, request a secret token from Empower. 
 
 ==========
 Quickstart
 ==========
 
-To instantiate the Empower class, you can either store your ``EMPOWER_API_KEY`` an environment
-variables or pass them in as arguments:
+To instantiate the Empower class, you can either store your ``EMPOWER_API_KEY`` as an environment
+variables or pass it in as an argument:
 
 .. code-block:: python
 

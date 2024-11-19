@@ -1,8 +1,8 @@
 from parsons.utilities.api_connector import APIConnector
 from parsons.utilities import check_env
+from parsons.utilities.datetime import unix_convert
 from parsons.etl import Table
 import logging
-from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -30,21 +30,21 @@ class Empower(object):
     def __init__(self, api_key=None, empower_uri=None, cache=True):
         self.api_key = check_env.check("EMPOWER_API_KEY", api_key)
         self.empower_uri = (
-            check_env.check("EMPOWER_URI", empower_uri, optional=True) or EMPOWER_API_ENDPOINT
+            check_env.check("EMPOWER_URI", empower_uri, optional=True)
+            or EMPOWER_API_ENDPOINT
         )
         self.headers = {"accept": "application/json", "secret-token": self.api_key}
         self.client = APIConnector(
             self.empower_uri,
             headers=self.headers,
         )
-        self.data = None
         self.data = self._get_data(cache)
 
     def _get_data(self, cache):
         """
         Gets fresh data from Empower API based on cache setting.
         """
-
+        self.get("data", None)
         if not cache or self.data is None:
             r = self.client.get_request(self.empower_uri)
             logger.info("Empower data downloaded.")
@@ -52,15 +52,6 @@ class Empower(object):
 
         else:
             return self.data
-
-    def _unix_convert(self, ts):
-        """
-        Converts UNIX timestamps to readable timestamps.
-        """
-
-        ts = datetime.utcfromtimestamp(int(ts) / 1000)
-        ts = ts.strftime("%Y-%m-%d %H:%M:%S UTC")
-        return ts
 
     def _empty_obj(self, obj_name):
         """
@@ -83,8 +74,10 @@ class Empower(object):
 
         tbl = Table(self.data["profiles"])
         for col in ["createdMts", "lastUsedEmpowerMts", "updatedMts"]:
-            tbl.convert_column(col, lambda x: self._unix_convert(x))
-        tbl.remove_column("activeCtaIds")  # Get as a method via get_profiles_active_ctas
+            tbl.convert_column(col, lambda x: unix_convert(x))
+        tbl.remove_column(
+            "activeCtaIds"
+        )  # Get as a method via get_profiles_active_ctas
         return tbl
 
     def get_profiles_active_ctas(self):
@@ -109,7 +102,7 @@ class Empower(object):
         """
 
         tbl = Table(self.data["regions"])
-        tbl.convert_column("inviteCodeCreatedMts", lambda x: self._unix_convert(x))
+        tbl.convert_column("inviteCodeCreatedMts", lambda x: unix_convert(x))
         return tbl
 
     def get_cta_results(self):
@@ -121,8 +114,9 @@ class Empower(object):
                 See :ref:`parsons-table` for output options.
         """
 
+        # unpacks answerIdsByPromptId into standalone rows
         tbl = Table(self.data["ctaResults"])
-        tbl.convert_column("contactedMts", lambda x: self._unix_convert(x))
+        tbl.convert_column("contactedMts", lambda x: unix_convert(x))
         tbl = tbl.unpack_nested_columns_as_rows(
             "answerIdsByPromptId", key="profileEid", expand_original=True
         )
@@ -145,16 +139,25 @@ class Empower(object):
             "updatedMts",
             "activeUntilMts",
         ]:
-            ctas.convert_column(col, lambda x: self._unix_convert(x))
-        ctas.remove_column("regionIds")  # Get as a table via get_cta_regions()
-        ctas.remove_column("shareables")  # Get as a table via get_cta_shareables()
-        ctas.remove_column("prioritizations")  # Get as a table via get_cta_prioritizations()
+            ctas.convert_column(col, lambda x: unix_convert(x))
+        # Get following data as their own tables via their own methods
+        ctas.remove_column("regionIds")  # get_cta_regions()
+        ctas.remove_column("shareables")  # get_cta_shareables()
+        ctas.remove_column("prioritizations")  # get_cta_prioritizations()
         ctas.remove_column("questions")  # This column has been deprecated.
-        cta_prompts = ctas.long_table("id", "prompts", prepend=False, retain_original=False)
+
+        cta_prompts = ctas.long_table(
+            "id", "prompts", prepend=False, retain_original=False
+        )
         cta_prompts.remove_column("ctaId")
+
         cta_prompt_answers = cta_prompts.long_table("id", "answers", prepend=False)
 
-        return [ctas, cta_prompts, cta_prompt_answers]
+        return {
+            "ctas": ctas,
+            "cta_prompts": cta_prompts,
+            "cta_prompt_answers": cta_prompt_answers,
+        }
 
     def get_ctas(self):
         """
@@ -165,7 +168,7 @@ class Empower(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        return self._split_ctas()[0]
+        return self._split_ctas()["ctas"]
 
     def get_cta_prompts(self):
         """
@@ -176,7 +179,7 @@ class Empower(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        return self._split_ctas()[1]
+        return self._split_ctas()["cta_prompts"]
 
     def get_cta_prompt_answers(self):
         """
@@ -187,7 +190,7 @@ class Empower(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        return self._split_ctas()[2]
+        return self._split_ctas()["cta_prompt_answers"]
 
     def get_cta_regions(self):
         """
@@ -243,8 +246,7 @@ class Empower(object):
             "outreachSnoozeUntilMts",
             "outreachScheduledFollowUpMts",
         ]:
-            tbl.convert_column(col, lambda x: self._unix_convert(x))
-            logger.info(f"Unable to find column {col}")
+            tbl.convert_column(col, lambda x: unix_convert(x))
         return tbl
 
     def get_full_export(self):

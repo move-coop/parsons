@@ -258,6 +258,9 @@ class Airmeet(object):
         """
         Get the list of booths for a specific Airmeet by ID.
 
+        `CAUTION: This method is untested. Booths are available only in
+        certain Airmeet plans.`
+
         `Args:`
             airmeet_id: string
                 The id of the Airmeet.
@@ -278,6 +281,9 @@ class Airmeet(object):
 
         "This is an Asynchronous API. If you get a 202 code in response,
         please try again after 5 minutes."
+
+        `CAUTION: This method is untested. Booths are available only in
+        certain Airmeet plans.`
 
         `Args:`
             airmeet_id: string
@@ -327,6 +333,9 @@ class Airmeet(object):
     def fetch_event_tracks(self, airmeet_id) -> Table:
         """
         Get a list of the tracks in a specific Airmeet by ID.
+
+        `CAUTION: This method is untested. Event tracks are available only in
+        certain Airmeet plans.`
 
         `Args:`
             airmeet_id: string

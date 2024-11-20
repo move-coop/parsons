@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 API_URL = "https://engage.newmode.net/api/"
 
 
-class NewMode(object):
+class Newmode(object):
     """
     Instantiate Class
     `Args`:
@@ -20,33 +20,47 @@ class NewMode(object):
             The password to use for the API requests. Not required if ``NEWMODE_API_PASSWORD``
             env variable set.
         api_version: str
-            The api version to use. Defaults to v2.1
+            The api version to use. Defaults to v1.0
     Returns:
         NewMode Class
     """
 
-    def __init__(self, api_user=None, api_password=None, api_version="v2.1"):
+    def __init__(self, api_user=None, api_password=None, api_version="v1.0"):
         self.base_url = check_env.check("NEWMODE_API_URL", API_URL)
         self.api_user = check_env.check("NEWMODE_API_USER", api_user)
         self.api_password = check_env.check("NEWMODE_API_PASSWORD", api_password)
         self.api_version = check_env.check("NEWMODE_API_VERSION", api_version)
         self.headers = {"Content-Type": "application/json"}
-        self.url = f"{self.base_url}{self.api_version}/"
         self.client = APIConnector(
-            self.api_url_with_version,
+            self.base_url,
             auth=(self.api_user, self.api_password),
             headers=self.headers,
         )
 
-    def base_request(
-        self,
-        endpoint,
-        method,
-        requires_csrf=True,
-        params={},
-    ):
+    def check_api_version(self, documentation_url="TODO", v1_0=True, v2_1=True):
+        exception_text = f"Endpoint not supported by API version {self.api_version}"
+        if self.api_version == "v1.0":
+            logger.warning(
+                "Newmode API v1.0 will no longer be supported starting February 2025."
+                f"Documentation for v2.1 here: {documentation_url}"
+            )
+            if not v1_0:
+                raise Exception(exception_text)
+        elif self.api_version == "v2.1" and not v2_1:
+            raise Exception(exception_text)
 
-        url = endpoint
+    def convert_to_table(self, data):
+        """Internal method to create a Parsons table from a data element."""
+
+        table = None
+        if type(data) is list:
+            table = Table(data)
+        else:
+            table = Table([data])
+
+        return table
+
+    def base_request(self, method, url, requires_csrf=True, params={}):
 
         if requires_csrf:
             csrf = self.get_csrf_token()
@@ -58,12 +72,28 @@ class NewMode(object):
         elif method == "PATCH":
             response = self.client.patch_request(url=url, params=params)
             # response.get("_embedded", {}).get(f"osdi:{object_name}")
-        try:
-            tbl = Table(response)
-        except Exception as e:
-            logger.error("Failed to convert API response json to Parsons Table")
-            raise e
-        return tbl
+        return response
+
+    def converted_request(
+        self,
+        endpoint,
+        method,
+        requires_csrf=True,
+        supports_version=True,
+        params={},
+        convert_to_table=True,
+        v1_0=True,
+        v2_1=True,
+    ):
+        self.check_api_version(v1_0=v1_0, v2_1=v2_1)
+        url = f"{self.api_version}/{endpoint}" if supports_version else endpoint
+        response = self.base_request(
+            method=method, url=url, requires_csrf=requires_csrf, params=params
+        )
+        if convert_to_table:
+            return self.convert_to_table(response)
+        else:
+            return response
 
     def get_csrf_token(self, max_retries=10):
         """
@@ -74,15 +104,22 @@ class NewMode(object):
         `Returns:`
             The CSRF token.
         """
+
         for attempt in range(max_retries):
             try:
-                response = self.base_request(
-                    endpoint="session/token", method="GET", requires_csrf=False
+                response = self.converted_request(
+                    endpoint="session/token",
+                    method="GET",
+                    supports_version=False,
+                    requires_csrf=False,
+                    convert_to_table=False,
                 )
-                return response
+                return response["X-CSRF-Token"]
             except Exception as e:
                 if attempt >= max_retries:
-                    logger.error((f"Error getting CSRF Token after {max_retries} retries"))
+                    logger.error(
+                        (f"Error getting CSRF Token after {max_retries} retries")
+                    )
                     raise e
                 logger.warning(
                     f"Retry {attempt} at getting CSRF Token failed. Retrying. Error: {e}"
@@ -98,7 +135,7 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing tools data.
         """
-        response = self.base_request(endpoint="tool", method="GET", params=params)
+        response = self.converted_request(endpoint="tool", method="GET", params=params)
         return response
 
     def get_tool(self, tool_id, params={}):
@@ -112,7 +149,7 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing the tool data.
         """
-        response = self.base_request(
+        response = self.converted_request(
             endpoint=f"tool/{tool_id}", method="GET", params=params
         )
         return response
@@ -133,7 +170,9 @@ class NewMode(object):
         endpoint = f"lookup/{tool_id}"
         if search:
             endpoint += f"/{search}"
-        response = self.base_request(endpoint=endpoint, method="GET", params=params)
+        response = self.converted_request(
+            endpoint=endpoint, method="GET", params=params
+        )
         return response
 
     def get_action(self, tool_id, params={}):
@@ -147,7 +186,7 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing action data.
         """
-        response = self.base_request(
+        response = self.converted_request(
             endpoint=f"action/{tool_id}", method="GET", params=params
         )
         return response
@@ -165,7 +204,7 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing posted outreach information.
         """
-        response = self.base_request(
+        response = self.converted_request(
             endpoint=f"action/{tool_id}", method="PATCH", payload=payload, params=params
         )
         return response
@@ -181,7 +220,7 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing target data.
         """
-        response = self.base_request(
+        response = self.converted_request(
             endpoint=f"target/{target_id}", method="GET", params=params
         )
         return response
@@ -195,7 +234,9 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing campaigns data.
         """
-        response = self.base_request(endpoint="campaign", method="GET", params=params)
+        response = self.converted_request(
+            endpoint="campaign", method="GET", params=params
+        )
         return response
 
     def get_campaign(self, campaign_id, params={}):
@@ -209,7 +250,7 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing campaign data.
         """
-        response = self.base_request(
+        response = self.converted_request(
             endpoint=f"campaign/{campaign_id}", method="GET", params=params
         )
         return response
@@ -223,7 +264,7 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing organizations data.
         """
-        response = self.base_request(
+        response = self.converted_request(
             endpoint="organization", method="GET", params=params
         )
         return response
@@ -239,7 +280,7 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing organization data.
         """
-        response = self.base_request(
+        response = self.converted_request(
             endpoint=f"organization/{organization_id}", method="GET", params=params
         )
         return response
@@ -253,7 +294,9 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing services data.
         """
-        response = self.base_request(endpoint="service", method="GET", params=params)
+        response = self.converted_request(
+            endpoint="service", method="GET", params=params
+        )
         return response
 
     def get_service(self, service_id, params={}):
@@ -267,7 +310,7 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing service data.
         """
-        response = self.base_request(
+        response = self.converted_request(
             endpoint=f"service/{service_id}", method="GET", params=params
         )
         return response
@@ -281,7 +324,9 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing targets data.
         """
-        response = self.base_request(endpoint="target", method="GET", params=params)
+        response = self.converted_request(
+            endpoint="target", method="GET", params=params
+        )
         return response
 
     def get_outreaches(self, tool_id, params={}):
@@ -296,7 +341,7 @@ class NewMode(object):
             Parsons Table containing outreaches data.
         """
         params["nid"] = str(tool_id)
-        response = self.base_request(
+        response = self.converted_request(
             endpoint="outreach", method="GET", requires_csrf=False, params=params
         )
         return response
@@ -312,8 +357,7 @@ class NewMode(object):
         `Returns:`
             Parsons Table containing outreach data.
         """
-        response = self.base_request(
+        response = self.converted_request(
             endpoint=f"outreach/{outreach_id}", method="GET", params=params
         )
         return response
-    

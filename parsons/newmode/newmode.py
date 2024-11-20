@@ -1,5 +1,6 @@
 from parsons.utilities.api_connector import APIConnector
 from parsons.utilities import check_env
+from parsons import Table
 import logging
 import time
 
@@ -56,29 +57,37 @@ class NewMode(object):
             response = self.client.get_request(url=url, params=params)
         elif method == "PATCH":
             response = self.client.patch_request(url=url, params=params)
-        return response
+            # response.get("_embedded", {}).get(f"osdi:{object_name}")
+        try:
+            tbl = Table(response)
+        except Exception as e:
+            logger.error("Failed to convert API response json to Parsons Table")
+            raise e
+        return tbl
 
-    def get_csrf_token(self, max_attempts=10):
+    def get_csrf_token(self, max_retries-10):
         """
         Retrieve a CSRF token for making API requests
         `Args:`
-            max_attempts: int
+            max_retries: int
                 The maximum number of attempts to get the CSRF token.
         `Returns:`
             The CSRF token.
         """
-        for attempt in range(max_attempts):
+        for attempt in range(max_retries):
             try:
                 response = self.base_request(
                     endpoint="session/token", method="GET", requires_csrf=False
                 )
                 return response
             except Exception as e:
+                if attempt >= max_retries:
+                    logger.error((f"Error getting CSRF Token after {max_retries} retries"))
+                    raise e
                 logger.warning(
-                    f"Attempt {attempt} at getting CSRF Token failed. Retrying. Error: {e}"
+                    f"Retry {attempt} at getting CSRF Token failed. Retrying. Error: {e}"
                 )
                 time.sleep(attempt + 1)
-        logger.warning(f"Error getting CSRF Token after {max_attempts} attempts")
 
     def get_tools(self, params={}):
         """
@@ -87,7 +96,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing tools data.
+            Parsons Table containing tools data.
         """
         response = self.base_request(endpoint="tool", method="GET", params=params)
         return response
@@ -101,7 +110,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing the tool data.
+            Parsons Table containing the tool data.
         """
         response = self.base_request(
             endpoint=f"tool/{tool_id}", method="GET", params=params
@@ -119,7 +128,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing target data.
+            Parsons Table containing target data.
         """
         endpoint = f"lookup/{tool_id}"
         if search:
@@ -136,7 +145,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing action data.
+            Parsons Table containing action data.
         """
         response = self.base_request(
             endpoint=f"action/{tool_id}", method="GET", params=params
@@ -154,7 +163,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing posted outreach information.
+            Parsons Table containing posted outreach information.
         """
         response = self.base_request(
             endpoint=f"action/{tool_id}", method="PATCH", payload=payload, params=params
@@ -170,7 +179,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing target data.
+            Parsons Table containing target data.
         """
         response = self.base_request(
             endpoint=f"target/{target_id}", method="GET", params=params
@@ -184,7 +193,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing campaigns data.
+            Parsons Table containing campaigns data.
         """
         response = self.base_request(endpoint="campaign", method="GET", params=params)
         return response
@@ -198,7 +207,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing campaign data.
+            Parsons Table containing campaign data.
         """
         response = self.base_request(
             endpoint=f"campaign/{campaign_id}", method="GET", params=params
@@ -212,7 +221,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing organizations data.
+            Parsons Table containing organizations data.
         """
         response = self.base_request(
             endpoint="organization", method="GET", params=params
@@ -228,7 +237,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing organization data.
+            Parsons Table containing organization data.
         """
         response = self.base_request(
             endpoint=f"organization/{organization_id}", method="GET", params=params
@@ -242,7 +251,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing services data.
+            Parsons Table containing services data.
         """
         response = self.base_request(endpoint="service", method="GET", params=params)
         return response
@@ -256,7 +265,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing service data.
+            Parsons Table containing service data.
         """
         response = self.base_request(
             endpoint=f"service/{service_id}", method="GET", params=params
@@ -270,7 +279,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing targets data.
+            Parsons Table containing targets data.
         """
         response = self.base_request(endpoint="target", method="GET", params=params)
         return response
@@ -284,7 +293,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing outreaches data.
+            Parsons Table containing outreaches data.
         """
         params["nid"] = str(tool_id)
         response = self.base_request(
@@ -301,7 +310,7 @@ class NewMode(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Response object from the API request containing outreach data.
+            Parsons Table containing outreach data.
         """
         response = self.base_request(
             endpoint=f"outreach/{outreach_id}", method="GET", params=params
@@ -364,14 +373,14 @@ class NewMode(object):
 #             self.headers["X-CSRF-Token"] = csrf      
 #         return self.client.get_request(url=url, params=params)
 
-#     def get_csrf_token(self, max_attempts=10):
-#         for attempt in range(max_attempts):
+#     def get_csrf_token(self, max_retries=10):
+#         for attempt in range(max_retries):
 #             try:
 #                 response = self.base_request(endpoint="session/token", requires_csrf=False)
 #                 return response
 #             except Exception as e:
 #                 logger.warning(f"Attempt {attempt} at getting CSRF Token failed. Retrying. Error: {e}")
-#         logger.warning(f"Error getting CSRF Token after {max_attempts} attempts")
+#         logger.warning(f"Error getting CSRF Token after {max_retries} attempts")
 
 #     def get_tools(self, params={}):
 #         response = self.baseRequest(endpoint="tool", params=params)

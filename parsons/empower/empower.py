@@ -38,13 +38,13 @@ class Empower(object):
             self.empower_uri,
             headers=self.headers,
         )
+        self.data = None
         self.data = self._get_data(cache)
 
     def _get_data(self, cache):
         """
         Gets fresh data from Empower API based on cache setting.
         """
-        self.get("data", None)
         if not cache or self.data is None:
             r = self.client.get_request(self.empower_uri)
             logger.info("Empower data downloaded.")

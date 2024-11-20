@@ -65,7 +65,7 @@ class NewMode(object):
             raise e
         return tbl
 
-    def get_csrf_token(self, max_retries-10):
+    def get_csrf_token(self, max_retries=10):
         """
         Retrieve a CSRF token for making API requests
         `Args:`

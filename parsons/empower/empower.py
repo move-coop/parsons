@@ -1,6 +1,6 @@
 from parsons.utilities.api_connector import APIConnector
 from parsons.utilities import check_env
-from parsons.utilities.datetime import unix_convert
+from parsons.utilities.datetime import convert_unix_to_readable
 from parsons.etl import Table
 import logging
 
@@ -74,7 +74,7 @@ class Empower(object):
 
         tbl = Table(self.data["profiles"])
         for col in ["createdMts", "lastUsedEmpowerMts", "updatedMts"]:
-            tbl.convert_column(col, lambda x: unix_convert(x))
+            tbl.convert_column(col, lambda x: convert_unix_to_readable(x))
         tbl.remove_column(
             "activeCtaIds"
         )  # Get as a method via get_profiles_active_ctas
@@ -102,7 +102,9 @@ class Empower(object):
         """
 
         tbl = Table(self.data["regions"])
-        tbl.convert_column("inviteCodeCreatedMts", lambda x: unix_convert(x))
+        tbl.convert_column(
+            "inviteCodeCreatedMts", lambda x: convert_unix_to_readable(x)
+        )
         return tbl
 
     def get_cta_results(self):
@@ -116,7 +118,7 @@ class Empower(object):
 
         # unpacks answerIdsByPromptId into standalone rows
         tbl = Table(self.data["ctaResults"])
-        tbl.convert_column("contactedMts", lambda x: unix_convert(x))
+        tbl.convert_column("contactedMts", lambda x: convert_unix_to_readable(x))
         tbl = tbl.unpack_nested_columns_as_rows(
             "answerIdsByPromptId", key="profileEid", expand_original=True
         )
@@ -139,7 +141,7 @@ class Empower(object):
             "updatedMts",
             "activeUntilMts",
         ]:
-            ctas.convert_column(col, lambda x: unix_convert(x))
+            ctas.convert_column(col, lambda x: convert_unix_to_readable(x))
         # Get following data as their own tables via their own methods
         ctas.remove_column("regionIds")  # get_cta_regions()
         ctas.remove_column("shareables")  # get_cta_shareables()
@@ -246,7 +248,7 @@ class Empower(object):
             "outreachSnoozeUntilMts",
             "outreachScheduledFollowUpMts",
         ]:
-            tbl.convert_column(col, lambda x: unix_convert(x))
+            tbl.convert_column(col, lambda x: convert_unix_to_readable(x))
         return tbl
 
     def get_full_export(self):

@@ -25,7 +25,7 @@ def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
     return int(parsed_date.timestamp())
 
 
-def unix_convert(ts):
+def convert_unix_to_readable(ts):
     """
     Converts UNIX timestamps to readable timestamps.
     """

@@ -166,7 +166,7 @@ jobs:
 
             - name: Patch install error when using Python 3.9, limited dependencies, and MacOS
               if: ${{ matrix.limited-dependencies }} == True and ${{ matrix.os }} == "macos-latest" and ${{ matrix.python-version }} == "3.9"
-              run: uv pip install --system psycopg2-binary==2.9.9
+              run: pip install --system psycopg2-binary==2.9.9
 
             - name: Install dependencies
               env:

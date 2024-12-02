@@ -664,7 +664,7 @@ class ETL(object):
                         str.encode("".join([str(x) for x in row])), usedforsecurity=False
                     ).hexdigest(),
                 )
-                orig.move_column("uid", 0)             
+                orig.move_column("uid", 0)
 
             # Rename value column in case this is done again to this Table
             orig.rename_column("value", f"{column}_value")

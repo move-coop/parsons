@@ -149,7 +149,6 @@
              
   <h1>Source code for parsons.etl.etl</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">import</span> <span class="nn">petl</span>
 
@@ -809,20 +808,12 @@
             <span class="n">orig</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">melted_list</span><span class="p">)</span>
             <span class="c1"># Add unique id column by hashing all the other fields</span>
             <span class="k">if</span> <span class="s2">&quot;uid&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">minor</span> <span class="o">&gt;=</span> <span class="mi">9</span><span class="p">:</span>
-                    <span class="n">orig</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span>
-                        <span class="s2">&quot;uid&quot;</span><span class="p">,</span>
-                        <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span>
-                            <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])),</span> <span class="n">usedforsecurity</span><span class="o">=</span><span class="kc">False</span>
-                        <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span>
-                    <span class="p">)</span>
-                <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">minor</span> <span class="o">&lt;</span> <span class="mi">9</span><span class="p">:</span>
-                    <span class="n">orig</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span>
-                        <span class="s2">&quot;uid&quot;</span><span class="p">,</span>
-                        <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span>  <span class="c1"># nosec B324</span>
-                            <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]))</span>
-                        <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span>
-                    <span class="p">)</span>
+                <span class="n">orig</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span>
+                    <span class="s2">&quot;uid&quot;</span><span class="p">,</span>
+                    <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span>
+                        <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])),</span> <span class="n">usedforsecurity</span><span class="o">=</span><span class="kc">False</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span>
+                <span class="p">)</span>
                 <span class="n">orig</span><span class="o">.</span><span class="n">move_column</span><span class="p">(</span><span class="s2">&quot;uid&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
             <span class="c1"># Rename value column in case this is done again to this Table</span>
@@ -834,18 +825,12 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
             <span class="c1"># Add unique id column by hashing all the other fields</span>
-            <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">minor</span> <span class="o">&gt;=</span> <span class="mi">9</span><span class="p">:</span>
-                <span class="n">melted_list</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span>
-                    <span class="s2">&quot;uid&quot;</span><span class="p">,</span>
-                    <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span>
-                        <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])),</span> <span class="n">usedforsecurity</span><span class="o">=</span><span class="kc">False</span>
-                    <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span>
-                <span class="p">)</span>
-            <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">minor</span> <span class="o">&lt;</span> <span class="mi">9</span><span class="p">:</span>
-                <span class="n">melted_list</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span>
-                    <span class="s2">&quot;uid&quot;</span><span class="p">,</span>
-                    <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span>  <span class="c1"># nosec B324</span>
-                <span class="p">)</span>
+            <span class="n">melted_list</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span>
+                <span class="s2">&quot;uid&quot;</span><span class="p">,</span>
+                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span>
+                    <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])),</span> <span class="n">usedforsecurity</span><span class="o">=</span><span class="kc">False</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span>
+            <span class="p">)</span>
             <span class="n">melted_list</span><span class="o">.</span><span class="n">move_column</span><span class="p">(</span><span class="s2">&quot;uid&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">output</span> <span class="o">=</span> <span class="n">melted_list</span>
 

@@ -25,6 +25,17 @@ def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
     return int(parsed_date.timestamp())
 
 
+def convert_unix_to_readable(ts):
+    """
+    Converts UNIX timestamps to readable timestamps.
+    """
+
+    ts = datetime.utcfromtimestamp(int(ts) / 1000)
+    ts = ts.strftime("%Y-%m-%d %H:%M:%S UTC")
+
+    return ts
+
+
 def parse_date(value, tzinfo=datetime.timezone.utc):
     """Parse an arbitrary date value into a Python datetime.
 

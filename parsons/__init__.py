@@ -31,6 +31,7 @@ for module_path, connector_name in (
     ("parsons.action_kit.action_kit", "ActionKit"),
     ("parsons.action_builder.action_builder", "ActionBuilder"),
     ("parsons.action_network.action_network", "ActionNetwork"),
+    ("parsons.airmeet.airmeet", "Airmeet"),
     ("parsons.airtable.airtable", "Airtable"),
     ("parsons.alchemer.alchemer", "Alchemer"),
     ("parsons.alchemer.alchemer", "SurveyGizmo"),

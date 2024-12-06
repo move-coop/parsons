@@ -5,7 +5,7 @@ boxsdk==2.10.0
 braintree==4.17.1
 bs4==0.0.1
 censusgeocode==0.5.2
-civis==1.16.1
+civis==2.4.1
 curlify==2.2.1
 dbt_redshift==1.4.0
 docutils<0.18,>=0.14

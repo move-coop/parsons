@@ -226,9 +226,9 @@ class PostgresCore(PostgresCreateStatement):
         # Extract the table and schema from this. If no schema is detected then
         # will default to the public schema.
         try:
-            schema, table = table_name.lower().split(".", 1)
+            schema, table = table_name.split(".", 1)
         except ValueError:
-            schema, table = "public", table_name.lower()
+            schema, table = "public", table_name
 
         with self.cursor(connection) as cursor:
             # Check in pg tables for the table

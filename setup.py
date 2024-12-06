@@ -94,13 +94,12 @@ def main():
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Developers",
-            "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
             "Programming Language :: Python :: 3.12",
         ],
-        python_requires=">=3.8.0,<3.13.0",
+        python_requires=">=3.9.0,<3.13.0",
         long_description=long_description,
         long_description_content_type="text/markdown",
     )

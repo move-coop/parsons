@@ -4,7 +4,7 @@ boto3>=1.17.98
 boxsdk==2.10.0
 braintree==4.17.1
 bs4==0.0.1
-censusgeocode==0.4.3.post1
+censusgeocode==0.5.2
 civis==1.16.1
 curlify==2.2.1
 dbt_redshift==1.4.0
@@ -36,7 +36,7 @@ setuptools==70.0.0
 simple-salesforce==1.11.6
 simplejson==3.16.0
 slackclient==1.3.0
-sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0 # Prefect does not work with 1.4.33 and >=2.0.0 has breaking changes
+sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0 # Prefect does not work with 1.4.33 and >=2.0.0 has breaking changes
 suds-py3==1.4.4.1
 surveygizmo==1.2.3
 twilio==8.2.1

@@ -15,7 +15,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+                python-version: ["3.9", "3.10", "3.11", "3.12"]
                 os: ["ubuntu-latest", "windows-latest", "macos-latest"]
                 limited-dependencies: ["", "TRUE"]
 
@@ -31,6 +31,10 @@ jobs:
 
             - name: Install uv
               uses: install-pinned/uv@de03c60d508703a83d3f8f49afcf1249590ecda1  # 0.4.12
+
+            - name: Patch install error when using Python 3.9, limited dependencies, and MacOS
+              if: ${{ matrix.limited-dependencies }} == True and ${{ matrix.os }} == "macos-latest" and ${{ matrix.python-version }} == "3.9"
+              run: uv pip install --system psycopg2-binary==2.9.9
 
             - name: Install dependencies
               env:
@@ -140,7 +144,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+                python-version: ["3.9", "3.10", "3.11", "3.12"]
                 os: ["ubuntu-latest", "windows-latest", "macos-latest"]
                 limited-dependencies: ["", "TRUE"]
 
@@ -148,7 +152,7 @@ jobs:
 
         steps:
             - name: Harden Runner
-              uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
+              uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
               with:
                   egress-policy: audit
 
@@ -159,6 +163,10 @@ jobs:
               with:
                   python-version: ${{ matrix.python-version }}
                   cache: pip
+
+            - name: Patch install error when using Python 3.9, limited dependencies, and MacOS
+              if: ${{ matrix.limited-dependencies }} == True and ${{ matrix.os }} == "macos-latest" and ${{ matrix.python-version }} == "3.9"
+              run: pip install psycopg2-binary==2.9.9
 
             - name: Install dependencies
               env:

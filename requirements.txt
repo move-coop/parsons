@@ -3,7 +3,7 @@ azure-storage-blob==12.13.0
 boto3>=1.17.98
 boxsdk==2.10.0
 braintree==4.31.0
-bs4==0.0.1
+bs4==0.0.2
 censusgeocode==0.5.2
 civis==1.16.1
 curlify==2.2.1

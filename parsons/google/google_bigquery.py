@@ -1527,7 +1527,7 @@ class GoogleBigQuery(DatabaseConnector):
                 job_config = bigquery.CopyJobConfig()
                 job_config.write_disposition = "WRITE_TRUNCATE"
                 job = self.client.copy_table(
-                    source_table_id, destination_table_id, location='US', job_config=job_config
+                    source_table_id, destination_table_id, location="US", job_config=job_config
                 )
                 result = job.result()
             else:
@@ -1540,7 +1540,7 @@ class GoogleBigQuery(DatabaseConnector):
         except NotFound:
             # destination table doesn't exist, so we can create one
             job = self.client.copy_table(
-                source_table_id, destination_table_id, location='US', job_config=job_config
+                source_table_id, destination_table_id, location="US", job_config=job_config
             )
             result = job.result()
             logger.info(result)

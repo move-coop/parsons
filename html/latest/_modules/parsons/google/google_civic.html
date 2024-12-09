@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.google.google_civic &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -155,7 +152,9 @@
 <span class="n">URI</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/civicinfo/v2/&quot;</span>
 
 
-<div class="viewcode-block" id="GoogleCivic"><a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic">[docs]</a><span class="k">class</span> <span class="nc">GoogleCivic</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleCivic">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic">[docs]</a>
+<span class="k">class</span> <span class="nc">GoogleCivic</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `Args:`</span>
 <span class="sd">        api_key : str</span>
@@ -181,7 +180,9 @@
 
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-<div class="viewcode-block" id="GoogleCivic.get_elections"><a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic.get_elections">[docs]</a>    <span class="k">def</span> <span class="nf">get_elections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleCivic.get_elections">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic.get_elections">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_elections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a collection of information about elections and voter information.</span>
 
@@ -194,6 +195,7 @@
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">))[</span><span class="s2">&quot;elections&quot;</span><span class="p">])</span></div>
 
+
     <span class="k">def</span> <span class="nf">_get_voter_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">election_id</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
         <span class="c1"># Internal method to call voter info end point. Portions of this are</span>
         <span class="c1"># parsed for other methods.</span>
@@ -204,7 +206,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GoogleCivic.get_polling_location"><a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic.get_polling_location">[docs]</a>    <span class="k">def</span> <span class="nf">get_polling_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">election_id</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleCivic.get_polling_location">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic.get_polling_location">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_polling_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">election_id</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get polling location information for a given address.</span>
 
@@ -223,7 +227,10 @@
 
         <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;pollingLocations&quot;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="GoogleCivic.get_polling_locations"><a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic.get_polling_locations">[docs]</a>    <span class="k">def</span> <span class="nf">get_polling_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">election_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">address_field</span><span class="o">=</span><span class="s2">&quot;address&quot;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleCivic.get_polling_locations">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic.get_polling_locations">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_polling_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">election_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">address_field</span><span class="o">=</span><span class="s2">&quot;address&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get polling location information for a table of addresses.</span>
 
@@ -266,7 +273,10 @@
 
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="GoogleCivic.get_representative_info_by_address"><a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic.get_representative_info_by_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_representative_info_by_address</span><span class="p">(</span>
+
+<div class="viewcode-block" id="GoogleCivic.get_representative_info_by_address">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic.get_representative_info_by_address">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_representative_info_by_address</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">include_offices</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">roles</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -340,7 +350,9 @@
         <span class="k">if</span> <span class="s2">&quot;error&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">][</span><span class="s2">&quot;message&quot;</span><span class="p">])</span>
 
-        <span class="k">return</span> <span class="n">response</span></div></div>
+        <span class="k">return</span> <span class="n">response</span></div>
+</div>
+
 </pre></div>
 
            </div>

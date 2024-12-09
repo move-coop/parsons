@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TurboVote &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -162,9 +159,9 @@
            <div itemprop="articleBody">
              
   <section id="turbovote">
-<h1>TurboVote<a class="headerlink" href="#turbovote" title="Permalink to this heading"></a></h1>
+<h1>TurboVote<a class="headerlink" href="#turbovote" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p><a class="reference external" href="https://turbovote.org/">TurboVote</a> is an online voter registration and vote by mail
 tool. This class contains a single method which allows you to export your users
 (aka signups).</p>
@@ -178,7 +175,7 @@ Clients with a TurboVote account must pass their username, password, and subdoma
 </div>
 </section>
 <section id="quickstart">
-<h2>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
+<h2>QuickStart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h2>
 <p>To instantiate the <code class="docutils literal notranslate"><span class="pre">TurboVote</span></code> class, you can either store your TurboVote API
 username, password, subdomain as environmental variables (<code class="docutils literal notranslate"><span class="pre">TURBOVOTE_USERNAME</span></code>,
 <code class="docutils literal notranslate"><span class="pre">TURBOVOTE_PASSWORD</span></code>, and <code class="docutils literal notranslate"><span class="pre">TURBOVOTE_SUBDOMAIN</span></code>, respectively) or pass them
@@ -199,10 +196,10 @@ in as arguments:</p>
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.TurboVote">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">TurboVote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subdomain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/turbovote/turbovote.html#TurboVote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.TurboVote" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">TurboVote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subdomain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/turbovote/turbovote.html#TurboVote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.TurboVote" title="Link to this definition"></a></dt>
 <dd><p>Instantiate the TurboVote class</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -222,7 +219,7 @@ required if <code class="docutils literal notranslate"><span class="pre">TURBOVO
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.TurboVote.get_users">
-<span class="sig-name descname"><span class="pre">get_users</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/turbovote/turbovote.html#TurboVote.get_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.TurboVote.get_users" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_users</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/turbovote/turbovote.html#TurboVote.get_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.TurboVote.get_users" title="Link to this definition"></a></dt>
 <dd><p>Get users.</p>
 <dl class="simple">
 <dt><cite>Returns:</cite></dt><dd><dl class="simple">

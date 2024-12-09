@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.aws.s3 &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -190,7 +187,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="S3"><a class="viewcode-back" href="../../../aws.html#parsons.S3">[docs]</a><span class="k">class</span> <span class="nc">S3</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="S3">
+<a class="viewcode-back" href="../../../aws.html#parsons.S3">[docs]</a>
+<span class="k">class</span> <span class="nc">S3</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the S3 class.</span>
 
@@ -233,7 +232,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">client</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Boto3 API Session client object. Use for more advanced boto3 features.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="S3.list_buckets"><a class="viewcode-back" href="../../../aws.html#parsons.S3.list_buckets">[docs]</a>    <span class="k">def</span> <span class="nf">list_buckets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="S3.list_buckets">
+<a class="viewcode-back" href="../../../aws.html#parsons.S3.list_buckets">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_buckets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List all buckets to which you have access.</span>
 
@@ -243,7 +244,10 @@
 
         <span class="k">return</span> <span class="p">[</span><span class="n">bucket</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">bucket</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">buckets</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span></div>
 
-<div class="viewcode-block" id="S3.bucket_exists"><a class="viewcode-back" href="../../../aws.html#parsons.S3.bucket_exists">[docs]</a>    <span class="k">def</span> <span class="nf">bucket_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">):</span>
+
+<div class="viewcode-block" id="S3.bucket_exists">
+<a class="viewcode-back" href="../../../aws.html#parsons.S3.bucket_exists">[docs]</a>
+    <span class="k">def</span> <span class="nf">bucket_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determine if a bucket exists and you have access to it.</span>
 
@@ -266,7 +270,10 @@
 
         <span class="k">return</span> <span class="n">bucket</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="S3.list_keys"><a class="viewcode-back" href="../../../aws.html#parsons.S3.list_keys">[docs]</a>    <span class="k">def</span> <span class="nf">list_keys</span><span class="p">(</span>
+
+<div class="viewcode-block" id="S3.list_keys">
+<a class="viewcode-back" href="../../../aws.html#parsons.S3.list_keys">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_keys</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">bucket</span><span class="p">,</span>
         <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -366,7 +373,10 @@
 
         <span class="k">return</span> <span class="n">keys_dict</span></div>
 
-<div class="viewcode-block" id="S3.key_exists"><a class="viewcode-back" href="../../../aws.html#parsons.S3.key_exists">[docs]</a>    <span class="k">def</span> <span class="nf">key_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+
+<div class="viewcode-block" id="S3.key_exists">
+<a class="viewcode-back" href="../../../aws.html#parsons.S3.key_exists">[docs]</a>
+    <span class="k">def</span> <span class="nf">key_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determine if a key exists in a bucket.</span>
 
@@ -389,7 +399,10 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Did not find </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="S3.create_bucket"><a class="viewcode-back" href="../../../aws.html#parsons.S3.create_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">create_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">):</span>
+
+<div class="viewcode-block" id="S3.create_bucket">
+<a class="viewcode-back" href="../../../aws.html#parsons.S3.create_bucket">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create an s3 bucket.</span>
 
@@ -417,7 +430,10 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_bucket</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="S3.put_file"><a class="viewcode-back" href="../../../aws.html#parsons.S3.put_file">[docs]</a>    <span class="k">def</span> <span class="nf">put_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="s2">&quot;bucket-owner-full-control&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="S3.put_file">
+<a class="viewcode-back" href="../../../aws.html#parsons.S3.put_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">put_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="s2">&quot;bucket-owner-full-control&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Uploads an object to an S3 bucket</span>
 
@@ -438,7 +454,10 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">ExtraArgs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ACL&quot;</span><span class="p">:</span> <span class="n">acl</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">})</span></div>
 
-<div class="viewcode-block" id="S3.remove_file"><a class="viewcode-back" href="../../../aws.html#parsons.S3.remove_file">[docs]</a>    <span class="k">def</span> <span class="nf">remove_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+
+<div class="viewcode-block" id="S3.remove_file">
+<a class="viewcode-back" href="../../../aws.html#parsons.S3.remove_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">remove_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Deletes an object from an S3 bucket</span>
 
@@ -453,7 +472,10 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">delete_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="S3.get_file"><a class="viewcode-back" href="../../../aws.html#parsons.S3.get_file">[docs]</a>    <span class="k">def</span> <span class="nf">get_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="S3.get_file">
+<a class="viewcode-back" href="../../../aws.html#parsons.S3.get_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Download an object from S3 to a local file</span>
 
@@ -483,7 +505,10 @@
 
         <span class="k">return</span> <span class="n">local_path</span></div>
 
-<div class="viewcode-block" id="S3.get_url"><a class="viewcode-back" href="../../../aws.html#parsons.S3.get_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="mi">3600</span><span class="p">):</span>
+
+<div class="viewcode-block" id="S3.get_url">
+<a class="viewcode-back" href="../../../aws.html#parsons.S3.get_url">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="mi">3600</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates a presigned url for an s3 object.</span>
 
@@ -505,7 +530,10 @@
             <span class="n">ExpiresIn</span><span class="o">=</span><span class="n">expires_in</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="S3.transfer_bucket"><a class="viewcode-back" href="../../../aws.html#parsons.S3.transfer_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_bucket</span><span class="p">(</span>
+
+<div class="viewcode-block" id="S3.transfer_bucket">
+<a class="viewcode-back" href="../../../aws.html#parsons.S3.transfer_bucket">[docs]</a>
+    <span class="k">def</span> <span class="nf">transfer_bucket</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">origin_bucket</span><span class="p">,</span>
         <span class="n">origin_key</span><span class="p">,</span>
@@ -593,7 +621,10 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished syncing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">key_list</span><span class="p">)</span><span class="si">}</span><span class="s2"> keys&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="S3.get_buckets_with_subname"><a class="viewcode-back" href="../../../aws.html#parsons.S3.get_buckets_with_subname">[docs]</a>    <span class="k">def</span> <span class="nf">get_buckets_with_subname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_subname</span><span class="p">):</span>
+
+<div class="viewcode-block" id="S3.get_buckets_with_subname">
+<a class="viewcode-back" href="../../../aws.html#parsons.S3.get_buckets_with_subname">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_buckets_with_subname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_subname</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Grabs a type of bucket based on naming convention.</span>
 
@@ -610,7 +641,9 @@
         <span class="n">all_buckets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">()</span>
         <span class="n">buckets</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_buckets</span> <span class="k">if</span> <span class="n">bucket_subname</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)]</span>
 
-        <span class="k">return</span> <span class="n">buckets</span></div></div>
+        <span class="k">return</span> <span class="n">buckets</span></div>
+</div>
+
 </pre></div>
 
            </div>

@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.google.google_bigquery &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -261,7 +258,9 @@
     <span class="k">return</span> <span class="p">[</span><span class="n">bigquery</span><span class="o">.</span><span class="n">SchemaField</span><span class="p">(</span><span class="o">**</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">schema_definition</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="GoogleBigQuery"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery">[docs]</a><span class="k">class</span> <span class="nc">GoogleBigQuery</span><span class="p">(</span><span class="n">DatabaseConnector</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleBigQuery">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery">[docs]</a>
+<span class="k">class</span> <span class="nc">GoogleBigQuery</span><span class="p">(</span><span class="n">DatabaseConnector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class for querying BigQuery table and returning the data as Parsons tables.</span>
 
@@ -348,7 +347,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
 
-<div class="viewcode-block" id="GoogleBigQuery.connection"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.connection">[docs]</a>    <span class="nd">@contextmanager</span>
+<div class="viewcode-block" id="GoogleBigQuery.connection">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.connection">[docs]</a>
+    <span class="nd">@contextmanager</span>
     <span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a BigQuery connection.</span>
@@ -374,6 +375,7 @@
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
+
     <span class="nd">@contextmanager</span>
     <span class="k">def</span> <span class="nf">cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
         <span class="n">cur</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
@@ -382,7 +384,9 @@
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-<div class="viewcode-block" id="GoogleBigQuery.query"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span>
+<div class="viewcode-block" id="GoogleBigQuery.query">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.query">[docs]</a>
+    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">sql</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -426,7 +430,10 @@
                 <span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">return_values</span><span class="o">=</span><span class="n">return_values</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.query_with_connection"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.query_with_connection">[docs]</a>    <span class="k">def</span> <span class="nf">query_with_connection</span><span class="p">(</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.query_with_connection">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.query_with_connection">[docs]</a>
+    <span class="k">def</span> <span class="nf">query_with_connection</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_values</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -478,6 +485,7 @@
 
             <span class="k">return</span> <span class="n">final_table</span></div>
 
+
     <span class="k">def</span> <span class="nf">query_with_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queries</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">queries_with_semicolons</span> <span class="o">=</span> <span class="p">[</span><span class="n">ends_with_semicolon</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">]</span>
         <span class="n">queries_on_newlines</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">queries_with_semicolons</span><span class="p">)</span>
@@ -490,7 +498,9 @@
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="o">=</span><span class="n">queries_wrapped</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">return_values</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GoogleBigQuery.copy_from_gcs"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy_from_gcs">[docs]</a>    <span class="k">def</span> <span class="nf">copy_from_gcs</span><span class="p">(</span>
+<div class="viewcode-block" id="GoogleBigQuery.copy_from_gcs">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy_from_gcs">[docs]</a>
+    <span class="k">def</span> <span class="nf">copy_from_gcs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">gcs_blob_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -649,7 +659,10 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">e</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.copy_large_compressed_file_from_gcs"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy_large_compressed_file_from_gcs">[docs]</a>    <span class="k">def</span> <span class="nf">copy_large_compressed_file_from_gcs</span><span class="p">(</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.copy_large_compressed_file_from_gcs">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy_large_compressed_file_from_gcs">[docs]</a>
+    <span class="k">def</span> <span class="nf">copy_large_compressed_file_from_gcs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">gcs_blob_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -778,7 +791,10 @@
                 <span class="n">gcs</span><span class="o">.</span><span class="n">delete_blob</span><span class="p">(</span><span class="n">new_bucket_name</span><span class="p">,</span> <span class="n">new_blob_name</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Successfully dropped uncompressed blob&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.copy_s3"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy_s3">[docs]</a>    <span class="k">def</span> <span class="nf">copy_s3</span><span class="p">(</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.copy_s3">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy_s3">[docs]</a>
+    <span class="k">def</span> <span class="nf">copy_s3</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table_name</span><span class="p">,</span>
         <span class="n">bucket</span><span class="p">,</span>
@@ -877,7 +893,10 @@
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">gcs_client</span><span class="o">.</span><span class="n">delete_blob</span><span class="p">(</span><span class="n">tmp_gcs_bucket</span><span class="p">,</span> <span class="n">temp_blob_name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.copy"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.copy">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy">[docs]</a>
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tbl</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span>
         <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -976,7 +995,10 @@
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">gcs_client</span><span class="o">.</span><span class="n">delete_blob</span><span class="p">(</span><span class="n">tmp_gcs_bucket</span><span class="p">,</span> <span class="n">temp_blob_name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.duplicate_table"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.duplicate_table">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_table</span><span class="p">(</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.duplicate_table">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.duplicate_table">[docs]</a>
+    <span class="k">def</span> <span class="nf">duplicate_table</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source_table</span><span class="p">,</span>
         <span class="n">destination_table</span><span class="p">,</span>
@@ -1015,7 +1037,10 @@
         <span class="k">if</span> <span class="n">drop_source_table</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">delete_table</span><span class="p">(</span><span class="n">table_name</span><span class="o">=</span><span class="n">source_table</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.upsert"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.upsert">[docs]</a>    <span class="k">def</span> <span class="nf">upsert</span><span class="p">(</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.upsert">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.upsert">[docs]</a>
+    <span class="k">def</span> <span class="nf">upsert</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table_obj</span><span class="p">,</span>
         <span class="n">target_table</span><span class="p">,</span>
@@ -1130,7 +1155,10 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deleting staging table: </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DROP TABLE IF EXISTS </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">return_values</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.delete_table"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.delete_table">[docs]</a>    <span class="k">def</span> <span class="nf">delete_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.delete_table">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.delete_table">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a BigQuery table.</span>
 
@@ -1141,7 +1169,10 @@
         <span class="n">table_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_table_ref</span><span class="p">(</span><span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">delete_table</span><span class="p">(</span><span class="n">table_ref</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.table_exists"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.table_exists">[docs]</a>    <span class="k">def</span> <span class="nf">table_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.table_exists">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.table_exists">[docs]</a>
+    <span class="k">def</span> <span class="nf">table_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check whether or not the Google BigQuery table exists in the specified dataset.</span>
 
@@ -1160,7 +1191,10 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.get_tables"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.get_tables">[docs]</a>    <span class="k">def</span> <span class="nf">get_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.get_tables">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.get_tables">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List the tables in a schema including metadata.</span>
 
@@ -1180,7 +1214,10 @@
             <span class="n">sql</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; where table_name = &#39;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.get_views"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.get_views">[docs]</a>    <span class="k">def</span> <span class="nf">get_views</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">view</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.get_views">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.get_views">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_views</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">view</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List views.</span>
 
@@ -1206,7 +1243,10 @@
             <span class="n">sql</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; where table_name = &#39;</span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.get_columns"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.get_columns">[docs]</a>    <span class="k">def</span> <span class="nf">get_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.get_columns">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.get_columns">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the column names (and other column metadata) for a table. If you</span>
 <span class="sd">        need just the column names run ``get_columns_list()``, as it is faster.</span>
@@ -1244,7 +1284,10 @@
             <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">base_query</span><span class="p">)</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.get_columns_list"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.get_columns_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_columns_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.get_columns_list">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.get_columns_list">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_columns_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the column names for a table.</span>
 
@@ -1262,7 +1305,10 @@
 
         <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">first_row</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="GoogleBigQuery.get_row_count"><a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.get_row_count">[docs]</a>    <span class="k">def</span> <span class="nf">get_row_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.get_row_count">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.get_row_count">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_row_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the row count for a BigQuery materialization.</span>
 
@@ -1284,6 +1330,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="o">=</span><span class="n">sql</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;row_count&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span></div>
+
 
     <span class="k">def</span> <span class="nf">get_table_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="c1"># Helper function to build a TableReference for our table</span>
@@ -1535,6 +1582,7 @@
         <span class="n">extract_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># Waits for job to complete.</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished exporting query result to </span><span class="si">{</span><span class="n">gs_destination</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+
 
 
 <span class="k">class</span> <span class="nc">BigQueryTable</span><span class="p">(</span><span class="n">BaseTable</span><span class="p">):</span>

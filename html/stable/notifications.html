@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Notifications &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -184,11 +181,11 @@
            <div itemprop="articleBody">
              
   <section id="notifications">
-<h1>Notifications<a class="headerlink" href="#notifications" title="Permalink to this heading"></a></h1>
+<h1>Notifications<a class="headerlink" href="#notifications" title="Link to this heading"></a></h1>
 <section id="slack">
-<h2>Slack<a class="headerlink" href="#slack" title="Permalink to this heading"></a></h2>
+<h2>Slack<a class="headerlink" href="#slack" title="Link to this heading"></a></h2>
 <section id="overview">
-<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h3>
+<h3>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h3>
 <p>The Slack module leverages the Slack API and provides way to easily send
 notifications through Slack. It is recommended that you reference the
 <a class="reference external" href="https://api.slack.com/">Slack API documentation</a> for additional details and
@@ -215,7 +212,7 @@ the app each time (your API Token will stay the same).</p>
 </div>
 </section>
 <section id="quickstart">
-<h3>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h3>
+<h3>QuickStart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
 <p>To call the Slack class you can either store the API Token as an environment
 variable <cite>SLACK_API_TOKEN</cite> or pass it in as an argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Slack</span>
@@ -239,13 +236,13 @@ variable <cite>SLACK_API_TOKEN</cite> or pass it in as an argument.</p>
 </div>
 </section>
 <section id="api">
-<h3>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h3>
+<h3>API<a class="headerlink" href="#api" title="Link to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Slack">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Slack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Slack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack" title="Link to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="parsons.Slack.channels">
-<span class="sig-name descname"><span class="pre">channels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['id',</span> <span class="pre">'name']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_archived</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['public_channel']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.channels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.channels" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">channels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['id',</span> <span class="pre">'name']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_archived</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['public_channel']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.channels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.channels" title="Link to this definition"></a></dt>
 <dd><p>Return a list of all channels in a Slack team.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -273,7 +270,7 @@ combination of <cite>public_channel</cite>, <cite>private_channel</cite>,
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Slack.users">
-<span class="sig-name descname"><span class="pre">users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['id',</span> <span class="pre">'name',</span> <span class="pre">'deleted',</span> <span class="pre">'profile_real_name_normalized',</span> <span class="pre">'profile_email']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.users" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['id',</span> <span class="pre">'name',</span> <span class="pre">'deleted',</span> <span class="pre">'profile_real_name_normalized',</span> <span class="pre">'profile_email']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.users" title="Link to this definition"></a></dt>
 <dd><p>Return a list of all users in a Slack team.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -294,7 +291,7 @@ available fields. <cite>Notes:</cite> nested fields are unpacked.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Slack.message">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">webhook</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_message_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.message" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">webhook</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_message_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.message" title="Link to this definition"></a></dt>
 <dd><p>Send a message to a Slack channel with a webhook instead of an api_key.
 You might not have the full-access API key but still want to notify a channel
 <cite>Args:</cite></p>
@@ -316,7 +313,7 @@ Looks like: <a class="reference external" href="https://hooks.slack.com/services
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Slack.message_channel">
-<span class="sig-name descname"><span class="pre">message_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_message_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.message_channel" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">message_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_message_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.message_channel" title="Link to this definition"></a></dt>
 <dd><p>Send a message to a Slack channel</p>
 <dl>
 <dt><cite>Args:</cite></dt><dd><dl>
@@ -349,7 +346,7 @@ more information about legacy authorship</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Slack.upload_file">
-<span class="sig-name descname"><span class="pre">upload_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_binary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.upload_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.upload_file" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">upload_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_binary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.upload_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.upload_file" title="Link to this definition"></a></dt>
 <dd><p>Upload a file to Slack channel(s).</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -386,9 +383,9 @@ uploading binary files. Defaults to False.</p>
 <p></p>
 </section>
 <section id="gmail">
-<h2>Gmail<a class="headerlink" href="#gmail" title="Permalink to this heading"></a></h2>
+<h2>Gmail<a class="headerlink" href="#gmail" title="Link to this heading"></a></h2>
 <section id="id3">
-<h3>Overview<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<h3>Overview<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <p>The Gmail module leverages the Gmail API and provides an way to easily send
 notifications through email. It is recommended that you reference the
 <a class="reference external" href="https://developers.google.com/gmail/api/">Gmail API documentation</a> for
@@ -418,7 +415,7 @@ the Google Developer Console (look for the “Gmail API”).</p></li>
 </div>
 </section>
 <section id="id4">
-<h3>QuickStart<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<h3>QuickStart<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <p>To call the Gmail class you will need to pass in the path to a
 <cite>credentials.json</cite> and the path to <cite>tokens.json</cite>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Gmail</span>
@@ -451,10 +448,10 @@ attachments.</p>
 more details.</p>
 </section>
 <section id="id5">
-<h3>API<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<h3>API<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Gmail">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Gmail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">creds_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'me'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Gmail" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Gmail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">creds_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'me'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Gmail" title="Link to this definition"></a></dt>
 <dd><p>Create a Gmail object, for sending emails.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -470,7 +467,7 @@ more details.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Gmail.send_email">
-<span class="sig-name descname"><span class="pre">send_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Gmail.send_email" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">send_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Gmail.send_email" title="Link to this definition"></a></dt>
 <dd><p>Send an email message.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -502,9 +499,9 @@ email is sent a text-only body.</p>
 <p>  :inherited-members:</p>
 </section>
 <section id="smtp">
-<h2>SMTP<a class="headerlink" href="#smtp" title="Permalink to this heading"></a></h2>
+<h2>SMTP<a class="headerlink" href="#smtp" title="Link to this heading"></a></h2>
 <section id="id6">
-<h3>Overview<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<h3>Overview<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <p>The SMTP module enables the sending of email through a generic SMTP server. If you have an email server other
 than Gmail this is likely the best way to send emails with Parsons.</p>
 <div class="admonition note">
@@ -521,7 +518,7 @@ the SMTP server you are using.</p></li>
 </div>
 </section>
 <section id="id7">
-<h3>QuickStart<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<h3>QuickStart<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <p>To initialize the SMTP class you will need to tell it how to connect to the SMTP server:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">SMTP</span>
 
@@ -568,10 +565,10 @@ attachments.</p>
 </div>
 </section>
 <section id="id8">
-<h3>API<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<h3>API<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.SMTP">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">SMTP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_manually</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/smtp.html#SMTP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SMTP" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">SMTP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_manually</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/smtp.html#SMTP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SMTP" title="Link to this definition"></a></dt>
 <dd><p>Create a SMTP object, for sending emails.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -592,7 +589,7 @@ attachments.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SMTP.send_email">
-<span class="sig-name descname"><span class="pre">send_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.SMTP.send_email" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">send_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.SMTP.send_email" title="Link to this definition"></a></dt>
 <dd><p>Send an email message.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">

@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Azure: Blob Storage &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -172,9 +169,9 @@
            <div itemprop="articleBody">
              
   <section id="azure-blob-storage">
-<h1>Azure: Blob Storage<a class="headerlink" href="#azure-blob-storage" title="Permalink to this heading"></a></h1>
+<h1>Azure: Blob Storage<a class="headerlink" href="#azure-blob-storage" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p><a class="reference external" href="https://azure.microsoft.com/en-us/services/storage/blobs/">Azure Blob Storage</a> is a cloud file storage system that
 uses storage accounts to organize containers (similar to “buckets” for other storage providers) in which to store
 arbitrary files referred to as ‘blobs’. This Parsons integration currently only implements
@@ -191,7 +188,7 @@ are included in the documentation.</p>
 </div>
 </section>
 <section id="quickstart">
-<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h2>
 <p>This class requires a <code class="docutils literal notranslate"><span class="pre">credentials</span></code> argument and <em>either</em> an <code class="docutils literal notranslate"><span class="pre">account_name</span></code> or an <code class="docutils literal notranslate"><span class="pre">account_url</span></code> argument that
 includes the account name. You can store these as environmental variables (<code class="docutils literal notranslate"><span class="pre">AZURE_CREDENTIAL</span></code>, <code class="docutils literal notranslate"><span class="pre">AZURE_ACCOUNT_NAME</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">AZURE_ACCOUNT_URL</span></code>, respectively) or pass them in as arguments:</p>
@@ -232,10 +229,10 @@ and <code class="docutils literal notranslate"><span class="pre">AZURE_ACCOUNT_U
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">AzureBlobStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">credential</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_domain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'blob.core.windows.net'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">AzureBlobStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">credential</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_domain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'blob.core.windows.net'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage" title="Link to this definition"></a></dt>
 <dd><p>Instantiate AzureBlobStorage Class for a given Azure storage account.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -260,7 +257,7 @@ Not required if <code class="docutils literal notranslate"><span class="pre">AZU
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.list_containers">
-<span class="sig-name descname"><span class="pre">list_containers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.list_containers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.list_containers" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_containers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.list_containers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.list_containers" title="Link to this definition"></a></dt>
 <dd><p>Returns a list of container names for the storage account</p>
 <dl class="simple">
 <dt><cite>Returns:</cite></dt><dd><dl class="simple">
@@ -273,7 +270,7 @@ Not required if <code class="docutils literal notranslate"><span class="pre">AZU
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.container_exists">
-<span class="sig-name descname"><span class="pre">container_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.container_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.container_exists" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">container_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.container_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.container_exists" title="Link to this definition"></a></dt>
 <dd><p>Verify that a container exists within the storage account</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -288,7 +285,7 @@ Not required if <code class="docutils literal notranslate"><span class="pre">AZU
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.get_container">
-<span class="sig-name descname"><span class="pre">get_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.get_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.get_container" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.get_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.get_container" title="Link to this definition"></a></dt>
 <dd><p>Returns a container client</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -303,7 +300,7 @@ Not required if <code class="docutils literal notranslate"><span class="pre">AZU
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.create_container">
-<span class="sig-name descname"><span class="pre">create_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_access</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.create_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.create_container" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_access</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.create_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.create_container" title="Link to this definition"></a></dt>
 <dd><p>Create a container</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -327,7 +324,7 @@ for more info.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.delete_container">
-<span class="sig-name descname"><span class="pre">delete_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.delete_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.delete_container" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.delete_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.delete_container" title="Link to this definition"></a></dt>
 <dd><p>Delete a container.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -342,7 +339,7 @@ for more info.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.list_blobs">
-<span class="sig-name descname"><span class="pre">list_blobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_starts_with</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.list_blobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.list_blobs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_blobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_starts_with</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.list_blobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.list_blobs" title="Link to this definition"></a></dt>
 <dd><p>List all of the names of blobs in a container</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -362,7 +359,7 @@ for more info.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.blob_exists">
-<span class="sig-name descname"><span class="pre">blob_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.blob_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.blob_exists" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">blob_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.blob_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.blob_exists" title="Link to this definition"></a></dt>
 <dd><p>Verify that a blob exists in the specified container</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -379,7 +376,7 @@ for more info.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.get_blob">
-<span class="sig-name descname"><span class="pre">get_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.get_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.get_blob" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.get_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.get_blob" title="Link to this definition"></a></dt>
 <dd><p>Get a blob object</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -396,7 +393,7 @@ for more info.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.get_blob_url">
-<span class="sig-name descname"><span class="pre">get_blob_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permission</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expiry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.get_blob_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.get_blob_url" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_blob_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permission</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expiry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.get_blob_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.get_blob_url" title="Link to this definition"></a></dt>
 <dd><p>Get a URL with a shared access signature for a blob</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -428,7 +425,7 @@ the URL becomes active when it is first created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.put_blob">
-<span class="sig-name descname"><span class="pre">put_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.put_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.put_blob" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">put_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.put_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.put_blob" title="Link to this definition"></a></dt>
 <dd><p>Puts a blob (aka file) in a bucket</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -452,7 +449,7 @@ provided to that class directly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.download_blob">
-<span class="sig-name descname"><span class="pre">download_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.download_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.download_blob" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">download_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.download_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.download_blob" title="Link to this definition"></a></dt>
 <dd><p>Downloads a blob from a container into the specified file path or a temporary file path</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -476,7 +473,7 @@ when the script is done running.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.delete_blob">
-<span class="sig-name descname"><span class="pre">delete_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.delete_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.delete_blob" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.delete_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.delete_blob" title="Link to this definition"></a></dt>
 <dd><p>Delete a blob in a specified container.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -493,7 +490,7 @@ when the script is done running.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.AzureBlobStorage.upload_table">
-<span class="sig-name descname"><span class="pre">upload_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.upload_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.upload_table" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">upload_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.upload_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.upload_table" title="Link to this definition"></a></dt>
 <dd><p>Load the data from a Parsons table into a blob.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">

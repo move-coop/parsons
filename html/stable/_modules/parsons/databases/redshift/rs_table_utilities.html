@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.databases.redshift.rs_table_utilities &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-        <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/underscore.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -153,11 +150,15 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="RedshiftTableUtilities"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities">[docs]</a><span class="k">class</span> <span class="nc">RedshiftTableUtilities</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="RedshiftTableUtilities">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities">[docs]</a>
+<span class="k">class</span> <span class="nc">RedshiftTableUtilities</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.table_exists"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.table_exists">[docs]</a>    <span class="k">def</span> <span class="nf">table_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">view</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="RedshiftTableUtilities.table_exists">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.table_exists">[docs]</a>
+    <span class="k">def</span> <span class="nf">table_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">view</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if a table or view exists in the database.</span>
 
@@ -173,6 +174,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_exists_with_connection</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="nf">table_exists_with_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="n">table_name</span> <span class="o">=</span> <span class="n">table_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
@@ -209,7 +211,9 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> does NOT exist.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_row_count"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_row_count">[docs]</a>    <span class="k">def</span> <span class="nf">get_row_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+<div class="viewcode-block" id="RedshiftTableUtilities.get_row_count">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_row_count">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_row_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the row count of a table.</span>
 
@@ -229,7 +233,10 @@
         <span class="n">count_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;select count(*) from </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">count_query</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;count&quot;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.rename_table"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.rename_table">[docs]</a>    <span class="k">def</span> <span class="nf">rename_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">new_table_name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.rename_table">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.rename_table">[docs]</a>
+    <span class="k">def</span> <span class="nf">rename_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">new_table_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rename an existing table.</span>
 
@@ -248,7 +255,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> renamed to </span><span class="si">{</span><span class="n">new_table_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.move_table"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.move_table">[docs]</a>    <span class="k">def</span> <span class="nf">move_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table</span><span class="p">,</span> <span class="n">new_table</span><span class="p">,</span> <span class="n">drop_source_table</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.move_table">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.move_table">[docs]</a>
+    <span class="k">def</span> <span class="nf">move_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table</span><span class="p">,</span> <span class="n">new_table</span><span class="p">,</span> <span class="n">drop_source_table</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Move an existing table in the database.It will inherit encoding, sortkey</span>
 <span class="sd">        and distkey. **Once run, the source table rows will be empty.** This is</span>
@@ -293,6 +303,7 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2"> data moved from </span><span class="si">{</span><span class="n">new_table</span><span class="si">}</span><span class="s2">  .&quot;</span><span class="p">)</span></div>
 
+
     <span class="k">def</span> <span class="nf">_create_table_precheck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper to determine what to do when you need a table that may already exist.</span>
@@ -332,7 +343,9 @@
 
         <span class="k">return</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.populate_table_from_query"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.populate_table_from_query">[docs]</a>    <span class="k">def</span> <span class="nf">populate_table_from_query</span><span class="p">(</span>
+<div class="viewcode-block" id="RedshiftTableUtilities.populate_table_from_query">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.populate_table_from_query">[docs]</a>
+    <span class="k">def</span> <span class="nf">populate_table_from_query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -371,7 +384,10 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2"> created from query&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.duplicate_table"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.duplicate_table">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_table</span><span class="p">(</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.duplicate_table">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.duplicate_table">[docs]</a>
+    <span class="k">def</span> <span class="nf">duplicate_table</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source_table</span><span class="p">,</span>
         <span class="n">destination_table</span><span class="p">,</span>
@@ -417,7 +433,10 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2"> created from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.union_tables"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.union_tables">[docs]</a>    <span class="k">def</span> <span class="nf">union_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_table_name</span><span class="p">,</span> <span class="n">tables</span><span class="p">,</span> <span class="n">union_all</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.union_tables">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.union_tables">[docs]</a>
+    <span class="k">def</span> <span class="nf">union_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_table_name</span><span class="p">,</span> <span class="n">tables</span><span class="p">,</span> <span class="n">union_all</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Union a series of table into a new table.</span>
 
@@ -448,7 +467,10 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created </span><span class="si">{</span><span class="n">new_table_name</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tables</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_tables"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_tables">[docs]</a>    <span class="k">def</span> <span class="nf">get_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.get_tables">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_tables">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List the tables in a schema including metadata.</span>
 
@@ -474,7 +496,10 @@
             <span class="n">sql</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; tablename = &#39;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_table_stats"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_stats">[docs]</a>    <span class="k">def</span> <span class="nf">get_table_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.get_table_stats">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_stats">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_table_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List the tables statistics includes row count and size.</span>
 
@@ -503,7 +528,10 @@
             <span class="n">sql</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="se">\&quot;</span><span class="s2">table</span><span class="se">\&quot;</span><span class="s2"> = &#39;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_columns"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_columns">[docs]</a>    <span class="k">def</span> <span class="nf">get_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.get_columns">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_columns">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the column names (and some other column info) for a table.</span>
 
@@ -560,7 +588,10 @@
             <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_columns_list"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_columns_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_columns_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.get_columns_list">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_columns_list">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_columns_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the just the column names for a table.</span>
 
@@ -584,7 +615,10 @@
 
         <span class="k">return</span> <span class="n">first_row</span><span class="o">.</span><span class="n">columns</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_views"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_views">[docs]</a>    <span class="k">def</span> <span class="nf">get_views</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.get_views">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_views">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_views</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List views.</span>
 
@@ -612,7 +646,10 @@
             <span class="n">sql</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; and table_name = &#39;</span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_queries"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_queries">[docs]</a>    <span class="k">def</span> <span class="nf">get_queries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.get_queries">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_queries">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_queries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the Current queries running and queueing, along with resource consumption.</span>
 
@@ -669,7 +706,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_max_value"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_max_value">[docs]</a>    <span class="k">def</span> <span class="nf">get_max_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">value_column</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.get_max_value">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_max_value">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_max_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">value_column</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the max value from a table.</span>
 
@@ -682,7 +722,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT MAX(</span><span class="si">{</span><span class="n">value_column</span><span class="si">}</span><span class="s2">) value from </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_object_type"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_object_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_object_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.get_object_type">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_object_type">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_object_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get object type.</span>
 
@@ -717,7 +760,10 @@
 
         <span class="k">return</span> <span class="n">tbl</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;object_name&quot;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.is_view"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.is_view">[docs]</a>    <span class="k">def</span> <span class="nf">is_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.is_view">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.is_view">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return true if the object is a view.</span>
 
@@ -732,7 +778,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">object_name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">is_view</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;not&#39;</span><span class="si">}</span><span class="s2"> a view.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">is_view</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.is_table"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.is_table">[docs]</a>    <span class="k">def</span> <span class="nf">is_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.is_table">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.is_table">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return true if the object is a table.</span>
 
@@ -747,7 +796,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">object_name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">is_table</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;not&#39;</span><span class="si">}</span><span class="s2"> a table.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">is_table</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_table_definition"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definition">[docs]</a>    <span class="k">def</span> <span class="nf">get_table_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.get_table_definition">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definition">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_table_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the table definition (i.e. the create statement).</span>
 
@@ -767,7 +819,10 @@
 
         <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;ddl&quot;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_table_definitions"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definitions">[docs]</a>    <span class="k">def</span> <span class="nf">get_table_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.get_table_definitions">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definitions">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_table_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the table definition (i.e. the create statement) for multiple tables.</span>
 
@@ -822,7 +877,10 @@
 
         <span class="k">return</span> <span class="n">ddl_table</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_view_definition"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definition">[docs]</a>    <span class="k">def</span> <span class="nf">get_view_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.get_view_definition">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definition">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_view_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the view definition (i.e. the create statement).</span>
 
@@ -842,7 +900,10 @@
 
         <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;ddl&quot;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.get_view_definitions"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definitions">[docs]</a>    <span class="k">def</span> <span class="nf">get_view_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.get_view_definitions">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definitions">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_view_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the view definition (i.e. the create statement) for multiple views.</span>
 
@@ -885,7 +946,10 @@
 
         <span class="k">return</span> <span class="n">ddl_view</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.split_full_table_name"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.split_full_table_name">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.split_full_table_name">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.split_full_table_name">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">split_full_table_name</span><span class="p">(</span><span class="n">full_table_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Split a full table name into its schema and table. If a schema isn&#39;t</span>
@@ -913,7 +977,10 @@
 
         <span class="k">return</span> <span class="n">schema</span><span class="p">,</span> <span class="n">table</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.combine_schema_and_table_name"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.combine_schema_and_table_name">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="RedshiftTableUtilities.combine_schema_and_table_name">
+<a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.combine_schema_and_table_name">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">combine_schema_and_table_name</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a full table name by combining a schema and table.</span>
@@ -927,7 +994,9 @@
 <span class="sd">            str</span>
 <span class="sd">                The combined full table name</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">&quot;</span></div></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">&quot;</span></div>
+</div>
+
 </pre></div>
 
            </div>

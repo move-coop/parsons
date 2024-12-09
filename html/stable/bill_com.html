@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bill.com &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -168,9 +165,9 @@
            <div itemprop="articleBody">
              
   <section id="bill-com">
-<h1>Bill.com<a class="headerlink" href="#bill-com" title="Permalink to this heading"></a></h1>
+<h1>Bill.com<a class="headerlink" href="#bill-com" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p><a class="reference external" href="https://www.bill.com">Bill.com</a> is an online billing and invoicing tool. This class contains methods to:</p>
 <ul class="simple">
 <li><p>Get lists of customers, users, and invoices</p></li>
@@ -189,7 +186,7 @@ up for Bill.com, and the Organization ID and Dev Key you received when API acces
 </div>
 </section>
 <section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h2>
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
 <p>Your Username, Password, Organization ID, and Dev Key must be provided as arguments.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">BillCom</span>
 
@@ -211,10 +208,10 @@ up for Bill.com, and the Organization ID and Dev Key you received when API acces
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.BillCom">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">BillCom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">org_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">BillCom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">org_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>user_name: str</dt><dd><p>The Bill.com username</p>
@@ -232,7 +229,7 @@ up for Bill.com, and the Organization ID and Dev Key you received when API acces
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.BillCom.get_user_list">
-<span class="sig-name descname"><span class="pre">get_user_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">999</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_user_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.get_user_list" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_user_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">999</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_user_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.get_user_list" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>start_user: int</dt><dd><p>The index of first user to return. Starts from 0 (not 1).</p>
@@ -250,7 +247,7 @@ up for Bill.com, and the Organization ID and Dev Key you received when API acces
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.BillCom.get_customer_list">
-<span class="sig-name descname"><span class="pre">get_customer_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_customer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_customer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">999</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_customer_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.get_customer_list" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_customer_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_customer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_customer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">999</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_customer_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.get_customer_list" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>start_customer: int</dt><dd><p>The index of first customer to return. Starts from 1 (not 0).</p>
@@ -269,7 +266,7 @@ to max_customer.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.BillCom.get_invoice_list">
-<span class="sig-name descname"><span class="pre">get_invoice_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_invoice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_invoice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">999</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_invoice_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.get_invoice_list" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_invoice_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_invoice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_invoice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">999</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_invoice_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.get_invoice_list" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>start_invoice: int</dt><dd><p>The index of first customer to return. Starts from 1 (not 0).</p>
@@ -288,7 +285,7 @@ to max_invoice.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.BillCom.read_customer">
-<span class="sig-name descname"><span class="pre">read_customer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.read_customer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.read_customer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_customer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.read_customer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.read_customer" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>customer_id: str</dt><dd><p>The id of the customer to query</p>
@@ -302,7 +299,7 @@ to max_invoice.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.BillCom.read_invoice">
-<span class="sig-name descname"><span class="pre">read_invoice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">invoice_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.read_invoice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.read_invoice" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_invoice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">invoice_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.read_invoice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.read_invoice" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>invoice_id: str</dt><dd><p>The id of the invoice to query</p>
@@ -316,7 +313,7 @@ to max_invoice.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.BillCom.check_customer">
-<span class="sig-name descname"><span class="pre">check_customer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.check_customer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.check_customer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">check_customer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.check_customer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.check_customer" title="Link to this definition"></a></dt>
 <dd><dl>
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>customer1: dict</dt><dd><p>A dictionary of data on customer1</p>
@@ -338,7 +335,7 @@ OR
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.BillCom.get_or_create_customer">
-<span class="sig-name descname"><span class="pre">get_or_create_customer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_email</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_or_create_customer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.get_or_create_customer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_or_create_customer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_email</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_or_create_customer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.get_or_create_customer" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>customer_name: str</dt><dd><p>The name of the customer</p>
@@ -361,7 +358,7 @@ create a new id and instead use the existing id.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.BillCom.create_invoice">
-<span class="sig-name descname"><span class="pre">create_invoice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoice_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoice_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoice_line_items</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.create_invoice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.create_invoice" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_invoice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoice_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoice_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoice_line_items</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.create_invoice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.create_invoice" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>customer_id: str</dt><dd><p>The customer’s id</p>
@@ -388,7 +385,7 @@ The only required field is “quantity”.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.BillCom.send_invoice">
-<span class="sig-name descname"><span class="pre">send_invoice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">invoice_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_email_addresses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_body</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.send_invoice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.send_invoice" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">send_invoice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">invoice_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_email_addresses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_body</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.send_invoice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.BillCom.send_invoice" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>invoice_id: str</dt><dd><p>The id of the invoice to send</p>

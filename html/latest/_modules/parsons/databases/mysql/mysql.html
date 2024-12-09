@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.databases.mysql.mysql &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-        <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/underscore.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -170,7 +167,9 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="MySQL"><a class="viewcode-back" href="../../../../databases.html#parsons.MySQL">[docs]</a><span class="k">class</span> <span class="nc">MySQL</span><span class="p">(</span><span class="n">DatabaseConnector</span><span class="p">,</span> <span class="n">MySQLCreateTable</span><span class="p">,</span> <span class="n">Alchemy</span><span class="p">):</span>
+<div class="viewcode-block" id="MySQL">
+<a class="viewcode-back" href="../../../../databases.html#parsons.MySQL">[docs]</a>
+<span class="k">class</span> <span class="nc">MySQL</span><span class="p">(</span><span class="n">DatabaseConnector</span><span class="p">,</span> <span class="n">MySQLCreateTable</span><span class="p">,</span> <span class="n">Alchemy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Connect to a MySQL database.</span>
 
@@ -196,7 +195,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;MYSQL_DB&quot;</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MYSQL_PORT&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MySQL.connection"><a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.connection">[docs]</a>    <span class="nd">@contextmanager</span>
+<div class="viewcode-block" id="MySQL.connection">
+<a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.connection">[docs]</a>
+    <span class="nd">@contextmanager</span>
     <span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a MySQL connection. The connection is set up as a python &quot;context manager&quot;, so</span>
@@ -230,6 +231,7 @@
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
+
     <span class="nd">@contextmanager</span>
     <span class="k">def</span> <span class="nf">cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
         <span class="n">cur</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">buffered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -239,7 +241,9 @@
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-<div class="viewcode-block" id="MySQL.query"><a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="MySQL.query">
+<a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.query">[docs]</a>
+    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a query against the database. Will return ``None`` if the query returns zero rows.</span>
 
@@ -280,7 +284,10 @@
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MySQL.query_with_connection"><a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.query_with_connection">[docs]</a>    <span class="k">def</span> <span class="nf">query_with_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MySQL.query_with_connection">
+<a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.query_with_connection">[docs]</a>
+    <span class="k">def</span> <span class="nf">query_with_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a query against the database, with an existing connection. Useful for batching</span>
 <span class="sd">        queries together. Will return ``None`` if the query returns zero rows.</span>
@@ -342,7 +349,10 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Query returned </span><span class="si">{</span><span class="n">final_tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows.&quot;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">final_tbl</span></div>
 
-<div class="viewcode-block" id="MySQL.copy"><a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span>
+
+<div class="viewcode-block" id="MySQL.copy">
+<a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.copy">[docs]</a>
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tbl</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span>
         <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -391,6 +401,7 @@
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="n">chunk_size</span><span class="p">):</span>
                 <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_insert_statement</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="nf">_insert_statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -452,7 +463,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="MySQL.table_exists"><a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.table_exists">[docs]</a>    <span class="k">def</span> <span class="nf">table_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="MySQL.table_exists">
+<a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.table_exists">[docs]</a>
+    <span class="k">def</span> <span class="nf">table_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if a table or view exists in the database.</span>
 
@@ -470,10 +483,12 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
+
     <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="c1"># Return a BaseTable table object</span>
 
         <span class="k">return</span> <span class="n">BaseTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span></div>
+
 </pre></div>
 
            </div>

@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Twilio &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -168,9 +165,9 @@
            <div itemprop="articleBody">
              
   <section id="twilio">
-<h1>Twilio<a class="headerlink" href="#twilio" title="Permalink to this heading"></a></h1>
+<h1>Twilio<a class="headerlink" href="#twilio" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p><a class="reference external" href="https://twilio.com">Twilio</a> is a messaging platform that allows you to programmatically
 send and receive SMS messages, send and receive voice calls, and perform other communication
 functions. This Parsons integration provides methods for fetching messages, accounts, and
@@ -185,9 +182,9 @@ account usage data.</p>
 </div>
 </section>
 <section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h2>
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
 <section id="get-account-usage">
-<h3>Get Account Usage<a class="headerlink" href="#get-account-usage" title="Permalink to this heading"></a></h3>
+<h3>Get Account Usage<a class="headerlink" href="#get-account-usage" title="Link to this heading"></a></h3>
 <p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Twilio</span></code> class, you can either store your Twilio account SID
 and authorization token as environmental variables (<code class="docutils literal notranslate"><span class="pre">TWILIO_ACCOUNT_SID</span></code> and
 <code class="docutils literal notranslate"><span class="pre">TWILIO_AUTH_TOKEN</span></code>, respectively) or pass them in as arguments:</p>
@@ -218,10 +215,10 @@ and authorization token as environmental variables (<code class="docutils litera
 </section>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Twilio">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Twilio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_sid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Twilio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_sid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio" title="Link to this definition"></a></dt>
 <dd><p>Instantiate the Twilio class</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -238,7 +235,7 @@ passed.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Twilio.get_account">
-<span class="sig-name descname"><span class="pre">get_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_sid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio.get_account" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_sid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio.get_account" title="Link to this definition"></a></dt>
 <dd><p>Get Twilio account</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -253,7 +250,7 @@ passed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Twilio.get_accounts">
-<span class="sig-name descname"><span class="pre">get_accounts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_accounts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio.get_accounts" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_accounts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_accounts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio.get_accounts" title="Link to this definition"></a></dt>
 <dd><p>Get Twilio accounts including subaccounts.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -273,7 +270,7 @@ passed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Twilio.get_account_usage">
-<span class="sig-name descname"><span class="pre">get_account_usage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_null</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_account_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio.get_account_usage" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_account_usage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_null</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_account_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio.get_account_usage" title="Link to this definition"></a></dt>
 <dd><p>Get Twilio account usage.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -304,7 +301,7 @@ passed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Twilio.get_messages">
-<span class="sig-name descname"><span class="pre">get_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_sent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_sent_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_sent_after</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_messages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio.get_messages" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_sent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_sent_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_sent_after</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_messages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio.get_messages" title="Link to this definition"></a></dt>
 <dd><p>Get Twilio messages.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">

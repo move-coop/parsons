@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Amazon Web Services &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=db78e746"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -167,7 +164,7 @@
            <div itemprop="articleBody">
              
   <section id="amazon-web-services">
-<h1>Amazon Web Services<a class="headerlink" href="#amazon-web-services" title="Permalink to this heading"></a></h1>
+<h1>Amazon Web Services<a class="headerlink" href="#amazon-web-services" title="Link to this heading"></a></h1>
 <p>Parsons provides utility functions and/or connectors for three different <a class="reference external" href="https://aws.amazon.com/">AWS services</a>.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#aws-lambda"><span class="std std-ref">Lambda</span></a>: AWS’s <a class="reference external" href="https://aws.amazon.com/lambda/">serverless computing platform</a></p></li>
@@ -181,9 +178,9 @@
 </ul>
 <p>See the documentation for each service for more details.</p>
 <section id="lambda">
-<h2>Lambda<a class="headerlink" href="#lambda" title="Permalink to this heading"></a></h2>
+<h2>Lambda<a class="headerlink" href="#lambda" title="Link to this heading"></a></h2>
 <section id="overview">
-<span id="aws-lambda"></span><h3>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h3>
+<span id="aws-lambda"></span><h3>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h3>
 <p>Parsons’ <code class="docutils literal notranslate"><span class="pre">distribute_task</span></code> function allows you to distribute process rows of a table across multiple
 <a class="reference external" href="https://aws.amazon.com/lambda/">AWS Lambda</a> invocations.</p>
 <p>If you are running the processing of a table inside AWS Lambda, then you are limited by how many rows can be processed
@@ -201,7 +198,7 @@ multiple Lambda sub-invocations, each of which can be sent a byte-range of the d
 <p>To test locally, include the argument <code class="docutils literal notranslate"><span class="pre">storage=&quot;local&quot;</span></code>, which will test the <code class="docutils literal notranslate"><span class="pre">distribute_task</span></code> function, but run the task sequentially and in local memory.</p>
 </section>
 <section id="quickstart">
-<h3>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h3>
+<h3>QuickStart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
 <p>A minimalistic example Lambda handler might look something like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.aws</span> <span class="kn">import</span> <span class="n">event_command</span><span class="p">,</span> <span class="n">distribute_task</span>
 
@@ -224,10 +221,10 @@ multiple Lambda sub-invocations, each of which can be sent a byte-range of the d
 </div>
 </section>
 <section id="api">
-<h3>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h3>
+<h3>API<a class="headerlink" href="#api" title="Link to this heading"></a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="parsons.aws.distribute_task">
-<span class="sig-prename descclassname"><span class="pre">parsons.aws.</span></span><span class="sig-name descname"><span class="pre">distribute_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_to_run</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_class_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">catch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'s3'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/lambda_distribute.html#distribute_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.aws.distribute_task" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">parsons.aws.</span></span><span class="sig-name descname"><span class="pre">distribute_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_to_run</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_class_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">catch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'s3'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/lambda_distribute.html#distribute_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.aws.distribute_task" title="Link to this definition"></a></dt>
 <dd><p>Distribute processing rows in a table across multiple AWS Lambda invocations.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -276,7 +273,7 @@ depending on how this method is invoked.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="parsons.aws.event_command">
-<span class="sig-prename descclassname"><span class="pre">parsons.aws.</span></span><span class="sig-name descname"><span class="pre">event_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/aws_async.html#event_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.aws.event_command" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">parsons.aws.</span></span><span class="sig-name descname"><span class="pre">event_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/aws_async.html#event_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.aws.event_command" title="Link to this definition"></a></dt>
 <dd><p>Minimal <a class="reference external" href="https://en.wikipedia.org/wiki/Shim_(computing)">shim</a>
 to add to the top lambda handler function to enable distributed tasks</p>
 <p>The rest of this library is compatible with zappa.async library.
@@ -288,9 +285,9 @@ then you do NOT need to add this shim.</p>
 <p></p>
 </section>
 <section id="s3">
-<h2>S3<a class="headerlink" href="#s3" title="Permalink to this heading"></a></h2>
+<h2>S3<a class="headerlink" href="#s3" title="Link to this heading"></a></h2>
 <section id="aws-s3">
-<span id="id3"></span><h3>Overview<a class="headerlink" href="#aws-s3" title="Permalink to this heading"></a></h3>
+<span id="id3"></span><h3>Overview<a class="headerlink" href="#aws-s3" title="Link to this heading"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">S3</span></code> class allows interaction with Amazon Web Service’s <a class="reference external" href="https://aws.amazon.com/s3/">object storage service</a>
 to store and access data objects. It is a wrapper around the AWS SDK <a class="reference external" href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html">boto3</a>.
 It provides methods to upload and download files from S3 as well as manipulate buckets.</p>
@@ -304,7 +301,7 @@ Users can be granted granular access to AWS resources, including S3. IAM users a
 </div>
 </section>
 <section id="id5">
-<h3>QuickStart<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<h3>QuickStart<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <p>S3 credentials can be passed as environmental variables (<code class="docutils literal notranslate"><span class="pre">AWS_ACCESS_KEY_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">AWS_SECRET_ACCESS_KEY</span></code>),
 stored in an AWS CLI file <code class="docutils literal notranslate"><span class="pre">~/.aws/credentials</span></code>, or passed as keyword arguments.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">S3</span>
@@ -336,10 +333,10 @@ stored in an AWS CLI file <code class="docutils literal notranslate"><span class
 </div>
 </section>
 <section id="id6">
-<h3>API<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<h3>API<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 </section>
 <section id="temporary-credentials">
-<h3>Temporary Credentials<a class="headerlink" href="#temporary-credentials" title="Permalink to this heading"></a></h3>
+<h3>Temporary Credentials<a class="headerlink" href="#temporary-credentials" title="Link to this heading"></a></h3>
 <p>The S3 API supports creating temporary credentials for one-off operations, such as pushing a file to a particular key in a particular bucket.
 For example, the Mapbox API allows you to request temporary credentials that grant you access to a bucket where you can upload map data.
 When S3 returns a set of temporary credentials it also returns a session token that needs to be included with the standard credentials for
@@ -358,9 +355,9 @@ them to be accepted. The <code class="docutils literal notranslate"><span class=
 </section>
 </section>
 <section id="redshift">
-<h2>Redshift<a class="headerlink" href="#redshift" title="Permalink to this heading"></a></h2>
+<h2>Redshift<a class="headerlink" href="#redshift" title="Link to this heading"></a></h2>
 <section id="id7">
-<span id="id8"></span><h3>Overview<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<span id="id8"></span><h3>Overview<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">Redshift</span></code> class allows you to interact with an <a class="reference external" href="https://aws.amazon.com/redshift/">Amazon Redshift</a> relational database.
 The connector utilizes the <a class="reference external" href="https://pypi.org/project/psycopg2/">psycopg2</a> Python package under the hood. The core methods
 focus on input, output and querying of the database.</p>
@@ -380,7 +377,7 @@ for more information about AWS Redshift authorization.</p>
 </div>
 </section>
 <section id="id9">
-<h3>Quickstart<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
+<h3>Quickstart<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
 <p>Redshift API credentials can either be passed as environmental variables (<code class="docutils literal notranslate"><span class="pre">REDSHIFT_USERNAME</span></code>, <code class="docutils literal notranslate"><span class="pre">REDSHIFT_PASSWORD</span></code>,
 <code class="docutils literal notranslate"><span class="pre">REDSHIFT_HOST</span></code>, <code class="docutils literal notranslate"><span class="pre">REDSHIFT_DB</span></code>, and <code class="docutils literal notranslate"><span class="pre">REDSHIFT_PORT</span></code>) or as keyword arguments. Methods that use COPY require an
 <a class="reference external" href="https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html">access key ID and a secret access key</a>,
@@ -406,18 +403,18 @@ or keyword arguments.</p>
 options.</p>
 </section>
 <section id="core-api">
-<h3>Core API<a class="headerlink" href="#core-api" title="Permalink to this heading"></a></h3>
+<h3>Core API<a class="headerlink" href="#core-api" title="Link to this heading"></a></h3>
 </section>
 <section id="table-and-view-api">
-<span id="redshift-table-and-view-api"></span><h3>Table and View API<a class="headerlink" href="#table-and-view-api" title="Permalink to this heading"></a></h3>
+<span id="redshift-table-and-view-api"></span><h3>Table and View API<a class="headerlink" href="#table-and-view-api" title="Link to this heading"></a></h3>
 <p>Table and view utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.databases.redshift.redshift.</span></span><span class="sig-name descname"><span class="pre">RedshiftTableUtilities</span></span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.databases.redshift.redshift.</span></span><span class="sig-name descname"><span class="pre">RedshiftTableUtilities</span></span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities" title="Link to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.table_exists">
-<span class="sig-name descname"><span class="pre">table_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.table_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.table_exists" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">table_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.table_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.table_exists" title="Link to this definition"></a></dt>
 <dd><p>Check if a table or view exists in the database.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -437,7 +434,7 @@ used SQL queries run against the Redshift database.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_row_count">
-<span class="sig-name descname"><span class="pre">get_row_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_row_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_row_count" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_row_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_row_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_row_count" title="Link to this definition"></a></dt>
 <dd><p>Return the row count of a table.</p>
 <p><strong>SQL Code</strong></p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">myschema</span><span class="p">.</span><span class="n">mytable</span>
@@ -456,7 +453,7 @@ used SQL queries run against the Redshift database.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.rename_table">
-<span class="sig-name descname"><span class="pre">rename_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.rename_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.rename_table" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">rename_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.rename_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.rename_table" title="Link to this definition"></a></dt>
 <dd><p>Rename an existing table.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -476,7 +473,7 @@ the <code class="xref py py-meth docutils literal notranslate"><span class="pre"
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.move_table">
-<span class="sig-name descname"><span class="pre">move_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_source_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.move_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.move_table" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">move_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_source_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.move_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.move_table" title="Link to this definition"></a></dt>
 <dd><p>Move an existing table in the database.It will inherit encoding, sortkey
 and distkey. <strong>Once run, the source table rows will be empty.</strong> This is
 more efficiant than running <code class="docutils literal notranslate"><span class="pre">&quot;create</span> <span class="pre">newtable</span> <span class="pre">as</span> <span class="pre">select</span> <span class="pre">*</span> <span class="pre">from</span> <span class="pre">oldtable&quot;</span></code>.</p>
@@ -498,7 +495,7 @@ more efficiant than running <code class="docutils literal notranslate"><span cla
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.populate_table_from_query">
-<span class="sig-name descname"><span class="pre">populate_table_from_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distkey</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sortkey</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.populate_table_from_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.populate_table_from_query" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">populate_table_from_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distkey</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sortkey</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.populate_table_from_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.populate_table_from_query" title="Link to this definition"></a></dt>
 <dd><p>Populate a Redshift table with the results of a SQL query, creating the table if it
 doesn’t yet exist.</p>
 <dl class="simple">
@@ -521,7 +518,7 @@ or <code class="docutils literal notranslate"><span class="pre">truncate</span><
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.duplicate_table">
-<span class="sig-name descname"><span class="pre">duplicate_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where_clause</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_source_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.duplicate_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.duplicate_table" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">duplicate_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where_clause</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_source_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.duplicate_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.duplicate_table" title="Link to this definition"></a></dt>
 <dd><p>Create a copy of an existing table (or subset of rows) in a new
 table. It will inherit encoding, sortkey and distkey.</p>
 <dl class="simple">
@@ -544,7 +541,7 @@ or <code class="docutils literal notranslate"><span class="pre">truncate</span><
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.union_tables">
-<span class="sig-name descname"><span class="pre">union_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">union_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.union_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.union_tables" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">union_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">union_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.union_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.union_tables" title="Link to this definition"></a></dt>
 <dd><p>Union a series of table into a new table.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
@@ -566,7 +563,7 @@ duplicate rows.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_tables">
-<span class="sig-name descname"><span class="pre">get_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_tables" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_tables" title="Link to this definition"></a></dt>
 <dd><p>List the tables in a schema including metadata.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
@@ -586,7 +583,7 @@ duplicate rows.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_stats">
-<span class="sig-name descname"><span class="pre">get_table_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_table_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_stats" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_table_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_table_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_stats" title="Link to this definition"></a></dt>
 <dd><p>List the tables statistics includes row count and size.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -610,7 +607,7 @@ duplicate rows.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_columns">
-<span class="sig-name descname"><span class="pre">get_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_columns" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_columns" title="Link to this definition"></a></dt>
 <dd><p>Gets the column names (and some other column info) for a table.</p>
 <p>If you just need the column names, run <code class="docutils literal notranslate"><span class="pre">get_columns_list()</span></code> as it is faster.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">rs</span><span class="o">.</span><span class="n">get_columns</span><span class="p">(</span><span class="s1">&#39;some_schema&#39;</span><span class="p">,</span> <span class="s1">&#39;some_table&#39;</span><span class="p">):</span>
@@ -642,7 +639,7 @@ just like the columns in the table. The extra info is a dict with format</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_columns_list">
-<span class="sig-name descname"><span class="pre">get_columns_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_columns_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_columns_list" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_columns_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_columns_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_columns_list" title="Link to this definition"></a></dt>
 <dd><p>Gets the just the column names for a table.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -659,7 +656,7 @@ just like the columns in the table. The extra info is a dict with format</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_views">
-<span class="sig-name descname"><span class="pre">get_views</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_views"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_views" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_views</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_views"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_views" title="Link to this definition"></a></dt>
 <dd><p>List views.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
@@ -679,7 +676,7 @@ just like the columns in the table. The extra info is a dict with format</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_queries">
-<span class="sig-name descname"><span class="pre">get_queries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_queries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_queries" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_queries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_queries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_queries" title="Link to this definition"></a></dt>
 <dd><p>Return the Current queries running and queueing, along with resource consumption.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -696,7 +693,7 @@ just like the columns in the table. The extra info is a dict with format</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_max_value">
-<span class="sig-name descname"><span class="pre">get_max_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_column</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_max_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_max_value" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_max_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_column</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_max_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_max_value" title="Link to this definition"></a></dt>
 <dd><p>Return the max value from a table.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -711,7 +708,7 @@ just like the columns in the table. The extra info is a dict with format</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_object_type">
-<span class="sig-name descname"><span class="pre">get_object_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_object_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_object_type" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_object_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_object_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_object_type" title="Link to this definition"></a></dt>
 <dd><p>Get object type.</p>
 <p>One of <cite>view</cite>, <cite>table</cite>, <cite>index</cite>, <cite>sequence</cite>, or <cite>TOAST table</cite>.</p>
 <dl class="simple">
@@ -727,7 +724,7 @@ just like the columns in the table. The extra info is a dict with format</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.is_view">
-<span class="sig-name descname"><span class="pre">is_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.is_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.is_view" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">is_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.is_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.is_view" title="Link to this definition"></a></dt>
 <dd><p>Return true if the object is a view.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -742,7 +739,7 @@ just like the columns in the table. The extra info is a dict with format</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.is_table">
-<span class="sig-name descname"><span class="pre">is_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.is_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.is_table" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">is_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.is_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.is_table" title="Link to this definition"></a></dt>
 <dd><p>Return true if the object is a table.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -757,7 +754,7 @@ just like the columns in the table. The extra info is a dict with format</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definition">
-<span class="sig-name descname"><span class="pre">get_table_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_table_definition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definition" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_table_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_table_definition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definition" title="Link to this definition"></a></dt>
 <dd><p>Get the table definition (i.e. the create statement).</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -772,7 +769,7 @@ just like the columns in the table. The extra info is a dict with format</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definitions">
-<span class="sig-name descname"><span class="pre">get_table_definitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_table_definitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definitions" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_table_definitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_table_definitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definitions" title="Link to this definition"></a></dt>
 <dd><p>Get the table definition (i.e. the create statement) for multiple tables.</p>
 <p>This works similar to <cite>get_table_def</cite> except it runs a single query
 to get the ddl for multiple tables. It supports SQL wildcards for
@@ -793,7 +790,7 @@ to get the ddl for multiple tables. It supports SQL wildcards for
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definition">
-<span class="sig-name descname"><span class="pre">get_view_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_view_definition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definition" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_view_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_view_definition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definition" title="Link to this definition"></a></dt>
 <dd><p>Get the view definition (i.e. the create statement).</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -808,7 +805,7 @@ to get the ddl for multiple tables. It supports SQL wildcards for
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definitions">
-<span class="sig-name descname"><span class="pre">get_view_definitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_view_definitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definitions" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_view_definitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_view_definitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definitions" title="Link to this definition"></a></dt>
 <dd><p>Get the view definition (i.e. the create statement) for multiple views.</p>
 <p>This works similar to <cite>get_view_def</cite> except it runs a single query
 to get the ddl for multiple views. It supports SQL wildcards for
@@ -829,7 +826,7 @@ to get the ddl for multiple views. It supports SQL wildcards for
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.split_full_table_name">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_full_table_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.split_full_table_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.split_full_table_name" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_full_table_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.split_full_table_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.split_full_table_name" title="Link to this definition"></a></dt>
 <dd><p>Split a full table name into its schema and table. If a schema isn’t
 present, return <cite>public</cite> for the schema. Similarly, Redshift defaults
 to the <cite>public</cite> schema, when one isn’t provided.</p>
@@ -851,7 +848,7 @@ to the <cite>public</cite> schema, when one isn’t provided.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftTableUtilities.combine_schema_and_table_name">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">combine_schema_and_table_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.combine_schema_and_table_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.combine_schema_and_table_name" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">combine_schema_and_table_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.combine_schema_and_table_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.combine_schema_and_table_name" title="Link to this definition"></a></dt>
 <dd><p>Creates a full table name by combining a schema and table.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -873,15 +870,15 @@ to the <cite>public</cite> schema, when one isn’t provided.</p>
 
 </section>
 <section id="schema-api">
-<span id="redshift-schema-api"></span><h3>Schema API<a class="headerlink" href="#schema-api" title="Permalink to this heading"></a></h3>
+<span id="redshift-schema-api"></span><h3>Schema API<a class="headerlink" href="#schema-api" title="Link to this heading"></a></h3>
 <p>Schema utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftSchema">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.databases.redshift.redshift.</span></span><span class="sig-name descname"><span class="pre">RedshiftSchema</span></span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_schema.html#RedshiftSchema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftSchema" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.databases.redshift.redshift.</span></span><span class="sig-name descname"><span class="pre">RedshiftSchema</span></span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_schema.html#RedshiftSchema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftSchema" title="Link to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftSchema.create_schema_with_permissions">
-<span class="sig-name descname"><span class="pre">create_schema_with_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_schema.html#RedshiftSchema.create_schema_with_permissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftSchema.create_schema_with_permissions" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_schema_with_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_schema.html#RedshiftSchema.create_schema_with_permissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftSchema.create_schema_with_permissions" title="Link to this definition"></a></dt>
 <dd><p>Creates a Redshift schema (if it doesn’t already exist), and grants usage permissions to
 a Redshift group (if specified).</p>
 <dl class="simple">
@@ -901,7 +898,7 @@ full list, see the
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.databases.redshift.redshift.RedshiftSchema.grant_schema_permissions">
-<span class="sig-name descname"><span class="pre">grant_schema_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permissions_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'select'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_schema.html#RedshiftSchema.grant_schema_permissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftSchema.grant_schema_permissions" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">grant_schema_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permissions_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'select'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_schema.html#RedshiftSchema.grant_schema_permissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftSchema.grant_schema_permissions" title="Link to this definition"></a></dt>
 <dd><p>Grants a Redshift group permissions to all tables within an existing schema.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">

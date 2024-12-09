@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Action Builder &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -168,9 +165,9 @@
            <div itemprop="articleBody">
              
   <section id="action-builder">
-<h1>Action Builder<a class="headerlink" href="#action-builder" title="Permalink to this heading"></a></h1>
+<h1>Action Builder<a class="headerlink" href="#action-builder" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p><a class="reference external" href="https://actionbuilder.org/">Action Builder</a> is an online tool for field organizing, with an
 original use-case designed for the Labor context. While it has essentially no built-in outreach
 capabilities, it does provide robust record and relationship storage, including the ability to
@@ -191,7 +188,7 @@ applied on Connections as well as on Entities.</p>
 </div>
 </section>
 <section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h2>
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
 <p>To instantiate a class, you can either pass in the API token as an argument or set the
 <code class="docutils literal notranslate"><span class="pre">ACTION_BUILDER_API_TOKEN</span></code> environmental variable. The subdomain at which you access the UI must
 also be provided. If all calls from this object will be to the same Campaign in Action Builder,
@@ -216,10 +213,10 @@ may be passed to individual methods, instead.</p>
 <p>You can then call various endpoints:</p>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ActionBuilder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">ActionBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subdomain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">ActionBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subdomain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>api_token: str</dt><dd><p>The OSDI API token</p>
@@ -235,7 +232,7 @@ to be referenced.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionBuilder.get_campaign_tags">
-<span class="sig-name descname"><span class="pre">get_campaign_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.get_campaign_tags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.get_campaign_tags" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_campaign_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.get_campaign_tags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.get_campaign_tags" title="Link to this definition"></a></dt>
 <dd><p>Retrieve all tags (i.e. custom field values) within provided limit and filters
 <cite>Args:</cite></p>
 <blockquote>
@@ -260,7 +257,7 @@ When None, no filter is applied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionBuilder.get_tag_by_name">
-<span class="sig-name descname"><span class="pre">get_tag_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.get_tag_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.get_tag_by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_tag_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.get_tag_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.get_tag_by_name" title="Link to this definition"></a></dt>
 <dd><p>Convenience method to retrieve data on a single tag by its name/value
 <cite>Args:</cite></p>
 <blockquote>
@@ -280,7 +277,7 @@ retrieved or edited. Not necessary if supplied when instantiating the class.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionBuilder.insert_new_tag">
-<span class="sig-name descname"><span class="pre">insert_new_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_section</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.insert_new_tag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.insert_new_tag" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">insert_new_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_section</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.insert_new_tag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.insert_new_tag" title="Link to this definition"></a></dt>
 <dd><p>Load a new tag value into Action Builder. Required before applying the value to any entity
 records.
 <cite>Args:</cite></p>
@@ -305,7 +302,7 @@ retrieved or edited. Not necessary if supplied when instantiating the class.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionBuilder.insert_entity_record">
-<span class="sig-name descname"><span class="pre">insert_entity_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.insert_entity_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.insert_entity_record" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">insert_entity_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.insert_entity_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.insert_entity_record" title="Link to this definition"></a></dt>
 <dd><p>Load a new entity record in Action Builder of the type provided.
 <cite>Args:</cite></p>
 <blockquote>
@@ -333,7 +330,7 @@ retrieved or edited. Not necessary if supplied when instantiating the class.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionBuilder.update_entity_record">
-<span class="sig-name descname"><span class="pre">update_entity_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.update_entity_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.update_entity_record" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update_entity_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.update_entity_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.update_entity_record" title="Link to this definition"></a></dt>
 <dd><p>Update an entity record in Action Builder based on the identifier passed.
 <cite>Args:</cite></p>
 <blockquote>
@@ -361,7 +358,7 @@ retrieved or edited. Not necessary if supplied when instantiating the class.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionBuilder.add_section_field_values_to_record">
-<span class="sig-name descname"><span class="pre">add_section_field_values_to_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">section</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.add_section_field_values_to_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.add_section_field_values_to_record" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">add_section_field_values_to_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">section</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.add_section_field_values_to_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.add_section_field_values_to_record" title="Link to this definition"></a></dt>
 <dd><p>Add one or more tags (i.e. custom field value) to an existing entity record in Action
 Builder. The tags, along with their field and section, must already exist (except for
 date fields).
@@ -388,7 +385,7 @@ retrieved or edited. Not necessary if supplied when instantiating the class.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionBuilder.remove_tagging">
-<span class="sig-name descname"><span class="pre">remove_tagging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tagging_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.remove_tagging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.remove_tagging" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">remove_tagging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tagging_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.remove_tagging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.remove_tagging" title="Link to this definition"></a></dt>
 <dd><p>Remove one or more tags (i.e. custom field value) from an existing entity or connection
 record in Action Builder. The basis for this end point is the combination of the tag’s
 interact ID and that of the specific tagging. The tag ID can usually be determined from
@@ -424,7 +421,7 @@ Logbook’}</cite> if successful.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionBuilder.upsert_connection">
-<span class="sig-name descname"><span class="pre">upsert_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifiers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reactivate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.upsert_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.upsert_connection" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">upsert_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifiers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reactivate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.upsert_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.upsert_connection" title="Link to this definition"></a></dt>
 <dd><p>Load or update a connection record in Action Builder between two existing entity records.
 Only one connection record is allowed per pair of entities, so if the connection already
 exists, this method will update, but will otherwise create a new connection record.
@@ -455,7 +452,7 @@ if the Connection exists and has <cite>inactive</cite> set to True. True by defa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionBuilder.deactivate_connection">
-<span class="sig-name descname"><span class="pre">deactivate_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_identifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.deactivate_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.deactivate_connection" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">deactivate_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_identifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_builder/action_builder.html#ActionBuilder.deactivate_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionBuilder.deactivate_connection" title="Link to this definition"></a></dt>
 <dd><p>Deactivate an existing connection record in Action Builder between two existing entity
 records. Only one connection record is allowed per pair of entities, so this can be done
 by supplying the ID for the connection record, or for the two connected entity records.

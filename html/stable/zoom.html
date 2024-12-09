@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zoom &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -175,9 +172,9 @@
            <div itemprop="articleBody">
              
   <section id="zoom">
-<h1>Zoom<a class="headerlink" href="#zoom" title="Permalink to this heading"></a></h1>
+<h1>Zoom<a class="headerlink" href="#zoom" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p><a class="reference external" href="https://zoom.us">Zoom</a> is a video conferencing platform. This connector supports
 fetching users, fetching meetings, fetching metadata for past meetings, and fetching
 participants of past meetings via the <a class="reference external" href="https://developers.zoom.us/docs/api/">Zoom API</a>.</p>
@@ -194,7 +191,7 @@ which gives your <code class="docutils literal notranslate"><span class="pre">Zo
 </div>
 </section>
 <section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h2>
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
 <p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Zoom</span></code> class, you can either store your Zoom account ID, client ID, and client secret
 as environmental variables (<code class="docutils literal notranslate"><span class="pre">ZOOM_ACCOUNT_ID</span></code>, <code class="docutils literal notranslate"><span class="pre">ZOOM_CLIENT_ID</span></code>, <code class="docutils literal notranslate"><span class="pre">ZOOM_CLIENT_SECRET</span></code>)
 or pass them in as arguments.</p>
@@ -220,10 +217,10 @@ or pass them in as arguments.</p>
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Zoom">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Zoom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Zoom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom" title="Link to this definition"></a></dt>
 <dd><p>Instantiate the Zoom class.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -238,7 +235,7 @@ variable set.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_users">
-<span class="sig-name descname"><span class="pre">get_users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'active'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_users" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'active'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_users" title="Link to this definition"></a></dt>
 <dd><p>Get users.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -259,7 +256,7 @@ variable set.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_meetings">
-<span class="sig-name descname"><span class="pre">get_meetings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meeting_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'scheduled'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meetings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meetings" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_meetings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meeting_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'scheduled'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meetings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meetings" title="Link to this definition"></a></dt>
 <dd><p>Get meetings scheduled by a user.</p>
 <dl>
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -305,7 +302,7 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_past_meeting">
-<span class="sig-name descname"><span class="pre">get_past_meeting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_uuid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_meeting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_meeting" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_past_meeting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_uuid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_meeting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_meeting" title="Link to this definition"></a></dt>
 <dd><p>Get metadata regarding a past meeting.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -323,7 +320,7 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_past_meeting_participants">
-<span class="sig-name descname"><span class="pre">get_past_meeting_participants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_meeting_participants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_meeting_participants" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_past_meeting_participants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_meeting_participants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_meeting_participants" title="Link to this definition"></a></dt>
 <dd><p>Get past meeting participants.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -341,7 +338,7 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_meeting_registrants">
-<span class="sig-name descname"><span class="pre">get_meeting_registrants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meeting_registrants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meeting_registrants" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_meeting_registrants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meeting_registrants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meeting_registrants" title="Link to this definition"></a></dt>
 <dd><p>Get meeting registrants.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -359,7 +356,7 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_user_webinars">
-<span class="sig-name descname"><span class="pre">get_user_webinars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_user_webinars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_user_webinars" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_user_webinars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_user_webinars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_user_webinars" title="Link to this definition"></a></dt>
 <dd><p>Get meeting registrants.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -377,7 +374,7 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_past_webinar_participants">
-<span class="sig-name descname"><span class="pre">get_past_webinar_participants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_webinar_participants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_webinar_participants" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_past_webinar_participants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_webinar_participants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_webinar_participants" title="Link to this definition"></a></dt>
 <dd><p>Get past meeting participants</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -395,7 +392,7 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_webinar_registrants">
-<span class="sig-name descname"><span class="pre">get_webinar_registrants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_webinar_registrants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_webinar_registrants" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_webinar_registrants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_webinar_registrants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_webinar_registrants" title="Link to this definition"></a></dt>
 <dd><p>Get past meeting participants</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -413,7 +410,7 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_meeting_poll_metadata">
-<span class="sig-name descname"><span class="pre">get_meeting_poll_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meeting_poll_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meeting_poll_metadata" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_meeting_poll_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meeting_poll_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meeting_poll_metadata" title="Link to this definition"></a></dt>
 <dd><p>Get metadata about a specific poll for a given meeting ID</p>
 <p>Required scopes: <cite>meeting:read</cite></p>
 <dl class="simple">
@@ -431,7 +428,7 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_meeting_all_polls_metadata">
-<span class="sig-name descname"><span class="pre">get_meeting_all_polls_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meeting_all_polls_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meeting_all_polls_metadata" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_meeting_all_polls_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meeting_all_polls_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meeting_all_polls_metadata" title="Link to this definition"></a></dt>
 <dd><p>Get metadata for all polls for a given meeting ID</p>
 <p>Required scopes: <cite>meeting:read</cite></p>
 <dl class="simple">
@@ -447,7 +444,7 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_past_meeting_poll_metadata">
-<span class="sig-name descname"><span class="pre">get_past_meeting_poll_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_meeting_poll_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_meeting_poll_metadata" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_past_meeting_poll_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_meeting_poll_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_meeting_poll_metadata" title="Link to this definition"></a></dt>
 <dd><p>List poll metadata of a past meeting.</p>
 <p>Required scopes: <cite>meeting:read</cite></p>
 <dl class="simple">
@@ -463,7 +460,7 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_webinar_poll_metadata">
-<span class="sig-name descname"><span class="pre">get_webinar_poll_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_webinar_poll_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_webinar_poll_metadata" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_webinar_poll_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_webinar_poll_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_webinar_poll_metadata" title="Link to this definition"></a></dt>
 <dd><p>Get metadata for a specific poll for a given webinar ID</p>
 <p>Required scopes: <cite>webinar:read</cite></p>
 <dl class="simple">
@@ -481,7 +478,7 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_webinar_all_polls_metadata">
-<span class="sig-name descname"><span class="pre">get_webinar_all_polls_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_webinar_all_polls_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_webinar_all_polls_metadata" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_webinar_all_polls_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_webinar_all_polls_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_webinar_all_polls_metadata" title="Link to this definition"></a></dt>
 <dd><p>Get metadata for all polls for a given webinar ID</p>
 <p>Required scopes: <cite>webinar:read</cite></p>
 <dl class="simple">
@@ -497,7 +494,7 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_past_webinar_poll_metadata">
-<span class="sig-name descname"><span class="pre">get_past_webinar_poll_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_webinar_poll_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_webinar_poll_metadata" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_past_webinar_poll_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_webinar_poll_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_past_webinar_poll_metadata" title="Link to this definition"></a></dt>
 <dd><p>Retrieves the metadata for Webinar Polls of a specific Webinar</p>
 <p>Required scopes: <cite>webinar:read</cite></p>
 <dl class="simple">
@@ -513,14 +510,14 @@ Meetings page.</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_meeting_poll_results">
-<span class="sig-name descname"><span class="pre">get_meeting_poll_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meeting_poll_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meeting_poll_results" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_meeting_poll_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meeting_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meeting_poll_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_meeting_poll_results" title="Link to this definition"></a></dt>
 <dd><p>Get a report of poll results for a past meeting</p>
 <p>Required scopes: <cite>report:read:admin</cite></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Zoom.get_webinar_poll_results">
-<span class="sig-name descname"><span class="pre">get_webinar_poll_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_webinar_poll_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_webinar_poll_results" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_webinar_poll_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">webinar_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_webinar_poll_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Zoom.get_webinar_poll_results" title="Link to this definition"></a></dt>
 <dd><p>Get a report of poll results for a past webinar</p>
 <p>Required scopes: <cite>report:read:admin</cite></p>
 </dd></dl>

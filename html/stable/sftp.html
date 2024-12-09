@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SFTP &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -171,7 +168,7 @@
            <div itemprop="articleBody">
              
   <section id="sftp">
-<h1>SFTP<a class="headerlink" href="#sftp" title="Permalink to this heading"></a></h1>
+<h1>SFTP<a class="headerlink" href="#sftp" title="Link to this heading"></a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">SFTP</span></code> class allows you to interact with <a class="reference external" href="https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol">SFTP services</a>,
 using the  <a class="reference external" href="http://docs.paramiko.org/en/2.7/api/sftp.html">Paramiko SFTP library</a> under the hood.</p>
 <p>The class provides methods to:</p>
@@ -189,7 +186,7 @@ The <code class="docutils literal notranslate"><span class="pre">SFTP</span></co
 </dl>
 </div>
 <section id="quickstart">
-<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h2>
 <p>To instantiate <code class="docutils literal notranslate"><span class="pre">SFTP</span></code>, pass your host name, user name, and either a password or an authentication
 key file as keyword arguments:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">SFTP</span>
@@ -214,10 +211,10 @@ it in a <code class="docutils literal notranslate"><span class="pre">with</span>
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.SFTP">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">SFTP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">22</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rsa_private_key_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">SFTP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">22</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rsa_private_key_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP" title="Link to this definition"></a></dt>
 <dd><p>Instantiate SFTP Class</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -239,7 +236,7 @@ to authenticate stfp connection</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.create_connection">
-<span class="sig-name descname"><span class="pre">create_connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.create_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.create_connection" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.create_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.create_connection" title="Link to this definition"></a></dt>
 <dd><p>Create an SFTP connection.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>SFTP Connection object</p>
@@ -249,7 +246,7 @@ to authenticate stfp connection</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.list_directory">
-<span class="sig-name descname"><span class="pre">list_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.list_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.list_directory" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.list_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.list_directory" title="Link to this definition"></a></dt>
 <dd><p>List the contents of a directory</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -266,7 +263,7 @@ to authenticate stfp connection</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.make_directory">
-<span class="sig-name descname"><span class="pre">make_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.make_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.make_directory" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">make_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.make_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.make_directory" title="Link to this definition"></a></dt>
 <dd><p>Makes a new directory on the SFTP server</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -281,7 +278,7 @@ to authenticate stfp connection</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.remove_directory">
-<span class="sig-name descname"><span class="pre">remove_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.remove_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.remove_directory" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">remove_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.remove_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.remove_directory" title="Link to this definition"></a></dt>
 <dd><p>Remove a directory from the SFTP server</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -296,7 +293,7 @@ to authenticate stfp connection</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.get_file">
-<span class="sig-name descname"><span class="pre">get_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.get_file" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.get_file" title="Link to this definition"></a></dt>
 <dd><p>Download a file from the SFTP server</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -320,7 +317,7 @@ when the script is done running.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.get_files">
-<span class="sig-name descname"><span class="pre">get_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files_to_download</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.get_files" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files_to_download</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.get_files" title="Link to this definition"></a></dt>
 <dd><p>Download a list of files, either by providing the list explicitly, providing directories
 that contain files to download, or both.</p>
 <dl class="simple">
@@ -349,7 +346,7 @@ the same length as the files to be fetched, temporary files are used instead.</p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.get_table">
-<span class="sig-name descname"><span class="pre">get_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.get_table" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.get_table" title="Link to this definition"></a></dt>
 <dd><p>Download a csv from the server and convert into a Parsons table.</p>
 <p>The file may be compressed with gzip, or zip, but may not contain
 multiple files in the archive.</p>
@@ -371,7 +368,7 @@ multiple files in the archive.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.put_file">
-<span class="sig-name descname"><span class="pre">put_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.put_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.put_file" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">put_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.put_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.put_file" title="Link to this definition"></a></dt>
 <dd><p>Put a file on the SFTP server</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -390,7 +387,7 @@ multiple files in the archive.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.remove_file">
-<span class="sig-name descname"><span class="pre">remove_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.remove_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.remove_file" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">remove_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.remove_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.remove_file" title="Link to this definition"></a></dt>
 <dd><p>Delete a file on the SFTP server</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -405,7 +402,7 @@ multiple files in the archive.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.get_file_size">
-<span class="sig-name descname"><span class="pre">get_file_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_file_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.get_file_size" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_file_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_file_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.get_file_size" title="Link to this definition"></a></dt>
 <dd><p>Get the size of a file in MB on the SFTP server. The file is
 not downloaded locally.</p>
 <dl class="simple">
@@ -426,7 +423,7 @@ not downloaded locally.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.list_subdirectories">
-<span class="sig-name descname"><span class="pre">list_subdirectories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.list_subdirectories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.list_subdirectories" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_subdirectories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.list_subdirectories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.list_subdirectories" title="Link to this definition"></a></dt>
 <dd><p>List the subdirectories of a directory on the remote server.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -449,7 +446,7 @@ which case all subdirectories will be selected.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.list_files">
-<span class="sig-name descname"><span class="pre">list_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.list_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.list_files" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.list_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.list_files" title="Link to this definition"></a></dt>
 <dd><p>List the files in a directory on the remote server.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -472,7 +469,7 @@ all files will be selected.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.SFTP.walk_tree">
-<span class="sig-name descname"><span class="pre">walk_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.walk_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.walk_tree" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">walk_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.walk_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SFTP.walk_tree" title="Link to this definition"></a></dt>
 <dd><p>Recursively walks a directory, fetching all subdirectories and files (as long as
 they match <cite>dir_pattern</cite> and <cite>file_pattern</cite>, respectively) and the maximum directory
 depth hasn’t been exceeded. Optionally downloads discovered files.</p>

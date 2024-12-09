@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.sisense.sisense &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -159,7 +156,9 @@
 <span class="n">URI</span> <span class="o">=</span> <span class="s2">&quot;https://app.periscopedata.com/api/v1/&quot;</span>
 
 
-<div class="viewcode-block" id="Sisense"><a class="viewcode-back" href="../../../sisense.html#parsons.Sisense">[docs]</a><span class="k">class</span> <span class="nc">Sisense</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Sisense">
+<a class="viewcode-back" href="../../../sisense.html#parsons.Sisense">[docs]</a>
+<span class="k">class</span> <span class="nc">Sisense</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Sisense class.</span>
 
@@ -184,7 +183,9 @@
         <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;HTTP-X-PARTNER-AUTH&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_name</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">APIConnector</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Sisense.publish_shared_dashboard"><a class="viewcode-back" href="../../../sisense.html#parsons.Sisense.publish_shared_dashboard">[docs]</a>    <span class="k">def</span> <span class="nf">publish_shared_dashboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dashboard_id</span><span class="p">,</span> <span class="n">chart_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Sisense.publish_shared_dashboard">
+<a class="viewcode-back" href="../../../sisense.html#parsons.Sisense.publish_shared_dashboard">[docs]</a>
+    <span class="k">def</span> <span class="nf">publish_shared_dashboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dashboard_id</span><span class="p">,</span> <span class="n">chart_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method publishes a dashboard or chart using the provided arguments.</span>
 <span class="sd">        For available options, see the `API documentation &lt;https://dtdocs.sisense.com/article/embed-api-options&gt;`_. # noqa</span>
@@ -202,7 +203,10 @@
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dashboard&quot;</span><span class="p">:</span> <span class="n">dashboard_id</span><span class="p">,</span> <span class="s2">&quot;chart&quot;</span><span class="p">:</span> <span class="n">chart_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;shared_dashboard/create&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Sisense.list_shared_dashboards"><a class="viewcode-back" href="../../../sisense.html#parsons.Sisense.list_shared_dashboards">[docs]</a>    <span class="k">def</span> <span class="nf">list_shared_dashboards</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dashboard_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Sisense.list_shared_dashboards">
+<a class="viewcode-back" href="../../../sisense.html#parsons.Sisense.list_shared_dashboards">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_shared_dashboards</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dashboard_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List all shares of a given dashboard.</span>
 
@@ -215,7 +219,10 @@
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dashboard&quot;</span><span class="p">:</span> <span class="n">dashboard_id</span><span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;shared_dashboard/list&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Sisense.delete_shared_dashboard"><a class="viewcode-back" href="../../../sisense.html#parsons.Sisense.delete_shared_dashboard">[docs]</a>    <span class="k">def</span> <span class="nf">delete_shared_dashboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Sisense.delete_shared_dashboard">
+<a class="viewcode-back" href="../../../sisense.html#parsons.Sisense.delete_shared_dashboard">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete_shared_dashboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        To delete a shared dashboard you must provide the token for the shared dashboard.</span>
 <span class="sd">        The token is the last part of the shared dashboard URL. i.e. if the shared URL is:</span>
@@ -231,7 +238,9 @@
 <span class="sd">            Response or an error</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="n">token</span><span class="p">}</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;shared_dashboard/delete&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;shared_dashboard/delete&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span></div>
+</div>
+
 </pre></div>
 
            </div>

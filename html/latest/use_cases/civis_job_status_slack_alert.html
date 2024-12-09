@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Civis Job Status Slack Alert &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -151,7 +148,7 @@
            <div itemprop="articleBody">
              
   <section id="civis-job-status-slack-alert">
-<h1>Civis Job Status Slack Alert<a class="headerlink" href="#civis-job-status-slack-alert" title="Permalink to this heading"></a></h1>
+<h1>Civis Job Status Slack Alert<a class="headerlink" href="#civis-job-status-slack-alert" title="Link to this heading"></a></h1>
 <p>The Movement Cooperative uses Civis Platform to run the data syncs its members rely on.
 Civis users are able to monitor the status of these pipelines within the Civis interface, but not all stakeholders are Civis users and if a problem occurs folks have to navigate to another system, such as Slack or TMC’s support ticket system, to flag the issue, collaborate on troubleshooting, and get updates on the resolution.</p>
 <p>To make this process more efficient, promote transparency, and facilitate collaboration, the TMC Engineering team wrote a script using Parsons to post Civis data sync statuses to an internal Slack channel. The statuses include a green check mark emoji if a sync has run successfully that day, a red X if a sync has failed, a running person if a sync was running at the time the script checked its status, and a person shrugging emoji if the script was unable to determine the status of the sync.</p>

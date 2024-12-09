@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quickbase &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -163,9 +160,9 @@
            <div itemprop="articleBody">
              
   <section id="quickbase">
-<h1>Quickbase<a class="headerlink" href="#quickbase" title="Permalink to this heading"></a></h1>
+<h1>Quickbase<a class="headerlink" href="#quickbase" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p>Quickbase is a workflow automation and data warehousing tool. This class allows you to interact
 with select functions of the the <a class="reference external" href="https://developer.quickbase.com/">Quickbase API</a> .</p>
 <p>This Parsons connector provides methods to fetch lists of available tables in Quickbase, and to
@@ -180,7 +177,7 @@ Details on how to create user tokens can be found <a class="reference external" 
 </div>
 </section>
 <section id="quickstart">
-<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h2>
 <p>To instantiate the Quickbase class, you can either store your credentials as environment
 variables (<code class="docutils literal notranslate"><span class="pre">QUICKBASE_HOSTNAME</span></code> and <code class="docutils literal notranslate"><span class="pre">QUICKBASE_USER_TOKEN</span></code>) or pass them in as arguments:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Quickbase</span>
@@ -200,10 +197,10 @@ variables (<code class="docutils literal notranslate"><span class="pre">QUICKBAS
 </div>
 </section>
 <section id="quickbase-class">
-<h2>Quickbase Class<a class="headerlink" href="#quickbase-class" title="Permalink to this heading"></a></h2>
+<h2>Quickbase Class<a class="headerlink" href="#quickbase-class" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Quickbase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Quickbase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hostname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbase/quickbase.html#Quickbase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Quickbase" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Quickbase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hostname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbase/quickbase.html#Quickbase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Quickbase" title="Link to this definition"></a></dt>
 <dd><p>Instantiate the Quickbase class</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -220,7 +217,7 @@ instance (e.g. demo.quickbase.com).</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Quickbase.get_app_tables">
-<span class="sig-name descname"><span class="pre">get_app_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbase/quickbase.html#Quickbase.get_app_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Quickbase.get_app_tables" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_app_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbase/quickbase.html#Quickbase.get_app_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Quickbase.get_app_tables" title="Link to this definition"></a></dt>
 <dd><p>Query records in a Quickbase table. This follows the patterns laid out
 in Quickbase query documentaiton, located here:
 <a class="reference external" href="https://help.quickbase.com/api-guide/componentsquery.html">https://help.quickbase.com/api-guide/componentsquery.html</a></p>
@@ -237,7 +234,7 @@ in Quickbase query documentaiton, located here:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Quickbase.query_records">
-<span class="sig-name descname"><span class="pre">query_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_from</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbase/quickbase.html#Quickbase.query_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Quickbase.query_records" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">query_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_from</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbase/quickbase.html#Quickbase.query_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Quickbase.query_records" title="Link to this definition"></a></dt>
 <dd><p>Query records in a Quickbase table. This follows the patterns laid out
 in Quickbase query documentaiton, located here:
 <a class="reference external" href="https://help.quickbase.com/api-guide/componentsquery.html">https://help.quickbase.com/api-guide/componentsquery.html</a></p>

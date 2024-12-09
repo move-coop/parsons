@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.freshdesk.freshdesk &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -157,7 +154,9 @@
 <span class="n">PAGE_SIZE</span> <span class="o">=</span> <span class="mi">100</span>
 
 
-<div class="viewcode-block" id="Freshdesk"><a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk">[docs]</a><span class="k">class</span> <span class="nc">Freshdesk</span><span class="p">:</span>
+<div class="viewcode-block" id="Freshdesk">
+<a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk">[docs]</a>
+<span class="k">class</span> <span class="nc">Freshdesk</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate Freshdesk class</span>
 
@@ -226,7 +225,9 @@
 
         <span class="k">return</span> <span class="n">tbl</span>
 
-<div class="viewcode-block" id="Freshdesk.get_tickets"><a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_tickets">[docs]</a>    <span class="k">def</span> <span class="nf">get_tickets</span><span class="p">(</span>
+<div class="viewcode-block" id="Freshdesk.get_tickets">
+<a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_tickets">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_tickets</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ticket_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">requester_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -281,7 +282,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> tickets.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Freshdesk.get_contacts"><a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_contacts">[docs]</a>    <span class="k">def</span> <span class="nf">get_contacts</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Freshdesk.get_contacts">
+<a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_contacts">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_contacts</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mobile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -330,7 +334,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> contacts.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Freshdesk.get_companies"><a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_companies">[docs]</a>    <span class="k">def</span> <span class="nf">get_companies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Freshdesk.get_companies">
+<a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_companies">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_companies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List companies.</span>
 
@@ -349,7 +356,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> companies.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Freshdesk.get_agents"><a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_agents">[docs]</a>    <span class="k">def</span> <span class="nf">get_agents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mobile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Freshdesk.get_agents">
+<a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_agents">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_agents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mobile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List agents.</span>
 
@@ -379,7 +389,10 @@
 
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="Freshdesk.create_ticket"><a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.create_ticket">[docs]</a>    <span class="k">def</span> <span class="nf">create_ticket</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Freshdesk.create_ticket">
+<a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.create_ticket">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_ticket</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">priority</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">cc_emails</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">custom_fields</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -413,7 +426,9 @@
             <span class="s2">&quot;cc_emails&quot;</span><span class="p">:</span> <span class="n">cc_emails</span> <span class="k">if</span> <span class="n">cc_emails</span> <span class="k">else</span> <span class="p">[],</span>
             <span class="s2">&quot;custom_fields&quot;</span><span class="p">:</span> <span class="n">custom_fields</span> <span class="k">if</span> <span class="n">custom_fields</span> <span class="k">else</span> <span class="p">{},</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post_request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post_request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

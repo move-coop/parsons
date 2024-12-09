@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Google &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=db78e746"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -172,19 +169,19 @@
            <div itemprop="articleBody">
              
   <section id="google">
-<h1>Google<a class="headerlink" href="#google" title="Permalink to this heading"></a></h1>
+<h1>Google<a class="headerlink" href="#google" title="Link to this heading"></a></h1>
 <p>Google Cloud services allow you to upload and manipulate Tables as spreadsheets (via GoogleSheets) or query them as SQL database tables (via GoogleBigQuery). You can also upload/store/download them as binary objects (via GoogleCloudStorage). Finally, Google offers an API for civic information using GoogleCivic.</p>
 <p>For all of these services you will need to enable the APIs for your Google Cloud account and obtain authentication tokens to access them from your scripts. If you are the administrator of your Google Cloud account, you can do both of these at <a class="reference external" href="https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288">Google Cloud Console APIs and Services</a>.</p>
 <section id="bigquery">
-<span id="gbq"></span><h2>BigQuery<a class="headerlink" href="#bigquery" title="Permalink to this heading"></a></h2>
+<span id="gbq"></span><h2>BigQuery<a class="headerlink" href="#bigquery" title="Link to this heading"></a></h2>
 <section id="overview">
-<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h3>
+<h3>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h3>
 <p>Google BigQuery is a cloud data warehouse solution. Data is stored in tables, and users can query using SQL.
 BigQuery uses datasets as top level containers for tables, and datasets are themselves contained within
 Google Cloud projects.</p>
 </section>
 <section id="quickstart">
-<h3>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h3>
+<h3>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of the Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> to be either of those strings and call the constructor without that argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleBigQuery</span>
 
@@ -238,10 +235,10 @@ Google Cloud projects.</p>
 </div>
 </section>
 <section id="api">
-<h3>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h3>
+<h3>API<a class="headerlink" href="#api" title="Link to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_bigquery.</span></span><span class="sig-name descname"><span class="pre">GoogleBigQuery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_bigquery.</span></span><span class="sig-name descname"><span class="pre">GoogleBigQuery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery" title="Link to this definition"></a></dt>
 <dd><p>Class for querying BigQuery table and returning the data as Parsons tables.</p>
 <p>This class requires application credentials in the form of a json. It can be passed
 in the following ways:</p>
@@ -268,7 +265,7 @@ then will use the default inferred environment.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmp_gcs_bucket</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcs_client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">load_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.copy" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmp_gcs_bucket</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcs_client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">load_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.copy" title="Link to this definition"></a></dt>
 <dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> into Google BigQuery via Google Cloud Storage.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -297,7 +294,7 @@ client.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.delete_table">
-<span class="sig-name descname"><span class="pre">delete_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.delete_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.delete_table" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.delete_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.delete_table" title="Link to this definition"></a></dt>
 <dd><p>Delete a BigQuery table.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -310,7 +307,7 @@ client.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.query">
-<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.query" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.query" title="Link to this definition"></a></dt>
 <dd><p>Run a BigQuery query and return the results as a Parsons table.</p>
 <p>To include python variables in your query, it is recommended to pass them as parameters,
 following the BigQuery style where parameters are prefixed with <cite>&#64;`s.
@@ -345,7 +342,7 @@ injection attacks.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.table_exists">
-<span class="sig-name descname"><span class="pre">table_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.table_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.table_exists" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">table_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.table_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.table_exists" title="Link to this definition"></a></dt>
 <dd><p>Check whether or not the Google BigQuery table exists in the specified dataset.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -363,7 +360,7 @@ injection attacks.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.client">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.client" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.client" title="Link to this definition"></a></dt>
 <dd><p>Get the Google BigQuery client to use for making queries.</p>
 <dl class="simple">
 <dt><cite>Returns:</cite></dt><dd><p><cite>google.cloud.bigquery.client.Client</cite></p>
@@ -377,15 +374,15 @@ injection attacks.</p>
 <p></p>
 </section>
 <section id="cloud-storage">
-<h2>Cloud Storage<a class="headerlink" href="#cloud-storage" title="Permalink to this heading"></a></h2>
+<h2>Cloud Storage<a class="headerlink" href="#cloud-storage" title="Link to this heading"></a></h2>
 <section id="id3">
-<h3>Overview<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<h3>Overview<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <p>Google Cloud Storage is a cloud file storage system. It uses buckets in which to
 store arbitrary files referred to as blobs. You may use this connector to upload Parsons tables as blobs, download them to files, and list available blobs.</p>
 <p>To use the GoogleCloudStorage class, you will need Google service account credentials. If you are the administrator of your Google Cloud account, you can generate them in the <a class="reference external" href="https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288">Google Cloud Console APIs and Services</a>.</p>
 </section>
 <section id="id5">
-<h3>Quickstart<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<h3>Quickstart<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of your Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> to be either of those strings and call the constructor without that argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleCloudStorage</span>
 
@@ -413,10 +410,10 @@ the available blobs.</p>
 </div>
 </section>
 <section id="id6">
-<h3>API<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<h3>API<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_cloud_storage.</span></span><span class="sig-name descname"><span class="pre">GoogleCloudStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_cloud_storage.</span></span><span class="sig-name descname"><span class="pre">GoogleCloudStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage" title="Link to this definition"></a></dt>
 <dd><p>This class requires application credentials in the form of a json. It can be passed
 in the following ways:</p>
 <ul>
@@ -442,13 +439,13 @@ then will use the default inferred environment.</p>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.client">
-<span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.client" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.client" title="Link to this definition"></a></dt>
 <dd><p>Access all methods of <cite>google.cloud</cite> package</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.list_buckets">
-<span class="sig-name descname"><span class="pre">list_buckets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.list_buckets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.list_buckets" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_buckets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.list_buckets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.list_buckets" title="Link to this definition"></a></dt>
 <dd><p>Returns a list of buckets</p>
 <dl class="simple">
 <dt><cite>Returns:</cite></dt><dd><p>List of buckets</p>
@@ -458,7 +455,7 @@ then will use the default inferred environment.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.bucket_exists">
-<span class="sig-name descname"><span class="pre">bucket_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.bucket_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.bucket_exists" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">bucket_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.bucket_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.bucket_exists" title="Link to this definition"></a></dt>
 <dd><p>Verify that a bucket exists</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -473,7 +470,7 @@ then will use the default inferred environment.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.get_bucket">
-<span class="sig-name descname"><span class="pre">get_bucket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.get_bucket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.get_bucket" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_bucket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.get_bucket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.get_bucket" title="Link to this definition"></a></dt>
 <dd><p>Returns a bucket object</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -488,7 +485,7 @@ then will use the default inferred environment.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.create_bucket">
-<span class="sig-name descname"><span class="pre">create_bucket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.create_bucket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.create_bucket" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_bucket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.create_bucket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.create_bucket" title="Link to this definition"></a></dt>
 <dd><p>Create a bucket.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -503,7 +500,7 @@ then will use the default inferred environment.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.delete_bucket">
-<span class="sig-name descname"><span class="pre">delete_bucket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_blobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.delete_bucket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.delete_bucket" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_bucket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_blobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.delete_bucket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.delete_bucket" title="Link to this definition"></a></dt>
 <dd><p>Delete a bucket. Will fail if not empty unless <code class="docutils literal notranslate"><span class="pre">delete_blobs</span></code> argument
 is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
 <dl class="simple">
@@ -521,7 +518,7 @@ is set to <code class="docutils literal notranslate"><span class="pre">True</spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs">
-<span class="sig-name descname"><span class="pre">list_blobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.list_blobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_blobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.list_blobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs" title="Link to this definition"></a></dt>
 <dd><p>List all of the blobs in a bucket</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -540,7 +537,7 @@ is set to <code class="docutils literal notranslate"><span class="pre">True</spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.blob_exists">
-<span class="sig-name descname"><span class="pre">blob_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.blob_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.blob_exists" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">blob_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.blob_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.blob_exists" title="Link to this definition"></a></dt>
 <dd><p>Verify that a blob exists in the specified bucket</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -557,7 +554,7 @@ is set to <code class="docutils literal notranslate"><span class="pre">True</spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.get_blob">
-<span class="sig-name descname"><span class="pre">get_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.get_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.get_blob" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.get_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.get_blob" title="Link to this definition"></a></dt>
 <dd><p>Get a blob object</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -574,7 +571,7 @@ is set to <code class="docutils literal notranslate"><span class="pre">True</spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.put_blob">
-<span class="sig-name descname"><span class="pre">put_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.put_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.put_blob" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">put_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.put_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.put_blob" title="Link to this definition"></a></dt>
 <dd><p>Puts a blob (aka file) in a bucket</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -593,7 +590,7 @@ is set to <code class="docutils literal notranslate"><span class="pre">True</spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.download_blob">
-<span class="sig-name descname"><span class="pre">download_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.download_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.download_blob" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">download_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.download_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.download_blob" title="Link to this definition"></a></dt>
 <dd><p>Gets a blob from a bucket</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -617,7 +614,7 @@ when the script is done running.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.delete_blob">
-<span class="sig-name descname"><span class="pre">delete_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.delete_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.delete_blob" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.delete_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.delete_blob" title="Link to this definition"></a></dt>
 <dd><p>Delete a blob</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -634,7 +631,7 @@ when the script is done running.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.upload_table">
-<span class="sig-name descname"><span class="pre">upload_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_acl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.upload_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.upload_table" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">upload_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_acl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.upload_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.upload_table" title="Link to this definition"></a></dt>
 <dd><p>Load the data from a Parsons table into a blob.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -653,7 +650,7 @@ when the script is done running.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage.get_url">
-<span class="sig-name descname"><span class="pre">get_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expires_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.get_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.get_url" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expires_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.get_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage.get_url" title="Link to this definition"></a></dt>
 <dd><p>Generates a presigned url for a blob</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -679,9 +676,9 @@ when the script is done running.</p>
 <p></p>
 </section>
 <section id="civic">
-<h2>Civic<a class="headerlink" href="#civic" title="Permalink to this heading"></a></h2>
+<h2>Civic<a class="headerlink" href="#civic" title="Link to this heading"></a></h2>
 <section id="id7">
-<h3>Overview<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<h3>Overview<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <p>Google Civic is an API which provides helpful information about elections. In order to access Google Civic you must
 create a Google Developer Key in their <a class="reference external" href="https://console.developers.google.com/apis/">API console</a>. In order to
 use Google Civic, you must enable this specific end point.</p>
@@ -689,7 +686,7 @@ use Google Civic, you must enable this specific end point.</p>
 key civic information such as personalized ballots and polling location information.</p>
 </section>
 <section id="id8">
-<h3>Quickstart<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<h3>Quickstart<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleCivic class, you can pass the constructor a string containing the Google Civic API key you’ve generated for your project, or set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_CIVIC_API_KEY</span></code> to that value.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleCivic</span>
 
@@ -714,10 +711,10 @@ key civic information such as personalized ballots and polling location informat
 </div>
 </section>
 <section id="id9">
-<h3>API<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
+<h3>API<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_civic.GoogleCivic">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_civic.</span></span><span class="sig-name descname"><span class="pre">GoogleCivic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_civic.GoogleCivic" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_civic.</span></span><span class="sig-name descname"><span class="pre">GoogleCivic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_civic.GoogleCivic" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>api_key<span class="classifier">str</span></dt><dd><p>A valid Google api key. Not required if <code class="docutils literal notranslate"><span class="pre">GOOGLE_CIVIC_API_KEY</span></code>
@@ -730,7 +727,7 @@ env variable set.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_civic.GoogleCivic.get_elections">
-<span class="sig-name descname"><span class="pre">get_elections</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_elections"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_civic.GoogleCivic.get_elections" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_elections</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_elections"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_civic.GoogleCivic.get_elections" title="Link to this definition"></a></dt>
 <dd><p>Get a collection of information about elections and voter information.</p>
 <dl class="simple">
 <dt><cite>Returns:</cite></dt><dd><dl class="simple">
@@ -743,7 +740,7 @@ env variable set.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_civic.GoogleCivic.get_polling_location">
-<span class="sig-name descname"><span class="pre">get_polling_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">election_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_polling_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_civic.GoogleCivic.get_polling_location" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_polling_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">election_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_polling_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_civic.GoogleCivic.get_polling_location" title="Link to this definition"></a></dt>
 <dd><p>Get polling location information for a given address.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -764,7 +761,7 @@ env variable set.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_civic.GoogleCivic.get_polling_locations">
-<span class="sig-name descname"><span class="pre">get_polling_locations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">election_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">address_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'address'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_polling_locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_civic.GoogleCivic.get_polling_locations" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_polling_locations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">election_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">address_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'address'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_polling_locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_civic.GoogleCivic.get_polling_locations" title="Link to this definition"></a></dt>
 <dd><p>Get polling location information for a table of addresses.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -791,14 +788,14 @@ env variable set.</p>
 <p></p>
 </section>
 <section id="google-sheets">
-<h2>Google Sheets<a class="headerlink" href="#google-sheets" title="Permalink to this heading"></a></h2>
+<h2>Google Sheets<a class="headerlink" href="#google-sheets" title="Link to this heading"></a></h2>
 <section id="id10">
-<h3>Overview<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
+<h3>Overview<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
 <p>The GoogleSheets class allows you to interact with Google service account spreadsheets, called “Google Sheets.” You can create, modify, read, format, share and delete sheets with this connector.</p>
 <p>In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> environment variable. Typically you’ll get the credentials from the Google Developer Console (look for the “Google Drive API”).</p>
 </section>
 <section id="id11">
-<h3>Quickstart<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
+<h3>Quickstart<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> to contain a JSON encoding of the dict.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleSheets</span>
 
@@ -819,10 +816,10 @@ env variable set.</p>
 </div>
 </section>
 <section id="id12">
-<h3>API<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
+<h3>API<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_sheets.</span></span><span class="sig-name descname"><span class="pre">GoogleSheets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">google_keyfile_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_sheets.</span></span><span class="sig-name descname"><span class="pre">GoogleSheets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">google_keyfile_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets" title="Link to this definition"></a></dt>
 <dd><p>A connector for Google Sheets, handling data import and export.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -835,7 +832,7 @@ by the Google Developer Console. Required if env variable
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets.list_worksheets">
-<span class="sig-name descname"><span class="pre">list_worksheets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.list_worksheets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.list_worksheets" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_worksheets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.list_worksheets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.list_worksheets" title="Link to this definition"></a></dt>
 <dd><p>Return a list of worksheets in the spreadsheet.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -853,7 +850,7 @@ by the Google Developer Console. Required if env variable
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets.get_worksheet_index">
-<span class="sig-name descname"><span class="pre">get_worksheet_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_worksheet_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.get_worksheet_index" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_worksheet_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_worksheet_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.get_worksheet_index" title="Link to this definition"></a></dt>
 <dd><p>Get the first sheet in a Google spreadsheet with the given title. The
 title is case sensitive and the index begins with 0.</p>
 <dl class="simple">
@@ -874,7 +871,7 @@ title is case sensitive and the index begins with 0.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets.get_worksheet">
-<span class="sig-name descname"><span class="pre">get_worksheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worksheet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_worksheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.get_worksheet" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_worksheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worksheet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_worksheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.get_worksheet" title="Link to this definition"></a></dt>
 <dd><p>Create a <code class="docutils literal notranslate"><span class="pre">parsons</span> <span class="pre">table</span></code> from a sheet in a Google spreadsheet, given the sheet index.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -895,7 +892,7 @@ title is case sensitive and the index begins with 0.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets.share_spreadsheet">
-<span class="sig-name descname"><span class="pre">share_spreadsheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sharee</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">share_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'user'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reader'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notify</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notify_message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_link</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.share_spreadsheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.share_spreadsheet" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">share_spreadsheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sharee</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">share_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'user'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reader'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notify</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notify_message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_link</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.share_spreadsheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.share_spreadsheet" title="Link to this definition"></a></dt>
 <dd><p>Share a spreadsheet with a user, group of users, domain and/or the public.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -923,7 +920,7 @@ with. To share publicly, set sharee value to <code class="docutils literal notra
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets.get_spreadsheet_permissions">
-<span class="sig-name descname"><span class="pre">get_spreadsheet_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_spreadsheet_permissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.get_spreadsheet_permissions" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_spreadsheet_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_spreadsheet_permissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.get_spreadsheet_permissions" title="Link to this definition"></a></dt>
 <dd><p>List the permissioned users and groups for a spreadsheet.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -941,7 +938,7 @@ with. To share publicly, set sharee value to <code class="docutils literal notra
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets.create_spreadsheet">
-<span class="sig-name descname"><span class="pre">create_spreadsheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">editor_email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.create_spreadsheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.create_spreadsheet" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_spreadsheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">editor_email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.create_spreadsheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.create_spreadsheet" title="Link to this definition"></a></dt>
 <dd><p>Create a Google spreadsheet from a Parsons table. Optionally shares the new doc with
 the given email address. Optionally creates the sheet in a specified folder.</p>
 <dl class="simple">
@@ -966,7 +963,7 @@ Anyone shared on the folder will have access to the spreadsheet.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets.delete_spreadsheet">
-<span class="sig-name descname"><span class="pre">delete_spreadsheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.delete_spreadsheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.delete_spreadsheet" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_spreadsheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.delete_spreadsheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.delete_spreadsheet" title="Link to this definition"></a></dt>
 <dd><p>Deletes a Google spreadsheet.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -979,7 +976,7 @@ Anyone shared on the folder will have access to the spreadsheet.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets.add_sheet">
-<span class="sig-name descname"><span class="pre">add_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.add_sheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.add_sheet" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">add_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.add_sheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.add_sheet" title="Link to this definition"></a></dt>
 <dd><p>Adds a sheet to a Google spreadsheet.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -1001,7 +998,7 @@ Anyone shared on the folder will have access to the spreadsheet.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets.append_to_sheet">
-<span class="sig-name descname"><span class="pre">append_to_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worksheet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_entered_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.append_to_sheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.append_to_sheet" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">append_to_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worksheet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_entered_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.append_to_sheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.append_to_sheet" title="Link to this definition"></a></dt>
 <dd><p>Append data from a Parsons table to a Google sheet. Note that the table’s columns are
 ignored, as we’ll be keeping whatever header row already exists in the Google sheet.</p>
 <dl class="simple">
@@ -1023,7 +1020,7 @@ Otherwise, values will be entered as strings or numbers only.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets.overwrite_sheet">
-<span class="sig-name descname"><span class="pre">overwrite_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worksheet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_entered_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.overwrite_sheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.overwrite_sheet" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">overwrite_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worksheet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_entered_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.overwrite_sheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.overwrite_sheet" title="Link to this definition"></a></dt>
 <dd><p>Replace the data in a Google sheet with a Parsons table, using the table’s columns as the
 first row.</p>
 <dl class="simple">
@@ -1045,7 +1042,7 @@ Otherwise, values will be entered as strings or numbers only.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets.format_cells">
-<span class="sig-name descname"><span class="pre">format_cells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worksheet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.format_cells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.format_cells" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">format_cells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spreadsheet_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worksheet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.format_cells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.format_cells" title="Link to this definition"></a></dt>
 <dd><p>Format the cells of a worksheet.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">

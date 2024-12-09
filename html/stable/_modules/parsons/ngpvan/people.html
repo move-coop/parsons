@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.ngpvan.people &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -153,11 +150,15 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="People"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People">[docs]</a><span class="k">class</span> <span class="nc">People</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="People">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People">[docs]</a>
+<span class="k">class</span> <span class="nc">People</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
-<div class="viewcode-block" id="People.find_person"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.find_person">[docs]</a>    <span class="k">def</span> <span class="nf">find_person</span><span class="p">(</span>
+<div class="viewcode-block" id="People.find_person">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.find_person">[docs]</a>
+    <span class="k">def</span> <span class="nf">find_person</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -222,7 +223,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="People.find_person_json"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.find_person_json">[docs]</a>    <span class="k">def</span> <span class="nf">find_person_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_json</span><span class="p">):</span>
+
+<div class="viewcode-block" id="People.find_person_json">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.find_person_json">[docs]</a>
+    <span class="k">def</span> <span class="nf">find_person_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_json</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Find a person record based on json data.</span>
 
@@ -252,7 +256,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_people_search</span><span class="p">(</span><span class="n">match_json</span><span class="o">=</span><span class="n">match_json</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="People.update_person"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.update_person">[docs]</a>    <span class="k">def</span> <span class="nf">update_person</span><span class="p">(</span>
+
+<div class="viewcode-block" id="People.update_person">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.update_person">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_person</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">id_type</span><span class="o">=</span><span class="s2">&quot;vanid&quot;</span><span class="p">,</span>
@@ -317,7 +324,10 @@
             <span class="n">create</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="People.update_person_json"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.update_person_json">[docs]</a>    <span class="k">def</span> <span class="nf">update_person_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s2">&quot;vanid&quot;</span><span class="p">,</span> <span class="n">match_json</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="People.update_person_json">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.update_person_json">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_person_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s2">&quot;vanid&quot;</span><span class="p">,</span> <span class="n">match_json</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a person record based on a provided ID within the match_json dict.</span>
 
@@ -339,7 +349,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_people_search</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="n">id_type</span><span class="p">,</span> <span class="n">match_json</span><span class="o">=</span><span class="n">match_json</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="People.upsert_person"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.upsert_person">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_person</span><span class="p">(</span>
+
+<div class="viewcode-block" id="People.upsert_person">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.upsert_person">[docs]</a>
+    <span class="k">def</span> <span class="nf">upsert_person</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -410,7 +423,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="People.upsert_person_json"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.upsert_person_json">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_person_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_json</span><span class="p">):</span>
+
+<div class="viewcode-block" id="People.upsert_person_json">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.upsert_person_json">[docs]</a>
+    <span class="k">def</span> <span class="nf">upsert_person_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_json</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create or update a person record.</span>
 
@@ -439,6 +455,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_people_search</span><span class="p">(</span><span class="n">match_json</span><span class="o">=</span><span class="n">match_json</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="nf">_people_search</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -548,7 +565,9 @@
 
         <span class="k">return</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="People.get_person"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.get_person">[docs]</a>    <span class="k">def</span> <span class="nf">get_person</span><span class="p">(</span>
+<div class="viewcode-block" id="People.get_person">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.get_person">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_person</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">id</span><span class="p">,</span>
         <span class="n">id_type</span><span class="o">=</span><span class="s2">&quot;vanid&quot;</span><span class="p">,</span>
@@ -612,7 +631,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Getting person with </span><span class="si">{</span><span class="n">id_type</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s2">&quot;vanid&quot;</span><span class="si">}</span><span class="s1"> of </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s1"> at url </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;$expand&quot;</span><span class="p">:</span> <span class="n">expand_fields</span><span class="p">})</span></div>
 
-<div class="viewcode-block" id="People.delete_person"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.delete_person">[docs]</a>    <span class="k">def</span> <span class="nf">delete_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid</span><span class="p">):</span>
+
+<div class="viewcode-block" id="People.delete_person">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.delete_person">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Suppress the given VANID in databases where contact records can be suppressed.</span>
 
@@ -627,7 +649,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Van ID </span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2"> suppressed.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
-<div class="viewcode-block" id="People.apply_canvass_result"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_canvass_result">[docs]</a>    <span class="k">def</span> <span class="nf">apply_canvass_result</span><span class="p">(</span>
+
+<div class="viewcode-block" id="People.apply_canvass_result">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_canvass_result">[docs]</a>
+    <span class="k">def</span> <span class="nf">apply_canvass_result</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">id</span><span class="p">,</span>
         <span class="n">result_code_id</span><span class="p">,</span>
@@ -674,7 +699,10 @@
             <span class="n">phone</span><span class="o">=</span><span class="n">phone</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="People.toggle_volunteer_action"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.toggle_volunteer_action">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_volunteer_action</span><span class="p">(</span>
+
+<div class="viewcode-block" id="People.toggle_volunteer_action">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.toggle_volunteer_action">[docs]</a>
+    <span class="k">def</span> <span class="nf">toggle_volunteer_action</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">id</span><span class="p">,</span>
         <span class="n">volunteer_activity_id</span><span class="p">,</span>
@@ -723,7 +751,10 @@
 <span class="sd">                            result_code_id)</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="People.apply_response"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_response">[docs]</a>    <span class="k">def</span> <span class="nf">apply_response</span><span class="p">(</span>
+
+<div class="viewcode-block" id="People.apply_response">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_response">[docs]</a>
+    <span class="k">def</span> <span class="nf">apply_response</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">id</span><span class="p">,</span>
         <span class="n">response</span><span class="p">,</span>
@@ -840,7 +871,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="People.create_relationship"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.create_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">create_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid_1</span><span class="p">,</span> <span class="n">vanid_2</span><span class="p">,</span> <span class="n">relationship_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="People.create_relationship">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.create_relationship">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid_1</span><span class="p">,</span> <span class="n">vanid_2</span><span class="p">,</span> <span class="n">relationship_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a relationship between two individuals</span>
 
@@ -860,7 +894,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">vanid_1</span><span class="si">}</span><span class="s2">/relationships&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Relationship </span><span class="si">{</span><span class="n">vanid_1</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">vanid_2</span><span class="si">}</span><span class="s2"> created.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="People.apply_person_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_person_code">[docs]</a>    <span class="k">def</span> <span class="nf">apply_person_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">code_id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s2">&quot;vanid&quot;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="People.apply_person_code">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_person_code">[docs]</a>
+    <span class="k">def</span> <span class="nf">apply_person_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">code_id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s2">&quot;vanid&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply a code to a person.</span>
 
@@ -887,7 +924,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Code </span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s2"> applied to person id </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="People.merge_contacts"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.merge_contacts">[docs]</a>    <span class="k">def</span> <span class="nf">merge_contacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primary_vanid</span><span class="p">,</span> <span class="n">source_vanid</span><span class="p">):</span>
+
+<div class="viewcode-block" id="People.merge_contacts">
+<a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.merge_contacts">[docs]</a>
+    <span class="k">def</span> <span class="nf">merge_contacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primary_vanid</span><span class="p">,</span> <span class="n">source_vanid</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Merges two contacts in EveryAction. The source contact record will be</span>
 <span class="sd">        deleted as part of the merge and its data will be moved into the primary</span>
@@ -910,7 +950,9 @@
         <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;vanId&quot;</span><span class="p">:</span> <span class="n">primary_vanid</span><span class="p">}</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">r</span></div></div>
+        <span class="k">return</span> <span class="n">r</span></div>
+</div>
+
 </pre></div>
 
            </div>

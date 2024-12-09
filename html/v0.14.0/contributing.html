@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Submitting Issues &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=db78e746"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -109,7 +106,7 @@
            <div itemprop="articleBody">
              
   <section id="submitting-issues">
-<h1>Submitting Issues<a class="headerlink" href="#submitting-issues" title="Permalink to this heading"></a></h1>
+<h1>Submitting Issues<a class="headerlink" href="#submitting-issues" title="Link to this heading"></a></h1>
 <p>We encourage folks to review existing issues before starting a new issue.</p>
 <ul class="simple">
 <li><p>If the issue you want exists, feel free to use the <em>thumbs up</em> emoji to up vote the issue.</p></li>
@@ -124,19 +121,19 @@
 </ul>
 </section>
 <section id="contributing-code-to-parsons">
-<h1>Contributing Code to Parsons<a class="headerlink" href="#contributing-code-to-parsons" title="Permalink to this heading"></a></h1>
+<h1>Contributing Code to Parsons<a class="headerlink" href="#contributing-code-to-parsons" title="Link to this heading"></a></h1>
 <p>Generally, code contributions to Parsons will fall into one of the following categories: bug fixes, enhancements, and sample code. All changes to the repository are made via pull requests.</p>
 <section id="figuring-out-what-to-contribute">
-<h2>Figuring Out What to Contribute<a class="headerlink" href="#figuring-out-what-to-contribute" title="Permalink to this heading"></a></h2>
+<h2>Figuring Out What to Contribute<a class="headerlink" href="#figuring-out-what-to-contribute" title="Link to this heading"></a></h2>
 <p>If you would like to contribute to Parsons, please review the issues in the repository and find one you would like to work on. If you are new to Parsons or to open source projects, look for issues with the <strong>good first issue</strong> label. Once you have found your issue, please add a comment to the issue that lets others know that you are interested in working on it.</p>
 <section id="sample-code">
-<h3>Sample Code<a class="headerlink" href="#sample-code" title="Permalink to this heading"></a></h3>
+<h3>Sample Code<a class="headerlink" href="#sample-code" title="Link to this heading"></a></h3>
 <p>One important way to contribute to the Parsons project is to submit sample code that provides recipes and patterns for how to use the Parsons library.</p>
 <p>We have a folder called <code class="docutils literal notranslate"><span class="pre">sample_code/</span></code> in the root of the repository. If you have scripts that incorporate Parsons, we encourage you to create a Pull Request adding them there!</p>
 </section>
 </section>
 <section id="coding-conventions">
-<h2>Coding Conventions<a class="headerlink" href="#coding-conventions" title="Permalink to this heading"></a></h2>
+<h2>Coding Conventions<a class="headerlink" href="#coding-conventions" title="Link to this heading"></a></h2>
 <p>The following is a list of best practices to consider when writing code for the Parsons project:</p>
 <ul class="simple">
 <li><p>Each tool connector should be its own unique class (e.g. ActionKit, VAN) in its own Python package. Use existing connectors as examples when deciding how to layout your code.</p></li>
@@ -148,14 +145,14 @@
 </ul>
 </section>
 <section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading"></a></h2>
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h2>
 <p>Parsons documentation is built using the Python Sphinx tool. Sphinx uses the <code class="docutils literal notranslate"><span class="pre">docs/*.rst</span></code> files in the repository to create the documentation. If you are adding a new connector, you will need to add a reference to the connector to one of the .rst files. Please use the existing documentation as an example.</p>
 </section>
 <section id="testing-your-changes">
-<h2>Testing your Changes<a class="headerlink" href="#testing-your-changes" title="Permalink to this heading"></a></h2>
+<h2>Testing your Changes<a class="headerlink" href="#testing-your-changes" title="Link to this heading"></a></h2>
 <p>The Parsons codebase uses automated unit tests and a linter to check for errors in the code and to ensure that the code is consistent with our preferred style. Before your changes can be merged, they will need to pass these checks.</p>
 <section id="installing-dependencies">
-<h3>Installing Dependencies<a class="headerlink" href="#installing-dependencies" title="Permalink to this heading"></a></h3>
+<h3>Installing Dependencies<a class="headerlink" href="#installing-dependencies" title="Link to this heading"></a></h3>
 <p>Before running or testing your code changes, be sure to install all of the required Python libraries that Parsons depends on.</p>
 <p>From the root of the parsons repository, use the run the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
@@ -163,7 +160,7 @@
 </div>
 </section>
 <section id="unit-tests">
-<h3>Unit Tests<a class="headerlink" href="#unit-tests" title="Permalink to this heading"></a></h3>
+<h3>Unit Tests<a class="headerlink" href="#unit-tests" title="Link to this heading"></a></h3>
 <p>When contributing code, we ask you to add to tests that can be used to verify that the code is working as expected. All of our unit tests are located in the <code class="docutils literal notranslate"><span class="pre">test/</span></code> folder at the root of the repository.</p>
 <p>We use the pytest tool to run our suite of automated unit tests. The pytest command line tool is installed as part of the Parsons dependencies.</p>
 <p>To run all the entire suite of unit tests, execute the following command:</p>
@@ -175,7 +172,7 @@
 <p>See the <a class="reference external" href="https://docs.pytest.org/en/latest/contents.html">pytest documentation</a> for more info and many more options.</p>
 </section>
 <section id="linting">
-<h3>Linting<a class="headerlink" href="#linting" title="Permalink to this heading"></a></h3>
+<h3>Linting<a class="headerlink" href="#linting" title="Link to this heading"></a></h3>
 <p>We use the <a class="reference external" href="http://flake8.pycqa.org/en/latest/">flake8</a> tool to <a class="reference external" href="https://en.wikipedia.org/wiki/Lint_(software)">lint</a> the code in the repository to make sure it matches our preferred style. The flake8 command line tool is installed as part of the Parsons dependencies.</p>
 <p>Run the following command from the root of the Parsons repository to lint your code changes:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>flake8<span class="w"> </span>--max-line-length<span class="o">=</span><span class="m">100</span><span class="w"> </span>parsons
@@ -185,7 +182,7 @@
 </section>
 </section>
 <section id="submitting-a-pull-request">
-<h1>Submitting a Pull Request<a class="headerlink" href="#submitting-a-pull-request" title="Permalink to this heading"></a></h1>
+<h1>Submitting a Pull Request<a class="headerlink" href="#submitting-a-pull-request" title="Link to this heading"></a></h1>
 <p>In order to contribute code changes to the Parsons repository, you will need to:</p>
 <ul class="simple">
 <li><p>Fork the Parsons project using <a class="reference external" href="https://guides.github.com/activities/forking/">the “Fork” button in GitHub</a></p></li>

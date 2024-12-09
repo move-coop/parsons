@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.google.google_sheets &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=db78e746"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -132,7 +129,9 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="GoogleSheets"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets">[docs]</a><span class="k">class</span> <span class="nc">GoogleSheets</span><span class="p">:</span>
+<div class="viewcode-block" id="GoogleSheets">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets">[docs]</a>
+<span class="k">class</span> <span class="nc">GoogleSheets</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A connector for Google Sheets, handling data import and export.</span>
 
@@ -185,7 +184,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Couldn&#39;t find worksheet index or title </span><span class="si">{</span><span class="n">worksheet</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GoogleSheets.list_worksheets"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.list_worksheets">[docs]</a>    <span class="k">def</span> <span class="nf">list_worksheets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleSheets.list_worksheets">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.list_worksheets">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_worksheets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a list of worksheets in the spreadsheet.</span>
 
@@ -199,7 +200,10 @@
         <span class="n">worksheets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span><span class="o">.</span><span class="n">worksheets</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">title</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">worksheets</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="GoogleSheets.get_worksheet_index"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.get_worksheet_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_worksheet_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleSheets.get_worksheet_index">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.get_worksheet_index">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_worksheet_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the first sheet in a Google spreadsheet with the given title. The</span>
 <span class="sd">        title is case sensitive and the index begins with 0.</span>
@@ -220,7 +224,10 @@
                 <span class="k">return</span> <span class="n">index</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Couldn&#39;t find sheet with title </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleSheets.get_worksheet"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.get_worksheet">[docs]</a>    <span class="k">def</span> <span class="nf">get_worksheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleSheets.get_worksheet">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.get_worksheet">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_worksheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` from a sheet in a Google spreadsheet, given the sheet index.</span>
 
@@ -240,7 +247,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved worksheet with </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> rows.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="GoogleSheets.share_spreadsheet"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.share_spreadsheet">[docs]</a>    <span class="k">def</span> <span class="nf">share_spreadsheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">sharee</span><span class="p">,</span> <span class="n">share_type</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s1">&#39;reader&#39;</span><span class="p">,</span>
+
+<div class="viewcode-block" id="GoogleSheets.share_spreadsheet">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.share_spreadsheet">[docs]</a>
+    <span class="k">def</span> <span class="nf">share_spreadsheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">sharee</span><span class="p">,</span> <span class="n">share_type</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s1">&#39;reader&#39;</span><span class="p">,</span>
                           <span class="n">notify</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">notify_message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">with_link</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Share a spreadsheet with a user, group of users, domain and/or the public.</span>
@@ -270,7 +280,10 @@
                           <span class="n">email_message</span><span class="o">=</span><span class="n">notify_message</span><span class="p">,</span> <span class="n">with_link</span><span class="o">=</span><span class="n">with_link</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Shared spreadsheet </span><span class="si">{</span><span class="n">spreadsheet_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleSheets.get_spreadsheet_permissions"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.get_spreadsheet_permissions">[docs]</a>    <span class="k">def</span> <span class="nf">get_spreadsheet_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleSheets.get_spreadsheet_permissions">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.get_spreadsheet_permissions">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_spreadsheet_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List the permissioned users and groups for a spreadsheet.</span>
 
@@ -287,7 +300,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved permissions for </span><span class="si">{</span><span class="n">spreadsheet_id</span><span class="si">}</span><span class="s1"> spreadsheet.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="GoogleSheets.create_spreadsheet"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.create_spreadsheet">[docs]</a>    <span class="k">def</span> <span class="nf">create_spreadsheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">editor_email</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleSheets.create_spreadsheet">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.create_spreadsheet">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_spreadsheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">editor_email</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a Google spreadsheet from a Parsons table. Optionally shares the new doc with</span>
 <span class="sd">        the given email address.</span>
@@ -316,7 +332,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Created spreadsheet </span><span class="si">{</span><span class="n">spreadsheet</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">spreadsheet</span><span class="o">.</span><span class="n">id</span></div>
 
-<div class="viewcode-block" id="GoogleSheets.delete_spreadsheet"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.delete_spreadsheet">[docs]</a>    <span class="k">def</span> <span class="nf">delete_spreadsheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleSheets.delete_spreadsheet">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.delete_spreadsheet">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete_spreadsheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Deletes a Google spreadsheet.</span>
 
@@ -327,7 +346,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">del_spreadsheet</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Deleted spreadsheet </span><span class="si">{</span><span class="n">spreadsheet_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleSheets.add_sheet"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.add_sheet">[docs]</a>    <span class="k">def</span> <span class="nf">add_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleSheets.add_sheet">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.add_sheet">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds a sheet to a Google spreadsheet.</span>
 
@@ -349,7 +371,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Created worksheet.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">sheet_count</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleSheets.append_to_sheet"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.append_to_sheet">[docs]</a>    <span class="k">def</span> <span class="nf">append_to_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">user_entered_value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+
+<div class="viewcode-block" id="GoogleSheets.append_to_sheet">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.append_to_sheet">[docs]</a>
+    <span class="k">def</span> <span class="nf">append_to_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">user_entered_value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Append data from a Parsons table to a Google sheet. Note that the table&#39;s columns are</span>
@@ -399,7 +424,10 @@
         <span class="n">sheet</span><span class="o">.</span><span class="n">update_cells</span><span class="p">(</span><span class="n">cells</span><span class="p">,</span> <span class="n">value_input_option</span><span class="o">=</span><span class="n">value_input_option</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Appended </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> rows to worksheet.&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleSheets.overwrite_sheet"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.overwrite_sheet">[docs]</a>    <span class="k">def</span> <span class="nf">overwrite_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">user_entered_value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+
+<div class="viewcode-block" id="GoogleSheets.overwrite_sheet">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.overwrite_sheet">[docs]</a>
+    <span class="k">def</span> <span class="nf">overwrite_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">user_entered_value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Replace the data in a Google sheet with a Parsons table, using the table&#39;s columns as the</span>
@@ -443,7 +471,10 @@
         <span class="n">sheet</span><span class="o">.</span><span class="n">update_cells</span><span class="p">(</span><span class="n">cells</span><span class="p">,</span> <span class="n">value_input_option</span><span class="o">=</span><span class="n">value_input_option</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Overwrote worksheet.&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GoogleSheets.format_cells"><a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.format_cells">[docs]</a>    <span class="k">def</span> <span class="nf">format_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="nb">range</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">,</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleSheets.format_cells">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_sheets.GoogleSheets.format_cells">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="nb">range</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">,</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Format the cells of a worksheet.</span>
 
@@ -492,6 +523,7 @@
         <span class="n">ws</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">range</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Formatted worksheet&#39;</span><span class="p">)</span></div>
 
+
     <span class="k">def</span> <span class="nf">read_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">sheet_index</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="c1"># Deprecated method v0.14 of Parsons.</span>
 
@@ -509,6 +541,7 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Deprecated method. Use get_worksheet_index   instead.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_worksheet_index</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span></div>
+
 </pre></div>
 
            </div>

@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scytl &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -162,9 +159,9 @@
            <div itemprop="articleBody">
              
   <section id="scytl">
-<h1>Scytl<a class="headerlink" href="#scytl" title="Permalink to this heading"></a></h1>
+<h1>Scytl<a class="headerlink" href="#scytl" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p>Scytl, or Clarity Elections, is a company that creates a tool for publishing election results in real-time. It’s used in the U.S. by several states and over 800 counties, including Georgia, Colorado, Arkansas, and Dallas County, Texas.</p>
 <p>For each participating election administrator, they publish a site with results that can be published on election night. Unfortunately, while that site contains downloadable data, that data is formatted in a complex way, making it difficult for developers to fetch election results. In general, their results either come zipped in either an unformatted text file or a complex XML document. Summary results come as a zipped CSV, but just contain top-line results. The JSON that powers the site results is even more complicated.</p>
 <p>This connector provides methods to download the latest election results from their site and formats them into readable lists of dictionaries, which can easily be converted into a Parsons Table or Pandas dataframe.</p>
@@ -178,7 +175,7 @@
 </div>
 </section>
 <section id="quickstart">
-<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h2>
 <p>To get started, initialize a Scytl class with the two-letter state code, the election id, and the county name (optional).</p>
 <p>To get these details, go to the website for the given election, and look in the url. For example, if the url is “<a class="reference external" href="https://results.enr.clarityelections.com/TX/Dallas/114890/web.285569/">https://results.enr.clarityelections.com/TX/Dallas/114890/web.285569/</a>”, then the state is “TX”, the county is “Dallas”, and the election ID is “114890”. If the url is “<a class="reference external" href="https://results.enr.clarityelections.com/GA/114729/web.285569/">https://results.enr.clarityelections.com/GA/114729/web.285569/</a>”, the state is “GA” and the election ID is “114729”.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Scytl</span>
@@ -191,10 +188,10 @@
 </div>
 </section>
 <section id="scytl-class">
-<h2>Scytl Class<a class="headerlink" href="#scytl-class" title="Permalink to this heading"></a></h2>
+<h2>Scytl Class<a class="headerlink" href="#scytl-class" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Scytl">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Scytl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">election_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">county</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/scytl/scytl.html#Scytl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Scytl" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Scytl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">election_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">county</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/scytl/scytl.html#Scytl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Scytl" title="Link to this definition"></a></dt>
 <dd><p>Instantiate a Scytl connector.</p>
 <dl class="simple">
 <dt><cite>Args:</cite>:</dt><dd><dl class="simple">
@@ -212,7 +209,7 @@ ex: Clarke</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Scytl.get_summary_results">
-<span class="sig-name descname"><span class="pre">get_summary_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/parsons/scytl/scytl.html#Scytl.get_summary_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Scytl.get_summary_results" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_summary_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/parsons/scytl/scytl.html#Scytl.get_summary_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Scytl.get_summary_results" title="Link to this definition"></a></dt>
 <dd><p>Fetch the latest summary results for the given election, across all contests.</p>
 <dl>
 <dt>Please note that all electoral entities administer their elections differently,</dt><dd><p>so not all values will be populated if the entity doesn’t provide them.</p>
@@ -253,7 +250,7 @@ Each row will contain the following:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Scytl.get_detailed_results">
-<span class="sig-name descname"><span class="pre">get_detailed_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/parsons/scytl/scytl.html#Scytl.get_detailed_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Scytl.get_detailed_results" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_detailed_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/parsons/scytl/scytl.html#Scytl.get_detailed_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Scytl.get_detailed_results" title="Link to this definition"></a></dt>
 <dd><p>Fetch the latest detailed results by geography for the given election, across all contests.</p>
 <dl>
 <dt>Please note that all electoral entities administer their elections differently,</dt><dd><p>so not all values will be populated if the entity doesn’t provide them.</p>
@@ -333,7 +330,7 @@ The list should contain entries for each candidate in each office,</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Scytl.get_detailed_results_for_participating_counties">
-<span class="sig-name descname"><span class="pre">get_detailed_results_for_participating_counties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">county_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/parsons/scytl/scytl.html#Scytl.get_detailed_results_for_participating_counties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Scytl.get_detailed_results_for_participating_counties" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_detailed_results_for_participating_counties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">county_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/parsons/scytl/scytl.html#Scytl.get_detailed_results_for_participating_counties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Scytl.get_detailed_results_for_participating_counties" title="Link to this definition"></a></dt>
 <dd><dl>
 <dt>Fetch the latest detailed results for the given election for all participating counties</dt><dd><p>with detailed results, across all contests.</p>
 </dd>

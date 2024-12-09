@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Box &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -174,9 +171,9 @@
            <div itemprop="articleBody">
              
   <section id="box">
-<h1>Box<a class="headerlink" href="#box" title="Permalink to this heading"></a></h1>
+<h1>Box<a class="headerlink" href="#box" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p><a class="reference external" href="https://box.com">Box</a> is a commercial file sharing service similar to Dropbox and Google Drive. The current Parsons API supports listing files and folders, creating and deleting folders, and uploading/downloading Parsons tables as either CSV or JSON files.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -187,7 +184,7 @@
 </div>
 </section>
 <section id="quickstart">
-<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h2>
 <p>This class requires credentials in the form three strings to be either passed into the constructor or made available as environment variables:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: these are fake keys, provided as examples.</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">BOX_CLIENT_ID</span><span class="o">=</span>dp4rqi0cz5qckz361fziavdtdwxz
@@ -265,10 +262,10 @@
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Box">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/box/box.html#Box"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/box/box.html#Box"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box" title="Link to this definition"></a></dt>
 <dd><p>Box is a file storage provider.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -295,7 +292,7 @@ that contain many items. If performance is an issue, please use the
 corresponding folder_id/file_id methods for each function.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.create_folder">
-<span class="sig-name descname"><span class="pre">create_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.create_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.create_folder" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.create_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.create_folder" title="Link to this definition"></a></dt>
 <dd><p>Create a Box folder.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -311,7 +308,7 @@ path will be name of folder created in the default folder.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.create_folder_by_id">
-<span class="sig-name descname"><span class="pre">create_folder_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.create_folder_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.create_folder_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_folder_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.create_folder_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.create_folder_by_id" title="Link to this definition"></a></dt>
 <dd><p>Create a Box folder.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -329,7 +326,7 @@ omitted, the default folder will be used.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.delete_folder">
-<span class="sig-name descname"><span class="pre">delete_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.delete_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.delete_folder" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.delete_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.delete_folder" title="Link to this definition"></a></dt>
 <dd><p>Delete a Box folder.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -342,7 +339,7 @@ omitted, the default folder will be used.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.delete_folder_by_id">
-<span class="sig-name descname"><span class="pre">delete_folder_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.delete_folder_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.delete_folder_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_folder_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.delete_folder_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.delete_folder_by_id" title="Link to this definition"></a></dt>
 <dd><p>Delete a Box folder.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -355,7 +352,7 @@ omitted, the default folder will be used.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.delete_file">
-<span class="sig-name descname"><span class="pre">delete_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.delete_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.delete_file" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.delete_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.delete_file" title="Link to this definition"></a></dt>
 <dd><p>Delete a Box file.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -368,7 +365,7 @@ omitted, the default folder will be used.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.delete_file_by_id">
-<span class="sig-name descname"><span class="pre">delete_file_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.delete_file_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.delete_file_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_file_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.delete_file_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.delete_file_by_id" title="Link to this definition"></a></dt>
 <dd><p>Delete a Box file.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -381,7 +378,7 @@ omitted, the default folder will be used.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.list">
-<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.list" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.list" title="Link to this definition"></a></dt>
 <dd><p>Return a Table of Box files and/or folders found at a path.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -400,7 +397,7 @@ If omitted, the default folder will be used.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.list_files_by_id">
-<span class="sig-name descname"><span class="pre">list_files_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.list_files_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.list_files_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_files_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.list_files_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.list_files_by_id" title="Link to this definition"></a></dt>
 <dd><p>List all Box files in a folder.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -416,7 +413,7 @@ search in the default folder.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.list_folders_by_id">
-<span class="sig-name descname"><span class="pre">list_folders_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.list_folders_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.list_folders_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_folders_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.list_folders_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.list_folders_by_id" title="Link to this definition"></a></dt>
 <dd><p>List all Box folders.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -432,7 +429,7 @@ search in the default folder.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.upload_table">
-<span class="sig-name descname"><span class="pre">upload_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">File</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.upload_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.upload_table" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">upload_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">File</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.upload_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.upload_table" title="Link to this definition"></a></dt>
 <dd><p>Save the passed table to Box.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -451,7 +448,7 @@ search in the default folder.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.upload_table_to_folder_id">
-<span class="sig-name descname"><span class="pre">upload_table_to_folder_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">File</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.upload_table_to_folder_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.upload_table_to_folder_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">upload_table_to_folder_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">File</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.upload_table_to_folder_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.upload_table_to_folder_id" title="Link to this definition"></a></dt>
 <dd><p>Save the passed table to Box.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -472,7 +469,7 @@ search in the default folder.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.download_file">
-<span class="sig-name descname"><span class="pre">download_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.download_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.download_file" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">download_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.download_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.download_file" title="Link to this definition"></a></dt>
 <dd><p>Download a Box object to a local file.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -495,7 +492,7 @@ running.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.get_table">
-<span class="sig-name descname"><span class="pre">get_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.get_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.get_table" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.get_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.get_table" title="Link to this definition"></a></dt>
 <dd><p>Get a table that has been saved to Box in csv or JSON format.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -512,7 +509,7 @@ running.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.get_table_by_file_id">
-<span class="sig-name descname"><span class="pre">get_table_by_file_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.get_table_by_file_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.get_table_by_file_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_table_by_file_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.get_table_by_file_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.get_table_by_file_id" title="Link to this definition"></a></dt>
 <dd><p>Get a table that has been saved to Box in csv or JSON format.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -529,7 +526,7 @@ running.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.get_item_id">
-<span class="sig-name descname"><span class="pre">get_item_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.get_item_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.get_item_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_item_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.get_item_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.get_item_id" title="Link to this definition"></a></dt>
 <dd><p>Given a path-like object, try to return the id for the file or
 folder at the end of the path.</p>
 <p><em>NOTE</em>: This method makes one API call for each level in

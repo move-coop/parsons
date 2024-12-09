@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Opt-outs to EveryAction &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -149,7 +146,7 @@
            <div itemprop="articleBody">
              
   <section id="opt-outs-to-everyaction">
-<h1>Opt-outs to EveryAction<a class="headerlink" href="#opt-outs-to-everyaction" title="Permalink to this heading"></a></h1>
+<h1>Opt-outs to EveryAction<a class="headerlink" href="#opt-outs-to-everyaction" title="Link to this heading"></a></h1>
 <p>As carriers tighten restrictions on peer-to-peer texting through 10DLC rules, it becomes more and more crucial for organizations to avoid texting people who have opted out of their communications. This is a challenge for organizations who pull outreach lists from EveryAction or VAN but run their actual texting program in another tool because their opt-outs are tracked in a different system from the one where they pull their lists. A number of commonly used texting tools have integrations with EveryAction and VAN but they don’t always sync opt-out dispositions back into EveryAction/VAN.</p>
 <p>The Movement Cooperative worked with a couple of different member organizations to create a script using Parsons that would opt-out phone numbers in EveryAction to prevent them from being pulled into future outreach lists. The script only updates existing records, it does not create new ones, so it requires you to provide a VAN ID and assumes that the people you want to opt out already exist in EveryAction.</p>
 <p>The script requires the user to provide a table containing columns for phone number (must be named <cite>phone</cite>), committee ID (must be named <cite>committeeid</cite>), and vanid (must be named <cite>vanid</cite>).</p>

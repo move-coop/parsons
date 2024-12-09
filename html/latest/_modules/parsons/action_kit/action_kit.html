@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.action_kit.action_kit &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -160,7 +157,9 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="ActionKit"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit">[docs]</a><span class="k">class</span> <span class="nc">ActionKit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionKit">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit">[docs]</a>
+<span class="k">class</span> <span class="nc">ActionKit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the ActionKit class</span>
 
@@ -243,7 +242,9 @@
 
         <span class="k">return</span> <span class="n">exception_message</span>
 
-<div class="viewcode-block" id="ActionKit.get_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_user">[docs]</a>    <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionKit.get_user">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_user">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a user.</span>
 
@@ -258,7 +259,10 @@
             <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;User not found&quot;</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_user_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_user_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_user_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_user_fields">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_user_fields">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_user_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of valid user fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_user` method.</span>
@@ -271,7 +275,10 @@
 
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="ActionKit.create_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_user">[docs]</a>    <span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.create_user">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_user">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a user.</span>
 
@@ -293,7 +300,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.add_phone"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.add_phone">[docs]</a>    <span class="k">def</span> <span class="nf">add_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">phone_type</span><span class="p">,</span> <span class="n">phone</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.add_phone">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.add_phone">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">phone_type</span><span class="p">,</span> <span class="n">phone</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a phone number to a user.</span>
 
@@ -315,7 +325,10 @@
             <span class="n">phone</span><span class="o">=</span><span class="n">phone</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.delete_actionfield"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_actionfield">[docs]</a>    <span class="k">def</span> <span class="nf">delete_actionfield</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actionfield_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.delete_actionfield">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_actionfield">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete_actionfield</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actionfield_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete an actionfield.</span>
 
@@ -329,7 +342,10 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;actionfield&quot;</span><span class="p">,</span> <span class="n">actionfield_id</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">actionfield_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_user">[docs]</a>    <span class="k">def</span> <span class="nf">update_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_user">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_user">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a user.</span>
 
@@ -349,7 +365,10 @@
 
         <span class="k">return</span> <span class="n">resp</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_phone"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_phone">[docs]</a>    <span class="k">def</span> <span class="nf">update_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phone_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_phone">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_phone">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phone_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a phone record.</span>
 
@@ -368,7 +387,10 @@
 
         <span class="k">return</span> <span class="n">resp</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_event"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_event">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get an event.</span>
 
 <span class="sd">        `Args:`</span>
@@ -381,7 +403,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;event/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_events"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_events">[docs]</a>    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_events">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_events">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get multiple events.</span>
 
 <span class="sd">        `Args:`</span>
@@ -405,7 +430,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_event"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event">[docs]</a>    <span class="k">def</span> <span class="nf">update_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_event">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update an event.</span>
 
@@ -423,7 +451,10 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">event_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.create_event_field"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_field">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.create_event_field">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_field">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_event_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create an event field (custom field on an event). Note that if an event</span>
 <span class="sd">        field with this name already exists, this will add a second record.</span>
@@ -446,7 +477,10 @@
             <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_event_field"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event_field">[docs]</a>    <span class="k">def</span> <span class="nf">update_event_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eventfield_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_event_field">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event_field">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_event_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eventfield_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update an event field.</span>
 
@@ -471,7 +505,10 @@
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">eventfield_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_blackholed_email"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_blackholed_email">[docs]</a>    <span class="k">def</span> <span class="nf">get_blackholed_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_blackholed_email">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_blackholed_email">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_blackholed_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a blackholed email. A blackholed email is an email that has been prevented from</span>
 <span class="sd">        receiving bulk and transactional emails from ActionKit. `Documentation &lt;https://\</span>
@@ -487,7 +524,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="s2">&quot;blackholedemail&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.blackhole_email"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.blackhole_email">[docs]</a>    <span class="k">def</span> <span class="nf">blackhole_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.blackhole_email">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.blackhole_email">[docs]</a>
+    <span class="k">def</span> <span class="nf">blackhole_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prevent an email from receiving bulk and transactional emails from ActionKit.</span>
 <span class="sd">        `Documentation &lt;https://docs.actionkit.com/docs/manual/guide/\</span>
@@ -506,7 +546,10 @@
             <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.delete_user_data"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_user_data">[docs]</a>    <span class="k">def</span> <span class="nf">delete_user_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.delete_user_data">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_user_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete_user_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete user data.</span>
 
@@ -528,7 +571,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.delete_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_user">[docs]</a>    <span class="k">def</span> <span class="nf">delete_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.delete_user">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_user">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a user.</span>
 
@@ -542,7 +588,10 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_campaign"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_campaign">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_campaign">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a campaign.</span>
 
@@ -559,7 +608,10 @@
             <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Campaign not found&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_campaign_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_campaign_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaign_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_campaign_fields">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_campaign_fields">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_campaign_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of valid campaign fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_campaign` and :meth:`ActionKit.update_campaign` methods.</span>
@@ -571,7 +623,10 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;campaign/schema&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="ActionKit.create_campaign"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">create_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.create_campaign">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_campaign">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a campaign.</span>
 
@@ -593,7 +648,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.search_events_in_campaign"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.search_events_in_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">search_events_in_campaign</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ActionKit.search_events_in_campaign">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.search_events_in_campaign">[docs]</a>
+    <span class="k">def</span> <span class="nf">search_events_in_campaign</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">campaign_id</span><span class="p">,</span>
         <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -660,7 +718,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_event_create_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_page">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_create_page_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_event_create_page">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_page">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_event_create_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_create_page_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a event create page.</span>
 
@@ -677,7 +738,10 @@
             <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Event create page not found&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_event_create_page_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_page_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_page_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_event_create_page_fields">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_page_fields">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_event_create_page_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of event create page fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_event_create_page`.</span>
@@ -689,7 +753,10 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventcreatepage/schema&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="ActionKit.create_event_create_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_create_page">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_create_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.create_event_create_page">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_create_page">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_event_create_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add an event page to a campaign.</span>
 
@@ -717,7 +784,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_event_create_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_form">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_create_form_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_event_create_form">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_form">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_event_create_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_create_form_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a event create form.</span>
 
@@ -734,7 +804,10 @@
             <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Event create page not found&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_event_create_form_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_form_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_form_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_event_create_form_fields">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_form_fields">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_event_create_form_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of valid event create form fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_event_create_form` method.</span>
@@ -746,7 +819,10 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventcreateform/schema&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="ActionKit.create_event_create_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_create_form">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_create_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_id</span><span class="p">,</span> <span class="n">thank_you_text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.create_event_create_form">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_create_form">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_event_create_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_id</span><span class="p">,</span> <span class="n">thank_you_text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a event create form.</span>
 
@@ -771,7 +847,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_event_signup_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_page">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_page_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_event_signup_page">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_page">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_event_signup_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_page_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get event signup page.</span>
 
@@ -788,7 +867,10 @@
             <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;User page signup page not found&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_event_signup_page_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_page_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_page_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_event_signup_page_fields">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_page_fields">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_event_signup_page_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of valid event signup page fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_event_signup_page` method.</span>
@@ -800,7 +882,10 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventsignuppage/schema&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="ActionKit.create_event_signup_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_signup_page">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_signup_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.create_event_signup_page">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_signup_page">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_event_signup_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add an event signup page to a campaign.</span>
 
@@ -828,7 +913,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_event_signup_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_form">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_form_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_event_signup_form">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_form">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_event_signup_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_form_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a user.</span>
 
@@ -845,7 +933,10 @@
             <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;User page signup form not found&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_event_signup_form_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_form_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_form_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_event_signup_form_fields">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_form_fields">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_event_signup_form_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of valid event signup form fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_event_signup_form` method.</span>
@@ -857,7 +948,10 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventsignupform/schema&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="ActionKit.create_event_signup_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_signup_form">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_signup_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_id</span><span class="p">,</span> <span class="n">thank_you_text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.create_event_signup_form">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_signup_form">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_event_signup_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_id</span><span class="p">,</span> <span class="n">thank_you_text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a event signup form.</span>
 
@@ -882,7 +976,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_event_signup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event_signup">[docs]</a>    <span class="k">def</span> <span class="nf">update_event_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_event_signup">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event_signup">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_event_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update an event signup.</span>
 
@@ -904,7 +1001,10 @@
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_mailer"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_mailer">[docs]</a>    <span class="k">def</span> <span class="nf">get_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_mailer">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_mailer">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a mailer.</span>
 
@@ -917,7 +1017,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">entity_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.create_mailer"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_mailer">[docs]</a>    <span class="k">def</span> <span class="nf">create_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.create_mailer">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_mailer">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a mailer.</span>
 
@@ -934,7 +1037,10 @@
             <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not create mailer&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.copy_mailer"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.copy_mailer">[docs]</a>    <span class="k">def</span> <span class="nf">copy_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.copy_mailer">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.copy_mailer">[docs]</a>
+    <span class="k">def</span> <span class="nf">copy_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        copy a mailer</span>
 <span class="sd">        returns new copy of mailer which should be updatable.</span>
@@ -942,7 +1048,10 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">mailer_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/copy&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_mailing"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_mailing">[docs]</a>    <span class="k">def</span> <span class="nf">update_mailing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_mailing">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_mailing">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_mailing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a mailing.</span>
 
@@ -961,7 +1070,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">mailer_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
-<div class="viewcode-block" id="ActionKit.rebuild_mailer"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.rebuild_mailer">[docs]</a>    <span class="k">def</span> <span class="nf">rebuild_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailing_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.rebuild_mailer">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.rebuild_mailer">[docs]</a>
+    <span class="k">def</span> <span class="nf">rebuild_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailing_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rebuild a mailer.</span>
 
@@ -977,7 +1089,10 @@
             <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not rebuild mailer&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.queue_mailer"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.queue_mailer">[docs]</a>    <span class="k">def</span> <span class="nf">queue_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailing_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.queue_mailer">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.queue_mailer">[docs]</a>
+    <span class="k">def</span> <span class="nf">queue_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailing_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Queue a mailer.</span>
 
@@ -993,7 +1108,10 @@
             <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not queue mailer&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.paginated_get"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.paginated_get">[docs]</a>    <span class="k">def</span> <span class="nf">paginated_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_type</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.paginated_get">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.paginated_get">[docs]</a>
+    <span class="k">def</span> <span class="nf">paginated_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_type</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get multiple objects of a given type.</span>
 
 <span class="sd">        `Args:`</span>
@@ -1035,7 +1153,10 @@
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">limit</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="ActionKit.paginated_get_custom_limit"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.paginated_get_custom_limit">[docs]</a>    <span class="k">def</span> <span class="nf">paginated_get_custom_limit</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ActionKit.paginated_get_custom_limit">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.paginated_get_custom_limit">[docs]</a>
+    <span class="k">def</span> <span class="nf">paginated_get_custom_limit</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">object_type</span><span class="p">,</span>
         <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1106,7 +1227,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">limit</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_order"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_order">[docs]</a>    <span class="k">def</span> <span class="nf">get_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_order">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_order">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get an order.</span>
 
@@ -1121,7 +1245,10 @@
             <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">order_id</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Order not found&quot;</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_order"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_order">[docs]</a>    <span class="k">def</span> <span class="nf">update_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_order">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_order">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update an order.</span>
 
@@ -1139,7 +1266,10 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="n">order_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">order_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_order_user_detail"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_order_user_detail">[docs]</a>    <span class="k">def</span> <span class="nf">update_order_user_detail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_detail_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_order_user_detail">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_order_user_detail">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_order_user_detail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_detail_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update an order user detail.</span>
 
@@ -1160,7 +1290,10 @@
 
         <span class="k">return</span> <span class="n">resp</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_orderrecurring"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_orderrecurring">[docs]</a>    <span class="k">def</span> <span class="nf">get_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orderrecurring_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_orderrecurring">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_orderrecurring">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orderrecurring_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get an orderrecurring.</span>
 
@@ -1177,7 +1310,10 @@
             <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Orderrecurring not found&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.cancel_orderrecurring"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.cancel_orderrecurring">[docs]</a>    <span class="k">def</span> <span class="nf">cancel_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recurring_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.cancel_orderrecurring">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.cancel_orderrecurring">[docs]</a>
+    <span class="k">def</span> <span class="nf">cancel_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recurring_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Cancel a recurring order.</span>
 
@@ -1192,7 +1328,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">recurring_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_orderrecurring"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_orderrecurring">[docs]</a>    <span class="k">def</span> <span class="nf">update_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orderrecurring_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_orderrecurring">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_orderrecurring">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orderrecurring_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a recurring order.</span>
 
@@ -1213,7 +1352,10 @@
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">orderrecurring_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_orders"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_orders">[docs]</a>    <span class="k">def</span> <span class="nf">get_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_orders">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_orders">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get multiple orders.</span>
 
 <span class="sd">        `Args:`</span>
@@ -1237,7 +1379,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_paymenttoken"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_paymenttoken">[docs]</a>    <span class="k">def</span> <span class="nf">update_paymenttoken</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paymenttoken_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_paymenttoken">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_paymenttoken">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_paymenttoken</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paymenttoken_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a saved payment token.</span>
 
@@ -1259,7 +1404,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">paymenttoken_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_page_followup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_page_followup">[docs]</a>    <span class="k">def</span> <span class="nf">get_page_followup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_followup_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_page_followup">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_page_followup">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_page_followup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_followup_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a page followup.</span>
 
@@ -1276,7 +1424,10 @@
             <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Page followup not found&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_page_followup_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_page_followup_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_page_followup_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_page_followup_fields">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_page_followup_fields">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_page_followup_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of valid page followup fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_page_followup` method.</span>
@@ -1288,7 +1439,10 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;pagefollowup/schema&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="ActionKit.create_page_followup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_page_followup">[docs]</a>    <span class="k">def</span> <span class="nf">create_page_followup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signup_page_id</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.create_page_followup">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_page_followup">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_page_followup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signup_page_id</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a page followup.</span>
 
@@ -1313,7 +1467,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_survey_question"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_survey_question">[docs]</a>    <span class="k">def</span> <span class="nf">get_survey_question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_survey_question">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_survey_question">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_survey_question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a survey question.</span>
 
@@ -1330,7 +1487,10 @@
             <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Survey question not found&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_survey_question"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_survey_question">[docs]</a>    <span class="k">def</span> <span class="nf">update_survey_question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_survey_question">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_survey_question">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_survey_question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a survey question.</span>
 
@@ -1353,7 +1513,10 @@
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">survey_question_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.create_transaction"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">create_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.create_transaction">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_transaction">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a transaction.</span>
 
@@ -1370,7 +1533,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_transaction"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">update_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_transaction">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_transaction">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a transaction.</span>
 
@@ -1390,7 +1556,10 @@
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">transaction_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.get_transactions"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_transactions">[docs]</a>    <span class="k">def</span> <span class="nf">get_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.get_transactions">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_transactions">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get multiple transactions.</span>
 
 <span class="sd">        `Args:`</span>
@@ -1414,7 +1583,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="s2">&quot;transaction&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.create_generic_action"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_generic_action">[docs]</a>    <span class="k">def</span> <span class="nf">create_generic_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ak_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.create_generic_action">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_generic_action">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_generic_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ak_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Post a generic action. One of ``ak_id`` or ``email`` is a required argument.</span>
 
@@ -1446,7 +1618,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.update_import_action"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_import_action">[docs]</a>    <span class="k">def</span> <span class="nf">update_import_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionKit.update_import_action">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_import_action">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_import_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update an import action.</span>
 
@@ -1467,7 +1642,10 @@
 
         <span class="k">return</span> <span class="n">resp</span></div>
 
-<div class="viewcode-block" id="ActionKit.bulk_upload_csv"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_csv">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_csv</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ActionKit.bulk_upload_csv">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_csv">[docs]</a>
+    <span class="k">def</span> <span class="nf">bulk_upload_csv</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">csv_file</span><span class="p">,</span>
         <span class="n">import_page</span><span class="p">,</span>
@@ -1527,7 +1705,10 @@
             <span class="p">}</span>
             <span class="k">return</span> <span class="n">rv</span></div>
 
-<div class="viewcode-block" id="ActionKit.bulk_upload_table"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_table</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ActionKit.bulk_upload_table">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_table">[docs]</a>
+    <span class="k">def</span> <span class="nf">bulk_upload_table</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table</span><span class="p">,</span>
         <span class="n">import_page</span><span class="p">,</span>
@@ -1593,6 +1774,7 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="nb">all</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]),</span> <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">results</span><span class="p">}</span></div>
 
+
     <span class="k">def</span> <span class="nf">_split_tables_no_empties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">no_overwrite_on_empty</span><span class="p">,</span> <span class="n">set_only_columns</span><span class="p">):</span>
         <span class="n">table_groups</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># uploading combo of user_id and email column should be mutually exclusive</span>
@@ -1620,7 +1802,9 @@
             <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subset_table</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">results</span>
 
-<div class="viewcode-block" id="ActionKit.collect_upload_errors"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.collect_upload_errors">[docs]</a>    <span class="k">def</span> <span class="nf">collect_upload_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_array</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionKit.collect_upload_errors">
+<a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.collect_upload_errors">[docs]</a>
+    <span class="k">def</span> <span class="nf">collect_upload_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_array</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Collect any upload errors as a list of objects from bulk_upload_table &#39;results&#39; key value.</span>
 <span class="sd">        This waits for uploads to complete, so it may take some time if you uploaded a large file.</span>
@@ -1666,7 +1850,9 @@
                     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;error collect result: </span><span class="si">{</span><span class="n">error_data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">error_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;objects&quot;</span><span class="p">,</span> <span class="p">[]))</span>
 
-        <span class="k">return</span> <span class="n">errors</span></div></div>
+        <span class="k">return</span> <span class="n">errors</span></div>
+</div>
+
 </pre></div>
 
            </div>

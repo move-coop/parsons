@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Introduction to ETL Best Practices &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -185,7 +182,7 @@
            <div itemprop="articleBody">
              
   <section id="introduction-to-etl-best-practices">
-<h1><a class="toc-backref" href="#id1" role="doc-backlink">Introduction to ETL Best Practices</a><a class="headerlink" href="#introduction-to-etl-best-practices" title="Permalink to this heading"></a></h1>
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">Introduction to ETL Best Practices</a><a class="headerlink" href="#introduction-to-etl-best-practices" title="Link to this heading"></a></h1>
 <p>This training guide will walk you through some basic ETL workflows using Parsons. It is based off of a two-part training designed by Cormac Martinez del Rio and Shauna Gordon-McKeon.</p>
 <p>It introduces the basic concepts behind the Extract, Transform and Load (ETL) process by working through two examples. First, we focus on how to write a basic Parsons script that moves data between one platform (Mobilize) and another (Google Sheets). Then, we introduce some more advanced concepts such as data warehouses, platforms like Civis, and the use of log tables and schedulers to make your workflow easier to run and debug.</p>
 <nav class="contents" id="table-of-contents">
@@ -218,9 +215,9 @@
 </nav>
 <p>You can suggest improvements to this guide or request additional guides by filing an issue in our issue tracker or telling us in Slack. To get added to our Slack, and/or to request access to the recordings of this training, email us at <em>engineering&#64;movementcooperative.org</em>.</p>
 <section id="part-one">
-<h2><a class="toc-backref" href="#id2" role="doc-backlink">Part One</a><a class="headerlink" href="#part-one" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Part One</a><a class="headerlink" href="#part-one" title="Link to this heading"></a></h2>
 <section id="introduction">
-<h3><a class="toc-backref" href="#id3" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading"></a></h3>
 <p>Have you ever tried to get data from one platform or system to another? Doing so can be quite a pain, especially if you have to manually download and upload individual files. Luckily, websites and apps often have APIs, which stands for application programming interfaces. These are gateways that let us move data into and out of a system using code.</p>
 <p><strong>ETL</strong>, which stands for Extract, Transform, and Load is the process by which we extract data from one systems API, transform that data so that it’s compatible with a second system’s API, and then loading that data into that second system.</p>
 <p>The format that source system gives us data is often different from the format that another system likes receiving data! Everyone thinks their way is best.
@@ -232,11 +229,11 @@ Not so good for the movement, good for data engineers’ job security. ;)</p>
 <p>Okay, let’s proceed!</p>
 </section>
 <section id="authentication">
-<h3><a class="toc-backref" href="#id4" role="doc-backlink">Authentication</a><a class="headerlink" href="#authentication" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Authentication</a><a class="headerlink" href="#authentication" title="Link to this heading"></a></h3>
 <p>In order to access our data from Mobilize and add it to Google Sheets, we need to authenticate ourselves to these two services. We do this by getting the relevant credentials from the platform and then saving them to specific environmental variables.</p>
 <p>Each Parsons connector has a page in the documentation, and at the top of each page is a description of what credentials you need and how to get them. Sometimes this is straightforward, and sometimes it’s more complicated.</p>
 <section id="mobilize">
-<h4>Mobilize<a class="headerlink" href="#mobilize" title="Permalink to this heading"></a></h4>
+<h4>Mobilize<a class="headerlink" href="#mobilize" title="Link to this heading"></a></h4>
 <p>To access Mobilize, you’ll need to get an API key by contacting a support representative. If you don’t have an account but would like to follow along anyway, we’ve provided some fake Mobilize data which we’ll walk you through accessing below.</p>
 <p>If you were able to get an API key, you can now save it as the environmental variable <code class="docutils literal notranslate"><span class="pre">MOBILIZE_AMERICA_API_KEY</span></code> by running this command on the command line:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>set MOBILIZE_AMERICA_API_KEY=$API_KEY       # Windows
@@ -252,7 +249,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 </div>
 </section>
 <section id="google-sheets">
-<h4>Google Sheets<a class="headerlink" href="#google-sheets" title="Permalink to this heading"></a></h4>
+<h4>Google Sheets<a class="headerlink" href="#google-sheets" title="Link to this heading"></a></h4>
 <p>Setting up the Google Sheets connector takes several steps.</p>
 <p>First, you’ll need to go to the <a class="reference external" href="https://console.cloud.google.com/">Google Developers Console</a> and select the project you want to work with, or create a new one (recommended). Following <a class="reference external" href="https://developers.google.com/drive/api/guides/enable-drive-api">these instructions from Google</a>, click <strong>APIs &amp; Auth</strong> and then <strong>APIs</strong>. Select the Drive API from among the API options, and click <strong>enable</strong>.</p>
 <p>Once you’ve created a project and enabled the API, you’ll need to get the credentials that will allow you to access the API. Click on the <strong>credentials</strong> option in the left sidebar. Click <strong>create credentials</strong> and select the <strong>Service Account</strong> option. Once you have filled out the form and clicked submit, it will give you a set of credentials as a json string which you can save to a file.</p>
@@ -266,9 +263,9 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 </section>
 </section>
 <section id="extracting-data-from-moblize">
-<h3><a class="toc-backref" href="#id5" role="doc-backlink">Extracting Data from Moblize</a><a class="headerlink" href="#extracting-data-from-moblize" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Extracting Data from Moblize</a><a class="headerlink" href="#extracting-data-from-moblize" title="Link to this heading"></a></h3>
 <section id="setting-up-imports-and-instances">
-<h4>Setting up: Imports and Instances<a class="headerlink" href="#setting-up-imports-and-instances" title="Permalink to this heading"></a></h4>
+<h4>Setting up: Imports and Instances<a class="headerlink" href="#setting-up-imports-and-instances" title="Link to this heading"></a></h4>
 <p>Before we jump into moving data around, lets import all the things we need and instantiate our connectors.</p>
 <p>Your imports should look like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
@@ -287,7 +284,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 <p>And we’re ready to start extracting!</p>
 </section>
 <section id="extracting">
-<h4>Extracting<a class="headerlink" href="#extracting" title="Permalink to this heading"></a></h4>
+<h4>Extracting<a class="headerlink" href="#extracting" title="Link to this heading"></a></h4>
 <p>We’re going to extract some data on attendance from Mobilize. We can do that with this code:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attendance_records</span> <span class="o">=</span> <span class="n">mobilize</span><span class="o">.</span><span class="n">get_attendances</span><span class="p">()</span>
 </pre></div>
@@ -335,9 +332,9 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 </section>
 </section>
 <section id="transforming-data-with-parsons">
-<h3><a class="toc-backref" href="#id6" role="doc-backlink">Transforming Data with Parsons</a><a class="headerlink" href="#transforming-data-with-parsons" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Transforming Data with Parsons</a><a class="headerlink" href="#transforming-data-with-parsons" title="Link to this heading"></a></h3>
 <section id="fixing-dates-times">
-<h4>Fixing Dates + Times<a class="headerlink" href="#fixing-dates-times" title="Permalink to this heading"></a></h4>
+<h4>Fixing Dates + Times<a class="headerlink" href="#fixing-dates-times" title="Link to this heading"></a></h4>
 <p>Let’s make some fixes to our data. First off, those timeslot fields are confusing! What kind of date is <code class="docutils literal notranslate"><span class="pre">1642865400</span></code>?</p>
 <p>(It’s actually something called a <a class="reference external" href="https://www.unixtimestamp.com/">unix timestamp</a>, which measures the total number of seconds since January 1st, 1970. Why January 1st, 1970? No real reason! They just needed to pick a date and I guess that seemed like a good one.)</p>
 <p>Let’s convert these unix timestamps to something more readable. To do this, we define a function that takes in a value and returns a value:</p>
@@ -353,7 +350,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 <p>Notice how the first parameter passed to the method names the column to be converted, while the second parameter is the function to be applied to each row in the column. The original value of the cell will be passed into the function, and whatever is returned will be the new value of the cell.</p>
 </section>
 <section id="unpacking-a-column">
-<h4>Unpacking a Column<a class="headerlink" href="#unpacking-a-column" title="Permalink to this heading"></a></h4>
+<h4>Unpacking a Column<a class="headerlink" href="#unpacking-a-column" title="Link to this heading"></a></h4>
 <p>Currently in our table, each person’s contact info is crammed into a single column, formatted as a JSON string. That’s a bummer!:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;person&#39;</span><span class="p">:</span> <span class="s1">&#39;{&quot;id&quot;: 1, &quot;given_name&quot;: &quot;Lou&quot;, &quot;family_name&quot;: &quot;Slainey&quot;, &quot;email_address&quot;: &quot;lslainey0@unicef.org&quot;, &quot;phone_number&quot;: &quot;3271326753&quot;, &quot;postal_code&quot;: &quot;78737&quot;}&#39;</span>
 </pre></div>
@@ -369,7 +366,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 </div>
 </section>
 <section id="aggregating-data-using-petl">
-<h4>Aggregating Data Using PETL<a class="headerlink" href="#aggregating-data-using-petl" title="Permalink to this heading"></a></h4>
+<h4>Aggregating Data Using PETL<a class="headerlink" href="#aggregating-data-using-petl" title="Link to this heading"></a></h4>
 <p>Parsons tables are built on top of PETL tables. <a class="reference external" href="https://petl.readthedocs.io/en/stable/">PETL</a> is a general purpose Python package for data science similar to <a class="reference external" href="https://pandas.pydata.org/">PANDAS</a>.</p>
 <p>Because Parsons tables are built on PETL tables, you can use any PETL function on a Parsons Table. Just convert your Parsons table to a PETL table with the <code class="docutils literal notranslate"><span class="pre">.table</span></code> method:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">petl_table</span> <span class="o">=</span> <span class="n">attendance_records</span><span class="o">.</span><span class="n">table</span>
@@ -385,7 +382,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 </div>
 </section>
 <section id="selecting-rows">
-<h4>Selecting Rows<a class="headerlink" href="#selecting-rows" title="Permalink to this heading"></a></h4>
+<h4>Selecting Rows<a class="headerlink" href="#selecting-rows" title="Link to this heading"></a></h4>
 <p>One last transformation! Let’s use the <code class="docutils literal notranslate"><span class="pre">select_rows</span></code> function to separate the event attendances by the month that they happened:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jan_attendances</span> <span class="o">=</span> <span class="n">attendance_records</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="s2">&quot;&#39;2022-01&#39; in </span><span class="si">{timeslot_start_date}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">feb_attendances</span> <span class="o">=</span> <span class="n">attendance_records</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="s2">&quot;&#39;2022-02&#39; in </span><span class="si">{timeslot_start_date}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -396,7 +393,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 </section>
 </section>
 <section id="loading-data-to-google-sheets">
-<h3><a class="toc-backref" href="#id7" role="doc-backlink">Loading Data to Google Sheets</a><a class="headerlink" href="#loading-data-to-google-sheets" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Loading Data to Google Sheets</a><a class="headerlink" href="#loading-data-to-google-sheets" title="Link to this heading"></a></h3>
 <p>Let’s go ahead and create a new spreadsheet to load data into. We’ll put it in a folder that already exists. To get the folder ID below, look in the URL. The folder ID is the long string of letters and numbers, like so:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">folder_id</span> <span class="o">=</span> <span class="s2">&quot;1y1jgygK5YUQLVrgRgNw7A8Hf2ppqOJJZ&quot;</span>  <span class="c1"># get from URL</span>
 </pre></div>
@@ -459,9 +456,9 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 </section>
 </section>
 <section id="part-two">
-<h2><a class="toc-backref" href="#id8" role="doc-backlink">Part Two</a><a class="headerlink" href="#part-two" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Part Two</a><a class="headerlink" href="#part-two" title="Link to this heading"></a></h2>
 <section id="using-a-data-warehouse">
-<h3><a class="toc-backref" href="#id9" role="doc-backlink">Using a Data Warehouse</a><a class="headerlink" href="#using-a-data-warehouse" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Using a Data Warehouse</a><a class="headerlink" href="#using-a-data-warehouse" title="Link to this heading"></a></h3>
 <p>We’ve gone over how to write a script that takes data from one place, transforms it, and then moves it to another. But many people find it helpful to store their data in a centralized location. This can be desirable for a few different reasons:</p>
 <ul class="simple">
 <li><p>Using a data warehouse can make it easier to look at your data all together and to track changes to it</p></li>
@@ -472,7 +469,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 <p>Some examples of data warehouses are BigQuery, SnowFlake, and Redshift. Low cost solutions could be Google sheets (maybe using Google Data Studio as a reporting tool.)</p>
 </section>
 <section id="new-example-mobilize-civis-redshift-action-network">
-<h3><a class="toc-backref" href="#id10" role="doc-backlink">New Example: Mobilize ➡ Civis/Redshift ➡ Action Network</a><a class="headerlink" href="#new-example-mobilize-civis-redshift-action-network" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">New Example: Mobilize ➡ Civis/Redshift ➡ Action Network</a><a class="headerlink" href="#new-example-mobilize-civis-redshift-action-network" title="Link to this heading"></a></h3>
 <p>For the second half of this training, we’re going to be focused on a new use case. We’ll be trying to move data from Mobilize to Civis/Redshift to Action Network. If you don’t have a Civis account, you won’t be able to follow along with this part of the guide at home, so we’ve included a lot of screenshots. :)</p>
 <p>The Mobilize to Action Network sync is something we’d want to run every day on an automated basis. There are various tools that can help automate syncs like ours. We’re using Civis, but we could also use Fivetran, Airflow, or chron jobs. If you’d like a guide that goes through using a different tool, please request one!</p>
 <img alt="../_images/civis_etl_workflow.png" src="../_images/civis_etl_workflow.png" />
@@ -485,7 +482,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 </ul>
 </section>
 <section id="step-1-extracting-data-into-the-warehouse">
-<h3><a class="toc-backref" href="#id11" role="doc-backlink">Step 1: Extracting Data Into the Warehouse</a><a class="headerlink" href="#step-1-extracting-data-into-the-warehouse" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Step 1: Extracting Data Into the Warehouse</a><a class="headerlink" href="#step-1-extracting-data-into-the-warehouse" title="Link to this heading"></a></h3>
 <p>Tools like Civis often have no-code solutions for getting data from your source system into your data warehouse. That makes our jobs quite a bit easier! This screenshot shows the interface for importing data from Mobilize using Civis:</p>
 <img alt="../_images/civis_mobilize_import.png" src="../_images/civis_mobilize_import.png" />
 <p>If that’s not an option, because Civis doesn’t have an importer for your tool or for some other reason, you can write a custom Python script which extracts data from the source system. You can use Parsons for this:</p>
@@ -501,7 +498,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 <p>The <code class="docutils literal notranslate"><span class="pre">rs.copy</span></code> used here loads data into the RedShift database you’re connected to. The <code class="docutils literal notranslate"><span class="pre">mobilize.attendances</span></code> parameter specifies which table to copy the data to. The <code class="docutils literal notranslate"><span class="pre">copy</span></code> method can also be used with the BigQuery connector.</p>
 </section>
 <section id="step-2-transforming-data-in-warehouse-with-sql">
-<h3><a class="toc-backref" href="#id12" role="doc-backlink">Step 2: Transforming Data in Warehouse with SQL</a><a class="headerlink" href="#step-2-transforming-data-in-warehouse-with-sql" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Step 2: Transforming Data in Warehouse with SQL</a><a class="headerlink" href="#step-2-transforming-data-in-warehouse-with-sql" title="Link to this heading"></a></h3>
 <p>With our previous script, we transformed data using Python, but you may be more comfortable using SQL. When you’re using a data warehouse like Civis, you can run a SQL query or two (or more!) during the transformation step.</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">mobilize_schema</span><span class="p">.</span><span class="n">mobilize_users_to_sync</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
 
@@ -525,11 +522,11 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 <p>This script creates a table where each row is a unique Mobilize user that needs to be synced to Action Network. It creates this table from the participations table by using the <code class="docutils literal notranslate"><span class="pre">DISTINCT</span> <span class="pre">SQL</span></code> function.</p>
 </section>
 <section id="step-3-load-data-from-warehouse-to-action-network">
-<h3><a class="toc-backref" href="#id13" role="doc-backlink">Step 3: Load Data from Warehouse to Action Network</a><a class="headerlink" href="#step-3-load-data-from-warehouse-to-action-network" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Step 3: Load Data from Warehouse to Action Network</a><a class="headerlink" href="#step-3-load-data-from-warehouse-to-action-network" title="Link to this heading"></a></h3>
 <p>The final step is to move data from the warehouse to Action Network. You can use <a class="reference external" href="https://github.com/cmdelrio/parsons_etl_trainings/blob/main/Mobilize_to_ActionNetwork.py">this script</a> to follow along if you have a Civis account.</p>
 <p>Before we dive into the script, let’s go over a few key concepts: log tables, and logging.</p>
 <section id="log-tables-logging">
-<h4>Log Tables &amp; Logging<a class="headerlink" href="#log-tables-logging" title="Permalink to this heading"></a></h4>
+<h4>Log Tables &amp; Logging<a class="headerlink" href="#log-tables-logging" title="Link to this heading"></a></h4>
 <p>Log Tables and loging are two distinct things, but they serve the same general purpose: helping us to track what’s happening to our data, which is especially useful when something goes wrong.</p>
 <p>Log Tables are tables in our database where we store information about our attempts to sync records. When we’re saving data to log tables, it looks like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">log_record</span> <span class="o">=</span> <span class="p">{</span>
@@ -550,7 +547,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 </div>
 </section>
 <section id="stepping-through-the-script">
-<h4>Stepping Through the Script<a class="headerlink" href="#stepping-through-the-script" title="Permalink to this heading"></a></h4>
+<h4>Stepping Through the Script<a class="headerlink" href="#stepping-through-the-script" title="Link to this heading"></a></h4>
 <p>We start by pulling our Mobilize data out of the Redshift table where it’s been stored, and logging (informally) that we’ve done so:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sql_query</span> <span class="o">=</span> <span class="s1">&#39;select * from mobilize_schema.mobilize_users_to_sync limit 5;&#39;</span>
 <span class="n">new_mobilize_users</span> <span class="o">=</span> <span class="n">my_rs_warehouse</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql_query</span><span class="p">)</span>
@@ -655,7 +652,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 </section>
 </section>
 <section id="scheduling-jobs-with-container-scripts">
-<h3><a class="toc-backref" href="#id14" role="doc-backlink">Scheduling Jobs With Container Scripts</a><a class="headerlink" href="#scheduling-jobs-with-container-scripts" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Scheduling Jobs With Container Scripts</a><a class="headerlink" href="#scheduling-jobs-with-container-scripts" title="Link to this heading"></a></h3>
 <p>Different platforms allow you to schedule jobs in different ways. Civis lets you schedule jobs using container scripts.</p>
 <p>A Civis container script runs your Python code on a remote server for you. Under the hood, Civis takes your Python script from where it is stored in GitHub and runs it a Docker remote server environment.</p>
 <p><a class="reference external" href="https://github.com">GitHub</a> is the google docs of coding, an online service for collaborating with a team as you write scripts. It’s where we maintain <a class="reference external" href="https://github.com/move-coop/parsons/">Parsons</a> itself.</p>

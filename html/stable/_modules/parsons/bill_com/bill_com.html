@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.bill_com.bill_com &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -151,7 +148,9 @@
 <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
 
 
-<div class="viewcode-block" id="BillCom"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom">[docs]</a><span class="k">class</span> <span class="nc">BillCom</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="BillCom">
+<a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom">[docs]</a>
+<span class="k">class</span> <span class="nc">BillCom</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `Args:`</span>
 <span class="sd">        user_name: str</span>
@@ -274,7 +273,9 @@
 
         <span class="k">return</span> <span class="n">r_table</span>
 
-<div class="viewcode-block" id="BillCom.get_user_list"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.get_user_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_user_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_user</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_user</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="BillCom.get_user_list">
+<a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.get_user_list">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_user_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_user</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_user</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            start_user: int</span>
@@ -291,7 +292,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;List&quot;</span><span class="p">,</span> <span class="s2">&quot;User&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BillCom.get_customer_list"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.get_customer_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_customer_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_customer</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_customer</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BillCom.get_customer_list">
+<a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.get_customer_list">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_customer_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_customer</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_customer</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            start_customer: int</span>
@@ -309,7 +313,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;List&quot;</span><span class="p">,</span> <span class="s2">&quot;Customer&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BillCom.get_invoice_list"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.get_invoice_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_invoice_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_invoice</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_invoice</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BillCom.get_invoice_list">
+<a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.get_invoice_list">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_invoice_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_invoice</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_invoice</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            start_invoice: int</span>
@@ -327,7 +334,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;List&quot;</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BillCom.read_customer"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.read_customer">[docs]</a>    <span class="k">def</span> <span class="nf">read_customer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BillCom.read_customer">
+<a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.read_customer">[docs]</a>
+    <span class="k">def</span> <span class="nf">read_customer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            customer_id: str</span>
@@ -339,7 +349,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">customer_id</span><span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Read&quot;</span><span class="p">,</span> <span class="s2">&quot;Customer&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BillCom.read_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.read_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">read_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invoice_id</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BillCom.read_invoice">
+<a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.read_invoice">[docs]</a>
+    <span class="k">def</span> <span class="nf">read_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invoice_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            invoice_id: str</span>
@@ -351,7 +364,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">invoice_id</span><span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Read&quot;</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BillCom.check_customer"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.check_customer">[docs]</a>    <span class="k">def</span> <span class="nf">check_customer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer1</span><span class="p">,</span> <span class="n">customer2</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BillCom.check_customer">
+<a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.check_customer">[docs]</a>
+    <span class="k">def</span> <span class="nf">check_customer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer1</span><span class="p">,</span> <span class="n">customer2</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            customer1: dict</span>
@@ -375,7 +391,10 @@
                 <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="BillCom.get_or_create_customer"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.get_or_create_customer">[docs]</a>    <span class="k">def</span> <span class="nf">get_or_create_customer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer_name</span><span class="p">,</span> <span class="n">customer_email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BillCom.get_or_create_customer">
+<a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.get_or_create_customer">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_or_create_customer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer_name</span><span class="p">,</span> <span class="n">customer_email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            customer_name: str</span>
@@ -402,7 +421,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;obj&quot;</span><span class="p">:</span> <span class="n">customer</span><span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Create&quot;</span><span class="p">,</span> <span class="s2">&quot;Customer&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BillCom.create_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.create_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">create_invoice</span><span class="p">(</span>
+
+<div class="viewcode-block" id="BillCom.create_invoice">
+<a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.create_invoice">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_invoice</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">,</span> <span class="n">invoice_number</span><span class="p">,</span> <span class="n">invoice_date</span><span class="p">,</span> <span class="n">due_date</span><span class="p">,</span> <span class="n">invoice_line_items</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -441,7 +463,10 @@
         <span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Create&quot;</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BillCom.send_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.send_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">send_invoice</span><span class="p">(</span>
+
+<div class="viewcode-block" id="BillCom.send_invoice">
+<a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.send_invoice">[docs]</a>
+    <span class="k">def</span> <span class="nf">send_invoice</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">invoice_id</span><span class="p">,</span> <span class="n">from_user_id</span><span class="p">,</span> <span class="n">to_email_addresses</span><span class="p">,</span> <span class="n">message_subject</span><span class="p">,</span> <span class="n">message_body</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -472,7 +497,9 @@
             <span class="p">},</span>
             <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">message_body</span><span class="p">},</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Send&quot;</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Send&quot;</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.auth0.auth0 &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -158,7 +155,9 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Auth0"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0">[docs]</a><span class="k">class</span> <span class="nc">Auth0</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Auth0">
+<a class="viewcode-back" href="../../../auth0.html#parsons.Auth0">[docs]</a>
+<span class="k">class</span> <span class="nc">Auth0</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Auth0 class</span>
 
@@ -193,7 +192,9 @@
             <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
         <span class="p">}</span>
 
-<div class="viewcode-block" id="Auth0.delete_user"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.delete_user">[docs]</a>    <span class="k">def</span> <span class="nf">delete_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+<div class="viewcode-block" id="Auth0.delete_user">
+<a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.delete_user">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete Auth0 user.</span>
 
@@ -207,7 +208,10 @@
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v2/users/</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span>
         <span class="p">)</span><span class="o">.</span><span class="n">status_code</span></div>
 
-<div class="viewcode-block" id="Auth0.get_users_by_email"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.get_users_by_email">[docs]</a>    <span class="k">def</span> <span class="nf">get_users_by_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Auth0.get_users_by_email">
+<a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.get_users_by_email">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_users_by_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get Auth0 users by email.</span>
 
@@ -223,7 +227,10 @@
             <span class="k">raise</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;message&quot;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Auth0.upsert_user"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.upsert_user">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_user</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Auth0.upsert_user">
+<a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.upsert_user">[docs]</a>
+    <span class="k">def</span> <span class="nf">upsert_user</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">email</span><span class="p">,</span>
         <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -281,7 +288,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid response </span><span class="si">{</span><span class="n">ret</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span></div>
 
-<div class="viewcode-block" id="Auth0.block_user"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.block_user">[docs]</a>    <span class="k">def</span> <span class="nf">block_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="s2">&quot;Username-Password-Authentication&quot;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Auth0.block_user">
+<a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.block_user">[docs]</a>
+    <span class="k">def</span> <span class="nf">block_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="s2">&quot;Username-Password-Authentication&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Blocks Auth0 users by email - setting the &quot;blocked&quot; attribute on Auth0&#39;s API.</span>
 
@@ -303,7 +313,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid response </span><span class="si">{</span><span class="n">ret</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span></div>
 
-<div class="viewcode-block" id="Auth0.retrieve_all_users"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.retrieve_all_users">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_all_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="s2">&quot;Username-Password-Authentication&quot;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Auth0.retrieve_all_users">
+<a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.retrieve_all_users">[docs]</a>
+    <span class="k">def</span> <span class="nf">retrieve_all_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="s2">&quot;Username-Password-Authentication&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves all Auth0 users using the batch jobs endpoint.</span>
 
@@ -362,7 +375,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Retrieve members job creation failed&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Auth0.get_connection_id"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.get_connection_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_connection_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection_name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Auth0.get_connection_id">
+<a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.get_connection_id">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_connection_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves an Auth0 connection_id corresponding to a specific connection name</span>
 
@@ -381,7 +397,9 @@
             <span class="k">if</span> <span class="n">connection</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">connection_name</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">connection</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="kc">None</span></div></div>
+        <span class="k">return</span> <span class="kc">None</span></div>
+</div>
+
 </pre></div>
 
            </div>

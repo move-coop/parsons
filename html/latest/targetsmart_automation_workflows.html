@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TargetSmart Automation Workflows &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -149,7 +146,7 @@
            <div itemprop="articleBody">
              
   <section id="targetsmart-automation-workflows">
-<h1>TargetSmart Automation Workflows<a class="headerlink" href="#targetsmart-automation-workflows" title="Permalink to this heading"></a></h1>
+<h1>TargetSmart Automation Workflows<a class="headerlink" href="#targetsmart-automation-workflows" title="Link to this heading"></a></h1>
 <p>In addition to the <a class="reference internal" href="targetsmart_api.html"><span class="doc">TargetSmart Developer API</span></a>,
 TargetSmart also provides a solution for executing custom data processing
 workflows that TargetSmart implements for specific client needs. The
@@ -166,7 +163,7 @@ queuing.</p>
 </div>
 </section>
 <section id="quickstart">
-<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h1>
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h1>
 <p>To instantiate <code class="docutils literal notranslate"><span class="pre">TargetSmartAutomation</span></code>, you can either store your SFTP username and password
 as the environmental variables <code class="docutils literal notranslate"><span class="pre">TS_SFTP_USERNAME</span></code> and <code class="docutils literal notranslate"><span class="pre">TS_SFTP_PASSWORD</span></code>, or pass them in as
 keyword arguments:</p>
@@ -216,17 +213,17 @@ keyword arguments:</p>
 </div>
 </section>
 <section id="api">
-<h1>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h1>
+<h1>API<a class="headerlink" href="#api" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.TargetSmartAutomation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">TargetSmartAutomation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp_username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sftp_password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/targetsmart/targetsmart_automation.html#TargetSmartAutomation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.TargetSmartAutomation" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">TargetSmartAutomation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp_username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sftp_password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/targetsmart/targetsmart_automation.html#TargetSmartAutomation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.TargetSmartAutomation" title="Link to this definition"></a></dt>
 <dd><ul class="simple">
 <li><p><a class="reference external" href="https://docs.targetsmart.com/my_tsmart/automation/overview.html">Automation overview</a></p></li>
 <li><p><a class="reference external" href="https://docs.targetsmart.com/my_tsmart/automation/developer.html">Automation integration doc</a></p></li>
 </ul>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.TargetSmartAutomation.match">
-<span class="sig-name descname"><span class="pre">match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emails</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_back</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/targetsmart/targetsmart_automation.html#TargetSmartAutomation.match"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.TargetSmartAutomation.match" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emails</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_back</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/targetsmart/targetsmart_automation.html#TargetSmartAutomation.match"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.TargetSmartAutomation.match" title="Link to this definition"></a></dt>
 <dd><p>Submit a file for custom data processing using the TargetSmart Automation workflow solution.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -273,7 +270,7 @@ the TargetSmart SFTP upon completion or failure of match.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.TargetSmartAutomation.execute">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/targetsmart/targetsmart_automation.html#TargetSmartAutomation.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.TargetSmartAutomation.execute" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/targetsmart/targetsmart_automation.html#TargetSmartAutomation.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.TargetSmartAutomation.execute" title="Link to this definition"></a></dt>
 <dd><p>Most Automation workflows perform list matching. However, it is possible that
 a custom workflow might be provisioned for a client for other types of
 file processing. The <code class="docutils literal notranslate"><span class="pre">execute</span></code> method is provided as an alias for the

@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>How to Contribute a Use Case &amp; Sample Script &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -160,7 +157,7 @@
            <div itemprop="articleBody">
              
   <section id="how-to-contribute-a-use-case-sample-script">
-<h1>How to Contribute a Use Case &amp; Sample Script<a class="headerlink" href="#how-to-contribute-a-use-case-sample-script" title="Permalink to this heading"></a></h1>
+<h1>How to Contribute a Use Case &amp; Sample Script<a class="headerlink" href="#how-to-contribute-a-use-case-sample-script" title="Link to this heading"></a></h1>
 <p>People use Parsons for a great many things. We like to document and share that usage to save work and inspire other members of the community.</p>
 <p>A “use case” is a narrative description of any length (but usually at least a couple paragraphs) explaining the problem the user faced and why and how they used Parsons to solve it. The “sample script” is a cleaned-up and standardized version of the original script that someone else can take and adapt.</p>
 <p>To submit a use case and sample script, please take the following steps. Please reach out to the community at any point if you have questions about these steps, need someone to pair with you on this process, or for any other reason. The best place to get help is the #contrib channel on the Parsons slack. To request access to the Parsons slack, email <em>engineering&#64;movementcooperative.org</em>.</p>
@@ -178,7 +175,7 @@
 </ol>
 </div></blockquote>
 <section id="use-case-guidelines">
-<h2>Use Case Guidelines<a class="headerlink" href="#use-case-guidelines" title="Permalink to this heading"></a></h2>
+<h2>Use Case Guidelines<a class="headerlink" href="#use-case-guidelines" title="Link to this heading"></a></h2>
 <p>A use case should follow a structure that looks something like this:</p>
 <blockquote>
 <div><ul class="simple">
@@ -192,9 +189,9 @@
 <p>We are still working out the best structure for these write-ups, so feel free to be creative!</p>
 </section>
 <section id="sample-script-guidelines">
-<h2>Sample Script Guidelines<a class="headerlink" href="#sample-script-guidelines" title="Permalink to this heading"></a></h2>
+<h2>Sample Script Guidelines<a class="headerlink" href="#sample-script-guidelines" title="Link to this heading"></a></h2>
 <section id="sensitive-information">
-<h3>Sensitive Information<a class="headerlink" href="#sensitive-information" title="Permalink to this heading"></a></h3>
+<h3>Sensitive Information<a class="headerlink" href="#sensitive-information" title="Link to this heading"></a></h3>
 <p>Most scripts will include sensitive information like passwords and API keys. We recommend these be stored in environmental variables. Some environmental variables may need to be explicitly loaded into the script, but most will not. This is because each Parsons connector automatically looks in the environment for specific variables and uses them when initializing the connector. For example, the Zoom connector looks for <code class="docutils literal notranslate"><span class="pre">ZOOM_API_KEY</span></code> and <code class="docutils literal notranslate"><span class="pre">ZOOM_API_SECRET</span></code>.</p>
 <p>Your sample script should make clear to users what environmental variables need to be set, including the variables for the connectors you’re using. You can include a note to users reminding them to set environmental variables, something like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># To use the Zoom connector, set the ZOOM_API_KEY and ZOOM_API_SECRET environmental variables.</span>
@@ -221,7 +218,7 @@
 </div>
 </section>
 <section id="configuration-variables">
-<h3>Configuration Variables<a class="headerlink" href="#configuration-variables" title="Permalink to this heading"></a></h3>
+<h3>Configuration Variables<a class="headerlink" href="#configuration-variables" title="Link to this heading"></a></h3>
 <p>Please separate out all configuration variables and move them to the top of the file. We recommend that sensitive information be stored in environmental variables as shown above. We ask you to separate out configuration variables in order to minimize the likelihood of other users needing to edit your code. That makes your script easier to reuse.</p>
 <p>For example, instead of doing this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">training_duration</span> <span class="o">&gt;</span> <span class="mi">60</span><span class="p">:</span>
@@ -239,11 +236,11 @@
 </div>
 </section>
 <section id="comment-liberally">
-<h3>Comment Liberally<a class="headerlink" href="#comment-liberally" title="Permalink to this heading"></a></h3>
+<h3>Comment Liberally<a class="headerlink" href="#comment-liberally" title="Link to this heading"></a></h3>
 <p>Please use code comments to describe what’s happening in the code. Err on the side of too much exposition, rather than too little.</p>
 </section>
 <section id="write-code-in-the-parsons-style">
-<h3>Write Code in the Parsons Style<a class="headerlink" href="#write-code-in-the-parsons-style" title="Permalink to this heading"></a></h3>
+<h3>Write Code in the Parsons Style<a class="headerlink" href="#write-code-in-the-parsons-style" title="Link to this heading"></a></h3>
 <p>We’re still working on our style guide, so for now, just try to write code that’s in line with Python’s <a class="reference external" href="https://realpython.com/python-pep8/">PEP8</a>. If you’re not used to writing code in this style, we’re happy to help.</p>
 <p>In particular, please try to use meaningful and readable variable names. For example, instead of writing:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">j</span><span class="p">:</span>
@@ -257,7 +254,7 @@
 </div>
 </section>
 <section id="put-your-code-in-callable-functions">
-<h3>Put Your Code In Callable Functions<a class="headerlink" href="#put-your-code-in-callable-functions" title="Permalink to this heading"></a></h3>
+<h3>Put Your Code In Callable Functions<a class="headerlink" href="#put-your-code-in-callable-functions" title="Link to this heading"></a></h3>
 <p>Often people will write their Python code like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">user_name</span> <span class="o">=</span> <span class="s2">&quot;Maria&quot;</span>
 <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Hello </span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2">! Welcome to our community.&quot;</span>

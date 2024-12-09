@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Formstack &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -166,9 +163,9 @@
            <div itemprop="articleBody">
              
   <section id="formstack">
-<h1>Formstack<a class="headerlink" href="#formstack" title="Permalink to this heading"></a></h1>
+<h1>Formstack<a class="headerlink" href="#formstack" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p><a class="reference external" href="https://www.formstack.com/">Formstack</a> is a service that provides an advanced online form builder.
 This connector allows you to load data from the Formstack API.</p>
 <div class="admonition note">
@@ -184,7 +181,7 @@ can set the environment variable <code class="docutils literal notranslate"><spa
 </div>
 </section>
 <section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h2>
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
 <p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Formstack</span></code> class, you can either store your access token in the <code class="docutils literal notranslate"><span class="pre">FORMSTACK_API_TOKEN</span></code>
 environment variable or pass it in as an argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.formstack</span> <span class="kn">import</span> <span class="n">Formstack</span>
@@ -214,10 +211,10 @@ environment variable or pass it in as an argument.</p>
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.formstack.Formstack">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.formstack.</span></span><span class="sig-name descname"><span class="pre">Formstack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.formstack.</span></span><span class="sig-name descname"><span class="pre">Formstack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack" title="Link to this definition"></a></dt>
 <dd><p>Instantiate Formstack class.</p>
 <blockquote>
 <div><dl class="simple">
@@ -231,7 +228,7 @@ environment variable or pass it in as an argument.</p>
 </div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.formstack.Formstack.get_folders">
-<span class="sig-name descname"><span class="pre">get_folders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_folders" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_folders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_folders" title="Link to this definition"></a></dt>
 <dd><p>Get all folders on your account and their subfolders.</p>
 <dl class="simple">
 <dt><cite>Returns:</cite></dt><dd><dl class="simple">
@@ -244,7 +241,7 @@ environment variable or pass it in as an argument.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.formstack.Formstack.get_forms">
-<span class="sig-name descname"><span class="pre">get_forms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_forms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_forms" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_forms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_forms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_forms" title="Link to this definition"></a></dt>
 <dd><p>Get all forms on your account.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -264,7 +261,7 @@ environment variable or pass it in as an argument.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.formstack.Formstack.get_submission">
-<span class="sig-name descname"><span class="pre">get_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_submission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_submission" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_submission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_submission" title="Link to this definition"></a></dt>
 <dd><p>Get the details of the specified submission.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -282,7 +279,7 @@ environment variable or pass it in as an argument.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.formstack.Formstack.get_form_submissions">
-<span class="sig-name descname"><span class="pre">get_form_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_params</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_form_submissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_form_submissions" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_form_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_params</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_form_submissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_form_submissions" title="Link to this definition"></a></dt>
 <dd><p>Get all submissions for the specified form.</p>
 <p>Note this only returns the meta-data about the submissions, not the answer data,
 by default. To get the responses pass <cite>data=True</cite> as a query param.</p>
@@ -306,7 +303,7 @@ check the Formstack documentation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.formstack.Formstack.get_form_fields">
-<span class="sig-name descname"><span class="pre">get_form_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_form_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_form_fields" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_form_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_form_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_form_fields" title="Link to this definition"></a></dt>
 <dd><p>Get all fields for the specified form.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">

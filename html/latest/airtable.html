@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Airtable &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -170,9 +167,9 @@
            <div itemprop="articleBody">
              
   <section id="airtable">
-<h1>Airtable<a class="headerlink" href="#airtable" title="Permalink to this heading"></a></h1>
+<h1>Airtable<a class="headerlink" href="#airtable" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p>The Airtable class allows you to interact with an <a class="reference external" href="https://airtable.com/">Airtable</a> base. In order to use this class
 you must generate an Airtable personal access token which can be found in your Airtable <a class="reference external" href="https://airtable.com/create/tokens">settings</a>.</p>
 <div class="admonition note">
@@ -191,7 +188,7 @@ you must generate an Airtable personal access token which can be found in your A
 </div>
 </section>
 <section id="quickstart">
-<h2>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
+<h2>QuickStart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h2>
 <p>To instantiate the Airtable class, you can either store your Airtable personal access token
 <code class="docutils literal notranslate"><span class="pre">AIRTABLE_PERSONAL_ACCESS_TOKEN</span></code> as an environmental variable or pass in your personal access token
 as an argument. You also need to pass in the base key and table name.</p>
@@ -219,10 +216,10 @@ as an argument. You also need to pass in the base key and table name.</p>
 </div>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Airtable">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Airtable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">personal_access_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Airtable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">personal_access_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>base_key: str</dt><dd><p>The key/ID of the Airtable base that you will interact with, typically
@@ -240,7 +237,7 @@ env variable set.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Airtable.get_record">
-<span class="sig-name descname"><span class="pre">get_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.get_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.get_record" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.get_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.get_record" title="Link to this definition"></a></dt>
 <dd><p>Returns a single record.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -255,7 +252,7 @@ env variable set.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Airtable.get_records">
-<span class="sig-name descname"><span class="pre">get_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_records</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formula</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.get_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.get_records" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_records</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formula</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.get_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.get_records" title="Link to this definition"></a></dt>
 <dd><dl>
 <dt><cite>Args:</cite></dt><dd><dl>
 <dt>fields: str or lst</dt><dd><p>Only return specified column or list of columns. The column name is
@@ -301,7 +298,7 @@ sign -.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Airtable.insert_record">
-<span class="sig-name descname"><span class="pre">insert_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typecast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.insert_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.insert_record" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">insert_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typecast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.insert_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.insert_record" title="Link to this definition"></a></dt>
 <dd><p>Insert a single record into an Airtable.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -318,7 +315,7 @@ sign -.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Airtable.insert_records">
-<span class="sig-name descname"><span class="pre">insert_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typecast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.insert_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.insert_records" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">insert_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typecast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.insert_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.insert_records" title="Link to this definition"></a></dt>
 <dd><p>Insert multiple records into an Airtable. The columns in your Parsons table must
 exist in the Airtable. The method will attempt to map based on column name, so the
 order of the columns is irrelevant.</p>
@@ -337,7 +334,7 @@ order of the columns is irrelevant.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Airtable.update_record">
-<span class="sig-name descname"><span class="pre">update_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typecast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.update_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.update_record" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typecast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.update_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.update_record" title="Link to this definition"></a></dt>
 <dd><p>Updates a record by its record <cite>id</cite>. Only Fields passed are updated, the rest are left as
 is.</p>
 <dl class="simple">
@@ -361,7 +358,7 @@ will bet set to null.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Airtable.update_records">
-<span class="sig-name descname"><span class="pre">update_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typecast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.update_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.update_records" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typecast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.update_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.update_records" title="Link to this definition"></a></dt>
 <dd><p>Update multiple records into an Airtable. The columns in your Parsons table must
 exist in the Airtable, and the record <cite>id</cite> column must be present. The method
 will attempt to map based on column name, so the order of the columns is irrelevant.</p>
@@ -385,7 +382,7 @@ will bet set to null.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Airtable.upsert_records">
-<span class="sig-name descname"><span class="pre">upsert_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typecast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.upsert_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.upsert_records" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">upsert_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typecast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.upsert_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.upsert_records" title="Link to this definition"></a></dt>
 <dd><p>Update and/or create records, either using <cite>id</cite> (if included) or using a set of
 fields (<cite>key_fields</cite>) to look for matches. The columns in your Parsons table must
 exist in the Airtable. The method will attempt to map based on column name,
@@ -420,7 +417,7 @@ will bet set to null.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Airtable.delete_record">
-<span class="sig-name descname"><span class="pre">delete_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.delete_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.delete_record" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.delete_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.delete_record" title="Link to this definition"></a></dt>
 <dd><p>Deletes a record by its record <cite>id</cite>.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -435,7 +432,7 @@ will bet set to null.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Airtable.delete_records">
-<span class="sig-name descname"><span class="pre">delete_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.delete_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.delete_records" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.delete_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.delete_records" title="Link to this definition"></a></dt>
 <dd><p>Delete multiple records from an Airtable.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><p>table: A Parsons Table or list containing the record <a href="#id6"><span class="problematic" id="id7">`</span></a>id`s to delete.</p>

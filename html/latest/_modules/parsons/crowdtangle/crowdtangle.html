@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.crowdtangle.crowdtangle &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -161,7 +158,9 @@
 <span class="n">REQUEST_SLEEP</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># CT has a rather agressive 6 requests per minute rate limit.</span>
 
 
-<div class="viewcode-block" id="CrowdTangle"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle">[docs]</a><span class="k">class</span> <span class="nc">CrowdTangle</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="CrowdTangle">
+<a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle">[docs]</a>
+<span class="k">class</span> <span class="nc">CrowdTangle</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate CrowdTangle Class</span>
 
@@ -240,7 +239,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="CrowdTangle.get_posts"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_posts">[docs]</a>    <span class="k">def</span> <span class="nf">get_posts</span><span class="p">(</span>
+<div class="viewcode-block" id="CrowdTangle.get_posts">
+<a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_posts">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_posts</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -322,7 +323,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pt</span></div>
 
-<div class="viewcode-block" id="CrowdTangle.get_leaderboard"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_leaderboard">[docs]</a>    <span class="k">def</span> <span class="nf">get_leaderboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">list_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CrowdTangle.get_leaderboard">
+<a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_leaderboard">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_leaderboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">list_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return leaderboard data.</span>
 
@@ -362,7 +366,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pt</span></div>
 
-<div class="viewcode-block" id="CrowdTangle.get_links"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_links">[docs]</a>    <span class="k">def</span> <span class="nf">get_links</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_summary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">platforms</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CrowdTangle.get_links">
+<a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_links">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_links</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_summary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">platforms</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return up to 100 posts based on a specific link. It is strongly recommended to</span>
 <span class="sd">        use the ``start_date`` parameter to limit queries to relevant dates.</span>
@@ -407,7 +414,9 @@
         <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_request</span><span class="p">(</span><span class="s2">&quot;links&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">pt</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> links.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pt</span></div></div>
+        <span class="k">return</span> <span class="n">pt</span></div>
+</div>
+
 </pre></div>
 
            </div>

@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.action_builder.action_builder &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -159,7 +156,9 @@
 <span class="n">API_URL</span> <span class="o">=</span> <span class="s2">&quot;https://</span><span class="si">{subdomain}</span><span class="s2">.actionbuilder.org/api/rest/v1&quot;</span>
 
 
-<div class="viewcode-block" id="ActionBuilder"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder">[docs]</a><span class="k">class</span> <span class="nc">ActionBuilder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionBuilder">
+<a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder">[docs]</a>
+<span class="k">class</span> <span class="nc">ActionBuilder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `Args:`</span>
 <span class="sd">        api_token: str</span>
@@ -238,7 +237,9 @@
                     <span class="c1"># Limit reached or exceeded, so return just the requested limit amount</span>
                     <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">return_list</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">limit</span><span class="p">])</span>
 
-<div class="viewcode-block" id="ActionBuilder.get_campaign_tags"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.get_campaign_tags">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaign_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionBuilder.get_campaign_tags">
+<a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.get_campaign_tags">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_campaign_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve all tags (i.e. custom field values) within provided limit and filters</span>
 <span class="sd">        `Args:`</span>
@@ -260,7 +261,10 @@
             <span class="n">campaign</span><span class="p">,</span> <span class="s2">&quot;tags&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="n">per_page</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionBuilder.get_tag_by_name"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.get_tag_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_tag_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_name</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionBuilder.get_tag_by_name">
+<a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.get_tag_by_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_tag_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_name</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convenience method to retrieve data on a single tag by its name/value</span>
 <span class="sd">        `Args:`</span>
@@ -277,7 +281,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_campaign_tags</span><span class="p">(</span><span class="n">campaign</span><span class="o">=</span><span class="n">campaign</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionBuilder.insert_new_tag"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.insert_new_tag">[docs]</a>    <span class="k">def</span> <span class="nf">insert_new_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_name</span><span class="p">,</span> <span class="n">tag_field</span><span class="p">,</span> <span class="n">tag_section</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionBuilder.insert_new_tag">
+<a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.insert_new_tag">[docs]</a>
+    <span class="k">def</span> <span class="nf">insert_new_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_name</span><span class="p">,</span> <span class="n">tag_field</span><span class="p">,</span> <span class="n">tag_section</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load a new tag value into Action Builder. Required before applying the value to any entity</span>
 <span class="sd">        records.</span>
@@ -306,6 +313,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div>
 
+
     <span class="k">def</span> <span class="nf">_upsert_entity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">campaign</span><span class="p">):</span>
         <span class="c1"># Internal method leveraging the record signup helper endpoint to upsert entity records</span>
 
@@ -313,7 +321,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
 
-<div class="viewcode-block" id="ActionBuilder.insert_entity_record"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.insert_entity_record">[docs]</a>    <span class="k">def</span> <span class="nf">insert_entity_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_type</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionBuilder.insert_entity_record">
+<a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.insert_entity_record">[docs]</a>
+    <span class="k">def</span> <span class="nf">insert_entity_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_type</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load a new entity record in Action Builder of the type provided.</span>
 <span class="sd">        `Args:`</span>
@@ -355,7 +365,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upsert_entity</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="n">campaign</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionBuilder.update_entity_record"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.update_entity_record">[docs]</a>    <span class="k">def</span> <span class="nf">update_entity_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionBuilder.update_entity_record">
+<a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.update_entity_record">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_entity_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update an entity record in Action Builder based on the identifier passed.</span>
 <span class="sd">        `Args:`</span>
@@ -396,7 +409,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upsert_entity</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="n">campaign</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionBuilder.remove_entity_record_from_campaign"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.remove_entity_record_from_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">remove_entity_record_from_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionBuilder.remove_entity_record_from_campaign">
+<a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.remove_entity_record_from_campaign">[docs]</a>
+    <span class="k">def</span> <span class="nf">remove_entity_record_from_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove an entity record from a campaign. Records cannot be permanently deleted, but a</span>
 <span class="sd">        record that has been removed from a campaign will not appear in the UI.</span>
@@ -416,7 +432,10 @@
         <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;campaigns/</span><span class="si">{</span><span class="n">campaign</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">identifier</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionBuilder.add_section_field_values_to_record"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.add_section_field_values_to_record">[docs]</a>    <span class="k">def</span> <span class="nf">add_section_field_values_to_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">section</span><span class="p">,</span> <span class="n">field_values</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionBuilder.add_section_field_values_to_record">
+<a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.add_section_field_values_to_record">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_section_field_values_to_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">section</span><span class="p">,</span> <span class="n">field_values</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add one or more tags (i.e. custom field value) to an existing entity record in Action</span>
 <span class="sd">        Builder. The tags, along with their field and section, must already exist (except for</span>
@@ -449,7 +468,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_entity_record</span><span class="p">(</span><span class="n">identifier</span><span class="o">=</span><span class="n">identifier</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="n">campaign</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionBuilder.remove_tagging"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.remove_tagging">[docs]</a>    <span class="k">def</span> <span class="nf">remove_tagging</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ActionBuilder.remove_tagging">
+<a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.remove_tagging">[docs]</a>
+    <span class="k">def</span> <span class="nf">remove_tagging</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">identifier</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">tag_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -529,7 +551,10 @@
             <span class="sa">f</span><span class="s2">&quot;campaigns/</span><span class="si">{</span><span class="n">campaign</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag_id</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">tagging_id</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionBuilder.upsert_connection"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.upsert_connection">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifiers</span><span class="p">,</span> <span class="n">tag_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reactivate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ActionBuilder.upsert_connection">
+<a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.upsert_connection">[docs]</a>
+    <span class="k">def</span> <span class="nf">upsert_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifiers</span><span class="p">,</span> <span class="n">tag_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reactivate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load or update a connection record in Action Builder between two existing entity records.</span>
 <span class="sd">        Only one connection record is allowed per pair of entities, so if the connection already</span>
@@ -585,7 +610,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="ActionBuilder.deactivate_connection"><a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.deactivate_connection">[docs]</a>    <span class="k">def</span> <span class="nf">deactivate_connection</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ActionBuilder.deactivate_connection">
+<a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.deactivate_connection">[docs]</a>
+    <span class="k">def</span> <span class="nf">deactivate_connection</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">from_identifier</span><span class="p">,</span>
         <span class="n">connection_identifier</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -635,7 +663,9 @@
         <span class="c1"># If no connection ID then there must be a to_identifier not to have errored by now</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;connection&quot;</span><span class="p">][</span><span class="s2">&quot;person_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_identifier</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div>
+</div>
+
 </pre></div>
 
            </div>

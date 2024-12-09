@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.github.github &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -201,7 +198,9 @@
     <span class="k">pass</span>
 
 
-<div class="viewcode-block" id="GitHub"><a class="viewcode-back" href="../../../github.html#parsons.GitHub">[docs]</a><span class="nd">@decorate_methods</span><span class="p">(</span><span class="n">wrap_github_404</span><span class="p">)</span>
+<div class="viewcode-block" id="GitHub">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub">[docs]</a>
+<span class="nd">@decorate_methods</span><span class="p">(</span><span class="n">wrap_github_404</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">GitHub</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a GitHub class for accessing the GitHub API.</span>
 
@@ -261,7 +260,9 @@
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">([</span><span class="n">list_item</span><span class="o">.</span><span class="n">_rawData</span> <span class="k">for</span> <span class="n">list_item</span> <span class="ow">in</span> <span class="n">list_pages</span><span class="p">])</span>
 
-<div class="viewcode-block" id="GitHub.get_user"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_user">[docs]</a>    <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
+<div class="viewcode-block" id="GitHub.get_user">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_user">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub user by username</span>
 
 <span class="sd">        Args:</span>
@@ -275,7 +276,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="n">username</span><span class="p">)</span><span class="o">.</span><span class="n">raw_data</span></div>
 
-<div class="viewcode-block" id="GitHub.get_organization"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_organization">[docs]</a>    <span class="k">def</span> <span class="nf">get_organization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GitHub.get_organization">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_organization">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_organization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub organization by name</span>
 
 <span class="sd">        Args:</span>
@@ -289,7 +293,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_organization</span><span class="p">(</span><span class="n">organization_name</span><span class="p">)</span><span class="o">.</span><span class="n">raw_data</span></div>
 
-<div class="viewcode-block" id="GitHub.get_repo"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_repo">[docs]</a>    <span class="k">def</span> <span class="nf">get_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GitHub.get_repo">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_repo">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub repo by name</span>
 
 <span class="sd">        Args:</span>
@@ -303,7 +310,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_repo</span><span class="p">(</span><span class="n">repo_name</span><span class="p">)</span><span class="o">.</span><span class="n">raw_data</span></div>
 
-<div class="viewcode-block" id="GitHub.list_user_repos"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_user_repos">[docs]</a>    <span class="k">def</span> <span class="nf">list_user_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GitHub.list_user_repos">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_user_repos">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_user_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List user repos with pagination, returning a ``Table``</span>
 
 <span class="sd">        Args:</span>
@@ -325,7 +335,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="n">username</span><span class="p">)</span><span class="o">.</span><span class="n">get_repos</span><span class="p">(),</span> <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="n">page_size</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHub.list_organization_repos"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_organization_repos">[docs]</a>    <span class="k">def</span> <span class="nf">list_organization_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_name</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GitHub.list_organization_repos">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_organization_repos">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_organization_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_name</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List organization repos with pagination, returning a ``Table``</span>
 
 <span class="sd">        Args:</span>
@@ -349,7 +362,10 @@
             <span class="n">page_size</span><span class="o">=</span><span class="n">page_size</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHub.get_issue"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_issue">[docs]</a>    <span class="k">def</span> <span class="nf">get_issue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">issue_number</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GitHub.get_issue">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_issue">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_issue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">issue_number</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub issue</span>
 
 <span class="sd">        Args:</span>
@@ -365,7 +381,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_repo</span><span class="p">(</span><span class="n">repo_name</span><span class="p">)</span><span class="o">.</span><span class="n">get_issue</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="n">issue_number</span><span class="p">)</span><span class="o">.</span><span class="n">raw_data</span></div>
 
-<div class="viewcode-block" id="GitHub.list_repo_issues"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_repo_issues">[docs]</a>    <span class="k">def</span> <span class="nf">list_repo_issues</span><span class="p">(</span>
+
+<div class="viewcode-block" id="GitHub.list_repo_issues">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_repo_issues">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_repo_issues</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">repo_name</span><span class="p">,</span>
         <span class="n">state</span><span class="o">=</span><span class="s2">&quot;open&quot;</span><span class="p">,</span>
@@ -431,7 +450,10 @@
             <span class="n">page_size</span><span class="o">=</span><span class="n">page_size</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHub.get_pull_request"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_pull_request">[docs]</a>    <span class="k">def</span> <span class="nf">get_pull_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">pull_request_number</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GitHub.get_pull_request">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_pull_request">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_pull_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">pull_request_number</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub pull request</span>
 
 <span class="sd">        Args:</span>
@@ -447,7 +469,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_repo</span><span class="p">(</span><span class="n">repo_name</span><span class="p">)</span><span class="o">.</span><span class="n">get_pull</span><span class="p">(</span><span class="n">pull_request_number</span><span class="p">)</span><span class="o">.</span><span class="n">raw_data</span></div>
 
-<div class="viewcode-block" id="GitHub.list_repo_pull_requests"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_repo_pull_requests">[docs]</a>    <span class="k">def</span> <span class="nf">list_repo_pull_requests</span><span class="p">(</span>
+
+<div class="viewcode-block" id="GitHub.list_repo_pull_requests">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_repo_pull_requests">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_repo_pull_requests</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">repo_name</span><span class="p">,</span>
         <span class="n">state</span><span class="o">=</span><span class="s2">&quot;open&quot;</span><span class="p">,</span>
@@ -493,7 +518,10 @@
             <span class="n">page_size</span><span class="o">=</span><span class="n">page_size</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHub.list_repo_contributors"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_repo_contributors">[docs]</a>    <span class="k">def</span> <span class="nf">list_repo_contributors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GitHub.list_repo_contributors">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_repo_contributors">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_repo_contributors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Lists contributors for a given repo</span>
 
 <span class="sd">        Args:</span>
@@ -517,7 +545,10 @@
             <span class="n">page_size</span><span class="o">=</span><span class="n">page_size</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHub.download_file"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.download_file">[docs]</a>    <span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GitHub.download_file">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub.download_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a file from a repo by path and branch. Defaults to the repo&#39;s default branch if</span>
 <span class="sd">        branch is not supplied.</span>
 
@@ -577,7 +608,10 @@
 
         <span class="k">return</span> <span class="n">local_path</span></div>
 
-<div class="viewcode-block" id="GitHub.download_table"><a class="viewcode-back" href="../../../github.html#parsons.GitHub.download_table">[docs]</a>    <span class="k">def</span> <span class="nf">download_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GitHub.download_table">
+<a class="viewcode-back" href="../../../github.html#parsons.GitHub.download_table">[docs]</a>
+    <span class="k">def</span> <span class="nf">download_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a CSV file from a repo by path and branch as a Parsons Table.</span>
 
 <span class="sd">        Args:</span>
@@ -598,7 +632,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">downloaded_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromcsv</span><span class="p">(</span><span class="n">downloaded_file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">delimiter</span><span class="p">))</span></div></div>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromcsv</span><span class="p">(</span><span class="n">downloaded_file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">delimiter</span><span class="p">))</span></div>
+</div>
+
 </pre></div>
 
            </div>

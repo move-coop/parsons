@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.etl.table &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -178,7 +175,9 @@
 <span class="n">_EMPTYDEFAULT</span> <span class="o">=</span> <span class="n">_EmptyDefault</span><span class="o">.</span><span class="n">token</span>
 
 
-<div class="viewcode-block" id="Table"><a class="viewcode-back" href="../../../table.html#parsons.etl.table.Table">[docs]</a><span class="k">class</span> <span class="nc">Table</span><span class="p">(</span><span class="n">ETL</span><span class="p">,</span> <span class="n">ToFrom</span><span class="p">):</span>
+<div class="viewcode-block" id="Table">
+<a class="viewcode-back" href="../../../table.html#parsons.etl.table.Table">[docs]</a>
+<span class="k">class</span> <span class="nc">Table</span><span class="p">(</span><span class="n">ETL</span><span class="p">,</span> <span class="n">ToFrom</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a Parsons Table. Accepts one of the following:</span>
 <span class="sd">    - A list of lists, with list[0] holding field names, and the other lists holding data</span>
@@ -359,7 +358,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Column name not found.&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Table.materialize"><a class="viewcode-back" href="../../../table.html#parsons.etl.table.Table.materialize">[docs]</a>    <span class="k">def</span> <span class="nf">materialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Table.materialize">
+<a class="viewcode-back" href="../../../table.html#parsons.etl.table.Table.materialize">[docs]</a>
+    <span class="k">def</span> <span class="nf">materialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;Materializes&quot; a Table, meaning all data is loaded into memory and all pending</span>
 <span class="sd">        transformations are applied.</span>
@@ -370,7 +371,10 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">tupleoftuples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Table.materialize_to_file"><a class="viewcode-back" href="../../../table.html#parsons.etl.table.Table.materialize_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">materialize_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Table.materialize_to_file">
+<a class="viewcode-back" href="../../../table.html#parsons.etl.table.Table.materialize_to_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">materialize_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;Materializes&quot; a Table, meaning all pending transformations are applied.</span>
 
@@ -402,6 +406,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">frompickle</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">file_path</span></div>
+
 
     <span class="k">def</span> <span class="nf">is_valid_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -438,6 +443,7 @@
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span></div>
+
 </pre></div>
 
            </div>

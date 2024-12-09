@@ -1,23 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.capitol_canary.capitol_canary &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -160,7 +157,9 @@
 <span class="n">CAPITOL_CANARY_URI</span> <span class="o">=</span> <span class="s2">&quot;https://api.phone2action.com/2.0/&quot;</span>
 
 
-<div class="viewcode-block" id="CapitolCanary"><a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary">[docs]</a><span class="k">class</span> <span class="nc">CapitolCanary</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="CapitolCanary">
+<a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary">[docs]</a>
+<span class="k">class</span> <span class="nc">CapitolCanary</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate CapitolCanary Class</span>
 
@@ -205,7 +204,9 @@
 
         <span class="k">return</span> <span class="n">json</span>
 
-<div class="viewcode-block" id="CapitolCanary.get_advocates"><a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.get_advocates">[docs]</a>    <span class="k">def</span> <span class="nf">get_advocates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">campaign_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CapitolCanary.get_advocates">
+<a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.get_advocates">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_advocates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">campaign_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return advocates (person records).</span>
 
@@ -249,6 +250,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_advocates_tables</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="n">json</span><span class="p">))</span></div>
 
+
     <span class="k">def</span> <span class="nf">_advocates_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">):</span>
         <span class="c1"># Convert the advocates nested table into multiple tables</span>
 
@@ -280,7 +282,9 @@
 
         <span class="k">return</span> <span class="n">tbls</span>
 
-<div class="viewcode-block" id="CapitolCanary.get_campaigns"><a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.get_campaigns">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaigns</span><span class="p">(</span>
+<div class="viewcode-block" id="CapitolCanary.get_campaigns">
+<a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.get_campaigns">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_campaigns</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="nb">zip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -323,7 +327,10 @@
 
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="CapitolCanary.create_advocate"><a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.create_advocate">[docs]</a>    <span class="k">def</span> <span class="nf">create_advocate</span><span class="p">(</span>
+
+<div class="viewcode-block" id="CapitolCanary.create_advocate">
+<a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.create_advocate">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_advocate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">campaigns</span><span class="p">,</span>
         <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -448,7 +455,10 @@
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;advocates&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;advocateid&quot;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="CapitolCanary.update_advocate"><a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.update_advocate">[docs]</a>    <span class="k">def</span> <span class="nf">update_advocate</span><span class="p">(</span>
+
+<div class="viewcode-block" id="CapitolCanary.update_advocate">
+<a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.update_advocate">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_advocate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">advocate_id</span><span class="p">,</span>
         <span class="n">campaigns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -538,7 +548,9 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">payload</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span> <span class="o">+</span> <span class="n">campaign_keys</span>
 
         <span class="c1"># Call into the CapitolCanary API</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;advocates&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;advocates&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

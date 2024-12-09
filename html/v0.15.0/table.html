@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Parsons Table &mdash; Parsons 0.5 documentation</title>
@@ -235,11 +235,11 @@
 <p>Most methods and functions in Parsons return a <code class="docutils literal notranslate"><span class="pre">Table</span></code>, which is a 2D list-like object. (It’s similar to a pandas DataFrame, if you are familiar with that). You can call the following methods on the returned object to output it into a variety of formats or storage types. (For a full list of <code class="docutils literal notranslate"><span class="pre">Table</span></code> methods, scroll down to the class documentation.)</p>
 <section id="from-parsons-table">
 <h3>From Parsons Table<a class="headerlink" href="#from-parsons-table" title="Permalink to this heading"></a></h3>
-<table class="colwidths-given docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 50%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 50.0%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Method</p></th>
@@ -285,25 +285,26 @@
 <td><p>Write a table to a local html file</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">.to_dataframe()</span></code></p></td>
-<td><p>Pandas Dataframe <a class="footnote-reference brackets" href="#id3" id="id2">1</a></p></td>
+<td><p>Pandas Dataframe <a class="footnote-reference brackets" href="#id3" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
 <td><p>Return a Pandas dataframe</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="footnote brackets">
-<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
-<dd><p>Requires optional installation of Pandas package by running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas</span></code>.</p>
-</dd>
-</dl>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
+<p>Requires optional installation of Pandas package by running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas</span></code>.</p>
+</aside>
+</aside>
 </section>
 <section id="to-parsons-table">
 <h3>To Parsons Table<a class="headerlink" href="#to-parsons-table" title="Permalink to this heading"></a></h3>
 <p>Create Parsons Table object using the following methods.</p>
-<table class="colwidths-given docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 50%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 50.0%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Method</p></th>
@@ -333,7 +334,7 @@
 <td><p>Loads a Postgres query into a Table</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">.from_dataframe()</span></code></p></td>
-<td><p>Pandas Dataframe <a class="footnote-reference brackets" href="#id5" id="id4">2</a></p></td>
+<td><p>Pandas Dataframe <a class="footnote-reference brackets" href="#id5" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></td>
 <td><p>Load a Parsons table from a Pandas Dataframe</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.from_s3_csv()</span></code></p></td>
@@ -342,11 +343,12 @@
 </tr>
 </tbody>
 </table>
-<dl class="footnote brackets">
-<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id4">2</a></span></dt>
-<dd><p>Requires optional installation of Pandas package by running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas</span></code>.</p>
-</dd>
-</dl>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id5" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">2</a><span class="fn-bracket">]</span></span>
+<p>Requires optional installation of Pandas package by running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas</span></code>.</p>
+</aside>
+</aside>
 <p>You can also use the Table constructor to create a Table from a python list or petl table:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># From a list of dicts</span>
 <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}])</span>
@@ -361,10 +363,10 @@
 </section>
 <section id="parsons-table-attributes">
 <h3>Parsons Table Attributes<a class="headerlink" href="#parsons-table-attributes" title="Permalink to this heading"></a></h3>
-<table class="colwidths-given docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 67%" />
+<col style="width: 33.3%" />
+<col style="width: 66.7%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Attribute</p></th>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NGPVAN &mdash; Parsons 0.5 documentation</title>
@@ -1859,17 +1859,17 @@ approve a score loading job.</p>
 <dt class="sig sig-object py" id="parsons.ngpvan.van.Scores.upload_scores">
 <span class="sig-name descname"><span class="pre">upload_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vanid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_approve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approve_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">url_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#Scores.upload_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.Scores.upload_scores" title="Permalink to this definition"></a></dt>
 <dd><p>Upload scores. Use to create or overwrite scores. Multiple score loads
-should be configured in a single call. <a class="footnote-reference brackets" href="#id10" id="id7">1</a></p>
+should be configured in a single call. <a class="footnote-reference brackets" href="#id10" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
 <dl>
 <dt><cite>Args:</cite></dt><dd><dl>
 <dt>tbl: object</dt><dd><p>A parsons.Table object. The table must contain the scores and first column in the
 table must contain the primary key (e.g. vanid).</p>
 </dd>
 <dt>config: list</dt><dd><p>The score configuration. A list of dictionaries in which you specify the following</p>
-<table class="colwidths-given docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col style="width: 20%" />
-<col style="width: 80%" />
+<col style="width: 20.0%" />
+<col style="width: 80.0%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">score_column</span></code></p></td>
@@ -1912,12 +1912,13 @@ approve the score. Maximum of .1.</p>
 </dl>
 </dd>
 </dl>
-<dl class="footnote brackets">
-<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id7">1</a></span></dt>
-<dd><p>NGPVAN asks that you load multiple scores in a single call to reduce the load
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id10" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">1</a><span class="fn-bracket">]</span></span>
+<p>NGPVAN asks that you load multiple scores in a single call to reduce the load
 on their servers.</p>
-</dd>
-</dl>
+</aside>
+</aside>
 </dd></dl>
 
 </dd></dl>

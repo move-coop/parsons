@@ -2,7 +2,7 @@ pyairtable==2.3.3
 azure-storage-blob==12.13.0
 boto3>=1.17.98
 boxsdk==2.10.0
-braintree==4.17.1
+braintree==4.31.0
 bs4==0.0.1
 censusgeocode==0.5.2
 civis==1.16.1

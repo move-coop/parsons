@@ -1451,9 +1451,17 @@ class GoogleBigQuery(DatabaseConnector):
 
         logger.info(f"Finished exporting query result to {gs_destination}.")
 
-    def copy_between_projects(self, source_project, source_dataset, source_table,
-                              destination_project, destination_dataset, destination_table,
-                              if_dataset_not_exists='fail', if_table_exists='fail'):
+    def copy_between_projects(
+        self,
+        source_project,
+        source_dataset,
+        source_table,
+        destination_project,
+        destination_dataset,
+        destination_table,
+        if_dataset_not_exists="fail",
+        if_table_exists="fail",
+    ):
         """
         Copy a table from one project to another. Fails if the source or target project
             does not exist.
@@ -1487,12 +1495,10 @@ class GoogleBigQuery(DatabaseConnector):
         from google.cloud import bigquery
         from google.cloud.exceptions import NotFound
 
-        destination_table_id = (destination_project + "."
-                                + destination_dataset + "."
-                                + destination_table)
-        source_table_id = (source_project + "."
-                           + source_dataset + "."
-                           + source_table)
+        destination_table_id = (
+            destination_project + "." + destination_dataset + "." + destination_table
+        )
+        source_table_id = source_project + "." + source_dataset + "." + source_table
         dataset_id = destination_project + "." + destination_dataset
 
         # check if destination dataset exists
@@ -1501,33 +1507,41 @@ class GoogleBigQuery(DatabaseConnector):
             # if it exists: continue; if not, check to see if it's ok to create it
         except NotFound:
             # if it doesn't exist: check if it's ok to create it
-            if if_dataset_not_exists == 'create':  # create a new dataset in the destination
+            if if_dataset_not_exists == "create":  # create a new dataset in the destination
                 dataset = bigquery.Dataset(dataset_id)
                 dataset = self.client.create_dataset(dataset, timeout=30)
             else:  # if it doesn't exist and it's not ok to create it, fail
                 logger.error("BigQuery copy failed")
-                logger.error("Dataset {0} does not exist and if_dataset_not_exists set to {1}"
-                             .format(destination_dataset, if_dataset_not_exists))
+                logger.error(
+                    "Dataset {0} does not exist and if_dataset_not_exists set to {1}".format(
+                        destination_dataset, if_dataset_not_exists
+                    )
+                )
 
         job_config = bigquery.CopyJobConfig()
 
         # check if destination table exists
         try:
             self.client.get_table(destination_table_id)
-            if if_table_exists == 'overwrite':  # if it exists
+            if if_table_exists == "overwrite":  # if it exists
                 job_config = bigquery.CopyJobConfig()
                 job_config.write_disposition = "WRITE_TRUNCATE"
-                job = self.client.copy_table(source_table_id, destination_table_id,
-                                             location='US', job_config=job_config)
+                job = self.client.copy_table(
+                    source_table_id, destination_table_id, location='US', job_config=job_config
+                )
                 result = job.result()
             else:
-                logger.error("BigQuery copy failed, Table {0} exists and if_table_exists set to {1}"
-                             .format(destination_table, if_table_exists))
+                logger.error(
+                    "BigQuery copy failed, Table {0} exists and if_table_exists set to {1}".format(
+                        destination_table, if_table_exists
+                    )
+                )
 
         except NotFound:
             # destination table doesn't exist, so we can create one
-            job = self.client.copy_table(source_table_id, destination_table_id,
-                                         location='US', job_config=job_config)
+            job = self.client.copy_table(
+                source_table_id, destination_table_id, location='US', job_config=job_config
+            )
             result = job.result()
             logger.info(result)
 

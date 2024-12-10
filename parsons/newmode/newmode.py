@@ -1,4 +1,5 @@
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 from parsons.utilities import check_env
 from parsons import Table
 import logging
@@ -6,8 +7,9 @@ import time
 
 logger = logging.getLogger(__name__)
 
-API_URL = "https://engage.newmode.net/api/"
-
+API_URL_V1 = "https://engage.newmode.net/api/"
+API_URL_V2 = "https://base.newmode.net/api/"
+API_AUTH_URL = 'https://base.newmode.net/oauth/token'
 
 class Newmode(object):
     """
@@ -25,29 +27,34 @@ class Newmode(object):
         NewMode Class
     """
 
-    def __init__(self, api_user=None, api_password=None, api_version="v1.0"):
-        self.base_url = check_env.check("NEWMODE_API_URL", API_URL)
-        self.api_user = check_env.check("NEWMODE_API_USER", api_user)
-        self.api_password = check_env.check("NEWMODE_API_PASSWORD", api_password)
+    def __init__(self, api_user=None, api_password=None, client_id=None, client_secret=None, api_version="v1.0"):
         self.api_version = check_env.check("NEWMODE_API_VERSION", api_version)
-        self.headers = {"Content-Type": "application/json"}
-        self.client = APIConnector(
-            self.base_url,
-            auth=(self.api_user, self.api_password),
-            headers=self.headers,
-        )
 
-    def check_api_version(self, documentation_url="TODO", v1_0=True, v2_1=True):
-        exception_text = f"Endpoint not supported by API version {self.api_version}"
-        if self.api_version == "v1.0":
+        if "v1" in self.api_version:
             logger.warning(
-                "Newmode API v1.0 will no longer be supported starting February 2025."
-                f"Documentation for v2.1 here: {documentation_url}"
+                "Newmode API v1 will no longer be supported starting Feburary 2025."
             )
-            if not v1_0:
-                raise Exception(exception_text)
-        elif self.api_version == "v2.1" and not v2_1:
-            raise Exception(exception_text)
+            self.base_url = API_URL_V1
+            self.api_user = check_env.check("NEWMODE_API_USER", api_user)
+            self.api_password = check_env.check("NEWMODE_API_PASSWORD", api_password)
+            self.headers = {"Content-Type": "application/json"}
+            self.client = APIConnector(
+                self.base_url,
+                auth=(self.api_user, self.api_password),
+                headers=self.headers,)
+        else:
+            self.base_url = API_URL_V2
+            self.client_id = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
+            self.__client_secret = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
+            self.headers = {"content-type": "application/x-www-form-urlencoded"}
+            self.client = OAuth2APIConnector(
+                uri=self.base_url,
+                auto_refresh_url=API_AUTH_URL,
+                client_id=self.client_id,
+                client_secret=self.__client_secret,
+                headers=self.headers,
+                token_url=API_AUTH_URL,
+                grant_type="client_credentials",)
 
     def convert_to_table(self, data):
         """Internal method to create a Parsons table from a data element."""
@@ -69,6 +76,8 @@ class Newmode(object):
         response = None
         if method == "GET":
             response = self.client.get_request(url=url, params=params)
+            # if "targets" in url:
+            #     response = self.client.get_request(url=url, params=params)['_embedded']['hal:tool']
         elif method == "PATCH":
             response = self.client.patch_request(url=url, params=params)
             # response.get("_embedded", {}).get(f"osdi:{object_name}")
@@ -82,19 +91,18 @@ class Newmode(object):
         supports_version=True,
         params={},
         convert_to_table=True,
-        v1_0=True,
-        v2_1=True,
     ):
-        self.check_api_version(v1_0=v1_0, v2_1=v2_1)
         url = f"{self.api_version}/{endpoint}" if supports_version else endpoint
         response = self.base_request(
             method=method, url=url, requires_csrf=requires_csrf, params=params
         )
+        if not response:
+            logging.warning(f"Empty result returned from endpoint: {endpoint}")
         if convert_to_table:
             return self.convert_to_table(response)
         else:
             return response
-
+ 
     def get_csrf_token(self, max_retries=10):
         """
         Retrieve a CSRF token for making API requests
@@ -104,11 +112,11 @@ class Newmode(object):
         `Returns:`
             The CSRF token.
         """
-
+        endpoint = "session/token"
         for attempt in range(max_retries):
             try:
                 response = self.converted_request(
-                    endpoint="session/token",
+                    endpoint=endpoint,
                     method="GET",
                     supports_version=False,
                     requires_csrf=False,
@@ -128,6 +136,7 @@ class Newmode(object):
 
     def get_tools(self, params={}):
         """
+        V1 only
         Retrieve all tools
         `Args:`
             params: dict
@@ -140,6 +149,7 @@ class Newmode(object):
 
     def get_tool(self, tool_id, params={}):
         """
+        V1 only
         Retrieve a specific tool by ID
         `Args:`
             tool_id: str
@@ -154,8 +164,9 @@ class Newmode(object):
         )
         return response
 
-    def lookup_targets(self, tool_id, search=None, params={}):
+    def lookup_targets(self, target_id, search=None, location=None, params={}):
         """
+        V1 only
         Lookup targets for a given tool
         `Args:`
             tool_id: str
@@ -167,9 +178,11 @@ class Newmode(object):
         `Returns:`
             Parsons Table containing target data.
         """
-        endpoint = f"lookup/{tool_id}"
+        endpoint = f"lookup/{target_id}"
         if search:
             endpoint += f"/{search}"
+        if location:
+            endpoint += f"/{location}"
         response = self.converted_request(
             endpoint=endpoint, method="GET", params=params
         )
@@ -177,6 +190,7 @@ class Newmode(object):
 
     def get_action(self, tool_id, params={}):
         """
+        V1 only
         Get action information for a specific tool
         `Args:`
             tool_id: str
@@ -193,6 +207,7 @@ class Newmode(object):
 
     def run_action(self, tool_id, payload, params={}):
         """
+        V1 only
         Run a specific action for a tool
         `Args:`
             tool_id: str
@@ -208,40 +223,34 @@ class Newmode(object):
             endpoint=f"action/{tool_id}", method="PATCH", payload=payload, params=params
         )
         return response
-
-    def get_target(self, target_id, params={}):
-        """
-        Retrieve a specific target by ID
-        `Args:`
-            target_id: str
-                The ID of the target to retrieve.
-            params: dict
-                Query parameters to include in the request.
-        `Returns:`
-            Parsons Table containing target data.
-        """
-        response = self.converted_request(
-            endpoint=f"target/{target_id}", method="GET", params=params
-        )
-        return response
-
+        
     def get_campaigns(self, params={}):
         """
+        V1 & V2
         Retrieve all campaigns
+        In v2, a campaign is equivalent to Tools or Actions in V1.
         `Args:`
             params: dict
                 Query parameters to include in the request.
         `Returns:`
             Parsons Table containing campaigns data.
         """
+        if "v1" in self.api_version:
+            endpoint = "campaign"
+        else:
+            self.api_version = "jsonapi"
+            endpoint = "action/action"
         response = self.converted_request(
-            endpoint="campaign", method="GET", params=params
+            endpoint=endpoint, method="GET", params=params
         )
         return response
 
     def get_campaign(self, campaign_id, params={}):
         """
-        Retrieve a specific campaign by ID
+        V1 & V2
+        Retrieve a specific campaign by ID.
+
+        In v2, a campaign is equivalent to Tools or Actions in V1.
         `Args:`
             campaign_id: str
                 The ID of the campaign to retrieve.
@@ -250,13 +259,16 @@ class Newmode(object):
         `Returns:`
             Parsons Table containing campaign data.
         """
+        endpoint = f"campaign/{campaign_id}" if "v1" in self.api_version else f"/campaign/{campaign_id}/form"
+
         response = self.converted_request(
-            endpoint=f"campaign/{campaign_id}", method="GET", params=params
+            endpoint=endpoint, method="GET", params=params
         )
         return response
 
     def get_organizations(self, params={}):
         """
+        V1 only
         Retrieve all organizations
         `Args:`
             params: dict
@@ -271,6 +283,7 @@ class Newmode(object):
 
     def get_organization(self, organization_id, params={}):
         """
+        V1 only
         Retrieve a specific organization by ID
         `Args:`
             organization_id: str
@@ -287,6 +300,7 @@ class Newmode(object):
 
     def get_services(self, params={}):
         """
+        V1 only
         Retrieve all services
         `Args:`
             params: dict
@@ -301,6 +315,7 @@ class Newmode(object):
 
     def get_service(self, service_id, params={}):
         """
+        V1 only
         Retrieve a specific service by ID
         `Args:`
             service_id: str
@@ -315,8 +330,24 @@ class Newmode(object):
         )
         return response
 
+    def get_target(self, target_id, params={}):
+        """
+        V1 only
+        Get specific target.
+        `Args:`
+            params: dict
+                Query parameters to include in the request.
+        `Returns:`
+            Parsons Table containing targets data.
+        """
+        response = self.converted_request(
+            endpoint=f"target/{target_id}", method="GET", params=params
+        )
+        return response
+
     def get_targets(self, params={}):
         """
+        V1 only
         Retrieve all targets
         `Args:`
             params: dict
@@ -331,6 +362,7 @@ class Newmode(object):
 
     def get_outreaches(self, tool_id, params={}):
         """
+        V1 only
         Retrieve all outreaches for a specific tool
         `Args:`
             tool_id: str
@@ -348,6 +380,7 @@ class Newmode(object):
 
     def get_outreach(self, outreach_id, params={}):
         """
+        V1 only
         Retrieve a specific outreach by ID
         `Args:`
             outreach_id: str
@@ -359,5 +392,63 @@ class Newmode(object):
         """
         response = self.converted_request(
             endpoint=f"outreach/{outreach_id}", method="GET", params=params
+        )
+        return response
+
+    def get_recipient(self, campaign_id, params={}):
+        """
+        V2 only
+        Retrieve a specific recipient by ID
+        `Args:`
+            campaign_id: str
+                The ID of the campaign to retrieve.
+            params: dict
+                Query parameters to include in the request.
+        `Returns:`
+            Parsons Table containing recipient data.
+        """
+        response = self.converted_request(
+            endpoint=f"campaign/{campaign_id}/target", method="GET", params=params
+        )
+        return response
+
+    def run_submit(self, campaign_id, params={}):
+        """
+        V2 only
+        Pass a submission from a supporter to a campaign
+        that ultimately fills in a petition, 
+        sends an email or triggers a phone call 
+        depending on your campaign type
+
+        `Args:`
+            campaign_id: str
+                The ID of the campaign to retrieve.
+            params: dict
+                Query parameters to include in the request.
+        `Returns:`
+            Parsons Table containing submit data.
+        """
+        response = self.converted_request(
+            endpoint=f"campaign/{campaign_id}/submit ", method="POST", params=params
+        )
+        return response
+
+    def get_submissions(self, params={}):
+        """
+        V2 only
+        Retrieve and sort submission and contact data 
+        for your organization using a range of filters 
+        that include campaign id, data range and submission status
+
+        `Args:`
+            campaign_id: str
+                The ID of the campaign to retrieve.
+            params: dict
+                Query parameters to include in the request.
+        `Returns:`
+            Parsons Table containing submit data.
+        """
+        response = self.converted_request(
+            endpoint="submission", method="POST", params=params
         )
         return response

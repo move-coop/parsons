@@ -271,9 +271,10 @@ class Zoom:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"report/webinars/{webinar_id}")
-        logger.info(f"Retrieved {tbl.num_rows} webinar report.")
-        return tbl
+        dic = self._get_request(f"report/webinars/{webinar_id}")
+        if dic:
+            logger.info(f"Retrieved webinar report for webinar: {webinar_id}.")
+        return dic
 
     def get_past_webinar_participants(self, webinar_id):
         """

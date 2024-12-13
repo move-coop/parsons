@@ -255,6 +255,23 @@ class Zoom:
         logger.info(f"Retrieved {tbl.num_rows} webinars.")
         return tbl
 
+    def get_past_webinar_report(self, webinar_id):
+        """
+        Get past meeting participants
+
+        `Args:`
+            webinar_id: str
+                The webinar id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        dic = self._get_request(endpoint=f"report/webinars/{webinar_id}", data_key=None)
+        if dic:
+            logger.info(f"Retrieved webinar report for webinar: {webinar_id}.")
+        return dic
+
     def get_past_webinar_participants(self, webinar_id):
         """
         Get past meeting participants

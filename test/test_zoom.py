@@ -313,7 +313,7 @@ class TestZoom(unittest.TestCase):
         assert_matching_tables(self.zoom.get_past_webinar_participants(123), tbl)
 
     @requests_mock.Mocker()
-    def test_get_webinar_report(self, m):
+    def test_get_past_webinar_report(self, m):
         report = {
             "custom_keys": [{"key": "Host Nation", "value": "US"}],
             "dept": "HR",

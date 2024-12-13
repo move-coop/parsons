@@ -9,7 +9,8 @@ logger = logging.getLogger(__name__)
 
 API_URL_V1 = "https://engage.newmode.net/api/"
 API_URL_V2 = "https://base.newmode.net/api/"
-API_AUTH_URL = 'https://base.newmode.net/oauth/token'
+API_AUTH_URL = "https://base.newmode.net/oauth/token"
+
 
 class Newmode(object):
     """
@@ -27,7 +28,14 @@ class Newmode(object):
         NewMode Class
     """
 
-    def __init__(self, api_user=None, api_password=None, client_id=None, client_secret=None, api_version="v1.0"):
+    def __init__(
+        self,
+        api_user=None,
+        api_password=None,
+        client_id=None,
+        client_secret=None,
+        api_version="v1.0",
+    ):
         self.api_version = check_env.check("NEWMODE_API_VERSION", api_version)
 
         if "v1" in self.api_version:
@@ -41,11 +49,14 @@ class Newmode(object):
             self.client = APIConnector(
                 self.base_url,
                 auth=(self.api_user, self.api_password),
-                headers=self.headers,)
+                headers=self.headers,
+            )
         else:
             self.base_url = API_URL_V2
             self.client_id = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
-            self.__client_secret = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
+            self.__client_secret = check_env.check(
+                "NEWMODE_API_CLIENT_SECRET", client_secret
+            )
             self.headers = {"content-type": "application/x-www-form-urlencoded"}
             self.client = OAuth2APIConnector(
                 uri=self.base_url,
@@ -54,7 +65,8 @@ class Newmode(object):
                 client_secret=self.__client_secret,
                 headers=self.headers,
                 token_url=API_AUTH_URL,
-                grant_type="client_credentials",)
+                grant_type="client_credentials",
+            )
 
     def convert_to_table(self, data):
         """Internal method to create a Parsons table from a data element."""
@@ -67,7 +79,9 @@ class Newmode(object):
 
         return table
 
-    def base_request(self, method, url, requires_csrf=True, params={}):
+    def base_request(
+        self, method, url, requires_csrf=True, data=None, json=None, params={}
+    ):
 
         if requires_csrf:
             csrf = self.get_csrf_token()
@@ -76,11 +90,10 @@ class Newmode(object):
         response = None
         if method == "GET":
             response = self.client.get_request(url=url, params=params)
-            # if "targets" in url:
-            #     response = self.client.get_request(url=url, params=params)['_embedded']['hal:tool']
         elif method == "PATCH":
             response = self.client.patch_request(url=url, params=params)
-            # response.get("_embedded", {}).get(f"osdi:{object_name}")
+        elif method == "POST":
+            response = self.client.post_request(url=url, params=params, json=json)
         return response
 
     def converted_request(
@@ -89,12 +102,19 @@ class Newmode(object):
         method,
         requires_csrf=True,
         supports_version=True,
+        data=None,
+        json=None,
         params={},
         convert_to_table=True,
     ):
         url = f"{self.api_version}/{endpoint}" if supports_version else endpoint
         response = self.base_request(
-            method=method, url=url, requires_csrf=requires_csrf, params=params
+            method=method,
+            url=url,
+            requires_csrf=requires_csrf,
+            json=json,
+            data=data,
+            params=params,
         )
         if not response:
             logging.warning(f"Empty result returned from endpoint: {endpoint}")
@@ -102,7 +122,7 @@ class Newmode(object):
             return self.convert_to_table(response)
         else:
             return response
- 
+
     def get_csrf_token(self, max_retries=10):
         """
         Retrieve a CSRF token for making API requests
@@ -223,7 +243,7 @@ class Newmode(object):
             endpoint=f"action/{tool_id}", method="PATCH", payload=payload, params=params
         )
         return response
-        
+
     def get_campaigns(self, params={}):
         """
         V1 & V2
@@ -237,11 +257,13 @@ class Newmode(object):
         """
         if "v1" in self.api_version:
             endpoint = "campaign"
+            requires_csrf = True
         else:
             self.api_version = "jsonapi"
             endpoint = "action/action"
+            requires_csrf = False
         response = self.converted_request(
-            endpoint=endpoint, method="GET", params=params
+            endpoint=endpoint, method="GET", params=params, requires_csrf=requires_csrf
         )
         return response
 
@@ -259,10 +281,14 @@ class Newmode(object):
         `Returns:`
             Parsons Table containing campaign data.
         """
-        endpoint = f"campaign/{campaign_id}" if "v1" in self.api_version else f"/campaign/{campaign_id}/form"
-
+        if "v1" in self.api_version:
+            endpoint = f"campaign/{campaign_id}"
+            requires_csrf = True
+        else:
+            endpoint = f"/campaign/{campaign_id}/form"
+            requires_csrf = False
         response = self.converted_request(
-            endpoint=endpoint, method="GET", params=params
+            endpoint=endpoint, method="GET", params=params, requires_csrf=requires_csrf
         )
         return response
 
@@ -395,29 +421,65 @@ class Newmode(object):
         )
         return response
 
-    def get_recipient(self, campaign_id, params={}):
+    def get_recipient(
+        self,
+        campaign_id,
+        street_address=None,
+        city=None,
+        postal_code=None,
+        region=None,
+        params={},
+    ):
         """
         V2 only
         Retrieve a specific recipient by ID
         `Args:`
             campaign_id: str
                 The ID of the campaign to retrieve.
+            street_address: str
+                Street address of recipient
+            city: str
+                City of recipient
+            postal_code: str
+                Postal code of recipient
+            region: str
+                Region (i.e. state/province abbreviation) of recipient
             params: dict
                 Query parameters to include in the request.
         `Returns:`
             Parsons Table containing recipient data.
         """
+        address_params = {
+            "street_address": street_address,
+            "city": city,
+            "postal_code": postal_code,
+            "region": region,
+        }
+        if all(x is None for x in address_params.values()):
+            logger.error(
+                "Please specify a street address, city, postal code, and/or region."
+            )
+            raise Exception("Incomplete Request")
+
+        params = {
+            f"address[value][{key}]": value
+            for key, value in address_params.items()
+            if value
+        }
         response = self.converted_request(
-            endpoint=f"campaign/{campaign_id}/target", method="GET", params=params
+            endpoint=f"campaign/{campaign_id}/target",
+            method="GET",
+            params=params,
+            requires_csrf=False,
         )
         return response
 
-    def run_submit(self, campaign_id, params={}):
+    def run_submit(self, campaign_id, json=None, data=None, params={}):
         """
         V2 only
         Pass a submission from a supporter to a campaign
-        that ultimately fills in a petition, 
-        sends an email or triggers a phone call 
+        that ultimately fills in a petition,
+        sends an email or triggers a phone call
         depending on your campaign type
 
         `Args:`
@@ -429,26 +491,30 @@ class Newmode(object):
             Parsons Table containing submit data.
         """
         response = self.converted_request(
-            endpoint=f"campaign/{campaign_id}/submit ", method="POST", params=params
+            endpoint=f"campaign/{campaign_id}/submit",
+            method="POST",
+            data=data,
+            json=json,
+            params=params,
+            requires_csrf=False,
+            convert_to_table=False,
         )
         return response
 
     def get_submissions(self, params={}):
         """
         V2 only
-        Retrieve and sort submission and contact data 
-        for your organization using a range of filters 
+        Retrieve and sort submission and contact data
+        for your organization using a range of filters
         that include campaign id, data range and submission status
 
         `Args:`
-            campaign_id: str
-                The ID of the campaign to retrieve.
             params: dict
                 Query parameters to include in the request.
         `Returns:`
             Parsons Table containing submit data.
         """
         response = self.converted_request(
-            endpoint="submission", method="POST", params=params
+            endpoint="submission", method="GET", params=params, requires_csrf=False
         )
         return response

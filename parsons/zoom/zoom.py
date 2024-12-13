@@ -40,7 +40,7 @@ class Zoom:
             authorization_kwargs={"account_id": self.account_id},
         )
 
-    def _get_request(self, endpoint, data_key=None, params=None, **kwargs):
+    def _get_request(self, endpoint, data_key, params=None, **kwargs):
         """
         TODO: Consider increasing default page size.
 
@@ -60,7 +60,7 @@ class Zoom:
         r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)
-        
+
         if not params:
             params = {}
 
@@ -271,7 +271,7 @@ class Zoom:
                 See :ref:`parsons-table` for output options.
         """
 
-        dic = self._get_request(f"report/webinars/{webinar_id}")
+        dic = self._get_request(endpoint=f"report/webinars/{webinar_id}", data_key=None)
         if dic:
             logger.info(f"Retrieved webinar report for webinar: {webinar_id}.")
         return dic

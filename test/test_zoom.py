@@ -353,7 +353,7 @@ class TestZoom(unittest.TestCase):
 
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "report/webinars/123", json=report)
-        assert_matching_tables(self.zoom.get_past_webinar_reports(123), tbl)
+        assert_matching_tables(self.zoom.get_past_webinar_report(123), tbl)
 
     @requests_mock.Mocker()
     def test_get_webinar_registrants(self, m):

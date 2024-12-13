@@ -59,7 +59,7 @@ class Zoom:
 
         r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
-        data = self.client.data_parse(r) if data_key else r
+        data = self.client.data_parse(r)
         
         if not params:
             params = {}

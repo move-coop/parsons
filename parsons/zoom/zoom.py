@@ -40,7 +40,7 @@ class Zoom:
             authorization_kwargs={"account_id": self.account_id},
         )
 
-    def _get_request(self, endpoint, data_key, params=None, **kwargs):
+    def _get_request(self, endpoint, data_key=None, params=None, **kwargs):
         """
         TODO: Consider increasing default page size.
 
@@ -59,8 +59,8 @@ class Zoom:
 
         r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
-        data = self.client.data_parse(r)
-
+        data = self.client.data_parse(r) if data_key else r
+        
         if not params:
             params = {}
 

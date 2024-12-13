@@ -259,7 +259,7 @@ class Zoom:
         logger.info(f"Retrieved {tbl.num_rows} webinars.")
         return tbl
 
-    def get_webinar_report(self, webinar_id):
+    def get_past_webinar_report(self, webinar_id):
         """
         Get past meeting participants
 

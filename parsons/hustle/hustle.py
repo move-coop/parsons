@@ -90,7 +90,7 @@ class Hustle(object):
             parameters["cursor"] = r.json["pagination"]["cursor"]
             r = request(req_type, url, params=parameters, headers=headers)
             self._error_check(r, raise_on_error)
-            result.append(r.json()["items"])
+            result += r.json()["items"]
 
         return result
 

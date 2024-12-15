@@ -1,6 +1,5 @@
 # testing bigquery copy method of google class
 
-import unittest
 from unittest import TestCase
 from unittest.mock import Mock
 import logging
@@ -9,7 +8,6 @@ from parsons import GoogleBigQuery
 
 
 class TestGoogleBigQuery(TestCase):
-
     def setUp(self):
         # mock the GoogleBigQuery class
         self.bq = Mock(spec=GoogleBigQuery)
@@ -51,7 +49,6 @@ class TestGoogleBigQuery(TestCase):
 
     @log_capture()
     def test_logger_fail_on_dataset_does_not_exist(self, capture):
-
         # create and set up logger
         logger = logging.getLogger()
         logger.error(
@@ -85,7 +82,6 @@ class TestGoogleBigQuery(TestCase):
 
     @log_capture()
     def test_logger_fail_on_table_exists(self, capture):
-
         # create and set up logger
         logger = logging.getLogger()
 

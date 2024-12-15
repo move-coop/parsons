@@ -114,4 +114,3 @@ class TestGoogleBigQuery(TestCase):
                 ),
             )
         )
-

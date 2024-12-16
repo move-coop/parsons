@@ -29,7 +29,7 @@ psycopg2-binary==2.9.9
 PyGitHub==2.4.0
 python-dateutil==2.8.2
 requests==2.32.3
-requests_oauthlib==1.3.0
+requests_oauthlib==2.0.0
 setuptools==70.0.0
 simple-salesforce==1.11.6
 simplejson==3.16.0

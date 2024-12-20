@@ -22,6 +22,7 @@ class Newmode:
         Returns:
             Newmode class
         """
+        logger.warning("Newmode V1 API will be sunset in Feburary 2025.")
         self.api_user = check_env.check("NEWMODE_API_USER", api_user)
         self.api_password = check_env.check("NEWMODE_API_PASSWORD", api_password)
 

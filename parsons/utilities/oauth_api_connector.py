@@ -41,7 +41,7 @@ class OAuth2APIConnector(APIConnector):
         client_id: str,
         client_secret: str,
         token_url: str,
-        auto_refresh_url: Optional[str],
+        auto_refresh_url: str,
         headers: Optional[Dict[str, str]] = None,
         pagination_key: Optional[str] = None,
         data_key: Optional[str] = None,

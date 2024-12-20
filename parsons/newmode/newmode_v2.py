@@ -11,7 +11,6 @@ API_CAMPAIGNS_URL = "https://base.newmode.net/"
 
 
 class NewmodeV2(object):
-
     def __init__(
         self,
         client_id=None,
@@ -35,9 +34,7 @@ class NewmodeV2(object):
         self.api_version = check_env.check("NEWMODE_API_VERSION", api_version)
         self.base_url = API_URL
         self.client_id = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
-        self.__client_secret = check_env.check(
-            "NEWMODE_API_CLIENT_SECRET", client_secret
-        )
+        self.__client_secret = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
         self.headers = {"content-type": "application/json"}
 
     def convert_to_table(self, data):
@@ -184,16 +181,10 @@ class NewmodeV2(object):
             "region": region,
         }
         if all(x is None for x in address_params.values()):
-            logger.error(
-                "Please specify a street address, city, postal code, and/or region."
-            )
+            logger.error("Please specify a street address, city, postal code, and/or region.")
             raise Exception("Incomplete Request")
 
-        params = {
-            f"address[value][{key}]": value
-            for key, value in address_params.items()
-            if value
-        }
+        params = {f"address[value][{key}]": value for key, value in address_params.items() if value}
         response = self.converted_request(
             endpoint=f"campaign/{campaign_id}/target",
             method="GET",

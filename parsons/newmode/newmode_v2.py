@@ -53,7 +53,6 @@ class NewmodeV2(object):
             url=url, req_type=method, json=json, data=data, params=params
         )
         response.raise_for_status()
-        print("URL:", response.request.url)
         success_codes = [200, 201, 202, 204]
         self.client.validate_response(response)
         if response.status_code in success_codes:

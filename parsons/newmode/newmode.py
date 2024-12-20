@@ -40,9 +40,7 @@ class Newmode(object):
         self.api_version = check_env.check("NEWMODE_API_VERSION", api_version)
         # TODO: delete when v1 depreciated
         if "v1" in self.api_version:
-            logger.warning(
-                "Newmode API v1 will no longer be supported starting Feburary 2025."
-            )
+            logger.warning("Newmode API v1 will no longer be supported starting Feburary 2025.")
             self.base_url = API_URL_V1
             self.api_user = check_env.check("NEWMODE_API_USER", api_user)
             self.api_password = check_env.check("NEWMODE_API_PASSWORD", api_password)
@@ -55,9 +53,7 @@ class Newmode(object):
         else:
             self.base_url = API_URL_V2
             self.client_id = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
-            self.__client_secret = check_env.check(
-                "NEWMODE_API_CLIENT_SECRET", client_secret
-            )
+            self.__client_secret = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
             self.headers = {"content-type": "application/x-www-form-urlencoded"}
 
     def convert_to_table(self, data):
@@ -72,9 +68,7 @@ class Newmode(object):
         return table
 
     # TODO: delete when v1 deprecated
-    def base_request(
-        self, method, url, requires_csrf=True, data=None, json=None, params={}
-    ):
+    def base_request(self, method, url, requires_csrf=True, data=None, json=None, params={}):
         if requires_csrf:
             csrf = self.get_csrf_token()
             self.headers["X-CSRF-Token"] = csrf
@@ -85,9 +79,7 @@ class Newmode(object):
         elif method == "PATCH":
             response = self.client.patch_request(url=url, params=params)
         elif method == "POST":
-            response = self.client.post_request(
-                url=url, params=params, json=json, data=data
-            )
+            response = self.client.post_request(url=url, params=params, json=json, data=data)
         return response
 
     def base_request_v2(self, method, url, data=None, json=None, params={}):
@@ -97,9 +89,7 @@ class Newmode(object):
         elif method == "PATCH":
             response = self.client.patch_request(url=url, params=params)
         elif method == "POST":
-            response = self.client.post_request(
-                url=url, params=params, json=json, data=data
-            )
+            response = self.client.post_request(url=url, params=params, json=json, data=data)
         return response
 
     # TODO: delete when v1 deprecated
@@ -149,7 +139,7 @@ class Newmode(object):
             token_url=API_AUTH_URL,
             grant_type="client_credentials",
         )
-        
+
         url = f"{self.api_version}/{endpoint}" if supports_version else endpoint
         response = self.base_request_v2(
             method=method,
@@ -188,9 +178,7 @@ class Newmode(object):
                 return response["X-CSRF-Token"]
             except Exception as e:
                 if attempt >= max_retries:
-                    logger.error(
-                        (f"Error getting CSRF Token after {max_retries} retries")
-                    )
+                    logger.error((f"Error getting CSRF Token after {max_retries} retries"))
                     raise e
                 logger.warning(
                     f"Retry {attempt} at getting CSRF Token failed. Retrying. Error: {e}"
@@ -216,17 +204,17 @@ class Newmode(object):
     #             convert_to_table=False,
     #         )
     #         print(response)
-            #     return response
-            # except Exception as e:
-            #     if attempt >= max_retries:
-            #         logger.error(
-            #             (f"Error getting CSRF Token after {max_retries} retries")
-            #         )
-            #         raise e
-            #     logger.warning(
-            #         f"Retry {attempt} at getting CSRF Token failed. Retrying. Error: {e}"
-            #     )
-            #     time.sleep(attempt + 1)
+    #     return response
+    # except Exception as e:
+    #     if attempt >= max_retries:
+    #         logger.error(
+    #             (f"Error getting CSRF Token after {max_retries} retries")
+    #         )
+    #         raise e
+    #     logger.warning(
+    #         f"Retry {attempt} at getting CSRF Token failed. Retrying. Error: {e}"
+    #     )
+    #     time.sleep(attempt + 1)
 
     def get_tools(self, params={}):
         """
@@ -253,9 +241,7 @@ class Newmode(object):
         `Returns:`
             Parsons Table containing the tool data.
         """
-        response = self.converted_request(
-            endpoint=f"tool/{tool_id}", method="GET", params=params
-        )
+        response = self.converted_request(endpoint=f"tool/{tool_id}", method="GET", params=params)
         return response
 
     def lookup_targets(self, target_id, search=None, location=None, params={}):
@@ -277,9 +263,7 @@ class Newmode(object):
             endpoint += f"/{search}"
         if location:
             endpoint += f"/{location}"
-        response = self.converted_request(
-            endpoint=endpoint, method="GET", params=params
-        )
+        response = self.converted_request(endpoint=endpoint, method="GET", params=params)
         return response
 
     def get_action(self, tool_id, params={}):
@@ -294,9 +278,7 @@ class Newmode(object):
         `Returns:`
             Parsons Table containing action data.
         """
-        response = self.converted_request(
-            endpoint=f"action/{tool_id}", method="GET", params=params
-        )
+        response = self.converted_request(endpoint=f"action/{tool_id}", method="GET", params=params)
         return response
 
     def run_action(self, tool_id, payload, params={}):
@@ -365,9 +347,7 @@ class Newmode(object):
         `Returns:`
             Parsons Table containing organizations data.
         """
-        response = self.converted_request(
-            endpoint="organization", method="GET", params=params
-        )
+        response = self.converted_request(endpoint="organization", method="GET", params=params)
         return response
 
     def get_organization(self, organization_id, params={}):
@@ -397,9 +377,7 @@ class Newmode(object):
         `Returns:`
             Parsons Table containing services data.
         """
-        response = self.converted_request(
-            endpoint="service", method="GET", params=params
-        )
+        response = self.converted_request(endpoint="service", method="GET", params=params)
         return response
 
     def get_service(self, service_id, params={}):
@@ -444,9 +422,7 @@ class Newmode(object):
         `Returns:`
             Parsons Table containing targets data.
         """
-        response = self.converted_request(
-            endpoint="target", method="GET", params=params
-        )
+        response = self.converted_request(endpoint="target", method="GET", params=params)
         return response
 
     def get_outreaches(self, tool_id, params={}):
@@ -569,16 +545,10 @@ class Newmode(object):
             "region": region,
         }
         if all(x is None for x in address_params.values()):
-            logger.error(
-                "Please specify a street address, city, postal code, and/or region."
-            )
+            logger.error("Please specify a street address, city, postal code, and/or region.")
             raise Exception("Incomplete Request")
 
-        params = {
-            f"address[value][{key}]": value
-            for key, value in address_params.items()
-            if value
-        }
+        params = {f"address[value][{key}]": value for key, value in address_params.items() if value}
         response = self.converted_request_v2(
             endpoint=f"campaign/{campaign_id}/target",
             method="GET",
@@ -633,7 +603,5 @@ class Newmode(object):
         # print(self.base_url)
         # response=self.converted_request_v2(endpoint="/user/login?_format=json", method="POST", supports_version=False)
         # self.token = self.token['access_token']
-        response = self.converted_request_v2(
-            endpoint="submission", method="GET", params=params
-        )
+        response = self.converted_request_v2(endpoint="submission", method="GET", params=params)
         return response

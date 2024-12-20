@@ -11,20 +11,6 @@ API_CAMPAIGNS_URL = "https://base.newmode.net/"
 
 
 class NewmodeV2(object):
-    """
-    Instantiate Class
-    `Args`:
-        api_user: str
-            The username to use for the API requests. Not required if ``NEWMODE_API_URL``
-            env variable set.
-        api_password: str
-            The password to use for the API requests. Not required if ``NEWMODE_API_PASSWORD``
-            env variable set.
-        api_version: str
-            The api version to use. Defaults to v1.0
-    Returns:
-        NewMode Class
-    """
 
     def __init__(
         self,
@@ -32,6 +18,20 @@ class NewmodeV2(object):
         client_secret=None,
         api_version="v2.1",
     ):
+        """
+        Instantiate Class
+        `Args`:
+            api_user: str
+                The username to use for the API requests. Not required if ``NEWMODE_API_URL``
+                env variable set.
+            api_password: str
+                The password to use for the API requests. Not required if ``NEWMODE_API_PASSWORD``
+                env variable set.
+            api_version: str
+                The api version to use. Defaults to v1.0
+        Returns:
+            NewMode Class
+        """
         self.api_version = check_env.check("NEWMODE_API_VERSION", api_version)
         self.base_url = API_URL
         self.client_id = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
@@ -50,35 +50,19 @@ class NewmodeV2(object):
 
         return table
 
-    def base_request(self, method, url, data=None, json=None, params={}):
-        # response = None
-        # if method == "GET":
-        #     url, req_type, json=None, data=None, params=None)
-        # try:
+    def base_request(self, method, url, data=None, json=None, data_key=None, params={}):
+        response = None
         response = self.client.request(
             url=url, req_type=method, json=json, data=data, params=params
         )
-        response.raise_for_status()  # Raise an exception for bad status codes
-
-        # except Exception as e:
-        #     print("Request failed:")
-        #     print("URL:", response.request.url)
-        #     print("Method:", response.request.method)
-        #     print("Headers:", response.request.headers)
-        #     print("Body:", response.request.body)
-        #     print("Error:", e)
-        # print(f"url: {response.request.url}")
-        # elif method == "POST":
-        #     response = self.client.post_request(
-        #         url=url, params=params, json=json, data=data
-        # )
-        # print(response)
-        # Validate the response and lift up an errors.
+        response.raise_for_status()
+        print("URL:", response.request.url)
         success_codes = [200, 201, 202, 204]
         self.client.validate_response(response)
         if response.status_code in success_codes:
             if self.client.json_check(response):
-                return response.json()
+                response_json = response.json()
+                return response_json[data_key] if data_key else response_json
             else:
                 return response.status_code
         return response
@@ -92,6 +76,7 @@ class NewmodeV2(object):
         json=None,
         params={},
         convert_to_table=True,
+        data_key=None,
     ):
         self.client = OAuth2APIConnector(
             uri=self.base_url,
@@ -110,6 +95,7 @@ class NewmodeV2(object):
             json=json,
             data=data,
             params=params,
+            data_key=data_key,
         )
         if not response:
             logging.warning(f"Empty result returned from endpoint: {endpoint}")
@@ -149,7 +135,7 @@ class NewmodeV2(object):
             params: dict
                 Query parameters to include in the request.
         `Returns:`
-            Parsons Table containing campaigns data.
+            List containing all campaign ids.
         """
         self.base_url = API_CAMPAIGNS_URL
         self.api_version = "jsonapi"
@@ -158,13 +144,11 @@ class NewmodeV2(object):
             "accept": "application/vnd.api+json",
             "authorization": "Bearer 1234567890",
         }
-        endpoint = "action/action"
+        endpoint = "node/action"
         response = self.converted_request(
-            endpoint=endpoint,
-            method="GET",
-            params=params,
+            endpoint=endpoint, method="GET", params=params, data_key="data"
         )
-        return response
+        return response["id"]
 
     def get_recipient(
         self,
@@ -219,7 +203,6 @@ class NewmodeV2(object):
 
     def run_submit(self, campaign_id, json=None, data=None, params={}):
         """
-        V2 only
         Pass a submission from a supporter to a campaign
         that ultimately fills in a petition,
         sends an email or triggers a phone call
@@ -234,17 +217,6 @@ class NewmodeV2(object):
             Parsons Table containing submit data.
         """
 
-        json = {
-            "action_id": campaign_id,
-            "first_name": "TestFirstName",
-            "last_name": "TestLastName",
-            "email": "test_abc@test.com",
-            "opt_in": 1,
-            "address": {"postal_code": "V6A 2T2"},
-            "subject": "This is my subject",
-            "message": "This is my letter",
-        }
-
         response = self.converted_request(
             endpoint=f"campaign/{campaign_id}/submit",
             method="POST",
@@ -255,19 +227,21 @@ class NewmodeV2(object):
         )
         return response
 
-    def get_submissions(self, params={}):
-        """
-        Retrieve and sort submission and contact data
-        for your organization using a range of filters
-        that include campaign id, data range and submission status
+    # TODO: add get_submissions method after updates from NewMode
+    # def get_submissions(self, campaign_id, params={}):
+    #     """
+    #     Retrieve and sort submission and contact data
+    #     for your organization using a range of filters
+    #     that include campaign id, data range and submission status
 
-        `Args:`
-            params: dict
-                Query parameters to include in the request.
-        `Returns:`
-            Parsons Table containing submit data.
-        """
-        response = self.converted_request(
-            endpoint="submission", method="GET", params=params
-        )
-        return response
+    #     `Args:`
+    #         params: dict
+    #             Query parameters to include in the request.
+    #     `Returns:`
+    #         Parsons Table containing submit data.
+    #     """
+    #     params = {"campaign": campaign_id}
+    #     response = self.converted_request(
+    #         endpoint="submission", method="GET", params=params
+    #     )
+    #     return response

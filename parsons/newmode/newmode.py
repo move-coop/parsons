@@ -296,7 +296,7 @@ class Newmode(object):
             Parsons Table containing posted outreach information.
         """
         response = self.converted_request(
-            endpoint=f"action/{tool_id}", method="PATCH", payload=payload, params=params
+            endpoint=f"action/{tool_id}", method="PATCH", data=payload, params=params
         )
         return response
 

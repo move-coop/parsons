@@ -2,10 +2,10 @@ from parsons import Gmail
 import json
 import os
 import requests_mock
+import email
 import unittest
 import shutil
 import base64
-import email
 
 
 _dir = os.path.dirname(__file__)
@@ -516,9 +516,26 @@ class TestGmail(unittest.TestCase):
             {"email": "<sender@email.com>", "expected": True},
             {"email": "Sender sender@email.com", "expected": False},
             {"email": "Sender <sender2email.com>", "expected": False},
-            {"email": "Sender <sender@email,com>", "expected": True},
-            {"email": "Sender <sender+alias@email,com>", "expected": True},
         ]
+
+        # The behavior of email.parseaddr depends on the python patch version
+        # See https://github.com/python/cpython/issues/102988
+        # or associated changelogs, e.g.
+        # https://docs.python.org/3.8/whatsnew/changelog.html#python-3-8-20-final
+        if getattr(email.utils, "supports_strict_parsing", False):
+            emails.extend(
+                [
+                    {"email": "Sender <sender@email,com>", "expected": False},
+                    {"email": "Sender <sender+alias@email,com>", "expected": False},
+                ]
+            )
+        else:
+            emails.extend(
+                [
+                    {"email": "Sender <sender@email,com>", "expected": True},
+                    {"email": "Sender <sender+alias@email,com>", "expected": True},
+                ]
+            )
 
         for e in emails:
             if e["expected"]:

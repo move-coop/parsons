@@ -1,7 +1,7 @@
 import zipfile
 import csv
 import requests
-import xml.etree.ElementTree as ET
+import defusedxml.ElementTree as ET
 import typing as t
 from datetime import datetime
 from dateutil.parser import parse as parsedate

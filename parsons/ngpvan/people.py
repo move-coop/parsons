@@ -343,7 +343,7 @@ class People(object):
                 id = match_json["vanId"]
 
         if kwargs:
-            match_json.update(kwargs)
+            json.update(kwargs)
 
         url = "people/"
 

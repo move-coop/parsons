@@ -1,5 +1,10 @@
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
+include = [
+    "parsons/**/*.py",
+    "test/**/*.py",
+    "useful_resources/**/*.py"
+]
 exclude = [
     ".bzr",
     ".direnv",
@@ -35,7 +40,7 @@ line-length = 100
 indent-width = 4
 
 # Assume Python 3.8
-target-version = "py38"
+target-version = "py39"
 
 [tool.ruff.lint]
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
@@ -83,4 +88,17 @@ testpaths = [
 filterwarnings = [
     # Warnings triggered by libraries we use (not our own code)
     "ignore:invalid escape sequence:DeprecationWarning"
+]
+
+[tool.bandit]
+exclude_dirs = [
+    ".venv/"
+]
+
+[tool.isort]
+profile = "hug"
+src_paths = [
+    "parsons/",
+    "test/",
+    "useful_resources/"
 ]

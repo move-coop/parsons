@@ -660,7 +660,9 @@ class ETL(object):
             if "uid" not in self.columns:
                 orig.add_column(
                     "uid",
-                    lambda row: hashlib.md5(str.encode("".join([str(x) for x in row]))).hexdigest(),
+                    lambda row: hashlib.md5(
+                        str.encode("".join([str(x) for x in row])), usedforsecurity=False
+                    ).hexdigest(),
                 )
                 orig.move_column("uid", 0)
 
@@ -675,7 +677,9 @@ class ETL(object):
             # Add unique id column by hashing all the other fields
             melted_list.add_column(
                 "uid",
-                lambda row: hashlib.md5(str.encode("".join([str(x) for x in row]))).hexdigest(),
+                lambda row: hashlib.md5(
+                    str.encode("".join([str(x) for x in row])), usedforsecurity=False
+                ).hexdigest(),
             )
             melted_list.move_column("uid", 0)
             output = melted_list

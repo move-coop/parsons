@@ -1,0 +1,176 @@
+name: Python checks
+
+on:
+    push:
+        branches: [ "main", "major-release" ]
+    pull_request:
+        branches: [ "main", "major-release" ]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    test:
+        strategy:
+            fail-fast: false
+            matrix:
+                python-version: ["3.9", "3.10", "3.11", "3.12"]
+                os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+                limited-dependencies: ["", "TRUE"]
+
+        runs-on: ${{ matrix.os }}
+
+        steps:
+            - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+              with:
+                  python-version: ${{ matrix.python-version }}
+
+            - name: Install uv
+              uses: install-pinned/uv@79cef4cccc47c7fb191b653a4184e34d83437a8b  # 0.4.12
+
+            - name: Patch install error when using Python 3.9, limited dependencies, and MacOS
+              if: ${{ matrix.limited-dependencies }} == True and ${{ matrix.os }} == "macos-latest" and ${{ matrix.python-version }} == "3.9"
+              run: uv pip install --system psycopg2-binary==2.9.9
+
+            - name: Install dependencies
+              env:
+                  PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
+              run: |
+                uv pip install --system -e .[all]
+                uv pip install --system -r requirements-dev.txt
+
+            - name: Test with pytest
+              run: |
+                pytest
+
+    ruff-format:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+            - name: Set up Python 3.12
+              uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+              with:
+                  python-version: "3.12"
+
+            - name: Install uv
+              uses: install-pinned/uv@79cef4cccc47c7fb191b653a4184e34d83437a8b  # 0.4.12
+
+            - name: Install dependencies
+              run: |
+                uv pip install --system -r requirements-dev.txt
+
+            - name: Run ruff format
+              run: |
+                ruff format --diff --target-version=py38 .
+
+    ruff:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+            - name: Set up Python 3.12
+              uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+              with:
+                  python-version: "3.12"
+
+            - name: Install uv
+              uses: install-pinned/uv@79cef4cccc47c7fb191b653a4184e34d83437a8b  # 0.4.12
+
+            - name: Install dependencies
+              run: |
+                uv pip install --system -r requirements-dev.txt
+
+            - name: Run ruff
+              run: |
+                ruff check --output-format=github .
+
+    bandit:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+            - name: Set up Python 3.12
+              uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+              with:
+                  python-version: "3.12"
+
+            - name: Install uv
+              uses: install-pinned/uv@79cef4cccc47c7fb191b653a4184e34d83437a8b  # 0.4.12
+
+            - name: Install bandit
+              run: |
+                uv pip install --system -r requirements-dev.txt
+
+            - name: Run bandit scan
+              run: |
+                bandit -c pyproject.toml -r . -ll -ii
+
+    coverage:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+            - name: Set up Python 3.12
+              uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+              with:
+                  python-version: "3.12"
+
+            - name: Install uv
+              uses: install-pinned/uv@79cef4cccc47c7fb191b653a4184e34d83437a8b  # 0.4.12
+
+            - name: Install dependencies
+              run: |
+                uv pip install --system -e .[all]
+                uv pip install --system -r requirements-dev.txt
+
+            - name: Test with pytest
+              run: |
+                coverage run -m pytest
+
+            - name: Check coverage
+              run: |
+                coverage report -m --skip-covered --fail-under=75
+
+    pip-install:
+        strategy:
+            fail-fast: false
+            matrix:
+                python-version: ["3.9", "3.10", "3.11", "3.12"]
+                os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+                limited-dependencies: ["", "TRUE"]
+
+        runs-on: ${{ matrix.os }}
+
+        steps:
+            - name: Harden Runner
+              uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+              with:
+                  egress-policy: audit
+
+            - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+              with:
+                  python-version: ${{ matrix.python-version }}
+                  cache: pip
+
+            - name: Patch install error when using Python 3.9, limited dependencies, and MacOS
+              if: ${{ matrix.limited-dependencies }} == True and ${{ matrix.os }} == "macos-latest" and ${{ matrix.python-version }} == "3.9"
+              run: pip install psycopg2-binary==2.9.9
+
+            - name: Install dependencies
+              env:
+                  PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
+              run: |
+                  pip install -r requirements-dev.txt
+                  pip install -e .[all]

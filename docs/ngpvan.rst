@@ -357,10 +357,22 @@ Codes
 .. autoclass:: parsons.ngpvan.van.Codes
    :inherited-members:
 
+=====
+Contact Notes
+=====
+.. autoclass:: parsons.ngpvan.van.ContactNotes
+   :inherited-members:
+
 =============
 Custom Fields
 =============
 .. autoclass:: parsons.ngpvan.van.CustomFields
+   :inherited-members:
+
+======
+Email
+======
+.. autoclass:: parsons.ngpvan.van.Email
    :inherited-members:
 
 ======

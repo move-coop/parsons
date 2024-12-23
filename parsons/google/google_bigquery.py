@@ -1515,7 +1515,6 @@ class GoogleBigQuery(DatabaseConnector):
                 logger.error(
                     f"Dataset {destination_dataset} does not exist and if_dataset_not_exists set to {if_dataset_not_exists}"
                     )
-                )
 
         job_config = bigquery.CopyJobConfig()
 

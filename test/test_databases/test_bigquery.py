@@ -647,11 +647,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
 
-class TestGoogleBigQueryProjectCopy(TestCase):
-    """
-    test copying from one project to another
-    """
-
+class TestGoogleBigQueryCopyBetweenProjects(TestCase):
     def setUp(self):
         # mock the GoogleBigQuery class
         self.bq = Mock(spec=GoogleBigQuery)

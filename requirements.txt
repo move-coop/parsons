@@ -19,7 +19,7 @@ google-cloud-storage==2.18.2
 grpcio==1.68.1
 gspread==6.1.4
 httplib2==0.22.0
-joblib==1.2.0
+joblib==1.4.2
 mysql-connector-python==9.1.0
 newmode==0.1.6
 oauth2client==4.1.3

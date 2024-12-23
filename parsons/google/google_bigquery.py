@@ -1511,10 +1511,9 @@ class GoogleBigQuery(DatabaseConnector):
                 dataset = bigquery.Dataset(dataset_id)
                 dataset = self.client.create_dataset(dataset, timeout=30)
             else:  # if it doesn't exist and it's not ok to create it, fail
-                logger.error("BigQuery copy failed")
+                logger.error(f"BigQuery copy failed")
                 logger.error(
-                    "Dataset {0} does not exist and if_dataset_not_exists set to {1}".format(
-                        destination_dataset, if_dataset_not_exists
+                    f"Dataset {destination_dataset} does not exist and if_dataset_not_exists set to {if_dataset_not_exists}"
                     )
                 )
 
@@ -1532,8 +1531,7 @@ class GoogleBigQuery(DatabaseConnector):
                 result = job.result()
             else:
                 logger.error(
-                    "BigQuery copy failed, Table {0} exists and if_table_exists set to {1}".format(
-                        destination_table, if_table_exists
+                    f"BigQuery copy failed, Table {destination_table} exists and if_table_exists set to {if_table_exists}"
                     )
                 )
 

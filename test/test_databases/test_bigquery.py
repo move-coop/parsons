@@ -718,7 +718,7 @@ class TestGoogleBigQueryCopyBetweenProjects(TestCase):
                     self.destination_dataset, self.if_dataset_not_exists
                 ),
             )
-        ) 
+        )
 
     @log_capture()
     def test_logger_fail_on_table_exists(self, capture):

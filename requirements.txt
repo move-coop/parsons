@@ -7,7 +7,7 @@ bs4==0.0.2
 censusgeocode==0.5.2
 civis==1.16.1
 curlify==2.2.1
-dbt_redshift==1.4.0
+dbt_redshift==1.9.0
 defusedxml>=0.7.1, <=0.8.0
 facebook-business==21.0.5
 google-api-core==2.24.0
@@ -30,7 +30,7 @@ PyGitHub==2.4.0
 python-dateutil==2.8.2
 requests==2.32.3
 requests_oauthlib==2.0.0
-setuptools==70.0.0
+setuptools==75.6.0
 simple-salesforce==1.11.6
 simplejson==3.16.0
 slackclient==1.3.0

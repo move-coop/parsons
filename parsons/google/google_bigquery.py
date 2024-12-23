@@ -1532,7 +1532,6 @@ class GoogleBigQuery(DatabaseConnector):
                 logger.error(
                     f"BigQuery copy failed, Table {destination_table} exists and if_table_exists set to {if_table_exists}"
                     )
-                )
 
         except NotFound:
             # destination table doesn't exist, so we can create one

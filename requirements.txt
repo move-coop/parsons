@@ -9,7 +9,7 @@ civis==1.16.1
 curlify==2.2.1
 dbt_redshift==1.4.0
 defusedxml>=0.7.1, <=0.8.0
-facebook-business==13.0.0
+facebook-business==21.0.5
 google-api-core==2.23.0
 google-api-python-client==1.7.7
 google-auth==2.37.0

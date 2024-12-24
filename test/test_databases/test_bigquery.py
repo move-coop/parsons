@@ -26,12 +26,8 @@ class FakeClient:
     """A Fake Storage Client used for monkey-patching."""
 
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
-    @mock.patch(
-        "parsons.google.google_cloud_storage.load_google_application_credentials"
-    )
-    def __init__(
-        self, load_creds_mock, load_creds_mock_2, project=None, credentials=None
-    ):
+    @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
+    def __init__(self, load_creds_mock, load_creds_mock_2, project=None, credentials=None):
         self.project = project
 
 
@@ -39,15 +35,11 @@ class FakeGoogleCloudStorage(GoogleCloudStorage):
     """A Fake GoogleCloudStorage object used to test setting up credentials."""
 
     @mock.patch("google.cloud.storage.Client", FakeClient)
-    @mock.patch(
-        "parsons.google.google_cloud_storage.load_google_application_credentials"
-    )
+    @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     def __init__(self, load_creds_mock):
         super().__init__(None, None)
 
-    def upload_table(
-        self, table, bucket_name, blob_name, data_type="csv", default_acl=None
-    ):
+    def upload_table(self, table, bucket_name, blob_name, data_type="csv", default_acl=None):
         pass
 
     def delete_blob(self, bucket_name, blob_name):
@@ -129,12 +121,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         # Check that queries and transaction keywords are included in sql
         self.assertTrue(
-            all(
-                [
-                    text in keyword_args["sql"]
-                    for text in queries + ["BEGIN TRANSACTION", "COMMIT"]
-                ]
-            )
+            all([text in keyword_args["sql"] for text in queries + ["BEGIN TRANSACTION", "COMMIT"]])
         )
         self.assertEqual(keyword_args["parameters"], parameters)
         self.assertFalse(keyword_args["return_values"])
@@ -158,9 +145,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(
-            job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY
-        )
+        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY)
 
     def test_copy_gcs__if_exists_truncate(self):
         # setup dependencies / inputs
@@ -182,9 +167,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(
-            job_config.write_disposition, bigquery.WriteDisposition.WRITE_TRUNCATE
-        )
+        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_TRUNCATE)
 
     def test_copy_gcs__if_exists_append(self):
         # setup dependencies / inputs
@@ -206,9 +189,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(
-            job_config.write_disposition, bigquery.WriteDisposition.WRITE_APPEND
-        )
+        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_APPEND)
 
     def test_copy_gcs__if_exists_fail(self):
         # setup dependencies / inputs
@@ -272,15 +253,9 @@ class TestGoogleBigQuery(FakeCredentialTest):
             )
 
     @mock.patch("google.cloud.storage.Client")
-    @mock.patch(
-        "parsons.google.google_cloud_storage.load_google_application_credentials"
-    )
-    @mock.patch.object(
-        GoogleCloudStorage, "split_uri", return_value=("tmp", "file.gzip")
-    )
-    @mock.patch.object(
-        GoogleCloudStorage, "unzip_blob", return_value="gs://tmp/file.csv"
-    )
+    @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
+    @mock.patch.object(GoogleCloudStorage, "split_uri", return_value=("tmp", "file.gzip"))
+    @mock.patch.object(GoogleCloudStorage, "unzip_blob", return_value="gs://tmp/file.csv")
     def test_copy_large_compressed_file_from_gcs(
         self, unzip_mock: mock.MagicMock, split_mock: mock.MagicMock, *_
     ):
@@ -314,9 +289,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(load_call_args[1]["source_uris"], "gs://tmp/file.csv")
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(
-            job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY
-        )
+        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY)
 
     def test_copy_s3(self):
         # setup dependencies / inputs
@@ -398,17 +371,13 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(delete_call_args[0][0], self.tmp_gcs_bucket)
         self.assertEqual(delete_call_args[0][1], tmp_blob_name)
 
-    @mock.patch(
-        "parsons.google.google_cloud_storage.load_google_application_credentials"
-    )
+    @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
     def test_copy__credentials_are_correctly_set__from_filepath(
         self, load_creds_mock, load_creds_mock_2
     ):
         tbl = self.default_table
-        bq = self._build_mock_client_for_copying(
-            table_exists=False, app_creds=self.cred_path
-        )
+        bq = self._build_mock_client_for_copying(table_exists=False, app_creds=self.cred_path)
 
         # Pass in our fake GCS Client.
         bq.copy(
@@ -426,9 +395,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
                 self.assertEqual(actual_str, fexpected.read())
                 self.assertEqual(self.cred_contents, json.loads(actual_str))
 
-    @mock.patch(
-        "parsons.google.google_cloud_storage.load_google_application_credentials"
-    )
+    @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
     def test_copy__credentials_are_correctly_set__from_env(
         self, load_creds_mock, load_creds_mock_2
@@ -456,9 +423,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
                 self.assertEqual(actual_str, fexpected.read())
                 self.assertEqual(self.cred_contents, json.loads(actual_str))
 
-    @mock.patch(
-        "parsons.google.google_cloud_storage.load_google_application_credentials"
-    )
+    @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
     def test_copy__credentials_are_correctly_set__from_dict(
         self, load_creds_mock, load_creds_mock_2
@@ -466,9 +431,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         tbl = self.default_table
         with open(self.cred_path) as file:
             cred_dict = json.loads(file.read())
-        bq = self._build_mock_client_for_copying(
-            table_exists=False, app_creds=cred_dict
-        )
+        bq = self._build_mock_client_for_copying(table_exists=False, app_creds=cred_dict)
 
         # Pass in our fake GCS Client.
         bq.copy(

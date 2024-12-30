@@ -27,7 +27,7 @@ paramiko==3.5.0
 petl==1.7.15
 psycopg2-binary==2.9.9
 PyGitHub==2.4.0
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
 requests==2.32.3
 requests_oauthlib==2.0.0
 setuptools==75.6.0

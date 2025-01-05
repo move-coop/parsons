@@ -7,12 +7,12 @@ bs4==0.0.2
 censusgeocode==0.5.2
 civis==1.16.1
 curlify==2.2.1
-dbt_redshift==1.4.0
+dbt_redshift==1.9.0
 defusedxml>=0.7.1, <=0.8.0
-facebook-business==13.0.0
-google-api-core==2.23.0
+facebook-business==21.0.5
+google-api-core==2.24.0
 google-api-python-client==1.7.7
-google-auth==2.29.0
+google-auth==2.37.0
 google-cloud-bigquery==3.26.0
 google-cloud-storage-transfer==1.9.1
 google-cloud-storage==2.18.2
@@ -23,14 +23,14 @@ joblib==1.2.0
 mysql-connector-python==9.1.0
 newmode==0.1.6
 oauth2client==4.1.3
-paramiko==3.4.0
+paramiko==3.5.0
 petl==1.7.15
 psycopg2-binary==2.9.9
 PyGitHub==2.4.0
 python-dateutil==2.8.2
 requests==2.32.3
-requests_oauthlib==1.3.0
-setuptools==70.0.0
+requests_oauthlib==2.0.0
+setuptools==75.6.0
 simple-salesforce==1.11.6
 simplejson==3.16.0
 slackclient==1.3.0
@@ -40,7 +40,7 @@ surveygizmo==1.2.3
 twilio==9.3.8
 urllib3==1.26.19
 validate-email==1.3
-xmltodict==0.14.1
+xmltodict==0.14.2
 
 # Stuff for TMC scripts
 # TODO Remove when we have a TMC-specific Docker image

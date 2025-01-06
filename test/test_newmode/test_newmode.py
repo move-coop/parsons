@@ -4,7 +4,7 @@ import unittest.mock as mock
 import requests_mock
 from parsons import Newmode, Table
 from test.utils import assert_matching_tables
-import test.test_newmode.test_data as test_data
+from test.test_newmode import test_data
 
 CLIENT_ID = "fakeClientID"
 CLIENT_SECRET = "fakeClientSecret"

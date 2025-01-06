@@ -73,7 +73,6 @@ for module_path, connector_name in (
     ("parsons.mobilize_america.ma", "MobilizeAmerica"),
     ("parsons.nation_builder.nation_builder", "NationBuilder"),
     ("parsons.newmode.newmode", "Newmode"),
-    ("parsons.newmode.newmode_v2", "NewmodeV2"),
     ("parsons.ngpvan.van", "VAN"),
     ("parsons.notifications.gmail", "Gmail"),
     ("parsons.notifications.slack", "Slack"),

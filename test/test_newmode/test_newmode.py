@@ -4,7 +4,7 @@ import unittest.mock as mock
 import requests_mock
 from parsons import Newmode, Table
 from test.utils import assert_matching_tables
-from test.test_newmode import test_data
+from test.test_newmode import test_newmode_data
 
 CLIENT_ID = "fakeClientID"
 CLIENT_SECRET = "fakeClientSecret"
@@ -182,7 +182,7 @@ class TestNewmodeV2(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_campaign(self, m):
-        json_response = test_data.get_campaign_json_response
+        json_response = test_newmode_data.get_campaign_json_response
         tbl = Table([json_response])
         m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
         m.get(
@@ -194,7 +194,7 @@ class TestNewmodeV2(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_campaign_ids(self, m):
         lst = ["testCampaingID"]
-        json_response = test_data.get_campaign_ids_json_response
+        json_response = test_newmode_data.get_campaign_ids_json_response
         m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
         m.get(f"{V2_API_CAMPAIGNS_URL}jsonapi/node/action", json=json_response)
         assert_matching_tables(self.nm.get_campaign_ids(), lst)
@@ -202,7 +202,7 @@ class TestNewmodeV2(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_recipient(self, m):
         self.city = "Vancouver"
-        json_response = test_data.get_recipient_json_response
+        json_response = test_newmode_data.get_recipient_json_response
 
         tbl = Table([json_response])
         m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
@@ -213,7 +213,7 @@ class TestNewmodeV2(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_run_submit(self, m):
-        json_response = test_data.run_submit_json_response
+        json_response = test_newmode_data.run_submit_json_response
         json_input = {
             "action_id": self.campaign_id,
             "first_name": "TestFirstName",

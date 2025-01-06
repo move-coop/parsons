@@ -174,9 +174,10 @@ class TestNewmodeV2(unittest.TestCase):
     @requests_mock.Mocker()
     def setUp(self, m):
         m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
-        self.nm = Newmode(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, api_version="v2.1")
+        api_version="v2.1"
+        self.nm = Newmode(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, api_version=api_version)
         self.campaign_id = "fakeCampaignID"
-        self.base_url = f"{V2_API_URL}{self.api_version}"
+        self.base_url = f"{V2_API_URL}{api_version}"
 
     @requests_mock.Mocker()
     def test_get_campaign(self, m):

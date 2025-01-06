@@ -2,7 +2,7 @@ import os
 import unittest
 import unittest.mock as mock
 import requests_mock
-from parsons import Newmode
+from parsons import Newmode, Table
 from test.utils import assert_matching_tables
 
 CLIENT_ID = "fakeClientID"

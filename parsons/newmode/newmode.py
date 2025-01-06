@@ -584,7 +584,7 @@ class Newmode:
                 env variable set.
             api_version: str
                 The api version to use. Defaults to v1.0
-            
+
         Returns:
             NewMode Class
         """

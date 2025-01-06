@@ -2,7 +2,7 @@ import os
 import unittest
 import unittest.mock as mock
 import requests_mock
-from parsons import NewmodeV1, NewmodeV2
+from parsons import Newmode
 from test.utils import assert_matching_tables
 
 CLIENT_ID = "fakeClientID"
@@ -19,7 +19,7 @@ class TestNewmodeV1(unittest.TestCase):
         os.environ["NEWMODE_API_USER"] = "MYFAKEUSERNAME"
         os.environ["NEWMODE_API_PASSWORD"] = "MYFAKEPASSWORD"
 
-        self.nm = NewmodeV1()
+        self.nm = Newmode()
         self.nm.client = mock.MagicMock()
 
         self.nm.client.getTools.return_value = [
@@ -174,9 +174,8 @@ class TestNewmodeV2(unittest.TestCase):
     @requests_mock.Mocker()
     def setUp(self, m):
         m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
-        self.nm = NewmodeV2(CLIENT_ID, CLIENT_SECRET)
+        self.nm = Newmode(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, api_version="v2.1")
         self.campaign_id = "fakeCampaignID"
-        self.api_version = "v2.1"
         self.base_url = f"{V2_API_URL}{self.api_version}"
 
     @requests_mock.Mocker()

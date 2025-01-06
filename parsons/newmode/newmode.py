@@ -339,14 +339,14 @@ class NewmodeV2:
         """
         Instantiate Class
         `Args`:
-            api_user: str
-                The username to use for the API requests. Not required if ``NEWMODE_V2_API_URL``
+            client_id: str
+                The client id to use for the API requests. Not required if ``NEWMODE_API_CLIENT_ID``
                 env variable set.
-            api_password: str
-                The password to use for the API requests. Not required if ``NEWMODE_API_PASSWORD``
+            client_secret: str
+                The client secret to use for the API requests. Not required if ``NEWMODE_API_CLIENT_SECRET``
                 env variable set.
             api_version: str
-                The api version to use. Defaults to v1.0
+                The api version to use. Defaults to v2.1
         Returns:
             NewMode Class
         """
@@ -566,6 +566,28 @@ class Newmode:
         api_password=None,
         api_version="v1.0",
     ):
+        """
+        Create and return Newmode instance based on chosen version (V1 or V2)
+
+        `Args`:
+            api_user: str
+                The Newmode api user. Not required if ``NEWMODE_API_USER`` env variable is
+                passed.
+            api_password: str
+                The Newmode api password. Not required if ``NEWMODE_API_PASSWORD`` env variable is
+                passed.
+            client_id: str
+                The client id to use for the API requests. Not required if ``NEWMODE_API_CLIENT_ID``
+                env variable set.
+            client_secret: str
+                The client secret to use for the API requests. Not required if ``NEWMODE_API_CLIENT_SECRET``
+                env variable set.
+            api_version: str
+                The api version to use. Defaults to v1.0
+            
+        Returns:
+            NewMode Class
+        """
         if "v2" in api_version:
             return NewmodeV2(
                 client_id=client_id, client_secret=client_secret, api_version=api_version

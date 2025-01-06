@@ -367,6 +367,9 @@ class NewmodeV2:
         return table
 
     def base_request(self, method, url, data=None, json=None, data_key=None, params={}):
+        """
+        Internal method to make a call to Newmode API and validate the response
+        """
         response = None
         response = self.client.request(
             url=url, req_type=method, json=json, data=data, params=params
@@ -393,6 +396,7 @@ class NewmodeV2:
         convert_to_table=True,
         data_key=None,
     ):
+        """Internal method to make a call to the Newmode API and convert the result to a Parsons table."""
         self.client = OAuth2APIConnector(
             uri=self.base_url,
             auto_refresh_url=V2_API_AUTH_URL,

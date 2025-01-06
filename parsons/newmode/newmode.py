@@ -9,6 +9,12 @@ logger = logging.getLogger(__name__)
 V2_API_URL = "https://base.newmode.net/api/"
 V2_API_AUTH_URL = "https://base.newmode.net/oauth/token/"
 V2_API_CAMPAIGNS_URL = "https://base.newmode.net/"
+V2_API_CAMPAIGNS_VERSION = "jsonapi"
+V2_API_CAMPAIGNS_HEADERS = {
+    "content-type": "application/vnd.api+json",
+    "accept": "application/vnd.api+json",
+    "authorization": "Bearer 1234567890",
+}
 
 
 class NewmodeV1:
@@ -32,8 +38,7 @@ class NewmodeV1:
         )
         self.api_user = check_env.check("NEWMODE_API_USER", api_user)
         self.api_password = check_env.check("NEWMODE_API_PASSWORD", api_password)
-        self.api_version = check_env.check("NEWMODE_API_VERSION", api_version)
-
+        self.api_version = api_version
         self.client = Client(api_user, api_password, api_version)
 
     def convert_to_table(self, data):
@@ -330,6 +335,7 @@ class NewmodeV1:
 
 
 class NewmodeV2:
+    # TODO: Add param definition and requirements once official Newmode docs are published
     def __init__(
         self,
         client_id=None,
@@ -350,27 +356,48 @@ class NewmodeV2:
         Returns:
             NewMode Class
         """
-        self.api_version = check_env.check("NEWMODE_API_VERSION", api_version)
+        self.api_version = api_version
         self.base_url = V2_API_URL
         self.client_id = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
-        self.__client_secret = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
+        self.client_secret = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
         self.headers = {"content-type": "application/json"}
 
-    def convert_to_table(self, data):
-        """Internal method to create a Parsons table from a data element."""
-        table = None
-        if type(data) is list:
-            table = Table(data)
+    def base_request(
+        self,
+        method,
+        url,
+        endpoint,
+        data=None,
+        json=None,
+        data_key=None,
+        params={},
+        is_get_campaign_ids_method=False,
+        supports_version=True,
+    ):
+        """
+        Internal method to instantiate OAuth2APIConnector class,
+        make a call to Newmode API, and validate the response.
+        """
+        if is_get_campaign_ids_method:
+            base_uri = V2_API_CAMPAIGNS_URL
+            api_version = V2_API_CAMPAIGNS_VERSION
+            headers = V2_API_CAMPAIGNS_HEADERS
         else:
-            table = Table([data])
+            base_uri = self.base_url
+            api_version = self.api_version
+            headers = self.headers
 
-        return table
+        self.client = OAuth2APIConnector(
+            uri=base_uri,
+            auto_refresh_url=V2_API_AUTH_URL,
+            client_id=self.client_id,
+            client_secret=self.client_secret,
+            headers=headers,
+            token_url=V2_API_AUTH_URL,
+            grant_type="client_credentials",
+        )
 
-    def base_request(self, method, url, data=None, json=None, data_key=None, params={}):
-        """
-        Internal method to make a call to Newmode API and validate the response
-        """
-        response = None
+        url = f"{api_version}/{endpoint}" if supports_version else endpoint
         response = self.client.request(
             url=url, req_type=method, json=json, data=data, params=params
         )
@@ -378,12 +405,9 @@ class NewmodeV2:
         success_codes = [200, 201, 202, 204]
         self.client.validate_response(response)
         if response.status_code in success_codes:
-            if self.client.json_check(response):
-                response_json = response.json()
-                return response_json[data_key] if data_key else response_json
-            else:
-                return response.status_code
-        return response
+            response_json = response.json() if self.client.json_check(response) else None
+            return response_json[data_key] if data_key and response_json else response_json
+        raise Exception(f"API request encountered an error. Response: {response}")
 
     def converted_request(
         self,
@@ -395,31 +419,21 @@ class NewmodeV2:
         params={},
         convert_to_table=True,
         data_key=None,
+        is_get_campaign_ids_method=False,
     ):
         """Internal method to make a call to the Newmode API and convert the result to a Parsons table."""
-        self.client = OAuth2APIConnector(
-            uri=self.base_url,
-            auto_refresh_url=V2_API_AUTH_URL,
-            client_id=self.client_id,
-            client_secret=self.__client_secret,
-            headers=self.headers,
-            token_url=V2_API_AUTH_URL,
-            grant_type="client_credentials",
-        )
-
-        url = f"{self.api_version}/{endpoint}" if supports_version else endpoint
         response = self.base_request(
             method=method,
-            url=url,
             json=json,
             data=data,
             params=params,
             data_key=data_key,
+            is_get_campaign_ids_method=is_get_campaign_ids_method,
+            supports_version=supports_version,
+            endpoint=endpoint,
         )
-        if not response:
-            logging.warning(f"Empty result returned from endpoint: {endpoint}")
         if convert_to_table:
-            return self.convert_to_table(response)
+            return OAuth2APIConnector.convert_to_table(response)
         else:
             return response
 
@@ -437,12 +451,12 @@ class NewmodeV2:
             Parsons Table containing campaign data.
         """
         endpoint = f"/campaign/{campaign_id}/form"
-        response = self.converted_request(
+        data = self.converted_request(
             endpoint=endpoint,
             method="GET",
             params=params,
         )
-        return response
+        return data
 
     def get_campaign_ids(self, params={}):
         """
@@ -456,18 +470,15 @@ class NewmodeV2:
         `Returns:`
             List containing all campaign ids.
         """
-        self.base_url = V2_API_CAMPAIGNS_URL
-        self.api_version = "jsonapi"
-        self.headers = {
-            "content-type": "application/vnd.api+json",
-            "accept": "application/vnd.api+json",
-            "authorization": "Bearer 1234567890",
-        }
         endpoint = "node/action"
-        response = self.converted_request(
-            endpoint=endpoint, method="GET", params=params, data_key="data"
+        data = self.converted_request(
+            endpoint=endpoint,
+            method="GET",
+            params=params,
+            data_key="data",
+            is_get_campaign_ids_method=True,
         )
-        return response["id"]
+        return data["id"]
 
     def get_recipient(
         self,
@@ -502,9 +513,11 @@ class NewmodeV2:
             "postal_code": postal_code,
             "region": region,
         }
-        if all(x is None for x in address_params.values()):
-            logger.error("Please specify a street address, city, postal code, and/or region.")
-            raise Exception("Incomplete Request")
+        all_address_params_are_missing = all(x is None for x in address_params.values())
+        if all_address_params_are_missing:
+            raise ValueError(
+                "Incomplete Request. Please specify a street address, city, postal code, and/or region."
+            )
 
         params = {f"address[value][{key}]": value for key, value in address_params.items() if value}
         response = self.converted_request(
@@ -572,25 +585,30 @@ class Newmode:
         `Args`:
             api_user: str
                 The Newmode api user. Not required if ``NEWMODE_API_USER`` env variable is
-                passed.
+                passed. Needed for V1.
             api_password: str
                 The Newmode api password. Not required if ``NEWMODE_API_PASSWORD`` env variable is
-                passed.
+                passed. Needed for V1.
             client_id: str
                 The client id to use for the API requests. Not required if ``NEWMODE_API_CLIENT_ID``
-                env variable set.
+                env variable set. Needed for V2.
             client_secret: str
                 The client secret to use for the API requests. Not required if ``NEWMODE_API_CLIENT_SECRET``
-                env variable set.
+                env variable set. Needed for V2.
             api_version: str
-                The api version to use. Defaults to v1.0
+                The api version to use. Defaults to v1.0.
 
         Returns:
             NewMode Class
         """
-        if "v2" in api_version:
+        api_version = check_env.check("NEWMODE_API_VERSION", api_version)
+        if api_version.startswith("v2"):
+            if not client_id or client_secret:
+                raise ValueError("Missing client_id and/or client_secret")
             return NewmodeV2(
                 client_id=client_id, client_secret=client_secret, api_version=api_version
             )
         else:
+            if not api_user or api_password:
+                raise ValueError("Missing api_user and/or api_password")
             return NewmodeV1(api_user=api_user, api_password=api_password, api_version=api_version)

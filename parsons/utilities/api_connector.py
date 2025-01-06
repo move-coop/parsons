@@ -3,6 +3,7 @@ from requests.exceptions import HTTPError
 import logging
 import urllib.parse
 from simplejson.errors import JSONDecodeError
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
@@ -306,3 +307,13 @@ class APIConnector(object):
             return True
         except JSONDecodeError:
             return False
+
+    def convert_to_table(self, data):
+        """Internal method to create a Parsons table from a data element."""
+        table = None
+        if type(data) is list:
+            table = Table(data)
+        else:
+            table = Table([data])
+
+        return table

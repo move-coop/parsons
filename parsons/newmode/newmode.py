@@ -432,7 +432,7 @@ class NewmodeV2:
             endpoint=endpoint,
         )
         if convert_to_table:
-            return OAuth2APIConnector.convert_to_table(data=response)
+            return self.client.convert_to_table(data=response)
         else:
             return response
 

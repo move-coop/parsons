@@ -365,7 +365,6 @@ class NewmodeV2:
     def base_request(
         self,
         method,
-        url,
         endpoint,
         data=None,
         json=None,

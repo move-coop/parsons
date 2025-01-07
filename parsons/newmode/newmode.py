@@ -603,12 +603,12 @@ class Newmode:
         """
         api_version = check_env.check("NEWMODE_API_VERSION", api_version)
         if api_version.startswith("v2"):
-            if not client_id or client_secret:
+            if not (client_id and client_secret):
                 raise ValueError("Missing client_id and/or client_secret")
             return NewmodeV2(
                 client_id=client_id, client_secret=client_secret, api_version=api_version
             )
         else:
-            if not api_user or api_password:
+            if not (api_user and api_password):
                 raise ValueError("Missing api_user and/or api_password")
             return NewmodeV1(api_user=api_user, api_password=api_password, api_version=api_version)

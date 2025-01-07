@@ -36,8 +36,8 @@ class NewmodeV1:
         logger.warning(
             "Newmode V1 API will be sunset in Feburary 2025. To use V2, set api_version=v2.1"
         )
-        self.api_user = api_user
-        self.api_password = api_password
+        self.api_user = check_env.check("NEWMODE_API_USER", api_user)
+        self.api_password = check_env.check("NEWMODE_API_PASSWORD", api_password)
         self.api_version = api_version
         self.client = Client(api_user, api_password, api_version)
 
@@ -358,8 +358,8 @@ class NewmodeV2:
         """
         self.api_version = api_version
         self.base_url = V2_API_URL
-        self.client_id = client_id
-        self.client_secret = client_secret
+        self.client_id = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
+        self.client_secret = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
         self.headers = {"content-type": "application/json"}
 
     def base_request(
@@ -601,11 +601,6 @@ class Newmode:
             NewMode Class
         """
         api_version = check_env.check("NEWMODE_API_VERSION", api_version)
-        client_id = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
-        client_secret = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
-        api_user = check_env.check("NEWMODE_API_USER", api_user)
-        api_password = check_env.check("NEWMODE_API_PASSWORD", api_password)
-
         if api_version.startswith("v2"):
             return NewmodeV2(
                 client_id=client_id, client_secret=client_secret, api_version=api_version

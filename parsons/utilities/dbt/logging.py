@@ -14,6 +14,7 @@ from rich.markdown import Markdown
 
 from parsons import Table
 from parsons.databases.database_connector import DatabaseConnector
+from parsons.utilities.dbt.models import EnhancedNodeResult
 
 logger = logging.getLogger(__name__)
 
@@ -100,7 +101,7 @@ class dbtLoggerMarkdown(dbtLogger):
             log_message += "\nError messages:\n```{}```".format(
                 "\n\n".join(
                     [
-                        i.node.name + ": " + (i.message or "")
+                        i.node.name + ": " + (EnhancedNodeResult.log_message(i) or "")
                         for i in [*manifest.errors, *manifest.fails]
                     ]
                 )
@@ -109,7 +110,12 @@ class dbtLoggerMarkdown(dbtLogger):
         # Warnings
         if manifest.warnings:
             log_message += "\nWarn messages:\n```{}```".format(
-                "\n\n".join([i.node.name + ": " + (i.message or "") for i in manifest.warnings])
+                "\n\n".join(
+                    [
+                        i.node.name + ": " + (EnhancedNodeResult.log_message(i) or "")
+                        for i in manifest.warnings
+                    ]
+                )
             )
 
         # Skips

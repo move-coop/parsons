@@ -3,6 +3,7 @@
 import collections
 from dbt.contracts.graph.manifest import Manifest as dbtManifest
 from dbt.contracts.results import NodeResult
+from dbt.contracts.results import SourceFreshnessResult
 
 
 class Manifest:
@@ -73,4 +74,17 @@ class Manifest:
         result = (
             sum([node.adapter_response.get("slot_ms", 0) for node in self.dbt_manifest]) / 3600000
         )
+        return result
+
+
+class EnhancedNodeResult(NodeResult):
+    def log_message(self) -> str | None:
+        """Helper method to generate message for logs."""
+        if isinstance(self, SourceFreshnessResult):
+            freshness_config = self.node.freshness
+            time_config = getattr(freshness_config, self.status + "_after")
+            result = f"No new records for {int(self.age/86400)} days, {self.status} after {time_config.count} {time_config.period}s."
+        else:
+            result = self.message
+
         return result

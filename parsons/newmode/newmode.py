@@ -361,6 +361,15 @@ class NewmodeV2:
         self.client_id = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
         self.client_secret = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
         self.headers = {"content-type": "application/json"}
+        self.default_client = OAuth2APIConnector(
+            uri=self.base_url,
+            auto_refresh_url=V2_API_AUTH_URL,
+            client_id=self.client_id,
+            client_secret=self.client_secret,
+            headers=self.headers,
+            token_url=V2_API_AUTH_URL,
+            grant_type="client_credentials",
+        )
 
     def base_request(
         self,
@@ -370,39 +379,23 @@ class NewmodeV2:
         json=None,
         data_key=None,
         params={},
-        is_get_campaign_ids_method=False,
         supports_version=True,
+        client=None,
+        override_api_version=None,
     ):
         """
         Internal method to instantiate OAuth2APIConnector class,
         make a call to Newmode API, and validate the response.
         """
-        if is_get_campaign_ids_method:
-            base_uri = V2_API_CAMPAIGNS_URL
-            api_version = V2_API_CAMPAIGNS_VERSION
-            headers = V2_API_CAMPAIGNS_HEADERS
-        else:
-            base_uri = self.base_url
-            api_version = self.api_version
-            headers = self.headers
-
-        self.client = OAuth2APIConnector(
-            uri=base_uri,
-            auto_refresh_url=V2_API_AUTH_URL,
-            client_id=self.client_id,
-            client_secret=self.client_secret,
-            headers=headers,
-            token_url=V2_API_AUTH_URL,
-            grant_type="client_credentials",
-        )
-
+        client = client if client else self.default_client
+        api_version = override_api_version if override_api_version else self.api_version
         url = f"{api_version}/{endpoint}" if supports_version else endpoint
         response = self.client.request(
             url=url, req_type=method, json=json, data=data, params=params
         )
         response.raise_for_status()
         success_codes = [200, 201, 202, 204]
-        self.client.validate_response(response)
+        client.validate_response(response)
         if response.status_code in success_codes:
             response_json = response.json() if self.client.json_check(response) else None
             return response_json[data_key] if data_key and response_json else response_json
@@ -418,7 +411,8 @@ class NewmodeV2:
         params={},
         convert_to_table=True,
         data_key=None,
-        is_get_campaign_ids_method=False,
+        client=None,
+        override_api_version=None,
     ):
         """Internal method to make a call to the Newmode API and convert the result to a Parsons table."""
         response = self.base_request(
@@ -427,9 +421,10 @@ class NewmodeV2:
             data=data,
             params=params,
             data_key=data_key,
-            is_get_campaign_ids_method=is_get_campaign_ids_method,
             supports_version=supports_version,
             endpoint=endpoint,
+            client=client,
+            override_api_version=override_api_version,
         )
         if convert_to_table:
             return self.client.convert_to_table(data=response)
@@ -470,12 +465,23 @@ class NewmodeV2:
             List containing all campaign ids.
         """
         endpoint = "node/action"
+        campaigns_client = OAuth2APIConnector(
+            uri=V2_API_CAMPAIGNS_URL,
+            auto_refresh_url=V2_API_AUTH_URL,
+            client_id=self.client_id,
+            client_secret=self.client_secret,
+            headers=V2_API_CAMPAIGNS_HEADERS,
+            token_url=V2_API_AUTH_URL,
+            grant_type="client_credentials",
+        )
+
         data = self.converted_request(
             endpoint=endpoint,
             method="GET",
             params=params,
             data_key="data",
-            is_get_campaign_ids_method=True,
+            client=campaigns_client,
+            override_api_version=V2_API_CAMPAIGNS_VERSION,
         )
         return data["id"]
 

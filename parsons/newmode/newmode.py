@@ -375,29 +375,28 @@ class NewmodeV2:
         self,
         method,
         endpoint,
+        client,
         data=None,
         json=None,
         data_key=None,
         params={},
         supports_version=True,
-        client=None,
         override_api_version=None,
     ):
         """
         Internal method to instantiate OAuth2APIConnector class,
         make a call to Newmode API, and validate the response.
         """
-        client = client if client else self.default_client
         api_version = override_api_version if override_api_version else self.api_version
         url = f"{api_version}/{endpoint}" if supports_version else endpoint
-        response = self.client.request(
+        response = client.request(
             url=url, req_type=method, json=json, data=data, params=params
         )
         response.raise_for_status()
         success_codes = [200, 201, 202, 204]
         client.validate_response(response)
         if response.status_code in success_codes:
-            response_json = response.json() if self.client.json_check(response) else None
+            response_json = response.json() if client.json_check(response) else None
             return response_json[data_key] if data_key and response_json else response_json
         raise Exception(f"API request encountered an error. Response: {response}")
 
@@ -415,6 +414,8 @@ class NewmodeV2:
         override_api_version=None,
     ):
         """Internal method to make a call to the Newmode API and convert the result to a Parsons table."""
+
+        client = client if client else self.default_client
         response = self.base_request(
             method=method,
             json=json,
@@ -426,8 +427,9 @@ class NewmodeV2:
             client=client,
             override_api_version=override_api_version,
         )
+
         if convert_to_table:
-            return self.client.convert_to_table(data=response)
+            return client.convert_to_table(data=response)
         else:
             return response
 

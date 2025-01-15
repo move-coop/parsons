@@ -389,9 +389,7 @@ class NewmodeV2:
         """
         api_version = override_api_version if override_api_version else self.api_version
         url = f"{api_version}/{endpoint}" if supports_version else endpoint
-        response = client.request(
-            url=url, req_type=method, json=json, data=data, params=params
-        )
+        response = client.request(url=url, req_type=method, json=json, data=data, params=params)
         response.raise_for_status()
         success_codes = [200, 201, 202, 204]
         client.validate_response(response)

@@ -1946,3 +1946,20 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/unique_id_lists
         """
         return self.api.get_request(f"unique_id_lists/{unique_id_list_id}")
+
+    def create_unique_id_list(self, list_name, unique_ids):
+        """
+        `Args:`
+            list_name:
+                The name for the new list
+            unique_ids:
+                An array of unique IDs to upload
+        `Returns:`
+            200 Ok if successful
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/unique_id_lists
+        """
+        return self.api.post_request(
+            "unique_id_lists",
+            data=json.dumps({"name": list_name, "unique_ids": unique_ids}),
+        )

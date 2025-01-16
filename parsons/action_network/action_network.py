@@ -1955,7 +1955,7 @@ class ActionNetwork(object):
             unique_ids:
                 An array of unique IDs to upload
         `Returns:`
-            200 Ok if successful
+            A JSON response with the unique ID list details
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/unique_id_lists
         """

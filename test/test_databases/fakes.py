@@ -1,13 +1,20 @@
 from parsons.etl.table import Table
 import logging
+from parsons.databases.database_connector import DatabaseConnector
 
 logger = logging.getLogger(__name__)
 
 
-class FakeDatabase:
+class FakeDatabase(DatabaseConnector):
     def __init__(self):
         self.table_map = {}
         self.copy_call_args = []
+
+    def query(self, sql: str, parameters: list | dict | None = None) -> Table:
+        return Table()
+
+    def table_exists(self, table_name: str) -> bool:
+        return table_name in self.table_map
 
     def setup_table(self, table_name, data, failures=0):
         self.table_map[table_name] = {
@@ -91,12 +98,20 @@ class FakeTable:
         return self.data is not None
 
     def get_rows(self, offset=0, chunk_size=None, order_by=None):
+        if not self.data:
+            return self.data
+
         data = self.data.cut(*self.data.columns)
 
         if order_by:
             data.sort(order_by)
 
-        return Table(data[offset : chunk_size + offset])
+        if chunk_size:
+            subset = data[offset : chunk_size + offset]
+        else:
+            subset = data[offset:]
+
+        return Table(subset)
 
     def get_new_rows_count(self, primary_key_col, start_value=None):
         data = self.data.select_rows(lambda row: row[primary_key_col] > start_value)

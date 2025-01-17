@@ -1,5 +1,9 @@
 import os
 import unittest
+from parsons import Postgres, DBSync, Table, Redshift
+from parsons.databases.database_connector import DatabaseConnector
+import tempfile
+from parsons.databases.sqlite import Sqlite
 from abc import ABC
 from typing import Optional, Type
 
@@ -42,7 +46,9 @@ class TestDBSync(ABC, unittest.TestCase):
             f"{self.temp_schema}.source_table" if self.temp_schema else "source_table"
         )
         self.destination_table = (
-            f"{self.temp_schema}.destination_table" if self.temp_schema else "destination_table"
+            f"{self.temp_schema}.destination_table"
+            if self.temp_schema
+            else "destination_table"
         )
 
         # Create source table
@@ -65,7 +71,9 @@ class TestDBSync(ABC, unittest.TestCase):
 
     def assert_matching_tables(self) -> None:
         source = self.source_db.query(f"SELECT * FROM {self.source_table}")
-        destination = self.destination_db.query(f"SELECT * FROM {self.destination_table}")
+        destination = self.destination_db.query(
+            f"SELECT * FROM {self.destination_table}"
+        )
         assert_matching_tables(source, destination)
 
     def table_sync_full(self, if_exists: str, **kwargs):
@@ -101,7 +109,9 @@ class TestDBSync(ABC, unittest.TestCase):
     def test_table_sync_full_chunk(self):
         # Test chunking in full sync.
         self.db_sync.chunk_size = 10
-        self.db_sync.table_sync_full(self.source_table, self.destination_table, if_exists="drop")
+        self.db_sync.table_sync_full(
+            self.source_table, self.destination_table, if_exists="drop"
+        )
         self.assert_matching_tables()
 
     def test_table_sync_incremental(self):
@@ -109,7 +119,9 @@ class TestDBSync(ABC, unittest.TestCase):
 
         self.destination_db.copy(self.table1, self.destination_table)
         self.source_db.copy(self.table2, self.source_table, if_exists="append")
-        self.db_sync.table_sync_incremental(self.source_table, self.destination_table, "pk")
+        self.db_sync.table_sync_incremental(
+            self.source_table, self.destination_table, "pk"
+        )
         self.assert_matching_tables()
 
     def test_table_sync_incremental_chunk(self):
@@ -118,13 +130,17 @@ class TestDBSync(ABC, unittest.TestCase):
         self.db_sync.chunk_size = 10
         self.destination_db.copy(self.table1, self.destination_table)
         self.source_db.copy(self.table2, self.source_table, if_exists="append")
-        self.db_sync.table_sync_incremental(self.source_table, self.destination_table, "pk")
+        self.db_sync.table_sync_incremental(
+            self.source_table, self.destination_table, "pk"
+        )
 
         self.assert_matching_tables()
 
     def test_table_sync_incremental_create_destination_table(self):
         # Test that an incremental sync works if the destination table does not exist.
-        self.db_sync.table_sync_incremental(self.source_table, self.destination_table, "pk")
+        self.db_sync.table_sync_incremental(
+            self.source_table, self.destination_table, "pk"
+        )
         self.assert_matching_tables()
 
     def test_table_sync_incremental_empty_table(self):
@@ -183,9 +199,20 @@ class TestFakeDBSync(TestDBSync):
         )
 
 
+class TestSqliteDBSync(TestDBSync):
+    db = Sqlite
+    temp_schema = None
+
+    def initialize_db_connections(self) -> None:
+        self.source_db = self.db(tempfile.mkstemp()[1])
+        self.destination_db = self.db(tempfile.mkstemp()[1])
+
+
 # These tests interact directly with the Postgres database. In order to run, set the
 # env to LIVE_TEST='TRUE'.
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@unittest.skipIf(
+    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
+)
 class TestPostgresDBSync(TestDBSync):
     db = Postgres
     setup_sql = f"""
@@ -199,6 +226,8 @@ class TestPostgresDBSync(TestDBSync):
 
 # These tests interact directly with the Postgres database. In order to run, set the
 # env to LIVE_TEST='TRUE'.
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@unittest.skipIf(
+    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
+)
 class TestRedshiftDBSync(TestPostgresDBSync):
     db = Redshift

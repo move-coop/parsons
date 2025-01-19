@@ -1,6 +1,7 @@
 from parsons.etl.table import Table
 import logging
 from parsons.databases.database_connector import DatabaseConnector
+from typing import Union, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -10,7 +11,7 @@ class FakeDatabase(DatabaseConnector):
         self.table_map = {}
         self.copy_call_args = []
 
-    def query(self, sql: str, parameters: list | dict | None = None) -> Table:
+    def query(self, sql: str, parameters: Optional[Union[list, dict]] = None) -> Table:
         return Table()
 
     def table_exists(self, table_name: str) -> bool:

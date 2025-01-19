@@ -3,7 +3,7 @@ from parsons.databases.database_connector import DatabaseConnector
 from abc import ABC
 from test.test_databases.fakes import FakeDatabase
 from test.utils import assert_matching_tables
-from typing import Type
+from typing import Type, Optional
 import unittest
 import os
 
@@ -13,9 +13,9 @@ TEMP_SCHEMA = "parsons_test"
 
 
 class TestDBSync(ABC, unittest.TestCase):
-    setup_sql: str | None = None
-    teardown_sql: str | None = None
-    temp_schema: str | None = TEMP_SCHEMA
+    setup_sql: Optional[str] = None
+    teardown_sql: Optional[str] = None
+    temp_schema: Optional[str] = TEMP_SCHEMA
     db: Type[DatabaseConnector]
 
     @classmethod

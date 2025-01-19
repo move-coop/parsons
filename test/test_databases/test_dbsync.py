@@ -10,6 +10,7 @@ from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.sqlite import Sqlite
 from test.conftest import assert_matching_tables, mark_live_test
 from test.test_databases.fakes import FakeDatabase
+from test.utils import assert_matching_tables
 
 _dir = Path(__file__).parent
 
@@ -192,9 +193,7 @@ class TestSqliteDBSync(TestDBSync):
         self.destination_db = self.db(tempfile.mkstemp()[1])
 
 
-# These tests interact directly with the Postgres database. In order to run, set the
-# env to LIVE_TEST='TRUE'.
-@mark_live_test
+@pytest.mark.usefixtures("postgres_container")
 class TestPostgresDBSync(TestDBSync):
     db = Postgres
     setup_sql = f"""
@@ -206,8 +205,6 @@ class TestPostgresDBSync(TestDBSync):
     """
 
 
-# These tests interact directly with the Postgres database. In order to run, set the
-# env to LIVE_TEST='TRUE'.
 @mark_live_test
 class TestRedshiftDBSync(TestPostgresDBSync):
     db = Redshift

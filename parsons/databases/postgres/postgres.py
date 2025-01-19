@@ -96,7 +96,15 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"{table_name} created.")
 
-            sql = f"""COPY "{table_name}" ("{'","'.join(tbl.columns)}") FROM STDIN CSV HEADER;"""
+            # appropriately quote table name, in case it has a schema
+            if "." in table_name:
+                quoted_table_name = '"' + '"."'.join(table_name.split(".")) + '"'
+            else:
+                quoted_table_name = '"' + table_name + '"'
+
+            sql = (
+                f"""COPY {quoted_table_name} ("{'","'.join(tbl.columns)}") FROM STDIN CSV HEADER;"""
+            )
 
             with self.cursor(connection) as cursor:
                 cursor.copy_expert(sql, open(tbl.to_csv(), "r"))

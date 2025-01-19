@@ -46,7 +46,7 @@ class TestPostgresCreateStatement(unittest.TestCase):
         self.assertEqual(pg_env.password, "pass_env")
         self.assertEqual(pg_env.host, "host_env")
         self.assertEqual(pg_env.db, "db_env")
-        self.assertEqual(pg_env.port, 5432)
+        self.assertEqual(pg_env.port, "5432")
 
     def test_data_type(self):
         # Test smallint

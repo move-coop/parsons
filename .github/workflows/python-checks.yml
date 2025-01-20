@@ -30,7 +30,7 @@ jobs:
                   python-version: ${{ matrix.python-version }}
 
             - name: Install uv
-              uses: install-pinned/uv@79408d4e43d557f731ba612bec337d5414737a70  # 0.4.12
+              uses: install-pinned/uv@c0aa96be732a19da2c465b54202b04b4cb31fc5c  # 0.4.12
 
             - name: Patch install error when using Python 3.9, limited dependencies, and MacOS
               if: ${{ matrix.limited-dependencies }} == True and ${{ matrix.os }} == "macos-latest" and ${{ matrix.python-version }} == "3.9"
@@ -59,7 +59,7 @@ jobs:
                   python-version: "3.12"
 
             - name: Install uv
-              uses: install-pinned/uv@79408d4e43d557f731ba612bec337d5414737a70  # 0.4.12
+              uses: install-pinned/uv@c0aa96be732a19da2c465b54202b04b4cb31fc5c  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -81,7 +81,7 @@ jobs:
                   python-version: "3.12"
 
             - name: Install uv
-              uses: install-pinned/uv@79408d4e43d557f731ba612bec337d5414737a70  # 0.4.12
+              uses: install-pinned/uv@c0aa96be732a19da2c465b54202b04b4cb31fc5c  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -103,7 +103,7 @@ jobs:
                   python-version: "3.12"
 
             - name: Install uv
-              uses: install-pinned/uv@79408d4e43d557f731ba612bec337d5414737a70  # 0.4.12
+              uses: install-pinned/uv@c0aa96be732a19da2c465b54202b04b4cb31fc5c  # 0.4.12
 
             - name: Install bandit
               run: |
@@ -125,7 +125,7 @@ jobs:
                   python-version: "3.12"
 
             - name: Install uv
-              uses: install-pinned/uv@79408d4e43d557f731ba612bec337d5414737a70  # 0.4.12
+              uses: install-pinned/uv@c0aa96be732a19da2c465b54202b04b4cb31fc5c  # 0.4.12
 
             - name: Install dependencies
               run: |

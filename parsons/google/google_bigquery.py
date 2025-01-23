@@ -12,6 +12,7 @@ import petl
 from google.cloud import bigquery, exceptions
 from google.cloud.bigquery import dbapi
 from google.cloud.bigquery.job import LoadJobConfig
+from google.cloud.bigquery.job import ExtractJobConfig
 from google.oauth2.credentials import Credentials
 
 from parsons.databases.database_connector import DatabaseConnector
@@ -348,6 +349,58 @@ class GoogleBigQuery(DatabaseConnector):
         END;
         """
         self.query(sql=queries_wrapped, parameters=parameters, return_values=False)
+
+    def export_table_to_gcs(
+        self,
+        table_name: str,
+        destination_uris: str,
+        location: str = "US",
+        destination_file_format: str = "CSV",
+        field_deliminator: str = ",",
+        compression: str = None,
+        job_config: dict = {},
+    ):
+        """
+        Export a bigquery table to GCS
+
+        `Args:`
+            table_name: str
+                The table name to export.
+            destination_uris: str
+                Uri indicating where the table will be exported to in GCS
+            destination_file_format: str
+                The file format/type of the resulting file in GCS.
+                Accepts "CSV", "NEWLINE_DELIMITED_JSON", "PARQUET", or "AVRO".
+                Defaults to "CSV".
+                This maps to `destinationFormat` in the `ExtractJobConfig` class.
+            field_deliminator: str
+                When extracting data in CSV format, this defines the delimiter to use
+                between fields in the exported data, defaults to ",".
+                This maps to `fieldDelimiter` in the `ExtractJobConfig` class.
+            compression_type: str
+                Accepts DEFLATE, GZIP, NONE, SNAPPY, and ZSTD.
+                Defualts to None.
+                This maps to `compression` in the `ExtractJobConfig` class.
+            job_config: object
+                A ExtractJobConfig object to provide to the underlying call to extract_table
+                on the BigQuery client. The function will create its own if not provided. Note
+                if there are any conflicts between the job_config and other parameters, the
+                job_config values are preferred.
+            **load_kwargs: kwargs
+                Other arguments to pass to the underlying load_table_from_uri
+                call on the BigQuery client.
+        """
+        job_config_default = ExtractJobConfig(
+            destination_format=destination_file_format,
+            compression=compression,
+            field_deliminator=field_deliminator,
+        )
+        self.client.extract_table(
+            source=table_name,
+            destination_uris=destination_uris,
+            location=location,
+            job_config=job_config if job_config else job_config_default,
+        )
 
     def copy_from_gcs(
         self,

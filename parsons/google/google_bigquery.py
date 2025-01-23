@@ -359,6 +359,7 @@ class GoogleBigQuery(DatabaseConnector):
         field_delimiter: str = ",",
         compression: str = None,
         job_config: dict = {},
+        **export_kwargs,
     ):
         """
         Export a bigquery table to GCS
@@ -386,8 +387,8 @@ class GoogleBigQuery(DatabaseConnector):
                 on the BigQuery client. The function will create its own if not provided. Note
                 if there are any conflicts between the job_config and other parameters, the
                 job_config values are preferred.
-            **load_kwargs: kwargs
-                Other arguments to pass to the underlying load_table_from_uri
+            **export_kwargs: kwargs
+                Other arguments to pass to the underlying extract_table
                 call on the BigQuery client.
         """
         job_config_default = ExtractJobConfig(
@@ -400,7 +401,23 @@ class GoogleBigQuery(DatabaseConnector):
             destination_uris=destination_uris,
             location=location,
             job_config=job_config if job_config else job_config_default,
+            **export_kwargs,
         )
+
+    def get_job(self, job_id: str, **job_kwargs):
+        """
+        Fetch a job
+
+        `Args:`
+            job_id: str
+                ID of job to fetch
+            location: str
+                Location where the job was run
+            **job_kwargs: kwargs
+                Other arguments to pass to the underlying get_job
+                call on the BigQuery client.
+        """
+        self.client.get_job(job_id=job_id, **job_kwargs)
 
     def copy_from_gcs(
         self,

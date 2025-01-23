@@ -121,6 +121,14 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(keyword_args["parameters"], parameters)
         self.assertFalse(keyword_args["return_values"])
 
+    def test_export_table_to_gcs(self):
+        tmp_destination_uris = "gs://tmp/file/*"
+        bq = self._build_mock_client_for_copying(table_exists=False)
+        bq.export_table_to_gcs(
+            table_name="dataset.table",
+            destination_uris=tmp_destination_uris
+        )
+
     def test_copy_gcs(self):
         # setup dependencies / inputs
         tmp_blob_uri = "gs://tmp/file"

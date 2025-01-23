@@ -396,7 +396,7 @@ class GoogleBigQuery(DatabaseConnector):
             compression=compression,
             field_delimiter=field_delimiter,
         )
-        self.client.extract_table(
+        return self.client.extract_table(
             source=table_name,
             destination_uris=destination_uris,
             location=location,
@@ -417,7 +417,7 @@ class GoogleBigQuery(DatabaseConnector):
                 Other arguments to pass to the underlying get_job
                 call on the BigQuery client.
         """
-        self.client.get_job(job_id=job_id, **job_kwargs)
+        return self.client.get_job(job_id=job_id, **job_kwargs)
 
     def copy_from_gcs(
         self,

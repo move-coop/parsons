@@ -356,7 +356,7 @@ class GoogleBigQuery(DatabaseConnector):
         destination_uris: str,
         location: str = "US",
         destination_file_format: str = "CSV",
-        field_deliminator: str = ",",
+        field_delimiter: str = ",",
         compression: str = None,
         job_config: dict = {},
     ):
@@ -393,7 +393,7 @@ class GoogleBigQuery(DatabaseConnector):
         job_config_default = ExtractJobConfig(
             destination_format=destination_file_format,
             compression=compression,
-            field_deliminator=field_deliminator,
+            field_delimiter=field_delimiter,
         )
         self.client.extract_table(
             source=table_name,

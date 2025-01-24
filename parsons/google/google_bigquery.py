@@ -405,7 +405,9 @@ class GoogleBigQuery(DatabaseConnector):
             **export_kwargs,
         )
 
-    def get_job(self, job_id: str, **job_kwargs) -> Union[job.LoadJob, job.CopyJob, job.ExtractJob, job.QueryJob, job.UnknownJob]:
+    def get_job(
+        self, job_id: str, **job_kwargs
+    ) -> Union[job.LoadJob, job.CopyJob, job.ExtractJob, job.QueryJob, job.UnknownJob]:
         """
         Fetch a job
 

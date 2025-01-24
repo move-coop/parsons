@@ -11,8 +11,8 @@ import google
 import petl
 from google.cloud import bigquery, exceptions
 from google.cloud.bigquery import dbapi
-from google.cloud.bigquery.job import LoadJobConfig
-from google.cloud.bigquery.job import ExtractJobConfig
+from google.cloud.bigquery.job import LoadJobConfig, ExtractJobConfig
+from google.cloud.bigquery import job
 from google.oauth2.credentials import Credentials
 
 from parsons.databases.database_connector import DatabaseConnector
@@ -360,7 +360,7 @@ class GoogleBigQuery(DatabaseConnector):
         compression: str = None,
         job_config: dict = {},
         **export_kwargs,
-    ):
+    ) -> job.ExtractJob:
         """
         Export a bigquery table to GCS
 
@@ -368,7 +368,8 @@ class GoogleBigQuery(DatabaseConnector):
             table_name: str
                 The table name to export.
             destination_uris: str
-                Uri indicating where the table will be exported to in GCS
+                Uri glob indicating where the table will be exported to in GCS
+                (If the table exceeds 1 GB, the table will be split among multiple files)
             destination_file_format: str
                 The file format/type of the resulting file in GCS.
                 Accepts "CSV", "NEWLINE_DELIMITED_JSON", "PARQUET", or "AVRO".
@@ -404,7 +405,7 @@ class GoogleBigQuery(DatabaseConnector):
             **export_kwargs,
         )
 
-    def get_job(self, job_id: str, **job_kwargs):
+    def get_job(self, job_id: str, **job_kwargs) -> Union[job.LoadJob, job.CopyJob, job.ExtractJob, job.QueryJob, job.UnknownJob]:
         """
         Fetch a job
 

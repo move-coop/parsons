@@ -124,10 +124,23 @@ class TestGoogleBigQuery(FakeCredentialTest):
     def test_export_table_to_gcs(self):
         tmp_destination_uris = "gs://tmp/file/*"
         bq = self._build_mock_client_for_copying(table_exists=False)
-        bq.export_table_to_gcs(
-            table_name="dataset.table",
-            destination_uris=tmp_destination_uris
-        )
+        bq.export_table_to_gcs(table_name="dataset.table", destination_uris=tmp_destination_uris)
+
+        self.assertEqual(bq.client.extract_table.call_count, 1)
+        load_call_args = bq.client.extract_table.call_args
+        self.assertEqual(load_call_args[1]["destination_uris"], tmp_destination_uris)
+
+        job_config = load_call_args[1]["job_config"]
+        self.assertEqual(job_config.destination_format, bigquery.DestinationFormat.CSV)
+
+    def test_get_job(self):
+        tmp_job_id = "1234567890"
+        bq = self._build_mock_base_client()
+        bq.client.get_job(job_id=tmp_job_id)
+
+        self.assertEqual(bq.client.get_job.call_count, 1)
+        load_call_args = bq.client.get_job.call_args
+        self.assertEqual(load_call_args[1]["job_id"], tmp_job_id)
 
     def test_copy_gcs(self):
         # setup dependencies / inputs
@@ -594,6 +607,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq_client = mock.MagicMock()
         if not table_exists:
             bq_client.get_table.side_effect = exceptions.NotFound("not found")
+        bq = BigQuery(app_creds=app_creds)
+        bq._client = bq_client
+        return bq
+
+    def _build_mock_base_client(self, app_creds: Union[str, dict, None] = None):
+        bq_client = mock.MagicMock()
         bq = BigQuery(app_creds=app_creds)
         bq._client = bq_client
         return bq

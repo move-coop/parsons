@@ -1,5 +1,5 @@
 pyairtable==2.3.3
-azure-storage-blob==12.13.0
+azure-storage-blob==12.24.1
 boto3>=1.17.98
 boxsdk==2.10.0
 braintree==4.31.0

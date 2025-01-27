@@ -350,61 +350,6 @@ class GoogleBigQuery(DatabaseConnector):
         """
         self.query(sql=queries_wrapped, parameters=parameters, return_values=False)
 
-    def export_table_to_gcs(
-        self,
-        table_name: str,
-        destination_uris: str,
-        location: str = "US",
-        destination_file_format: str = "CSV",
-        field_delimiter: str = ",",
-        compression: str = None,
-        job_config: dict = {},
-        **export_kwargs,
-    ) -> job.ExtractJob:
-        """
-        Export a bigquery table to GCS
-
-        `Args:`
-            table_name: str
-                The table name to export.
-            destination_uris: str
-                Uri glob indicating where the table will be exported to in GCS
-                (If the table exceeds 1 GB, the table will be split among multiple files)
-            destination_file_format: str
-                The file format/type of the resulting file in GCS.
-                Accepts "CSV", "NEWLINE_DELIMITED_JSON", "PARQUET", or "AVRO".
-                Defaults to "CSV".
-                This maps to `destinationFormat` in the `ExtractJobConfig` class.
-            field_deliminator: str
-                When extracting data in CSV format, this defines the delimiter to use
-                between fields in the exported data, defaults to ",".
-                This maps to `fieldDelimiter` in the `ExtractJobConfig` class.
-            compression_type: str
-                Accepts DEFLATE, GZIP, NONE, SNAPPY, and ZSTD.
-                Defualts to None.
-                This maps to `compression` in the `ExtractJobConfig` class.
-            job_config: object
-                A ExtractJobConfig object to provide to the underlying call to extract_table
-                on the BigQuery client. The function will create its own if not provided. Note
-                if there are any conflicts between the job_config and other parameters, the
-                job_config values are preferred.
-            **export_kwargs: kwargs
-                Other arguments to pass to the underlying extract_table
-                call on the BigQuery client.
-        """
-        job_config_default = ExtractJobConfig(
-            destination_format=destination_file_format,
-            compression=compression,
-            field_delimiter=field_delimiter,
-        )
-        return self.client.extract_table(
-            source=table_name,
-            destination_uris=destination_uris,
-            location=location,
-            job_config=job_config if job_config else job_config_default,
-            **export_kwargs,
-        )
-
     def get_job(
         self, job_id: str, **job_kwargs
     ) -> Union[job.LoadJob, job.CopyJob, job.ExtractJob, job.QueryJob, job.UnknownJob]:
@@ -1492,6 +1437,13 @@ class GoogleBigQuery(DatabaseConnector):
         gcs_blob_name: str,
         project: Optional[str] = None,
         gzip: bool = False,
+        location: str = "US",
+        destination_file_format: str = "CSV",
+        field_delimiter: str = ",",
+        compression: str = None,
+        job_config: ExtractJobConfig = None,
+        wait_for_job_to_complete: bool = True,
+        **export_kwargs,
     ) -> None:
         """
         Extracts a BigQuery table to a Google Cloud Storage bucket.
@@ -1508,21 +1460,27 @@ class GoogleBigQuery(DatabaseConnector):
             gzip (bool): If True, the exported file will be compressed
               using GZIP. Defaults to False.
         """
-
-        dataset_ref = bigquery.DatasetReference(project or self.client.project, dataset)
-        table_ref = dataset_ref.table(table_name)
+        source = f"{dataset}.{table_name}"
         gs_destination = f"gs://{gcs_bucket}/{gcs_blob_name}"
+        compression = "GZIP" if gzip else compression
+        extract_job = self.client.extract_table(
+            source=source,
+            destination_uris=gs_destination,
+            location=location,
+            job_config=job_config
+            if job_config
+            else ExtractJobConfig(
+                destination_format=destination_file_format,
+                compression=compression,
+                field_delimiter=field_delimiter,
+            ),
+            **export_kwargs,
+        )
+        if wait_for_job_to_complete:
+            extract_job.result()
+            logger.info(f"Finished exporting query result to {gs_destination}.")
 
-        if gzip:
-            job_config = bigquery.job.ExtractJobConfig()
-            job_config.compression = bigquery.Compression.GZIP
-        else:
-            job_config = None
-
-        extract_job = self.client.extract_table(table_ref, gs_destination, job_config=job_config)
-        extract_job.result()  # Waits for job to complete.
-
-        logger.info(f"Finished exporting query result to {gs_destination}.")
+        return extract_job
 
 
 class BigQueryTable(BaseTable):

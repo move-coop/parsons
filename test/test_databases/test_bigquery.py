@@ -121,14 +121,23 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(keyword_args["parameters"], parameters)
         self.assertFalse(keyword_args["return_values"])
 
-    def test_export_table_to_gcs(self):
-        tmp_destination_uris = "gs://tmp/file/*"
+    def test_extract(self):
+        gcs_bucket = "tmp"
+        gcs_blob_name = "file/*"
+        dataset = "dataset"
+        table_name = "table"
+        gs_tmp_destination = f"gs://{gcs_bucket}/{gcs_blob_name}"
         bq = self._build_mock_client_for_copying(table_exists=False)
-        bq.export_table_to_gcs(table_name="dataset.table", destination_uris=tmp_destination_uris)
+        bq.extract(
+            gcs_bucket=gcs_bucket,
+            gcs_blob_name=gcs_blob_name,
+            dataset=dataset,
+            table_name=table_name,
+        )
 
         self.assertEqual(bq.client.extract_table.call_count, 1)
         load_call_args = bq.client.extract_table.call_args
-        self.assertEqual(load_call_args[1]["destination_uris"], tmp_destination_uris)
+        self.assertEqual(load_call_args[1]["destination_uris"], gs_tmp_destination)
 
         job_config = load_call_args[1]["job_config"]
         self.assertEqual(job_config.destination_format, bigquery.DestinationFormat.CSV)

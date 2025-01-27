@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.ngpvan.saved_lists &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -115,26 +115,26 @@
   <h1>Source code for parsons.ngpvan.saved_lists</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Saved List Endpoints&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">cloud_storage</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
-<span class="kn">from</span> <span class="nn">suds.client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">cloud_storage</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">suds.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SavedLists">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SavedLists">[docs]</a>
-<span class="k">class</span> <span class="nc">SavedLists</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SavedLists</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="SavedLists.get_saved_lists">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SavedLists.get_saved_lists">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_saved_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_saved_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get saved lists.</span>
 
@@ -154,7 +154,7 @@
 
 <div class="viewcode-block" id="SavedLists.get_saved_list">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SavedLists.get_saved_list">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_saved_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">saved_list_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_saved_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">saved_list_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a saved list object.</span>
 
@@ -172,7 +172,7 @@
 
 <div class="viewcode-block" id="SavedLists.download_saved_list">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SavedLists.download_saved_list">[docs]</a>
-    <span class="k">def</span> <span class="nf">download_saved_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">saved_list_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">download_saved_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">saved_list_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Download the vanids associated with a saved list.</span>
 
@@ -195,7 +195,7 @@
 
 <div class="viewcode-block" id="SavedLists.upload_saved_list">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SavedLists.upload_saved_list">[docs]</a>
-    <span class="k">def</span> <span class="nf">upload_saved_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">list_name</span><span class="p">,</span> <span class="n">folder_id</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">upload_saved_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">list_name</span><span class="p">,</span> <span class="n">folder_id</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                           <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user</span>
@@ -275,9 +275,9 @@
 
 <div class="viewcode-block" id="Folders">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Folders">[docs]</a>
-<span class="k">class</span> <span class="nc">Folders</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Folders</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="c1"># Some sort of test if the van_connection is not present.</span>
 
@@ -285,7 +285,7 @@
 
 <div class="viewcode-block" id="Folders.get_folders">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Folders.get_folders">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_folders</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_folders</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all folders owned or shared with the API user.</span>
 
@@ -301,7 +301,7 @@
 
 <div class="viewcode-block" id="Folders.get_folder">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Folders.get_folder">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a folder owned by or shared with the API user.</span>
 
@@ -322,15 +322,15 @@
 
 <div class="viewcode-block" id="ExportJobs">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ExportJobs">[docs]</a>
-<span class="k">class</span> <span class="nc">ExportJobs</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExportJobs</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="ExportJobs.get_export_job_types">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ExportJobs.get_export_job_types">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_export_job_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_export_job_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get export job types</span>
 
@@ -346,7 +346,7 @@
 
 <div class="viewcode-block" id="ExportJobs.export_job_create">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ExportJobs.export_job_create">[docs]</a>
-    <span class="k">def</span> <span class="nf">export_job_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_id</span><span class="p">,</span> <span class="n">export_type</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export_job_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_id</span><span class="p">,</span> <span class="n">export_type</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                           <span class="n">webhookUrl</span><span class="o">=</span><span class="s2">&quot;https://www.nothing.com&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an export job</span>
@@ -379,7 +379,7 @@
 
 <div class="viewcode-block" id="ExportJobs.get_export_job">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ExportJobs.get_export_job">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_export_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">export_job_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_export_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">export_job_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get an export job.</span>
 

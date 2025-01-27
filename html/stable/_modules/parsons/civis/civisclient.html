@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.civis.civisclient &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -143,14 +143,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.civis.civisclient</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">civis</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">civis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
 
 
 <div class="viewcode-block" id="CivisClient">
 <a class="viewcode-back" href="../../../civis.html#parsons.CivisClient">[docs]</a>
-<span class="k">class</span> <span class="nc">CivisClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CivisClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Civis class.</span>
 
@@ -166,7 +166,7 @@
 <span class="sd">        Civis class</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CIVIS_DATABASE&quot;</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CIVIS_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
@@ -179,7 +179,7 @@
 
 <div class="viewcode-block" id="CivisClient.query">
 <a class="viewcode-back" href="../../../civis.html#parsons.CivisClient.query">[docs]</a>
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">preview_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">polling_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">preview_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">polling_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a SQL statement as a Civis query.</span>
 
@@ -228,7 +228,7 @@
 
 <div class="viewcode-block" id="CivisClient.table_import">
 <a class="viewcode-back" href="../../../civis.html#parsons.CivisClient.table_import">[docs]</a>
-    <span class="k">def</span> <span class="nf">table_import</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table_import</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table_obj</span><span class="p">,</span>
         <span class="n">table</span><span class="p">,</span>

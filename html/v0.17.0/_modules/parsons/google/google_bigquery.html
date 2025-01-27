@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.google.google_bigquery &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -119,20 +119,20 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.google.google_bigquery</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
 
-<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">bigquery</span>
-<span class="kn">from</span> <span class="nn">google.cloud.bigquery</span> <span class="kn">import</span> <span class="n">dbapi</span>
-<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">exceptions</span>
-<span class="kn">import</span> <span class="nn">petl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">bigquery</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud.bigquery</span><span class="w"> </span><span class="kn">import</span> <span class="n">dbapi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">exceptions</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
 
-<span class="kn">from</span> <span class="nn">parsons.databases.table</span> <span class="kn">import</span> <span class="n">BaseTable</span>
-<span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.google.utitities</span> <span class="kn">import</span> <span class="n">setup_google_application_credentials</span>
-<span class="kn">from</span> <span class="nn">parsons.google.google_cloud_storage</span> <span class="kn">import</span> <span class="n">GoogleCloudStorage</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.files</span> <span class="kn">import</span> <span class="n">create_temp_file</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.google.utitities</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup_google_application_credentials</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.google.google_cloud_storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleCloudStorage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.files</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_temp_file</span>
 
 <span class="n">BIGQUERY_TYPE_MAP</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;str&#39;</span><span class="p">:</span> <span class="s1">&#39;STRING&#39;</span><span class="p">,</span>
@@ -151,14 +151,14 @@
 <span class="n">QUERY_BATCH_SIZE</span> <span class="o">=</span> <span class="mi">100000</span>
 
 
-<span class="k">def</span> <span class="nf">get_table_ref</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_table_ref</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
     <span class="c1"># Helper function to build a TableReference for our table</span>
     <span class="n">parsed</span> <span class="o">=</span> <span class="n">parse_table_name</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
     <span class="n">dataset_ref</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">dataset_ref</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;table&#39;</span><span class="p">])</span>
 
 
-<span class="k">def</span> <span class="nf">parse_table_name</span><span class="p">(</span><span class="n">table_name</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_table_name</span><span class="p">(</span><span class="n">table_name</span><span class="p">):</span>
     <span class="c1"># Helper function to parse out the different components of a table ID</span>
     <span class="n">parts</span> <span class="o">=</span> <span class="n">table_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
     <span class="n">parts</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
@@ -178,7 +178,7 @@
 
 <div class="viewcode-block" id="GoogleBigQuery">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery">[docs]</a>
-<span class="k">class</span> <span class="nc">GoogleBigQuery</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GoogleBigQuery</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class for querying BigQuery table and returning the data as Parsons tables.</span>
 
@@ -205,7 +205,7 @@
 <span class="sd">            Default geographic location for tables</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">app_creds</span> <span class="o">=</span> <span class="n">app_creds</span>
 
         <span class="n">setup_google_application_credentials</span><span class="p">(</span><span class="n">app_creds</span><span class="p">)</span>
@@ -224,7 +224,7 @@
 
 <div class="viewcode-block" id="GoogleBigQuery.copy">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy">[docs]</a>
-    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span>
              <span class="n">tmp_gcs_bucket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gcs_client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">job_config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy a :ref:`parsons-table` into Google BigQuery via Google Cloud Storage.</span>
@@ -297,7 +297,7 @@
 
 <div class="viewcode-block" id="GoogleBigQuery.delete_table">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.delete_table">[docs]</a>
-    <span class="k">def</span> <span class="nf">delete_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a BigQuery table.</span>
 
@@ -311,7 +311,7 @@
 
 <div class="viewcode-block" id="GoogleBigQuery.query">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.query">[docs]</a>
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run a BigQuery query and return the results as a Parsons table.</span>
 
@@ -387,7 +387,7 @@
 
 <div class="viewcode-block" id="GoogleBigQuery.table_exists">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.table_exists">[docs]</a>
-    <span class="k">def</span> <span class="nf">table_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check whether or not the Google BigQuery table exists in the specified dataset.</span>
 
@@ -408,7 +408,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the Google BigQuery client to use for making queries.</span>
 
@@ -421,7 +421,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
 
-    <span class="k">def</span> <span class="nf">_generate_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">):</span>
         <span class="n">stats</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">get_columns_type_stats</span><span class="p">()</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">:</span>
@@ -433,27 +433,27 @@
         <span class="k">return</span> <span class="n">fields</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_bigquery_type</span><span class="p">(</span><span class="n">tp</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_bigquery_type</span><span class="p">(</span><span class="n">tp</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">BIGQUERY_TYPE_MAP</span><span class="p">[</span><span class="n">tp</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="c1"># Return a MySQL table object</span>
 
         <span class="k">return</span> <span class="n">BigQueryTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span></div>
 
 
 
-<span class="k">class</span> <span class="nc">BigQueryTable</span><span class="p">(</span><span class="n">BaseTable</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BigQueryTable</span><span class="p">(</span><span class="n">BaseTable</span><span class="p">):</span>
     <span class="c1"># BigQuery table object.</span>
 
-    <span class="k">def</span> <span class="nf">drop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">drop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Drop the table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">delete_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">truncate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">truncate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Truncate the table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>

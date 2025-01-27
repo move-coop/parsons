@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.braintree.braintree &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,23 +145,23 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.braintree.braintree</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span> <span class="nn">braintree</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">braintree</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.check_env</span> <span class="kn">import</span> <span class="n">check</span> <span class="k">as</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.check_env</span><span class="w"> </span><span class="kn">import</span> <span class="n">check</span> <span class="k">as</span> <span class="n">check_env</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">ParsonsBraintreeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ParsonsBraintreeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">pass</span>
 
 
 <div class="viewcode-block" id="Braintree">
 <a class="viewcode-back" href="../../../braintree.html#parsons.braintree.Braintree">[docs]</a>
-<span class="k">class</span> <span class="nc">Braintree</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Braintree</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Braintree is a payment processor.</span>
 <span class="sd">    `Args:`</span>
@@ -321,7 +321,7 @@
 
     <span class="n">customer_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;first_name&quot;</span><span class="p">,</span> <span class="s2">&quot;last_name&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">merchant_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">public_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -350,7 +350,7 @@
 
 <div class="viewcode-block" id="Braintree.get_disputes">
 <a class="viewcode-back" href="../../../braintree.html#parsons.braintree.Braintree.get_disputes">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_disputes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">query_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">query_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_disputes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">query_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">query_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a table of disputes based on query parameters.</span>
 <span class="sd">        There are three ways to pass query arguments: Pass a start_date and end_date</span>
@@ -403,7 +403,7 @@
 
 <div class="viewcode-block" id="Braintree.get_subscriptions">
 <a class="viewcode-back" href="../../../braintree.html#parsons.braintree.Braintree.get_subscriptions">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_subscriptions</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_subscriptions</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table_of_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -489,7 +489,7 @@
 
 <div class="viewcode-block" id="Braintree.get_transactions">
 <a class="viewcode-back" href="../../../braintree.html#parsons.braintree.Braintree.get_transactions">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_transactions</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_transactions</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table_of_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">disbursement_start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -570,16 +570,16 @@
         <span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_dispute_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dispute_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispute_fields</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;transaction_id&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_dispute_to_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_item</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dispute_to_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_item</span><span class="p">):</span>
         <span class="n">row</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">collection_item</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispute_fields</span><span class="p">]</span>
         <span class="c1"># the single sub-attribute</span>
         <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">collection_item</span><span class="o">.</span><span class="n">transaction</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">row</span>
 
-    <span class="k">def</span> <span class="nf">_transaction_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_transaction_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;credit_card_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">credit_card_fields</span><span class="p">]</span>
             <span class="c1"># annoying exception in column name</span>
@@ -591,7 +591,7 @@
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">transaction_fields</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_transaction_to_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_item</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_transaction_to_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_item</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="p">[</span>
                 <span class="p">(</span>
@@ -606,7 +606,7 @@
             <span class="o">+</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">collection_item</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transaction_fields</span><span class="p">]</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_subscription_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_transactions</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_subscription_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_transactions</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">include_transactions</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
                 <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;descriptor_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">descriptor_fields</span><span class="p">]</span>
@@ -620,7 +620,7 @@
                 <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;transaction_ids&quot;</span><span class="p">]</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_subscription_to_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_transactions</span><span class="p">,</span> <span class="n">collection_item</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_subscription_to_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_transactions</span><span class="p">,</span> <span class="n">collection_item</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">include_transactions</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
                 <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">collection_item</span><span class="o">.</span><span class="n">descriptor</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">descriptor_fields</span><span class="p">]</span>
@@ -634,7 +634,7 @@
                 <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">collection_item</span><span class="o">.</span><span class="n">transactions</span><span class="p">)]</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_collection</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_collection</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">query_type</span><span class="p">,</span>
         <span class="n">table_of_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -665,7 +665,7 @@
             <span class="n">collection</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gateway</span><span class="p">,</span> <span class="n">query_type</span><span class="p">)</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="o">*</span><span class="n">collection_query</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">collection</span>
 
-    <span class="k">def</span> <span class="nf">_get_query_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_type</span><span class="p">,</span> <span class="o">**</span><span class="n">queryparams</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_query_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_type</span><span class="p">,</span> <span class="o">**</span><span class="n">queryparams</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Examples:</span>
 <span class="sd">        disbursement_date={&#39;between&#39;: [&#39;2020-03-20&#39;, &#39;2020-03-27&#39;]}</span>
@@ -690,7 +690,7 @@
                 <span class="k">raise</span> <span class="n">ParsonsBraintreeError</span><span class="p">(</span><span class="s2">&quot;oh no, that&#39;s not a braintree parameter&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">queries</span>
 
-    <span class="k">def</span> <span class="nf">_create_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_type</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">queries</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_type</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">queries</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">query_type</span> <span class="o">==</span> <span class="s2">&quot;transaction&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">query_type</span> <span class="o">==</span> <span class="s2">&quot;disbursement&quot;</span><span class="p">):</span>
             <span class="n">gateway</span> <span class="o">=</span> <span class="n">braintree</span><span class="o">.</span><span class="n">TransactionGateway</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gateway</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">braintree</span><span class="o">.</span><span class="n">ResourceCollection</span><span class="p">(</span>

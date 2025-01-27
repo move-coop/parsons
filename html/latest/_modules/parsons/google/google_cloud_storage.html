@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.google.google_cloud_storage &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,31 +145,31 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.google.google_cloud_storage</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">gzip</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
-<span class="kn">import</span> <span class="nn">zipfile</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">google</span>
-<span class="kn">import</span> <span class="nn">petl</span>
-<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">storage</span><span class="p">,</span> <span class="n">storage_transfer</span>
-<span class="kn">from</span> <span class="nn">google.oauth2.credentials</span> <span class="kn">import</span> <span class="n">Credentials</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">google</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">storage</span><span class="p">,</span> <span class="n">storage_transfer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.oauth2.credentials</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
-<span class="kn">from</span> <span class="nn">parsons.google.utilities</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.google.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">load_google_application_credentials</span><span class="p">,</span>
     <span class="n">setup_google_application_credentials</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="GoogleCloudStorage">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage">[docs]</a>
-<span class="k">class</span> <span class="nc">GoogleCloudStorage</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GoogleCloudStorage</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Google Cloud Storage connector utility</span>
 
 <span class="sd">    This class requires application credentials in the form of a</span>
@@ -212,7 +212,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Credentials</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Credentials</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">app_creds</span><span class="p">,</span> <span class="n">Credentials</span><span class="p">):</span>
             <span class="n">credentials</span> <span class="o">=</span> <span class="n">app_creds</span>
         <span class="k">else</span><span class="p">:</span>
@@ -235,7 +235,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.list_buckets">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.list_buckets">[docs]</a>
-    <span class="k">def</span> <span class="nf">list_buckets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_buckets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a list of buckets</span>
 
@@ -250,7 +250,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.bucket_exists">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.bucket_exists">[docs]</a>
-    <span class="k">def</span> <span class="nf">bucket_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bucket_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Verify that a bucket exists</span>
 
@@ -271,7 +271,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.get_bucket">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.get_bucket">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a bucket object</span>
 
@@ -293,7 +293,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.create_bucket">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.create_bucket">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a bucket.</span>
 
@@ -312,7 +312,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.delete_bucket">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.delete_bucket">[docs]</a>
-    <span class="k">def</span> <span class="nf">delete_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">delete_blobs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">delete_blobs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a bucket. Will fail if not empty unless ``delete_blobs`` argument</span>
 <span class="sd">        is set to ``True``.</span>
@@ -333,7 +333,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.list_blobs">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.list_blobs">[docs]</a>
-    <span class="k">def</span> <span class="nf">list_blobs</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_blobs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">bucket_name</span><span class="p">,</span>
         <span class="n">max_results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -379,7 +379,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.blob_exists">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.blob_exists">[docs]</a>
-    <span class="k">def</span> <span class="nf">blob_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">blob_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Verify that a blob exists in the specified bucket</span>
 
@@ -402,7 +402,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.get_blob">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.get_blob">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a blob object</span>
 
@@ -423,7 +423,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.put_blob">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.put_blob">[docs]</a>
-    <span class="k">def</span> <span class="nf">put_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">put_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Puts a blob (aka file) in a bucket</span>
 
@@ -449,7 +449,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.download_blob">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.download_blob">[docs]</a>
-    <span class="k">def</span> <span class="nf">download_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">download_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets a blob from a bucket</span>
 
@@ -483,7 +483,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.delete_blob">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.delete_blob">[docs]</a>
-    <span class="k">def</span> <span class="nf">delete_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a blob</span>
 
@@ -503,7 +503,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.upload_table">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.upload_table">[docs]</a>
-    <span class="k">def</span> <span class="nf">upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">default_acl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">default_acl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load the data from a Parsons table into a blob.</span>
 
@@ -559,7 +559,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.get_url">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.get_url">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates a presigned url for a blob</span>
 
@@ -587,7 +587,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.copy_bucket_to_gcs">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.copy_bucket_to_gcs">[docs]</a>
-    <span class="k">def</span> <span class="nf">copy_bucket_to_gcs</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy_bucket_to_gcs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">gcs_sink_bucket</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -727,7 +727,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.format_uri">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.format_uri">[docs]</a>
-    <span class="k">def</span> <span class="nf">format_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Represent a GCS URI as a string</span>
 
@@ -745,7 +745,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.split_uri">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.split_uri">[docs]</a>
-    <span class="k">def</span> <span class="nf">split_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gcs_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">split_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gcs_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Split a GCS URI into a bucket and blob name</span>
 
@@ -766,7 +766,7 @@
 
 <div class="viewcode-block" id="GoogleCloudStorage.unzip_blob">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.unzip_blob">[docs]</a>
-    <span class="k">def</span> <span class="nf">unzip_blob</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unzip_blob</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">bucket_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">blob_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -838,7 +838,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_uri</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">decompressed_blob_name</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">__gzip_decompress_and_write_to_gcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__gzip_decompress_and_write_to_gcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Handles `.gzip` decompression and streams blob contents</span>
 <span class="sd">        to a decompressed storage object</span>
@@ -854,7 +854,7 @@
             <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">decompressed_blob_name</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">)</span>
             <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_file</span><span class="p">(</span><span class="n">file_obj</span><span class="o">=</span><span class="n">f_in</span><span class="p">,</span> <span class="n">rewind</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3600</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__zip_decompress_and_write_to_gcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__zip_decompress_and_write_to_gcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Handles `.zip` decompression and streams blob contents</span>
 <span class="sd">        to a decompressed storage object</span>

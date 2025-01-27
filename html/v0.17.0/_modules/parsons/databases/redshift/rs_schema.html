@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.databases.redshift.rs_schema &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -121,16 +121,16 @@
   <h1>Source code for parsons.databases.redshift.rs_schema</h1><div class="highlight"><pre>
 <div class="viewcode-block" id="RedshiftSchema">
 <a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftSchema">[docs]</a>
-<span></span><span class="k">class</span> <span class="nc">RedshiftSchema</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span></span><span class="k">class</span><span class="w"> </span><span class="nc">RedshiftSchema</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">schema_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">schema_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;select * from pg_namespace where nspname = &#39;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span>
 
 <div class="viewcode-block" id="RedshiftSchema.create_schema_with_permissions">
 <a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftSchema.create_schema_with_permissions">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_schema_with_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_schema_with_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a Redshift schema (if it doesn&#39;t already exist), and grants usage permissions to</span>
 <span class="sd">        a Redshift group (if specified).</span>
@@ -153,7 +153,7 @@
 
 <div class="viewcode-block" id="RedshiftSchema.grant_schema_permissions">
 <a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftSchema.grant_schema_permissions">[docs]</a>
-    <span class="k">def</span> <span class="nf">grant_schema_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">permissions_type</span><span class="o">=</span><span class="s1">&#39;select&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">grant_schema_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">permissions_type</span><span class="o">=</span><span class="s1">&#39;select&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Grants a Redshift group permissions to all tables within an existing schema.</span>
 

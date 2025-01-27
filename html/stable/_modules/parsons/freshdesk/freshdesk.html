@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.freshdesk.freshdesk &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -143,11 +143,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.freshdesk.freshdesk</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIConnector</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -156,7 +156,7 @@
 
 <div class="viewcode-block" id="Freshdesk">
 <a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk">[docs]</a>
-<span class="k">class</span> <span class="nc">Freshdesk</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Freshdesk</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate Freshdesk class</span>
 
@@ -171,14 +171,14 @@
 <span class="sd">        Freshdesk class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">api_key</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">api_key</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;FRESHDESK_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;FRESHDESK_DOMAIN&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}</span><span class="s2">.freshdesk.com/api/v2/&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">base_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;per_page&quot;</span><span class="p">:</span> <span class="n">PAGE_SIZE</span><span class="p">}</span>
 
         <span class="k">if</span> <span class="n">params</span><span class="p">:</span>
@@ -198,7 +198,7 @@
 
         <span class="k">return</span> <span class="n">data</span>
 
-    <span class="k">def</span> <span class="nf">_post_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_post_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Send a POST request to the specified Freshdesk endpoint.</span>
 <span class="sd">        `Args:`</span>
@@ -216,7 +216,7 @@
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">tbl</span><span class="o">.</span><span class="n">move_column</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">tbl</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
@@ -227,7 +227,7 @@
 
 <div class="viewcode-block" id="Freshdesk.get_tickets">
 <a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_tickets">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_tickets</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tickets</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ticket_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">requester_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -285,7 +285,7 @@
 
 <div class="viewcode-block" id="Freshdesk.get_contacts">
 <a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_contacts">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_contacts</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_contacts</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mobile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -337,7 +337,7 @@
 
 <div class="viewcode-block" id="Freshdesk.get_companies">
 <a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_companies">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_companies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_companies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List companies.</span>
 
@@ -359,7 +359,7 @@
 
 <div class="viewcode-block" id="Freshdesk.get_agents">
 <a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_agents">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_agents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mobile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_agents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mobile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List agents.</span>
 
@@ -392,7 +392,7 @@
 
 <div class="viewcode-block" id="Freshdesk.create_ticket">
 <a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.create_ticket">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_ticket</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_ticket</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">priority</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">cc_emails</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">custom_fields</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scytl &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
@@ -178,7 +178,7 @@
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h2>
 <p>To get started, initialize a Scytl class with the two-letter state code, the election id, and the county name (optional).</p>
 <p>To get these details, go to the website for the given election, and look in the url. For example, if the url is “<a class="reference external" href="https://results.enr.clarityelections.com/TX/Dallas/114890/web.285569/">https://results.enr.clarityelections.com/TX/Dallas/114890/web.285569/</a>”, then the state is “TX”, the county is “Dallas”, and the election ID is “114890”. If the url is “<a class="reference external" href="https://results.enr.clarityelections.com/GA/114729/web.285569/">https://results.enr.clarityelections.com/GA/114729/web.285569/</a>”, the state is “GA” and the election ID is “114729”.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Scytl</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Scytl</span>
 
 <span class="n">scy</span> <span class="o">=</span> <span class="n">Scytl</span><span class="p">(</span><span class="n">state</span> <span class="o">=</span> <span class="s1">&#39;GA&#39;</span><span class="p">,</span> <span class="n">election_id</span> <span class="o">=</span> <span class="s1">&#39;114729&#39;</span><span class="p">)</span>
 

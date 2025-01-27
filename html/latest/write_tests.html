@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>How to Write Tests for Parsons Connectors &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
@@ -188,10 +188,10 @@
 <p>We decorate <code class="docutils literal notranslate"><span class="pre">test_get_campaigns</span></code> with the <code class="docutils literal notranslate"><span class="pre">requests_mock.Mocker</span></code> class, which passes in our requests mocker as an argument <code class="docutils literal notranslate"><span class="pre">m</span></code>. We can then use this mock to configure our mock server.</p>
 <p>To configure our mock API, we can make use of the <code class="docutils literal notranslate"><span class="pre">get</span></code>, <code class="docutils literal notranslate"><span class="pre">post</span></code>, <code class="docutils literal notranslate"><span class="pre">patch</span></code>, <code class="docutils literal notranslate"><span class="pre">put</span></code>, and <code class="docutils literal notranslate"><span class="pre">delete</span></code> methods on the mock object <code class="docutils literal notranslate"><span class="pre">m</span></code>. These methods mirror the calls we expect our Connector to make to the API. The methods on the mock object correspond to the HTTP method that we are expecting our Connector class to call with, and the first argument to the mock method is the URL that we expect our Connector to call. We can then provide a <code class="docutils literal notranslate"><span class="pre">json</span></code> argument to the mock method to provide a canned response that the mock HTTP server should return.</p>
 <p>Below, we will use the <code class="docutils literal notranslate"><span class="pre">get</span></code> method to tell the mock HTTP server that we expect a call to the <code class="docutils literal notranslate"><span class="pre">campaigns</span></code> endpoint of our API, and that the mock HTTP server should return our <a href="#id1"><span class="problematic" id="id2">``</span></a>test_campaigns` canned response.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestMailchimp</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TestMailchimp</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 
     <span class="nd">@requests_mock</span><span class="o">.</span><span class="n">Mocker</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">test_get_campaigns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_get_campaigns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
 
         <span class="n">mc</span> <span class="o">=</span> <span class="n">MailChimp</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;12345&#39;</span><span class="p">)</span>
 
@@ -205,7 +205,7 @@
 <p>After wiring up the mock HTTP API, we are ready to call the <code class="docutils literal notranslate"><span class="pre">get_campaigns</span></code> method on our <code class="docutils literal notranslate"><span class="pre">Mailchimp</span></code> connector. Since we are using the <code class="docutils literal notranslate"><span class="pre">requests_mock.Mocker</span></code> class, our Connector will not actually hit the Mailchimp API; our call will be intercepted and the configured canned response will be returned.</p>
 <p>The Mailchimp tests store the canned responses in a separate Python module, which can help keep the test code separate from the test data, which helps makes tests more readable. The test data is imported from the <code class="docutils literal notranslate"><span class="pre">expected_json.py</span></code> Python file that sits alongside the <code class="docutils literal notranslate"><span class="pre">test_mailchimp.py</span></code> test file.</p>
 <p>The data is imported at the top of the <code class="docutils literal notranslate"><span class="pre">test_mailchimp.py</span></code> file:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">test.test_mailchimp</span> <span class="kn">import</span> <span class="n">expected_json</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">test.test_mailchimp</span><span class="w"> </span><span class="kn">import</span> <span class="n">expected_json</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">expected_json</span></code> can now be used to pull in our canned response variables, as we saw above:</p>
@@ -218,7 +218,7 @@
 <p>For classes that wrap third party libraries, we are looking to simulate whatever client object that serves as the Python API for the calls to the external service. To simulate the client object, we can use the <code class="docutils literal notranslate"><span class="pre">unittest.mock.MagicMock</span></code> class from the Python standard library.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">MagicMock</span></code> class allows us to build a fake version of the client object by simulating functionality we expect our Connector class to use – namely by returning canned responses to method calls on the client. As well, the <code class="docutils literal notranslate"><span class="pre">MagicMock</span></code> class is recording those calls as they happen, so that after we have run through our tests, we can check that things happened in the way we expected.</p>
 <p>The following gives a simple example of initializing, setting up, and checking expectations on a <code class="docutils literal notranslate"><span class="pre">MagicMock</span></code> class. Please see the following, SalesforceTest example on integrating it with your Connector class.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">MagicMock</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">MagicMock</span>
 
 <span class="c1"># Initialize a MagicMock object to serve as our fake client</span>
 <span class="n">mock_client</span> <span class="o">=</span> <span class="n">MagicMock</span><span class="p">()</span>
@@ -240,7 +240,7 @@
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">Salesforce</span></code> class is a good example for writing tests for Connector classes written against a third party library. The <code class="docutils literal notranslate"><span class="pre">Salesforce</span></code> Parsons Connector class wraps around the <code class="docutils literal notranslate"><span class="pre">simple-salesforce</span></code> library’s Salesforce client. When testing the <code class="docutils literal notranslate"><span class="pre">Salesforce</span></code> Parsons class, we will need to swap out its reference to the <code class="docutils literal notranslate"><span class="pre">simple-salesforce</span></code> client with a mock client.</p>
 <p>In the <code class="docutils literal notranslate"><span class="pre">SalesforceTest</span></code> class, this is done in the <code class="docutils literal notranslate"><span class="pre">setUp</span></code> method of the test class:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">sf</span> <span class="o">=</span> <span class="n">Salesforce</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">sf</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">mock</span><span class="o">.</span><span class="n">MagicMock</span><span class="p">()</span>
 </pre></div>
@@ -274,8 +274,8 @@
 <section id="useful-tips">
 <h3>Useful Tips<a class="headerlink" href="#useful-tips" title="Link to this heading"></a></h3>
 <p>Parsons has a function <code class="docutils literal notranslate"><span class="pre">assert_matching_tables</span></code> in the <code class="docutils literal notranslate"><span class="pre">parsons.test.utils</span></code> module that can be used to compare two Parsons tables:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">test.utils</span> <span class="kn">import</span> <span class="n">assert_matching_tables</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">test.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">assert_matching_tables</span>
 
 <span class="n">a</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>

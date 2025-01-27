@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.databases.mysql.mysql &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,19 +145,19 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.databases.mysql.mysql</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">import</span> <span class="nn">petl</span>
-<span class="kn">import</span> <span class="nn">mysql.connector</span> <span class="k">as</span> <span class="nn">mysql</span>
-<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.database_connector</span> <span class="kn">import</span> <span class="n">DatabaseConnector</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.table</span> <span class="kn">import</span> <span class="n">BaseTable</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.mysql.create_table</span> <span class="kn">import</span> <span class="n">MySQLCreateTable</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.alchemy</span> <span class="kn">import</span> <span class="n">Alchemy</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">mysql.connector</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mysql</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.database_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.mysql.create_table</span><span class="w"> </span><span class="kn">import</span> <span class="n">MySQLCreateTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.alchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Alchemy</span>
 
 <span class="c1"># Max number of rows that we query at a time, so we can avoid loading huge</span>
 <span class="c1"># data sets into memory.</span>
@@ -169,7 +169,7 @@
 
 <div class="viewcode-block" id="MySQL">
 <a class="viewcode-back" href="../../../../databases.html#parsons.MySQL">[docs]</a>
-<span class="k">class</span> <span class="nc">MySQL</span><span class="p">(</span><span class="n">DatabaseConnector</span><span class="p">,</span> <span class="n">MySQLCreateTable</span><span class="p">,</span> <span class="n">Alchemy</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MySQL</span><span class="p">(</span><span class="n">DatabaseConnector</span><span class="p">,</span> <span class="n">MySQLCreateTable</span><span class="p">,</span> <span class="n">Alchemy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Connect to a MySQL database.</span>
 
@@ -186,7 +186,7 @@
 <span class="sd">            Can be set by env variable ``MYSQL_PORT`` or argument.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">3306</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">3306</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;MYSQL_USERNAME&quot;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
@@ -198,7 +198,7 @@
 <div class="viewcode-block" id="MySQL.connection">
 <a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.connection">[docs]</a>
     <span class="nd">@contextmanager</span>
-    <span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a MySQL connection. The connection is set up as a python &quot;context manager&quot;, so</span>
 <span class="sd">        it will be closed automatically (and all queries committed) when the connection goes out</span>
@@ -233,7 +233,7 @@
 
 
     <span class="nd">@contextmanager</span>
-    <span class="k">def</span> <span class="nf">cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
         <span class="n">cur</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">buffered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -243,7 +243,7 @@
 
 <div class="viewcode-block" id="MySQL.query">
 <a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.query">[docs]</a>
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a query against the database. Will return ``None`` if the query returns zero rows.</span>
 
@@ -287,7 +287,7 @@
 
 <div class="viewcode-block" id="MySQL.query_with_connection">
 <a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.query_with_connection">[docs]</a>
-    <span class="k">def</span> <span class="nf">query_with_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query_with_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a query against the database, with an existing connection. Useful for batching</span>
 <span class="sd">        queries together. Will return ``None`` if the query returns zero rows.</span>
@@ -352,7 +352,7 @@
 
 <div class="viewcode-block" id="MySQL.copy">
 <a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.copy">[docs]</a>
-    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tbl</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span>
         <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -403,7 +403,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_insert_statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_insert_statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the table data into a string for bulk importing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -423,7 +423,7 @@
 
         <span class="k">return</span> <span class="n">sql</span>
 
-    <span class="k">def</span> <span class="nf">_create_table_precheck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_table_precheck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper to determine what to do when you need a table that may already exist.</span>
 
@@ -465,7 +465,7 @@
 
 <div class="viewcode-block" id="MySQL.table_exists">
 <a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.table_exists">[docs]</a>
-    <span class="k">def</span> <span class="nf">table_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if a table or view exists in the database.</span>
 
@@ -484,7 +484,7 @@
             <span class="k">return</span> <span class="kc">False</span></div>
 
 
-    <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="c1"># Return a BaseTable table object</span>
 
         <span class="k">return</span> <span class="n">BaseTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span></div>

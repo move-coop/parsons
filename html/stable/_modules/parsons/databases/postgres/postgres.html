@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.databases.postgres.postgres &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -143,13 +143,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.databases.postgres.postgres</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.databases.postgres.postgres_core</span> <span class="kn">import</span> <span class="n">PostgresCore</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.table</span> <span class="kn">import</span> <span class="n">BaseTable</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.alchemy</span> <span class="kn">import</span> <span class="n">Alchemy</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.database_connector</span> <span class="kn">import</span> <span class="n">DatabaseConnector</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.postgres.postgres_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">PostgresCore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.alchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Alchemy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.database_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -157,7 +157,7 @@
 
 <div class="viewcode-block" id="Postgres">
 <a class="viewcode-back" href="../../../../databases.html#parsons.Postgres">[docs]</a>
-<span class="k">class</span> <span class="nc">Postgres</span><span class="p">(</span><span class="n">PostgresCore</span><span class="p">,</span> <span class="n">Alchemy</span><span class="p">,</span> <span class="n">DatabaseConnector</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Postgres</span><span class="p">(</span><span class="n">PostgresCore</span><span class="p">,</span> <span class="n">Alchemy</span><span class="p">,</span> <span class="n">DatabaseConnector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A Postgres class to connect to database. Credentials can be passed from a ``.pgpass`` file</span>
 <span class="sd">    stored in your home directory or with environmental variables.</span>
@@ -177,7 +177,7 @@
 <span class="sd">            Seconds to timeout if connection not established.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5432</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5432</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PGUSER&quot;</span><span class="p">)</span>
@@ -201,7 +201,7 @@
 
 <div class="viewcode-block" id="Postgres.copy">
 <a class="viewcode-back" href="../../../../databases.html#parsons.Postgres.copy">[docs]</a>
-    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tbl</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span>
         <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -243,14 +243,14 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows copied to </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="c1"># Return a Postgres table object</span>
 
         <span class="k">return</span> <span class="n">PostgresTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span></div>
 
 
 
-<span class="k">class</span> <span class="nc">PostgresTable</span><span class="p">(</span><span class="n">BaseTable</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PostgresTable</span><span class="p">(</span><span class="n">BaseTable</span><span class="p">):</span>
     <span class="c1"># Postgres table object.</span>
 
     <span class="k">pass</span>

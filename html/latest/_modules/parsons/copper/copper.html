@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.copper.copper &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,13 +145,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.copper.copper</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">request</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">request</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -160,7 +160,7 @@
 
 <div class="viewcode-block" id="Copper">
 <a class="viewcode-back" href="../../../copper.html#parsons.Copper">[docs]</a>
-<span class="k">class</span> <span class="nc">Copper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Copper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate Copper Class</span>
 
@@ -175,12 +175,12 @@
 <span class="sd">        Copper Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;COPPER_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_email</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;COPPER_USER_EMAIL&quot;</span><span class="p">,</span> <span class="n">user_email</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">COPPER_URI</span>
 
-    <span class="k">def</span> <span class="nf">base_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">base_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Internal Request Method</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="n">endpoint</span>
@@ -207,7 +207,7 @@
 
             <span class="k">return</span> <span class="n">request</span><span class="p">(</span><span class="n">req_type</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">paginate_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">paginate_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Internal pagination method</span>
 
         <span class="n">page</span> <span class="o">=</span> <span class="mi">1</span>
@@ -255,7 +255,7 @@
 
 <div class="viewcode-block" id="Copper.get_people">
 <a class="viewcode-back" href="../../../copper.html#parsons.Copper.get_people">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_people</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_people</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get people</span>
 
@@ -284,7 +284,7 @@
 
 <div class="viewcode-block" id="Copper.get_companies">
 <a class="viewcode-back" href="../../../copper.html#parsons.Copper.get_companies">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_companies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_companies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get companies</span>
 
@@ -312,7 +312,7 @@
 
 <div class="viewcode-block" id="Copper.get_activities">
 <a class="viewcode-back" href="../../../copper.html#parsons.Copper.get_activities">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get activities</span>
 
@@ -335,7 +335,7 @@
 
 <div class="viewcode-block" id="Copper.get_opportunities">
 <a class="viewcode-back" href="../../../copper.html#parsons.Copper.get_opportunities">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_opportunities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_opportunities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get opportunities (i.e. donations)</span>
 
@@ -357,7 +357,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;opportunities&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">get_standard_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_standard_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="c1"># Retrieve and process a standard endpoint object (e.g. people, companies, etc.)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving </span><span class="si">{</span><span class="n">object_name</span><span class="si">}</span><span class="s2"> records.&quot;</span><span class="p">)</span>
@@ -367,7 +367,7 @@
 
 <div class="viewcode-block" id="Copper.get_custom_fields">
 <a class="viewcode-back" href="../../../copper.html#parsons.Copper.get_custom_fields">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_custom_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_custom_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get custom fields</span>
 
@@ -390,7 +390,7 @@
 
 <div class="viewcode-block" id="Copper.get_activity_types">
 <a class="viewcode-back" href="../../../copper.html#parsons.Copper.get_activity_types">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_activity_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_activity_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get activity types</span>
 
@@ -417,7 +417,7 @@
 
 <div class="viewcode-block" id="Copper.get_contact_types">
 <a class="viewcode-back" href="../../../copper.html#parsons.Copper.get_contact_types">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_contact_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_contact_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get contact types</span>
 
@@ -435,7 +435,7 @@
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">process_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_blob</span><span class="p">,</span> <span class="n">obj_type</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">process_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_blob</span><span class="p">,</span> <span class="n">obj_type</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="c1"># Internal method for converting most types of json responses into a list of Parsons tables</span>
 
         <span class="c1"># Output goes here</span>
@@ -499,7 +499,7 @@
 
         <span class="k">return</span> <span class="n">table_list</span>
 
-    <span class="k">def</span> <span class="nf">process_custom_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_blob</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">process_custom_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_blob</span><span class="p">):</span>
         <span class="c1"># Internal method to convert custom fields responses into a list of Parsons tables</span>
 
         <span class="c1"># Original table &amp; columns</span>

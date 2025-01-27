@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Google &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
@@ -208,7 +208,7 @@
 <section id="quickstart">
 <h3>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleAdmin class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> to contain a JSON encoding of the dict.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleAdmin</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleAdmin</span>
 
 <span class="c1"># First approach: Use API credentials via environmental variables</span>
 <span class="n">admin</span> <span class="o">=</span> <span class="n">GoogleAdmin</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;fakeemail@fakedomain.com&#39;</span><span class="p">)</span>
@@ -311,7 +311,7 @@ Google Cloud projects.</p>
 <section id="id4">
 <h3>Quickstart<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <p>To instantiate the <cite>GoogleBigQuery</cite> class, you can pass the constructor a string containing either the name of the Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> to be either of those strings and call the constructor without that argument.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleBigQuery</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleBigQuery</span>
 
 <span class="c1"># Set as environment variable so we don&#39;t have to pass it in. May either</span>
 <span class="c1"># be the file name or a JSON encoding of the credentials.</span>
@@ -946,7 +946,7 @@ store arbitrary files referred to as blobs. You may use this connector to upload
 <section id="id18">
 <h3>Quickstart<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of your Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> to be either of those strings and call the constructor without that argument.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleCloudStorage</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleCloudStorage</span>
 
 <span class="c1"># Set as environment variable so we don&#39;t have to pass it in. May either</span>
 <span class="c1"># be the file name or a JSON encoding of the credentials.</span>
@@ -1359,7 +1359,7 @@ key civic information such as personalized ballots and polling location informat
 <section id="id27">
 <h3>Quickstart<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleCivic class, you can pass the constructor a string containing the Google Civic API key you’ve generated for your project, or set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_CIVIC_API_KEY</span></code> to that value.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleCivic</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleCivic</span>
 
 <span class="c1"># Set as environment variable so we don&#39;t have to pass it in. May either</span>
 <span class="c1"># be the file name or a JSON encoding of the credentials.</span>
@@ -1540,7 +1540,7 @@ Divisions that don’t contain a matching office will not be returned.</p>
 <section id="id30">
 <h3>Quickstart<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> to contain a path to the JSON file containing the dict.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleSheets</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleSheets</span>
 
 <span class="c1"># First approach: Use API credentials via environmental variables</span>
 <span class="n">sheets</span> <span class="o">=</span> <span class="n">GoogleSheets</span><span class="p">()</span>

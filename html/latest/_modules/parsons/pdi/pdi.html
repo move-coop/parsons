@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.pdi.pdi &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,24 +145,24 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.pdi.pdi</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.pdi.flag_ids</span> <span class="kn">import</span> <span class="n">FlagIDs</span>
-<span class="kn">from</span> <span class="nn">parsons.pdi.flags</span> <span class="kn">import</span> <span class="n">Flags</span>
-<span class="kn">from</span> <span class="nn">parsons.pdi.universes</span> <span class="kn">import</span> <span class="n">Universes</span>
-<span class="kn">from</span> <span class="nn">parsons.pdi.questions</span> <span class="kn">import</span> <span class="n">Questions</span>
-<span class="kn">from</span> <span class="nn">parsons.pdi.acquisition_types</span> <span class="kn">import</span> <span class="n">AcquisitionTypes</span>
-<span class="kn">from</span> <span class="nn">parsons.pdi.events</span> <span class="kn">import</span> <span class="n">Events</span>
-<span class="kn">from</span> <span class="nn">parsons.pdi.locations</span> <span class="kn">import</span> <span class="n">Locations</span>
-<span class="kn">from</span> <span class="nn">parsons.pdi.contacts</span> <span class="kn">import</span> <span class="n">Contacts</span>
-<span class="kn">from</span> <span class="nn">parsons.pdi.activities</span> <span class="kn">import</span> <span class="n">Activities</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.flag_ids</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagIDs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flags</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.universes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Universes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.questions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Questions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.acquisition_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AcquisitionTypes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">Events</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.locations</span><span class="w"> </span><span class="kn">import</span> <span class="n">Locations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.contacts</span><span class="w"> </span><span class="kn">import</span> <span class="n">Contacts</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.activities</span><span class="w"> </span><span class="kn">import</span> <span class="n">Activities</span>
 
-<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
 
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
-<span class="kn">from</span> <span class="nn">dateutil.parser</span> <span class="kn">import</span> <span class="n">parse</span>
-<span class="kn">from</span> <span class="nn">json.decoder</span> <span class="kn">import</span> <span class="n">JSONDecodeError</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dateutil.parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">json.decoder</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONDecodeError</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -170,7 +170,7 @@
 
 <div class="viewcode-block" id="PDI">
 <a class="viewcode-back" href="../../../pdi.html#parsons.PDI">[docs]</a>
-<span class="k">class</span> <span class="nc">PDI</span><span class="p">(</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PDI</span><span class="p">(</span>
     <span class="n">FlagIDs</span><span class="p">,</span>
     <span class="n">Universes</span><span class="p">,</span>
     <span class="n">Questions</span><span class="p">,</span>
@@ -181,7 +181,7 @@
     <span class="n">Contacts</span><span class="p">,</span>
     <span class="n">Activities</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qa_url</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qa_url</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Instantiate the PDI class</span>
 
@@ -213,7 +213,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_get_session_token</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_get_session_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_session_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
         <span class="p">}</span>
@@ -230,7 +230,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">session_token</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;AccessToken&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session_exp</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;ExpirationDate&quot;</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">_clean_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_clean_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dct</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_clean_dict</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">dct</span><span class="p">]</span>
 
@@ -239,7 +239,7 @@
 
         <span class="k">return</span> <span class="n">dct</span>
 
-    <span class="k">def</span> <span class="nf">_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Make sure to have a current token before we make another request</span>
         <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">now</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_exp</span><span class="p">:</span>

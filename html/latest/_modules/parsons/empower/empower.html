@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.empower.empower &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,11 +145,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.empower.empower</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.datetime</span> <span class="kn">import</span> <span class="n">convert_unix_to_readable</span>
-<span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_unix_to_readable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -158,7 +158,7 @@
 
 <div class="viewcode-block" id="Empower">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower">[docs]</a>
-<span class="k">class</span> <span class="nc">Empower</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Empower</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate class.</span>
 
@@ -176,7 +176,7 @@
 <span class="sd">                Setting cache to ``False`` will download all account data for each method call.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">empower_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">empower_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;EMPOWER_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">empower_uri</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;EMPOWER_URI&quot;</span><span class="p">,</span> <span class="n">empower_uri</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="ow">or</span> <span class="n">EMPOWER_API_ENDPOINT</span>
@@ -189,7 +189,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_data</span><span class="p">(</span><span class="n">cache</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets fresh data from Empower API based on cache setting.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -201,7 +201,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
 
-    <span class="k">def</span> <span class="nf">_empty_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_empty_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determine if a dict object is empty.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -213,7 +213,7 @@
 
 <div class="viewcode-block" id="Empower.get_profiles">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower.get_profiles">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get Empower profiles.</span>
 
@@ -231,7 +231,7 @@
 
 <div class="viewcode-block" id="Empower.get_profiles_active_ctas">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower.get_profiles_active_ctas">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_profiles_active_ctas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_profiles_active_ctas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get active ctas assigned to Empower profiles.</span>
 
@@ -246,7 +246,7 @@
 
 <div class="viewcode-block" id="Empower.get_regions">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower.get_regions">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_regions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_regions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get Empower regions.</span>
 
@@ -262,7 +262,7 @@
 
 <div class="viewcode-block" id="Empower.get_cta_results">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower.get_cta_results">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_cta_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_cta_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get Empower call to action results.</span>
 
@@ -285,7 +285,7 @@
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_split_ctas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_split_ctas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Internal method to split CTA objects into tables.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -317,7 +317,7 @@
 
 <div class="viewcode-block" id="Empower.get_ctas">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower.get_ctas">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_ctas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_ctas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get Empower calls to action.</span>
 
@@ -331,7 +331,7 @@
 
 <div class="viewcode-block" id="Empower.get_cta_prompts">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower.get_cta_prompts">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_cta_prompts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_cta_prompts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get Empower calls to action prompts.</span>
 
@@ -345,7 +345,7 @@
 
 <div class="viewcode-block" id="Empower.get_cta_prompt_answers">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower.get_cta_prompt_answers">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_cta_prompt_answers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_cta_prompt_answers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get Empower calls to action prompt answers.</span>
 
@@ -359,7 +359,7 @@
 
 <div class="viewcode-block" id="Empower.get_cta_regions">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower.get_cta_regions">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_cta_regions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_cta_regions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of regions that each call to active is active in.</span>
 
@@ -374,7 +374,7 @@
 
 <div class="viewcode-block" id="Empower.get_cta_shareables">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower.get_cta_shareables">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_cta_shareables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_cta_shareables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of shareables associated with calls to action.</span>
 
@@ -389,7 +389,7 @@
 
 <div class="viewcode-block" id="Empower.get_cta_prioritizations">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower.get_cta_prioritizations">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_cta_prioritizations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_cta_prioritizations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list prioritizations associated with calls to action.</span>
 
@@ -404,7 +404,7 @@
 
 <div class="viewcode-block" id="Empower.get_outreach_entries">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower.get_outreach_entries">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_outreach_entries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_outreach_entries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get outreach entries.</span>
 
@@ -428,7 +428,7 @@
 
 <div class="viewcode-block" id="Empower.get_full_export">
 <a class="viewcode-back" href="../../../empower.html#parsons.Empower.get_full_export">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_full_export</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_full_export</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a table of the complete, raw data as returned by the API.</span>
 <span class="sd">        Meant to facilitate pure ELT pipelines</span>

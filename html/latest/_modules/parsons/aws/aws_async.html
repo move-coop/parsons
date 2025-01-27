@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.aws.aws_async &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,12 +145,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.aws.aws_async</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">importlib</span>
-<span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
 
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -167,14 +167,14 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">zappa.asynchronous</span> <span class="kn">import</span> <span class="n">run</span> <span class="k">as</span> <span class="n">zappa_run</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">zappa.asynchronous</span><span class="w"> </span><span class="kn">import</span> <span class="n">run</span> <span class="k">as</span> <span class="n">zappa_run</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">zappa_run</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <div class="viewcode-block" id="event_command">
 <a class="viewcode-back" href="../../../aws.html#parsons.aws.event_command">[docs]</a>
-<span class="k">def</span> <span class="nf">event_command</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">event_command</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Minimal `shim &lt;https://en.wikipedia.org/wiki/Shim_(computing)&gt;`_</span>
 <span class="sd">    to add to the top lambda handler function to enable distributed tasks</span>
@@ -195,7 +195,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
     <span class="n">func</span><span class="p">,</span>
     <span class="n">args</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">kwargs</span><span class="o">=</span><span class="p">{},</span>
@@ -253,7 +253,7 @@
 <span class="c1">##</span>
 
 
-<span class="k">def</span> <span class="nf">import_and_get_task</span><span class="p">(</span><span class="n">task_path</span><span class="p">,</span> <span class="n">instance_init_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">import_and_get_task</span><span class="p">(</span><span class="n">task_path</span><span class="p">,</span> <span class="n">instance_init_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a modular path to a function, import that module</span>
 <span class="sd">    and return the function.</span>
@@ -265,7 +265,7 @@
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_func</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">app_function</span>
 
-    <span class="k">def</span> <span class="nf">init_and_run</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_and_run</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;INITRUN&quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_func</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># instance</span>
             <span class="n">instance</span> <span class="o">=</span> <span class="n">app_function</span>  <span class="c1"># actually the class</span>
@@ -277,7 +277,7 @@
     <span class="k">return</span> <span class="n">init_and_run</span>
 
 
-<span class="k">def</span> <span class="nf">get_func_task_path</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">method_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_func_task_path</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">method_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Format the modular task path for a function via inspection.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -298,7 +298,7 @@
     <span class="k">return</span> <span class="n">task_path</span>
 
 
-<span class="k">class</span> <span class="nc">AsyncException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AsyncException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">pass</span>
 </pre></div>
 

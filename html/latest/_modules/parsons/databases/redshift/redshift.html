@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.databases.redshift.redshift &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,26 +145,26 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.databases.redshift.redshift</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.redshift.rs_copy_table</span> <span class="kn">import</span> <span class="n">RedshiftCopyTable</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.redshift.rs_create_table</span> <span class="kn">import</span> <span class="n">RedshiftCreateTable</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.redshift.rs_table_utilities</span> <span class="kn">import</span> <span class="n">RedshiftTableUtilities</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.redshift.rs_schema</span> <span class="kn">import</span> <span class="n">RedshiftSchema</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.table</span> <span class="kn">import</span> <span class="n">BaseTable</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.alchemy</span> <span class="kn">import</span> <span class="n">Alchemy</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span><span class="p">,</span> <span class="n">sql_helpers</span>
-<span class="kn">from</span> <span class="nn">parsons.databases.database_connector</span> <span class="kn">import</span> <span class="n">DatabaseConnector</span>
-<span class="kn">import</span> <span class="nn">psycopg2</span>
-<span class="kn">import</span> <span class="nn">psycopg2.extras</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">petl</span>
-<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">random</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift.rs_copy_table</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedshiftCopyTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift.rs_create_table</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedshiftCreateTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift.rs_table_utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedshiftTableUtilities</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift.rs_schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedshiftSchema</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.alchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Alchemy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span><span class="p">,</span> <span class="n">sql_helpers</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.database_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseConnector</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">psycopg2</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">psycopg2.extras</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 
 <span class="c1"># Max number of rows that we query at a time, so we can avoid loading huge</span>
 <span class="c1"># data sets into memory.</span>
@@ -176,7 +176,7 @@
 
 <div class="viewcode-block" id="Redshift">
 <a class="viewcode-back" href="../../../../aws.html#parsons.Redshift">[docs]</a>
-<span class="k">class</span> <span class="nc">Redshift</span><span class="p">(</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Redshift</span><span class="p">(</span>
     <span class="n">RedshiftCreateTable</span><span class="p">,</span>
     <span class="n">RedshiftCopyTable</span><span class="p">,</span>
     <span class="n">RedshiftTableUtilities</span><span class="p">,</span>
@@ -221,7 +221,7 @@
 <span class="sd">            variable even if the ``aws_session_token`` argument was not passed in.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -264,7 +264,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">iam_role</span> <span class="o">=</span> <span class="n">iam_role</span>
 
     <span class="nd">@contextmanager</span>
-    <span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a Redshift connection.</span>
 <span class="sd">        The connection is set up as a python &quot;context manager&quot;, so it will be closed</span>
@@ -295,14 +295,14 @@
             <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="nd">@contextmanager</span>
-    <span class="k">def</span> <span class="nf">cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
         <span class="n">cur</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">cursor_factory</span><span class="o">=</span><span class="n">psycopg2</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">DictCursor</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">cur</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Table</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Table</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a query against the Redshift database. Will return ``None``</span>
 <span class="sd">        if the query returns zero rows.</span>
@@ -344,7 +344,7 @@
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">query_with_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query_with_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a query against the Redshift database, with an existing connection.</span>
 <span class="sd">        Useful for batching queries together. Will return ``None`` if the query</span>
@@ -410,7 +410,7 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Query returned </span><span class="si">{</span><span class="n">final_tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows.&quot;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">final_tbl</span>
 
-    <span class="k">def</span> <span class="nf">copy_s3</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy_s3</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table_name</span><span class="p">,</span>
         <span class="n">bucket</span><span class="p">,</span>
@@ -552,7 +552,7 @@
                     <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;CREATE TABLE </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> (LIKE </span><span class="si">{</span><span class="n">template_table</span><span class="si">}</span><span class="s2">)&quot;</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># Grab the object from s3</span>
-                    <span class="kn">from</span> <span class="nn">parsons.aws.s3</span> <span class="kn">import</span> <span class="n">S3</span>
+                    <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.aws.s3</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3</span>
 
                     <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span>
                         <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
@@ -614,7 +614,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">copy_sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data copied to </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tbl</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span>
         <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -843,7 +843,7 @@
                 <span class="k">if</span> <span class="n">key</span> <span class="ow">and</span> <span class="n">cleanup_s3_file</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">temp_s3_delete</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unload</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">sql</span><span class="p">,</span>
         <span class="n">bucket</span><span class="p">,</span>
@@ -957,7 +957,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">drop_and_unload</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">drop_and_unload</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">rs_table</span><span class="p">,</span>
         <span class="n">bucket</span><span class="p">,</span>
@@ -1017,7 +1017,7 @@
 
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">generate_manifest</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_manifest</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">buckets</span><span class="p">,</span>
         <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1058,7 +1058,7 @@
 <span class="sd">            ``dict`` of manifest</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="kn">from</span> <span class="nn">parsons.aws</span> <span class="kn">import</span> <span class="n">S3</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.aws</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3</span>
 
         <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span>
             <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
@@ -1096,7 +1096,7 @@
 
         <span class="k">return</span> <span class="n">manifest</span>
 
-    <span class="k">def</span> <span class="nf">upsert</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">upsert</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table_obj</span><span class="p">,</span>
         <span class="n">target_table</span><span class="p">,</span>
@@ -1269,7 +1269,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VACUUM </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s2">;&quot;</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s2"> vacuumed.&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">drop_dependencies_for_cols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">drop_dependencies_for_cols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
         <span class="n">fmt_cols</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&#39;&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">])</span>
         <span class="n">sql_depend</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">            select</span>
@@ -1305,7 +1305,7 @@
 
         <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span> <span class="nf">alter_varchar_column_widths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">drop_dependencies</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">alter_varchar_column_widths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">drop_dependencies</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Alter the width of a varchar columns in a Redshift table to match the widths</span>
 <span class="sd">        of a Parsons table. The columns are matched by column name and not their</span>
@@ -1346,7 +1346,7 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">drop_dependencies_for_cols</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="p">[</span><span class="n">c</span><span class="p">])</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">alter_table_column_type</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s2">&quot;varchar&quot;</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="n">new_size</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">alter_table_column_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">alter_table_column_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Alter a column type of an existing table.</span>
 
@@ -1370,14 +1370,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Altered </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="c1"># Return a Redshift table object</span>
 
         <span class="k">return</span> <span class="n">RedshiftTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span></div>
 
 
 
-<span class="k">class</span> <span class="nc">RedshiftTable</span><span class="p">(</span><span class="n">BaseTable</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RedshiftTable</span><span class="p">(</span><span class="n">BaseTable</span><span class="p">):</span>
     <span class="c1"># Redshift table object.</span>
 
     <span class="k">pass</span>

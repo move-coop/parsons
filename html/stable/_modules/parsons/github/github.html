@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.github.github &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -143,32 +143,32 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.github.github</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">wraps</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">wraps</span>
 
-<span class="kn">import</span> <span class="nn">petl</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">github</span> <span class="kn">import</span> <span class="n">Github</span> <span class="k">as</span> <span class="n">PyGithub</span>
-<span class="kn">from</span> <span class="nn">github.GithubException</span> <span class="kn">import</span> <span class="n">UnknownObjectException</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">github</span><span class="w"> </span><span class="kn">import</span> <span class="n">Github</span> <span class="k">as</span> <span class="n">PyGithub</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">github.GithubException</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnknownObjectException</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span><span class="p">,</span> <span class="n">files</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span><span class="p">,</span> <span class="n">files</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_wrap_method</span><span class="p">(</span><span class="n">decorator</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_wrap_method</span><span class="p">(</span><span class="n">decorator</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">bound_method</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">method</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
         <span class="k">return</span> <span class="n">decorator</span><span class="p">(</span><span class="n">bound_method</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">_wrapper</span>
 
 
-<span class="k">def</span> <span class="nf">decorate_methods</span><span class="p">(</span><span class="n">decorator</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">decorate_methods</span><span class="p">(</span><span class="n">decorator</span><span class="p">):</span>
     <span class="c1"># Based on Django&#39;s django.utils.decorators.method_decorator</span>
-    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorate</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
             <span class="c1"># Don&#39;t decorate dunder methods</span>
             <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">):</span>
@@ -181,9 +181,9 @@
     <span class="k">return</span> <span class="n">decorate</span>
 
 
-<span class="k">def</span> <span class="nf">wrap_github_404</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">wrap_github_404</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_wrapped_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_wrapped_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">func</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">UnknownObjectException</span><span class="p">:</span>
@@ -194,14 +194,14 @@
     <span class="k">return</span> <span class="n">_wrapped_func</span>
 
 
-<span class="k">class</span> <span class="nc">ParsonsGitHubError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ParsonsGitHubError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">pass</span>
 
 
 <div class="viewcode-block" id="GitHub">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub">[docs]</a>
 <span class="nd">@decorate_methods</span><span class="p">(</span><span class="n">wrap_github_404</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">GitHub</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GitHub</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a GitHub class for accessing the GitHub API.</span>
 
 <span class="sd">    Uses ``parsons.utilities.check_env`` to load credentials from environment variables if not</span>
@@ -220,7 +220,7 @@
 <span class="sd">            variable.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GITHUB_USERNAME&quot;</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GITHUB_PASSWORD&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -233,7 +233,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">PyGithub</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_as_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paginated_list</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_as_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paginated_list</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts a paginated list into a Parsons ``Table``. Uses the ``_rawData`` property of</span>
 <span class="sd">        each item instead of calling ``raw_data`` to avoid making a separate request for each item</span>
 <span class="sd">        in a page for types that PyGithub doesn&#39;t consider complete.</span>
@@ -262,7 +262,7 @@
 
 <div class="viewcode-block" id="GitHub.get_user">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_user">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub user by username</span>
 
 <span class="sd">        Args:</span>
@@ -279,7 +279,7 @@
 
 <div class="viewcode-block" id="GitHub.get_organization">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_organization">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_organization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_organization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub organization by name</span>
 
 <span class="sd">        Args:</span>
@@ -296,7 +296,7 @@
 
 <div class="viewcode-block" id="GitHub.get_repo">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_repo">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub repo by name</span>
 
 <span class="sd">        Args:</span>
@@ -313,7 +313,7 @@
 
 <div class="viewcode-block" id="GitHub.list_user_repos">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_user_repos">[docs]</a>
-    <span class="k">def</span> <span class="nf">list_user_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_user_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List user repos with pagination, returning a ``Table``</span>
 
 <span class="sd">        Args:</span>
@@ -338,7 +338,7 @@
 
 <div class="viewcode-block" id="GitHub.list_organization_repos">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_organization_repos">[docs]</a>
-    <span class="k">def</span> <span class="nf">list_organization_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_name</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_organization_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_name</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List organization repos with pagination, returning a ``Table``</span>
 
 <span class="sd">        Args:</span>
@@ -365,7 +365,7 @@
 
 <div class="viewcode-block" id="GitHub.get_issue">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_issue">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_issue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">issue_number</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_issue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">issue_number</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub issue</span>
 
 <span class="sd">        Args:</span>
@@ -384,7 +384,7 @@
 
 <div class="viewcode-block" id="GitHub.list_repo_issues">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_repo_issues">[docs]</a>
-    <span class="k">def</span> <span class="nf">list_repo_issues</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_repo_issues</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">repo_name</span><span class="p">,</span>
         <span class="n">state</span><span class="o">=</span><span class="s2">&quot;open&quot;</span><span class="p">,</span>
@@ -453,7 +453,7 @@
 
 <div class="viewcode-block" id="GitHub.get_pull_request">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub.get_pull_request">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_pull_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">pull_request_number</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_pull_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">pull_request_number</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub pull request</span>
 
 <span class="sd">        Args:</span>
@@ -472,7 +472,7 @@
 
 <div class="viewcode-block" id="GitHub.list_repo_pull_requests">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_repo_pull_requests">[docs]</a>
-    <span class="k">def</span> <span class="nf">list_repo_pull_requests</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_repo_pull_requests</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">repo_name</span><span class="p">,</span>
         <span class="n">state</span><span class="o">=</span><span class="s2">&quot;open&quot;</span><span class="p">,</span>
@@ -521,7 +521,7 @@
 
 <div class="viewcode-block" id="GitHub.list_repo_contributors">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub.list_repo_contributors">[docs]</a>
-    <span class="k">def</span> <span class="nf">list_repo_contributors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_repo_contributors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Lists contributors for a given repo</span>
 
 <span class="sd">        Args:</span>
@@ -548,7 +548,7 @@
 
 <div class="viewcode-block" id="GitHub.download_file">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub.download_file">[docs]</a>
-    <span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">download_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a file from a repo by path and branch. Defaults to the repo&#39;s default branch if</span>
 <span class="sd">        branch is not supplied.</span>
 
@@ -611,7 +611,7 @@
 
 <div class="viewcode-block" id="GitHub.download_table">
 <a class="viewcode-back" href="../../../github.html#parsons.GitHub.download_table">[docs]</a>
-    <span class="k">def</span> <span class="nf">download_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">download_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a CSV file from a repo by path and branch as a Parsons Table.</span>
 
 <span class="sd">        Args:</span>

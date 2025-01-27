@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.shopify.shopify &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -143,17 +143,17 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.shopify.shopify</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
-<span class="kn">import</span> <span class="nn">re</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIConnector</span>
 
 
 <div class="viewcode-block" id="Shopify">
 <a class="viewcode-back" href="../../../shopify.html#parsons.Shopify">[docs]</a>
-<span class="k">class</span> <span class="nc">Shopify</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Shopify</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Shopify class</span>
 <span class="sd">    `Args:`</span>
@@ -177,7 +177,7 @@
 <span class="sd">        Shopify Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subdomain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -205,7 +205,7 @@
 
 <div class="viewcode-block" id="Shopify.get_count">
 <a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.get_count">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the count of rows in a table.</span>
 <span class="sd">        `Args:`</span>
@@ -228,7 +228,7 @@
 
 <div class="viewcode-block" id="Shopify.get_orders">
 <a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.get_orders">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">completed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">completed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get Shopify orders.</span>
 <span class="sd">        `Args:`</span>
@@ -244,7 +244,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">orders</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">def</span> <span class="nf">_append_orders</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_append_orders</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
             <span class="k">nonlocal</span> <span class="n">orders</span>
 
             <span class="k">if</span> <span class="n">completed</span><span class="p">:</span>
@@ -291,7 +291,7 @@
 
 <div class="viewcode-block" id="Shopify.get_query_url">
 <a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.get_query_url">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_query_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_query_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the URL of a Shopify API request</span>
 <span class="sd">        `Args:`</span>
@@ -330,7 +330,7 @@
 
 <div class="viewcode-block" id="Shopify.graphql">
 <a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.graphql">[docs]</a>
-    <span class="k">def</span> <span class="nf">graphql</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">graphql</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Make GraphQL request. Reference: https://shopify.dev/api/admin-graphql</span>
 <span class="sd">        `Args:`</span>
@@ -349,7 +349,7 @@
 <div class="viewcode-block" id="Shopify.load_to_table">
 <a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.load_to_table">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">load_to_table</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_to_table</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">subdomain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>

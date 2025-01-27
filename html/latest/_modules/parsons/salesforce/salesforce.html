@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.salesforce.salesforce &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,17 +145,17 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.salesforce.salesforce</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">simple_salesforce</span> <span class="kn">import</span> <span class="n">Salesforce</span> <span class="k">as</span> <span class="n">_Salesforce</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">json</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">simple_salesforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">Salesforce</span> <span class="k">as</span> <span class="n">_Salesforce</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Salesforce">
 <a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce">[docs]</a>
-<span class="k">class</span> <span class="nc">Salesforce</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Salesforce</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Salesforce class</span>
 
@@ -177,7 +177,7 @@
 <span class="sd">        Salesforce class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">security_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_environment</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">security_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_environment</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_USERNAME&quot;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_PASSWORD&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">security_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_SECURITY_TOKEN&quot;</span><span class="p">,</span> <span class="n">security_token</span><span class="p">)</span>
@@ -191,7 +191,7 @@
 
 <div class="viewcode-block" id="Salesforce.describe_object">
 <a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.describe_object">[docs]</a>
-    <span class="k">def</span> <span class="nf">describe_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">describe_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            object: str</span>
@@ -206,7 +206,7 @@
 
 <div class="viewcode-block" id="Salesforce.describe_fields">
 <a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.describe_fields">[docs]</a>
-    <span class="k">def</span> <span class="nf">describe_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">describe_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            object: str</span>
@@ -221,7 +221,7 @@
 
 <div class="viewcode-block" id="Salesforce.query">
 <a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.query">[docs]</a>
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">soql</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">soql</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            soql: str</span>
@@ -239,7 +239,7 @@
 
 <div class="viewcode-block" id="Salesforce.insert_record">
 <a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.insert_record">[docs]</a>
-    <span class="k">def</span> <span class="nf">insert_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">insert_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Insert new records of the desired object into Salesforce</span>
 
@@ -269,7 +269,7 @@
 
 <div class="viewcode-block" id="Salesforce.update_record">
 <a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.update_record">[docs]</a>
-    <span class="k">def</span> <span class="nf">update_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update existing records of the desired object in Salesforce</span>
 
@@ -299,7 +299,7 @@
 
 <div class="viewcode-block" id="Salesforce.upsert_record">
 <a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.upsert_record">[docs]</a>
-    <span class="k">def</span> <span class="nf">upsert_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">,</span> <span class="n">id_col</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">upsert_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">,</span> <span class="n">id_col</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Insert new records and update existing ones of the desired object in Salesforce</span>
 
@@ -332,7 +332,7 @@
 
 <div class="viewcode-block" id="Salesforce.delete_record">
 <a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.delete_record">[docs]</a>
-    <span class="k">def</span> <span class="nf">delete_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">id_table</span><span class="p">,</span> <span class="n">hard_delete</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">id_table</span><span class="p">,</span> <span class="n">hard_delete</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete existing records of the desired object in Salesforce</span>
 
@@ -366,7 +366,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the Salesforce client to use for making all calls. For more information, check the</span>
 <span class="sd">        `Simple Salesforce Documentation &lt;https://simple-salesforce.readthedocs.io/en/latest/&gt;`_</span>

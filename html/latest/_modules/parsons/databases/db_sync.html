@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.databases.db_sync &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,16 +145,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.databases.db_sync</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="DBSync">
 <a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync">[docs]</a>
-<span class="k">class</span> <span class="nc">DBSync</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DBSync</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sync tables between databases. Works with ``Postgres``, ``Redshift``, ``MySQL``</span>
 <span class="sd">    databases.</span>
@@ -177,7 +177,7 @@
 <span class="sd">        A DBSync object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source_db</span><span class="p">,</span>
         <span class="n">destination_db</span><span class="p">,</span>
@@ -193,7 +193,7 @@
 
 <div class="viewcode-block" id="DBSync.table_sync_full">
 <a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.table_sync_full">[docs]</a>
-    <span class="k">def</span> <span class="nf">table_sync_full</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table_sync_full</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source_table</span><span class="p">,</span>
         <span class="n">destination_table</span><span class="p">,</span>
@@ -265,7 +265,7 @@
 
 <div class="viewcode-block" id="DBSync.table_sync_incremental">
 <a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.table_sync_incremental">[docs]</a>
-    <span class="k">def</span> <span class="nf">table_sync_incremental</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table_sync_incremental</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source_table</span><span class="p">,</span>
         <span class="n">destination_table</span><span class="p">,</span>
@@ -360,7 +360,7 @@
 
 <div class="viewcode-block" id="DBSync.copy_rows">
 <a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.copy_rows">[docs]</a>
-    <span class="k">def</span> <span class="nf">copy_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table_name</span><span class="p">,</span> <span class="n">destination_table_name</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">,</span> <span class="n">order_by</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table_name</span><span class="p">,</span> <span class="n">destination_table_name</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">,</span> <span class="n">order_by</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy the rows from the source to the destination.</span>
 
@@ -466,7 +466,7 @@
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_check_column_match</span><span class="p">(</span><span class="n">source_table_obj</span><span class="p">,</span> <span class="n">destination_table_obj</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_column_match</span><span class="p">(</span><span class="n">source_table_obj</span><span class="p">,</span> <span class="n">destination_table_obj</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ensure that the columns from each table match</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -478,7 +478,7 @@
             <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_row_count_verify</span><span class="p">(</span><span class="n">source_table_obj</span><span class="p">,</span> <span class="n">destination_table_obj</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_row_count_verify</span><span class="p">(</span><span class="n">source_table_obj</span><span class="p">,</span> <span class="n">destination_table_obj</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ensure the the rows of the source table and the destination table match</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -500,7 +500,7 @@
 
 <div class="viewcode-block" id="DBSync.create_table">
 <a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.create_table">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create the empty table in the destination database based on the source</span>
 <span class="sd">        database schema structure. This method utilizes the Alchemy subclass.</span>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.notifications.gmail &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,19 +145,19 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.notifications.gmail</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">base64</span>
-<span class="kn">from</span> <span class="nn">googleapiclient.errors</span> <span class="kn">import</span> <span class="n">HttpError</span>
-<span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="kn">import</span> <span class="n">build</span>
-<span class="kn">from</span> <span class="nn">httplib2</span> <span class="kn">import</span> <span class="n">Http</span>
-<span class="kn">from</span> <span class="nn">oauth2client</span> <span class="kn">import</span> <span class="n">file</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">tools</span>
-<span class="kn">from</span> <span class="nn">parsons.notifications.sendmail</span> <span class="kn">import</span> <span class="n">SendMail</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">googleapiclient.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">HttpError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">googleapiclient.discovery</span><span class="w"> </span><span class="kn">import</span> <span class="n">build</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">httplib2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Http</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oauth2client</span><span class="w"> </span><span class="kn">import</span> <span class="n">file</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">tools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.notifications.sendmail</span><span class="w"> </span><span class="kn">import</span> <span class="n">SendMail</span>
 
 <span class="n">SCOPES</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/auth/gmail.send&quot;</span>
 
 
 <div class="viewcode-block" id="Gmail">
 <a class="viewcode-back" href="../../../notifications.html#parsons.Gmail">[docs]</a>
-<span class="k">class</span> <span class="nc">Gmail</span><span class="p">(</span><span class="n">SendMail</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Gmail</span><span class="p">(</span><span class="n">SendMail</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a Gmail object, for sending emails.</span>
 
 <span class="sd">    `Args:`</span>
@@ -170,7 +170,7 @@
 <span class="sd">            &quot;me&quot; which is used to indicate the authenticated user.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">creds_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="s2">&quot;me&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">creds_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="s2">&quot;me&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">user_id</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">creds_path</span><span class="p">:</span>
@@ -197,10 +197,10 @@
         <span class="c1"># BUG-1</span>
         <span class="c1"># self.service = build(&#39;gmail&#39;, &#39;v1&#39;, http=self.creds.authorize(http))</span>
 
-    <span class="k">def</span> <span class="nf">_encode_raw_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_encode_raw_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;raw&quot;</span><span class="p">:</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">as_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()}</span>
 
-    <span class="k">def</span> <span class="nf">_send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Send an email message.</span>
 
 <span class="sd">        `Args:`</span>

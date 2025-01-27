@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.ngpvan.contact_notes &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -147,21 +147,21 @@
   <h1>Source code for parsons.ngpvan.contact_notes</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Contact Notes Endpoints&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ContactNotes">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ContactNotes">[docs]</a>
-<span class="k">class</span> <span class="nc">ContactNotes</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ContactNotes</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="ContactNotes.get_contact_notes">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ContactNotes.get_contact_notes">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_contact_notes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_contact_notes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get custom fields.</span>
 
@@ -180,7 +180,7 @@
 
 <div class="viewcode-block" id="ContactNotes.create_contact_note">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ContactNotes.create_contact_note">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_contact_note</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_id</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">is_view_restricted</span><span class="p">,</span> <span class="n">note_category_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_contact_note</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_id</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">is_view_restricted</span><span class="p">,</span> <span class="n">note_category_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a contact note</span>
 

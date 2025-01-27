@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.ngpvan.custom_fields &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -122,23 +122,23 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.ngpvan.custom_fields</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="CustomFields">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.CustomFields">[docs]</a>
-<span class="k">class</span> <span class="nc">CustomFields</span><span class="p">():</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomFields</span><span class="p">():</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="CustomFields.get_custom_fields">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.CustomFields.get_custom_fields">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_custom_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="s1">&#39;contacts&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_custom_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="s1">&#39;contacts&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get custom fields.</span>
 
@@ -160,7 +160,7 @@
 
 <div class="viewcode-block" id="CustomFields.get_custom_fields_values">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.CustomFields.get_custom_fields_values">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_custom_fields_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="s1">&#39;contacts&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_custom_fields_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="s1">&#39;contacts&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get custom field values as a long table.</span>
 
@@ -191,7 +191,7 @@
 
 <div class="viewcode-block" id="CustomFields.get_custom_field">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.CustomFields.get_custom_field">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_custom_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">custom_field_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_custom_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">custom_field_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a custom field.</span>
 

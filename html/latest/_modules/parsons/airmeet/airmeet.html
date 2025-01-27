@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.airmeet.airmeet &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,16 +145,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.airmeet.airmeet</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIConnector</span>
 
 <span class="n">AIRMEET_DEFAULT_URI</span> <span class="o">=</span> <span class="s2">&quot;https://api-gateway.airmeet.com/prod/&quot;</span>
 
 
 <div class="viewcode-block" id="Airmeet">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet">[docs]</a>
-<span class="k">class</span> <span class="nc">Airmeet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Airmeet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate class.</span>
 
@@ -174,7 +174,7 @@
 <span class="sd">        &lt;https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">airmeet_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">airmeet_secret_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">airmeet_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">airmeet_secret_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Authenticate with the Airmeet API and update the connection headers</span>
 <span class="sd">        with the access token.</span>
@@ -206,7 +206,7 @@
             <span class="s2">&quot;X-Airmeet-Access-Token&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">,</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">_get_all_pages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_all_pages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all the results from an Airmeet API url, handling pagination based</span>
 <span class="sd">        on the returned pageCount.</span>
@@ -251,7 +251,7 @@
 
 <div class="viewcode-block" id="Airmeet.list_airmeets">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.list_airmeets">[docs]</a>
-    <span class="k">def</span> <span class="nf">list_airmeets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_airmeets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the list of Airmeets. The API excludes any Airmeets that are</span>
 <span class="sd">        Archived (Deleted).</span>
@@ -265,7 +265,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_airmeet_participants">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_airmeet_participants">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_airmeet_participants</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_airmeet_participants</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">,</span> <span class="n">sorting_key</span><span class="o">=</span><span class="s2">&quot;registrationDate&quot;</span><span class="p">,</span> <span class="n">sorting_direction</span><span class="o">=</span><span class="s2">&quot;DESC&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -322,7 +322,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_airmeet_sessions">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_airmeet_sessions">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_airmeet_sessions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_airmeet_sessions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the list of sessions for an Airmeet.</span>
 
@@ -339,7 +339,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_airmeet_info">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_airmeet_info">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_airmeet_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">,</span> <span class="n">lists_to_tables</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_airmeet_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">,</span> <span class="n">lists_to_tables</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the data for an Airmeet (event), which include the list of</span>
 <span class="sd">        sessions, session hosts/cohosts, and various other info.</span>
@@ -363,7 +363,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_airmeet_custom_registration_fields">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_airmeet_custom_registration_fields">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_airmeet_custom_registration_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_airmeet_custom_registration_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the list of custom registration fields for an Airmeet.</span>
 
@@ -380,7 +380,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_event_attendance">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_event_attendance">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_event_attendance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_event_attendance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all attendees for an Airmeet, handling pagination based on the</span>
 <span class="sd">        returned pageCount.</span>
@@ -403,7 +403,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_session_attendance">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_session_attendance">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_session_attendance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_session_attendance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all attendees for a specific Airmeet session, handling pagination</span>
 <span class="sd">        based on the returned pageCount.</span>
@@ -426,7 +426,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_airmeet_booths">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_airmeet_booths">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_airmeet_booths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_airmeet_booths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the list of booths for a specific Airmeet by ID.</span>
 
@@ -446,7 +446,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_booth_attendance">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_booth_attendance">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_booth_attendance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">,</span> <span class="n">booth_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_booth_attendance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">,</span> <span class="n">booth_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all attendees for a specific Airmeet booth, handling pagination</span>
 <span class="sd">        based on the returned pageCount.</span>
@@ -476,7 +476,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_poll_responses">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_poll_responses">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_poll_responses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_poll_responses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of the poll responses in an Airmeet, handling pagination</span>
 <span class="sd">        based on the returned pageCount.</span>
@@ -496,7 +496,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_questions_asked">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_questions_asked">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_questions_asked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_questions_asked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of the questions asked in an Airmeet.</span>
 
@@ -514,7 +514,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_event_tracks">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_event_tracks">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_event_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_event_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of the tracks in a specific Airmeet by ID.</span>
 
@@ -534,7 +534,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_registration_utms">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_registration_utms">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_registration_utms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_registration_utms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all the UTM parameters captured during registration, handling</span>
 <span class="sd">        pagination based on the returned pageCount.</span>
@@ -557,7 +557,7 @@
 
 <div class="viewcode-block" id="Airmeet.download_session_recordings">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.download_session_recordings">[docs]</a>
-    <span class="k">def</span> <span class="nf">download_session_recordings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">,</span> <span class="n">session_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">download_session_recordings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">,</span> <span class="n">session_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of recordings for a specific Airmeet (and optionally a</span>
 <span class="sd">        specific session in that Airmeet). The data for each recording</span>
@@ -587,7 +587,7 @@
 
 <div class="viewcode-block" id="Airmeet.fetch_event_replay_attendance">
 <a class="viewcode-back" href="../../../airmeet.html#parsons.Airmeet.fetch_event_replay_attendance">[docs]</a>
-    <span class="k">def</span> <span class="nf">fetch_event_replay_attendance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">,</span> <span class="n">session_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_event_replay_attendance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">airmeet_id</span><span class="p">,</span> <span class="n">session_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all replay attendees for a specific Airmeet (and optionally a</span>
 <span class="sd">        specific session in that Airmeet), handling pagination based on the</span>

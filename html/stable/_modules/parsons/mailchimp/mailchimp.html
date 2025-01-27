@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.mailchimp.mailchimp &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -143,18 +143,18 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.mailchimp.mailchimp</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIConnector</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Mailchimp">
 <a class="viewcode-back" href="../../../mailchimp.html#parsons.mailchimp.Mailchimp">[docs]</a>
-<span class="k">class</span> <span class="nc">Mailchimp</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Mailchimp</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate Mailchimp Class</span>
 
@@ -166,7 +166,7 @@
 <span class="sd">        Mailchimp Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;MAILCHIMP_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;(?&lt;=-).+$&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}</span><span class="s2">.api.mailchimp.com/3.0/&quot;</span>
@@ -174,7 +174,7 @@
 
 <div class="viewcode-block" id="Mailchimp.get_lists">
 <a class="viewcode-back" href="../../../mailchimp.html#parsons.mailchimp.Mailchimp.get_lists">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_lists</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_lists</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">exclude_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -257,7 +257,7 @@
 
 <div class="viewcode-block" id="Mailchimp.get_campaigns">
 <a class="viewcode-back" href="../../../mailchimp.html#parsons.mailchimp.Mailchimp.get_campaigns">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_campaigns</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaigns</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">exclude_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -357,7 +357,7 @@
 
 <div class="viewcode-block" id="Mailchimp.get_members">
 <a class="viewcode-back" href="../../../mailchimp.html#parsons.mailchimp.Mailchimp.get_members">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_members</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_members</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">list_id</span><span class="p">,</span>
         <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -493,7 +493,7 @@
 
 <div class="viewcode-block" id="Mailchimp.get_campaign_emails">
 <a class="viewcode-back" href="../../../mailchimp.html#parsons.mailchimp.Mailchimp.get_campaign_emails">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_campaign_emails</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaign_emails</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">campaign_id</span><span class="p">,</span>
         <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -549,7 +549,7 @@
 
 <div class="viewcode-block" id="Mailchimp.get_unsubscribes">
 <a class="viewcode-back" href="../../../mailchimp.html#parsons.mailchimp.Mailchimp.get_unsubscribes">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_unsubscribes</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_unsubscribes</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

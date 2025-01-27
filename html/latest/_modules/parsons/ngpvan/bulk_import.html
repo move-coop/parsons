@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.ngpvan.bulk_import &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -147,25 +147,25 @@
   <h1>Source code for parsons.ngpvan.bulk_import</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Bulk Import Endpoints&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">cloud_storage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">cloud_storage</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
-<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="BulkImport">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport">[docs]</a>
-<span class="k">class</span> <span class="nc">BulkImport</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BulkImport</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="BulkImport.get_bulk_import_resources">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_resources">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_bulk_import_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_bulk_import_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get bulk import resources that available to the user. These define</span>
 <span class="sd">        the types of bulk imports that you can run. These might include</span>
@@ -183,7 +183,7 @@
 
 <div class="viewcode-block" id="BulkImport.get_bulk_import_job">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_job">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_bulk_import_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_bulk_import_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a bulk import job status.</span>
 
@@ -202,7 +202,7 @@
 
 <div class="viewcode-block" id="BulkImport.get_bulk_import_job_results">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_job_results">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_bulk_import_job_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_bulk_import_job_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get result file of a bulk upload job. This will include one row</span>
 <span class="sd">        per record processed as well as the status of each.</span>
@@ -228,7 +228,7 @@
 
 <div class="viewcode-block" id="BulkImport.get_bulk_import_mapping_types">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_types">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_bulk_import_mapping_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_bulk_import_mapping_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get bulk import mapping types.</span>
 
@@ -244,7 +244,7 @@
 
 <div class="viewcode-block" id="BulkImport.get_bulk_import_mapping_type">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_type">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_bulk_import_mapping_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_bulk_import_mapping_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a single bulk import mapping type.</span>
 
@@ -262,7 +262,7 @@
 
 <div class="viewcode-block" id="BulkImport.get_bulk_import_mapping_type_fields">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_type_fields">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_bulk_import_mapping_type_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_name</span><span class="p">,</span> <span class="n">field_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_bulk_import_mapping_type_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_name</span><span class="p">,</span> <span class="n">field_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get data about a field in a mapping type.</span>
 
@@ -281,7 +281,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 
-    <span class="k">def</span> <span class="nf">post_bulk_import</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post_bulk_import</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tbl</span><span class="p">,</span>
         <span class="n">url_type</span><span class="p">,</span>
@@ -335,7 +335,7 @@
 
 <div class="viewcode-block" id="BulkImport.bulk_apply_activist_codes">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_apply_activist_codes">[docs]</a>
-    <span class="k">def</span> <span class="nf">bulk_apply_activist_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bulk_apply_activist_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk apply activist codes.</span>
 
@@ -391,7 +391,7 @@
 
 <div class="viewcode-block" id="BulkImport.bulk_upsert_contacts">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_upsert_contacts">[docs]</a>
-    <span class="k">def</span> <span class="nf">bulk_upsert_contacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">result_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bulk_upsert_contacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">result_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk create or update contact records. Provide a Parsons table of contact data to</span>
 <span class="sd">        create or update records.</span>
@@ -521,7 +521,7 @@
 
 <div class="viewcode-block" id="BulkImport.bulk_apply_suppressions">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_apply_suppressions">[docs]</a>
-    <span class="k">def</span> <span class="nf">bulk_apply_suppressions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bulk_apply_suppressions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk apply contact suppression codes.</span>
 
@@ -568,7 +568,7 @@
 
 <div class="viewcode-block" id="BulkImport.bulk_apply_canvass_results">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_apply_canvass_results">[docs]</a>
-    <span class="k">def</span> <span class="nf">bulk_apply_canvass_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bulk_apply_canvass_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk apply contact canvass results.</span>
 
@@ -639,7 +639,7 @@
 
 <div class="viewcode-block" id="BulkImport.bulk_apply_contact_custom_fields">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_apply_contact_custom_fields">[docs]</a>
-    <span class="k">def</span> <span class="nf">bulk_apply_contact_custom_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">custom_field_group_id</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bulk_apply_contact_custom_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">custom_field_group_id</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk apply contact custom fields.</span>
 

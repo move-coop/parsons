@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Action Network &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
@@ -259,7 +259,7 @@ and organizing volunteers and donors. It is used primarily for digital organizin
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
 <p>To instantiate a class, you can either pass in the API token as an argument or set the <code class="docutils literal notranslate"><span class="pre">AN_API_TOKEN</span></code> environmental variable.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">ActionNetwork</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActionNetwork</span>
 
 <span class="c1"># First approach: Use API credentials via environmental variables</span>
 <span class="n">an</span> <span class="o">=</span> <span class="n">ActionNetwork</span><span class="p">()</span>
@@ -340,7 +340,7 @@ and organizing volunteers and donors. It is used primarily for digital organizin
 </section>
 <section id="sql-mirror">
 <h2>SQL Mirror<a class="headerlink" href="#sql-mirror" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.utilities.ssh_utilities</span> <span class="kn">import</span> <span class="n">query_through_ssh</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.ssh_utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">query_through_ssh</span>
 
      <span class="c1"># Define SSH and database parameters</span>
      <span class="n">ssh_host</span> <span class="o">=</span> <span class="s1">&#39;ssh.example.com&#39;</span>

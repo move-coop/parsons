@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Phone2Action &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
@@ -153,13 +153,13 @@ allows you to interact with the tool by leveraging their <a class="reference ext
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
 <p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Phone2Action</span></code> class, you can either pass in the app ID and app key as arguments or set the
 <code class="docutils literal notranslate"><span class="pre">PHONE2ACTION_APP_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">PHONE2ACTION_APP_KEY</span></code> environmental variables.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Phone2Action</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Phone2Action</span>
 
 <span class="c1"># Instantiate the class using environment variables</span>
 <span class="n">p2a</span> <span class="o">=</span> <span class="n">Phone2Action</span><span class="p">()</span>
 
 <span class="c1"># Get all advocates updated in the last day</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
 <span class="n">yesterday</span> <span class="o">=</span> <span class="n">today</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 

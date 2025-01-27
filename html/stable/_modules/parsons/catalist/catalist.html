@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.catalist.catalist &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -148,25 +148,25 @@
 <span class="sd">Install dependencies with `pip install parsons[catalist]`</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">base64</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">tempfile</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">urllib</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">zipfile</span> <span class="kn">import</span> <span class="n">ZipFile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZipFile</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.sftp</span> <span class="kn">import</span> <span class="n">SFTP</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.oauth_api_connector</span> <span class="kn">import</span> <span class="n">OAuth2APIConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.sftp</span><span class="w"> </span><span class="kn">import</span> <span class="n">SFTP</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.oauth_api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">OAuth2APIConnector</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="CatalistMatch">
 <a class="viewcode-back" href="../../../catalist.html#parsons.CatalistMatch">[docs]</a>
-<span class="k">class</span> <span class="nc">CatalistMatch</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CatalistMatch</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Connector for working with the Catalist Match API.</span>
 
 <span class="sd">    This API allows a trusted third party to submit new files for processing, and/or</span>
@@ -202,7 +202,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">client_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">client_secret</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -224,7 +224,7 @@
 
 <div class="viewcode-block" id="CatalistMatch.load_table_to_sftp">
 <a class="viewcode-back" href="../../../catalist.html#parsons.CatalistMatch.load_table_to_sftp">[docs]</a>
-    <span class="k">def</span> <span class="nf">load_table_to_sftp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">input_subfolder</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_table_to_sftp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">input_subfolder</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load table to Catalist sftp bucket as gzipped CSV for matching.</span>
 
 <span class="sd">        If input_subfolder is specific, the file will be uploaded to a subfolder of the</span>
@@ -259,7 +259,7 @@
 
 <div class="viewcode-block" id="CatalistMatch.match">
 <a class="viewcode-back" href="../../../catalist.html#parsons.CatalistMatch.match">[docs]</a>
-    <span class="k">def</span> <span class="nf">match</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">match</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span>
         <span class="n">export</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -309,7 +309,7 @@
 
 <div class="viewcode-block" id="CatalistMatch.upload">
 <a class="viewcode-back" href="../../../catalist.html#parsons.CatalistMatch.upload">[docs]</a>
-    <span class="k">def</span> <span class="nf">upload</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">upload</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span>
         <span class="n">template_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;48827&quot;</span><span class="p">,</span>
@@ -395,7 +395,7 @@
 
 <div class="viewcode-block" id="CatalistMatch.action">
 <a class="viewcode-back" href="../../../catalist.html#parsons.CatalistMatch.action">[docs]</a>
-    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">action</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">file_ids</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
         <span class="n">match</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -459,7 +459,7 @@
 
 <div class="viewcode-block" id="CatalistMatch.status">
 <a class="viewcode-back" href="../../../catalist.html#parsons.CatalistMatch.status">[docs]</a>
-    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check status of a match job.&quot;&quot;&quot;</span>
         <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">])</span>
         <span class="n">query_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">token</span><span class="p">[</span><span class="s2">&quot;access_token&quot;</span><span class="p">]}</span>
@@ -469,7 +469,7 @@
 
 <div class="viewcode-block" id="CatalistMatch.await_completion">
 <a class="viewcode-back" href="../../../catalist.html#parsons.CatalistMatch.await_completion">[docs]</a>
-    <span class="k">def</span> <span class="nf">await_completion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">wait</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">await_completion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">wait</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Await completion of a match job. Return matches when ready.</span>
 
 <span class="sd">        This method will poll the status of a match job on a timer until the job is</span>
@@ -494,7 +494,7 @@
 
 <div class="viewcode-block" id="CatalistMatch.load_matches">
 <a class="viewcode-back" href="../../../catalist.html#parsons.CatalistMatch.load_matches">[docs]</a>
-    <span class="k">def</span> <span class="nf">load_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Take a completed job ID, download and open the match file as a Table.</span>
 
 <span class="sd">        Result will be a Table with all the original columns along with columns &#39;DWID&#39;,</span>
@@ -539,7 +539,7 @@
 
 <div class="viewcode-block" id="CatalistMatch.validate_table">
 <a class="viewcode-back" href="../../../catalist.html#parsons.CatalistMatch.validate_table">[docs]</a>
-    <span class="k">def</span> <span class="nf">validate_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">template_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;48827&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">template_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;48827&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate table structure and contents.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">template_id</span> <span class="o">==</span> <span class="s2">&quot;48827&quot;</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No validator implemented for template </span><span class="si">{</span><span class="n">template_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>

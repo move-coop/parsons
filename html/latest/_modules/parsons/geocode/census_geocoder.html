@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.geocode.census_geocoder &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,10 +145,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.geocode.census_geocoder</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">import</span> <span class="nn">petl</span>
-<span class="kn">import</span> <span class="nn">censusgeocode</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">censusgeocode</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -160,7 +160,7 @@
 
 <div class="viewcode-block" id="CensusGeocoder">
 <a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder">[docs]</a>
-<span class="k">class</span> <span class="nc">CensusGeocoder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CensusGeocoder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the CensusGecoder Class</span>
 
@@ -173,12 +173,12 @@
 <span class="sd">            other options can be found `here &lt;https://geocoding.geo.census.gov/geocoder/vintages?form&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchmark</span><span class="o">=</span><span class="s2">&quot;Public_AR_Current&quot;</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="s2">&quot;Current_Current&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchmark</span><span class="o">=</span><span class="s2">&quot;Public_AR_Current&quot;</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="s2">&quot;Current_Current&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cg</span> <span class="o">=</span> <span class="n">censusgeocode</span><span class="o">.</span><span class="n">CensusGeocode</span><span class="p">(</span><span class="n">benchmark</span><span class="o">=</span><span class="n">benchmark</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="n">vintage</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CensusGeocoder.geocode_onelineaddress">
 <a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.geocode_onelineaddress">[docs]</a>
-    <span class="k">def</span> <span class="nf">geocode_onelineaddress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s2">&quot;geographies&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">geocode_onelineaddress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s2">&quot;geographies&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Geocode a single line address. Does not require parsing of city and zipcode field. Returns</span>
 <span class="sd">        geocode as well as other census block data. If the service is unable to geocode the address</span>
@@ -201,7 +201,7 @@
 
 <div class="viewcode-block" id="CensusGeocoder.geocode_address">
 <a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.geocode_address">[docs]</a>
-    <span class="k">def</span> <span class="nf">geocode_address</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">geocode_address</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">address_line</span><span class="p">,</span>
         <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -236,7 +236,7 @@
 
 <div class="viewcode-block" id="CensusGeocoder.geocode_address_batch">
 <a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.geocode_address_batch">[docs]</a>
-    <span class="k">def</span> <span class="nf">geocode_address_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">geocode_address_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Geocode multiple addresses from a parsons table.</span>
 
@@ -282,7 +282,7 @@
         <span class="k">return</span> <span class="n">geocoded_tbl</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_log_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_log_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="c1"># Internal method to log the result of the geocode</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -292,7 +292,7 @@
 
 <div class="viewcode-block" id="CensusGeocoder.get_coordinates_data">
 <a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.get_coordinates_data">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_coordinates_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_coordinates_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return census data on coordinates.</span>
 

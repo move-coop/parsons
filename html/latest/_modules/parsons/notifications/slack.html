@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.notifications.slack &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,23 +145,23 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.notifications.slack</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.check_env</span> <span class="kn">import</span> <span class="n">check</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.check_env</span><span class="w"> </span><span class="kn">import</span> <span class="n">check</span>
 
-<span class="kn">from</span> <span class="nn">slackclient</span> <span class="kn">import</span> <span class="n">SlackClient</span>
-<span class="kn">from</span> <span class="nn">slackclient.exceptions</span> <span class="kn">import</span> <span class="n">SlackClientError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">slackclient</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlackClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">slackclient.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlackClientError</span>
 
-<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 
 
 <div class="viewcode-block" id="Slack">
 <a class="viewcode-back" href="../../../notifications.html#parsons.Slack">[docs]</a>
-<span class="k">class</span> <span class="nc">Slack</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Slack</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">api_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SLACK_API_TOKEN&quot;</span><span class="p">]</span>
@@ -179,7 +179,7 @@
 
 <div class="viewcode-block" id="Slack.channels">
 <a class="viewcode-back" href="../../../notifications.html#parsons.Slack.channels">[docs]</a>
-    <span class="k">def</span> <span class="nf">channels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">exclude_archived</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;public_channel&quot;</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">channels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">exclude_archived</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;public_channel&quot;</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a list of all channels in a Slack team.</span>
 
@@ -218,7 +218,7 @@
 
 <div class="viewcode-block" id="Slack.users">
 <a class="viewcode-back" href="../../../notifications.html#parsons.Slack.users">[docs]</a>
-    <span class="k">def</span> <span class="nf">users</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">users</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">fields</span><span class="o">=</span><span class="p">[</span>
             <span class="s2">&quot;id&quot;</span><span class="p">,</span>
@@ -255,7 +255,7 @@
 <div class="viewcode-block" id="Slack.message">
 <a class="viewcode-back" href="../../../notifications.html#parsons.Slack.message">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">webhook</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent_message_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">message</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">webhook</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent_message_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Send a message to a Slack channel with a webhook instead of an api_key.</span>
 <span class="sd">        You might not have the full-access API key but still want to notify a channel</span>
@@ -280,7 +280,7 @@
 
 <div class="viewcode-block" id="Slack.message_channel">
 <a class="viewcode-back" href="../../../notifications.html#parsons.Slack.message_channel">[docs]</a>
-    <span class="k">def</span> <span class="nf">message_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">parent_message_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">message_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">parent_message_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Send a message to a Slack channel</span>
 
@@ -346,7 +346,7 @@
 
 <div class="viewcode-block" id="Slack.upload_file">
 <a class="viewcode-back" href="../../../notifications.html#parsons.Slack.upload_file">[docs]</a>
-    <span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">upload_file</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">channels</span><span class="p">,</span>
         <span class="n">filename</span><span class="p">,</span>
@@ -412,7 +412,7 @@
         <span class="k">return</span> <span class="n">resp</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_paginate_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_paginate_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1"># The max object we&#39;re requesting at a time.</span>
         <span class="c1"># This is an nternal limit to not overload slack api</span>
         <span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">200</span>

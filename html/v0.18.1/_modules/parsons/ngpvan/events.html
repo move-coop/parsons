@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.ngpvan.events &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -130,23 +130,23 @@
   <h1>Source code for parsons.ngpvan.events</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Events Endpoints&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Events">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events">[docs]</a>
-<span class="k">class</span> <span class="nc">Events</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Events</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="Events.get_events">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_events">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">event_type_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rep_event_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">event_type_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rep_event_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">starting_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starting_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">district_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">expand_fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;shifts&#39;</span><span class="p">,</span> <span class="s1">&#39;roles&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">,</span>
                                   <span class="s1">&#39;financialProgram&#39;</span><span class="p">,</span> <span class="s1">&#39;ticketCategories&#39;</span><span class="p">,</span>
@@ -197,7 +197,7 @@
 
 <div class="viewcode-block" id="Events.get_event">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_event">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">expand_fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;shifts&#39;</span><span class="p">,</span> <span class="s1">&#39;roles&#39;</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">expand_fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;shifts&#39;</span><span class="p">,</span> <span class="s1">&#39;roles&#39;</span><span class="p">,</span>
                                                  <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;financialProgram&#39;</span><span class="p">,</span> <span class="s1">&#39;ticketCategories&#39;</span><span class="p">,</span>
                                                  <span class="s1">&#39;voterRegistrationBatches&#39;</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -226,7 +226,7 @@
 
 <div class="viewcode-block" id="Events.create_event">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.create_event">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">short_name</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">event_type_id</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">short_name</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">event_type_id</span><span class="p">,</span>
                      <span class="n">roles</span><span class="p">,</span> <span class="n">shifts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                      <span class="n">publicly_viewable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">location_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">notes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">district_field_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">voter_registration_batches</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -323,7 +323,7 @@
 
 <div class="viewcode-block" id="Events.delete_event">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.delete_event">[docs]</a>
-    <span class="k">def</span> <span class="nf">delete_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete an event.</span>
 
@@ -341,7 +341,7 @@
 
 <div class="viewcode-block" id="Events.add_event_shift">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.add_event_shift">[docs]</a>
-    <span class="k">def</span> <span class="nf">add_event_shift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">shift_name</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_event_shift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">shift_name</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add shifts to an event</span>
 
@@ -371,7 +371,7 @@
 
 <div class="viewcode-block" id="Events.get_event_types">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_event_types">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_event_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_event_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get event types.</span>
 

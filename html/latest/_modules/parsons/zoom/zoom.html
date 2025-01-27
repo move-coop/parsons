@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.zoom.zoom &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,11 +145,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.zoom.zoom</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.oauth_api_connector</span> <span class="kn">import</span> <span class="n">OAuth2APIConnector</span>
-<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.oauth_api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">OAuth2APIConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -161,7 +161,7 @@
 
 <div class="viewcode-block" id="Zoom">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom">[docs]</a>
-<span class="k">class</span> <span class="nc">Zoom</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Zoom</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Zoom class.</span>
 
@@ -174,7 +174,7 @@
 <span class="sd">            variable set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">account_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ZOOM_ACCOUNT_ID&quot;</span><span class="p">,</span> <span class="n">account_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ZOOM_CLIENT_ID&quot;</span><span class="p">,</span> <span class="n">client_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__client_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ZOOM_CLIENT_SECRET&quot;</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
@@ -189,7 +189,7 @@
             <span class="n">authorization_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;account_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">account_id</span><span class="p">},</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        TODO: Consider increasing default page size.</span>
 
@@ -228,7 +228,7 @@
                 <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">data_parse</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__handle_nested_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__handle_nested_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function unpacks JSON values from Zoom&#39;s API, which are often</span>
 <span class="sd">        objects nested in lists</span>
@@ -248,7 +248,7 @@
             <span class="n">column</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">_0&quot;</span><span class="p">,</span> <span class="n">prepend_value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">_&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__process_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__process_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Unpacks nested poll results values from the Zoom reports endpoint</span>
 
@@ -285,7 +285,7 @@
 
 <div class="viewcode-block" id="Zoom.get_users">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_users">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;active&quot;</span><span class="p">,</span> <span class="n">role_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;active&quot;</span><span class="p">,</span> <span class="n">role_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get users.</span>
 
@@ -312,7 +312,7 @@
 
 <div class="viewcode-block" id="Zoom.get_meetings">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meetings">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_meetings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">meeting_type</span><span class="o">=</span><span class="s2">&quot;scheduled&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meetings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">meeting_type</span><span class="o">=</span><span class="s2">&quot;scheduled&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get meetings scheduled by a user.</span>
 
@@ -348,7 +348,7 @@
 
 <div class="viewcode-block" id="Zoom.get_past_meeting">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_meeting">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_past_meeting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_uuid</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_uuid</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata regarding a past meeting.</span>
 
@@ -367,7 +367,7 @@
 
 <div class="viewcode-block" id="Zoom.get_past_meeting_participants">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_meeting_participants">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_past_meeting_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants.</span>
 
@@ -386,7 +386,7 @@
 
 <div class="viewcode-block" id="Zoom.get_meeting_registrants">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meeting_registrants">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_meeting_registrants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_registrants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get meeting registrants.</span>
 
@@ -405,7 +405,7 @@
 
 <div class="viewcode-block" id="Zoom.get_user_webinars">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_user_webinars">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_user_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get meeting registrants.</span>
 
@@ -424,7 +424,7 @@
 
 <div class="viewcode-block" id="Zoom.get_past_webinar_report">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_webinar_report">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_past_webinar_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants</span>
 
@@ -444,7 +444,7 @@
 
 <div class="viewcode-block" id="Zoom.get_past_webinar_participants">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_webinar_participants">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_past_webinar_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants</span>
 
@@ -463,7 +463,7 @@
 
 <div class="viewcode-block" id="Zoom.get_webinar_registrants">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_webinar_registrants">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_webinar_registrants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_registrants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants</span>
 
@@ -482,7 +482,7 @@
 
 <div class="viewcode-block" id="Zoom.get_meeting_poll_metadata">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meeting_poll_metadata">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata about a specific poll for a given meeting ID</span>
 
@@ -514,7 +514,7 @@
 
 <div class="viewcode-block" id="Zoom.get_meeting_all_polls_metadata">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meeting_all_polls_metadata">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_meeting_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata for all polls for a given meeting ID</span>
 
@@ -542,7 +542,7 @@
 
 <div class="viewcode-block" id="Zoom.get_past_meeting_poll_metadata">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_meeting_poll_metadata">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_past_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List poll metadata of a past meeting.</span>
 
@@ -570,7 +570,7 @@
 
 <div class="viewcode-block" id="Zoom.get_webinar_poll_metadata">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_webinar_poll_metadata">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata for a specific poll for a given webinar ID</span>
 
@@ -602,7 +602,7 @@
 
 <div class="viewcode-block" id="Zoom.get_webinar_all_polls_metadata">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_webinar_all_polls_metadata">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_webinar_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata for all polls for a given webinar ID</span>
 
@@ -630,7 +630,7 @@
 
 <div class="viewcode-block" id="Zoom.get_past_webinar_poll_metadata">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_webinar_poll_metadata">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_past_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the metadata for Webinar Polls of a specific Webinar</span>
 
@@ -658,7 +658,7 @@
 
 <div class="viewcode-block" id="Zoom.get_meeting_poll_results">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meeting_poll_results">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_meeting_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a report of poll results for a past meeting</span>
 
@@ -679,7 +679,7 @@
 
 <div class="viewcode-block" id="Zoom.get_webinar_poll_results">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_webinar_poll_results">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_webinar_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a report of poll results for a past webinar</span>
 

@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Amazon Web Services &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
@@ -188,13 +188,13 @@ multiple Lambda sub-invocations, each of which can be sent a byte-range of the d
 <section id="quickstart">
 <h3>QuickStart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
 <p>A minimalistic example Lambda handler might look something like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.aws</span> <span class="kn">import</span> <span class="n">event_command</span><span class="p">,</span> <span class="n">distribute_task</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.aws</span><span class="w"> </span><span class="kn">import</span> <span class="n">event_command</span><span class="p">,</span> <span class="n">distribute_task</span>
 
-<span class="k">def</span> <span class="nf">process_table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">process_table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
         <span class="n">do_sloooooow_thing</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
     <span class="c1">## ADD THESE TWO LINES TO TOP OF HANDLER:</span>
     <span class="k">if</span> <span class="n">event_command</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
         <span class="k">return</span>
@@ -292,7 +292,7 @@ Users can be granted granular access to AWS resources, including S3. IAM users a
 <h3>QuickStart<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <p>S3 credentials can be passed as environmental variables (<code class="docutils literal notranslate"><span class="pre">AWS_ACCESS_KEY_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">AWS_SECRET_ACCESS_KEY</span></code>),
 stored in an AWS CLI file <code class="docutils literal notranslate"><span class="pre">~/.aws/credentials</span></code>, or passed as keyword arguments.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">S3</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3</span>
 
 <span class="c1"># First approach: Pass API credentials via environmental variables or an AWS CLI file</span>
 <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">()</span>
@@ -354,7 +354,7 @@ for more information about AWS Redshift authorization.</p>
 <a class="reference external" href="https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html">access key ID and a secret access key</a>,
 which can also be passed as environmental variables (<code class="docutils literal notranslate"><span class="pre">aws_access_key_id</span></code> and <code class="docutils literal notranslate"><span class="pre">aws_secret_access_key</span></code>)
 or keyword arguments.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Redshift</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Redshift</span>
 
 <span class="c1"># Pass credentials as environmental variables</span>
 <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">()</span>

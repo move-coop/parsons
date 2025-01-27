@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.aws.lambda_distribute &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,53 +145,53 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.aws.lambda_distribute</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">csv</span>
-<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">TextIOWrapper</span><span class="p">,</span> <span class="n">BytesIO</span><span class="p">,</span> <span class="n">StringIO</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">traceback</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextIOWrapper</span><span class="p">,</span> <span class="n">BytesIO</span><span class="p">,</span> <span class="n">StringIO</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
-<span class="kn">from</span> <span class="nn">parsons.aws.aws_async</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.aws.aws_async</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_func_task_path</span><span class="p">,</span>
     <span class="n">import_and_get_task</span><span class="p">,</span>
     <span class="n">run</span> <span class="k">as</span> <span class="n">maybe_async_run</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">parsons.aws.s3</span> <span class="kn">import</span> <span class="n">S3</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.check_env</span> <span class="kn">import</span> <span class="n">check</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.aws.s3</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.check_env</span><span class="w"> </span><span class="kn">import</span> <span class="n">check</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">DistributeTaskException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DistributeTaskException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">pass</span>
 
 
-<span class="k">class</span> <span class="nc">TestStorage</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TestStorage</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="nf">put_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">object_bytes</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">put_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">object_bytes</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">object_bytes</span>
 
-    <span class="k">def</span> <span class="nf">get_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">rangestart</span><span class="p">,</span> <span class="n">rangeend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">rangestart</span><span class="p">,</span> <span class="n">rangeend</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">rangestart</span><span class="p">:</span><span class="n">rangeend</span><span class="p">]</span>
 
 
-<span class="k">class</span> <span class="nc">S3Storage</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">S3Storage</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    These methods are pretty specialized, so we keep them</span>
 <span class="sd">    inside this file rather than s3.py</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">use_env_token</span><span class="o">=</span><span class="n">use_env_token</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">put_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">object_bytes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">put_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">object_bytes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">put_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">Body</span><span class="o">=</span><span class="n">object_bytes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">rangestart</span><span class="p">,</span> <span class="n">rangeend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">rangestart</span><span class="p">,</span> <span class="n">rangeend</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets an explicit byte-range of an S3 file</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -208,7 +208,7 @@
 <span class="n">S3_TEMP_KEY_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;Parsons_DistributeTask&quot;</span>
 
 
-<span class="k">def</span> <span class="nf">distribute_task_csv</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">distribute_task_csv</span><span class="p">(</span>
     <span class="n">csv_bytes_utf8</span><span class="p">,</span>
     <span class="n">func_to_run</span><span class="p">,</span>
     <span class="n">bucket</span><span class="p">,</span>
@@ -291,7 +291,7 @@
 
 <div class="viewcode-block" id="distribute_task">
 <a class="viewcode-back" href="../../../aws.html#parsons.aws.distribute_task">[docs]</a>
-<span class="k">def</span> <span class="nf">distribute_task</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">distribute_task</span><span class="p">(</span>
     <span class="n">table</span><span class="p">,</span>
     <span class="n">func_to_run</span><span class="p">,</span>
     <span class="n">bucket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -370,7 +370,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">process_task_portion</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">process_task_portion</span><span class="p">(</span>
     <span class="n">bucket</span><span class="p">,</span>
     <span class="n">storagekey</span><span class="p">,</span>
     <span class="n">rangestart</span><span class="p">,</span>

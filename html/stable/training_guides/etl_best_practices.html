@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Introduction to ETL Best Practices &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -268,9 +268,9 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 <h4>Setting up: Imports and Instances<a class="headerlink" href="#setting-up-imports-and-instances" title="Link to this heading"></a></h4>
 <p>Before we jump into moving data around, lets import all the things we need and instantiate our connectors.</p>
 <p>Your imports should look like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">MobilizeAmerica</span><span class="p">,</span> <span class="n">GoogleSheets</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">MobilizeAmerica</span><span class="p">,</span> <span class="n">GoogleSheets</span>
 </pre></div>
 </div>
 <p><a class="reference external" href="https://docs.python.org/3/library/json.html">json</a> is a Python module that helps us convert between data in a JSON format (which is a popular way to store and share data) and Python data structures.</p>
@@ -338,7 +338,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 <p>Let’s make some fixes to our data. First off, those timeslot fields are confusing! What kind of date is <code class="docutils literal notranslate"><span class="pre">1642865400</span></code>?</p>
 <p>(It’s actually something called a <a class="reference external" href="https://www.unixtimestamp.com/">unix timestamp</a>, which measures the total number of seconds since January 1st, 1970. Why January 1st, 1970? No real reason! They just needed to pick a date and I guess that seemed like a good one.)</p>
 <p>Let’s convert these unix timestamps to something more readable. To do this, we define a function that takes in a value and returns a value:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">convert_to_legible_date</span><span class="p">(</span><span class="n">unix_date</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">convert_to_legible_date</span><span class="p">(</span><span class="n">unix_date</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">unix_date</span><span class="p">))</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -486,7 +486,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 <p>Tools like Civis often have no-code solutions for getting data from your source system into your data warehouse. That makes our jobs quite a bit easier! This screenshot shows the interface for importing data from Mobilize using Civis:</p>
 <img alt="../_images/civis_mobilize_import.png" src="../_images/civis_mobilize_import.png" />
 <p>If that’s not an option, because Civis doesn’t have an importer for your tool or for some other reason, you can write a custom Python script which extracts data from the source system. You can use Parsons for this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Parsons</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">MobilizeAmerica</span><span class="p">,</span> <span class="n">Redshift</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">MobilizeAmerica</span><span class="p">,</span> <span class="n">Redshift</span>
 
 <span class="n">mobilize</span> <span class="o">=</span> <span class="n">MobilizeAmerica</span><span class="p">()</span>
 <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">()</span>

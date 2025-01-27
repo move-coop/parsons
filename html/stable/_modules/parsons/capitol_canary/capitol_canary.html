@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.capitol_canary.capitol_canary &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -143,12 +143,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.capitol_canary.capitol_canary</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">requests.auth</span> <span class="kn">import</span> <span class="n">HTTPBasicAuth</span>
-<span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.datetime</span> <span class="kn">import</span> <span class="n">date_to_timestamp</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">requests.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPBasicAuth</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date_to_timestamp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -157,7 +157,7 @@
 
 <div class="viewcode-block" id="CapitolCanary">
 <a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary">[docs]</a>
-<span class="k">class</span> <span class="nc">CapitolCanary</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CapitolCanary</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate CapitolCanary Class</span>
 
@@ -172,7 +172,7 @@
 <span class="sd">        CapitolCanary Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># check first for CapitolCanary branded app key and ID</span>
         <span class="n">cc_app_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CAPITOLCANARY_APP_ID&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">cc_app_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CAPITOLCANARY_APP_KEY&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -182,7 +182,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">app_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">app_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="n">CAPITOL_CANARY_URI</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">auth</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_paginate_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_paginate_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Internal pagination method</span>
 
         <span class="k">if</span> <span class="n">page</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -205,7 +205,7 @@
 
 <div class="viewcode-block" id="CapitolCanary.get_advocates">
 <a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.get_advocates">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_advocates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">campaign_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_advocates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">campaign_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return advocates (person records).</span>
 
@@ -250,7 +250,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_advocates_tables</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="n">json</span><span class="p">))</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_advocates_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_advocates_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">):</span>
         <span class="c1"># Convert the advocates nested table into multiple tables</span>
 
         <span class="n">tbls</span> <span class="o">=</span> <span class="p">{</span>
@@ -283,7 +283,7 @@
 
 <div class="viewcode-block" id="CapitolCanary.get_campaigns">
 <a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.get_campaigns">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_campaigns</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaigns</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="nb">zip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -329,7 +329,7 @@
 
 <div class="viewcode-block" id="CapitolCanary.create_advocate">
 <a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.create_advocate">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_advocate</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_advocate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">campaigns</span><span class="p">,</span>
         <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -457,7 +457,7 @@
 
 <div class="viewcode-block" id="CapitolCanary.update_advocate">
 <a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.update_advocate">[docs]</a>
-    <span class="k">def</span> <span class="nf">update_advocate</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_advocate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">advocate_id</span><span class="p">,</span>
         <span class="n">campaigns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>

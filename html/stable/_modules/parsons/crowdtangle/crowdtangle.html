@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.crowdtangle.crowdtangle &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -143,11 +143,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.crowdtangle.crowdtangle</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">request</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">request</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -158,7 +158,7 @@
 
 <div class="viewcode-block" id="CrowdTangle">
 <a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle">[docs]</a>
-<span class="k">class</span> <span class="nc">CrowdTangle</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CrowdTangle</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate CrowdTangle Class</span>
 
@@ -170,12 +170,12 @@
 <span class="sd">        CrowdTangle Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CT_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">CT_URI</span>
 
-    <span class="k">def</span> <span class="nf">_base_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_base_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">base_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="n">PAGE_SIZE</span><span class="p">}</span>
@@ -201,7 +201,7 @@
 
         <span class="k">return</span> <span class="n">data</span>
 
-    <span class="k">def</span> <span class="nf">_base_unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_base_unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Working to unpack the Parsons Table...&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2"> columns...&quot;</span><span class="p">)</span>
@@ -220,7 +220,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are now </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2"> columns...&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ParsonsTable</span>
 
-    <span class="k">def</span> <span class="nf">_unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">ParsonsTable</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
@@ -235,7 +235,7 @@
 
         <span class="k">return</span> <span class="n">ParsonsTable</span>
 
-    <span class="k">def</span> <span class="nf">_list_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_arg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_list_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_arg</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">list_arg</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">list_arg</span><span class="p">)</span>
@@ -244,7 +244,7 @@
 
 <div class="viewcode-block" id="CrowdTangle.get_posts">
 <a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_posts">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_posts</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_posts</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -329,7 +329,7 @@
 
 <div class="viewcode-block" id="CrowdTangle.get_leaderboard">
 <a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_leaderboard">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_leaderboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">list_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_leaderboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">list_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return leaderboard data.</span>
 
@@ -372,7 +372,7 @@
 
 <div class="viewcode-block" id="CrowdTangle.get_links">
 <a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_links">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_links</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_summary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">platforms</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_links</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_summary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">platforms</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return up to 100 posts based on a specific link. It is strongly recommended to</span>
 <span class="sd">        use the ``start_date`` parameter to limit queries to relevant dates.</span>

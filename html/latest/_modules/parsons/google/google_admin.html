@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.google.google_admin &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,12 +145,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.google.google_admin</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">uuid</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
 
-<span class="kn">from</span> <span class="nn">google.auth.transport.requests</span> <span class="kn">import</span> <span class="n">AuthorizedSession</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.auth.transport.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthorizedSession</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.google.utilities</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.google.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">load_google_application_credentials</span><span class="p">,</span>
     <span class="n">setup_google_application_credentials</span><span class="p">,</span>
 <span class="p">)</span>
@@ -158,7 +158,7 @@
 
 <div class="viewcode-block" id="GoogleAdmin">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_admin.GoogleAdmin">[docs]</a>
-<span class="k">class</span> <span class="nc">GoogleAdmin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GoogleAdmin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A connector for Google Admin.</span>
 
@@ -174,7 +174,7 @@
 <span class="sd">        GoogleAdmin Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sub</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sub</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">env_credentials_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
         <span class="n">setup_google_application_credentials</span><span class="p">(</span><span class="n">app_creds</span><span class="p">,</span> <span class="n">target_env_var_name</span><span class="o">=</span><span class="n">env_credentials_path</span><span class="p">)</span>
         <span class="n">credentials</span> <span class="o">=</span> <span class="n">load_google_application_credentials</span><span class="p">(</span>
@@ -185,7 +185,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">AuthorizedSession</span><span class="p">(</span><span class="n">credentials</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_paginate_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_paginate_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Build query params</span>
         <span class="n">param_arr</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">param_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -222,7 +222,7 @@
 
 <div class="viewcode-block" id="GoogleAdmin.get_aliases">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_admin.GoogleAdmin.get_aliases">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get aliases for a group. `Google Admin API Documentation &lt;https://developers.google.com/\</span>
 <span class="sd">        admin-sdk/directory/reference/rest/v1/groups.aliases/list&gt;`_</span>
@@ -240,7 +240,7 @@
 
 <div class="viewcode-block" id="GoogleAdmin.get_all_group_members">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_admin.GoogleAdmin.get_all_group_members">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_all_group_members</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_group_members</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all members in a group. `Google Admin API Documentation &lt;https://developers.google.com/\</span>
 <span class="sd">        admin-sdk/directory/v1/guides/manage-group-members#get_all_members&gt;`_</span>
@@ -258,7 +258,7 @@
 
 <div class="viewcode-block" id="GoogleAdmin.get_all_groups">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_admin.GoogleAdmin.get_all_groups">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_all_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all groups in a domain or account. `Google Admin API Documentation &lt;https://developers.\</span>
 <span class="sd">        google.com/admin-sdk/directory/v1/guides/manage-groups#get_all_domain_groups&gt;`_</span>

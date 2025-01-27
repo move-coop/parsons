@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.rockthevote.rtv &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,18 +145,18 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.rockthevote.rtv</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">petl</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
-<span class="kn">from</span> <span class="nn">dateutil.parser</span> <span class="kn">import</span> <span class="n">parse</span> <span class="k">as</span> <span class="n">parse_date</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dateutil.parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span> <span class="k">as</span> <span class="n">parse_date</span>
 
-<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIConnector</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -182,13 +182,13 @@
 <span class="sd">&quot;&quot;&quot;Regex for parsing the report ID from the status URL.&quot;&quot;&quot;</span>
 
 
-<span class="k">class</span> <span class="nc">RTVFailure</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RTVFailure</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when there is an error with the connector.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="RockTheVote">
 <a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote">[docs]</a>
-<span class="k">class</span> <span class="nc">RockTheVote</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RockTheVote</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the RockTheVote class</span>
 
@@ -205,7 +205,7 @@
 <span class="sd">        RockTheVote class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">partner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">partner_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">testing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">partner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">partner_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">testing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;RTV_PARTNER_ID&quot;</span><span class="p">,</span> <span class="n">partner_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">partner_api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;RTV_PARTNER_API_KEY&quot;</span><span class="p">,</span> <span class="n">partner_api_key</span><span class="p">)</span>
 
@@ -216,7 +216,7 @@
 
 <div class="viewcode-block" id="RockTheVote.create_registration_report">
 <a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.create_registration_report">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_registration_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">report_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_registration_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">report_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new registration report.</span>
 
@@ -286,7 +286,7 @@
 
 <div class="viewcode-block" id="RockTheVote.get_registration_report">
 <a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.get_registration_report">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_registration_report</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_registration_report</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">report_id</span><span class="p">,</span>
         <span class="n">block</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -378,7 +378,7 @@
 
 <div class="viewcode-block" id="RockTheVote.run_registration_report">
 <a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.run_registration_report">[docs]</a>
-    <span class="k">def</span> <span class="nf">run_registration_report</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_registration_report</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -427,7 +427,7 @@
 
 <div class="viewcode-block" id="RockTheVote.get_state_requirements">
 <a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.get_state_requirements">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_state_requirements</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_state_requirements</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">home_state_id</span><span class="p">,</span> <span class="n">home_zip_code</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

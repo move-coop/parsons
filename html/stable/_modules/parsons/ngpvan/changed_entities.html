@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.ngpvan.changed_entities &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,9 +145,9 @@
   <h1>Source code for parsons.ngpvan.changed_entities</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Changed Entities&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -156,14 +156,14 @@
 
 <div class="viewcode-block" id="ChangedEntities">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ChangedEntities">[docs]</a>
-<span class="k">class</span> <span class="nc">ChangedEntities</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ChangedEntities</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="ChangedEntities.get_changed_entity_resources">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ChangedEntities.get_changed_entity_resources">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_changed_entity_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_changed_entity_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get changed entity resources available to the API user.</span>
 
@@ -178,7 +178,7 @@
 
 <div class="viewcode-block" id="ChangedEntities.get_changed_entity_resource_fields">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ChangedEntities.get_changed_entity_resource_fields">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_changed_entity_resource_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_changed_entity_resource_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get export fields avaliable for each changed entity resource.</span>
 
@@ -196,7 +196,7 @@
 
 <div class="viewcode-block" id="ChangedEntities.get_changed_entities">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ChangedEntities.get_changed_entities">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_changed_entities</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_changed_entities</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">resource_type</span><span class="p">,</span>
         <span class="n">date_from</span><span class="p">,</span>
@@ -255,7 +255,7 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">status</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">])</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_get_changed_entity_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_changed_entity_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;changedEntityExportJobs/</span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>

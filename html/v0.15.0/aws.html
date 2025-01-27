@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Amazon Web Services &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
@@ -179,13 +179,13 @@ instead call <a href="#id1"><span class="problematic" id="id2">`</span></a>distr
 <p>To test locally, include the argument <cite>storage=”local”</cite> which will test
 the distribute_task function, but run the task sequentially and in local memory.</p>
 <p>A minimalistic example Lambda handler might look something like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.aws</span> <span class="kn">import</span> <span class="n">event_command</span><span class="p">,</span> <span class="n">distribute_task</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.aws</span><span class="w"> </span><span class="kn">import</span> <span class="n">event_command</span><span class="p">,</span> <span class="n">distribute_task</span>
 
-<span class="k">def</span> <span class="nf">process_table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">process_table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
 <span class="hll">        <span class="n">do_sloooooow_thing</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="p">)</span>
 </span><span class="hll">
-</span><span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+</span><span class="k">def</span><span class="w"> </span><span class="nf">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
     <span class="c1">## ADD THESE TWO LINES TO TOP OF HANDLER:</span>
     <span class="k">if</span> <span class="n">event_command</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
         <span class="k">return</span>
@@ -249,9 +249,9 @@ depending on how this method is invoked.</p>
 <dd><p>Minimal shim to add to the top lambda handler function
 to enable distributed tasks
 In your lambda handler:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.aws</span> <span class="kn">import</span> <span class="n">event_command</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.aws</span><span class="w"> </span><span class="kn">import</span> <span class="n">event_command</span>
 
-<span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
     <span class="c1">## ADD THESE TWO LINES TO TOP OF HANDLER:</span>
 <span class="hll">    <span class="k">if</span> <span class="n">event_command</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
 </span><span class="hll">        <span class="k">return</span>
@@ -281,7 +281,7 @@ then you do NOT need to add this shim.</p>
 <section id="quickstart">
 <h3>QuickStart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
 <p>Instantiate class with credentials.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">S3</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3</span>
 
 <span class="c1"># First approach: Use API credentials via environmental variables</span>
 <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">()</span>
@@ -294,7 +294,7 @@ then you do NOT need to add this shim.</p>
 </pre></div>
 </div>
 <p>You can then call various endpoints:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">S3</span><span class="p">,</span> <span class="n">Table</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3</span><span class="p">,</span> <span class="n">Table</span>
 
 <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="s1">&#39;MY_KEY&#39;</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="s1">&#39;MY_SECRET&#39;</span><span class="p">)</span>
 
@@ -343,13 +343,13 @@ Redshift.</p>
 <section id="id6">
 <h3>Quickstart<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <p><strong>Query the Database</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Redshift</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Redshift</span>
 <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">()</span>
 <span class="n">table</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;select * from tmc_scratch.test_data&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Copy a Parsons Table to the Database</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Redshift</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Redshift</span>
 <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">()</span>
 <span class="n">table</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="s1">&#39;tmc_scratch.test_table&#39;</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;drop&#39;</span><span class="p">)</span>
 </pre></div>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.mobilize_america.ma &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,14 +145,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.mobilize_america.ma</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">request</span> <span class="k">as</span> <span class="n">_request</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.datetime</span> <span class="kn">import</span> <span class="n">date_to_timestamp</span>
-<span class="kn">import</span> <span class="nn">petl</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">collections.abc</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">request</span> <span class="k">as</span> <span class="n">_request</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date_to_timestamp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">collections.abc</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -161,7 +161,7 @@
 
 <div class="viewcode-block" id="MobilizeAmerica">
 <a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica">[docs]</a>
-<span class="k">class</span> <span class="nc">MobilizeAmerica</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MobilizeAmerica</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate MobilizeAmerica Class</span>
 
@@ -172,7 +172,7 @@
 <span class="sd">        MobilizeAmerica Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">MA_URI</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MOBILIZE_AMERICA_API_KEY&quot;</span><span class="p">)</span>
 
@@ -182,7 +182,7 @@
                 <span class="s2">&quot; endpoints will fail.&quot;</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">auth</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;This method requires an api key.&quot;</span><span class="p">)</span>
@@ -201,7 +201,7 @@
 
         <span class="k">return</span> <span class="n">r</span>
 
-    <span class="k">def</span> <span class="nf">_request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="n">req_type</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">)</span>
 
         <span class="n">json</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
@@ -212,7 +212,7 @@
 
         <span class="k">return</span> <span class="n">json</span>
 
-    <span class="k">def</span> <span class="nf">_time_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_arg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_time_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_arg</span><span class="p">):</span>
         <span class="c1"># Parse the date filters</span>
 
         <span class="n">trans</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;&gt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;gte_&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;gt_&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;&lt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;lte_&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span> <span class="s2">&quot;lt_&quot;</span><span class="p">)]</span>
@@ -232,7 +232,7 @@
 
 <div class="viewcode-block" id="MobilizeAmerica.get_organizations">
 <a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_organizations">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_organizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_organizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return all active organizations on the platform.</span>
 
@@ -254,7 +254,7 @@
 
 <div class="viewcode-block" id="MobilizeAmerica.get_promoted_organizations">
 <a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_promoted_organizations">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_promoted_organizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_promoted_organizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return all organizations promoted by the given organization.</span>
 
@@ -270,7 +270,7 @@
 
 <div class="viewcode-block" id="MobilizeAmerica.get_events">
 <a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_events">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_events</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -353,7 +353,7 @@
 
 <div class="viewcode-block" id="MobilizeAmerica.get_events_organization">
 <a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_events_organization">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_events_organization</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_events_organization</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">organization_id</span><span class="p">,</span>
         <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -463,7 +463,7 @@
 
 <div class="viewcode-block" id="MobilizeAmerica.get_events_deleted">
 <a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_events_deleted">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_events_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_events_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch deleted public events on the platform.</span>
 
@@ -490,7 +490,7 @@
 
 <div class="viewcode-block" id="MobilizeAmerica.get_people">
 <a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_people">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_people</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_people</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch all people (volunteers) who are affiliated with an organization(s).</span>
 
@@ -519,7 +519,7 @@
 
 <div class="viewcode-block" id="MobilizeAmerica.get_attendances">
 <a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_attendances">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_attendances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_attendances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch all attendances which were either promoted by the organization or</span>
 <span class="sd">        were for events owned by the organization.</span>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.ngpvan.scores &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -121,26 +121,26 @@
   <h1>Source code for parsons.ngpvan.scores</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Score Endpoints&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">cloud_storage</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">petl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">cloud_storage</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Scores">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores">[docs]</a>
-<span class="k">class</span> <span class="nc">Scores</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Scores</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="Scores.get_scores">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.get_scores">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all scores.</span>
 
@@ -156,7 +156,7 @@
 
 <div class="viewcode-block" id="Scores.get_score">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.get_score">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get an individual score.</span>
 
@@ -174,7 +174,7 @@
 
 <div class="viewcode-block" id="Scores.get_score_updates">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.get_score_updates">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_score_updates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">created_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">created_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_score_updates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">created_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">created_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get score updates.</span>
 
@@ -204,7 +204,7 @@
 
 <div class="viewcode-block" id="Scores.get_score_update">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.get_score_update">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_score_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score_update_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_score_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score_update_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a score update object</span>
 
@@ -222,7 +222,7 @@
 
 <div class="viewcode-block" id="Scores.update_score_status">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.update_score_status">[docs]</a>
-    <span class="k">def</span> <span class="nf">update_score_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score_update_id</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_score_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score_update_id</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Change the status of a score update object. This end point is used to</span>
 <span class="sd">        approve a score loading job.</span>
@@ -257,7 +257,7 @@
 
 <div class="viewcode-block" id="Scores.upload_scores">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.upload_scores">[docs]</a>
-    <span class="k">def</span> <span class="nf">upload_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auto_approve</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">upload_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auto_approve</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                       <span class="n">approve_tolerance</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upload scores. Use to create or overwrite scores. Multiple score loads</span>
@@ -354,15 +354,15 @@
 
 <div class="viewcode-block" id="FileLoadingJobs">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.FileLoadingJobs">[docs]</a>
-<span class="k">class</span> <span class="nc">FileLoadingJobs</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FileLoadingJobs</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="FileLoadingJobs.create_file_load">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.FileLoadingJobs.create_file_load">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_file_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">file_url</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">id_column</span><span class="p">,</span> <span class="n">id_type</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_file_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">file_url</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">id_column</span><span class="p">,</span> <span class="n">id_type</span><span class="p">,</span>
                          <span class="n">score_id</span><span class="p">,</span> <span class="n">score_column</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                          <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auto_average</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">auto_tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -445,7 +445,7 @@
 
 <div class="viewcode-block" id="FileLoadingJobs.create_file_load_multi">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.FileLoadingJobs.create_file_load_multi">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_file_load_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">file_url</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">id_column</span><span class="p">,</span> <span class="n">id_type</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_file_load_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">file_url</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">id_column</span><span class="p">,</span> <span class="n">id_type</span><span class="p">,</span>
                                <span class="n">score_map</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

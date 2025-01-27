@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.notifications.smtp &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -143,15 +143,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.notifications.smtp</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">smtplib</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">smtplib</span>
 
-<span class="kn">from</span> <span class="nn">parsons.notifications.sendmail</span> <span class="kn">import</span> <span class="n">SendMail</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.check_env</span> <span class="kn">import</span> <span class="n">check</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.notifications.sendmail</span><span class="w"> </span><span class="kn">import</span> <span class="n">SendMail</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.check_env</span><span class="w"> </span><span class="kn">import</span> <span class="n">check</span>
 
 
 <div class="viewcode-block" id="SMTP">
 <a class="viewcode-back" href="../../../notifications.html#parsons.SMTP">[docs]</a>
-<span class="k">class</span> <span class="nc">SMTP</span><span class="p">(</span><span class="n">SendMail</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SMTP</span><span class="p">(</span><span class="n">SendMail</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a SMTP object, for sending emails.</span>
 
 <span class="sd">    `Args:`</span>
@@ -169,7 +169,7 @@
 <span class="sd">            When set to True, send_message will not close the connection</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -187,7 +187,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">get_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">ehlo</span><span class="p">()</span>
@@ -196,7 +196,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span>
 
-    <span class="k">def</span> <span class="nf">_send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Send an email message.</span>
 
 <span class="sd">        `Args:`</span>

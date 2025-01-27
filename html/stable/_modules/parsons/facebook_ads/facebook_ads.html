@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.facebook_ads.facebook_ads &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -143,15 +143,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.facebook_ads.facebook_ads</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">collections</span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
-<span class="kn">from</span> <span class="nn">facebook_business.api</span> <span class="kn">import</span> <span class="n">FacebookAdsApi</span>
-<span class="kn">from</span> <span class="nn">facebook_business.adobjects.adaccount</span> <span class="kn">import</span> <span class="n">AdAccount</span>
-<span class="kn">from</span> <span class="nn">facebook_business.adobjects.customaudience</span> <span class="kn">import</span> <span class="n">CustomAudience</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">joblib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">facebook_business.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">FacebookAdsApi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">facebook_business.adobjects.adaccount</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdAccount</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">facebook_business.adobjects.customaudience</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomAudience</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -163,7 +163,7 @@
 
 <div class="viewcode-block" id="FacebookAds">
 <a class="viewcode-back" href="../../../facebook_ads.html#parsons.FacebookAds">[docs]</a>
-<span class="k">class</span> <span class="nc">FacebookAds</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FacebookAds</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the FacebookAds class</span>
 
@@ -221,7 +221,7 @@
         <span class="s2">&quot;DOB YYYYMMDD&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;dob&quot;</span><span class="p">,</span> <span class="s2">&quot;vb_voterbase_dob&quot;</span><span class="p">,</span> <span class="s2">&quot;vb_tsmart_dob&quot;</span><span class="p">]</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ad_account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ad_account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">app_id</span> <span class="o">=</span> <span class="n">app_id</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;FB_APP_ID&quot;</span><span class="p">]</span>
@@ -238,7 +238,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ad_account</span> <span class="o">=</span> <span class="n">AdAccount</span><span class="p">(</span><span class="s2">&quot;act_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">ad_account_id</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_match_key_for_column</span><span class="p">(</span><span class="n">column</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_match_key_for_column</span><span class="p">(</span><span class="n">column</span><span class="p">):</span>
         <span class="c1"># Finds a FB match key for a given table column.</span>
 
         <span class="n">normalized_col</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">get_normalized_column_name</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
@@ -250,7 +250,7 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_preprocess_key_for_column</span><span class="p">(</span><span class="n">column</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_preprocess_key_for_column</span><span class="p">(</span><span class="n">column</span><span class="p">):</span>
         <span class="n">normalized_col</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">get_normalized_column_name</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">match_list</span> <span class="ow">in</span> <span class="n">FacebookAds</span><span class="o">.</span><span class="n">PreprocessKeyMatchMap</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -260,7 +260,7 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_preprocess_dob_column</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preprocess_dob_column</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
         <span class="c1"># Parse the DOB column into 3 new columns, and remove the original column</span>
         <span class="c1"># TODO Throw an error if the values are not 6 characters long?</span>
 
@@ -270,7 +270,7 @@
         <span class="n">table</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_preprocess_users_table</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preprocess_users_table</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
         <span class="c1"># Handle columns that require special parsing</span>
         <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="n">preprocess_key</span> <span class="o">=</span> <span class="n">FacebookAds</span><span class="o">.</span><span class="n">_get_preprocess_key_for_column</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
@@ -279,7 +279,7 @@
         <span class="k">return</span> <span class="n">table</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_first_non_empty_value_from_dict</span><span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_first_non_empty_value_from_dict</span><span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">dict</span><span class="p">[</span><span class="n">c</span><span class="p">]:</span>
                 <span class="k">return</span> <span class="nb">dict</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
@@ -288,7 +288,7 @@
 <div class="viewcode-block" id="FacebookAds.get_match_table_for_users_table">
 <a class="viewcode-back" href="../../../facebook_ads.html#parsons.FacebookAds.get_match_table_for_users_table">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_match_table_for_users_table</span><span class="p">(</span><span class="n">users_table</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_match_table_for_users_table</span><span class="p">(</span><span class="n">users_table</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prepared an input table for matching into a FB custom audience, by identifying which</span>
 <span class="sd">        columns are supported for matching, renaming those columns to what FB expects, and</span>
@@ -347,13 +347,13 @@
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_match_schema_and_data</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_match_schema_and_data</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
         <span class="c1"># Grab the raw data as a list of tuples</span>
         <span class="n">data_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">data_list</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_is_valid_data_source</span><span class="p">(</span><span class="n">data_source</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_valid_data_source</span><span class="p">(</span><span class="n">data_source</span><span class="p">):</span>
         <span class="n">valid_sources</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">CustomAudience</span><span class="o">.</span><span class="n">CustomerFileSource</span><span class="o">.</span><span class="n">user_provided_only</span><span class="p">,</span>
             <span class="n">CustomAudience</span><span class="o">.</span><span class="n">CustomerFileSource</span><span class="o">.</span><span class="n">partner_provided_only</span><span class="p">,</span>
@@ -363,7 +363,7 @@
 
 <div class="viewcode-block" id="FacebookAds.create_custom_audience">
 <a class="viewcode-back" href="../../../facebook_ads.html#parsons.FacebookAds.create_custom_audience">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_custom_audience</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">data_source</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_custom_audience</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">data_source</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a FB custom audience.</span>
 
@@ -398,7 +398,7 @@
 
 <div class="viewcode-block" id="FacebookAds.delete_custom_audience">
 <a class="viewcode-back" href="../../../facebook_ads.html#parsons.FacebookAds.delete_custom_audience">[docs]</a>
-    <span class="k">def</span> <span class="nf">delete_custom_audience</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">audience_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_custom_audience</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">audience_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Deletes a FB custom audience.</span>
 
@@ -411,7 +411,7 @@
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_add_batch_to_custom_audience</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_batch_to_custom_audience</span><span class="p">(</span>
         <span class="n">app_id</span><span class="p">,</span>
         <span class="n">app_secret</span><span class="p">,</span>
         <span class="n">access_token</span><span class="p">,</span>
@@ -432,7 +432,7 @@
 
 <div class="viewcode-block" id="FacebookAds.add_users_to_custom_audience">
 <a class="viewcode-back" href="../../../facebook_ads.html#parsons.FacebookAds.add_users_to_custom_audience">[docs]</a>
-    <span class="k">def</span> <span class="nf">add_users_to_custom_audience</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">audience_id</span><span class="p">,</span> <span class="n">users_table</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_users_to_custom_audience</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">audience_id</span><span class="p">,</span> <span class="n">users_table</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds user data to a custom audience.</span>
 

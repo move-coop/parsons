@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.etl.etl &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -128,23 +128,23 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.etl.etl</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">petl</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ETL">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL">[docs]</a>
-<span class="k">class</span> <span class="nc">ETL</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ETL</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="ETL.add_column">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.add_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">add_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a column to your table</span>
 
@@ -169,7 +169,7 @@
 
 <div class="viewcode-block" id="ETL.remove_column">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.remove_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">remove_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove a column from your table</span>
 
@@ -187,7 +187,7 @@
 
 <div class="viewcode-block" id="ETL.rename_column">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.rename_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">rename_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">new_column_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rename_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">new_column_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rename a column</span>
 
@@ -210,7 +210,7 @@
 
 <div class="viewcode-block" id="ETL.fill_column">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.fill_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">fill_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fill_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fill a column in a table</span>
 
@@ -234,7 +234,7 @@
 
 <div class="viewcode-block" id="ETL.fillna_column">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.fillna_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">fillna_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fillna_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fill None values in a column in a table</span>
 
@@ -259,7 +259,7 @@
 
 <div class="viewcode-block" id="ETL.move_column">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.move_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">move_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">move_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Move a column</span>
 
@@ -279,7 +279,7 @@
 
 <div class="viewcode-block" id="ETL.convert_column">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.convert_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">convert_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">column</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">column</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform values under one or more fields via arbitrary functions, method</span>
 <span class="sd">        invocations or dictionary translations. This leverages the petl ``convert()``</span>
@@ -301,7 +301,7 @@
 
 <div class="viewcode-block" id="ETL.get_column_max_width">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.get_column_max_width">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_column_max_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_column_max_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the maximum width of the column.</span>
 
@@ -324,7 +324,7 @@
 
 <div class="viewcode-block" id="ETL.convert_columns_to_str">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.convert_columns_to_str">[docs]</a>
-    <span class="k">def</span> <span class="nf">convert_columns_to_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_columns_to_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convenience function to convert all non-string or mixed columns in a</span>
 <span class="sd">        Parsons table to string (e.g. for comparison)</span>
@@ -350,7 +350,7 @@
 
 <div class="viewcode-block" id="ETL.coalesce_columns">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.coalesce_columns">[docs]</a>
-    <span class="k">def</span> <span class="nf">coalesce_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest_column</span><span class="p">,</span> <span class="n">source_columns</span><span class="p">,</span> <span class="n">remove_source_columns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">coalesce_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest_column</span><span class="p">,</span> <span class="n">source_columns</span><span class="p">,</span> <span class="n">remove_source_columns</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Coalesces values from one or more source columns into a destination column, by selecting</span>
 <span class="sd">        the first non-empty value. If the destination column doesn&#39;t exist, it will be added.</span>
@@ -368,7 +368,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">dest_column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">convert_fn</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">convert_fn</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">source_col</span> <span class="ow">in</span> <span class="n">source_columns</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">source_col</span><span class="p">):</span>
                         <span class="k">return</span> <span class="n">row</span><span class="p">[</span><span class="n">source_col</span><span class="p">]</span>
@@ -377,7 +377,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">convert_column</span><span class="p">(</span><span class="n">dest_column</span><span class="p">,</span> <span class="n">convert_fn</span><span class="p">,</span> <span class="n">pass_row</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">add_fn</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">add_fn</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">source_col</span> <span class="ow">in</span> <span class="n">source_columns</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">source_col</span><span class="p">):</span>
                         <span class="k">return</span> <span class="n">row</span><span class="p">[</span><span class="n">source_col</span><span class="p">]</span>
@@ -395,7 +395,7 @@
 
 <div class="viewcode-block" id="ETL.map_columns">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.map_columns">[docs]</a>
-    <span class="k">def</span> <span class="nf">map_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_map</span><span class="p">,</span> <span class="n">exact_match</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">map_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_map</span><span class="p">,</span> <span class="n">exact_match</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Standardizes column names based on multiple possible values. This method</span>
 <span class="sd">        is helpful when your input table might have multiple and unknown column</span>
@@ -441,7 +441,7 @@
 
 <div class="viewcode-block" id="ETL.map_and_coalesce_columns">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.map_and_coalesce_columns">[docs]</a>
-    <span class="k">def</span> <span class="nf">map_and_coalesce_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_map</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">map_and_coalesce_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_map</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Coalesces columns based on multiple possible values. The columns in the map</span>
 <span class="sd">        do not need to be in your table, so you can create a map with all possibilities.</span>
@@ -494,7 +494,7 @@
 
 <div class="viewcode-block" id="ETL.get_column_types">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.get_column_types">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_column_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_column_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return all of the Python types for values in a given column</span>
 
@@ -511,7 +511,7 @@
 
 <div class="viewcode-block" id="ETL.get_columns_type_stats">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.get_columns_type_stats">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_columns_type_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_columns_type_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return descriptive stats for all columns</span>
 
@@ -529,7 +529,7 @@
 
 <div class="viewcode-block" id="ETL.convert_table">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.convert_table">[docs]</a>
-    <span class="k">def</span> <span class="nf">convert_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform all cells in a table via arbitrary functions, method invocations or dictionary</span>
 <span class="sd">        translations. This method is useful for cleaning fields and data hygiene functions such</span>
@@ -550,7 +550,7 @@
 
 <div class="viewcode-block" id="ETL.unpack_dict">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.unpack_dict">[docs]</a>
-    <span class="k">def</span> <span class="nf">unpack_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unpack_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                     <span class="n">sample_size</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="n">prepend_value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -594,7 +594,7 @@
 
 <div class="viewcode-block" id="ETL.unpack_list">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.unpack_list">[docs]</a>
-    <span class="k">def</span> <span class="nf">unpack_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unpack_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                     <span class="n">max_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Unpack list values from one column into separate columns. Numbers the</span>
@@ -666,7 +666,7 @@
 
 <div class="viewcode-block" id="ETL.unpack_nested_columns_as_rows">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.unpack_nested_columns_as_rows">[docs]</a>
-    <span class="k">def</span> <span class="nf">unpack_nested_columns_as_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">expand_original</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unpack_nested_columns_as_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">expand_original</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Unpack list or dict values from one column into separate rows.</span>
 <span class="sd">        Not recommended for JSON columns (i.e. lists of dicts), but can handle columns</span>
@@ -718,7 +718,7 @@
         <span class="n">table_dict</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="nb">dict</span><span class="p">))</span>
         <span class="n">table_dict</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-        <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
         <span class="c1"># Use melt to pivot both sets of columns into their own Tables and clean out None values</span>
         <span class="n">melted_list</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">table_list</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">ignore_cols</span><span class="p">))</span>
@@ -733,7 +733,7 @@
         <span class="c1"># Combine the list and dict Tables</span>
         <span class="n">melted_list</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">melted_dict</span><span class="p">)</span>
 
-        <span class="kn">import</span> <span class="nn">hashlib</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
 
         <span class="k">if</span> <span class="n">expand_original</span><span class="p">:</span>
             <span class="c1"># Add unpacked rows to the original table (minus packed rows)</span>
@@ -771,7 +771,7 @@
 
 <div class="viewcode-block" id="ETL.long_table">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.long_table">[docs]</a>
-    <span class="k">def</span> <span class="nf">long_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">key_rename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">retain_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">long_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">key_rename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">retain_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                    <span class="n">prepend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prepend_value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new long parsons table from a column, including the foreign</span>
@@ -848,7 +848,7 @@
 
 <div class="viewcode-block" id="ETL.cut">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.cut">[docs]</a>
-    <span class="k">def</span> <span class="nf">cut</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cut</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a table of selection of columns</span>
 
@@ -859,14 +859,14 @@
 <span class="sd">            A new parsons table containing the selected columnns</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
-        <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="ETL.select_rows">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.select_rows">[docs]</a>
-    <span class="k">def</span> <span class="nf">select_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Select specific rows from a Parsons table based on the passed</span>
 <span class="sd">        filters.</span>
@@ -898,14 +898,14 @@
 <span class="sd">            A new parsons table containing the selected rows</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
-        <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="ETL.remove_null_rows">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.remove_null_rows">[docs]</a>
-    <span class="k">def</span> <span class="nf">remove_null_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">null_value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_null_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">null_value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove rows if the values in a column are ``None``. If multiple columns</span>
 <span class="sd">        are passed as list, it will remove all rows with null values in any</span>
@@ -928,7 +928,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_prepend_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dict_obj</span><span class="p">,</span> <span class="n">prepend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_prepend_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dict_obj</span><span class="p">,</span> <span class="n">prepend</span><span class="p">):</span>
         <span class="c1"># Internal method to rename dict keys</span>
 
         <span class="n">new_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -941,7 +941,7 @@
 
 <div class="viewcode-block" id="ETL.stack">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.stack">[docs]</a>
-    <span class="k">def</span> <span class="nf">stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">tables</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">tables</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stack Parsons tables on top of one another.</span>
 
@@ -966,7 +966,7 @@
 
 <div class="viewcode-block" id="ETL.concat">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.concat">[docs]</a>
-    <span class="k">def</span> <span class="nf">concat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">tables</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">concat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">tables</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Concatenates one or more tables onto this one.</span>
 
@@ -992,7 +992,7 @@
 
 <div class="viewcode-block" id="ETL.chunk">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.chunk">[docs]</a>
-    <span class="k">def</span> <span class="nf">chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Divides a Parsons table into smaller tables of a specified row count. If the table</span>
 <span class="sd">        cannot be divided evenly, then the final table will only include the remainder.</span>
@@ -1004,14 +1004,14 @@
 <span class="sd">            List of Parsons tables</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">rowslice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="n">rows</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">)]</span></div>
 
 
 <div class="viewcode-block" id="ETL.get_normalized_column_name">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.get_normalized_column_name">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_normalized_column_name</span><span class="p">(</span><span class="n">column_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_normalized_column_name</span><span class="p">(</span><span class="n">column_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a column name with whitespace removed, non-alphanumeric characters removed, and</span>
 <span class="sd">        everything lowercased.</span>
@@ -1027,7 +1027,7 @@
 
 <div class="viewcode-block" id="ETL.match_columns">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.match_columns">[docs]</a>
-    <span class="k">def</span> <span class="nf">match_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desired_columns</span><span class="p">,</span> <span class="n">fuzzy_match</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">if_extra_columns</span><span class="o">=</span><span class="s1">&#39;remove&#39;</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">match_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desired_columns</span><span class="p">,</span> <span class="n">fuzzy_match</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">if_extra_columns</span><span class="o">=</span><span class="s1">&#39;remove&#39;</span><span class="p">,</span>
                       <span class="n">if_missing_columns</span><span class="o">=</span><span class="s1">&#39;add&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Changes the column names and ordering in this Table to match a list of desired column</span>
@@ -1053,7 +1053,7 @@
 <span class="sd">            `Parsons Table` and also updates self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>  <span class="c1"># Just trying to avoid recursive imports.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>  <span class="c1"># Just trying to avoid recursive imports.</span>
 
         <span class="n">normalize_fn</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">get_normalized_column_name</span> <span class="k">if</span> <span class="n">fuzzy_match</span> <span class="k">else</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="p">)</span>
 
@@ -1131,7 +1131,7 @@
 
 <div class="viewcode-block" id="ETL.reduce_rows">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.reduce_rows">[docs]</a>
-    <span class="k">def</span> <span class="nf">reduce_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">reduce_func</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">presorted</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reduce_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">reduce_func</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">presorted</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Group rows by a column or columns, then reduce the groups to a single row.</span>
@@ -1213,7 +1213,7 @@
 
 <div class="viewcode-block" id="ETL.sort">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.sort">[docs]</a>
-    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sort the rows a table.</span>
 
@@ -1234,7 +1234,7 @@
 
 <div class="viewcode-block" id="ETL.set_header">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.set_header">[docs]</a>
-    <span class="k">def</span> <span class="nf">set_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_header</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_header</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Replace the header row of the table.</span>
 
@@ -1250,7 +1250,7 @@
 
 <div class="viewcode-block" id="ETL.use_petl">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.use_petl">[docs]</a>
-    <span class="k">def</span> <span class="nf">use_petl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">petl_method</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">use_petl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">petl_method</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call a petl function on the current table.</span>
 
@@ -1308,7 +1308,7 @@
         <span class="k">if</span> <span class="n">to_petl</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">petl</span><span class="p">,</span> <span class="n">petl_method</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">petl</span><span class="p">,</span> <span class="n">petl_method</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
 </div>

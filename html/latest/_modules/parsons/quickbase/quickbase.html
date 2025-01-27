@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parsons.quickbase.quickbase &mdash; Parsons  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
 
   
@@ -145,10 +145,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.quickbase.quickbase</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIConnector</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -156,7 +156,7 @@
 
 <div class="viewcode-block" id="Quickbase">
 <a class="viewcode-back" href="../../../quickbase.html#parsons.Quickbase">[docs]</a>
-<span class="k">class</span> <span class="nc">Quickbase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Quickbase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Quickbase class</span>
 
@@ -171,7 +171,7 @@
 <span class="sd">        Quickbase Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hostname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hostname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;QUICKBASE_HOSTNAME&quot;</span><span class="p">,</span> <span class="n">hostname</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;QUICKBASE_USER_TOKEN&quot;</span><span class="p">,</span> <span class="n">user_token</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_hostname</span> <span class="o">=</span> <span class="s2">&quot;https://api.quickbase.com/v1&quot;</span>
@@ -185,7 +185,7 @@
 
 <div class="viewcode-block" id="Quickbase.get_app_tables">
 <a class="viewcode-back" href="../../../quickbase.html#parsons.Quickbase.get_app_tables">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_app_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_app_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Query records in a Quickbase table. This follows the patterns laid out</span>
 <span class="sd">        in Quickbase query documentaiton, located here:</span>
@@ -204,7 +204,7 @@
 
 <div class="viewcode-block" id="Quickbase.query_records">
 <a class="viewcode-back" href="../../../quickbase.html#parsons.Quickbase.query_records">[docs]</a>
-    <span class="k">def</span> <span class="nf">query_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_from</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_from</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Query records in a Quickbase table. This follows the patterns laid out</span>
 <span class="sd">        in Quickbase query documentaiton, located here:</span>

@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
@@ -138,20 +138,20 @@ was built and is maintained by The Movement Cooperative.</p>
 <h1>QuickStart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h1>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># VAN - Download activist codes to a CSV</span>
 
-<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">VAN</span>
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span>
 <span class="n">ac</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">get_activist_codes</span><span class="p">()</span>
 <span class="n">ac</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;my_activist_codes.csv&#39;</span><span class="p">)</span>
 
 <span class="c1"># Redshift - Create a table from a CSV</span>
 
-<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;my_table.csv&#39;</span><span class="p">)</span>
 <span class="n">tbl</span><span class="o">.</span><span class="n">to_redshift</span><span class="p">(</span><span class="s1">&#39;my_schema.my_table&#39;</span><span class="p">)</span>
 
 <span class="c1"># Redshift - Export from a query to CSV</span>
 
-<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Redshift</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Redshift</span>
 <span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select * from my_schema.my_table&#39;</span>
 <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">()</span>
 <span class="n">tbl</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
@@ -159,13 +159,13 @@ was built and is maintained by The Movement Cooperative.</p>
 
 <span class="c1"># Upload a file to S3</span>
 
-<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">S3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3</span>
 <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">()</span>
 <span class="n">s3</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="s1">&#39;my_bucket&#39;</span><span class="p">,</span><span class="s1">&#39;my_table.csv&#39;</span><span class="p">)</span>
 
 <span class="c1"># TargetSmart - Append data to a record</span>
 
-<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">TargetSmart</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">TargetSmart</span>
 <span class="n">ts</span> <span class="o">=</span> <span class="n">TargetSmart</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;MY_KEY&#39;</span><span class="p">)</span>
 <span class="n">record</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">data_enhance</span><span class="p">(</span><span class="mi">231231231</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;DC&#39;</span><span class="p">)</span>
 </pre></div>
@@ -189,7 +189,7 @@ was built and is maintained by The Movement Cooperative.</p>
 </pre></div>
 </div>
 <p>In your scripts that use Parsons, if you want to override the default Parsons logging behavior, just grab the “parsons” logger and tweak it:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="n">parsons_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;parsons&#39;</span><span class="p">)</span>
 <span class="c1"># parsons_logger.setLevel(&#39;DEBUG&#39;)</span>
 <span class="c1"># parsons_logger.addHandler(...)</span>

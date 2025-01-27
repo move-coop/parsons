@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bluelink &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
@@ -156,7 +156,7 @@ or set them as environment variables.</p>
 <h3>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
 <p>To instantiate a class, you can either pass in the user and password token as arguments or set them in the
 BLUELINK_WEBHOOK_USER and BLUELINK_WEBHOOK_PASSWORD environment variables.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.bluelink</span> <span class="kn">import</span> <span class="n">Bluelink</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.bluelink</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bluelink</span>
 
 <span class="c1"># First approach: Use API credentials via environmental variables</span>
 <span class="n">bluelink</span> <span class="o">=</span> <span class="n">Bluelink</span><span class="p">()</span>
@@ -166,7 +166,7 @@ BLUELINK_WEBHOOK_USER and BLUELINK_WEBHOOK_PASSWORD environment variables.</p>
 </pre></div>
 </div>
 <p>You can upsert person data by directly using a BluelinkPerson object:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.bluelink</span> <span class="kn">import</span> <span class="n">Bluelink</span><span class="p">,</span> <span class="n">BluelinkPerson</span><span class="p">,</span> <span class="n">BluelinkIdentifier</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.bluelink</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bluelink</span><span class="p">,</span> <span class="n">BluelinkPerson</span><span class="p">,</span> <span class="n">BluelinkIdentifier</span>
 
 <span class="c1"># create the person object</span>
 <span class="n">person</span> <span class="o">=</span> <span class="n">BluelinkPerson</span><span class="p">(</span><span class="n">identifiers</span><span class="o">=</span><span class="p">[</span><span class="n">BluelinkIdentifier</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;SOURCE_VENDOR&quot;</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="s2">&quot;ID&quot;</span><span class="p">)],</span> <span class="n">given_name</span><span class="o">=</span><span class="s2">&quot;Jane&quot;</span><span class="p">,</span> <span class="n">family_name</span><span class="o">=</span><span class="s2">&quot;Doe&quot;</span><span class="p">)</span>
@@ -177,10 +177,10 @@ BLUELINK_WEBHOOK_USER and BLUELINK_WEBHOOK_PASSWORD environment variables.</p>
 </pre></div>
 </div>
 <p>You can bulk upsert person data via a Parsons Table by providing a function that takes a row and outputs a BluelinkPerson:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.bluelink</span> <span class="kn">import</span> <span class="n">Bluelink</span><span class="p">,</span> <span class="n">BluelinkPerson</span><span class="p">,</span> <span class="n">BluelinkIdentifier</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.bluelink</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bluelink</span><span class="p">,</span> <span class="n">BluelinkPerson</span><span class="p">,</span> <span class="n">BluelinkIdentifier</span>
 
 <span class="c1"># a function that takes a row and returns a BluelinkPerson</span>
-<span class="k">def</span> <span class="nf">row_to_person</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">row_to_person</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
    <span class="k">return</span> <span class="n">BluelinkPerson</span><span class="p">(</span><span class="n">identifiers</span><span class="o">=</span><span class="p">[</span><span class="n">BluelinkIdentifier</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;SOURCE_VENDOR&quot;</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])],</span>
                  <span class="n">given_name</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;firstName&quot;</span><span class="p">],</span> <span class="n">family_name</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;lastName&quot;</span><span class="p">])</span>
 

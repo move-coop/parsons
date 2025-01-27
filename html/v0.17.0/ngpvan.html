@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NGPVAN &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
 
   
@@ -246,7 +246,7 @@ about Parsons. Please direct any questions</p>
 <section id="quickstart">
 <h2>QuickStart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h2>
 <p>To call the VAN class you can either store the api key as an environmental variable VAN_API_KEY or pass it in as an argument..</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">VAN</span>
 
  <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span> <span class="c1"># Specify the DB type and pass api key via environmental variable.</span>
 
@@ -254,7 +254,7 @@ about Parsons. Please direct any questions</p>
 </pre></div>
 </div>
 <p>You can then call various endpoints:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">VAN</span>
 
  <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span>
 
@@ -280,7 +280,7 @@ documentation for all functions.</p>
 asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials
 so that the file can be posted. Currently, only S3 is supported.</p>
 <p><strong>Bulk Apply Activist Codes</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span><span class="p">,</span> <span class="n">Table</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">VAN</span><span class="p">,</span> <span class="n">Table</span>
 
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="n">EveryAction</span><span class="p">)</span>
 
@@ -301,7 +301,7 @@ so that the file can be posted. Currently, only S3 is supported.</p>
 <h3>Scores: Loading and Updating<a class="headerlink" href="#scores-loading-and-updating" title="Link to this heading"></a></h3>
 <p>Loading a score is a multi-step process. Once a score is set to approved, loading takes place overnight.</p>
 <p><strong>Standard Auto Approve Load</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span><span class="p">,</span> <span class="n">Table</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">VAN</span><span class="p">,</span> <span class="n">Table</span>
 
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span> <span class="c1"># API key stored as an environmental variable</span>
 
@@ -328,7 +328,7 @@ so that the file can be posted. Currently, only S3 is supported.</p>
 </pre></div>
 </div>
 <p><strong>Standard Load Requiring Approval</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">VAN</span>
 
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span> <span class="c1"># API key stored as an environmental variable</span>
 <span class="n">config</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;score_id&#39;</span><span class="p">:</span> <span class="mi">3421</span><span class="p">,</span> <span class="s1">&#39;score_column&#39;</span><span class="p">:</span> <span class="s1">&#39;winning_model&#39;</span><span class="p">}]</span>
@@ -347,7 +347,7 @@ so that the file can be posted. Currently, only S3 is supported.</p>
 <h3>People: Add Survey Response<a class="headerlink" href="#people-add-survey-response" title="Link to this heading"></a></h3>
 <p>The following workflow can be used to apply survey questions, activist codes
 and canvass responses.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">VAN</span>
 
 <span class="c1"># Instantiate Class</span>
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s2">&quot;MyVoters&quot;</span><span class="p">)</span>
@@ -377,7 +377,7 @@ event, these are required to add signups to an event.</p></li>
 <li><p>Shifts - Each event can have multiple shits in which a person can be assigned. These are
 specified in the event creation.</p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">VAN</span>
 
 <span class="c1"># Instantiate class</span>
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s2">&quot;EveryAction&quot;</span><span class="p">)</span>
@@ -405,7 +405,7 @@ specified in the event creation.</p></li>
 </section>
 <section id="signup-adding-and-modifying">
 <h3>Signup: Adding and Modifying<a class="headerlink" href="#signup-adding-and-modifying" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">VAN</span>
 
 <span class="c1"># Instantiate class</span>
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s2">&quot;EveryAction&quot;</span><span class="p">)</span>

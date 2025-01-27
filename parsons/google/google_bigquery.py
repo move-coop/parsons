@@ -1460,6 +1460,13 @@ class GoogleBigQuery(DatabaseConnector):
             gzip (bool): If True, the exported file will be compressed
               using GZIP. Defaults to False.
         """
+        if not job_config:
+            logger.info("Using default job config as none was provided...")
+            job_config = ExtractJobConfig(
+                destination_format=destination_file_format,
+                compression=compression,
+                field_delimiter=field_delimiter,
+            )
         source = f"{dataset}.{table_name}"
         gs_destination = f"gs://{gcs_bucket}/{gcs_blob_name}"
         compression = "GZIP" if gzip else compression
@@ -1467,13 +1474,7 @@ class GoogleBigQuery(DatabaseConnector):
             source=source,
             destination_uris=gs_destination,
             location=location,
-            job_config=job_config
-            if job_config
-            else ExtractJobConfig(
-                destination_format=destination_file_format,
-                compression=compression,
-                field_delimiter=field_delimiter,
-            ),
+            job_config=job_config,
             **export_kwargs,
         )
         if wait_for_job_to_complete:

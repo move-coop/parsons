@@ -11,4 +11,4 @@ repos:
     rev: '1.8.2' # you must change this to newest version
     hooks:
     - id: bandit
-      args: ["-r", "."]
+      args: ["-c pyproject.toml -r -ll -ii", "."]

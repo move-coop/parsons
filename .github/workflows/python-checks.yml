@@ -30,7 +30,7 @@ jobs:
                   python-version: ${{ matrix.python-version }}
 
             - name: Install uv
-              uses: install-pinned/uv@79408d4e43d557f731ba612bec337d5414737a70  # 0.4.12
+              uses: install-pinned/uv@42b3e2a67abaefa8cd01c6f53ac3e86b4b420d4a  # 0.4.12
 
             - name: Patch install error when using Python 3.9, limited dependencies, and MacOS
               if: ${{ matrix.limited-dependencies }} == True and ${{ matrix.os }} == "macos-latest" and ${{ matrix.python-version }} == "3.9"
@@ -59,7 +59,7 @@ jobs:
                   python-version: "3.12"
 
             - name: Install uv
-              uses: install-pinned/uv@79408d4e43d557f731ba612bec337d5414737a70  # 0.4.12
+              uses: install-pinned/uv@42b3e2a67abaefa8cd01c6f53ac3e86b4b420d4a  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -81,7 +81,7 @@ jobs:
                   python-version: "3.12"
 
             - name: Install uv
-              uses: install-pinned/uv@79408d4e43d557f731ba612bec337d5414737a70  # 0.4.12
+              uses: install-pinned/uv@42b3e2a67abaefa8cd01c6f53ac3e86b4b420d4a  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -103,7 +103,7 @@ jobs:
                   python-version: "3.12"
 
             - name: Install uv
-              uses: install-pinned/uv@79408d4e43d557f731ba612bec337d5414737a70  # 0.4.12
+              uses: install-pinned/uv@42b3e2a67abaefa8cd01c6f53ac3e86b4b420d4a  # 0.4.12
 
             - name: Install bandit
               run: |
@@ -125,7 +125,7 @@ jobs:
                   python-version: "3.12"
 
             - name: Install uv
-              uses: install-pinned/uv@79408d4e43d557f731ba612bec337d5414737a70  # 0.4.12
+              uses: install-pinned/uv@42b3e2a67abaefa8cd01c6f53ac3e86b4b420d4a  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -152,7 +152,7 @@ jobs:
 
         steps:
             - name: Harden Runner
-              uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+              uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
               with:
                   egress-policy: audit
 

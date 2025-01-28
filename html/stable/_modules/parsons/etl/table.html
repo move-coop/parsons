@@ -45,6 +45,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airmeet.html">Airmeet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auth0.html">Auth0</a></li>
@@ -62,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../empower.html">Empower</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
@@ -212,7 +214,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">row_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
                 <span class="c1"># Check for list of dicts</span>
-                <span class="k">if</span> <span class="n">row_type</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">row_type</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">fromdicts</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
                 <span class="c1"># Check for list of lists</span>
                 <span class="k">elif</span> <span class="n">row_type</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]:</span>

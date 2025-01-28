@@ -45,6 +45,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airmeet.html">Airmeet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auth0.html">Auth0</a></li>
@@ -62,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../empower.html">Empower</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
@@ -508,7 +510,7 @@
                 <span class="nb">id</span> <span class="o">=</span> <span class="n">match_json</span><span class="p">[</span><span class="s2">&quot;vanId&quot;</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">match_json</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;people/&quot;</span>
 
@@ -766,6 +768,7 @@
         <span class="n">omit_contact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">campaignId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">skip_matching</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply responses such as survey questions, activist codes, and volunteer actions</span>
@@ -803,6 +806,8 @@
 <span class="sd">                `Optional`; Phone number of any type (Work, Cell, Home)</span>
 <span class="sd">            campaignId: int</span>
 <span class="sd">                `Optional`; a valid Campaign ID.</span>
+<span class="sd">            skip_matching: boolean</span>
+<span class="sd">                `Optional`; if set to true, skips matching/de-duping of contact history. Defaults to a null value, aka false.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``True`` if successful</span>
 
@@ -831,6 +836,7 @@
                 <span class="s2">&quot;dateCanvassed&quot;</span><span class="p">:</span> <span class="n">date_canvassed</span><span class="p">,</span>
                 <span class="s2">&quot;omitActivistCodeContactHistory&quot;</span><span class="p">:</span> <span class="n">omit_contact</span><span class="p">,</span>
                 <span class="s2">&quot;campaignId&quot;</span><span class="p">:</span> <span class="n">campaignId</span><span class="p">,</span>
+                <span class="s2">&quot;skipMatching&quot;</span><span class="p">:</span> <span class="n">skip_matching</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="s2">&quot;resultCodeId&quot;</span><span class="p">:</span> <span class="n">result_code_id</span><span class="p">,</span>
         <span class="p">}</span>

@@ -45,6 +45,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airmeet.html">Airmeet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auth0.html">Auth0</a></li>
@@ -62,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../empower.html">Empower</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
@@ -406,6 +408,29 @@
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;identifiers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">identifiers</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upsert_entity</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="n">campaign</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ActionBuilder.remove_entity_record_from_campaign">
+<a class="viewcode-back" href="../../../action_builder.html#parsons.ActionBuilder.remove_entity_record_from_campaign">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_entity_record_from_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove an entity record from a campaign. Records cannot be permanently deleted, but a</span>
+<span class="sd">        record that has been removed from a campaign will not appear in the UI.</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            identifier: str</span>
+<span class="sd">                The unique identifier for the record being removed. ID strings will need to begin</span>
+<span class="sd">                with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.</span>
+<span class="sd">            campaign: str</span>
+<span class="sd">                Optional. The 36-character &quot;interact ID&quot; of the campaign whose data is to be</span>
+<span class="sd">                retrieved or edited. Not necessary if supplied when instantiating the class.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Dict with HTTP response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">campaign</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_campaign_check</span><span class="p">(</span><span class="n">campaign</span><span class="p">)</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;campaigns/</span><span class="si">{</span><span class="n">campaign</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">identifier</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ActionBuilder.add_section_field_values_to_record">

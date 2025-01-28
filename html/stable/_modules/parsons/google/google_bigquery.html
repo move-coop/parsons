@@ -45,6 +45,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airmeet.html">Airmeet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auth0.html">Auth0</a></li>
@@ -62,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../empower.html">Empower</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
@@ -145,6 +147,7 @@
   <h1>Source code for parsons.google.google_bigquery</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
@@ -289,6 +292,10 @@
 <span class="sd">            A dictionary containing any requested client options. Defaults to the required</span>
 <span class="sd">            scopes for making API calls against External tables stored in Google Drive.</span>
 <span class="sd">            Can be set to None if these permissions are not desired</span>
+<span class="sd">        gcs_temp_bucket: str</span>
+<span class="sd">            Name of the GCS bucket that will be used for storing data during bulk transfers.</span>
+<span class="sd">            Required if you intend to perform bulk data transfers (eg. the copy_from_gcs method),</span>
+<span class="sd">            and env variable ``GCS_TEMP_BUCKET`` is not populated.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -303,6 +310,7 @@
                 <span class="s2">&quot;https://www.googleapis.com/auth/cloud-platform&quot;</span><span class="p">,</span>
             <span class="p">]</span>
         <span class="p">},</span>
+        <span class="n">tmp_gcs_bucket</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">app_creds</span> <span class="o">=</span> <span class="n">app_creds</span>
 
@@ -318,6 +326,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">project</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client_options</span> <span class="o">=</span> <span class="n">client_options</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="n">tmp_gcs_bucket</span>
 
         <span class="c1"># We will not create the client until we need to use it, since creating the client</span>
         <span class="c1"># without valid GOOGLE_APPLICATION_CREDENTIALS raises an exception.</span>
@@ -847,7 +856,8 @@
 <span class="sd">                The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.</span>
 <span class="sd">            tmp_gcs_bucket: str</span>
 <span class="sd">                The name of the Google Cloud Storage bucket to use to stage the data to load</span>
-<span class="sd">                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.</span>
+<span class="sd">                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified or set on</span>
+<span class="sd">                the class instance.</span>
 <span class="sd">            template_table: str</span>
 <span class="sd">                Table name to be used as the load schema. Load operation wil use the same</span>
 <span class="sd">                columns and data types as the template table.</span>
@@ -863,8 +873,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># copy from S3 to GCS</span>
-        <span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GCS_TEMP_BUCKET&quot;</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">)</span>
-        <span class="n">gcs_client</span> <span class="o">=</span> <span class="n">gcs_client</span> <span class="ow">or</span> <span class="n">GoogleCloudStorage</span><span class="p">(</span><span class="n">app_creds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">app_creds</span><span class="p">)</span>
+        <span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">tmp_gcs_bucket</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmp_gcs_bucket</span>
+            <span class="ow">or</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GCS_TEMP_BUCKET&quot;</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">gcs_client</span> <span class="o">=</span> <span class="n">gcs_client</span> <span class="ow">or</span> <span class="n">GoogleCloudStorage</span><span class="p">()</span>
         <span class="n">temp_blob_uri</span> <span class="o">=</span> <span class="n">gcs_client</span><span class="o">.</span><span class="n">copy_s3_to_gcs</span><span class="p">(</span>
             <span class="n">aws_source_bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span>
             <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
@@ -912,6 +926,7 @@
         <span class="n">allow_jagged_rows</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">quote</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">convert_dict_columns_to_json</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -932,7 +947,8 @@
 <span class="sd">                the job fails.</span>
 <span class="sd">            tmp_gcs_bucket: str</span>
 <span class="sd">                The name of the Google Cloud Storage bucket to use to stage the data to load</span>
-<span class="sd">                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.</span>
+<span class="sd">                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified or set on</span>
+<span class="sd">                the class instance.</span>
 <span class="sd">            gcs_client: object</span>
 <span class="sd">                The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.</span>
 <span class="sd">            job_config: object</span>
@@ -941,18 +957,46 @@
 <span class="sd">            template_table: str</span>
 <span class="sd">                Table name to be used as the load schema. Load operation wil use the same</span>
 <span class="sd">                columns and data types as the template table.</span>
+<span class="sd">            convert_dict_columns_to_json: bool</span>
+<span class="sd">                If set to True, will convert any dict columns (which cannot by default be successfully loaded to BigQuery to JSON strings)</span>
 <span class="sd">            **load_kwargs: kwargs</span>
 <span class="sd">                Arguments to pass to the underlying load_table_from_uri call on the BigQuery</span>
 <span class="sd">                client.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;csv&quot;</span>
-        <span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GCS_TEMP_BUCKET&quot;</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">)</span>
+        <span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">tmp_gcs_bucket</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmp_gcs_bucket</span>
+            <span class="ow">or</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;GCS_TEMP_BUCKET&quot;</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">)</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">tmp_gcs_bucket</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Must set GCS_TEMP_BUCKET environment variable or pass in tmp_gcs_bucket parameter&quot;</span>
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_copy_inputs</span><span class="p">(</span><span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+
+        <span class="c1"># If our source table is loaded from CSV with no transformations</span>
+        <span class="c1"># The original source file will be directly loaded to GCS</span>
+        <span class="c1"># We may need to pass along a custom delimiter to BigQuery</span>
+        <span class="c1"># Otherwise we use the default comma</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">petl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">csv_py3</span><span class="o">.</span><span class="n">CSVView</span><span class="p">):</span>
+            <span class="n">csv_delimiter</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">csvargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;delimiter&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">csv_delimiter</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span>
+
+        <span class="k">if</span> <span class="n">convert_dict_columns_to_json</span><span class="p">:</span>
+            <span class="c1"># Convert dict columns to JSON strings</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">get_columns_type_stats</span><span class="p">():</span>
+                <span class="k">if</span> <span class="s2">&quot;dict&quot;</span> <span class="ow">in</span> <span class="n">field</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]:</span>
+                    <span class="n">new_petl</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">addfield</span><span class="p">(</span>
+                        <span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_replace&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]])</span>
+                    <span class="p">)</span>
+                    <span class="n">new_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">new_petl</span><span class="p">)</span>
+                    <span class="n">new_tbl</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+                    <span class="n">new_tbl</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_replace&quot;</span><span class="p">,</span> <span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+                    <span class="n">new_tbl</span><span class="o">.</span><span class="n">materialize</span><span class="p">()</span>
+                    <span class="n">tbl</span> <span class="o">=</span> <span class="n">new_tbl</span>
 
         <span class="n">job_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_job_config</span><span class="p">(</span>
             <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
@@ -968,6 +1012,7 @@
             <span class="n">allow_jagged_rows</span><span class="o">=</span><span class="n">allow_jagged_rows</span><span class="p">,</span>
             <span class="n">quote</span><span class="o">=</span><span class="n">quote</span><span class="p">,</span>
             <span class="n">custom_schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span>
+            <span class="n">csv_delimiter</span><span class="o">=</span><span class="n">csv_delimiter</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="c1"># Reorder schema to match table to ensure compatibility</span>
@@ -1563,6 +1608,8 @@
 
         <span class="k">return</span> <span class="n">BigQueryTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
 
+<div class="viewcode-block" id="GoogleBigQuery.extract">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.extract">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">extract</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -1570,18 +1617,39 @@
         <span class="n">gcs_bucket</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">gcs_blob_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">project</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">gzip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extracts a BigQuery table to a Google Cloud Storage bucket.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataset (str): The BigQuery dataset containing the table.</span>
+<span class="sd">            table_name (str): The name of the table to extract.</span>
+<span class="sd">            gcs_bucket (str): The GCS bucket where the table will be</span>
+<span class="sd">              exported.</span>
+<span class="sd">            gcs_blob_name (str): The name of the blob in the GCS</span>
+<span class="sd">              bucket.</span>
+<span class="sd">            project (Optional[str]): The Google Cloud project ID. If</span>
+<span class="sd">              not provided, the default project of the client is used.</span>
+<span class="sd">            gzip (bool): If True, the exported file will be compressed</span>
+<span class="sd">              using GZIP. Defaults to False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">dataset_ref</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">DatasetReference</span><span class="p">(</span><span class="n">project</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">project</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
         <span class="n">table_ref</span> <span class="o">=</span> <span class="n">dataset_ref</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
         <span class="n">gs_destination</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;gs://</span><span class="si">{</span><span class="n">gcs_bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">gcs_blob_name</span><span class="si">}</span><span class="s2">&quot;</span>
 
-        <span class="n">extract_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">extract_table</span><span class="p">(</span>
-            <span class="n">table_ref</span><span class="p">,</span>
-            <span class="n">gs_destination</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">gzip</span><span class="p">:</span>
+            <span class="n">job_config</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">ExtractJobConfig</span><span class="p">()</span>
+            <span class="n">job_config</span><span class="o">.</span><span class="n">compression</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Compression</span><span class="o">.</span><span class="n">GZIP</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">job_config</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">extract_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">extract_table</span><span class="p">(</span><span class="n">table_ref</span><span class="p">,</span> <span class="n">gs_destination</span><span class="p">,</span> <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">)</span>
         <span class="n">extract_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># Waits for job to complete.</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished exporting query result to </span><span class="si">{</span><span class="n">gs_destination</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+</div>
 
 
 

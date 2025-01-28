@@ -45,6 +45,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airmeet.html">Airmeet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auth0.html">Auth0</a></li>
@@ -62,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../empower.html">Empower</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
@@ -158,7 +160,6 @@
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Scores</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="Scores.get_scores">
@@ -262,7 +263,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">status</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;pending approval&quot;</span><span class="p">,</span> <span class="s2">&quot;approved&quot;</span><span class="p">,</span> <span class="s2">&quot;disapproved&quot;</span><span class="p">,</span> <span class="s2">&quot;canceled&quot;</span><span class="p">]:</span>
-
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
 <span class="w">                </span><span class="sd">&quot;&quot;&quot;Valid inputs for status are, &#39;pending approval&#39;,</span>
 <span class="sd">                             &#39;approved&#39;,&#39;disapproved&#39;,&#39;canceled&#39;&quot;&quot;&quot;</span>
@@ -398,7 +398,6 @@
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.FileLoadingJobs">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FileLoadingJobs</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="FileLoadingJobs.create_file_load">
@@ -490,7 +489,6 @@
         <span class="p">}</span>
 
         <span class="k">if</span> <span class="n">auto_average</span> <span class="ow">and</span> <span class="n">auto_tolerance</span><span class="p">:</span>
-
             <span class="n">json</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">][</span><span class="s2">&quot;approvalCriteria&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="n">auto_average</span><span class="p">,</span>
                 <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="n">auto_tolerance</span><span class="p">,</span>
@@ -578,7 +576,6 @@
         <span class="n">actions</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">score_map</span><span class="p">:</span>
-
             <span class="n">action</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;score&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;personIdColumn&quot;</span><span class="p">:</span> <span class="n">id_column</span><span class="p">,</span>

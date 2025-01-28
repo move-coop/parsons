@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Airtable" href="airtable.html" />
+    <link rel="next" title="Airmeet" href="airmeet.html" />
     <link rel="prev" title="Action Builder" href="action_builder.html" /> 
 </head>
 
@@ -137,12 +137,14 @@
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_wrapper"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_wrapper()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_unique_id_lists"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_unique_id_lists()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_unique_id_list"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_unique_id_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_unique_id_list"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_unique_id_list()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="airmeet.html">Airmeet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auth0.html">Auth0</a></li>
@@ -160,6 +162,7 @@
 <li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="empower.html">Empower</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
@@ -1610,7 +1613,7 @@ When None, no filter is applied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionNetwork.upsert_person">
-<span class="sig-name descname"><span class="pre">upsert_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">family_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages_spoken</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postal_addresses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'subscribed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_processing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.upsert_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.upsert_person" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">upsert_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">family_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages_spoken</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postal_addresses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'subscribed'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'unsubscribed'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_processing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.upsert_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.upsert_person" title="Link to this definition"></a></dt>
 <dd><p>Creates or updates a person record. In order to update an existing record instead of
 creating a new one, you must supply an email or mobile number which matches a record
 in the database.</p>
@@ -1686,7 +1689,10 @@ For details, see Action Network’s documentation:
 </dd>
 </dl>
 </dd>
-<dt>mobile_status:</dt><dd><p>‘subscribed’ or ‘unsubscribed’</p>
+<dt>mobile_status:</dt><dd><p>None, ‘subscribed’ or ‘unsubscribed’. If included, will update the SMS opt-in
+status of the phone in ActionNetwork. If not included, won’t update the status.
+None by default, causes no updates to mobile number status. New numbers are set
+to “unsubscribed” by default.</p>
 </dd>
 <dt>background_request: bool</dt><dd><p>If set <cite>true</cite>, utilize ActionNetwork’s “background processing”. This will return
 an immediate success, with an empty JSON body, and send your request to the
@@ -2431,6 +2437,24 @@ filter: The filter criteria to apply when retrieving unique ID lists.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_unique_id_list">
+<span class="sig-name descname"><span class="pre">create_unique_id_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_unique_id_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_unique_id_list" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>list_name:</dt><dd><p>The name for the new list</p>
+</dd>
+<dt>unique_ids:</dt><dd><p>An array of unique IDs to upload</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response with the unique ID list details</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/unique_id_lists">https://actionnetwork.org/docs/v2/unique_id_lists</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -2441,7 +2465,7 @@ filter: The filter criteria to apply when retrieving unique ID lists.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="action_builder.html" class="btn btn-neutral float-left" title="Action Builder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="airtable.html" class="btn btn-neutral float-right" title="Airtable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="airmeet.html" class="btn btn-neutral float-right" title="Airmeet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

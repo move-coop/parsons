@@ -45,6 +45,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airmeet.html">Airmeet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auth0.html">Auth0</a></li>
@@ -62,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../empower.html">Empower</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
@@ -175,7 +177,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">google_keyfile_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-
         <span class="n">scope</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s2">&quot;https://spreadsheets.google.com/feeds&quot;</span><span class="p">,</span>
             <span class="s2">&quot;https://www.googleapis.com/auth/drive&quot;</span><span class="p">,</span>
@@ -199,16 +200,12 @@
 
         <span class="c1"># Check if the worksheet is an integer, if so find the sheet by index</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">worksheet</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span><span class="o">.</span><span class="n">get_worksheet</span><span class="p">(</span>
-                <span class="n">worksheet</span>
-            <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span><span class="o">.</span><span class="n">get_worksheet</span><span class="p">(</span><span class="n">worksheet</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">worksheet</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_worksheets</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">worksheet</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span><span class="o">.</span><span class="n">get_worksheet</span><span class="p">(</span>
-                    <span class="n">idx</span>
-                <span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span><span class="o">.</span><span class="n">get_worksheet</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span>  <span class="c1"># noqa: E722</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Couldn&#39;t find worksheet </span><span class="si">{</span><span class="n">worksheet</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -462,9 +459,7 @@
 
         <span class="c1"># If the existing sheet is blank, then just overwrite the table.</span>
         <span class="k">if</span> <span class="n">existing_table</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">overwrite_sheet</span><span class="p">(</span>
-                <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">worksheet</span><span class="p">,</span> <span class="n">user_entered_value</span>
-            <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">overwrite_sheet</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">worksheet</span><span class="p">,</span> <span class="n">user_entered_value</span><span class="p">)</span>
 
         <span class="n">cells</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">row_num</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>

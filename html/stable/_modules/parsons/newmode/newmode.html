@@ -45,6 +45,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airmeet.html">Airmeet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auth0.html">Auth0</a></li>
@@ -62,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../empower.html">Empower</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
@@ -144,16 +146,25 @@
              
   <h1>Source code for parsons.newmode.newmode</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Newmode</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.oauth_api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">OAuth2APIConnector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
+<span class="n">V2_API_URL</span> <span class="o">=</span> <span class="s2">&quot;https://base.newmode.net/api/&quot;</span>
+<span class="n">V2_API_AUTH_URL</span> <span class="o">=</span> <span class="s2">&quot;https://base.newmode.net/oauth/token/&quot;</span>
+<span class="n">V2_API_CAMPAIGNS_URL</span> <span class="o">=</span> <span class="s2">&quot;https://base.newmode.net/&quot;</span>
+<span class="n">V2_API_CAMPAIGNS_VERSION</span> <span class="o">=</span> <span class="s2">&quot;jsonapi&quot;</span>
+<span class="n">V2_API_CAMPAIGNS_HEADERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;content-type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/vnd.api+json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/vnd.api+json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;authorization&quot;</span><span class="p">:</span> <span class="s2">&quot;Bearer 1234567890&quot;</span><span class="p">,</span>
+<span class="p">}</span>
 
-<div class="viewcode-block" id="Newmode">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Newmode</span><span class="p">:</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">NewmodeV1</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
@@ -169,28 +180,24 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Newmode class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s2">&quot;Newmode V1 API will be sunset in Feburary 28th, 2025. To use V2, set api_version=v2.1&quot;</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_user</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;NEWMODE_API_USER&quot;</span><span class="p">,</span> <span class="n">api_user</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;NEWMODE_API_PASSWORD&quot;</span><span class="p">,</span> <span class="n">api_password</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">api_version</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">api_version</span> <span class="o">=</span> <span class="s2">&quot;v1.0&quot;</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_version</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;NEWMODE_API_VERSION&quot;</span><span class="p">,</span> <span class="n">api_version</span><span class="p">)</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_version</span> <span class="o">=</span> <span class="n">api_version</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">api_user</span><span class="p">,</span> <span class="n">api_password</span><span class="p">,</span> <span class="n">api_version</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">convert_to_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="c1"># Internal method to create a Parsons table from a data element.</span>
         <span class="n">table</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([</span><span class="n">data</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">table</span>
 
-<div class="viewcode-block" id="Newmode.get_tools">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_tools">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing tools.</span>
@@ -205,11 +212,8 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">tools</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty tools returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span>
 
-
-<div class="viewcode-block" id="Newmode.get_tool">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_tool">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific tool.</span>
@@ -226,11 +230,8 @@
             <span class="k">return</span> <span class="n">tool</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty tool returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+            <span class="k">return</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="Newmode.lookup_targets">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.lookup_targets">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">lookup_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lookup targets for a given tool</span>
@@ -258,11 +259,8 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty targets returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span>
 
-
-<div class="viewcode-block" id="Newmode.get_action">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_action">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the action information for a given tool.</span>
@@ -279,11 +277,8 @@
             <span class="k">return</span> <span class="n">action</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty action returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+            <span class="k">return</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="Newmode.run_action">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.run_action">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run specific action with given payload.</span>
@@ -306,11 +301,8 @@
                 <span class="k">return</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;sid&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Error in response&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+            <span class="k">return</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="Newmode.get_target">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_target">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific target.</span>
@@ -327,11 +319,8 @@
             <span class="k">return</span> <span class="n">target</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty target returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+            <span class="k">return</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="Newmode.get_targets">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_targets">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all targets</span>
@@ -351,11 +340,8 @@
 
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No targets returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+            <span class="k">return</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="Newmode.get_campaigns">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_campaigns">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_campaigns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing campaigns.</span>
@@ -370,11 +356,8 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">campaigns</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty campaigns returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span>
 
-
-<div class="viewcode-block" id="Newmode.get_campaign">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_campaign">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific campaign.</span>
@@ -391,11 +374,8 @@
             <span class="k">return</span> <span class="n">campaign</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty campaign returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+            <span class="k">return</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="Newmode.get_organizations">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_organizations">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_organizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing organizations.</span>
@@ -410,11 +390,8 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">organizations</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty organizations returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span>
 
-
-<div class="viewcode-block" id="Newmode.get_organization">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_organization">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_organization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific organization.</span>
@@ -431,11 +408,8 @@
             <span class="k">return</span> <span class="n">organization</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty organization returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+            <span class="k">return</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="Newmode.get_services">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_services">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing services.</span>
@@ -450,11 +424,8 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">services</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty services returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span>
 
-
-<div class="viewcode-block" id="Newmode.get_service">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_service">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific service.</span>
@@ -471,11 +442,8 @@
             <span class="k">return</span> <span class="n">service</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty service returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+            <span class="k">return</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="Newmode.get_outreaches">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_outreaches">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_outreaches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing outreaches for a given tool.</span>
@@ -492,11 +460,8 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">outreaches</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty outreaches returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span>
 
-
-<div class="viewcode-block" id="Newmode.get_outreach">
-<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_outreach">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_outreach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outreach_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific outreach.</span>
@@ -513,8 +478,291 @@
             <span class="k">return</span> <span class="n">outreach</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty outreach returned&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
-</div>
+            <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">NewmodeV2</span><span class="p">:</span>
+    <span class="c1"># TODO: Add param definition and requirements once official Newmode docs are published</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_version</span><span class="o">=</span><span class="s2">&quot;v2.1&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instantiate Class</span>
+<span class="sd">        `Args`:</span>
+<span class="sd">            client_id: str</span>
+<span class="sd">                The client id to use for the API requests. Not required if ``NEWMODE_API_CLIENT_ID``</span>
+<span class="sd">                env variable set.</span>
+<span class="sd">            client_secret: str</span>
+<span class="sd">                The client secret to use for the API requests. Not required if ``NEWMODE_API_CLIENT_SECRET``</span>
+<span class="sd">                env variable set.</span>
+<span class="sd">            api_version: str</span>
+<span class="sd">                The api version to use. Defaults to v2.1</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            NewMode Class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_version</span> <span class="o">=</span> <span class="n">api_version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">V2_API_URL</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;NEWMODE_API_CLIENT_ID&quot;</span><span class="p">,</span> <span class="n">client_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;NEWMODE_API_CLIENT_SECRET&quot;</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;content-type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_client</span> <span class="o">=</span> <span class="n">OAuth2APIConnector</span><span class="p">(</span>
+            <span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span>
+            <span class="n">auto_refresh_url</span><span class="o">=</span><span class="n">V2_API_AUTH_URL</span><span class="p">,</span>
+            <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+            <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">token_url</span><span class="o">=</span><span class="n">V2_API_AUTH_URL</span><span class="p">,</span>
+            <span class="n">grant_type</span><span class="o">=</span><span class="s2">&quot;client_credentials&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">base_request</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">,</span>
+        <span class="n">endpoint</span><span class="p">,</span>
+        <span class="n">client</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">supports_version</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">override_api_version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Internal method to instantiate OAuth2APIConnector class,</span>
+<span class="sd">        make a call to Newmode API, and validate the response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">api_version</span> <span class="o">=</span> <span class="n">override_api_version</span> <span class="k">if</span> <span class="n">override_api_version</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_version</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">api_version</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">supports_version</span> <span class="k">else</span> <span class="n">endpoint</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">success_codes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">202</span><span class="p">,</span> <span class="mi">204</span><span class="p">]</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">validate_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="n">success_codes</span><span class="p">:</span>
+            <span class="n">response_json</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="k">if</span> <span class="n">client</span><span class="o">.</span><span class="n">json_check</span><span class="p">(</span><span class="n">response</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="n">response_json</span><span class="p">[</span><span class="n">data_key</span><span class="p">]</span> <span class="k">if</span> <span class="n">data_key</span> <span class="ow">and</span> <span class="n">response_json</span> <span class="k">else</span> <span class="n">response_json</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;API request encountered an error. Response: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">converted_request</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">endpoint</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">,</span>
+        <span class="n">supports_version</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">convert_to_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">data_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">override_api_version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal method to make a call to the Newmode API and convert the result to a Parsons table.&quot;&quot;&quot;</span>
+
+        <span class="n">client</span> <span class="o">=</span> <span class="n">client</span> <span class="k">if</span> <span class="n">client</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_client</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">data_key</span><span class="o">=</span><span class="n">data_key</span><span class="p">,</span>
+            <span class="n">supports_version</span><span class="o">=</span><span class="n">supports_version</span><span class="p">,</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span>
+            <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+            <span class="n">override_api_version</span><span class="o">=</span><span class="n">override_api_version</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">convert_to_table</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve a specific campaign by ID.</span>
+
+<span class="sd">        In v2, a campaign is equivalent to Tools or Actions in V1.</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            campaign_id: str</span>
+<span class="sd">                The ID of the campaign to retrieve.</span>
+<span class="sd">            params: dict</span>
+<span class="sd">                Query parameters to include in the request.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table containing campaign data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/campaign/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">/form&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converted_request</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaign_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve all campaigns</span>
+<span class="sd">        In v2, a campaign is equivalent to Tools or Actions in V1.</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            organization_id: str</span>
+<span class="sd">                ID of organization</span>
+<span class="sd">            params: dict</span>
+<span class="sd">                Query parameters to include in the request.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            List containing all campaign ids.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;node/action&quot;</span>
+        <span class="n">campaigns_client</span> <span class="o">=</span> <span class="n">OAuth2APIConnector</span><span class="p">(</span>
+            <span class="n">uri</span><span class="o">=</span><span class="n">V2_API_CAMPAIGNS_URL</span><span class="p">,</span>
+            <span class="n">auto_refresh_url</span><span class="o">=</span><span class="n">V2_API_AUTH_URL</span><span class="p">,</span>
+            <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+            <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">V2_API_CAMPAIGNS_HEADERS</span><span class="p">,</span>
+            <span class="n">token_url</span><span class="o">=</span><span class="n">V2_API_AUTH_URL</span><span class="p">,</span>
+            <span class="n">grant_type</span><span class="o">=</span><span class="s2">&quot;client_credentials&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converted_request</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span>
+            <span class="n">client</span><span class="o">=</span><span class="n">campaigns_client</span><span class="p">,</span>
+            <span class="n">override_api_version</span><span class="o">=</span><span class="n">V2_API_CAMPAIGNS_VERSION</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_recipient</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">campaign_id</span><span class="p">,</span>
+        <span class="n">street_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">postal_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{},</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve a specific recipient by ID</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            campaign_id: str</span>
+<span class="sd">                The ID of the campaign to retrieve.</span>
+<span class="sd">            street_address: str</span>
+<span class="sd">                Street address of recipient</span>
+<span class="sd">            city: str</span>
+<span class="sd">                City of recipient</span>
+<span class="sd">            postal_code: str</span>
+<span class="sd">                Postal code of recipient</span>
+<span class="sd">            region: str</span>
+<span class="sd">                Region (i.e. state/province abbreviation) of recipient</span>
+<span class="sd">            params: dict</span>
+<span class="sd">                Query parameters to include in the request.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table containing recipient data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">address_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;street_address&quot;</span><span class="p">:</span> <span class="n">street_address</span><span class="p">,</span>
+            <span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="n">city</span><span class="p">,</span>
+            <span class="s2">&quot;postal_code&quot;</span><span class="p">:</span> <span class="n">postal_code</span><span class="p">,</span>
+            <span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="n">region</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">all_address_params_are_missing</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">address_params</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">all_address_params_are_missing</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Incomplete Request. Please specify a street address, city, postal code, and/or region.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;address[value][</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">address_params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span><span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converted_request</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;campaign/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">/target&quot;</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pass a submission from a supporter to a campaign</span>
+<span class="sd">        that ultimately fills in a petition,</span>
+<span class="sd">        sends an email or triggers a phone call</span>
+<span class="sd">        depending on your campaign type</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            campaign_id: str</span>
+<span class="sd">                The ID of the campaign to retrieve.</span>
+<span class="sd">            params: dict</span>
+<span class="sd">                Query parameters to include in the request.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table containing submit data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converted_request</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;campaign/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">/submit&quot;</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">convert_to_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_submissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve and sort submissions and contact data</span>
+<span class="sd">        for a specified campaign using a range of filters</span>
+<span class="sd">        that include campaign id, data range and submission status</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            params: dict</span>
+<span class="sd">                Query parameters to include in the request.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table containing submit data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="n">campaign_id</span><span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converted_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;submission&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+
+<div class="viewcode-block" id="Newmode">
+<a class="viewcode-back" href="../../../newmode.html#parsons.Newmode">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Newmode</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_version</span><span class="o">=</span><span class="s2">&quot;v1.0&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and return Newmode instance based on chosen version (V1 or V2)</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            api_user: str</span>
+<span class="sd">                The Newmode api user. Not required if ``NEWMODE_API_USER`` env variable is</span>
+<span class="sd">                passed. Needed for V1.</span>
+<span class="sd">            api_password: str</span>
+<span class="sd">                The Newmode api password. Not required if ``NEWMODE_API_PASSWORD`` env variable is</span>
+<span class="sd">                passed. Needed for V1.</span>
+<span class="sd">            client_id: str</span>
+<span class="sd">                The client id to use for the API requests. Not required if ``NEWMODE_API_CLIENT_ID``</span>
+<span class="sd">                env variable set. Needed for V2.</span>
+<span class="sd">            client_secret: str</span>
+<span class="sd">                The client secret to use for the API requests. Not required if ``NEWMODE_API_CLIENT_SECRET``</span>
+<span class="sd">                env variable set. Needed for V2.</span>
+<span class="sd">            api_version: str</span>
+<span class="sd">                The api version to use. Defaults to v1.0.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            NewMode Class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">api_version</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;NEWMODE_API_VERSION&quot;</span><span class="p">,</span> <span class="n">api_version</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">api_version</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;v2&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">NewmodeV2</span><span class="p">(</span>
+                <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">client_secret</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="n">api_version</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">api_version</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;v1&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">NewmodeV1</span><span class="p">(</span><span class="n">api_user</span><span class="o">=</span><span class="n">api_user</span><span class="p">,</span> <span class="n">api_password</span><span class="o">=</span><span class="n">api_password</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="n">api_version</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">api_version</span><span class="si">}</span><span class="s2"> not supported.&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 

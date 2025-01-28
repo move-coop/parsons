@@ -45,6 +45,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airmeet.html">Airmeet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auth0.html">Auth0</a></li>
@@ -62,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../empower.html">Empower</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
@@ -147,7 +149,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Literal</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIConnector</span>
@@ -1432,7 +1434,7 @@
         <span class="n">languages_spoken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">postal_addresses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mobile_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">mobile_status</span><span class="o">=</span><span class="s2">&quot;subscribed&quot;</span><span class="p">,</span>
+        <span class="n">mobile_status</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;subscribed&quot;</span><span class="p">,</span> <span class="s2">&quot;unsubscribed&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">background_processing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
@@ -1486,7 +1488,10 @@
 <span class="sd">                            - &quot;subscribed&quot;</span>
 <span class="sd">                            - &quot;unsubscribed&quot;</span>
 <span class="sd">            mobile_status:</span>
-<span class="sd">                &#39;subscribed&#39; or &#39;unsubscribed&#39;</span>
+<span class="sd">                None, &#39;subscribed&#39; or &#39;unsubscribed&#39;. If included, will update the SMS opt-in</span>
+<span class="sd">                status of the phone in ActionNetwork. If not included, won&#39;t update the status.</span>
+<span class="sd">                None by default, causes no updates to mobile number status. New numbers are set</span>
+<span class="sd">                to &quot;unsubscribed&quot; by default.</span>
 <span class="sd">            background_request: bool</span>
 <span class="sd">                If set `true`, utilize ActionNetwork&#39;s &quot;background processing&quot;. This will return</span>
 <span class="sd">                an immediate success, with an empty JSON body, and send your request to the</span>
@@ -1516,27 +1521,31 @@
 
         <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;[^0-9]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">mobile_number</span><span class="p">),</span> <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">mobile_status</span><span class="p">}</span>
-            <span class="p">]</span>
+            <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;[^0-9]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">mobile_number</span><span class="p">)}]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">),</span> <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">mobile_status</span><span class="p">}]</span>
+            <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">)}]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="p">(</span><span class="s2">&quot;Action Network allows only 1 phone number per activist&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;[^0-9]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">cell</span><span class="p">),</span> <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">mobile_status</span><span class="p">}</span>
-                    <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">mobile_number</span>
+                    <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;[^0-9]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">cell</span><span class="p">)}</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">mobile_number</span>
                 <span class="p">]</span>
                 <span class="n">mobile_numbers_field</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;primary&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
-                <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">cell</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">mobile_status</span><span class="p">}</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">mobile_number</span>
-                <span class="p">]</span>
+                <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">cell</span><span class="p">}</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">mobile_number</span><span class="p">]</span>
                 <span class="n">mobile_numbers_field</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;primary&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="n">mobile_number</span>
+
+        <span class="c1"># Including status in this field changes the opt-in status in</span>
+        <span class="c1"># ActionNetwork. This is not always desireable, so we should</span>
+        <span class="c1"># only do so when a status is included.</span>
+        <span class="k">if</span> <span class="n">mobile_status</span> <span class="ow">and</span> <span class="n">mobile_numbers_field</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">mobile_numbers_field</span><span class="p">:</span>
+                <span class="n">field</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mobile_status</span>
+
+        <span class="c1"># If the mobile_number field is passed a list of dictionaries, just use that directly</span>
+        <span class="k">if</span> <span class="n">mobile_number</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mobile_number</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">mobile_numbers_field</span> <span class="o">=</span> <span class="n">mobile_number</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">email_addresses_field</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">mobile_numbers_field</span><span class="p">:</span>
             <span class="k">raise</span> <span class="p">(</span>
@@ -1566,6 +1575,7 @@
         <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/people&quot;</span>
         <span class="k">if</span> <span class="n">background_processing</span><span class="p">:</span>
             <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">?background_processing=true&quot;</span>
+
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
 
         <span class="n">identifiers</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;identifiers&quot;</span><span class="p">]</span>
@@ -2336,6 +2346,26 @@
 <span class="sd">            https://actionnetwork.org/docs/v2/unique_id_lists</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unique_id_lists/</span><span class="si">{</span><span class="n">unique_id_list_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ActionNetwork.create_unique_id_list">
+<a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_unique_id_list">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_unique_id_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_name</span><span class="p">,</span> <span class="n">unique_ids</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            list_name:</span>
+<span class="sd">                The name for the new list</span>
+<span class="sd">            unique_ids:</span>
+<span class="sd">                An array of unique IDs to upload</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response with the unique ID list details</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/unique_id_lists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
+            <span class="s2">&quot;unique_id_lists&quot;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">list_name</span><span class="p">,</span> <span class="s2">&quot;unique_ids&quot;</span><span class="p">:</span> <span class="n">unique_ids</span><span class="p">}),</span>
+        <span class="p">)</span></div>
 </div>
 
 </pre></div>

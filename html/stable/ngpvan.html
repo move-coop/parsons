@@ -48,6 +48,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airmeet.html">Airmeet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auth0.html">Auth0</a></li>
@@ -65,6 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="empower.html">Empower</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
@@ -114,8 +116,16 @@
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.Codes"><code class="docutils literal notranslate"><span class="pre">Codes</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#contact-notes">Contact Notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.ContactNotes"><code class="docutils literal notranslate"><span class="pre">ContactNotes</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#custom-fields">Custom Fields</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.CustomFields"><code class="docutils literal notranslate"><span class="pre">CustomFields</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#email">Email</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ngpvan.van.Email"><code class="docutils literal notranslate"><span class="pre">Email</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#events">Events</a><ul>
@@ -250,8 +260,9 @@ additional details and information.</p>
 <dl class="simple">
 <dt>API Keys</dt><dd><ul class="simple">
 <li><p>API Keys are specific to each committee and state.</p></li>
-<li><p>There is a Parsons type API Key that can be requested via the Integrations menu on the main page.
-If you have an issue gaining access to this key, or an admin has questions, please email
+<li><p>There was once a Parsons type API Key that could be requested via the VAN Integrations menu,
+but that key type has been deprecated by NGPVAN. API keys should now be requested as a custom
+integration. For additional guidance, refer to the Parsons Slack or reach out to
 &lt;<a class="reference external" href="mailto:parsons&#37;&#52;&#48;movementcooperative&#46;org">parsons<span>&#64;</span>movementcooperative<span>&#46;</span>org</a>&gt;.</p></li>
 </ul>
 </dd>
@@ -880,7 +891,7 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.People.apply_response">
-<span class="sig-name descname"><span class="pre">apply_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vanid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contact_type_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_canvassed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_code_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omit_contact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaignId</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.apply_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.People.apply_response" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">apply_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vanid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contact_type_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_canvassed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_code_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omit_contact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaignId</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_matching</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.apply_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.People.apply_response" title="Link to this definition"></a></dt>
 <dd><p>Apply responses such as survey questions, activist codes, and volunteer actions
 to a person record. This method allows you apply multiple responses (e.g. two survey
 questions) at the same time. It is a low level method that requires that you
@@ -915,6 +926,8 @@ attempts.</p>
 <dt>phone: str</dt><dd><p><cite>Optional</cite>; Phone number of any type (Work, Cell, Home)</p>
 </dd>
 <dt>campaignId: int</dt><dd><p><cite>Optional</cite>; a valid Campaign ID.</p>
+</dd>
+<dt>skip_matching: boolean</dt><dd><p><cite>Optional</cite>; if set to true, skips matching/de-duping of contact history. Defaults to a null value, aka false.</p>
 </dd>
 </dl>
 </dd>
@@ -1873,6 +1886,58 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 </dd></dl>
 
 </section>
+<section id="contact-notes">
+<h3>Contact Notes<a class="headerlink" href="#contact-notes" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.ContactNotes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">ContactNotes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/contact_notes.html#ContactNotes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.ContactNotes" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.ContactNotes.get_contact_notes">
+<span class="sig-name descname"><span class="pre">get_contact_notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/contact_notes.html#ContactNotes.get_contact_notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.ContactNotes.get_contact_notes" title="Link to this definition"></a></dt>
+<dd><p>Get custom fields.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>van_id<span class="classifier">str</span></dt><dd><p>VAN ID for the person to get notes for.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.ContactNotes.create_contact_note">
+<span class="sig-name descname"><span class="pre">create_contact_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_view_restricted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note_category_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/contact_notes.html#ContactNotes.create_contact_note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.ContactNotes.create_contact_note" title="Link to this definition"></a></dt>
+<dd><p>Create a contact note</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>van_id: str</dt><dd><p>VAN ID for the person this note will be applied to.</p>
+</dd>
+<dt>text: str</dt><dd><p>The content of the note.</p>
+</dd>
+<dt>is_view_restricted: bool</dt><dd><p>Set to true if the note should be restricted only to certain users within
+the current context; set to false if the note may be viewed by any user
+in the current context.</p>
+</dd>
+<dt>note_category_id: int</dt><dd><p>Optional; if set, the note category for this note.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>int</dt><dd><p>The note ID.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="custom-fields">
 <h3>Custom Fields<a class="headerlink" href="#custom-fields" title="Link to this heading"></a></h3>
 <dl class="py class">
@@ -1927,6 +1992,74 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A json.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="email">
+<h3>Email<a class="headerlink" href="#email" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.Email">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">Email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/email.html#Email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.Email" title="Link to this definition"></a></dt>
+<dd><p>Instantiate the Email class.</p>
+<p>You can find the docs for the NGP VAN Email API here:
+<a class="reference external" href="https://docs.ngpvan.com/reference/email-overview">https://docs.ngpvan.com/reference/email-overview</a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.Email.get_emails">
+<span class="sig-name descname"><span class="pre">get_emails</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ascending</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/ngpvan/email.html#Email.get_emails"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.Email.get_emails" title="Link to this definition"></a></dt>
+<dd><p>Get emails.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>ascending<span class="classifier">Bool</span></dt><dd><p>sorts results in ascending or descending order
+for the dateModified field. Defaults to True (ascending).</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.Email.get_email">
+<span class="sig-name descname"><span class="pre">get_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expand</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/ngpvan/email.html#Email.get_email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.Email.get_email" title="Link to this definition"></a></dt>
+<dd><p>Get an email.</p>
+<p>Note that it takes some time for the system to aggregate opens and click-throughs,
+so data can be delayed up to 15 minutes.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>email_id<span class="classifier">int</span></dt><dd><p>The email id.</p>
+</dd>
+<dt>expand<span class="classifier">bool</span></dt><dd><p>Optional; expands the email message to include the email content and
+statistics. Defaults to True.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.Email.get_email_stats">
+<span class="sig-name descname"><span class="pre">get_email_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aggregate_ab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/ngpvan/email.html#Email.get_email_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.Email.get_email_stats" title="Link to this definition"></a></dt>
+<dd><p>Get stats for all emails, aggregating any A/B tests.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>aggregate_ab<span class="classifier">bool</span></dt><dd><p>If A/B test results for emails should get aggregated.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>

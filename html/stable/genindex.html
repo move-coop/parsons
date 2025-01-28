@@ -45,6 +45,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airmeet.html">Airmeet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auth0.html">Auth0</a></li>
@@ -62,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="empower.html">Empower</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="formstack.html">Formstack</a></li>
 <li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
@@ -203,13 +205,15 @@
       </ul></li>
       <li><a href="action_builder.html#parsons.ActionBuilder.add_section_field_values_to_record">add_section_field_values_to_record() (parsons.ActionBuilder method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="google.html#parsons.google.google_sheets.GoogleSheets.add_sheet">add_sheet() (parsons.google.google_sheets.GoogleSheets method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="action_network.html#parsons.ActionNetwork.add_tag">add_tag() (parsons.ActionNetwork method)</a>
 </li>
       <li><a href="facebook_ads.html#parsons.FacebookAds.add_users_to_custom_audience">add_users_to_custom_audience() (parsons.FacebookAds method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet">Airmeet (class in parsons)</a>
 </li>
       <li><a href="airtable.html#parsons.Airtable">Airtable (class in parsons)</a>
 </li>
@@ -343,6 +347,8 @@
         <li><a href="databases.html#parsons.Postgres.connection">(parsons.Postgres method)</a>
 </li>
       </ul></li>
+      <li><a href="ngpvan.html#parsons.ngpvan.van.ContactNotes">ContactNotes (class in parsons.ngpvan.van)</a>
+</li>
       <li><a href="azure.html#parsons.AzureBlobStorage.container_exists">container_exists() (parsons.AzureBlobStorage method)</a>
 </li>
       <li><a href="controlshift.html#parsons.Controlshift">Controlshift (class in parsons)</a>
@@ -409,12 +415,14 @@
 </li>
       <li><a href="pdi.html#parsons.PDI.create_contact">create_contact() (parsons.PDI method)</a>
 </li>
-      <li><a href="azure.html#parsons.AzureBlobStorage.create_container">create_container() (parsons.AzureBlobStorage method)</a>
+      <li><a href="ngpvan.html#parsons.ngpvan.van.ContactNotes.create_contact_note">create_contact_note() (parsons.ngpvan.van.ContactNotes method)</a>
 </li>
-      <li><a href="facebook_ads.html#parsons.FacebookAds.create_custom_audience">create_custom_audience() (parsons.FacebookAds method)</a>
+      <li><a href="azure.html#parsons.AzureBlobStorage.create_container">create_container() (parsons.AzureBlobStorage method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="facebook_ads.html#parsons.FacebookAds.create_custom_audience">create_custom_audience() (parsons.FacebookAds method)</a>
+</li>
       <li><a href="action_network.html#parsons.ActionNetwork.create_donation">create_donation() (parsons.ActionNetwork method)</a>
 </li>
       <li><a href="action_network.html#parsons.ActionNetwork.create_event">create_event() (parsons.ActionNetwork method)</a>
@@ -529,6 +537,8 @@
         <li><a href="bloomerang.html#parsons.Bloomerang.create_transaction">(parsons.Bloomerang method)</a>
 </li>
       </ul></li>
+      <li><a href="action_network.html#parsons.ActionNetwork.create_unique_id_list">create_unique_id_list() (parsons.ActionNetwork method)</a>
+</li>
       <li><a href="action_kit.html#parsons.ActionKit.create_user">create_user() (parsons.ActionKit method)</a>
 </li>
       <li><a href="crowdtangle.html#parsons.CrowdTangle">CrowdTangle (class in parsons)</a>
@@ -657,6 +667,8 @@
       </ul></li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.SavedLists.download_saved_list">download_saved_list() (parsons.ngpvan.van.SavedLists method)</a>
 </li>
+      <li><a href="airmeet.html#parsons.Airmeet.download_session_recordings">download_session_recordings() (parsons.Airmeet method)</a>
+</li>
       <li><a href="github.html#parsons.GitHub.download_table">download_table() (parsons.GitHub method)</a>
 </li>
       <li><a href="aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.duplicate_table">duplicate_table() (parsons.databases.redshift.redshift.RedshiftTableUtilities method)</a>
@@ -671,19 +683,25 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ngpvan.html#parsons.ngpvan.van.Email">Email (class in parsons.ngpvan.van)</a>
+</li>
+      <li><a href="empower.html#parsons.Empower">Empower (class in parsons)</a>
+</li>
       <li><a href="table.html#parsons.etl.etl.ETL">ETL (class in parsons.etl.etl)</a>
 </li>
       <li><a href="aws.html#parsons.aws.event_command">event_command() (in module parsons.aws)</a>
 </li>
-      <li><a href="ngpvan.html#parsons.ngpvan.van.Events">Events (class in parsons.ngpvan.van)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ngpvan.html#parsons.ngpvan.van.Events">Events (class in parsons.ngpvan.van)</a>
+</li>
       <li><a href="targetsmart_automation_workflows.html#parsons.TargetSmartAutomation.execute">execute() (parsons.TargetSmartAutomation method)</a>
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.ExportJobs.export_job_create">export_job_create() (parsons.ngpvan.van.ExportJobs method)</a>
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.ExportJobs">ExportJobs (class in parsons.ngpvan.van)</a>
+</li>
+      <li><a href="google.html#parsons.google.google_bigquery.GoogleBigQuery.extract">extract() (parsons.google.google_bigquery.GoogleBigQuery method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -693,6 +711,32 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="facebook_ads.html#parsons.FacebookAds">FacebookAds (class in parsons)</a>
 </li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_airmeet_booths">fetch_airmeet_booths() (parsons.Airmeet method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_airmeet_custom_registration_fields">fetch_airmeet_custom_registration_fields() (parsons.Airmeet method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_airmeet_info">fetch_airmeet_info() (parsons.Airmeet method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_airmeet_participants">fetch_airmeet_participants() (parsons.Airmeet method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_airmeet_sessions">fetch_airmeet_sessions() (parsons.Airmeet method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_booth_attendance">fetch_booth_attendance() (parsons.Airmeet method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_event_attendance">fetch_event_attendance() (parsons.Airmeet method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_event_replay_attendance">fetch_event_replay_attendance() (parsons.Airmeet method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_event_tracks">fetch_event_tracks() (parsons.Airmeet method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_poll_responses">fetch_poll_responses() (parsons.Airmeet method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_questions_asked">fetch_questions_asked() (parsons.Airmeet method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_registration_utms">fetch_registration_utms() (parsons.Airmeet method)</a>
+</li>
+      <li><a href="airmeet.html#parsons.Airmeet.fetch_session_attendance">fetch_session_attendance() (parsons.Airmeet method)</a>
+</li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.FileLoadingJobs">FileLoadingJobs (class in parsons.ngpvan.van)</a>
 </li>
       <li><a href="table.html#parsons.etl.etl.ETL.fill_column">fill_column() (parsons.etl.etl.ETL method)</a>
@@ -701,6 +745,8 @@
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.People.find_person">find_person() (parsons.ngpvan.van.People method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ngpvan.html#parsons.ngpvan.van.People.find_person_json">find_person_json() (parsons.ngpvan.van.People method)</a>
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.Folders">Folders (class in parsons.ngpvan.van)</a>
@@ -719,8 +765,6 @@
         <li><a href="databases.html#parsons.Postgres.format_columns">(parsons.Postgres method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.format_uri">format_uri() (parsons.google.google_cloud_storage.GoogleCloudStorage method)</a>
 </li>
       <li><a href="formstack.html#parsons.formstack.Formstack">Formstack (class in parsons.formstack)</a>
@@ -780,8 +824,6 @@
       <li><a href="pdi.html#parsons.PDI.get_acquisition_type">get_acquisition_type() (parsons.PDI method)</a>
 </li>
       <li><a href="pdi.html#parsons.PDI.get_acquisition_types">get_acquisition_types() (parsons.PDI method)</a>
-</li>
-      <li><a href="newmode.html#parsons.Newmode.get_action">get_action() (parsons.Newmode method)</a>
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.ActivistCodes.get_activist_code">get_activist_code() (parsons.ngpvan.van.ActivistCodes method)</a>
 </li>
@@ -868,8 +910,6 @@
       <ul>
         <li><a href="action_network.html#parsons.ActionNetwork.get_campaign">(parsons.ActionNetwork method)</a>
 </li>
-        <li><a href="newmode.html#parsons.Newmode.get_campaign">(parsons.Newmode method)</a>
-</li>
       </ul></li>
       <li><a href="mailchimp.html#parsons.mailchimp.Mailchimp.get_campaign_emails">get_campaign_emails() (parsons.mailchimp.Mailchimp method)</a>
 </li>
@@ -887,8 +927,6 @@
         <li><a href="donorbox.html#parsons.Donorbox.get_campaigns">(parsons.Donorbox method)</a>
 </li>
         <li><a href="mailchimp.html#parsons.mailchimp.Mailchimp.get_campaigns">(parsons.mailchimp.Mailchimp method)</a>
-</li>
-        <li><a href="newmode.html#parsons.Newmode.get_campaigns">(parsons.Newmode method)</a>
 </li>
       </ul></li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_contact_types">get_canvass_responses_contact_types() (parsons.ngpvan.van.CanvassResponses method)</a>
@@ -945,6 +983,8 @@
 </li>
       <li><a href="pdi.html#parsons.PDI.get_contact">get_contact() (parsons.PDI method)</a>
 </li>
+      <li><a href="ngpvan.html#parsons.ngpvan.van.ContactNotes.get_contact_notes">get_contact_notes() (parsons.ngpvan.van.ContactNotes method)</a>
+</li>
       <li><a href="copper.html#parsons.Copper.get_contact_types">get_contact_types() (parsons.Copper method)</a>
 </li>
       <li><a href="freshdesk.html#parsons.Freshdesk.get_contacts">get_contacts() (parsons.Freshdesk method)</a>
@@ -960,6 +1000,20 @@
       <li><a href="census_geocoder.html#parsons.CensusGeocoder.get_coordinates_data">get_coordinates_data() (parsons.CensusGeocoder method)</a>
 </li>
       <li><a href="shopify.html#parsons.Shopify.get_count">get_count() (parsons.Shopify method)</a>
+</li>
+      <li><a href="empower.html#parsons.Empower.get_cta_prioritizations">get_cta_prioritizations() (parsons.Empower method)</a>
+</li>
+      <li><a href="empower.html#parsons.Empower.get_cta_prompt_answers">get_cta_prompt_answers() (parsons.Empower method)</a>
+</li>
+      <li><a href="empower.html#parsons.Empower.get_cta_prompts">get_cta_prompts() (parsons.Empower method)</a>
+</li>
+      <li><a href="empower.html#parsons.Empower.get_cta_regions">get_cta_regions() (parsons.Empower method)</a>
+</li>
+      <li><a href="empower.html#parsons.Empower.get_cta_results">get_cta_results() (parsons.Empower method)</a>
+</li>
+      <li><a href="empower.html#parsons.Empower.get_cta_shareables">get_cta_shareables() (parsons.Empower method)</a>
+</li>
+      <li><a href="empower.html#parsons.Empower.get_ctas">get_ctas() (parsons.Empower method)</a>
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.CustomFields.get_custom_field">get_custom_field() (parsons.ngpvan.van.CustomFields method)</a>
 </li>
@@ -996,6 +1050,12 @@
       <li><a href="actblue.html#parsons.ActBlue.get_download_url">get_download_url() (parsons.ActBlue method)</a>
 </li>
       <li><a href="google.html#parsons.google.google_civic.GoogleCivic.get_elections">get_elections() (parsons.google.google_civic.GoogleCivic method)</a>
+</li>
+      <li><a href="ngpvan.html#parsons.ngpvan.van.Email.get_email">get_email() (parsons.ngpvan.van.Email method)</a>
+</li>
+      <li><a href="ngpvan.html#parsons.ngpvan.van.Email.get_email_stats">get_email_stats() (parsons.ngpvan.van.Email method)</a>
+</li>
+      <li><a href="ngpvan.html#parsons.ngpvan.van.Email.get_emails">get_emails() (parsons.ngpvan.van.Email method)</a>
 </li>
       <li><a href="action_network.html#parsons.ActionNetwork.get_embeds">get_embeds() (parsons.ActionNetwork method)</a>
 </li>
@@ -1107,6 +1167,8 @@
       </ul></li>
       <li><a href="redash.html#parsons.redash.Redash.get_fresh_query_results">get_fresh_query_results() (parsons.redash.Redash method)</a>
 </li>
+      <li><a href="empower.html#parsons.Empower.get_full_export">get_full_export() (parsons.Empower method)</a>
+</li>
       <li><a href="action_network.html#parsons.ActionNetwork.get_fundraising_page">get_fundraising_page() (parsons.ActionNetwork method)</a>
 </li>
       <li><a href="action_network.html#parsons.ActionNetwork.get_fundraising_page_donations">get_fundraising_page_donations() (parsons.ActionNetwork method)</a>
@@ -1123,6 +1185,8 @@
 </li>
       <li><a href="bill_com.html#parsons.BillCom.get_invoice_list">get_invoice_list() (parsons.BillCom method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="github.html#parsons.GitHub.get_issue">get_issue() (parsons.GitHub method)</a>
 </li>
       <li><a href="action_network.html#parsons.ActionNetwork.get_item">get_item() (parsons.ActionNetwork method)</a>
@@ -1137,8 +1201,6 @@
 </li>
       <li><a href="hustle.html#parsons.Hustle.get_leads">get_leads() (parsons.Hustle method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="crowdtangle.html#parsons.CrowdTangle.get_links">get_links() (parsons.CrowdTangle method)</a>
 </li>
       <li><a href="action_network.html#parsons.ActionNetwork.get_list">get_list() (parsons.ActionNetwork method)</a>
@@ -1208,20 +1270,14 @@
       <ul>
         <li><a href="hustle.html#parsons.Hustle.get_organization">(parsons.Hustle method)</a>
 </li>
-        <li><a href="newmode.html#parsons.Newmode.get_organization">(parsons.Newmode method)</a>
-</li>
       </ul></li>
       <li><a href="hustle.html#parsons.Hustle.get_organizations">get_organizations() (parsons.Hustle method)</a>
 
       <ul>
         <li><a href="mobilize_america.html#parsons.MobilizeAmerica.get_organizations">(parsons.MobilizeAmerica method)</a>
 </li>
-        <li><a href="newmode.html#parsons.Newmode.get_organizations">(parsons.Newmode method)</a>
-</li>
       </ul></li>
-      <li><a href="newmode.html#parsons.Newmode.get_outreach">get_outreach() (parsons.Newmode method)</a>
-</li>
-      <li><a href="newmode.html#parsons.Newmode.get_outreaches">get_outreaches() (parsons.Newmode method)</a>
+      <li><a href="empower.html#parsons.Empower.get_outreach_entries">get_outreach_entries() (parsons.Empower method)</a>
 </li>
       <li><a href="action_kit.html#parsons.ActionKit.get_page_followup">get_page_followup() (parsons.ActionKit method)</a>
 </li>
@@ -1236,6 +1292,8 @@
       <li><a href="zoom.html#parsons.Zoom.get_past_webinar_participants">get_past_webinar_participants() (parsons.Zoom method)</a>
 </li>
       <li><a href="zoom.html#parsons.Zoom.get_past_webinar_poll_metadata">get_past_webinar_poll_metadata() (parsons.Zoom method)</a>
+</li>
+      <li><a href="zoom.html#parsons.Zoom.get_past_webinar_report">get_past_webinar_report() (parsons.Zoom method)</a>
 </li>
       <li><a href="action_network.html#parsons.ActionNetwork.get_people">get_people() (parsons.ActionNetwork method)</a>
 
@@ -1297,7 +1355,13 @@
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.PrintedLists.get_printed_lists">get_printed_lists() (parsons.ngpvan.van.PrintedLists method)</a>
 </li>
-      <li><a href="mobilecommons.html#parsons.MobileCommons.get_profiles">get_profiles() (parsons.MobileCommons method)</a>
+      <li><a href="empower.html#parsons.Empower.get_profiles">get_profiles() (parsons.Empower method)</a>
+
+      <ul>
+        <li><a href="mobilecommons.html#parsons.MobileCommons.get_profiles">(parsons.MobileCommons method)</a>
+</li>
+      </ul></li>
+      <li><a href="empower.html#parsons.Empower.get_profiles_active_ctas">get_profiles_active_ctas() (parsons.Empower method)</a>
 </li>
       <li><a href="mobilize_america.html#parsons.MobilizeAmerica.get_promoted_organizations">get_promoted_organizations() (parsons.MobilizeAmerica method)</a>
 </li>
@@ -1320,6 +1384,8 @@
       <li><a href="airtable.html#parsons.Airtable.get_record">get_record() (parsons.Airtable method)</a>
 </li>
       <li><a href="airtable.html#parsons.Airtable.get_records">get_records() (parsons.Airtable method)</a>
+</li>
+      <li><a href="empower.html#parsons.Empower.get_regions">get_regions() (parsons.Empower method)</a>
 </li>
       <li><a href="rockthevote.html#parsons.rockthevote.rtv.RockTheVote.get_registration_report">get_registration_report() (parsons.rockthevote.rtv.RockTheVote method)</a>
 </li>
@@ -1344,10 +1410,6 @@
       <li><a href="ngpvan.html#parsons.ngpvan.van.Scores.get_score_updates">get_score_updates() (parsons.ngpvan.van.Scores method)</a>
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.Scores.get_scores">get_scores() (parsons.ngpvan.van.Scores method)</a>
-</li>
-      <li><a href="newmode.html#parsons.Newmode.get_service">get_service() (parsons.Newmode method)</a>
-</li>
-      <li><a href="newmode.html#parsons.Newmode.get_services">get_services() (parsons.Newmode method)</a>
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.Signups.get_signup">get_signup() (parsons.ngpvan.van.Signups method)</a>
 </li>
@@ -1419,25 +1481,13 @@
         <li><a href="hustle.html#parsons.Hustle.get_tags">(parsons.Hustle method)</a>
 </li>
       </ul></li>
-      <li><a href="newmode.html#parsons.Newmode.get_target">get_target() (parsons.Newmode method)</a>
-
-      <ul>
-        <li><a href="ngpvan.html#parsons.ngpvan.van.Targets.get_target">(parsons.ngpvan.van.Targets method)</a>
+      <li><a href="ngpvan.html#parsons.ngpvan.van.Targets.get_target">get_target() (parsons.ngpvan.van.Targets method)</a>
 </li>
-      </ul></li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.Targets.get_target_export">get_target_export() (parsons.ngpvan.van.Targets method)</a>
 </li>
-      <li><a href="newmode.html#parsons.Newmode.get_targets">get_targets() (parsons.Newmode method)</a>
-
-      <ul>
-        <li><a href="ngpvan.html#parsons.ngpvan.van.Targets.get_targets">(parsons.ngpvan.van.Targets method)</a>
+      <li><a href="ngpvan.html#parsons.ngpvan.van.Targets.get_targets">get_targets() (parsons.ngpvan.van.Targets method)</a>
 </li>
-      </ul></li>
       <li><a href="freshdesk.html#parsons.Freshdesk.get_tickets">get_tickets() (parsons.Freshdesk method)</a>
-</li>
-      <li><a href="newmode.html#parsons.Newmode.get_tool">get_tool() (parsons.Newmode method)</a>
-</li>
-      <li><a href="newmode.html#parsons.Newmode.get_tools">get_tools() (parsons.Newmode method)</a>
 </li>
       <li><a href="bloomerang.html#parsons.Bloomerang.get_transaction">get_transaction() (parsons.Bloomerang method)</a>
 </li>
@@ -1591,6 +1641,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="box.html#parsons.Box.list">list() (parsons.Box method)</a>
 </li>
+      <li><a href="airmeet.html#parsons.Airmeet.list_airmeets">list_airmeets() (parsons.Airmeet method)</a>
+</li>
       <li><a href="azure.html#parsons.AzureBlobStorage.list_blobs">list_blobs() (parsons.AzureBlobStorage method)</a>
 
       <ul>
@@ -1617,10 +1669,10 @@
 </li>
       <li><a href="github.html#parsons.GitHub.list_organization_repos">list_organization_repos() (parsons.GitHub method)</a>
 </li>
-      <li><a href="github.html#parsons.GitHub.list_repo_contributors">list_repo_contributors() (parsons.GitHub method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="github.html#parsons.GitHub.list_repo_contributors">list_repo_contributors() (parsons.GitHub method)</a>
+</li>
       <li><a href="github.html#parsons.GitHub.list_repo_issues">list_repo_issues() (parsons.GitHub method)</a>
 </li>
       <li><a href="github.html#parsons.GitHub.list_repo_pull_requests">list_repo_pull_requests() (parsons.GitHub method)</a>
@@ -1646,8 +1698,6 @@
       <li><a href="ngpvan.html#parsons.ngpvan.van.Locations">Locations (class in parsons.ngpvan.van)</a>
 </li>
       <li><a href="table.html#parsons.etl.etl.ETL.long_table">long_table() (parsons.etl.etl.ETL method)</a>
-</li>
-      <li><a href="newmode.html#parsons.Newmode.lookup_targets">lookup_targets() (parsons.Newmode method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1827,6 +1877,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="sftp.html#parsons.SFTP.remove_directory">remove_directory() (parsons.SFTP method)</a>
 </li>
+      <li><a href="action_builder.html#parsons.ActionBuilder.remove_entity_record_from_campaign">remove_entity_record_from_campaign() (parsons.ActionBuilder method)</a>
+</li>
       <li><a href="aws.html#parsons.S3.remove_file">remove_file() (parsons.S3 method)</a>
 
       <ul>
@@ -1846,8 +1898,6 @@
       <li><a href="auth0.html#parsons.Auth0.retrieve_all_users">retrieve_all_users() (parsons.Auth0 method)</a>
 </li>
       <li><a href="rockthevote.html#parsons.rockthevote.rtv.RockTheVote">RockTheVote (class in parsons.rockthevote.rtv)</a>
-</li>
-      <li><a href="newmode.html#parsons.Newmode.run_action">run_action() (parsons.Newmode method)</a>
 </li>
       <li><a href="rockthevote.html#parsons.rockthevote.rtv.RockTheVote.run_registration_report">run_registration_report() (parsons.rockthevote.rtv.RockTheVote method)</a>
 </li>

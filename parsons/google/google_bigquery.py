@@ -1236,6 +1236,8 @@ class GoogleBigQuery(DatabaseConnector):
             not_none_petl_types = [i for i in petl_types if i != "NoneType"]
             if "str" in petl_types:
                 best_type = "str"
+            elif ("int" in petl_types) and ("float" in petl_types):
+                best_type = "float"
             elif not_none_petl_types:
                 best_type = not_none_petl_types[0]
             else:

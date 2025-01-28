@@ -5,7 +5,8 @@ boxsdk==2.10.0
 braintree==4.31.0
 bs4==0.0.2
 censusgeocode==0.5.2
-civis==1.16.1
+civis==1.16.1;python_version<"3.10"  # later Civis versions do not support Python 3.9
+civis==2.4.3;python_version>="3.10"  
 curlify==2.2.1
 dbt_redshift==1.9.0
 defusedxml>=0.7.1, <=0.8.0
@@ -19,7 +20,8 @@ google-cloud-storage==2.19.0
 grpcio==1.68.1
 gspread==6.1.4
 httplib2==0.22.0
-joblib==1.2.0
+joblib==1.2.0;python_version<"3.10"  # Civis 1.16.1, which runs on Python 3.9, requires an older joblib version
+joblib==1.4.2;python_version>="3.10"
 mysql-connector-python==9.1.0
 newmode==0.1.6
 oauth2client==4.1.3

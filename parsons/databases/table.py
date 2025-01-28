@@ -89,7 +89,8 @@ class BaseTable:
         if chunk_size:
             sql += f" LIMIT {chunk_size}"
 
-        sql += f" OFFSET {offset}"
+        if offset:
+            sql += f" OFFSET {offset}"
 
         return self.db.query(sql)
 

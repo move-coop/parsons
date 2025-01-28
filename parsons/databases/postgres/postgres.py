@@ -31,14 +31,22 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
             Seconds to timeout if connection not established.
     """
 
-    def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
+    def __init__(
+        self,
+        username: Optional[str] = None,
+        password: Optional[str] = None,
+        host: Optional[str] = None,
+        db: Optional[str] = None,
+        port: Optional[int] = None,
+        timeout: int = 10,
+    ) -> None:
         super().__init__()
 
         self.username = username or os.environ.get("PGUSER")
         self.password = password or os.environ.get("PGPASSWORD")
         self.host = host or os.environ.get("PGHOST")
         self.db = db or os.environ.get("PGDATABASE")
-        self.port = port or os.environ.get("PGPORT")
+        self.port = port or os.environ.get("PGPORT") or 5432
 
         # Check if there is a pgpass file. Psycopg2 will search for this file first when
         # creating a connection.
@@ -88,7 +96,15 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"{table_name} created.")
 
-            sql = f"""COPY "{table_name}" ("{'","'.join(tbl.columns)}") FROM STDIN CSV HEADER;"""
+            # appropriately quote table name, in case it has a schema
+            if "." in table_name:
+                quoted_table_name = '"' + '"."'.join(table_name.split(".")) + '"'
+            else:
+                quoted_table_name = '"' + table_name + '"'
+
+            sql = (
+                f"""COPY {quoted_table_name} ("{'","'.join(tbl.columns)}") FROM STDIN CSV HEADER;"""
+            )
 
             with self.cursor(connection) as cursor:
                 cursor.copy_expert(sql, open(tbl.to_csv(), "r"))

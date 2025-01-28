@@ -2346,6 +2346,26 @@
 <span class="sd">            https://actionnetwork.org/docs/v2/unique_id_lists</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unique_id_lists/</span><span class="si">{</span><span class="n">unique_id_list_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ActionNetwork.create_unique_id_list">
+<a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_unique_id_list">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_unique_id_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_name</span><span class="p">,</span> <span class="n">unique_ids</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            list_name:</span>
+<span class="sd">                The name for the new list</span>
+<span class="sd">            unique_ids:</span>
+<span class="sd">                An array of unique IDs to upload</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response with the unique ID list details</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/unique_id_lists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
+            <span class="s2">&quot;unique_id_lists&quot;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">list_name</span><span class="p">,</span> <span class="s2">&quot;unique_ids&quot;</span><span class="p">:</span> <span class="n">unique_ids</span><span class="p">}),</span>
+        <span class="p">)</span></div>
 </div>
 
 </pre></div>

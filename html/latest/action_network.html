@@ -137,6 +137,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_wrapper"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_wrapper()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_unique_id_lists"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_unique_id_lists()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.get_unique_id_list"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.get_unique_id_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.ActionNetwork.create_unique_id_list"><code class="docutils literal notranslate"><span class="pre">ActionNetwork.create_unique_id_list()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -2426,6 +2427,24 @@ filter: The filter criteria to apply when retrieving unique ID lists.</p>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>unique_id_list_id:</dt><dd><p>The unique id of the unique ID list</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A JSON response with the unique ID list details</p>
+</dd>
+<dt><cite>Documentation Reference</cite>:</dt><dd><p><a class="reference external" href="https://actionnetwork.org/docs/v2/unique_id_lists">https://actionnetwork.org/docs/v2/unique_id_lists</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.create_unique_id_list">
+<span class="sig-name descname"><span class="pre">create_unique_id_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_unique_id_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_unique_id_list" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>list_name:</dt><dd><p>The name for the new list</p>
+</dd>
+<dt>unique_ids:</dt><dd><p>An array of unique IDs to upload</p>
 </dd>
 </dl>
 </dd>

@@ -224,7 +224,7 @@ class TestCopper(unittest.TestCase):
             row_start = page_number * page_size
             row_finish = row_start + page_size
 
-        with open(f'{_dir}/{context.headers["filename"]}', "r") as json_file:
+        with open(f"{_dir}/{context.headers['filename']}", "r") as json_file:
             response = json.load(json_file)
 
         if isinstance(response, list):

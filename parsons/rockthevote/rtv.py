@@ -254,9 +254,7 @@ class RockTheVote:
                 The table with the report data.
         """
         report_str = f"{report_type} report" if report_type else "report"
-        logger.info(
-            f"Running {report_str} for {self.partner_id} " f"for dates: {since} to {before}..."
-        )
+        logger.info(f"Running {report_str} for {self.partner_id} for dates: {since} to {before}...")
         report_id = self.create_registration_report(
             before=before, since=since, report_type=report_type
         )

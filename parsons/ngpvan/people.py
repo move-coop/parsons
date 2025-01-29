@@ -461,7 +461,7 @@ class People(object):
 
         expand_fields = ",".join([json_format.arg_format(f) for f in expand_fields])
 
-        logger.info(f'Getting person with {id_type or "vanid"} of {id} at url {url}')
+        logger.info(f"Getting person with {id_type or 'vanid'} of {id} at url {url}")
         return self.connection.get_request(url, params={"$expand": expand_fields})
 
     def delete_person(self, vanid):

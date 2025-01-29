@@ -25,12 +25,12 @@ from parsons.sftp.sftp import SFTP
 from parsons.etl.table import Table
 from parsons.utilities.files import create_temp_file
 from parsons.utilities import check_env
-import xml.etree.ElementTree as ET
 import uuid
 import time
 import logging
-import xmltodict
 
+import defusedxml.ElementTree as ET
+import xmltodict
 
 TS_STFP_HOST = "transfer.targetsmart.com"
 TS_SFTP_PORT = 22
@@ -48,7 +48,6 @@ class TargetSmartAutomation(object):
     """  # noqa
 
     def __init__(self, sftp_username=None, sftp_password=None):
-
         self.sftp_host = TS_STFP_HOST
         self.sftp_port = TS_SFTP_PORT
         self.sftp_dir = TS_SFTP_DIR
@@ -194,7 +193,6 @@ class TargetSmartAutomation(object):
         #  Poll the configuration status
 
         while True:
-
             time.sleep(polling_interval)
             if self.config_status(job_name):
                 return True
@@ -205,7 +203,6 @@ class TargetSmartAutomation(object):
         # the files in the SFTP directory.
 
         for f in self.sftp.list_directory(remote_path=self.sftp_dir):
-
             if f == f"{job_name}.job.xml.good":
                 logger.info(f"Match job {job_name} configured.")
                 return True
@@ -230,12 +227,9 @@ class TargetSmartAutomation(object):
         # we do. However, the actually data is only exposed on the secure SFTP.
 
         while True:
-
             logger.debug("Match running...")
             for file_name in self.sftp.list_directory(remote_path=self.sftp_dir):
-
                 if file_name == f"{job_name}.finish.xml":
-
                     xml_file = self.sftp.get_file(f"{self.sftp_dir}/{job_name}.finish.xml")
                     with open(xml_file, "rb") as x:
                         xml = xmltodict.parse(x, dict_constructor=dict)

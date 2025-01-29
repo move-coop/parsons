@@ -14,7 +14,6 @@ class BaseTable:
     """
 
     def __init__(self, database_connection, table_name):
-
         self.table = table_name
         self.db = database_connection
         self._columns = None
@@ -90,7 +89,8 @@ class BaseTable:
         if chunk_size:
             sql += f" LIMIT {chunk_size}"
 
-        sql += f" OFFSET {offset}"
+        if offset:
+            sql += f" OFFSET {offset}"
 
         return self.db.query(sql)
 

@@ -1,7 +1,7 @@
 import zipfile
 import csv
 import requests
-import xml.etree.ElementTree as ET
+import defusedxml.ElementTree as ET
 import typing as t
 from datetime import datetime
 from dateutil.parser import parse as parsedate
@@ -235,7 +235,6 @@ class Scytl:
         root = tree
 
         for child in root:
-
             if child.tag == "VoterTurnout":
                 precincts = child[0]
 
@@ -253,7 +252,6 @@ class Scytl:
                     precinct_dict[name] = precinct_info
 
             if child.tag == "Contest":
-
                 office = child.attrib["text"]
 
                 for choice in child:
@@ -319,7 +317,6 @@ class Scytl:
         timestamp = None
 
         for child in root:
-
             if child.tag == "Timestamp":  # <Timestamp>1/5/2021 3:22:30 PM EST</Timestamp>
                 timestamp = self._parse_date_to_utc(child.text)
 
@@ -333,7 +330,6 @@ class Scytl:
                     county_dict[name] = data
 
             if child.tag == "Contest":
-
                 office = child.attrib["text"]
 
                 for choice in child:

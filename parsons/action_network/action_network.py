@@ -2,8 +2,7 @@ import json
 import logging
 import re
 import warnings
-from typing import Dict, List, Union
-
+from typing import Dict, List, Union, Literal
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -1128,7 +1127,7 @@ class ActionNetwork(object):
         languages_spoken=None,
         postal_addresses=None,
         mobile_number=None,
-        mobile_status="subscribed",
+        mobile_status: Literal["subscribed", "unsubscribed", None] = None,
         background_processing=False,
         **kwargs,
     ):
@@ -1182,7 +1181,10 @@ class ActionNetwork(object):
                             - "subscribed"
                             - "unsubscribed"
             mobile_status:
-                'subscribed' or 'unsubscribed'
+                None, 'subscribed' or 'unsubscribed'. If included, will update the SMS opt-in
+                status of the phone in ActionNetwork. If not included, won't update the status.
+                None by default, causes no updates to mobile number status. New numbers are set
+                to "unsubscribed" by default.
             background_request: bool
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
@@ -1212,27 +1214,31 @@ class ActionNetwork(object):
 
         mobile_numbers_field = None
         if isinstance(mobile_number, str):
-            mobile_numbers_field = [
-                {"number": re.sub("[^0-9]", "", mobile_number), "status": mobile_status}
-            ]
+            mobile_numbers_field = [{"number": re.sub("[^0-9]", "", mobile_number)}]
         elif isinstance(mobile_number, int):
-            mobile_numbers_field = [{"number": str(mobile_number), "status": mobile_status}]
+            mobile_numbers_field = [{"number": str(mobile_number)}]
         elif isinstance(mobile_number, list):
             if len(mobile_number) > 1:
                 raise ("Action Network allows only 1 phone number per activist")
             if isinstance(mobile_number[0], list):
                 mobile_numbers_field = [
-                    {"number": re.sub("[^0-9]", "", cell), "status": mobile_status}
-                    for cell in mobile_number
+                    {"number": re.sub("[^0-9]", "", cell)} for cell in mobile_number
                 ]
                 mobile_numbers_field[0]["primary"] = True
             if isinstance(mobile_number[0], int):
-                mobile_numbers_field = [
-                    {"number": cell, "status": mobile_status} for cell in mobile_number
-                ]
+                mobile_numbers_field = [{"number": cell} for cell in mobile_number]
                 mobile_numbers_field[0]["primary"] = True
-            if isinstance(mobile_number[0], dict):
-                mobile_numbers_field = mobile_number
+
+        # Including status in this field changes the opt-in status in
+        # ActionNetwork. This is not always desireable, so we should
+        # only do so when a status is included.
+        if mobile_status and mobile_numbers_field:
+            for field in mobile_numbers_field:
+                field["status"] = mobile_status
+
+        # If the mobile_number field is passed a list of dictionaries, just use that directly
+        if mobile_number and isinstance(mobile_number, list) and isinstance(mobile_number[0], dict):
+            mobile_numbers_field = mobile_number
 
         if not email_addresses_field and not mobile_numbers_field:
             raise (
@@ -1262,6 +1268,7 @@ class ActionNetwork(object):
         url = f"{self.api_url}/people"
         if background_processing:
             url = f"{url}?background_processing=true"
+
         response = self.api.post_request(url, data=json.dumps(data))
 
         identifiers = response["identifiers"]
@@ -1909,3 +1916,50 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/wrappers
         """
         return self.api.get_request(f"wrappers/{wrapper_id}")
+
+    # Unique ID Lists
+    def get_unique_id_lists(self, limit=None, per_page=25, page=None, filter=None):
+        """
+        Args:
+            limit: The maximum number of unique ID lists to return.
+            When None, returns all unique ID lists.
+            per_page: The number of unique ID lists to return per page. Default is 25.
+            page: The specific page of unique ID lists to return.
+            filter: The filter criteria to apply when retrieving unique ID lists.
+        Returns:
+            A JSON response with the unique ID lists.
+        Documentation Reference:
+            https://actionnetwork.org/docs/v2/unique_id_lists
+        """
+        if page:
+            return self._get_page("unique_id_lists", page, per_page, filter)
+        return self._get_entry_list("unique_id_lists", limit, per_page, filter)
+
+    def get_unique_id_list(self, unique_id_list_id):
+        """
+        `Args:`
+            unique_id_list_id:
+                The unique id of the unique ID list
+        `Returns:`
+            A JSON response with the unique ID list details
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/unique_id_lists
+        """
+        return self.api.get_request(f"unique_id_lists/{unique_id_list_id}")
+
+    def create_unique_id_list(self, list_name, unique_ids):
+        """
+        `Args:`
+            list_name:
+                The name for the new list
+            unique_ids:
+                An array of unique IDs to upload
+        `Returns:`
+            A JSON response with the unique ID list details
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/unique_id_lists
+        """
+        return self.api.post_request(
+            "unique_id_lists",
+            data=json.dumps({"name": list_name, "unique_ids": unique_ids}),
+        )

@@ -1,9 +1,11 @@
 import csv
 import io
 import gzip
+import sys
 
 import petl
 import pytest
+
 from parsons.targetsmart.targetsmart_api import TargetSmartAPI
 
 
@@ -70,6 +72,7 @@ def submit_filename():
     return "parsons_test.csv"
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="need to fix this test on windows")
 def test_smartmatch(
     intable,
     submit_filename,

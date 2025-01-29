@@ -1,12 +1,14 @@
-import os
-import json
 import logging
-
-from parsons.etl.table import Table
-from parsons.google.utitities import setup_google_application_credentials, hexavigesimal
+import uuid
 
 import gspread
-from google.oauth2.service_account import Credentials
+
+from parsons.etl.table import Table
+from parsons.google.utilities import (
+    load_google_application_credentials,
+    setup_google_application_credentials,
+    hexavigesimal,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -26,18 +28,20 @@ class GoogleSheets:
     """
 
     def __init__(self, google_keyfile_dict=None, subject=None):
-
         scope = [
             "https://spreadsheets.google.com/feeds",
             "https://www.googleapis.com/auth/drive",
         ]
 
-        setup_google_application_credentials(google_keyfile_dict, "GOOGLE_DRIVE_CREDENTIALS")
-        google_credential_file = open(os.environ["GOOGLE_DRIVE_CREDENTIALS"])
-        credentials_dict = json.load(google_credential_file)
+        env_credentials_path = str(uuid.uuid4())
+        setup_google_application_credentials(
+            google_keyfile_dict,
+            "GOOGLE_DRIVE_CREDENTIALS",
+            target_env_var_name=env_credentials_path,
+        )
 
-        credentials = Credentials.from_service_account_info(
-            credentials_dict, scopes=scope, subject=subject
+        credentials = load_google_application_credentials(
+            env_credentials_path, scopes=scope, subject=subject
         )
 
         self.gspread_client = gspread.authorize(credentials)

@@ -73,7 +73,7 @@ class CatalistMatch:
             token_url="https://auth.catalist.us/oauth/token",
             auto_refresh_url="https://auth.catalist.us/oauth/token",
         )
-        self.sftp = SFTP("t.catalist.us", sftp_username, sftp_password)
+        self.sftp = SFTP("t.catalist.us", sftp_username, sftp_password, timeout=7200)
 
     def load_table_to_sftp(self, table: Table, input_subfolder: Optional[str] = None) -> str:
         """Load table to Catalist sftp bucket as gzipped CSV for matching.

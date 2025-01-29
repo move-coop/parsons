@@ -1,7 +1,8 @@
 import unittest
 import requests_mock
 import json
-from parsons import Table, ActionNetwork
+from parsons import Table
+from parsons.action_network import ActionNetwork
 from test.utils import assert_matching_tables
 
 
@@ -346,6 +347,13 @@ class TestActionNetwork(unittest.TestCase):
                 "self": {"href": f"{self.api_url}/events/fake-id"},
             },
             "event_id": "fake-id",
+        }
+        self.fake_unique_id_list = {
+            "name": "fake_list_name",
+            "unique_ids": [
+                "ee48622d-a584-46a4-b817-2e6f2e4bf51b",
+                "1b0012d2-214a-4188-9c82-08f21ee54b27",
+            ],
         }
 
         # Advocacy Campaigns
@@ -3263,6 +3271,53 @@ class TestActionNetwork(unittest.TestCase):
             },
         }
 
+        self.fake_unique_id_lists = {
+            "total_pages": 3,
+            "per_page": 25,
+            "page": 1,
+            "total_records": 50,
+            "_links": {
+                "next": {"href": f"{self.api_url}/unique_id_lists?page=2"},
+                "self": {"href": f"{self.api_url}/unique_id_lists"},
+                "osdi:unique_id_lists": [
+                    {"href": f"{self.api_url}/unique_id_lists/fake_id"},
+                    {"href": f"{self.api_url}/unique_id_lists/fake_id"},
+                ],
+                "curies": [
+                    {
+                        "name": "osdi",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                    {
+                        "name": "action_network",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                ],
+            },
+            "_embedded": {
+                "osdi:unique_id_lists": [
+                    {
+                        "identifiers": ["action_network:fake_id"],
+                        "name": "Example Unique ID List",
+                        "created_date": "2022-01-01T00:00:00Z",
+                        "modified_date": "2022-01-01T00:00:00Z",
+                        "description": "This is an example unique ID list.",
+                        "administrative_url": "https://actionnetwork.org/unique_id_lists/1/edit",
+                    },
+                    {
+                        "identifiers": ["action_network:fake_id"],
+                        "name": "Another Unique ID List",
+                        "created_date": "2022-01-02T00:00:00Z",
+                        "modified_date": "2022-01-02T00:00:00Z",
+                        "description": "This is another example unique ID list.",
+                        "administrative_url": "https://actionnetwork.org/unique_id_lists/2/edit",
+                    },
+                ],
+            },
+        }
+
     @requests_mock.Mocker()
     def test_get_page(self, m):
         m.get(
@@ -4244,4 +4299,49 @@ class TestActionNetwork(unittest.TestCase):
         assert_matching_tables(
             self.an.get_wrapper("123"),
             self.fake_wrapper,
+        )
+
+    # Unique ID Lists
+    @requests_mock.Mocker()
+    def test_get_unique_id_lists(self, m):
+        m.get(
+            f"{self.api_url}/unique_id_lists",
+            text=json.dumps(self.fake_unique_id_lists),
+        )
+        assert_matching_tables(
+            self.an.get_unique_id_lists(1),
+            self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
+        )
+
+    @requests_mock.Mocker()
+    def test_get_unique_id_list(self, m):
+        m.get(
+            f"{self.api_url}/unique_id_lists/123",
+            text=json.dumps(
+                self.fake_unique_id_lists["_embedded"][
+                    list(self.fake_unique_id_lists["_embedded"])[0]
+                ]
+            ),
+        )
+        assert_matching_tables(
+            self.an.get_unique_id_list("123"),
+            self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
+        )
+
+    @requests_mock.Mocker()
+    def test_create_unique_id_list(self, m):
+        m.post(
+            f"{self.api_url}/unique_id_lists",
+            text=json.dumps(
+                {
+                    "name": self.fake_unique_id_list["name"],
+                    "count": len(self.fake_unique_id_list["unique_ids"]),
+                }
+            ),
+        )
+        self.assertEqual(
+            len(self.fake_unique_id_list["unique_ids"]),
+            self.an.create_unique_id_list(
+                self.fake_unique_id_list["name"], self.fake_unique_id_list["unique_ids"]
+            )["count"],
         )

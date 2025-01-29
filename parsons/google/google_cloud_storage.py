@@ -1,24 +1,31 @@
-import google
-from google.cloud import storage
-from google.cloud import storage_transfer
-from parsons.google.utitities import setup_google_application_credentials
-from parsons.utilities import files
 import datetime
 import gzip
-import petl
 import logging
 import time
 import uuid
 import zipfile
-from typing import Optional
+from typing import Optional, Union
+
+import google
+import petl
+from google.cloud import storage, storage_transfer
+from google.oauth2.credentials import Credentials
+
+from parsons.google.utilities import (
+    load_google_application_credentials,
+    setup_google_application_credentials,
+)
+from parsons.utilities import files
 
 logger = logging.getLogger(__name__)
 
 
 class GoogleCloudStorage(object):
-    """
-    This class requires application credentials in the form of a json. It can be passed
-    in the following ways:
+    """Google Cloud Storage connector utility
+
+    This class requires application credentials in the form of a
+    json or google oauth2 Credentials object. It can be passed in the
+    following ways:
 
     * Set an environmental variable named ``GOOGLE_APPLICATION_CREDENTIALS`` with the
       local path to the credentials json.
@@ -29,30 +36,53 @@ class GoogleCloudStorage(object):
 
     * Pass in a json string using the ``app_creds`` argument.
 
+    * Generate the google credentials object directly, pass in using the
+      ``app_creds`` argument.
+
+    For example, to pass in credentials from a parent shell that is
+    authenticated with gcloud auth:
+    ```
+    from google.auth import default
+
+    app_creds, _ = default()
+
+    gcs = GoogleCloudStorage(app_creds=app_creds)
+    ```
+
 
     `Args:`
-        app_creds: str
+        app_creds: str, dict, or google.oauth2.credentials.Credentials object
             A credentials json string or a path to a json file. Not required
-            if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
+            if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set. Can also
+            pass a google oauth2 Credentials object directly.
         project: str
             The project which the client is acting on behalf of. If not passed
             then will use the default inferred environment.
     `Returns:`
         GoogleCloudStorage Class
+
     """
 
-    def __init__(self, app_creds=None, project=None):
-        setup_google_application_credentials(app_creds)
+    def __init__(self, app_creds: Optional[Union[str, dict, Credentials]] = None, project=None):
+        if isinstance(app_creds, Credentials):
+            credentials = app_creds
+        else:
+            env_credentials_path = str(uuid.uuid4())
+            setup_google_application_credentials(
+                app_creds, target_env_var_name=env_credentials_path
+            )
+            credentials = load_google_application_credentials(env_credentials_path)
+
         self.project = project
 
         # Throws an error if you pass project=None, so adding if/else statement.
         if not self.project:
-            self.client = storage.Client()
+            self.client = storage.Client(credentials=credentials)
             """
             Access all methods of `google.cloud` package
             """
         else:
-            self.client = storage.Client(project=self.project)
+            self.client = storage.Client(credentials=credentials, project=self.project)
 
     def list_buckets(self):
         """
@@ -317,7 +347,10 @@ class GoogleCloudStorage(object):
             # CSVView. Once any transformations are made, the Table.table
             # becomes a different petl class
             if isinstance(table.table, petl.io.csv_py3.CSVView):
-                local_file = table.table.source.filename
+                try:
+                    local_file = table.table.source.filename
+                except AttributeError:
+                    local_file = table.to_csv()
             else:
                 local_file = table.to_csv()
             content_type = "text/csv"

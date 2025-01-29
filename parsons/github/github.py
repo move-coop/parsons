@@ -74,7 +74,6 @@ class GitHub(object):
     """
 
     def __init__(self, username=None, password=None, access_token=None):
-
         self.username = check_env.check("GITHUB_USERNAME", username, optional=True)
         self.password = check_env.check("GITHUB_PASSWORD", password, optional=True)
         self.access_token = check_env.check("GITHUB_ACCESS_TOKEN", access_token, optional=True)

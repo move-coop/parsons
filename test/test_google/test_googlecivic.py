@@ -12,12 +12,10 @@ from test.utils import assert_matching_tables
 
 class TestGoogleCivic(unittest.TestCase):
     def setUp(self):
-
         self.gc = GoogleCivic(api_key="FAKEKEY")
 
     @requests_mock.Mocker()
     def test_get_elections(self, m):
-
         m.get(self.gc.uri + "elections", json=elections_resp)
 
         expected_tbl = Table(elections_resp["elections"])
@@ -26,7 +24,6 @@ class TestGoogleCivic(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_poll_location(self, m):
-
         m.get(self.gc.uri + "voterinfo", json=voterinfo_resp)
 
         expected_tbl = Table(voterinfo_resp["pollingLocations"])
@@ -37,7 +34,6 @@ class TestGoogleCivic(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_poll_locations(self, m):
-
         m.get(self.gc.uri + "voterinfo", json=voterinfo_resp)
 
         expected_tbl = Table(polling_data)
@@ -68,7 +64,6 @@ class TestGoogleCivic(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_representative_info_by_address_invalid_input(self, m):
-
         m.get(self.gc.uri + "representatives", json=representatives_resp)
 
         with self.assertRaises(ValueError):

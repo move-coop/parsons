@@ -1,9 +1,9 @@
 import json
-import unittest
 import os
 import tempfile
+import unittest
 
-from parsons.google import utitities as util
+from parsons.google import utilities as util
 
 
 class FakeCredentialTest(unittest.TestCase):
@@ -75,7 +75,6 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
 
 
 class TestHexavigesimal(unittest.TestCase):
-
     def test_returns_A_on_1(self):
         self.assertEqual(util.hexavigesimal(1), "A")
 

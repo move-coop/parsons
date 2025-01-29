@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 class SupporterGroups(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_supporter_groups(self):

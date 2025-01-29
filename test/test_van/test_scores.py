@@ -12,12 +12,10 @@ os.environ["VAN_API_KEY"] = "SOME_KEY"
 
 class TestScores(unittest.TestCase):
     def setUp(self):
-
         self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
 
     @requests_mock.Mocker()
     def test_get_scores(self, m):
-
         json = {
             "count": 2,
             "items": [
@@ -52,7 +50,6 @@ class TestScores(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_score(self, m):
-
         score_id = 2716
 
         json = {
@@ -71,7 +68,6 @@ class TestScores(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_score_updates(self, m):
-
         json = {
             "items": [
                 {
@@ -144,7 +140,6 @@ class TestScores(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_score_update(self, m):
-
         score_update_id = 27892
 
         json = {
@@ -187,7 +182,6 @@ class TestScores(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_update_score_status(self, m):
-
         score_update_id = 27892
 
         m.patch(
@@ -203,7 +197,6 @@ class TestScores(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_upload_scores(self, m):
-
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://box.com/my_file.zip"
@@ -216,7 +209,6 @@ class TestScores(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_create_file_load(self, m):
-
         file_name = "test_scores.csv"
         file_url_good = "http://tmc.org/test_scores.zip"
         # file_url_bad = 'http://tmc.org/test_scores'

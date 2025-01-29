@@ -2,6 +2,7 @@ import logging
 import re
 from contextlib import contextmanager
 from stat import S_ISDIR, S_ISREG
+from typing import Optional
 
 import paramiko
 
@@ -28,11 +29,21 @@ class SFTP(object):
             to authenticate stfp connection
         port: int
             Specify if different than the standard port 22
+        timeout: int
+            Timeout argument for use when getting files through SFTP.
     `Returns:`
         SFTP Class
     """
 
-    def __init__(self, host, username, password, port=22, rsa_private_key_file=None):
+    def __init__(
+        self,
+        host,
+        username,
+        password,
+        port=22,
+        rsa_private_key_file=None,
+        timeout: Optional[int] = None,
+    ):
         self.host = host
         if not self.host:
             raise ValueError("Missing the SFTP host name")
@@ -47,6 +58,7 @@ class SFTP(object):
         self.password = password
         self.rsa_private_key_file = rsa_private_key_file
         self.port = port
+        self.timeout = timeout
 
     @contextmanager
     def create_connection(self):
@@ -63,8 +75,14 @@ class SFTP(object):
             # we need to read it in
             pkey = paramiko.RSAKey.from_private_key_file(self.rsa_private_key_file)
 
-        transport.connect(username=self.username, password=self.password, pkey=pkey)
+        transport.connect(
+            username=self.username,
+            password=self.password,
+            pkey=pkey,
+        )
         conn = paramiko.SFTPClient.from_transport(transport)
+        if self.timeout:
+            conn.get_channel().settimeout(self.timeout)
         yield conn
         conn.close()
         transport.close()
@@ -326,7 +344,6 @@ class SFTP(object):
 
     @staticmethod
     def _list_contents(remote_path, connection, dir_pattern=None, file_pattern=None):
-
         dirs_to_return = []
         files_to_return = []
         dirs_and_files = [
@@ -448,7 +465,6 @@ class SFTP(object):
         depth=0,
         max_depth=2,
     ):
-
         dir_list = []
         file_list = []
 

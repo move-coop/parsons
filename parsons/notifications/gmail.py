@@ -22,7 +22,6 @@ class Gmail(SendMail):
     """
 
     def __init__(self, creds_path=None, token_path=None, user_id="me"):
-
         self.user_id = user_id
 
         if not creds_path:

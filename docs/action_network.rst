@@ -6,7 +6,8 @@ Overview
 ********
 
 `Action Network <https://actionnetwork.org/>`_ is an online tool for storing information
-and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see `Action Network developer docs <https://actionnetwork.org/docs>`_
+and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see `Action Network developer docs <https://actionnetwork.org/docs>`_, `SQL Mirror developer docs <https://actionnetwork.org/mirroring/docs>`_
+
 
 .. note::
   Authentication
@@ -99,6 +100,34 @@ You can then call various endpoints:
 	# Get a specific wrapper
 	specific_wrapper = an.get_wrapper('wrapper_id')
 	
+***********
+SQL Mirror
+***********
+
+.. code-block:: python
+
+   from parsons.utilities.ssh_utilities import query_through_ssh
+
+	# Define SSH and database parameters
+	ssh_host = 'ssh.example.com'
+	ssh_port = 22
+	ssh_username = 'user'
+	ssh_password = 'pass'
+	db_host = 'db.example.com'
+	db_port = 5432
+	db_name = 'testdb'
+	db_username = 'dbuser'
+	db_password = 'dbpass'
+	query = 'SELECT * FROM table'
+
+	# Use the function to query through SSH
+	result = query_through_ssh(
+		ssh_host, ssh_port, ssh_username, ssh_password,
+		db_host, db_port, db_name, db_username, db_password, query
+	)
+
+	# Output the result
+	print(result)
 
 ***
 API

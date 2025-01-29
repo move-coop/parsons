@@ -1,6 +1,7 @@
 import unittest
 import gspread
 import os
+import time
 
 from parsons import GoogleSheets, Table
 from test.utils import assert_matching_tables
@@ -9,7 +10,6 @@ from test.utils import assert_matching_tables
 @unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestGoogleSheets(unittest.TestCase):
     def setUp(self):
-
         self.google_sheets = GoogleSheets()
 
         self.spreadsheet_id = self.google_sheets.create_spreadsheet("parsons_test_01")
@@ -30,22 +30,16 @@ class TestGoogleSheets(unittest.TestCase):
             ]
         )
         self.google_sheets.overwrite_sheet(self.spreadsheet_id, self.second_test_table, 1)
-
-    def tearDown(self):
-        # self.google_sheets.delete_spreadsheet(self.spreadsheet_id)
-        pass
+        time.sleep(10)
 
     def test_read_worksheet(self):
-        # This is the spreadsheet called "Legislators 2017 (Test sheet for Parsons)"
-        table = self.google_sheets.get_worksheet("1Y_pZxz-8JZ9QBdq1pXuIk2js_VXeymOUoZhUp1JVEg8")
-        self.assertEqual(541, table.num_rows)
+        table = self.google_sheets.get_worksheet(self.spreadsheet_id)
+        self.assertEqual(2, table.num_rows)
+        time.sleep(10)
 
-    def test_read_sheet(self):
-        # Deprecated in Parsons v0.14
-
-        # This is the spreadsheet called "Legislators 2017 (Test sheet for Parsons)"
-        table = self.google_sheets.read_sheet("1Y_pZxz-8JZ9QBdq1pXuIk2js_VXeymOUoZhUp1JVEg8")
-        self.assertEqual(541, table.num_rows)
+    def tearDown(self):
+        self.google_sheets.delete_spreadsheet(self.spreadsheet_id)
+        pass
 
     def test_read_nonexistent_worksheet(self):
         self.assertRaises(gspread.exceptions.APIError, self.google_sheets.read_sheet, "abc123")
@@ -73,7 +67,6 @@ class TestGoogleSheets(unittest.TestCase):
         self.assertEqual(self.second_test_table.columns, table.columns)
 
     def test_append_to_spreadsheet(self):
-        # BROKEN TEST!
         append_table = Table(
             [
                 {"first": "Jim", "last": "Mitchell"},
@@ -89,12 +82,12 @@ class TestGoogleSheets(unittest.TestCase):
 
         # First check that we didn't muck with the original data
         for i in range(self.test_table.num_rows):
-            self.assertEqual(self.test_table.data[i], result_table.data[i])
+            self.assertEqual(list(self.test_table.data[i]), result_table.data[i])
         orig_row_count = self.test_table.num_rows
 
         # Then check that we appended the data properly
         for i in range(append_table.num_rows):
-            self.assertEqual(append_table.data[i], result_table.data[orig_row_count + i])
+            self.assertEqual(list(append_table.data[i]), result_table.data[orig_row_count + i])
 
         # Test that we can append to an empty sheet
         self.google_sheets.add_sheet(self.spreadsheet_id, "Sheet3")
@@ -122,6 +115,7 @@ class TestGoogleSheets(unittest.TestCase):
         # Test that the value is what's expected from each formula
         self.assertEqual(formula_vals[0], "27")
         self.assertEqual(formula_vals[1], "Budapest")
+        time.sleep(10)
 
     def test_paste_data_in_sheet(self):
         # Testing if we can paste data to a spreadsheet
@@ -211,6 +205,7 @@ class TestGoogleSheets(unittest.TestCase):
         result_table = self.google_sheets.read_sheet(self.spreadsheet_id)
 
         assert_matching_tables(new_table, result_table)
+        time.sleep(10)
 
     def test_share_spreadsheet(self):
         # Test that sharing of spreadsheet works as intended.

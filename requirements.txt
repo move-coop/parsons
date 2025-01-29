@@ -1,49 +1,53 @@
 pyairtable==2.3.3
-azure-storage-blob==12.13.0
+azure-storage-blob==12.24.1
 boto3>=1.17.98
 boxsdk==2.10.0
-braintree==4.17.1
-bs4==0.0.1
-censusgeocode==0.4.3.post1
-civis==1.16.1
-dbt_redshift==1.4.0
-docutils<0.18,>=0.14
-facebook-business==13.0.0
+braintree==4.31.0
+bs4==0.0.2
+censusgeocode==0.5.2
+civis==1.16.1;python_version<"3.10"  # later Civis versions do not support Python 3.9
+civis==2.4.3;python_version>="3.10"  
+curlify==2.2.1
+dbt_redshift==1.9.0
+defusedxml>=0.7.1, <=0.8.0
+facebook-business==21.0.5
+google-api-core==2.24.0
 google-api-python-client==1.7.7
-google-auth==2.29.0
-google-cloud-bigquery==3.23.1
+google-auth==2.37.0
+google-cloud-bigquery==3.26.0
 google-cloud-storage-transfer==1.9.1
-google-cloud-storage==2.16.0
-google-resumable-media==2.7.0
-grpcio==1.62.2
-gspread==3.7.0
+google-cloud-storage==2.19.0
+grpcio==1.68.1
+gspread==6.1.4
 httplib2==0.22.0
-joblib==1.2.0
-mysql-connector-python==8.0.18
+joblib==1.2.0;python_version<"3.10"  # Civis 1.16.1, which runs on Python 3.9, requires an older joblib version
+joblib==1.4.2;python_version>="3.10"
+mysql-connector-python==9.1.0
 newmode==0.1.6
 oauth2client==4.1.3
-paramiko==3.4.0
+paramiko==3.5.0
 petl==1.7.15
 psycopg2-binary==2.9.9
-PyGitHub==1.51
-PyJWT==2.4.0 # Otherwise `import jwt` would refer to python-jwt package
-python-dateutil==2.8.2
-requests==2.31.0
-requests_oauthlib==1.3.0
-setuptools==68.0.0
-simple-salesforce==1.11.6
+PyGitHub==2.4.0
+python-dateutil==2.9.0.post0
+requests==2.32.3
+requests_oauthlib==2.0.0
+setuptools==75.6.0
+simple-salesforce==1.12.6
 simplejson==3.16.0
 slackclient==1.3.0
-sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0 # Prefect does not work with 1.4.33 and >3.0.0 has breaking changes
-suds-py3==1.3.4.0
+sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0 # Prefect does not work with 1.4.33 and >=2.0.0 has breaking changes
+suds-py3==1.4.5.0
 surveygizmo==1.2.3
-twilio==8.2.1
+twilio==9.4.3
 urllib3==1.26.19
 validate-email==1.3
-xmltodict==0.11.0
+xmltodict==0.14.2
 
 # Stuff for TMC scripts
 # TODO Remove when we have a TMC-specific Docker image
 jinja2>=3.0.2
 selenium==3.141.0
-us==3.1.1
+us==3.2.0
+sshtunnel==0.4.0
+

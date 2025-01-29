@@ -8,7 +8,6 @@ from test.utils import assert_matching_tables
 class TestBillCom(unittest.TestCase):
     @requests_mock.Mocker()
     def setUp(self, m):
-
         self.api_url = "http://FAKEURL.com/"
 
         m.post(
@@ -214,7 +213,6 @@ class TestBillCom(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_paginate_list(self, m):
-
         r = [{"dict": 0, "col": "A"}, {"dict": 1, "col": "B"}]
 
         overflow = [

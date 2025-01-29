@@ -1,5 +1,6 @@
 import sqlite3
 from pathlib import Path
+import shutil
 import subprocess
 import datetime
 from typing import Optional, Literal, Union
@@ -211,13 +212,51 @@ class Sqlite(DatabaseConnector):
                 self.query_with_connection(sql, connection, commit=False, return_values=False)
                 logger.info(f"{table_name} created.")
 
-        csv_file_path = tbl.to_csv()
-
-        self._cli_command(f'".import --csv --skip 1 {csv_file_path} {table_name}"')
+        # Use the sqlite3 command line for csv import if possible, as it is much more efficient
+        if shutil.which("sqlite3"):
+            csv_file_path = tbl.to_csv()
+            self._cli_command(f'".import --csv --skip 1 {csv_file_path} {table_name}"')
+        else:
+            self.import_table_iteratively(tbl, table_name, if_exists)
 
         logger.info(f"{len(tbl)} rows copied to {table_name}.")
 
+    def import_table_iteratively(
+        self, tbl: Table, table_name: str, if_exists: str, chunksize=10000
+    ) -> None:
+        """Import a CSV row by row using the python sqlite3 API.
+
+        Iterates over chunks of length `chunksize`
+
+        It is generally more efficient to use the sqlite3 CLI to
+        import a CSV, but not all machines have the shell utility
+        available, so we can fall back to this method.
+        """
+        chunked_tbls = tbl.chunk(chunksize)
+        insert_sql = "INSERT INTO {} ({}) VALUES ({});".format(
+            table_name,
+            ", ".join(tbl.columns),
+            ", ".join(["?" for _ in tbl.columns]),
+        )
+        with self.connection() as connection:
+            with self.cursor(connection) as cursor:
+                for chunked_tbl in chunked_tbls:
+                    cursor.executemany(
+                        insert_sql,
+                        chunked_tbl.values(),
+                    )
+
     def _cli_command(self, command: str) -> None:
+        """Use the sqlite3 command line utility to run a command.
+
+        Certain commands are only possible via the shell utility and
+        not via the python API, such as the CSV import command.
+
+        sqlite3 comes as part of the python stdlib, but the shell
+        utility is not available by default on all systems. Windows
+        machines in particular generally don't have the sqlite3
+        utility unless it is explicitly installed.
+        """
         db_path = Path(self.db_path).resolve()
         full_command = f"sqlite3 {db_path} {command}"
         resp = subprocess.run(

@@ -1,18 +1,20 @@
-import sqlite3
-from pathlib import Path
-import subprocess
 import datetime
-from typing import Optional, Literal, Union
-from collections.abc import Iterator
-from parsons.utilities import files
-from parsons.etl.table import Table
+import logging
 import pickle
+import shutil
+import sqlite3
+import subprocess
+from collections.abc import Iterator
+from contextlib import contextmanager
+from pathlib import Path
+from typing import Literal, Optional, Union
+
 import petl
+
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
-from contextlib import contextmanager
-
-import logging
+from parsons.etl.table import Table
+from parsons.utilities import files
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -183,6 +185,7 @@ class Sqlite(DatabaseConnector):
         table_name: str,
         if_exists: str = "fail",
         strict_length: bool = False,
+        force_python_sdk: bool = False,
     ):
         """
         Copy a :ref:`parsons-table` to Sqlite.
@@ -200,6 +203,8 @@ class Sqlite(DatabaseConnector):
                 the created table's column sizes will be sized to exactly fit the current data,
                 or if their size will be rounded up to account for future values being larger
                 then the current dataset. Defaults to ``False``.
+            force_python_sdk: bool
+                Use the python SDK to import data to sqlite3, even if the sqlite3 cli utility is available for more efficient loading. Defaults to False.
         """
 
         with self.connection() as connection:
@@ -211,13 +216,51 @@ class Sqlite(DatabaseConnector):
                 self.query_with_connection(sql, connection, commit=False, return_values=False)
                 logger.info(f"{table_name} created.")
 
-        csv_file_path = tbl.to_csv()
-
-        self._cli_command(f'".import --csv --skip 1 {csv_file_path} {table_name}"')
+        # Use the sqlite3 command line for csv import if possible, as it is much more efficient
+        if shutil.which("sqlite3") and not force_python_sdk:
+            csv_file_path = tbl.to_csv()
+            self._cli_command(f'".import --csv --skip 1 {csv_file_path} {table_name}"')
+        else:
+            self.import_table_iteratively(tbl, table_name, if_exists)
 
         logger.info(f"{len(tbl)} rows copied to {table_name}.")
 
+    def import_table_iteratively(
+        self, tbl: Table, table_name: str, if_exists: str, chunksize=10000
+    ) -> None:
+        """Import a CSV row by row using the python sqlite3 API.
+
+        Iterates over chunks of length `chunksize`
+
+        It is generally more efficient to use the sqlite3 CLI to
+        import a CSV, but not all machines have the shell utility
+        available, so we can fall back to this method.
+        """
+        chunked_tbls = tbl.chunk(chunksize)
+        insert_sql = "INSERT INTO {} ({}) VALUES ({});".format(
+            table_name,
+            ", ".join(tbl.columns),
+            ", ".join(["?" for _ in tbl.columns]),
+        )
+        with self.connection() as connection:
+            with self.cursor(connection) as cursor:
+                for chunked_tbl in chunked_tbls:
+                    cursor.executemany(
+                        insert_sql,
+                        tuple([tuple(row.values()) for row in chunked_tbl]),
+                    )
+
     def _cli_command(self, command: str) -> None:
+        """Use the sqlite3 command line utility to run a command.
+
+        Certain commands are only possible via the shell utility and
+        not via the python API, such as the CSV import command.
+
+        sqlite3 comes as part of the python stdlib, but the shell
+        utility is not available by default on all systems. Windows
+        machines in particular generally don't have the sqlite3
+        utility unless it is explicitly installed.
+        """
         db_path = Path(self.db_path).resolve()
         full_command = f"sqlite3 {db_path} {command}"
         resp = subprocess.run(

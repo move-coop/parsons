@@ -1,11 +1,12 @@
+import tempfile
+import unittest
+
 from parsons import Table
 from parsons.databases.sqlite import Sqlite
 from test.utils import assert_matching_tables
-import unittest
-import tempfile
 
 
-class TestSqliteCreateStatement(unittest.TestCase):
+class TestSqlite(unittest.TestCase):
     def setUp(self):
         temp_db = tempfile.mkstemp(suffix=".db")[1]
         self.sqlite = Sqlite(temp_db)
@@ -14,6 +15,11 @@ class TestSqliteCreateStatement(unittest.TestCase):
 
     def test_copy(self) -> None:
         self.sqlite.copy(self.tbl, "tbl1", if_exists="drop")
+        tbl1_read = self.sqlite.query("select * from tbl1")
+        assert_matching_tables(self.tbl, tbl1_read)
+
+    def test_copy_no_cli(self) -> None:
+        self.sqlite.copy(self.tbl, "tbl1", if_exists="drop", force_python_sdk=True)
         tbl1_read = self.sqlite.query("select * from tbl1")
         assert_matching_tables(self.tbl, tbl1_read)
 

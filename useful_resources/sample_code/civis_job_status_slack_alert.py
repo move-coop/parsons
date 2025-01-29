@@ -117,8 +117,8 @@ def main():
     for run in scripts_table:
         last_success = get_last_success(run["id"], run["object_type"])
 
-        output_line = f"""{get_run_state_emoji(run['state'])}
-        {run['name']} (last success: {last_success})"""
+        output_line = f"""{get_run_state_emoji(run["state"])}
+        {run["name"]} (last success: {last_success})"""
         output_lines.append(output_line)
 
     # Output our message to Slack

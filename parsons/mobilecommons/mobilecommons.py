@@ -139,8 +139,7 @@ class MobileCommons:
             page += 1
             page_params = {"page": str(page), **params}
             logger.info(
-                f"Fetching rows {(page - 1) * page_limit + 1} - {(page) * page_limit} "
-                f"of {limit}"
+                f"Fetching rows {(page - 1) * page_limit + 1} - {(page) * page_limit} of {limit}"
             )
             # Send get request
             response_dict = self._parse_get_request(endpoint=endpoint, params=page_params)

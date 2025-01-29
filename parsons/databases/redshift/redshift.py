@@ -95,7 +95,7 @@ class Redshift(
             self.db = db or os.environ["REDSHIFT_DB"]
             self.port = port or os.environ["REDSHIFT_PORT"]
         except KeyError as error:
-            logger.error("Connection info missing. Most include as kwarg or " "env variable.")
+            logger.error("Connection info missing. Most include as kwarg or env variable.")
             raise error
 
         self.timeout = timeout

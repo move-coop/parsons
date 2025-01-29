@@ -841,22 +841,6 @@
             <span class="s2">&quot;resultCodeId&quot;</span><span class="p">:</span> <span class="n">result_code_id</span><span class="p">,</span>
         <span class="p">}</span>
 
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">1</span>  <span class="c1"># Phone</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">19</span>  <span class="c1"># Auto Dial</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">37</span>  <span class="c1"># SMS Text</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">67</span>  <span class="c1"># Phone Bank</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">68</span>  <span class="c1"># Consumer Phone</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">72</span>  <span class="c1"># Leader Phone</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">112</span>  <span class="c1"># Personal Phone</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">132</span>  <span class="c1"># Relational Text</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">143</span>  <span class="c1"># Distributed Text</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">147</span>  <span class="c1"># Bulk Text</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">149</span>  <span class="c1"># Paid SMS</span>
-        <span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">phone</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;A phone number must be provided if canvassed via phone or SMS&quot;</span><span class="p">)</span>
-
         <span class="k">if</span> <span class="n">phone</span><span class="p">:</span>
             <span class="n">json</span><span class="p">[</span><span class="s2">&quot;canvassContext&quot;</span><span class="p">][</span><span class="s2">&quot;phone&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s2">&quot;dialingPrefix&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>

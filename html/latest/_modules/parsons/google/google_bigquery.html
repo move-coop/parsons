@@ -990,7 +990,8 @@
             <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">get_columns_type_stats</span><span class="p">():</span>
                 <span class="k">if</span> <span class="s2">&quot;dict&quot;</span> <span class="ow">in</span> <span class="n">field</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]:</span>
                     <span class="n">new_petl</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">addfield</span><span class="p">(</span>
-                        <span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_replace&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]])</span>
+                        <span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_replace&quot;</span><span class="p">,</span>
+                        <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]),</span>
                     <span class="p">)</span>
                     <span class="n">new_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">new_petl</span><span class="p">)</span>
                     <span class="n">new_tbl</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
@@ -1651,6 +1652,105 @@
         <span class="n">extract_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># Waits for job to complete.</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished exporting query result to </span><span class="si">{</span><span class="n">gs_destination</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GoogleBigQuery.copy_between_projects">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy_between_projects">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy_between_projects</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">source_project</span><span class="p">,</span>
+        <span class="n">source_dataset</span><span class="p">,</span>
+        <span class="n">source_table</span><span class="p">,</span>
+        <span class="n">destination_project</span><span class="p">,</span>
+        <span class="n">destination_dataset</span><span class="p">,</span>
+        <span class="n">destination_table</span><span class="p">,</span>
+        <span class="n">if_dataset_not_exists</span><span class="o">=</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span>
+        <span class="n">if_table_exists</span><span class="o">=</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Copy a table from one project to another. Fails if the source or target project</span>
+<span class="sd">            does not exist.</span>
+<span class="sd">        If the target dataset does not exist, fhe flag if_dataset_not_exists controls behavior.</span>
+<span class="sd">            It defaults to &#39;fail&#39;; set it to &#39;create&#39; if it&#39;s ok to create it.</span>
+<span class="sd">        If the target table exists, the flag if_table_exists controls behavior.</span>
+<span class="sd">            It defaults to &#39;fail&#39;; set it to &#39;overwrite&#39; if it&#39;s ok to overwrite an existing table.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            source_project: str</span>
+<span class="sd">                Name of source project</span>
+<span class="sd">            source_dataset: str</span>
+<span class="sd">                Name of source dataset</span>
+<span class="sd">            source_table: str</span>
+<span class="sd">                Name of source table</span>
+<span class="sd">            destination_project: str</span>
+<span class="sd">                Name of destination project</span>
+<span class="sd">            destination_dataset: str</span>
+<span class="sd">                Name of destination dataset</span>
+<span class="sd">            destination_table: str</span>
+<span class="sd">                Name of destination table</span>
+<span class="sd">            if_dataset_not_exists: str</span>
+<span class="sd">                Action if dataset doesn&#39;t exist {&#39;fail&#39;,&#39;create&#39;}</span>
+<span class="sd">            if_table_exists: str</span>
+<span class="sd">                Action if table exists {&#39;fail&#39;, &#39;overwrite&#39;}</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">bigquery</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">NotFound</span>
+
+        <span class="n">destination_table_id</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">destination_project</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">destination_dataset</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">destination_table</span>
+        <span class="p">)</span>
+        <span class="n">source_table_id</span> <span class="o">=</span> <span class="n">source_project</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">source_dataset</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">source_table</span>
+        <span class="n">dataset_id</span> <span class="o">=</span> <span class="n">destination_project</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">destination_dataset</span>
+
+        <span class="c1"># check if destination dataset exists</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">)</span>  <span class="c1"># Make an API request.</span>
+            <span class="c1"># if it exists: continue; if not, check to see if it&#39;s ok to create it</span>
+        <span class="k">except</span> <span class="n">NotFound</span><span class="p">:</span>
+            <span class="c1"># if it doesn&#39;t exist: check if it&#39;s ok to create it</span>
+            <span class="k">if</span> <span class="n">if_dataset_not_exists</span> <span class="o">==</span> <span class="s2">&quot;create&quot;</span><span class="p">:</span>  <span class="c1"># create a new dataset in the destination</span>
+                <span class="n">dataset</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">)</span>
+                <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># if it doesn&#39;t exist and it&#39;s not ok to create it, fail</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;BigQuery copy failed&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">destination_dataset</span><span class="si">}</span><span class="s2"> does not exist and if_dataset_not_exists set to </span><span class="si">{</span><span class="n">if_dataset_not_exists</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+        <span class="n">job_config</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">CopyJobConfig</span><span class="p">()</span>
+
+        <span class="c1"># check if destination table exists</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_table</span><span class="p">(</span><span class="n">destination_table_id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">if_table_exists</span> <span class="o">==</span> <span class="s2">&quot;overwrite&quot;</span><span class="p">:</span>  <span class="c1"># if it exists</span>
+                <span class="n">job_config</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">CopyJobConfig</span><span class="p">()</span>
+                <span class="n">job_config</span><span class="o">.</span><span class="n">write_disposition</span> <span class="o">=</span> <span class="s2">&quot;WRITE_TRUNCATE&quot;</span>
+                <span class="n">job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">copy_table</span><span class="p">(</span>
+                    <span class="n">source_table_id</span><span class="p">,</span>
+                    <span class="n">destination_table_id</span><span class="p">,</span>
+                    <span class="n">location</span><span class="o">=</span><span class="s2">&quot;US&quot;</span><span class="p">,</span>
+                    <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;BigQuery copy failed, Table </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2"> exists and if_table_exists set to </span><span class="si">{</span><span class="n">if_table_exists</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">except</span> <span class="n">NotFound</span><span class="p">:</span>
+            <span class="c1"># destination table doesn&#39;t exist, so we can create one</span>
+            <span class="n">job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">copy_table</span><span class="p">(</span>
+                <span class="n">source_table_id</span><span class="p">,</span>
+                <span class="n">destination_table_id</span><span class="p">,</span>
+                <span class="n">location</span><span class="o">=</span><span class="s2">&quot;US&quot;</span><span class="p">,</span>
+                <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 </div>
 
 

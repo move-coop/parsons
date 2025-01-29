@@ -930,6 +930,40 @@ gcs_bucket (str): The GCS bucket where the table will be</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.copy_between_projects">
+<span class="sig-name descname"><span class="pre">copy_between_projects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_project</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_project</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_dataset_not_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_table_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.copy_between_projects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.copy_between_projects" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Copy a table from one project to another. Fails if the source or target project</dt><dd><p>does not exist.</p>
+</dd>
+<dt>If the target dataset does not exist, fhe flag if_dataset_not_exists controls behavior.</dt><dd><p>It defaults to ‘fail’; set it to ‘create’ if it’s ok to create it.</p>
+</dd>
+<dt>If the target table exists, the flag if_table_exists controls behavior.</dt><dd><p>It defaults to ‘fail’; set it to ‘overwrite’ if it’s ok to overwrite an existing table.</p>
+</dd>
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>source_project: str</dt><dd><p>Name of source project</p>
+</dd>
+<dt>source_dataset: str</dt><dd><p>Name of source dataset</p>
+</dd>
+<dt>source_table: str</dt><dd><p>Name of source table</p>
+</dd>
+<dt>destination_project: str</dt><dd><p>Name of destination project</p>
+</dd>
+<dt>destination_dataset: str</dt><dd><p>Name of destination dataset</p>
+</dd>
+<dt>destination_table: str</dt><dd><p>Name of destination table</p>
+</dd>
+<dt>if_dataset_not_exists: str</dt><dd><p>Action if dataset doesn’t exist {‘fail’,’create’}</p>
+</dd>
+<dt>if_table_exists: str</dt><dd><p>Action if table exists {‘fail’, ‘overwrite’}</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>

@@ -42,19 +42,19 @@ def main():
             ],
             "mysql": [
                 "mysql-connector-python",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["bs4"],
             "postgres": [
                 "psycopg2-binary>=2.9.9",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "redshift": [
                 "boto3",
                 "psycopg2-binary>=2.9.9",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
@@ -67,7 +67,7 @@ def main():
             "ssh": [
                 "sshtunnel",
                 "psycopg2-binary>=2.9.9",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
         }
         extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
@@ -83,7 +83,7 @@ def main():
 
     setup(
         name="parsons",
-        version="3.2.0",
+        version="4",
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url="https://github.com/move-coop/parsons",
@@ -94,13 +94,12 @@ def main():
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Developers",
-            "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
             "Programming Language :: Python :: 3.12",
         ],
-        python_requires=">=3.8.0,<3.13.0",
+        python_requires=">=3.9.0,<3.13.0",
         long_description=long_description,
         long_description_content_type="text/markdown",
     )

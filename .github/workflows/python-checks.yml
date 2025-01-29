@@ -15,7 +15,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                python-version: ["3.9", "3.10", "3.11", "3.12"]
+                python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
                 os: ["ubuntu-latest", "windows-latest", "macos-latest"]
                 limited-dependencies: ["", "TRUE"]
 
@@ -53,10 +53,10 @@ jobs:
         steps:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-            - name: Set up Python 3.12
+            - name: Set up Python 3.13
               uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
               with:
-                  python-version: "3.12"
+                  python-version: "3.13"
 
             - name: Install uv
               uses: install-pinned/uv@42b3e2a67abaefa8cd01c6f53ac3e86b4b420d4a  # 0.4.12
@@ -75,10 +75,10 @@ jobs:
         steps:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-            - name: Set up Python 3.12
+            - name: Set up Python 3.13
               uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
               with:
-                  python-version: "3.12"
+                  python-version: "3.13"
 
             - name: Install uv
               uses: install-pinned/uv@42b3e2a67abaefa8cd01c6f53ac3e86b4b420d4a  # 0.4.12
@@ -97,10 +97,10 @@ jobs:
         steps:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-            - name: Set up Python 3.12
+            - name: Set up Python 3.13
               uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
               with:
-                  python-version: "3.12"
+                  python-version: "3.13"
 
             - name: Install uv
               uses: install-pinned/uv@42b3e2a67abaefa8cd01c6f53ac3e86b4b420d4a  # 0.4.12
@@ -119,10 +119,10 @@ jobs:
         steps:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-            - name: Set up Python 3.12
+            - name: Set up Python 3.13
               uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
               with:
-                  python-version: "3.12"
+                  python-version: "3.13"
 
             - name: Install uv
               uses: install-pinned/uv@42b3e2a67abaefa8cd01c6f53ac3e86b4b420d4a  # 0.4.12
@@ -144,7 +144,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                python-version: ["3.9", "3.10", "3.11", "3.12"]
+                python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
                 os: ["ubuntu-latest", "windows-latest", "macos-latest"]
                 limited-dependencies: ["", "TRUE"]
 

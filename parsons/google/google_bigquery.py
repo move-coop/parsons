@@ -821,7 +821,8 @@ class GoogleBigQuery(DatabaseConnector):
             for field in tbl.get_columns_type_stats():
                 if "dict" in field["type"]:
                     new_petl = tbl.table.addfield(
-                        field["name"] + "_replace", lambda row: json.dumps(row[field["name"]])
+                        field["name"] + "_replace",
+                        lambda row: json.dumps(row[field["name"]]),
                     )
                     new_tbl = Table(new_petl)
                     new_tbl.remove_column(field["name"])
@@ -1452,6 +1453,102 @@ class GoogleBigQuery(DatabaseConnector):
         extract_job.result()  # Waits for job to complete.
 
         logger.info(f"Finished exporting query result to {gs_destination}.")
+
+    def copy_between_projects(
+        self,
+        source_project,
+        source_dataset,
+        source_table,
+        destination_project,
+        destination_dataset,
+        destination_table,
+        if_dataset_not_exists="fail",
+        if_table_exists="fail",
+    ):
+        """
+        Copy a table from one project to another. Fails if the source or target project
+            does not exist.
+        If the target dataset does not exist, fhe flag if_dataset_not_exists controls behavior.
+            It defaults to 'fail'; set it to 'create' if it's ok to create it.
+        If the target table exists, the flag if_table_exists controls behavior.
+            It defaults to 'fail'; set it to 'overwrite' if it's ok to overwrite an existing table.
+
+        `Args`:
+            source_project: str
+                Name of source project
+            source_dataset: str
+                Name of source dataset
+            source_table: str
+                Name of source table
+            destination_project: str
+                Name of destination project
+            destination_dataset: str
+                Name of destination dataset
+            destination_table: str
+                Name of destination table
+            if_dataset_not_exists: str
+                Action if dataset doesn't exist {'fail','create'}
+            if_table_exists: str
+                Action if table exists {'fail', 'overwrite'}
+
+        `Returns:`
+            None
+        """
+
+        from google.cloud import bigquery
+        from google.cloud.exceptions import NotFound
+
+        destination_table_id = (
+            destination_project + "." + destination_dataset + "." + destination_table
+        )
+        source_table_id = source_project + "." + source_dataset + "." + source_table
+        dataset_id = destination_project + "." + destination_dataset
+
+        # check if destination dataset exists
+        try:
+            self.client.get_dataset(dataset_id)  # Make an API request.
+            # if it exists: continue; if not, check to see if it's ok to create it
+        except NotFound:
+            # if it doesn't exist: check if it's ok to create it
+            if if_dataset_not_exists == "create":  # create a new dataset in the destination
+                dataset = bigquery.Dataset(dataset_id)
+                dataset = self.client.create_dataset(dataset, timeout=30)
+            else:  # if it doesn't exist and it's not ok to create it, fail
+                logger.error("BigQuery copy failed")
+                logger.error(
+                    f"Dataset {destination_dataset} does not exist and if_dataset_not_exists set to {if_dataset_not_exists}"
+                )
+
+        job_config = bigquery.CopyJobConfig()
+
+        # check if destination table exists
+        try:
+            self.client.get_table(destination_table_id)
+            if if_table_exists == "overwrite":  # if it exists
+                job_config = bigquery.CopyJobConfig()
+                job_config.write_disposition = "WRITE_TRUNCATE"
+                job = self.client.copy_table(
+                    source_table_id,
+                    destination_table_id,
+                    location="US",
+                    job_config=job_config,
+                )
+                result = job.result()
+            else:
+                logger.error(
+                    f"BigQuery copy failed, Table {destination_table} exists and if_table_exists set to {if_table_exists}"
+                )
+
+        except NotFound:
+            # destination table doesn't exist, so we can create one
+            job = self.client.copy_table(
+                source_table_id,
+                destination_table_id,
+                location="US",
+                job_config=job_config,
+            )
+            result = job.result()
+            logger.info(result)
 
 
 class BigQueryTable(BaseTable):

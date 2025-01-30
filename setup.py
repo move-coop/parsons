@@ -98,8 +98,9 @@ def main():
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
             "Programming Language :: Python :: 3.12",
+            "Programming Language :: Python :: 3.13",
         ],
-        python_requires=">=3.9.0,<3.13.0",
+        python_requires=">=3.9,<3.14",
         long_description=long_description,
         long_description_content_type="text/markdown",
     )

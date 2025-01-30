@@ -48,14 +48,14 @@ def main():
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["bs4"],
             "postgres": [
-                "psycopg2-binary==2.9.9; python_version<'3.13'",
-                "psycopg2-binary==2.9.10; python_version>='3.13'",
+                "psycopg2-binary<=2.9.9;python_version<'3.13'",
+                "psycopg2-binary>=2.9.10;python_version>='3.13'",
                 "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "redshift": [
                 "boto3",
-                "psycopg2-binary==2.9.9; python_version<'3.13'",
-                "psycopg2-binary==2.9.10; python_version>='3.13'",
+                "psycopg2-binary<=2.9.9;python_version<'3.13'",
+                "psycopg2-binary>=2.9.10;python_version>='3.13'",
                 "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "s3": ["boto3"],
@@ -68,8 +68,8 @@ def main():
             "twilio": ["twilio"],
             "ssh": [
                 "sshtunnel",
-                "psycopg2-binary==2.9.9; python_version<'3.13'",
-                "psycopg2-binary==2.9.10; python_version>='3.13'",
+                "psycopg2-binary<=2.9.9;python_version<'3.13'",
+                "psycopg2-binary>=2.9.10;python_version>='3.13'",
                 "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
         }

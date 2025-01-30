@@ -421,7 +421,7 @@ class Zoom:
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
 
-        return self.__handle_nested_json(table=tbl, column="questions")
+        return self.__handle_nested_json(table=tbl, column="prompts")
 
     def get_webinar_poll_metadata(
         self, webinar_id, poll_id, version_2: bool = False

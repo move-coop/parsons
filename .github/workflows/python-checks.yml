@@ -2,9 +2,7 @@ name: Python checks
 
 on:
     push:
-        branches: [ "main", "major-release" ]
     pull_request:
-        branches: [ "main", "major-release" ]
     workflow_dispatch:
 
 permissions:

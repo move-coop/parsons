@@ -30,10 +30,6 @@ jobs:
             - name: Install uv
               uses: install-pinned/uv@142493f5b5da3369d376dd54a60c8f99ba67680d  # 0.4.12
 
-            - name: Patch install error when using Python 3.9, limited dependencies, and MacOS
-              if: ${{ matrix.limited-dependencies }} == True and ${{ matrix.os }} == "macos-latest" and ${{ matrix.python-version }} == "3.9"
-              run: uv pip install --system psycopg2-binary==2.9.9
-
             - name: Install dependencies
               env:
                   PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
@@ -161,10 +157,6 @@ jobs:
               with:
                   python-version: ${{ matrix.python-version }}
                   cache: pip
-
-            - name: Patch install error when using Python 3.9, limited dependencies, and MacOS
-              if: ${{ matrix.limited-dependencies }} == True and ${{ matrix.os }} == "macos-latest" and ${{ matrix.python-version }} == "3.9"
-              run: pip install psycopg2-binary==2.9.9
 
             - name: Install dependencies
               env:

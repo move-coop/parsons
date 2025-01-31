@@ -126,7 +126,9 @@ class Zoom:
         tbl.remove_column("question_details")
 
         # Unpack question values
-        tbl = tbl.unpack_dict("question_details_value", include_original=True, prepend=False)
+        tbl = tbl.unpack_dict(
+            "question_details_value", include_original=True, prepend=False
+        )
 
         # Remove column from API response
         tbl.remove_column("question_details_value")
@@ -219,7 +221,9 @@ class Zoom:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"report/meetings/{meeting_id}/participants", "participants")
+        tbl = self._get_request(
+            f"report/meetings/{meeting_id}/participants", "participants"
+        )
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
@@ -284,7 +288,9 @@ class Zoom:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"report/webinars/{webinar_id}/participants", "participants")
+        tbl = self._get_request(
+            f"report/webinars/{webinar_id}/participants", "participants"
+        )
         logger.info(f"Retrieved {tbl.num_rows} webinar participants.")
         return tbl
 
@@ -323,7 +329,7 @@ class Zoom:
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict):
+        if isinstance(tbl, dict) or tbl.num_rows == 0:
             logger.debug(f"No poll data returned for poll ID {poll_id}")
             return Table(tbl)
 
@@ -350,7 +356,7 @@ class Zoom:
         endpoint = f"meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
-        if isinstance(tbl, dict):
+        if isinstance(tbl, dict) or tbl.num_rows == 0:
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
             return Table(tbl)
 
@@ -375,7 +381,7 @@ class Zoom:
         endpoint = f"past_meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict):
+        if isinstance(tbl, dict) or tbl.num_rows == 0:
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
             return Table(tbl)
 
@@ -402,7 +408,7 @@ class Zoom:
         endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict):
+        if isinstance(tbl, dict) or tbl.num_rows == 0:
             logger.debug(f"No poll data returned for poll ID {poll_id}")
             return Table(tbl)
 
@@ -429,7 +435,7 @@ class Zoom:
         endpoint = f"webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
-        if isinstance(tbl, dict):
+        if isinstance(tbl, dict) or tbl.num_rows == 0:
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
 
@@ -454,7 +460,7 @@ class Zoom:
         endpoint = f"past_webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict):
+        if isinstance(tbl, dict) or tbl.num_rows == 0:
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
 
@@ -472,7 +478,7 @@ class Zoom:
         endpoint = f"report/meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict):
+        if isinstance(tbl, dict) or tbl.num_rows == 0:
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
             return Table(tbl)
 
@@ -490,7 +496,7 @@ class Zoom:
         endpoint = f"report/webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict):
+        if isinstance(tbl, dict) or tbl.num_rows == 0:
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
 

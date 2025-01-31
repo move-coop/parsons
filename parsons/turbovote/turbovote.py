@@ -27,7 +27,6 @@ class TurboVote(object):
     """
 
     def __init__(self, username=None, password=None, subdomain=None):
-
         self.username = check_env.check("TURBOVOTE_USERNAME", username)
         self.password = check_env.check("TURBOVOTE_PASSWORD", password)
         self.subdomain = check_env.check("TURBOVOTE_SUBDOMAIN", subdomain)

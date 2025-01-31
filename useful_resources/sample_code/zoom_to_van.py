@@ -62,7 +62,6 @@ for code in van.get_activist_codes():
         activist_code_id = code["activistCodeId"]
 
 for participant in filtered_participants:
-
     # generates list of parameters from matched columns, only inlcudes if row has data for column
     params = {col: participant[col] for col in column_map.keys() if participant[col]}
 

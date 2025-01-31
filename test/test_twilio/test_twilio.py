@@ -6,7 +6,6 @@ from parsons import Twilio
 
 class TestTwilio(unittest.TestCase):
     def setUp(self):
-
         os.environ["TWILIO_ACCOUNT_SID"] = "MYFAKESID"
         os.environ["TWILIO_AUTH_TOKEN"] = "MYFAKEAUTHTOKEN"
 
@@ -14,20 +13,17 @@ class TestTwilio(unittest.TestCase):
         self.twilio.client = mock.MagicMock()
 
     def test_get_account(self):
-
         fake_sid = "FAKESID"
         self.twilio.get_account(fake_sid)
         self.twilio.client.api.accounts.assert_called_with(fake_sid)
 
     def test_get_accounts(self):
-
         self.twilio.get_accounts(name="MyOrg", status="active")
         self.twilio.client.api.accounts.list.assert_called_with(
             friendly_name="MyOrg", status="active"
         )
 
     def test_get_messages(self):
-
         self.twilio.get_messages(date_sent="2019-10-29")
         self.twilio.client.messages.list.assert_called_with(
             date_sent="2019-10-29",
@@ -38,7 +34,6 @@ class TestTwilio(unittest.TestCase):
         )
 
     def test_get_account_usage(self):
-
         # Make sure that it is calling the correct Twilio methods
         self.twilio.client.usage.records.today.list.assert_not_called()
         self.twilio.get_account_usage(time_period="today")

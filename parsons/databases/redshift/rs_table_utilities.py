@@ -32,23 +32,18 @@ class RedshiftTableUtilities(object):
 
         # Check in pg tables for the table
         sql = """select count(*) from pg_tables where schemaname='{}' and
-                 tablename='{}';""".format(
-            table_name[0], table_name[1]
-        )
+                 tablename='{}';""".format(table_name[0], table_name[1])
 
         # TODO maybe convert these queries to use self.query_with_connection
 
         with self.cursor(connection) as cursor:
-
             cursor.execute(sql)
             result = cursor.fetchone()[0]
 
             # Check in the pg_views for the table
             if view:
                 sql = """select count(*) from pg_views where schemaname='{}' and
-                         viewname='{}';""".format(
-                    table_name[0], table_name[1]
-                )
+                         viewname='{}';""".format(table_name[0], table_name[1])
 
             cursor.execute(sql)
             result += cursor.fetchone()[0]
@@ -130,7 +125,6 @@ class RedshiftTableUtilities(object):
         self.query(create_sql)
 
         with self.connection() as conn:
-
             #  An ALTER TABLE statement can't be run within a block, meaning
             #  that it needs to be committed on running. To enable this,
             #  the connection must be set to autocommit.

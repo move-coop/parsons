@@ -97,7 +97,6 @@ def test_compression_type_for_path():
 
 
 def test_empty_file():
-
     # Create fake files.
     os.mkdir("tmp")
     with open("tmp/empty.csv", "w+") as _:
@@ -117,7 +116,6 @@ def test_json_format():
 
 
 def test_remove_empty_keys():
-
     # Assert key removed when None
     test_dict = {"a": None, "b": 2}
     assert json_format.remove_empty_keys(test_dict) == {"b": 2}
@@ -132,7 +130,6 @@ def test_remove_empty_keys():
 
 
 def test_redact_credentials():
-
     # Test with quotes, escape characters, and line breaks
     test_str = """COPY schema.tablename
     FROM 's3://bucket/path/to/file.csv'

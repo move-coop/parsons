@@ -62,7 +62,6 @@ def load_google_application_credentials(
     scopes: t.Optional[t.List[str]] = None,
     subject: t.Optional[str] = None,
 ) -> google.auth.credentials.Credentials:
-
     service_account_filepath = os.environ[env_var_name]
 
     credentials = service_account.Credentials.from_service_account_file(service_account_filepath)

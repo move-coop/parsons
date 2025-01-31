@@ -343,6 +343,20 @@ class TestActionBuilder(unittest.TestCase):
 
         self.assertEqual(person_comp, update_response_comp)
 
+    @requests_mock.Mocker()
+    def test_remove_entity_record_from_campaign(self, m):
+        m.delete(
+            f"{self.api_url}/people/{self.fake_entity_id}",
+            json="{'message': 'Entity has been removed from the campaign'}",
+        )
+
+        remove_response = self.bldr.remove_entity_record_from_campaign(self.fake_entity_id)
+
+        self.assertEqual(
+            remove_response,
+            "{'message': 'Entity has been removed from the campaign'}",
+        )
+
     def tagging_callback(self, request, context):
         # Internal method for returning the constructed tag data to test
 

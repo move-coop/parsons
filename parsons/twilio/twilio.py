@@ -23,7 +23,6 @@ class Twilio:
     """
 
     def __init__(self, account_sid=None, auth_token=None):
-
         self.account_sid = check_env.check("TWILIO_ACCOUNT_SID", account_sid)
         self.auth_token = check_env.check("TWILIO_AUTH_TOKEN", auth_token)
         self.client = Client(self.account_sid, self.auth_token)

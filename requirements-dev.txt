@@ -1,11 +1,10 @@
 # Testing Requirements
-black==24.3.0
-Flake8-pyproject==1.2.3
-flake8==7.0.0
-pycodestyle==2.11.1
+bandit[toml]==1.8.0
+coverage==7.6.1
+pycodestyle==2.12.1
 pytest-datadir==1.5.0
-pytest-mock==3.12.0
-pytest==8.1.1
-requests-mock==1.11.0
-testfixtures==8.1.0
-
+pytest-mock==3.14.0
+pytest==8.3.3
+requests-mock==1.12.1
+ruff==0.6.9
+testfixtures==8.3.0

@@ -31,6 +31,7 @@ for module_path, connector_name in (
     ("parsons.action_kit.action_kit", "ActionKit"),
     ("parsons.action_builder.action_builder", "ActionBuilder"),
     ("parsons.action_network.action_network", "ActionNetwork"),
+    ("parsons.airmeet.airmeet", "Airmeet"),
     ("parsons.airtable.airtable", "Airtable"),
     ("parsons.alchemer.alchemer", "Alchemer"),
     ("parsons.alchemer.alchemer", "SurveyGizmo"),
@@ -45,6 +46,7 @@ for module_path, connector_name in (
     ("parsons.catalist.catalist", "CatalistMatch"),
     ("parsons.census.census", "Census"),
     ("parsons.civis.civisclient", "CivisClient"),
+    ("parsons.community.community", "Community"),
     ("parsons.controlshift.controlshift", "Controlshift"),
     ("parsons.copper.copper", "Copper"),
     ("parsons.crowdtangle.crowdtangle", "CrowdTangle"),
@@ -90,6 +92,7 @@ for module_path, connector_name in (
     ("parsons.turbovote.turbovote", "TurboVote"),
     ("parsons.twilio.twilio", "Twilio"),
     ("parsons.zoom.zoom", "Zoom"),
+    ("parsons.empower.empower", "Empower"),
 ):
     try:
         globals()[connector_name] = getattr(importlib.import_module(module_path), connector_name)

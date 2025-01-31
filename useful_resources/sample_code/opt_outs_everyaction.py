@@ -52,7 +52,6 @@ rs = Redshift()
 def attempt_optout(
     every_action, row, applied_at, committeeid, success_log, error_log, attempts_left=3
 ):
-
     vanid = row["vanid"]
     phone = row["phone"]
 
@@ -154,7 +153,6 @@ def main():
 
     # Loop through each committee to opt-out phones
     for committee in COMMITTEES:
-
         api_key = committee["api_key"]
         committeeid = committee["committee_id"]
         committee_name = committee["committee"]
@@ -172,9 +170,7 @@ def main():
         # Now we actually update the records
 
         if opt_outs.num_rows > 0:
-
             for opt_out in opt_outs:
-
                 applied_at = str(datetime.now()).split(".")[0]
                 attempt_optout(
                     every_action,

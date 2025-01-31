@@ -18,7 +18,6 @@ class TestDonorbox(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):
-
         m.get(
             self.base_uri + "/campaigns",
             json=donorbox_test_data.get_campaigns_response_json,
@@ -108,7 +107,6 @@ class TestDonorbox(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_campaigns_with_order_filter(self, m):
-
         m.get(
             self.base_uri + "/campaigns",
             json=donorbox_test_data.get_campaigns_desc_order,
@@ -136,7 +134,6 @@ class TestDonorbox(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_donations(self, m):
-
         m.get(
             self.base_uri + "/donations",
             json=donorbox_test_data.get_donations_response_json,
@@ -327,7 +324,6 @@ class TestDonorbox(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_donors(self, m):
-
         m.get(self.base_uri + "/donors", json=donorbox_test_data.get_donors_response_json)
         result = self.donorbox.get_donors()
 

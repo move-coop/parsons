@@ -14,7 +14,6 @@ from test.utils import assert_matching_tables
 @unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestS3(unittest.TestCase):
     def setUp(self):
-
         self.s3 = S3()
 
         self.s3.aws.session.get_credentials()
@@ -56,14 +55,12 @@ class TestS3(unittest.TestCase):
             self.s3.remove_file(self.test_bucket, k)
 
     def test_list_buckets(self):
-
         # Also tests that create_bucket works (part of setup)
 
         buckets = self.s3.list_buckets()
         self.assertTrue(self.test_bucket in buckets)
 
     def test_bucket_exists(self):
-
         # Test that a bucket that exists returns True
         self.assertTrue(self.s3.bucket_exists(self.test_bucket))
 
@@ -71,7 +68,6 @@ class TestS3(unittest.TestCase):
         self.assertFalse(self.s3.bucket_exists("idontexist_bucket"))
 
     def test_list_keys(self):
-
         # Put a file in the bucket
         csv_path = self.tbl.to_csv()
         key = "test/test.csv"
@@ -90,7 +86,6 @@ class TestS3(unittest.TestCase):
         self.assertFalse(key in keys)
 
     def test_key_exists(self):
-
         csv_path = self.tbl.to_csv()
         key = "test/test.csv"
         self.s3.put_file(self.test_bucket, key, csv_path)
@@ -102,7 +97,6 @@ class TestS3(unittest.TestCase):
         self.assertFalse(self.s3.key_exists(self.test_bucket, "akey"))
 
     def test_list_keys_suffix(self):
-
         # Put a file in the bucket
         csv_path = self.tbl.to_csv()
         key_1 = "test/test.csv"
@@ -119,7 +113,6 @@ class TestS3(unittest.TestCase):
         self.assertTrue(key_2 in keys)
 
     def test_list_keys_date_modified(self):
-
         # Set current utc timestamp with timezone
         current_utc = datetime.utcnow().astimezone(pytz.utc)
 
@@ -132,7 +125,6 @@ class TestS3(unittest.TestCase):
         self.assertEqual(len(keys), 0)
 
     def test_put_and_get_file(self):
-
         # put_file is part of setup, so just testing getting it here
 
         path = self.s3.get_file(self.test_bucket, self.test_key)
@@ -140,7 +132,6 @@ class TestS3(unittest.TestCase):
         assert_matching_tables(self.tbl, result_tbl)
 
     def test_get_url(self):
-
         # Test that you can download from URL
         url = self.s3.get_url(self.test_bucket, self.test_key)
         csv_table = Table.from_csv(url)
@@ -154,7 +145,6 @@ class TestS3(unittest.TestCase):
         self.assertEqual(cm.exception.code, 403)
 
     def test_transfer_bucket(self):
-
         # Create a destination bucket
         # TODO maybe pull this from an env var as well
         destination_bucket = f"{self.test_bucket}-test"
@@ -189,7 +179,6 @@ class TestS3(unittest.TestCase):
         self.assertFalse(self.s3.key_exists(self.test_bucket, self.test_key_2))
 
     def test_get_buckets_with_subname(self):
-
         buckets_with_subname_true = self.s3.get_buckets_type(self.test_bucket_subname)
         self.assertTrue(self.test_bucket in buckets_with_subname_true)
 

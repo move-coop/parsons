@@ -19,7 +19,6 @@ class TestSlack(unittest.TestCase):
         self.slack = Slack()
 
     def tearDown(self):
-
         pass
 
     def test_slack_init(self):
@@ -35,7 +34,6 @@ class TestSlack(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_channels(self, m):
-
         with open(f"{responses_dir}/channels.json", "r") as f:
             slack_resp = json.load(f)
 
@@ -51,7 +49,6 @@ class TestSlack(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_channels_all_fields(self, m):
-
         with open(f"{responses_dir}/channels.json", "r") as f:
             slack_resp = json.load(f)
 
@@ -115,7 +112,6 @@ class TestSlack(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_users(self, m):
-
         with open(f"{responses_dir}/users.json", "r") as f:
             slack_resp = json.load(f)
 
@@ -137,7 +133,6 @@ class TestSlack(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_users_all_fields(self, m):
-
         with open(f"{responses_dir}/users.json", "r") as f:
             slack_resp = json.load(f)
 
@@ -236,7 +231,6 @@ class TestSlack(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_message_channel(self, m):
-
         with open(f"{responses_dir}/message_channel.json", "r") as f:
             slack_resp = json.load(f)
 
@@ -272,7 +266,6 @@ class TestSlack(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_file_upload(self, m):
-
         file_path = f"{responses_dir}/file_upload.json"
         with open(file_path, "r") as f:
             slack_resp = json.load(f)

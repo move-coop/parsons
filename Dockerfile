@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 python:3.8
+FROM --platform=linux/amd64 python:3.11
 
 ####################
 ## Selenium setup ##
@@ -29,7 +29,8 @@ ENV DISPLAY=:99
 RUN mkdir /src
 
 COPY requirements.txt /src/
-RUN pip install -r /src/requirements.txt
+RUN pip install uv
+RUN uv pip install --system -r /src/requirements.txt
 
 COPY . /src/
 WORKDIR /src

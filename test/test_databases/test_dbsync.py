@@ -1,5 +1,7 @@
 from parsons import Postgres, DBSync, Table, Redshift
 from parsons.databases.database_connector import DatabaseConnector
+import tempfile
+from parsons.databases.sqlite import Sqlite
 from abc import ABC
 from test.test_databases.fakes import FakeDatabase
 from test.utils import assert_matching_tables
@@ -180,6 +182,15 @@ class TestFakeDBSync(TestDBSync):
             3,
             self.destination_db.copy_call_args[0],
         )
+
+
+class TestSqliteDBSync(TestDBSync):
+    db = Sqlite
+    temp_schema = None
+
+    def initialize_db_connections(self) -> None:
+        self.source_db = self.db(tempfile.mkstemp()[1])
+        self.destination_db = self.db(tempfile.mkstemp()[1])
 
 
 # These tests interact directly with the Postgres database. In order to run, set the

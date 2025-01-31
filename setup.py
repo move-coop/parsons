@@ -19,7 +19,7 @@ def main():
             "alchemer": ["surveygizmo"],
             "azure": ["azure-storage-blob"],
             "box": ["boxsdk"],
-            "braintree": ["braintree"],
+            "braintree": ["braintree>4.17.0,<4.33.0"],
             "catalist": ["paramiko"],
             "civis": ["civis"],
             "dbt-redshift": ["dbt-redshift", "slackclient<2"],

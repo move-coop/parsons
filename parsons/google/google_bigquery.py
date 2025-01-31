@@ -361,7 +361,7 @@ class GoogleBigQuery(DatabaseConnector):
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
         template_table: Optional[str] = None,
-        max_timeout: int = 30,
+        max_timeout: int = 21600,
         **load_kwargs,
     ):
         """
@@ -529,7 +529,7 @@ class GoogleBigQuery(DatabaseConnector):
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
         template_table: Optional[str] = None,
-        max_timeout: int = 30,
+        max_timeout: int = 21600,
         **load_kwargs,
     ):
         """
@@ -661,7 +661,7 @@ class GoogleBigQuery(DatabaseConnector):
         tmp_gcs_bucket: Optional[str] = None,
         template_table: Optional[str] = None,
         job_config: Optional[LoadJobConfig] = None,
-        max_timeout: int = 30,
+        max_timeout: int = 21600,
         **load_kwargs,
     ):
         """
@@ -763,7 +763,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
         schema: Optional[List[dict]] = None,
-        max_timeout: int = 30,
+        max_timeout: int = 21600,
         **load_kwargs,
     ):
         """

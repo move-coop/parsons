@@ -329,9 +329,12 @@ class Zoom:
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict) or tbl.num_rows == 0:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for poll ID {poll_id}")
             return Table(tbl)
+        if tbl.num_rows == 0:
+            logger.debug(f"No poll data returned for poll ID {poll_id}")
+            return tbl
 
         logger.info(
             f"Retrieved {tbl.num_rows} rows of metadata [meeting={meeting_id} poll={poll_id}]"
@@ -356,9 +359,12 @@ class Zoom:
         endpoint = f"meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
-        if isinstance(tbl, dict) or tbl.num_rows == 0:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
             return Table(tbl)
+        if tbl.num_rows == 0:
+            logger.debug(f"No poll data returned for meeting ID {meeting_id}")
+            return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
 
@@ -381,9 +387,12 @@ class Zoom:
         endpoint = f"past_meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict) or tbl.num_rows == 0:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
             return Table(tbl)
+        if tbl.num_rows == 0:
+            logger.debug(f"No poll data returned for meeting ID {meeting_id}")
+            return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
 
@@ -408,9 +417,12 @@ class Zoom:
         endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict) or tbl.num_rows == 0:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for poll ID {poll_id}")
             return Table(tbl)
+        if tbl.num_rows == 0:
+            logger.debug(f"No poll data returned for poll ID {poll_id}")
+            return tbl
 
         logger.info(
             f"Retrieved {tbl.num_rows} rows of metadata [meeting={webinar_id} poll={poll_id}]"
@@ -435,9 +447,12 @@ class Zoom:
         endpoint = f"webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
-        if isinstance(tbl, dict) or tbl.num_rows == 0:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
+        if tbl.num_rows == 0:
+            logger.debug(f"No poll data returned for webinar ID {webinar_id}")
+            return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
 
@@ -460,9 +475,12 @@ class Zoom:
         endpoint = f"past_webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict) or tbl.num_rows == 0:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
+        if tbl.num_rows == 0:
+            logger.debug(f"No poll data returned for webinar ID {webinar_id}")
+            return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
 
@@ -478,9 +496,12 @@ class Zoom:
         endpoint = f"report/meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict) or tbl.num_rows == 0:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
             return Table(tbl)
+        if tbl.num_rows == 0:
+            logger.debug(f"No poll data returned for meeting ID {meeting_id}")
+            return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} reults for meeting ID {meeting_id}")
 
@@ -499,6 +520,9 @@ class Zoom:
         if isinstance(tbl, dict) or tbl.num_rows == 0:
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
+        if tbl.num_rows == 0:
+            logger.debug(f"No poll data returned for webinar ID {webinar_id}")
+            return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} reults for webinar ID {webinar_id}")
 

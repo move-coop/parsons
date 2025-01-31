@@ -340,7 +340,13 @@ class Zoom:
             f"Retrieved {tbl.num_rows} rows of metadata [meeting={meeting_id} poll={poll_id}]"
         )
 
-        return self.__handle_nested_json(table=tbl, column="prompts")
+        if "prompts" in tbl.columns:
+            logger.info(
+                f"Unnesting columns 'prompts' from existing table columns: {tbl.columns}"
+            )
+            return self.__handle_nested_json(table=tbl, column="prompts")
+        else:
+            return tbl
 
     def get_meeting_all_polls_metadata(self, meeting_id) -> Table:
         """
@@ -395,8 +401,11 @@ class Zoom:
             return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
+        logger.info(
+            f"Unnesting columns 'question_details' from existing table columns: {tbl.columns}"
+        )
 
-        return self.__handle_nested_json(table=tbl, column="prompts")
+        return self.__handle_nested_json(table=tbl, column="question_details")
 
     def get_webinar_poll_metadata(self, webinar_id, poll_id) -> Table:
         """

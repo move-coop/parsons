@@ -70,7 +70,7 @@ class ETL(object):
         return self
 
     def remove_column(self, *columns):
-        """
+        r"""
         Remove a column from your table
 
         `Args:`
@@ -78,7 +78,7 @@ class ETL(object):
                 Column names
         `Returns:`
             `Parsons Table` and also updates self
-        """  # noqa: W605
+        """
 
         self.table = petl.cutout(self.table, *columns)
 
@@ -434,7 +434,7 @@ class ETL(object):
         return [{"name": col, "type": self.get_column_types(col)} for col in self.table.columns()]
 
     def convert_table(self, *args):
-        """
+        r"""
         Transform all cells in a table via arbitrary functions, method invocations or dictionary
         translations. This method is useful for cleaning fields and data hygiene functions such
         as regex. This method leverages the petl ``convert()`` method. Example usage can be
@@ -445,7 +445,7 @@ class ETL(object):
                 The update function, method, or variable to process the update. Can also
         `Returns:`
             `Parsons Table` and also updates self
-        """  # noqa: W605
+        """
 
         self.convert_column(self.columns, *args)
 
@@ -769,7 +769,7 @@ class ETL(object):
         return lt
 
     def cut(self, *columns):
-        """
+        r"""
         Return a table of selection of columns
 
         `Args:`
@@ -777,14 +777,14 @@ class ETL(object):
                 Columns in the parsons table
         `Returns:`
             A new parsons table containing the selected columnns
-        """  # noqa: W605
+        """
 
         from parsons.etl.table import Table
 
         return Table(petl.cut(self.table, *columns))
 
     def select_rows(self, *filters):
-        """
+        r"""
         Select specific rows from a Parsons table based on the passed
         filters.
 
@@ -813,7 +813,7 @@ class ETL(object):
             \*filters: function or str
         `Returns:`
             A new parsons table containing the selected rows
-        """  # noqa: W605
+        """
 
         from parsons.etl.table import Table
 

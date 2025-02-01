@@ -106,7 +106,7 @@ class ToFrom(object):
         csv_name=None,
         **csvargs,
     ):
-        """
+        r"""
         Outputs table to a CSV. Additional key word arguments are passed to ``csv.writer()``. So,
         e.g., to override the delimiter from the default CSV dialect, provide the delimiter
         keyword argument.
@@ -140,7 +140,7 @@ class ToFrom(object):
         `Returns:`
             str
                 The path of the new file
-        """  # noqa: W605
+        """
 
         # If a zip archive.
         if files.zip_check(local_path, temp_file_compression):
@@ -170,7 +170,7 @@ class ToFrom(object):
         return local_path
 
     def append_csv(self, local_path, encoding=None, errors="strict", **csvargs):
-        """
+        r"""
         Appends table to an existing CSV.
 
         Additional additional key word arguments
@@ -192,7 +192,7 @@ class ToFrom(object):
         `Returns:`
             str
                 The path of the file
-        """  # noqa: W605
+        """
 
         petl.appendcsv(self.table, source=local_path, encoding=encoding, errors=errors, **csvargs)
         return local_path
@@ -207,7 +207,7 @@ class ToFrom(object):
         if_exists="replace",
         **csvargs,
     ):
-        """
+        r"""
         Outputs table to a CSV in a zip archive. Additional key word arguments are passed to
         ``csv.writer()``. So, e.g., to override the delimiter from the default CSV dialect,
         provide the delimiter keyword argument. Use thismethod if you would like to write
@@ -239,7 +239,7 @@ class ToFrom(object):
         `Returns:`
             str
                 The path of the archive
-        """  # noqa: W605
+        """
 
         if not archive_path:
             archive_path = files.create_temp_file(suffix=".zip")
@@ -333,7 +333,7 @@ class ToFrom(object):
         rsa_private_key_file=None,
         **csvargs,
     ):
-        """
+        r"""
         Writes the table to a CSV file on a remote SFTP server
 
         `Args:`
@@ -359,7 +359,7 @@ class ToFrom(object):
                 to authenticate stfp connection
             \**csvargs: kwargs
                 ``csv_writer`` optional arguments
-        """  # noqa: W605
+        """
 
         from parsons.sftp import SFTP
 
@@ -392,7 +392,7 @@ class ToFrom(object):
         use_env_token=True,
         **csvargs,
     ):
-        """
+        r"""
         Writes the table to an s3 object as a CSV
 
         `Args:`
@@ -429,7 +429,7 @@ class ToFrom(object):
                 ``csv_writer`` optional arguments
         `Returns:`
             Public url if specified. If not ``None``.
-        """  # noqa: W605
+        """
 
         compression = compression or files.compression_type_for_path(key)
 
@@ -475,7 +475,7 @@ class ToFrom(object):
         public_url_expires=60,
         **csvargs,
     ):
-        """
+        r"""
         Writes the table to a Google Cloud Storage blob as a CSV.
 
         `Args:`
@@ -508,7 +508,7 @@ class ToFrom(object):
                 ``csv_writer`` optional arguments
         `Returns:`
             Public url if specified. If not ``None``.
-        """  # noqa: W605
+        """
 
         compression = compression or files.compression_type_for_path(blob_name)
 
@@ -546,7 +546,7 @@ class ToFrom(object):
         port=None,
         **copy_args,
     ):
-        """
+        r"""
         Write a table to a Redshift database. Note, this requires you to pass
         AWS S3 credentials or store them as environmental variables.
 
@@ -568,7 +568,7 @@ class ToFrom(object):
 
         Returns:
             ``None``
-        """  # noqa: W605
+        """
 
         from parsons.databases.redshift import Redshift
 
@@ -585,7 +585,7 @@ class ToFrom(object):
         port=None,
         **copy_args,
     ):
-        """
+        r"""
         Write a table to a Postgres database.
 
         Args:
@@ -606,7 +606,7 @@ class ToFrom(object):
 
         Returns:
             ``None``
-        """  # noqa: W605
+        """
 
         from parsons.databases.postgres import Postgres
 
@@ -715,7 +715,7 @@ class ToFrom(object):
 
     @classmethod
     def from_csv(cls, local_path, **csvargs):
-        """
+        r"""
         Create a ``parsons table`` object from a CSV file
 
         `Args:`
@@ -727,7 +727,7 @@ class ToFrom(object):
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """  # noqa: W605
+        """
 
         remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
         if any(map(local_path.startswith, remote_prefixes)):
@@ -873,7 +873,7 @@ class ToFrom(object):
         aws_secret_access_key=None,
         **csvargs,
     ):
-        """
+        r"""
         Create a ``parsons table`` from a key in an S3 bucket.
 
         `Args:`
@@ -892,7 +892,7 @@ class ToFrom(object):
                 ``csv_reader`` optional arguments
         `Returns:`
             `parsons.Table` object
-        """  # noqa: W605
+        """
 
         from parsons.aws import S3
 

@@ -921,7 +921,7 @@ class GoogleBigQuery(DatabaseConnector):
         from_s3=False,
         **copy_args,
     ):
-        """
+        r"""
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
 
@@ -942,7 +942,7 @@ class GoogleBigQuery(DatabaseConnector):
                 arguments to upsert a pre-existing s3 file into the target_table
             \**copy_args: kwargs
                 See :func:`~parsons.databases.bigquery.BigQuery.copy` for options.
-        """  # noqa: W605
+        """
         if not self.table_exists(target_table):
             logger.info(
                 "Target table does not exist. Copying into newly \

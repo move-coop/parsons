@@ -127,7 +127,7 @@ def test_delete_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
 def test_update_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
     with create_temp_flag_id(live_pdi, my_flag_id) as flag_id:
         # flag initial state:
-        # {"id":flag_id,"flagId":"amm","flagIdDescription":null,"compile":"","isDefault":false}  # noqa
+        # {"id":flag_id,"flagId":"amm","flagIdDescription":null,"compile":"","isDefault":false}
         id = live_pdi.update_flag_id(flag_id, "bnh", True)
         assert id == flag_id
 

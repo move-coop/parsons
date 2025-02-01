@@ -129,7 +129,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -171,7 +171,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -216,7 +216,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -273,7 +273,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -327,7 +327,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -379,7 +379,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -431,7 +431,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -484,7 +484,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))

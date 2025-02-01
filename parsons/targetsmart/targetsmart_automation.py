@@ -45,7 +45,7 @@ class TargetSmartAutomation(object):
     """
     * `Automation overview <https://docs.targetsmart.com/my_tsmart/automation/overview.html>`_
     * `Automation integration doc <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`_
-    """  # noqa
+    """
 
     def __init__(self, sftp_username=None, sftp_password=None):
         self.sftp_host = TS_STFP_HOST

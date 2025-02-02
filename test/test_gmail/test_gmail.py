@@ -29,7 +29,7 @@ class TestGmail(unittest.TestCase):
                             "project_id": "some-project-id-12345",
                             "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                             "token_uri": "https://www.googleapis.com/oauth2/v3/token",
-                            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",  # noqa: E501
+                            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
                             "client_secret": "someclientsecret",
                             "redirect_uris": [
                                 "urn:ietf:wg:oauth:2.0:oob",

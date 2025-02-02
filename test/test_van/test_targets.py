@@ -119,7 +119,7 @@ class TestTargets(unittest.TestCase):
         }
 
         download_url = (
-            "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv"  # noqa: E501
+            "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv"
         )
         fromcsv.return_value = petl.fromcolumns(
             [

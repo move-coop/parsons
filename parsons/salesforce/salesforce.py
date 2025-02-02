@@ -72,7 +72,7 @@ class Salesforce:
                 For reference, see the `Salesforce SOQL documentation <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_.
         `Returns:`
             list of dicts with Salesforce data
-        """  # noqa: E501
+        """
 
         q = self.client.query_all(soql)
         q = json.loads(json.dumps(q))

@@ -121,14 +121,14 @@ class TestPostgresCreateStatement(unittest.TestCase):
             "a",
             "",
             "SELECT",
-            "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkldfakljsdfjalsdkfjklasjdfklasjdfklasdkljf",  # noqa: E501
+            "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkldfakljsdfjalsdkfjklasjdfklasjdfklasdkljf",
         ]
         fixed_cols = [
             "a",
             "a_1",
             "col_2",
             "col_3",
-            "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl",  # noqa: E501
+            "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl",
         ]
         self.assertEqual(self.pg.column_name_validate(bad_cols), fixed_cols)
 
@@ -136,7 +136,7 @@ class TestPostgresCreateStatement(unittest.TestCase):
         # Assert that copy statement is expected
         sql = self.pg.create_statement(self.tbl, "tmc.test", distkey="ID")
         exp_sql = (
-            """create table tmc.test (\n  "id" smallint,\n  "name" varchar(5)) \ndistkey(ID) ;"""  # noqa: E501
+            """create table tmc.test (\n  "id" smallint,\n  "name" varchar(5)) \ndistkey(ID) ;"""
         )
         self.assertEqual(sql, exp_sql)
 
@@ -165,7 +165,7 @@ class TestPostgresDB(unittest.TestCase):
         other_sql = f"""
                     create table {self.temp_schema}.test (id smallint,name varchar(5));
                     create view {self.temp_schema}.test_view as (select * from {self.temp_schema}.test);
-                    """  # noqa: E501
+                    """
 
         self.pg.query(setup_sql)
 

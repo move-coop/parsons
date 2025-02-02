@@ -119,7 +119,7 @@ class CivisClient(object):
                 the future object.
         `Returns`
             ``None`` or ``civis.CivisFuture``
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         fut = civis.io.dataframe_to_civis(
             table_obj.to_dataframe(),

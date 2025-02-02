@@ -112,7 +112,7 @@ class RedshiftTableUtilities(object):
                 Drop the source table.
         Returns:
                 None
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         # To Do: Add the grants
         # To Do: Argument for if the table exists?

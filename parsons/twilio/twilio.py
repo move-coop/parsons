@@ -101,7 +101,7 @@ class Twilio:
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         # Add populated arguments
         args = {"category": category, "start_date": start_date, "end_date": end_date}

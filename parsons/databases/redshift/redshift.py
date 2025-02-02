@@ -1180,7 +1180,7 @@ class Redshift(
         # Determine the max width of the varchar columns in the Redshift table
         s, t = self.split_full_table_name(table_name)
         cols = self.get_columns(s, t)
-        rc = {k: v["max_length"] for k, v in cols.items() if v["data_type"] == "character varying"}  # noqa: E501, E261
+        rc = {k: v["max_length"] for k, v in cols.items() if v["data_type"] == "character varying"}  # noqa: E501
 
         # Figure out if any of the destination table varchar columns are smaller than the
         # associated Parsons table columns. If they are, then alter column types to expand

@@ -216,7 +216,7 @@ class ETL(object):
                 The update function, method, or variable to process the update
         `Returns:`
             `Parsons Table` and also updates self
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         self.table = petl.convert(self.table, *column, **kwargs)
 
@@ -1100,7 +1100,7 @@ class ETL(object):
         `Returns:`
             `Parsons Table` and also updates self
 
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         self.table = petl.rowreduce(
             self.table,

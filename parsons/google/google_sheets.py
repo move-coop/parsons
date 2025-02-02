@@ -455,7 +455,7 @@ class GoogleSheets:
                         }
                     }, worksheet=0)
 
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         ws = self._get_worksheet(spreadsheet_id, worksheet)
         ws.format(range, cell_format)

@@ -108,7 +108,7 @@ class TargetSmartAutomation(object):
                 Remove the configuration, file to be matched and matched file from
                 the TargetSmart SFTP upon completion or failure of match.
 
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         # Generate a match job
         job_name = job_name or str(uuid.uuid1())

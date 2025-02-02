@@ -126,7 +126,7 @@ class Copper(object):
                 * people_custom_fields
                 * people_socials
                 * people_websites
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         return self.get_standard_object("people", filters=filters, tidy=tidy)
 
@@ -151,7 +151,7 @@ class Copper(object):
                 * companies_custom_fields
                 * companies_socials
                 * companies_websites
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         return self.get_standard_object("companies", filters=filters, tidy=tidy)
 
@@ -171,7 +171,7 @@ class Copper(object):
         `Returns:`
             List of dicts of Parsons Tables:
                 * activities
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         return self.get_standard_object("activities", filters=filters, tidy=tidy)
 
@@ -192,7 +192,7 @@ class Copper(object):
             List of dicts of Parsons Tables:
                 * opportunities
                 * opportunities_custom_fields
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         return self.get_standard_object("opportunities", filters=filters, tidy=tidy)
 
@@ -218,7 +218,7 @@ class Copper(object):
                 * custom_fields
                 * custom_fields_available
                 * custom_fields_options
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         logger.info("Retrieving custom fields.")
         blob = self.paginate_request("/custom_field_definitions/", req_type="GET")
@@ -236,7 +236,7 @@ class Copper(object):
         `Returns:`
             List of dicts of Parsons Tables:
                 * activitiy_types
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         logger.info("Retrieving activity types.")
 
@@ -260,7 +260,7 @@ class Copper(object):
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """  # noqa: E501,E261
+        """  # noqa: E501
 
         response = self.paginate_request("/contact_types/", req_type="GET")
         return Table(response)

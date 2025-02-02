@@ -78,7 +78,7 @@ class ETL(object):
                 Column names
         `Returns:`
             `Parsons Table` and also updates self
-        """  # noqa: W605
+        """
 
         self.table = petl.cutout(self.table, *columns)
 
@@ -445,7 +445,7 @@ class ETL(object):
                 The update function, method, or variable to process the update. Can also
         `Returns:`
             `Parsons Table` and also updates self
-        """  # noqa: W605
+        """
 
         self.convert_column(self.columns, *args)
 
@@ -777,7 +777,7 @@ class ETL(object):
                 Columns in the parsons table
         `Returns:`
             A new parsons table containing the selected columnns
-        """  # noqa: W605
+        """
 
         from parsons.etl.table import Table
 
@@ -813,7 +813,7 @@ class ETL(object):
             \*filters: function or str
         `Returns:`
             A new parsons table containing the selected rows
-        """  # noqa: W605
+        """
 
         from parsons.etl.table import Table
 

@@ -767,7 +767,7 @@ class Redshift(
         aws_secret_access_key:
             An AWS secret access key granted to the bucket where the file is located. Not
             required if keys are stored as environmental variables.
-        """  # NOQA W605
+        """
 
         # The sql query is provided between single quotes, therefore single
         # quotes within the actual query must be escaped.
@@ -996,7 +996,7 @@ class Redshift(
                 The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
             \**copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy` for options.
-        """  # noqa: W605
+        """
 
         if isinstance(primary_key, str):
             primary_keys = [primary_key]

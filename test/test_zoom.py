@@ -676,7 +676,7 @@ class TestZoom(unittest.TestCase):
                     "answers": "Larry David's Curb Your Enthusiasm",
                     "case_sensitive": "True",
                     "name": "Secret Truth",
-                    "prompts": [
+                    "question_details": [
                         {
                             "prompt_question": "What's the secret truth of the universe?",
                             "prompt_right_answers": [
@@ -712,8 +712,8 @@ class TestZoom(unittest.TestCase):
                     "right_answers": "",
                     "show_as_dropdown": False,
                     "type": "short_answer",
-                    "prompts__prompt_question": "What's the secret truth of the universe?",
-                    "prompts__prompt_right_answers": [
+                    "question_details__prompt_question": "What's the secret truth of the universe?",
+                    "question_details__prompt_right_answers": [
                         "Pizza delivery",
                         "Larry David's Curb Your Enthusiasm",
                     ],

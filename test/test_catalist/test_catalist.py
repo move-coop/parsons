@@ -94,7 +94,9 @@ class TestCatalist:
         assert requested_base_url == "api.catalist.us"
         assert set(requested_queries.keys()) == set(["token"])
         assert requested_queries["token"] == ["tokenexample"]
-        assert requested_endpoint.startswith("/mapi/upload/template/48827/action/publish/url/")
+        assert requested_endpoint.startswith(
+            "/mapi/upload/template/48827/action/publish/url/"
+        )
 
     def test_upload_with_options(self, mock_requests) -> None:
         """Mock use of upload() method with options, check API calls."""
@@ -148,4 +150,4 @@ class TestCatalist:
         second_mocked_call = match.sftp.mock_calls[1]
         second_called_method = str(second_mocked_call).split("(")[0].split(".")[1]
         assert second_called_method == "get_file"
-        assert set(second_mocked_call.args) == set(["/myDownloads/example_12345"])
+        assert set(second_mocked_call.args) == set(["/myDownloads/example_12345", None])

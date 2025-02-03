@@ -136,7 +136,7 @@ class TestCatalist:
 
         # Execute download
         match.sftp.list_directory = MagicMock(return_value=["example_12345"])
-        match.load_matches("12345", 100_000)
+        match.load_matches("12345")
 
         # We expect two calls to the SFTP client to list the directory and get the file
         assert len(match.sftp.mock_calls) == 2
@@ -152,7 +152,4 @@ class TestCatalist:
 
         assert second_called_method == "get_file"
 
-        assert second_mocked_call.kwargs == {
-            "remote_path": "/myDownloads/example_12345",
-            "export_chunk_size": 100000,
-        }
+        assert second_mocked_call.kwargs == {"remote_path": "/myDownloads/example_12345"}

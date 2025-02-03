@@ -116,7 +116,6 @@ class CatalistMatch:
         input_subfolder: Optional[str] = None,
         copy_to_sandbox: bool = False,
         static_values: Optional[Dict[str, Union[str, int]]] = None,
-        export_chunk_size: Optional[int] = None,
     ) -> Table:
         """Load table to the Catalist Match API, returns matched table.
 
@@ -142,8 +141,6 @@ class CatalistMatch:
                   Defaults to False.
              static_values: dict
                   Optional. Any included values are mapped to every row of the input table.
-            export_chunk_size: int
-                  Optional. Size in bytes to iteratively export from SFTP server to local filesystem.
         """
         response = self.upload(
             table=table,
@@ -154,7 +151,7 @@ class CatalistMatch:
             copy_to_sandbox=copy_to_sandbox,
             static_values=static_values,
         )
-        result = self.await_completion(response["id"], export_chunk_size=export_chunk_size)
+        result = self.await_completion(response["id"])
         return result
 
     def upload(
@@ -309,7 +306,9 @@ class CatalistMatch:
         return result
 
     def await_completion(
-        self, id: str, wait: int = 30, export_chunk_size: Optional[int] = None
+        self,
+        id: str,
+        wait: int = 30,
     ) -> Table:
         """
         Await completion of a match job. Return matches when ready.
@@ -332,10 +331,10 @@ class CatalistMatch:
             logger.info(f"Job {id} has status {status}, awaiting completion.")
             time.sleep(wait)
 
-        result = self.load_matches(id=id, export_chunk_size=export_chunk_size)
+        result = self.load_matches(id=id)
         return result
 
-    def load_matches(self, id: str, export_chunk_size: Optional[int] = None) -> Table:
+    def load_matches(self, id: str) -> Table:
         """Take a completed job ID, download and open the match file as a Table.
 
         Result will be a Table with all the original columns along with columns 'DWID',
@@ -366,9 +365,7 @@ class CatalistMatch:
         remote_filepaths = self.sftp.list_directory("/myDownloads/")
         remote_filename = [filename for filename in remote_filepaths if id in filename][0]
         remote_filepath = "/myDownloads/" + remote_filename
-        temp_file_zip = self.sftp.get_file(
-            remote_path=remote_filepath, export_chunk_size=export_chunk_size
-        )
+        temp_file_zip = self.sftp.get_file(remote_path=remote_filepath)
         temp_dir = tempfile.mkdtemp()
 
         with ZipFile(temp_file_zip) as zf:

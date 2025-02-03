@@ -173,9 +173,7 @@ class GoogleBigQuery(DatabaseConnector):
             setup_google_application_credentials(
                 app_creds, target_env_var_name=self.env_credential_path
             )
-            self.credentials = load_google_application_credentials(
-                self.env_credential_path
-            )
+            self.credentials = load_google_application_credentials(self.env_credential_path)
 
         self.project = project
         self.location = location
@@ -642,9 +640,7 @@ class GoogleBigQuery(DatabaseConnector):
                 compression_type=compression_type,
             )
 
-            logger.debug(
-                f"Loading uncompressed uri into BigQuery {uncompressed_gcs_uri}..."
-            )
+            logger.debug(f"Loading uncompressed uri into BigQuery {uncompressed_gcs_uri}...")
             table_ref = self.get_table_ref(table_name=table_name)
             return self._load_table_from_uri(
                 source_uris=uncompressed_gcs_uri,
@@ -655,9 +651,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         finally:
             if uncompressed_gcs_uri:
-                new_bucket_name, new_blob_name = gcs.split_uri(
-                    gcs_uri=uncompressed_gcs_uri
-                )
+                new_bucket_name, new_blob_name = gcs.split_uri(gcs_uri=uncompressed_gcs_uri)
                 gcs.delete_blob(new_bucket_name, new_blob_name)
                 logger.debug("Successfully dropped uncompressed blob")
 
@@ -745,9 +739,7 @@ class GoogleBigQuery(DatabaseConnector):
             aws_s3_key=key,
         )
         temp_blob_name = key
-        temp_blob_uri = gcs_client.format_uri(
-            bucket=tmp_gcs_bucket, name=temp_blob_name
-        )
+        temp_blob_uri = gcs_client.format_uri(bucket=tmp_gcs_bucket, name=temp_blob_name)
 
         # load CSV from Cloud Storage into BigQuery
         try:
@@ -877,13 +869,9 @@ class GoogleBigQuery(DatabaseConnector):
         schema = []
         for column in tbl.columns:
             try:
-                schema_row = [
-                    i for i in job_config.schema if i.name.lower() == column.lower()
-                ][0]
+                schema_row = [i for i in job_config.schema if i.name.lower() == column.lower()][0]
             except IndexError:
-                raise IndexError(
-                    f"Column found in Table that was not found in schema: {column}"
-                )
+                raise IndexError(f"Column found in Table that was not found in schema: {column}")
             schema.append(schema_row)
         job_config.schema = schema
 
@@ -1411,9 +1399,7 @@ class GoogleBigQuery(DatabaseConnector):
                 '"append", "drop", "truncate", or "fail"'
             )
         if data_type not in ["csv", "json"]:
-            raise ValueError(
-                f"Only supports csv or json files [data_type = {data_type}]"
-            )
+            raise ValueError(f"Only supports csv or json files [data_type = {data_type}]")
 
     def _load_table_from_uri(self, source_uris, destination, job_config, **load_kwargs):
         load_job = self.client.load_table_from_uri(
@@ -1429,9 +1415,7 @@ class GoogleBigQuery(DatabaseConnector):
         except exceptions.BadRequest as e:
             for idx, error_ in enumerate(load_job.errors):
                 if idx == 0:
-                    logger.error(
-                        "* Load job failed. Enumerating errors collection below:"
-                    )
+                    logger.error("* Load job failed. Enumerating errors collection below:")
                 logger.error(f"** Error collection - index {idx}:")
                 logger.error(error_)
 

@@ -340,7 +340,7 @@ class CatalistMatch:
             logger.info(f"Job {id} has status {status}, awaiting completion.")
             time.sleep(wait)
 
-        result = self.load_matches(id, export_chunk_size=export_chunk_size)
+        result = self.load_matches(id=id, export_chunk_size=export_chunk_size)
         return result
 
     def load_matches(self, id: str, export_chunk_size: Optional[int] = None) -> Table:

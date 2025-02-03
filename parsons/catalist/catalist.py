@@ -75,7 +75,9 @@ class CatalistMatch:
         )
         self.sftp = SFTP("t.catalist.us", sftp_username, sftp_password, timeout=7200)
 
-    def load_table_to_sftp(self, table: Table, input_subfolder: Optional[str] = None) -> str:
+    def load_table_to_sftp(
+        self, table: Table, input_subfolder: Optional[str] = None
+    ) -> str:
         """Load table to Catalist sftp bucket as gzipped CSV for matching.
 
         If input_subfolder is specific, the file will be uploaded to a subfolder of the
@@ -116,6 +118,7 @@ class CatalistMatch:
         input_subfolder: Optional[str] = None,
         copy_to_sandbox: bool = False,
         static_values: Optional[Dict[str, Union[str, int]]] = None,
+        export_chunk_size: Optional[int] = None,
     ) -> Table:
         """Load table to the Catalist Match API, returns matched table.
 
@@ -141,6 +144,8 @@ class CatalistMatch:
                   Defaults to False.
              static_values: dict
                   Optional. Any included values are mapped to every row of the input table.
+            export_chunk_size: int
+                  Optional. Size in bytes to iteratively export from SFTP server to local filesystem.
         """
         response = self.upload(
             table=table,
@@ -151,7 +156,9 @@ class CatalistMatch:
             copy_to_sandbox=copy_to_sandbox,
             static_values=static_values,
         )
-        result = self.await_completion(response["id"])
+        result = self.await_completion(
+            response["id"], export_chunk_size=export_chunk_size
+        )
         return result
 
     def upload(
@@ -195,7 +202,9 @@ class CatalistMatch:
 
         # upload table to s3 temp location
         sftp_file_path = self.load_table_to_sftp(table, input_subfolder)
-        sftp_file_path_encoded = base64.b64encode(sftp_file_path.encode("ascii")).decode("ascii")
+        sftp_file_path_encoded = base64.b64encode(
+            sftp_file_path.encode("ascii")
+        ).decode("ascii")
 
         if export:
             action = "export%2Cpublish"
@@ -219,7 +228,9 @@ class CatalistMatch:
         endpoint = "/".join(endpoint_params)
 
         # Assemble query parameters
-        query_params: Dict[str, Union[str, int]] = {"token": self.connection.token["access_token"]}
+        query_params: Dict[str, Union[str, int]] = {
+            "token": self.connection.token["access_token"]
+        }
         if copy_to_sandbox:
             query_params["copyToSandbox"] = "true"
         if static_values:
@@ -305,15 +316,20 @@ class CatalistMatch:
         result = self.connection.get_request(endpoint, params=query_params)
         return result
 
-    def await_completion(self, id: str, wait: int = 30) -> Table:
-        """Await completion of a match job. Return matches when ready.
+    def await_completion(
+        self, id: str, wait: int = 30, export_chunk_size: Optional[int] = None
+    ) -> Table:
+        """
+        Await completion of a match job. Return matches when ready.
 
         This method will poll the status of a match job on a timer until the job is
         complete. By default, polls once every 30 seconds.
 
         Note that match job completion can take from 10 minutes up to 6 hours or more
         depending on concurrent traffic. Consider your strategy for polling for
-        completion."""
+        completion.
+        """
+
         while True:
             response = self.status(id)
             status = response["process"]["processState"]
@@ -324,10 +340,10 @@ class CatalistMatch:
             logger.info(f"Job {id} has status {status}, awaiting completion.")
             time.sleep(wait)
 
-        result = self.load_matches(id)
+        result = self.load_matches(id, export_chunk_size=export_chunk_size)
         return result
 
-    def load_matches(self, id: str) -> Table:
+    def load_matches(self, id: str, export_chunk_size: Optional[int] = None) -> Table:
         """Take a completed job ID, download and open the match file as a Table.
 
         Result will be a Table with all the original columns along with columns 'DWID',
@@ -356,9 +372,13 @@ class CatalistMatch:
             raise RuntimeError(err_msg)
 
         remote_filepaths = self.sftp.list_directory("/myDownloads/")
-        remote_filename = [filename for filename in remote_filepaths if id in filename][0]
+        remote_filename = [filename for filename in remote_filepaths if id in filename][
+            0
+        ]
         remote_filepath = "/myDownloads/" + remote_filename
-        temp_file_zip = self.sftp.get_file(remote_filepath)
+        temp_file_zip = self.sftp.get_file(
+            remote_path=remote_filepath, export_chunk_size=export_chunk_size
+        )
         temp_dir = tempfile.mkdtemp()
 
         with ZipFile(temp_file_zip) as zf:
@@ -410,6 +430,8 @@ class CatalistMatch:
             errors["missing_required_columns"] = missing_required_columns
 
         if errors:
-            raise ValueError("Input table does not have the right structure. %s", errors)
+            raise ValueError(
+                "Input table does not have the right structure. %s", errors
+            )
         else:
             logger.info("Table structure validated.")

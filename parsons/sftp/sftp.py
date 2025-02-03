@@ -220,9 +220,7 @@ class SFTP(object):
                 Optional. Size in bytes to iteratively export from the remote server.
         """
 
-        logger.info(
-            f"Reading from {remote_path} to {local_path} in {export_chunk_size}B chunks"
-        )
+        logger.info(f"Reading from {remote_path} to {local_path} in {export_chunk_size}B chunks")
 
         with connection.open(remote_path, "rb") as _remote_file:
             with open(local_path, "wb") as _local_file:
@@ -239,9 +237,7 @@ class SFTP(object):
 
                     # Write to the destination file
                     _local_file.write(response)
-                    logger.debug(
-                        f"Successfully read {export_chunk_size} rows to {local_path}"
-                    )
+                    logger.debug(f"Successfully read {export_chunk_size} rows to {local_path}")
 
     @connect
     def get_files(
@@ -290,8 +286,7 @@ class SFTP(object):
                 files_to_download.extend(
                     f
                     for file_list in [
-                        self.list_files(directory, connection, pattern)
-                        for directory in remote
+                        self.list_files(directory, connection, pattern) for directory in remote
                     ]
                     for f in file_list
                 )
@@ -431,9 +426,7 @@ class SFTP(object):
                 entry_pathname = remote_path + "/" + entry.filename
                 for method, pattern, do_search_full_path, paths in dirs_and_files:
                     string = entry_pathname if do_search_full_path else entry.filename
-                    if method(entry.st_mode) and (
-                        not pattern or re.search(pattern, string)
-                    ):
+                    if method(entry.st_mode) and (not pattern or re.search(pattern, string)):
                         paths.append(entry_pathname)
         except FileNotFoundError:  # This error is raised when a directory is empty
             pass
@@ -547,9 +540,7 @@ class SFTP(object):
 
         depth += 1
 
-        dirs, files = self._list_contents(
-            remote_path, connection, dir_pattern, file_pattern
-        )
+        dirs, files = self._list_contents(remote_path, connection, dir_pattern, file_pattern)
 
         if download:
             self.get_files(files_to_download=files)

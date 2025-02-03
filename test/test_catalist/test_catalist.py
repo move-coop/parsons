@@ -94,9 +94,7 @@ class TestCatalist:
         assert requested_base_url == "api.catalist.us"
         assert set(requested_queries.keys()) == set(["token"])
         assert requested_queries["token"] == ["tokenexample"]
-        assert requested_endpoint.startswith(
-            "/mapi/upload/template/48827/action/publish/url/"
-        )
+        assert requested_endpoint.startswith("/mapi/upload/template/48827/action/publish/url/")
 
     def test_upload_with_options(self, mock_requests) -> None:
         """Mock use of upload() method with options, check API calls."""

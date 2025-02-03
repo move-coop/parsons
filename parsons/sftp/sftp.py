@@ -220,8 +220,15 @@ class SFTP(object):
                 Optional. Size in bytes to iteratively export from the remote server.
         """
 
+        logger.info(
+            f"Reading from {remote_path} to {local_path} in {export_chunk_size}B chunks"
+        )
+
         with connection.open(remote_path, "rb") as _remote_file:
-            with open(local_path, "rb") as _local_file:
+            with open(local_path, "wb") as _local_file:
+                # This disables paramiko's prefetching behavior
+                _remote_file.set_pipelined(False)
+
                 while True:
                     # Read in desired number of rows from the server
                     response = _remote_file.read(export_chunk_size)
@@ -232,7 +239,7 @@ class SFTP(object):
 
                     # Write to the destination file
                     _local_file.write(response)
-                    logger.info(
+                    logger.debug(
                         f"Successfully read {export_chunk_size} rows to {local_path}"
                     )
 

@@ -526,7 +526,7 @@ class Zoom:
         endpoint = f"report/webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict) or tbl.num_rows == 0:
+        if isinstance(tbl, dict):
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
             return Table(tbl)
         if tbl.num_rows == 0:

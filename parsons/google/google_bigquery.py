@@ -11,7 +11,8 @@ import google
 import petl
 from google.cloud import bigquery, exceptions
 from google.cloud.bigquery import dbapi
-from google.cloud.bigquery.job import LoadJobConfig
+from google.cloud.bigquery.job import LoadJobConfig, ExtractJobConfig
+from google.cloud.bigquery import job
 from google.oauth2.credentials import Credentials
 
 from parsons.databases.database_connector import DatabaseConnector
@@ -348,6 +349,23 @@ class GoogleBigQuery(DatabaseConnector):
         END;
         """
         self.query(sql=queries_wrapped, parameters=parameters, return_values=False)
+
+    def get_job(
+        self, job_id: str, **job_kwargs
+    ) -> Union[job.LoadJob, job.CopyJob, job.ExtractJob, job.QueryJob, job.UnknownJob]:
+        """
+        Fetch a job
+
+        `Args:`
+            job_id: str
+                ID of job to fetch
+            location: str
+                Location where the job was run
+            **job_kwargs: kwargs
+                Other arguments to pass to the underlying get_job
+                call on the BigQuery client.
+        """
+        return self.client.get_job(job_id=job_id, **job_kwargs)
 
     def copy_from_gcs(
         self,
@@ -1446,6 +1464,13 @@ class GoogleBigQuery(DatabaseConnector):
         gcs_blob_name: str,
         project: Optional[str] = None,
         gzip: bool = False,
+        location: str = "US",
+        destination_file_format: str = "CSV",
+        field_delimiter: str = ",",
+        compression: str = None,
+        job_config: ExtractJobConfig = None,
+        wait_for_job_to_complete: bool = True,
+        **export_kwargs,
     ) -> None:
         """
         Extracts a BigQuery table to a Google Cloud Storage bucket.
@@ -1462,21 +1487,30 @@ class GoogleBigQuery(DatabaseConnector):
             gzip (bool): If True, the exported file will be compressed
               using GZIP. Defaults to False.
         """
-
-        dataset_ref = bigquery.DatasetReference(project or self.client.project, dataset)
-        table_ref = dataset_ref.table(table_name)
+        if not job_config:
+            logger.info("Using default job config as none was provided...")
+            job_config = ExtractJobConfig(
+                destination_format=destination_file_format,
+                compression=compression,
+                field_delimiter=field_delimiter,
+            )
+        source = f"{dataset}.{table_name}"
         gs_destination = f"gs://{gcs_bucket}/{gcs_blob_name}"
+        compression = "GZIP" if gzip else compression
+        logger.info(f"Project (parsons): {project}")
+        extract_job = self.client.extract_table(
+            source=source,
+            destination_uris=gs_destination,
+            location=location,
+            job_config=job_config,
+            project=project,
+            **export_kwargs,
+        )
+        if wait_for_job_to_complete:
+            extract_job.result()
+            logger.info(f"Finished exporting query result to {gs_destination}.")
 
-        if gzip:
-            job_config = bigquery.job.ExtractJobConfig()
-            job_config.compression = bigquery.Compression.GZIP
-        else:
-            job_config = None
-
-        extract_job = self.client.extract_table(table_ref, gs_destination, job_config=job_config)
-        extract_job.result()  # Waits for job to complete.
-
-        logger.info(f"Finished exporting query result to {gs_destination}.")
+        return extract_job
 
     def copy_between_projects(
         self,

@@ -504,12 +504,19 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for poll ID </span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for poll ID </span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">tbl</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows of metadata [meeting=</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2"> poll=</span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">]&quot;</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;prompts&quot;</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="s2">&quot;prompts&quot;</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unnesting columns &#39;prompts&#39; from existing table columns: </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;prompts&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tbl</span></div>
 
 
 <div class="viewcode-block" id="Zoom.get_meeting_all_polls_metadata">
@@ -534,6 +541,9 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">tbl</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -562,10 +572,16 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">tbl</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unnesting columns &#39;question_details&#39; from existing table columns: </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;prompts&quot;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;question_details&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Zoom.get_webinar_poll_metadata">
@@ -592,6 +608,9 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for poll ID </span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for poll ID </span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">tbl</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows of metadata [meeting=</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2"> poll=</span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">]&quot;</span>
@@ -622,6 +641,9 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">tbl</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for meeting ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -650,6 +672,9 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">tbl</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for meeting ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -671,6 +696,9 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">tbl</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> reults for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -692,6 +720,9 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No poll data returned for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">tbl</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> reults for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 

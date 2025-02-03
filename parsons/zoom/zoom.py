@@ -126,9 +126,7 @@ class Zoom:
         tbl.remove_column("question_details")
 
         # Unpack question values
-        tbl = tbl.unpack_dict(
-            "question_details_value", include_original=True, prepend=False
-        )
+        tbl = tbl.unpack_dict("question_details_value", include_original=True, prepend=False)
 
         # Remove column from API response
         tbl.remove_column("question_details_value")
@@ -221,9 +219,7 @@ class Zoom:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(
-            f"report/meetings/{meeting_id}/participants", "participants"
-        )
+        tbl = self._get_request(f"report/meetings/{meeting_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
@@ -288,9 +284,7 @@ class Zoom:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(
-            f"report/webinars/{webinar_id}/participants", "participants"
-        )
+        tbl = self._get_request(f"report/webinars/{webinar_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} webinar participants.")
         return tbl
 
@@ -341,9 +335,7 @@ class Zoom:
         )
 
         if "prompts" in tbl.columns:
-            logger.info(
-                f"Unnesting columns 'prompts' from existing table columns: {tbl.columns}"
-            )
+            logger.info(f"Unnesting columns 'prompts' from existing table columns: {tbl.columns}")
             return self.__handle_nested_json(table=tbl, column="prompts")
         else:
             return tbl

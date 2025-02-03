@@ -140,19 +140,31 @@ class SFTP(object):
             with self.create_connection() as connection:
                 connection.rmdir(remote_path)
 
-    def get_file(self, remote_path, local_path=None, connection=None):
+    def get_file(
+        self,
+        remote_path,
+        local_path=None,
+        connection=None,
+        export_chunk_size: Optional[int] = None,
+    ):
         """
         Download a file from the SFTP server
 
         `Args:`
             remote_path: str
                 The remote path of the file to download
+
             local_path: str
                 The local path where the file will be downloaded. If not specified, a temporary
                 file will be created and returned, and that file will be removed automatically
                 when the script is done running.
+
             connection: obj
                 An SFTP connection object
+
+            export_chunk_size: int
+                Optional. Size in bytes to iteratively export from the remote server.
+
         `Returns:`
             str
                 The path of the local file
@@ -162,12 +174,70 @@ class SFTP(object):
             local_path = file_utilities.create_temp_file_for_path(remote_path)
 
         if connection:
-            connection.get(remote_path, local_path)
-        else:
-            with self.create_connection() as connection:
+            if export_chunk_size:
+                self.__get_file_in_chunks(
+                    remote_path=remote_path,
+                    local_path=local_path,
+                    connection=connection,
+                    export_chunk_size=export_chunk_size,
+                )
+            else:
                 connection.get(remote_path, local_path)
 
+        else:
+            with self.create_connection() as connection:
+                if export_chunk_size:
+                    self.__get_file_in_chunks(
+                        remote_path=remote_path,
+                        local_path=local_path,
+                        connection=connection,
+                        export_chunk_size=export_chunk_size,
+                    )
+                else:
+                    connection.get(remote_path, local_path)
+
         return local_path
+
+    def __get_file_in_chunks(
+        self, remote_path: str, local_path: str, connection, export_chunk_size: int
+    ) -> None:
+        """
+        Download a file in chunked-increments from the remote host to the local path
+
+        `Args:`
+            remote_path: str
+                The remote path of the file to download
+
+            local_path: str
+                The local path where the file will be downloaded. If not specified, a temporary
+                file will be created and returned, and that file will be removed automatically
+                when the script is done running.
+
+            connection: obj
+                An SFTP connection object
+
+            export_chunk_size: int
+                Optional. Size in bytes to iteratively export from the remote server.
+        """
+
+        logger.info(f"Reading from {remote_path} to {local_path} in {export_chunk_size}B chunks")
+
+        with connection.open(remote_path, "rb") as _remote_file:
+            with open(local_path, "wb") as _local_file:
+                # This disables paramiko's prefetching behavior
+                _remote_file.set_pipelined(False)
+
+                while True:
+                    # Read in desired number of rows from the server
+                    response = _remote_file.read(export_chunk_size)
+
+                    # Break the loop if there are no records to read
+                    if not response:
+                        break
+
+                    # Write to the destination file
+                    _local_file.write(response)
+                    logger.debug(f"Successfully read {export_chunk_size} rows to {local_path}")
 
     @connect
     def get_files(

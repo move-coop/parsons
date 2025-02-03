@@ -12,9 +12,6 @@ from parsons.utilities import files as file_utilities
 
 logger = logging.getLogger(__name__)
 
-# Default byte size to export under the hood via Paramiko
-DEFAULT_EXPORT_BYTE_SIZE = 1024 * 1024 * 50
-
 
 class SFTP(object):
     """
@@ -148,7 +145,7 @@ class SFTP(object):
         remote_path,
         local_path=None,
         connection=None,
-        export_chunk_size: int = DEFAULT_EXPORT_BYTE_SIZE,
+        export_chunk_size: Optional[int] = None,
     ):
         """
         Download a file from the SFTP server
@@ -177,21 +174,27 @@ class SFTP(object):
             local_path = file_utilities.create_temp_file_for_path(remote_path)
 
         if connection:
-            self.__get_file_in_chunks(
-                remote_path=remote_path,
-                local_path=local_path,
-                connection=connection,
-                export_chunk_size=export_chunk_size,
-            )
-
-        else:
-            with self.create_connection() as connection:
+            if export_chunk_size:
                 self.__get_file_in_chunks(
                     remote_path=remote_path,
                     local_path=local_path,
                     connection=connection,
                     export_chunk_size=export_chunk_size,
                 )
+            else:
+                connection.get(remote_path, local_path)
+
+        else:
+            with self.create_connection() as connection:
+                if export_chunk_size:
+                    self.__get_file_in_chunks(
+                        remote_path=remote_path,
+                        local_path=local_path,
+                        connection=connection,
+                        export_chunk_size=export_chunk_size,
+                    )
+                else:
+                    connection.get(remote_path, local_path)
 
         return local_path
 

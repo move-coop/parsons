@@ -18,6 +18,9 @@ from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 
 logger = logging.getLogger(__name__)
 
+# Default byte size to export under the hood via Paramiko
+DEFAULT_EXPORT_BYTE_SIZE = 1024 * 1024 * 50
+
 
 class CatalistMatch:
     """Connector for working with the Catalist Match API.
@@ -365,7 +368,9 @@ class CatalistMatch:
         remote_filepaths = self.sftp.list_directory("/myDownloads/")
         remote_filename = [filename for filename in remote_filepaths if id in filename][0]
         remote_filepath = "/myDownloads/" + remote_filename
-        temp_file_zip = self.sftp.get_file(remote_path=remote_filepath)
+        temp_file_zip = self.sftp.get_file(
+            remote_path=remote_filepath, export_chunk_size=DEFAULT_EXPORT_BYTE_SIZE
+        )
         temp_dir = tempfile.mkdtemp()
 
         with ZipFile(temp_file_zip) as zf:

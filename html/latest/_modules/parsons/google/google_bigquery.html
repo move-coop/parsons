@@ -158,7 +158,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">bigquery</span><span class="p">,</span> <span class="n">exceptions</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud.bigquery</span><span class="w"> </span><span class="kn">import</span> <span class="n">dbapi</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud.bigquery.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadJobConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud.bigquery.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadJobConfig</span><span class="p">,</span> <span class="n">ExtractJobConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud.bigquery</span><span class="w"> </span><span class="kn">import</span> <span class="n">job</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">google.oauth2.credentials</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.database_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseConnector</span>
@@ -506,6 +507,26 @@
 <span class="s2">        END;</span>
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="o">=</span><span class="n">queries_wrapped</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">return_values</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GoogleBigQuery.get_job">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.get_job">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_job</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">job_kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">job</span><span class="o">.</span><span class="n">LoadJob</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">CopyJob</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">ExtractJob</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">QueryJob</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">UnknownJob</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetch a job</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            job_id: str</span>
+<span class="sd">                ID of job to fetch</span>
+<span class="sd">            location: str</span>
+<span class="sd">                Location where the job was run</span>
+<span class="sd">            **job_kwargs: kwargs</span>
+<span class="sd">                Other arguments to pass to the underlying get_job</span>
+<span class="sd">                call on the BigQuery client.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_job</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="n">job_id</span><span class="p">,</span> <span class="o">**</span><span class="n">job_kwargs</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="GoogleBigQuery.copy_from_gcs">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy_from_gcs">[docs]</a>
@@ -1645,6 +1666,13 @@
         <span class="n">gcs_blob_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">project</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">gzip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;US&quot;</span><span class="p">,</span>
+        <span class="n">destination_file_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;CSV&quot;</span><span class="p">,</span>
+        <span class="n">field_delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span>
+        <span class="n">compression</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">job_config</span><span class="p">:</span> <span class="n">ExtractJobConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">wait_for_job_to_complete</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">export_kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Extracts a BigQuery table to a Google Cloud Storage bucket.</span>
@@ -1661,21 +1689,30 @@
 <span class="sd">            gzip (bool): If True, the exported file will be compressed</span>
 <span class="sd">              using GZIP. Defaults to False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">dataset_ref</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">DatasetReference</span><span class="p">(</span><span class="n">project</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">project</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
-        <span class="n">table_ref</span> <span class="o">=</span> <span class="n">dataset_ref</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">job_config</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using default job config as none was provided...&quot;</span><span class="p">)</span>
+            <span class="n">job_config</span> <span class="o">=</span> <span class="n">ExtractJobConfig</span><span class="p">(</span>
+                <span class="n">destination_format</span><span class="o">=</span><span class="n">destination_file_format</span><span class="p">,</span>
+                <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">,</span>
+                <span class="n">field_delimiter</span><span class="o">=</span><span class="n">field_delimiter</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">gs_destination</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;gs://</span><span class="si">{</span><span class="n">gcs_bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">gcs_blob_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;GZIP&quot;</span> <span class="k">if</span> <span class="n">gzip</span> <span class="k">else</span> <span class="n">compression</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Project (parsons): </span><span class="si">{</span><span class="n">project</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">extract_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">extract_table</span><span class="p">(</span>
+            <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
+            <span class="n">destination_uris</span><span class="o">=</span><span class="n">gs_destination</span><span class="p">,</span>
+            <span class="n">location</span><span class="o">=</span><span class="n">location</span><span class="p">,</span>
+            <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
+            <span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">export_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">wait_for_job_to_complete</span><span class="p">:</span>
+            <span class="n">extract_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished exporting query result to </span><span class="si">{</span><span class="n">gs_destination</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">gzip</span><span class="p">:</span>
-            <span class="n">job_config</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">ExtractJobConfig</span><span class="p">()</span>
-            <span class="n">job_config</span><span class="o">.</span><span class="n">compression</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Compression</span><span class="o">.</span><span class="n">GZIP</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">job_config</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="n">extract_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">extract_table</span><span class="p">(</span><span class="n">table_ref</span><span class="p">,</span> <span class="n">gs_destination</span><span class="p">,</span> <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">)</span>
-        <span class="n">extract_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># Waits for job to complete.</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished exporting query result to </span><span class="si">{</span><span class="n">gs_destination</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">extract_job</span></div>
 
 
 <div class="viewcode-block" id="GoogleBigQuery.copy_between_projects">

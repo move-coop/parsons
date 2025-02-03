@@ -91,27 +91,27 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#cloud-storage">Cloud Storage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id18">Quickstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id19">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.google.google_cloud_storage.GoogleCloudStorage"><code class="docutils literal notranslate"><span class="pre">GoogleCloudStorage</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#civic">Civic</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id26">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id27">Quickstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id28">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id28">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.google.google_civic.GoogleCivic"><code class="docutils literal notranslate"><span class="pre">GoogleCivic</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#google-sheets">Google Sheets</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id29">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id30">Quickstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id31">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id31">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id32">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id33">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#parsons.google.google_sheets.GoogleSheets"><code class="docutils literal notranslate"><span class="pre">GoogleSheets</span></code></a></li>
 </ul>
 </li>
@@ -501,6 +501,24 @@ returns zero rows.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.get_job">
+<span class="sig-name descname"><span class="pre">get_job</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">job_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LoadJob</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">CopyJob</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ExtractJob</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">QueryJob</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UnknownJob</span></span></span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.get_job"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.get_job" title="Link to this definition"></a></dt>
+<dd><p>Fetch a job</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>job_id: str</dt><dd><p>ID of job to fetch</p>
+</dd>
+<dt>location: str</dt><dd><p>Location where the job was run</p>
+</dd>
+<dt><a href="#id6"><span class="problematic" id="id7">**</span></a>job_kwargs: kwargs</dt><dd><p>Other arguments to pass to the underlying get_job
+call on the BigQuery client.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.copy_from_gcs">
 <span class="sig-name descname"><span class="pre">copy_from_gcs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gcs_blob_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_delimiter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignoreheader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nullas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_quoted_newlines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_jagged_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quote</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LoadJobConfig</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_unzip_blobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gzip'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_file_extension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">21600</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">load_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.copy_from_gcs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.copy_from_gcs" title="Link to this definition"></a></dt>
 <dd><p>Copy a csv saved in Google Cloud Storage into Google BigQuery.</p>
@@ -537,7 +555,7 @@ BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byt
 the encoded string to split the data in its raw, binary state.</p>
 </dd>
 <dt>schema: list</dt><dd><p>BigQuery expects a list of dictionaries in the following format
-<a href="#id6"><span class="problematic" id="id7">``</span></a>`
+<a href="#id8"><span class="problematic" id="id9">``</span></a>`
 schema = [</p>
 <blockquote>
 <div><p>{“name”: “column_name”, “type”: STRING},
@@ -562,7 +580,7 @@ columns and data types as the template table.</p>
 </dd>
 <dt>max_timeout: int</dt><dd><p>The maximum number of seconds to wait for a request before the job fails.</p>
 </dd>
-<dt><a href="#id8"><span class="problematic" id="id9">**</span></a>load_kwargs: kwargs</dt><dd><p>Other arguments to pass to the underlying load_table_from_uri
+<dt><a href="#id10"><span class="problematic" id="id11">**</span></a>load_kwargs: kwargs</dt><dd><p>Other arguments to pass to the underlying load_table_from_uri
 call on the BigQuery client.</p>
 </dd>
 </dl>
@@ -608,7 +626,7 @@ BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byt
 the encoded string to split the data in its raw, binary state.</p>
 </dd>
 <dt>schema: list</dt><dd><p>BigQuery expects a list of dictionaries in the following format
-<a href="#id10"><span class="problematic" id="id11">``</span></a>`
+<a href="#id12"><span class="problematic" id="id13">``</span></a>`
 schema = [</p>
 <blockquote>
 <div><p>{“name”: “column_name”, “type”: STRING},
@@ -630,7 +648,7 @@ columns and data types as the template table.</p>
 </dd>
 <dt>max_timeout: int</dt><dd><p>The maximum number of seconds to wait for a request before the job fails.</p>
 </dd>
-<dt><a href="#id12"><span class="problematic" id="id13">**</span></a>load_kwargs: kwargs</dt><dd><p>Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
+<dt><a href="#id14"><span class="problematic" id="id15">**</span></a>load_kwargs: kwargs</dt><dd><p>Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
 client.</p>
 </dd>
 </dl>
@@ -730,7 +748,7 @@ columns and data types as the template table.</p>
 </dd>
 <dt>convert_dict_columns_to_json: bool</dt><dd><p>If set to True, will convert any dict columns (which cannot by default be successfully loaded to BigQuery to JSON strings)</p>
 </dd>
-<dt><a href="#id14"><span class="problematic" id="id15">**</span></a>load_kwargs: kwargs</dt><dd><p>Arguments to pass to the underlying load_table_from_uri call on the BigQuery
+<dt><a href="#id16"><span class="problematic" id="id17">**</span></a>load_kwargs: kwargs</dt><dd><p>Arguments to pass to the underlying load_table_from_uri call on the BigQuery
 client.</p>
 </dd>
 </dl>
@@ -917,7 +935,7 @@ to perform the count, even though only the row count is returned.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery.extract">
-<span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcs_bucket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcs_blob_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gzip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.extract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.extract" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcs_bucket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcs_blob_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gzip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'US'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_file_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'CSV'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_delimiter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ExtractJobConfig</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_for_job_to_complete</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">export_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.extract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery.extract" title="Link to this definition"></a></dt>
 <dd><p>Extracts a BigQuery table to a Google Cloud Storage bucket.</p>
 <dl>
 <dt>Args:</dt><dd><p>dataset (str): The BigQuery dataset containing the table.
@@ -979,14 +997,14 @@ gcs_bucket (str): The GCS bucket where the table will be</p>
 </section>
 <section id="cloud-storage">
 <h2>Cloud Storage<a class="headerlink" href="#cloud-storage" title="Link to this heading"></a></h2>
-<section id="id16">
-<h3>Overview<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<section id="id18">
+<h3>Overview<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
 <p>Google Cloud Storage is a cloud file storage system. It uses buckets in which to
 store arbitrary files referred to as blobs. You may use this connector to upload Parsons tables as blobs, download them to files, and list available blobs.</p>
 <p>To use the GoogleCloudStorage class, you will need Google service account credentials. If you are the administrator of your Google Cloud account, you can generate them in the <a class="reference external" href="https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288">Google Cloud Console APIs and Services</a>.</p>
 </section>
-<section id="id18">
-<h3>Quickstart<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<section id="id20">
+<h3>Quickstart<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of your Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> to be either of those strings and call the constructor without that argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleCloudStorage</span>
 
@@ -1013,8 +1031,8 @@ the available blobs.</p>
 </pre></div>
 </div>
 </section>
-<section id="id19">
-<h3>API<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<section id="id21">
+<h3>API<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_cloud_storage.</span></span><span class="sig-name descname"><span class="pre">GoogleCloudStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Credentials</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage" title="Link to this definition"></a></dt>
@@ -1034,11 +1052,11 @@ local path to the credentials json.</p>
 </ul>
 <p>For example, to pass in credentials from a parent shell that is
 authenticated with gcloud auth:
-<a href="#id20"><span class="problematic" id="id21">``</span></a>`
+<a href="#id22"><span class="problematic" id="id23">``</span></a>`
 from google.auth import default</p>
 <p>app_creds, _ = default()</p>
 <p>gcs = GoogleCloudStorage(app_creds=app_creds)
-<a href="#id22"><span class="problematic" id="id23">``</span></a><a href="#id24"><span class="problematic" id="id25">`</span></a></p>
+<a href="#id24"><span class="problematic" id="id25">``</span></a><a href="#id26"><span class="problematic" id="id27">`</span></a></p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>app_creds: str, dict, or google.oauth2.credentials.Credentials object</dt><dd><p>A credentials json string or a path to a json file. Not required
@@ -1390,16 +1408,16 @@ when the decompressed file is uploaded</p>
 </section>
 <section id="civic">
 <h2>Civic<a class="headerlink" href="#civic" title="Link to this heading"></a></h2>
-<section id="id26">
-<h3>Overview<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<section id="id28">
+<h3>Overview<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
 <p>Google Civic is an API which provides helpful information about elections. In order to access Google Civic you must
 create a Google Developer Key in their <a class="reference external" href="https://console.developers.google.com/apis/">API console</a>. In order to
 use Google Civic, you must enable this specific end point.</p>
 <p>The Google Civic API utilizes the <a class="reference external" href="https://www.votinginfoproject.org/">Voting Information Project</a> to collect
 key civic information such as personalized ballots and polling location information.</p>
 </section>
-<section id="id27">
-<h3>Quickstart<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<section id="id29">
+<h3>Quickstart<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleCivic class, you can pass the constructor a string containing the Google Civic API key you’ve generated for your project, or set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_CIVIC_API_KEY</span></code> to that value.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleCivic</span>
 
@@ -1428,8 +1446,8 @@ key civic information such as personalized ballots and polling location informat
 </pre></div>
 </div>
 </section>
-<section id="id28">
-<h3>API<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<section id="id30">
+<h3>API<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_civic.GoogleCivic">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_civic.</span></span><span class="sig-name descname"><span class="pre">GoogleCivic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_civic.GoogleCivic" title="Link to this definition"></a></dt>
@@ -1566,8 +1584,8 @@ Divisions that don’t contain a matching office will not be returned.</p>
 </section>
 <section id="google-sheets">
 <h2>Google Sheets<a class="headerlink" href="#google-sheets" title="Link to this heading"></a></h2>
-<section id="id29">
-<h3>Overview<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<section id="id31">
+<h3>Overview<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
 <p>The GoogleSheets class allows you to interact with Google service account spreadsheets, called “Google Sheets.” You can create, modify, read, format, share and delete sheets with this connector.</p>
 <p>In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON file locally and pass the path to the file as a string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> environment variable. You can follow these steps:</p>
 <ul class="simple">
@@ -1579,8 +1597,8 @@ Divisions that don’t contain a matching office will not be returned.</p>
 </ul>
 <p>You can now copy and paste the data from the key into your script or (recommended) save it locally as a JSON file.</p>
 </section>
-<section id="id30">
-<h3>Quickstart<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<section id="id32">
+<h3>Quickstart<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> to contain a path to the JSON file containing the dict.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleSheets</span>
 
@@ -1601,8 +1619,8 @@ Divisions that don’t contain a matching office will not be returned.</p>
 </div>
 <p>You may also want to share the document with your service or user account.</p>
 </section>
-<section id="id31">
-<h3>API<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<section id="id33">
+<h3>API<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_sheets.</span></span><span class="sig-name descname"><span class="pre">GoogleSheets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">google_keyfile_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets" title="Link to this definition"></a></dt>

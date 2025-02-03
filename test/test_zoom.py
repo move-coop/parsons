@@ -676,7 +676,7 @@ class TestZoom(unittest.TestCase):
                     "answers": "Larry David's Curb Your Enthusiasm",
                     "case_sensitive": "True",
                     "name": "Secret Truth",
-                    "prompts": [
+                    "question_details": [
                         {
                             "prompt_question": "What's the secret truth of the universe?",
                             "prompt_right_answers": [

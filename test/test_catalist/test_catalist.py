@@ -155,6 +155,6 @@ class TestCatalist:
         assert second_called_method == "get_file"
 
         assert second_mocked_call.kwargs == {
-            "remote_filepath": "/myDownloads/example_12345",
+            "remote_path": "/myDownloads/example_12345",
             "export_chunk_size": 100000,
         }

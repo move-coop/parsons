@@ -368,6 +368,7 @@ class GoogleBigQuery(DatabaseConnector):
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
         template_table: Optional[str] = None,
+        max_timeout: int = 21600,
         **load_kwargs,
     ):
         """
@@ -428,6 +429,8 @@ class GoogleBigQuery(DatabaseConnector):
             template_table: str
                 Table name to be used as the load schema. Load operation wil use the same
                 columns and data types as the template table.
+            max_timeout: int
+                The maximum number of seconds to wait for a request before the job fails.
             **load_kwargs: kwargs
                 Other arguments to pass to the underlying load_table_from_uri
                 call on the BigQuery client.
@@ -470,12 +473,14 @@ class GoogleBigQuery(DatabaseConnector):
                     job_config=job_config,
                     compression_type=compression_type,
                     new_file_extension=new_file_extension,
+                    max_timeout=max_timeout,
                 )
             else:
                 return self._load_table_from_uri(
                     source_uris=gcs_blob_uri,
                     destination=table_ref,
                     job_config=job_config,
+                    max_timeout=max_timeout,
                     **load_kwargs,
                 )
         except exceptions.BadRequest as e:
@@ -500,6 +505,7 @@ class GoogleBigQuery(DatabaseConnector):
                     job_config=job_config,
                     compression_type=compression_type,
                     new_file_extension=new_file_extension,
+                    max_timeout=max_timeout,
                 )
             elif "Schema has no field" in str(e):
                 logger.debug(f"{gcs_blob_uri.split('/')[-1]} is empty, skipping file")
@@ -507,6 +513,10 @@ class GoogleBigQuery(DatabaseConnector):
 
             else:
                 raise e
+
+        except exceptions.DeadlineExceeded as e:
+            logger.error(f"Max timeout exceeded for {gcs_blob_uri.split('/')[-1]}")
+            raise e
 
     def copy_large_compressed_file_from_gcs(
         self,
@@ -526,6 +536,7 @@ class GoogleBigQuery(DatabaseConnector):
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
         template_table: Optional[str] = None,
+        max_timeout: int = 21600,
         **load_kwargs,
     ):
         """
@@ -584,6 +595,8 @@ class GoogleBigQuery(DatabaseConnector):
             template_table: str
                 Table name to be used as the load schema. Load operation wil use the same
                 columns and data types as the template table.
+            max_timeout: int
+                The maximum number of seconds to wait for a request before the job fails.
             **load_kwargs: kwargs
                 Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
@@ -628,6 +641,7 @@ class GoogleBigQuery(DatabaseConnector):
                 source_uris=uncompressed_gcs_uri,
                 destination=table_ref,
                 job_config=job_config,
+                max_timeout=max_timeout,
                 **load_kwargs,
             )
 
@@ -654,6 +668,7 @@ class GoogleBigQuery(DatabaseConnector):
         tmp_gcs_bucket: Optional[str] = None,
         template_table: Optional[str] = None,
         job_config: Optional[LoadJobConfig] = None,
+        max_timeout: int = 21600,
         **load_kwargs,
     ):
         """
@@ -700,6 +715,8 @@ class GoogleBigQuery(DatabaseConnector):
                 on the BigQuery client. The function will create its own if not provided. Note
                 if there are any conflicts between the job_config and other parameters, the
                 job_config values are preferred.
+            max_timeout: int
+                The maximum number of seconds to wait for a request before the job fails.
 
         `Returns`
             Parsons Table or ``None``
@@ -736,6 +753,7 @@ class GoogleBigQuery(DatabaseConnector):
                 nullas=nullas,
                 job_config=job_config,
                 template_table=template_table,
+                max_timeout=max_timeout,
                 **load_kwargs,
             )
         finally:
@@ -757,6 +775,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
         schema: Optional[List[dict]] = None,
+        max_timeout: int = 21600,
         convert_dict_columns_to_json: bool = True,
         **load_kwargs,
     ):
@@ -788,6 +807,8 @@ class GoogleBigQuery(DatabaseConnector):
             template_table: str
                 Table name to be used as the load schema. Load operation wil use the same
                 columns and data types as the template table.
+            max_timeout: int
+                The maximum number of seconds to wait for a request before the job fails.
             convert_dict_columns_to_json: bool
                 If set to True, will convert any dict columns (which cannot by default be successfully loaded to BigQuery to JSON strings)
             **load_kwargs: kwargs
@@ -867,6 +888,7 @@ class GoogleBigQuery(DatabaseConnector):
                 source_uris=temp_blob_uri,
                 destination=self.get_table_ref(table_name=table_name),
                 job_config=job_config,
+                max_timeout=max_timeout,
                 **load_kwargs,
             )
         finally:
@@ -1385,7 +1407,9 @@ class GoogleBigQuery(DatabaseConnector):
         if data_type not in ["csv", "json"]:
             raise ValueError(f"Only supports csv or json files [data_type = {data_type}]")
 
-    def _load_table_from_uri(self, source_uris, destination, job_config, **load_kwargs):
+    def _load_table_from_uri(
+        self, source_uris, destination, job_config, max_timeout, **load_kwargs
+    ):
         load_job = self.client.load_table_from_uri(
             source_uris=source_uris,
             destination=destination,
@@ -1394,7 +1418,7 @@ class GoogleBigQuery(DatabaseConnector):
         )
 
         try:
-            load_job.result()
+            load_job.result(timeout=max_timeout)
             return load_job
         except exceptions.BadRequest as e:
             for idx, error_ in enumerate(load_job.errors):

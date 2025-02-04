@@ -9,7 +9,8 @@ from typing import List, Optional, Union
 
 import google
 import petl
-from google.cloud import bigquery, exceptions
+from google.cloud import bigquery
+from google.api_core import exceptions
 from google.cloud.bigquery import dbapi
 from google.cloud.bigquery.job import LoadJobConfig, ExtractJobConfig
 from google.cloud.bigquery import job

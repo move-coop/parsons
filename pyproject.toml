@@ -102,3 +102,12 @@ src_paths = [
     "test/",
     "useful_resources/"
 ]
+
+[tool.coverage.run]
+branch = true
+relative_files = true
+
+[tool.coverage.paths]
+source = [
+    "parsons/",
+    ]

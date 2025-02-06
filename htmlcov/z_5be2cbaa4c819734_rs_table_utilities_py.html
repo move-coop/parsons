@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_70d6c59af6ea7b26_table_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.4">coverage.py v7.6.4</a>,
-            created at 2025-02-06 20:32 +0000
+            created at 2025-02-06 20:37 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -196,7 +196,7 @@
     <p class="pln"><span class="n"><a id="t112" href="#t112">112</a></span><span class="t"><span class="str">                Drop the source table.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t113" href="#t113">113</a></span><span class="t"><span class="str">        Returns:</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t114" href="#t114">114</a></span><span class="t"><span class="str">                None</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t115" href="#t115">115</a></span><span class="t"><span class="str">        """</span>  <span class="com"># noqa: E501,E261</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t115" href="#t115">115</a></span><span class="t"><span class="str">        """</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t116" href="#t116">116</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t117" href="#t117">117</a></span><span class="t">        <span class="com"># To Do: Add the grants</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t118" href="#t118">118</a></span><span class="t">        <span class="com"># To Do: Argument for if the table exists?</span>&nbsp;</span><span class="r"></span></p>
@@ -556,7 +556,7 @@
     <p class="pln"><span class="n"><a id="t472" href="#t472">472</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t473" href="#t473">473</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">"Retrieving running and queued queries."</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t474" href="#t474">474</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t475" href="#t475">475</a></span><span class="t">        <span class="com"># Lifted from Redshift Utils https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/running_queues.sql # noqa: E501</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t475" href="#t475">475</a></span><span class="t">        <span class="com"># Lifted from Redshift Utils https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/running_queues.sql</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t476" href="#t476">476</a></span><span class="t">        <span class="nam">sql</span> <span class="op">=</span> <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t477" href="#t477">477</a></span><span class="t"><span class="str">              select trim(u.usename) as user,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t478" href="#t478">478</a></span><span class="t"><span class="str">                s.pid,</span>&nbsp;</span><span class="r"></span></p>
@@ -580,21 +580,21 @@
     <p class="pln"><span class="n"><a id="t496" href="#t496">496</a></span><span class="t"><span class="str">                decode(m.blocks_to_disk,-1,null,m.blocks_to_disk) spill_mb,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t497" href="#t497">497</a></span><span class="t"><span class="str">                m2.rows as return_rows,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t498" href="#t498">498</a></span><span class="t"><span class="str">                m3.rows as NL_rows,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t499" href="#t499">499</a></span><span class="t"><span class="str">                substring(replace(nvl(qrytext_cur.text,trim(translate(s.text,chr(10)||chr(13)||chr(9) ,''))),'\\n',' '),1,90) as sql, -- # noqa: E501</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t500" href="#t500">500</a></span><span class="t"><span class="str">                trim(decode(event&amp;1,1,'SK ','') || decode(event&amp;2,2,'Del ','') || decode(event&amp;4,4,'NL ','') ||  decode(event&amp;8,8,'Dist ','') || decode(event&amp;16,16,'Bcast ','') || decode(event&amp;32,32,'Stats ','')) as Alert -- # noqa: E501</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t499" href="#t499">499</a></span><span class="t"><span class="str">                substring(replace(nvl(qrytext_cur.text,trim(translate(s.text,chr(10)||chr(13)||chr(9) ,''))),'\\n',' '),1,90) as sql, --</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t500" href="#t500">500</a></span><span class="t"><span class="str">                trim(decode(event&amp;1,1,'SK ','') || decode(event&amp;2,2,'Del ','') || decode(event&amp;4,4,'NL ','') ||  decode(event&amp;8,8,'Dist ','') || decode(event&amp;16,16,'Bcast ','') || decode(event&amp;32,32,'Stats ','')) as Alert --</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t501" href="#t501">501</a></span><span class="t"><span class="str">            from stv_wlm_query_state q</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t502" href="#t502">502</a></span><span class="t"><span class="str">            left outer join stl_querytext s on (s.query=q.query and sequence = 0)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t503" href="#t503">503</a></span><span class="t"><span class="str">            left outer join stv_query_metrics m on ( q.query = m.query and m.segment=-1 and m.step=-1 )</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t504" href="#t504">504</a></span><span class="t"><span class="str">            left outer join stv_query_metrics m2 on ( q.query = m2.query and m2.step_type = 38 )</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t505" href="#t505">505</a></span><span class="t"><span class="str">            left outer join ( select query, sum(rows) as rows from stv_query_metrics m3 where step_type = 15 group by 1) as m3 on ( q.query = m3.query ) -- # noqa: E501</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t505" href="#t505">505</a></span><span class="t"><span class="str">            left outer join ( select query, sum(rows) as rows from stv_query_metrics m3 where step_type = 15 group by 1) as m3 on ( q.query = m3.query ) --</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t506" href="#t506">506</a></span><span class="t"><span class="str">            left outer join pg_user u on ( s.userid = u.usesysid )</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t507" href="#t507">507</a></span><span class="t"><span class="str">            LEFT OUTER JOIN (SELECT ut.xid,'CURSOR ' || TRIM( substring ( TEXT from strpos(upper(TEXT),'SELECT') )) as TEXT</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t508" href="#t508">508</a></span><span class="t"><span class="str">            FROM stl_utilitytext ut</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t509" href="#t509">509</a></span><span class="t"><span class="str">            WHERE sequence = 0</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t510" href="#t510">510</a></span><span class="t"><span class="str">               AND upper(TEXT) like 'DECLARE%'</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t511" href="#t511">511</a></span><span class="t"><span class="str">               GROUP BY text, ut.xid) qrytext_cur ON (q.xid = qrytext_cur.xid)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t512" href="#t512">512</a></span><span class="t"><span class="str">            left outer join ( select query,sum(decode(trim(split_part(event,':',1)),'Very selective query filter',1,'Scanned a large number of deleted rows',2,'Nested Loop Join in the query plan',4,'Distributed a large number of rows across the network',8,'Broadcasted a large number of rows across the network',16,'Missing query planner statistics',32,0)) as event from STL_ALERT_EVENT_LOG -- # noqa: E501</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t513" href="#t513">513</a></span><span class="t"><span class="str">            where event_time >=  dateadd(hour, -8, current_Date) group by query  ) as alrt on alrt.query = q.query -- # noqa: E501</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t512" href="#t512">512</a></span><span class="t"><span class="str">            left outer join ( select query,sum(decode(trim(split_part(event,':',1)),'Very selective query filter',1,'Scanned a large number of deleted rows',2,'Nested Loop Join in the query plan',4,'Distributed a large number of rows across the network',8,'Broadcasted a large number of rows across the network',16,'Missing query planner statistics',32,0)) as event from STL_ALERT_EVENT_LOG --</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t513" href="#t513">513</a></span><span class="t"><span class="str">            where event_time >=  dateadd(hour, -8, current_Date) group by query  ) as alrt on alrt.query = q.query --</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t514" href="#t514">514</a></span><span class="t"><span class="str">            """</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t515" href="#t515">515</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t516" href="#t516">516</a></span><span class="t">        <span class="key">return</span> <span class="nam">self</span><span class="op">.</span><span class="nam">query</span><span class="op">(</span><span class="nam">sql</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -867,7 +867,7 @@
             <a class="nav" href="z_70d6c59af6ea7b26_table_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.4">coverage.py v7.6.4</a>,
-            created at 2025-02-06 20:32 +0000
+            created at 2025-02-06 20:37 +0000
         </p>
     </div>
 </footer>

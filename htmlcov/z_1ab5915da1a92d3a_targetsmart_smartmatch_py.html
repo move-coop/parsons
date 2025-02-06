@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_05fced844a72a0a6_credential_tools_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.4">coverage.py v7.6.4</a>,
-            created at 2025-02-06 20:32 +0000
+            created at 2025-02-06 20:37 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -269,7 +269,7 @@
     <p class="pln"><span class="n"><a id="t185" href="#t185">185</a></span><span class="t"><span class="str">                match indicator, ``vb.voterbase_id``, and zero or more additional data</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t186" href="#t186">186</a></span><span class="t"><span class="str">                element fields based on your TargetSmart account configuration.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t187" href="#t187">187</a></span><span class="t"><span class="str">                See :ref:`parsons-table` for output options.</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t188" href="#t188">188</a></span><span class="t"><span class="str">        """</span>  <span class="com"># noqa</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t188" href="#t188">188</a></span><span class="t"><span class="str">        """</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t189" href="#t189">189</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t190" href="#t190">190</a></span><span class="t">        <span class="com"># If `input_table` is a Parsons table, convert it to a Petl table.</span>&nbsp;</span><span class="r"></span></p>
     <p class="par run show_par"><span class="n"><a id="t191" href="#t191">191</a></span><span class="t">        <span class="key">if</span> <span class="nam">hasattr</span><span class="op">(</span><span class="nam">input_table</span><span class="op">,</span> <span class="str">"table"</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"><span class="annotate short">191&#x202F;&#x219B;&#x202F;192</span><span class="annotate long">line 191 didn't jump to line 192 because the condition on line 191 was never true</span></span></p>
@@ -373,14 +373,14 @@
     <p class="run"><span class="n"><a id="t289" href="#t289">289</a></span><span class="t">                    <span class="nam">shutil</span><span class="op">.</span><span class="nam">copyfileobj</span><span class="op">(</span><span class="nam">gz_reader</span><span class="op">,</span> <span class="nam">tmp_csv</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t290" href="#t290">290</a></span><span class="t">                <span class="nam">tmp_csv</span><span class="op">.</span><span class="nam">flush</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t291" href="#t291">291</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t292" href="#t292">292</a></span><span class="t">                <span class="nam">raw_outtable</span> <span class="op">=</span> <span class="nam">petl</span><span class="op">.</span><span class="nam">fromcsv</span><span class="op">(</span>  <span class="com"># pylint: disable=no-member</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t293" href="#t293">293</a></span><span class="t">                    <span class="nam">tmp_csv</span><span class="op">.</span><span class="nam">name</span><span class="op">,</span> <span class="nam">encoding</span><span class="op">=</span><span class="str">"utf8"</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t294" href="#t294">294</a></span><span class="t">                <span class="op">)</span><span class="op">.</span><span class="nam">convert</span><span class="op">(</span><span class="nam">INTERNAL_JOIN_ID</span><span class="op">,</span> <span class="nam">int</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t292" href="#t292">292</a></span><span class="t">                <span class="nam">raw_outtable</span> <span class="op">=</span> <span class="nam">petl</span><span class="op">.</span><span class="nam">fromcsv</span><span class="op">(</span><span class="nam">tmp_csv</span><span class="op">.</span><span class="nam">name</span><span class="op">,</span> <span class="nam">encoding</span><span class="op">=</span><span class="str">"utf8"</span><span class="op">)</span><span class="op">.</span><span class="nam">convert</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t293" href="#t293">293</a></span><span class="t">                    <span class="nam">INTERNAL_JOIN_ID</span><span class="op">,</span> <span class="nam">int</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t294" href="#t294">294</a></span><span class="t">                <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t295" href="#t295">295</a></span><span class="t">                <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t296" href="#t296">296</a></span><span class="t">                    <span class="str">"SmartMatch remote execution successful. Joining results to input table."</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t297" href="#t297">297</a></span><span class="t">                <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t298" href="#t298">298</a></span><span class="t">                <span class="nam">outtable</span> <span class="op">=</span> <span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t299" href="#t299">299</a></span><span class="t">                    <span class="nam">petl</span><span class="op">.</span><span class="nam">leftjoin</span><span class="op">(</span>  <span class="com"># pylint: disable=no-member</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t299" href="#t299">299</a></span><span class="t">                    <span class="nam">petl</span><span class="op">.</span><span class="nam">leftjoin</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t300" href="#t300">300</a></span><span class="t">                        <span class="nam">input_table</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t301" href="#t301">301</a></span><span class="t">                        <span class="nam">raw_outtable</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t302" href="#t302">302</a></span><span class="t">                        <span class="nam">key</span><span class="op">=</span><span class="nam">INTERNAL_JOIN_ID</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
@@ -402,7 +402,7 @@
             <a class="nav" href="z_05fced844a72a0a6_credential_tools_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.4">coverage.py v7.6.4</a>,
-            created at 2025-02-06 20:32 +0000
+            created at 2025-02-06 20:37 +0000
         </p>
     </div>
 </footer>

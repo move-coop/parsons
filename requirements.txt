@@ -1,4 +1,4 @@
-pyairtable==2.3.3
+pyairtable==2.3.7
 azure-storage-blob==12.24.1
 boto3>=1.17.98
 boxsdk==2.10.0
@@ -27,7 +27,8 @@ newmode==0.1.6
 oauth2client==4.1.3
 paramiko==3.5.0
 petl==1.7.15
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.9;python_version<"3.13"
+psycopg2-binary==2.9.10;python_version>="3.13"
 PyGitHub==2.5.0
 python-dateutil==2.9.0.post0
 requests==2.32.3

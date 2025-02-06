@@ -290,14 +290,14 @@ class SmartMatch:
                     shutil.copyfileobj(gz_reader, tmp_csv)
                 tmp_csv.flush()
 
-                raw_outtable = petl.fromcsv(  # pylint: disable=no-member
-                    tmp_csv.name, encoding="utf8"
-                ).convert(INTERNAL_JOIN_ID, int)
+                raw_outtable = petl.fromcsv(tmp_csv.name, encoding="utf8").convert(
+                    INTERNAL_JOIN_ID, int
+                )
                 logger.info(
                     "SmartMatch remote execution successful. Joining results to" " input table."
                 )
                 outtable = (
-                    petl.leftjoin(  # pylint: disable=no-member
+                    petl.leftjoin(
                         input_table,
                         raw_outtable,
                         key=INTERNAL_JOIN_ID,

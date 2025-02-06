@@ -13,7 +13,6 @@ class TargetsFailed(Exception):
 
 class Targets(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def obj_dict(obj):
@@ -63,9 +62,7 @@ class Targets(object):
             url = response["file"]["downloadUrl"]
             return Table(petl.fromcsv(url, encoding="utf-8-sig"))
         elif job_status == "Pending" or job_status == "InProcess":
-            logger.info(
-                f"Target export job is pending or in process for {export_job_id}."
-            )
+            logger.info(f"Target export job is pending or in process for {export_job_id}.")
         else:
             raise TargetsFailed(f"Target export failed for {export_job_id}")
 

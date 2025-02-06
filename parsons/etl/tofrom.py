@@ -2,6 +2,7 @@ import petl
 import json
 import io
 import gzip
+from typing import Optional
 from parsons.utilities import files, zip_archive
 
 
@@ -193,9 +194,7 @@ class ToFrom(object):
                 The path of the file
         """  # noqa: W605
 
-        petl.appendcsv(
-            self.table, source=local_path, encoding=encoding, errors=errors, **csvargs
-        )
+        petl.appendcsv(self.table, source=local_path, encoding=encoding, errors=errors, **csvargs)
         return local_path
 
     def to_zip_csv(
@@ -245,22 +244,14 @@ class ToFrom(object):
         if not archive_path:
             archive_path = files.create_temp_file(suffix=".zip")
 
-        cf = self.to_csv(
-            encoding=encoding, errors=errors, write_header=write_header, **csvargs
-        )
+        cf = self.to_csv(encoding=encoding, errors=errors, write_header=write_header, **csvargs)
 
         if not csv_name:
-            csv_name = (
-                files.extract_file_name(archive_path, include_suffix=False) + ".csv"
-            )
+            csv_name = files.extract_file_name(archive_path, include_suffix=False) + ".csv"
 
-        return zip_archive.create_archive(
-            archive_path, cf, file_name=csv_name, if_exists=if_exists
-        )
+        return zip_archive.create_archive(archive_path, cf, file_name=csv_name, if_exists=if_exists)
 
-    def to_json(
-        self, local_path=None, temp_file_compression=None, line_delimited=False
-    ):
+    def to_json(self, local_path=None, temp_file_compression=None, line_delimited=False):
         """
         Outputs table to a JSON file
 
@@ -473,6 +464,7 @@ class ToFrom(object):
         self,
         bucket_name,
         blob_name,
+        gcs_client=None,
         app_creds=None,
         project=None,
         compression=None,
@@ -532,13 +524,15 @@ class ToFrom(object):
             **csvargs,
         )
 
-        from parsons.google.google_cloud_storage import GoogleCloudStorage
+        if not gcs_client:
+            from parsons.google.google_cloud_storage import GoogleCloudStorage
 
-        gcs = GoogleCloudStorage(app_creds=app_creds, project=project)
-        gcs.put_blob(bucket_name, blob_name, local_path)
+            gcs_client = GoogleCloudStorage(app_creds=app_creds, project=project)
+
+        gcs_client.put_blob(bucket_name, blob_name, local_path)
 
         if public_url:
-            return gcs.get_url(bucket_name, blob_name, expires_in=public_url_expires)
+            return gcs_client.get_url(bucket_name, blob_name, expires_in=public_url_expires)
         else:
             return None
 
@@ -619,8 +613,39 @@ class ToFrom(object):
         pg = Postgres(username=username, password=password, host=host, db=db, port=port)
         pg.copy(self, table_name, **copy_args)
 
-    def to_petl(self):
+    def to_bigquery(
+        self,
+        table_name: str,
+        app_creds: Optional[str] = None,
+        project: Optional[str] = None,
+        **kwargs,
+    ):
+        """
+        Write a table to BigQuery
 
+        `Args`:
+            table_name: str
+                Table name to write to in BigQuery; this should be in `schema.table` format
+            app_creds: str
+                A credentials json string or a path to a json file. Not required
+                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
+            project: str
+                The project which the client is acting on behalf of. If not passed
+                then will use the default inferred environment.
+            **kwargs: kwargs
+                Additional keyword arguments passed into the `.copy()` function (`if_exists`,
+                `max_errors`, etc.)
+
+        `Returns`:
+            ``None``
+        """
+
+        from parsons import GoogleBigQuery as BigQuery
+
+        bq = BigQuery(app_creds=app_creds, project=project)
+        bq.copy(self, table_name=table_name, **kwargs)
+
+    def to_petl(self):
         return self.table
 
     def to_civis(
@@ -785,9 +810,7 @@ class ToFrom(object):
             return cls(petl.fromjson(local_path, header=header))
 
     @classmethod
-    def from_redshift(
-        cls, sql, username=None, password=None, host=None, db=None, port=None
-    ):
+    def from_redshift(cls, sql, username=None, password=None, host=None, db=None, port=None):
         """
         Create a ``parsons table`` from a Redshift query.
 
@@ -818,9 +841,7 @@ class ToFrom(object):
         return rs.query(sql)
 
     @classmethod
-    def from_postgres(
-        cls, sql, username=None, password=None, host=None, db=None, port=None
-    ):
+    def from_postgres(cls, sql, username=None, password=None, host=None, db=None, port=None):
         """
         Args:
             sql: str
@@ -897,6 +918,35 @@ class ToFrom(object):
             tbls.append(petl.fromcsv(file_, **csvargs))
 
         return cls(petl.cat(*tbls))
+
+    @classmethod
+    def from_bigquery(cls, sql: str, app_creds: str = None, project: str = None):
+        """
+        Create a ``parsons table`` from a BigQuery statement.
+
+        To pull an entire BigQuery table, use a query like ``SELECT * FROM {{ table }}``.
+
+        `Args`:
+            sql: str
+                A valid SQL statement
+            app_creds: str
+                A credentials json string or a path to a json file. Not required
+                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
+            project: str
+                The project which the client is acting on behalf of. If not passed
+                then will use the default inferred environment.
+            TODO - Should users be able to pass in kwargs here? For parameters?
+
+        `Returns`:
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        from parsons import GoogleBigQuery as BigQuery
+
+        bq = BigQuery(app_creds=app_creds, project=project)
+
+        return bq.query(sql=sql)
 
     @classmethod
     def from_dataframe(cls, dataframe, include_index=False):

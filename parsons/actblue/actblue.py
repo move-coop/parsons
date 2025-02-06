@@ -31,18 +31,11 @@ class ActBlue(object):
         visit https://secure.actblue.com/docs/csv_api#authentication.
     """
 
-    def __init__(
-        self, actblue_client_uuid=None, actblue_client_secret=None, actblue_uri=None
-    ):
-        self.actblue_client_uuid = check_env.check(
-            "ACTBLUE_CLIENT_UUID", actblue_client_uuid
-        )
-        self.actblue_client_secret = check_env.check(
-            "ACTBLUE_CLIENT_SECRET", actblue_client_secret
-        )
+    def __init__(self, actblue_client_uuid=None, actblue_client_secret=None, actblue_uri=None):
+        self.actblue_client_uuid = check_env.check("ACTBLUE_CLIENT_UUID", actblue_client_uuid)
+        self.actblue_client_secret = check_env.check("ACTBLUE_CLIENT_SECRET", actblue_client_secret)
         self.uri = (
-            check_env.check("ACTBLUE_URI", actblue_uri, optional=True)
-            or ACTBLUE_API_ENDPOINT
+            check_env.check("ACTBLUE_URI", actblue_uri, optional=True) or ACTBLUE_API_ENDPOINT
         )
         self.headers = {
             "accept": "application/json",
@@ -86,9 +79,7 @@ class ActBlue(object):
             "date_range_start": date_range_start,
             "date_range_end": date_range_end,
         }
-        logger.info(
-            f"Requesting {csv_type} from {date_range_start} up to {date_range_end}."
-        )
+        logger.info(f"Requesting {csv_type} from {date_range_start} up to {date_range_end}.")
         response = self.client.post_request(url="csvs", json=body)
         return response
 
@@ -160,9 +151,7 @@ class ActBlue(object):
             Contents of the generated contribution CSV as a Parsons table.
         """
 
-        post_request_response = self.post_request(
-            csv_type, date_range_start, date_range_end
-        )
+        post_request_response = self.post_request(csv_type, date_range_start, date_range_end)
         csv_id = post_request_response["id"]
         download_url = self.poll_for_download_url(csv_id)
         table = Table.from_csv(download_url)

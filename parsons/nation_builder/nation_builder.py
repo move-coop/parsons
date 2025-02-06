@@ -25,9 +25,7 @@ class NationBuilder:
             The Nation Builder access_token Not required if ``NB_ACCESS_TOKEN`` env variable set.
     """
 
-    def __init__(
-        self, slug: Optional[str] = None, access_token: Optional[str] = None
-    ) -> None:
+    def __init__(self, slug: Optional[str] = None, access_token: Optional[str] = None) -> None:
         slug = check_env.check("NB_SLUG", slug)
         token = check_env.check("NB_ACCESS_TOKEN", access_token)
 
@@ -152,9 +150,7 @@ class NationBuilder:
 
         return response
 
-    def upsert_person(
-        self, person: Dict[str, Any]
-    ) -> Tuple[bool, Optional[Dict[str, Any]]]:
+    def upsert_person(self, person: Dict[str, Any]) -> Tuple[bool, Optional[Dict[str, Any]]]:
         """
         Updates a matched person or creates a new one if the person doesn't exist.
 

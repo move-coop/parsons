@@ -92,9 +92,9 @@ class TestNationBuilder(unittest.TestCase):
         nb = NB("test-slug", "test-token")
 
         GET_PEOPLE_RESPONSE_WITH_NEXT = GET_PEOPLE_RESPONSE.copy()
-        GET_PEOPLE_RESPONSE_WITH_NEXT[
-            "next"
-        ] = "https://test-slug.nationbuilder.com/api/v1/people?limit=100&__nonce=bar&__token=baz"
+        GET_PEOPLE_RESPONSE_WITH_NEXT["next"] = (
+            "https://test-slug.nationbuilder.com/api/v1/people?limit=100&__nonce=bar&__token=baz"
+        )
 
         m.get(
             "https://test-slug.nationbuilder.com/api/v1/people",

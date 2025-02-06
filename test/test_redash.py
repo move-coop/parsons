@@ -11,7 +11,6 @@ API_KEY = "abc123"
 
 
 class TestRedash(unittest.TestCase):
-
     mock_data = "foo,bar\n1,2\n3,4"
     mock_data_source = {
         "id": 1,
@@ -54,15 +53,11 @@ class TestRedash(unittest.TestCase):
     def test_cached_query(self, m):
         redash = Redash(BASE_URL)  # no user_api_key
         m.get(f"{BASE_URL}/api/queries/5/results.csv", text=self.mock_data)
-        assert_matching_tables(
-            redash.get_cached_query_results(5, API_KEY), self.mock_result
-        )
+        assert_matching_tables(redash.get_cached_query_results(5, API_KEY), self.mock_result)
         self.assertEqual(m._adapter.last_request.path, "/api/queries/5/results.csv")
         self.assertEqual(m._adapter.last_request.query, "api_key=abc123")
 
-        assert_matching_tables(
-            self.redash.get_cached_query_results(5), self.mock_result
-        )
+        assert_matching_tables(self.redash.get_cached_query_results(5), self.mock_result)
         self.assertEqual(m._adapter.last_request.query, "")
 
     @requests_mock.Mocker()
@@ -79,9 +74,7 @@ class TestRedash(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_refresh_query_poll(self, m):
-        m.post(
-            f"{BASE_URL}/api/queries/5/refresh", json={"job": {"id": 66, "status": 1}}
-        )
+        m.post(f"{BASE_URL}/api/queries/5/refresh", json={"job": {"id": 66, "status": 1}})
         m.get(
             f"{BASE_URL}/api/jobs/66",
             json={"job": {"id": 66, "status": 3, "query_result_id": 21}},
@@ -95,9 +88,7 @@ class TestRedash(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_refresh_query_poll_timeout(self, m):
-        m.post(
-            f"{BASE_URL}/api/queries/5/refresh", json={"job": {"id": 66, "status": 1}}
-        )
+        m.post(f"{BASE_URL}/api/queries/5/refresh", json={"job": {"id": 66, "status": 1}})
         m.get(f"{BASE_URL}/api/jobs/66", json={"job": {"id": 66, "status": 1}})
         m.get(f"{BASE_URL}/api/queries/5/results/21.csv", text=self.mock_data)
 

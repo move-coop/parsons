@@ -33,9 +33,7 @@ for name, value in config_vars.items():  # sets variables if provided in this sc
     if value.strip() != "":
         os.environ[name] = value
 
-s3_source = S3(
-    os.environ["AWS_SOURCE_ACCESS_KEY_ID"], os.environ["AWS_SOURCE_SECRET_ACCESS_KEY"]
-)
+s3_source = S3(os.environ["AWS_SOURCE_ACCESS_KEY_ID"], os.environ["AWS_SOURCE_SECRET_ACCESS_KEY"])
 s3_destination = S3(
     os.environ["AWS_DESTINATION_ACCESS_KEY_ID"],
     os.environ["AWS_DESTINATION_SECRET_ACCESS_KEY"],
@@ -49,7 +47,6 @@ logger.info(f"We will be getting data from {len(bucket_guide)} buckets...")
 
 # Moving Files from Source s3 Bucket to Destination s3 Bucket
 for bucket in bucket_guide:
-
     logger.info(f"Working on files for {bucket}...")
     keys = s3_source.list_keys(bucket)
     logger.info(f"Found {len(keys)}.")

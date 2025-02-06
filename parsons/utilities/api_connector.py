@@ -3,6 +3,7 @@ from requests.exceptions import HTTPError
 import logging
 import urllib.parse
 from simplejson.errors import JSONDecodeError
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
@@ -32,9 +33,7 @@ class APIConnector(object):
         APIConnector class
     """
 
-    def __init__(
-        self, uri, headers=None, auth=None, pagination_key=None, data_key=None
-    ):
+    def __init__(self, uri, headers=None, auth=None, pagination_key=None, data_key=None):
         # Add a trailing slash if its missing
         if not uri.endswith("/"):
             uri = uri + "/"
@@ -83,7 +82,7 @@ class APIConnector(object):
             params=params,
         )
 
-    def get_request(self, url, params=None):
+    def get_request(self, url, params=None, return_format="json"):
         """
         Make a GET request.
 
@@ -98,9 +97,14 @@ class APIConnector(object):
 
         r = self.request(url, "GET", params=params)
         self.validate_response(r)
-        logger.debug(r.json())
 
-        return r.json()
+        if return_format == "json":
+            logger.debug(r.json())
+            return r.json()
+        elif return_format == "content":
+            return r.content
+        else:
+            raise RuntimeError(f"{return_format} is not a valid format, change to json or content")
 
     def post_request(
         self, url, params=None, data=None, json=None, success_codes=[200, 201, 202, 204]
@@ -163,9 +167,7 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def put_request(
-        self, url, data=None, json=None, params=None, success_codes=[200, 201, 204]
-    ):
+    def put_request(self, url, data=None, json=None, params=None, success_codes=[200, 201, 204]):
         """
         Make a PUT request.
 
@@ -192,9 +194,7 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def patch_request(
-        self, url, params=None, data=None, json=None, success_codes=[200, 201, 204]
-    ):
+    def patch_request(self, url, params=None, data=None, json=None, success_codes=[200, 201, 204]):
         """
         Make a PATCH request.
 
@@ -307,3 +307,13 @@ class APIConnector(object):
             return True
         except JSONDecodeError:
             return False
+
+    def convert_to_table(self, data):
+        """Internal method to create a Parsons table from a data element."""
+        table = None
+        if type(data) is list:
+            table = Table(data)
+        else:
+            table = Table([data])
+
+        return table

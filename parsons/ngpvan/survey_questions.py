@@ -1,4 +1,5 @@
 """NGPVAN Survey Questions Endpoints"""
+
 from parsons.etl.table import Table
 import logging
 
@@ -7,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 class SurveyQuestions(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_survey_questions(

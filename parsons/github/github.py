@@ -74,12 +74,9 @@ class GitHub(object):
     """
 
     def __init__(self, username=None, password=None, access_token=None):
-
         self.username = check_env.check("GITHUB_USERNAME", username, optional=True)
         self.password = check_env.check("GITHUB_PASSWORD", password, optional=True)
-        self.access_token = check_env.check(
-            "GITHUB_ACCESS_TOKEN", access_token, optional=True
-        )
+        self.access_token = check_env.check("GITHUB_ACCESS_TOKEN", access_token, optional=True)
 
         if self.username and self.password:
             self.client = PyGithub(self.username, self.password)
@@ -195,9 +192,7 @@ class GitHub(object):
                 Table with page of organization repos
         """
 
-        logger.info(
-            f"Listing page {page} of repos for organization {organization_name}"
-        )
+        logger.info(f"Listing page {page} of repos for organization {organization_name}")
 
         return self._as_table(
             self.client.get_organization(organization_name).get_repos(),
@@ -406,9 +401,7 @@ class GitHub(object):
         if branch is None:
             branch = repo.default_branch
 
-        logger.info(
-            f"Downloading {path} from {repo_name}, branch {branch} to {local_path}"
-        )
+        logger.info(f"Downloading {path} from {repo_name}, branch {branch} to {local_path}")
 
         headers = None
         if self.access_token:
@@ -435,9 +428,7 @@ class GitHub(object):
 
         return local_path
 
-    def download_table(
-        self, repo_name, path, branch=None, local_path=None, delimiter=","
-    ):
+    def download_table(self, repo_name, path, branch=None, local_path=None, delimiter=","):
         """Download a CSV file from a repo by path and branch as a Parsons Table.
 
         Args:

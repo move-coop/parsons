@@ -1,4 +1,5 @@
 """NGPVAN Supporter Groups Endpoints"""
+
 from parsons.etl.table import Table
 import logging
 
@@ -7,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 class SupporterGroups(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_supporter_groups(self):
@@ -84,9 +84,7 @@ class SupporterGroups(object):
             ``None``
         """
 
-        r = self.connection.put_request(
-            f"supporterGroups/{supporter_group_id}/people/{vanid}"
-        )
+        r = self.connection.put_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
         logger.info(f"Added person {vanid} to {supporter_group_id} supporter group.")
         return r
 
@@ -103,10 +101,6 @@ class SupporterGroups(object):
             ``None``
         """
 
-        r = self.connection.delete_request(
-            f"supporterGroups/{supporter_group_id}/people/{vanid}"
-        )
-        logger.info(
-            f"Deleted person {vanid} from {supporter_group_id} supporter group."
-        )
+        r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
+        logger.info(f"Deleted person {vanid} from {supporter_group_id} supporter group.")
         return r

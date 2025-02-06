@@ -54,9 +54,7 @@ class Events:
 
         params = {"expand": expand}
 
-        return self._request(
-            f"{self.events_url}/{event_id}/invitations", args=params, limit=limit
-        )
+        return self._request(f"{self.events_url}/{event_id}/invitations", args=params, limit=limit)
 
     def create_event(
         self,
@@ -226,9 +224,7 @@ class Events:
         response = self._request(
             self.eventactivities_url, req_type="POST", post_data=event_activity_payload
         )
-        logger.info(
-            f"Created activity {activity_name} for event {event_name} (id: {event_id})"
-        )
+        logger.info(f"Created activity {activity_name} for event {event_name} (id: {event_id})")
 
         return response
 
@@ -341,9 +337,7 @@ class Events:
         }
 
         if specific_occurrence_start:
-            event_invitation_payload[
-                "specificOcurrenceStartUtc"
-            ] = specific_occurrence_start
+            event_invitation_payload["specificOcurrenceStartUtc"] = specific_occurrence_start
 
         response = self._request(
             self.events_url + f"/{event_id}/invitations",
@@ -394,9 +388,7 @@ class Events:
         if attended is not None:
             event_invitation_payload["attended"] = attended
         if specific_occurrence_start:
-            event_invitation_payload[
-                "specificOcurrenceStartUtc"
-            ] = specific_occurrence_start
+            event_invitation_payload["specificOcurrenceStartUtc"] = specific_occurrence_start
 
         response = self._request(
             self.events_url + f"/{event_id}/invitations/{invitation_id}",

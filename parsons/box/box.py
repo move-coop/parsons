@@ -89,9 +89,7 @@ class Box(object):
             parent_folder_id = DEFAULT_FOLDER_ID
         return self.create_folder_by_id(folder_name, parent_folder_id=parent_folder_id)
 
-    def create_folder_by_id(
-        self, folder_name, parent_folder_id=DEFAULT_FOLDER_ID
-    ) -> str:
+    def create_folder_by_id(self, folder_name, parent_folder_id=DEFAULT_FOLDER_ID) -> str:
         """Create a Box folder.
 
         `Args`:

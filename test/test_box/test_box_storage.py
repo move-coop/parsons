@@ -30,9 +30,7 @@ def generate_random_string(length):
 @unittest.skipIf(not os.getenv("LIVE_TEST"), "Skipping because not running live test")
 class TestBoxStorage(unittest.TestCase):
     def setUp(self) -> None:
-        warnings.filterwarnings(
-            action="ignore", message="unclosed", category=ResourceWarning
-        )
+        warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
 
         # Create a client that we'll use to manipulate things behind the scenes
         self.client = Box()
@@ -93,8 +91,7 @@ class TestBoxStorage(unittest.TestCase):
                 break
         self.assertTrue(
             found_default,
-            f"Failed to find test folder f{self.temp_folder_name} "
-            f"in default Box folder",
+            f"Failed to find test folder f{self.temp_folder_name} " f"in default Box folder",
         )
 
         subfolder_name = "path_subfolder"
@@ -171,9 +168,7 @@ class TestBoxStorage(unittest.TestCase):
 
         # Check that we throw an exception with bad formats
         with self.assertRaises(ValueError):
-            box.upload_table_to_folder_id(
-                table, "phone_numbers", format="illegal_format"
-            )
+            box.upload_table_to_folder_id(table, "phone_numbers", format="illegal_format")
         with self.assertRaises(ValueError):
             box.get_table_by_file_id(box_file.id, format="illegal_format")
 
@@ -239,9 +234,7 @@ class TestBoxStorage(unittest.TestCase):
 
         # Nonexistent file
         with self.assertRaises(ValueError):
-            file_path = (
-                f"{self.temp_folder_name}/item_subfolder/nonexistent/phone_numbers"
-            )
+            file_path = f"{self.temp_folder_name}/item_subfolder/nonexistent/phone_numbers"
             box.get_item_id(path=file_path)
 
         # File (rather than folder) in middle of path
@@ -287,9 +280,7 @@ class TestBoxStorage(unittest.TestCase):
         # Create folder in non-existent parent
         with self.assertLogs(level=logging.WARNING):
             with self.assertRaises(BoxAPIException):
-                box.create_folder_by_id(
-                    folder_name="subfolder", parent_folder_id=nonexistent_id
-                )
+                box.create_folder_by_id(folder_name="subfolder", parent_folder_id=nonexistent_id)
 
         # Try using bad credentials
         box = Box(access_token="5345345345")

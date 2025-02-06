@@ -35,9 +35,7 @@ class SMTP(SendMail):
         self.port = check("SMTP_PORT", port, optional=True) or 587
         self.username = check("SMTP_USER", username)
         self.password = check("SMTP_PASSWORD", password)
-        self.tls = not (
-            check("SMTP_TLS", tls, optional=True) in ("false", "False", "0", False)
-        )
+        self.tls = check("SMTP_TLS", tls, optional=True) not in ("false", "False", "0", False)
         self.close_manually = close_manually
 
         self.conn = None
@@ -73,9 +71,7 @@ class SMTP(SendMail):
             raise
 
         if result:
-            self.log.warning(
-                "Message failed to send to some recipients: " + str(result)
-            )
+            self.log.warning("Message failed to send to some recipients: " + str(result))
         if not self.close_manually:
             conn.quit()
             self.conn = None

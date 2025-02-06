@@ -20,9 +20,7 @@ class TestControlshiftMock(TestCase):
     @requests_mock.Mocker()
     def test_get_petitions(self, m):
         m.post(f"{self.hostname}/oauth/token", json={"access_token": "123"})
-        cs = Controlshift(
-            hostname=self.hostname, client_id="1234", client_secret="1234"
-        )
+        cs = Controlshift(hostname=self.hostname, client_id="1234", client_secret="1234")
 
         m.get(f"{self.hostname}/api/v1/petitions", json=test_data.petition_test_data)
         tbl = cs.get_petitions()

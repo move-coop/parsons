@@ -1,6 +1,7 @@
 import os
-from setuptools import find_packages
 from distutils.core import setup
+from pathlib import Path
+from setuptools import find_packages
 
 
 def main():
@@ -14,43 +15,62 @@ def main():
             "simplejson",
         ]
         extras_require = {
-            "airtable": ["airtable-python-wrapper"],
+            "airtable": ["pyairtable"],
             "alchemer": ["surveygizmo"],
             "azure": ["azure-storage-blob"],
             "box": ["boxsdk"],
             "braintree": ["braintree"],
             "catalist": ["paramiko"],
             "civis": ["civis"],
+            "dbt-redshift": ["dbt-redshift", "slackclient<2"],
+            "dbt-bigquery": ["dbt-bigquery", "slackclient<2"],
+            "dbt-postgres": ["dbt-postgres", "slackclient<2"],
+            "dbt-snowflake": ["dbt-snowflake", "slackclient<2"],
             "facebook": ["joblib", "facebook-business"],
-            "geocode": ["censusgeocode"],
+            "geocode": ["censusgeocode", "urllib3==1.26.19"],
             "github": ["PyGitHub"],
             "google": [
                 "apiclient",
                 "google-api-python-client",
                 "google-cloud-bigquery",
                 "google-cloud-storage",
+                "google-cloud-storage-transfer",
                 "gspread",
                 "httplib2",
                 "oauth2client",
                 "validate-email",
             ],
-            "mysql": ["mysql-connector-python", "SQLAlchemy"],
+            "mysql": [
+                "mysql-connector-python",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+            ],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
-            "postgres": ["psycopg2-binary", "SQLAlchemy"],
-            "redshift": ["boto3", "psycopg2-binary", "SQLAlchemy"],
+            "mobilecommons": ["bs4"],
+            "postgres": [
+                "psycopg2-binary>=2.9.9",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+            ],
+            "redshift": [
+                "boto3",
+                "psycopg2-binary>=2.9.9",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+            ],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
+            "scytl": ["defusedxml", "pytz"],
             "sftp": ["paramiko"],
             "slack": ["slackclient<2"],
             "smtp": ["validate-email"],
-            "targetsmart": ["xmltodict"],
+            "targetsmart": ["xmltodict", "defusedxml"],
             "twilio": ["twilio"],
-            "zoom": ["PyJWT"],
+            "ssh": [
+                "sshtunnel",
+                "psycopg2-binary>=2.9.9",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+            ],
         }
-        extras_require["all"] = sorted(
-            {lib for libs in extras_require.values() for lib in libs}
-        )
+        extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
     else:
         THIS_DIR = os.path.abspath(os.path.dirname(__file__))
         with open(os.path.join(THIS_DIR, "requirements.txt")) as reqs:
@@ -58,9 +78,12 @@ def main():
         # No op for forward-compatibility
         extras_require = {"all": []}
 
+    this_directory = Path(__file__).parent
+    long_description = (this_directory / "README.md").read_text()
+
     setup(
         name="parsons",
-        version="2.1.0",
+        version="4",
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url="https://github.com/move-coop/parsons",
@@ -71,12 +94,14 @@ def main():
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Developers",
-            "Programming Language :: Python :: 3.7",
-            "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
+            "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
         ],
-        python_requires=">=3.7.0,<3.11.0",
+        python_requires=">=3.9.0,<3.13.0",
+        long_description=long_description,
+        long_description_content_type="text/markdown",
     )
 
 

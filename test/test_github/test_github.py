@@ -34,9 +34,7 @@ class TestGitHub(unittest.TestCase):
     def test_list_repo_issues(self, m):
         with open(os.path.join(_dir, "test_data", "test_get_repo.json"), "r") as f:
             m.get("https://api.github.com:443/repos/octocat/Hello-World", text=f.read())
-        with open(
-            os.path.join(_dir, "test_data", "test_list_repo_issues.json"), "r"
-        ) as f:
+        with open(os.path.join(_dir, "test_data", "test_list_repo_issues.json"), "r") as f:
             m.get(
                 "https://api.github.com:443/repos/octocat/Hello-World/issues",
                 text=f.read(),
@@ -57,9 +55,7 @@ class TestGitHub(unittest.TestCase):
                 text=f.read(),
             )
 
-        file_path = self.github.download_file(
-            "octocat/Hello-World", "data.csv", branch="testing"
-        )
+        file_path = self.github.download_file("octocat/Hello-World", "data.csv", branch="testing")
         with open(file_path, "r") as f:
             file_contents = f.read()
 

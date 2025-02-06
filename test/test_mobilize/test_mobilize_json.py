@@ -3,9 +3,7 @@ import json
 GET_ORGANIZATIONS_JSON = {
     "count": 38,
     "next": None,
-    "previous": (
-        "https://events.mobilizeamerica.io/api/v1/organizations?updated_since=1543644000"
-    ),
+    "previous": ("https://events.mobilizeamerica.io/api/v1/organizations?updated_since=1543644000"),
     "data": [
         {
             "id": 1251,
@@ -58,9 +56,7 @@ GET_EVENTS_JSON = {
                 "created_date": 1538590930,
                 "modified_date": 1546468308,
             },
-            "timeslots": [
-                {"id": 526226, "start_date": 1547330400, "end_date": 1547335800}
-            ],
+            "timeslots": [{"id": 526226, "start_date": 1547330400, "end_date": 1547335800}],
             "location": {
                 "venue": "Harris County Democratic Party HQ",
                 "address_lines": ["4619 Lyons Ave", ""],
@@ -75,9 +71,7 @@ GET_EVENTS_JSON = {
             "event_type": "TRAINING",
             "created_date": 1546469706,
             "modified_date": 1547335800,
-            "browser_url": (
-                "https://events.mobilizeamerica.io/battlegroundtexas/event/86738/"
-            ),
+            "browser_url": ("https://events.mobilizeamerica.io/battlegroundtexas/event/86738/"),
             "high_priority": None,
             "contact": None,
             "visibility": "PUBLIC",

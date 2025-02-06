@@ -15,9 +15,7 @@ def sg_compatibility():
         os.environ["ALCHEMER_API_TOKEN"] = os.getenv("SURVEYGIZMO_API_TOKEN")
 
     if os.getenv("SURVEYGIZMO_API_TOKEN_SECRET"):
-        os.environ["ALCHEMER_API_TOKEN_SECRET"] = os.getenv(
-            "SURVEYGIZMO_API_TOKEN_SECRET"
-        )
+        os.environ["ALCHEMER_API_TOKEN_SECRET"] = os.getenv("SURVEYGIZMO_API_TOKEN_SECRET")
 
     if os.getenv("SURVEYGIZMO_API_VERSION"):
         os.environ["ALCHEMER_API_VERSION"] = os.getenv("SURVEYGIZMO_API_VERSION")
@@ -46,13 +44,10 @@ class Alchemer(object):
     """
 
     def __init__(self, api_token=None, api_token_secret=None, api_version="v5"):
-
         sg_compatibility()
 
         self.api_token = check_env.check("ALCHEMER_API_TOKEN", api_token)
-        self.api_token_secret = check_env.check(
-            "ALCHEMER_API_TOKEN_SECRET", api_token_secret
-        )
+        self.api_token_secret = check_env.check("ALCHEMER_API_TOKEN_SECRET", api_token_secret)
         self.api_version = check_env.check("ALCHEMER_API_VERSION", api_version)
 
         self._client = surveygizmo.SurveyGizmo(
@@ -111,9 +106,7 @@ class Alchemer(object):
 
         if not page:
             while r["page"] < r["total_pages"]:
-                r = self._client.api.surveyresponse.list(
-                    survey_id, page=(r["page"] + 1)
-                )
+                r = self._client.api.surveyresponse.list(survey_id, page=(r["page"] + 1))
                 data.extend(r["data"])
 
         tbl = Table(data).add_column("survey_id", survey_id, index=1)

@@ -59,9 +59,7 @@ adv_json = {
                 },
             ],
             "fields": [],
-            "phones": [
-                {"id": 10537860, "address": "+19995206447", "subscribed": "false"}
-            ],
+            "phones": [{"id": 10537860, "address": "+19995206447", "subscribed": "false"}],
             "emails": [
                 {"id": 10537871, "address": "N@k.com", "subscribed": "false"},
                 {"id": 10950446, "address": "email@me.com", "subscribed": "false"},
@@ -111,11 +109,9 @@ def parse_request_body(m):
 
 class TestP2A(unittest.TestCase):
     def setUp(self):
-
         self.p2a = Phone2Action(app_id="an_id", app_key="app_key")
 
     def tearDown(self):
-
         pass
 
     def test_init_args(self):
@@ -136,7 +132,6 @@ class TestP2A(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_advocates(self, m):
-
         m.get(self.p2a.client.uri + "advocates", json=adv_json)
 
         adv_exp = [
@@ -188,16 +183,13 @@ class TestP2A(unittest.TestCase):
             "memberships_name",
             "memberships_source",
         ]
-        self.assertTrue(
-            validate_list(member_exp, self.p2a.get_advocates()["memberships"])
-        )
+        self.assertTrue(validate_list(member_exp, self.p2a.get_advocates()["memberships"]))
 
         fields_exp = ["advocate_id", "fields"]
         self.assertTrue(validate_list(fields_exp, self.p2a.get_advocates()["fields"]))
 
     @requests_mock.Mocker()
     def test_get_advocates__by_page(self, m):
-
         response = copy.deepcopy(adv_json)
         # Make it look like there's more data
         response["pagination"]["count"] = 100
@@ -213,7 +205,6 @@ class TestP2A(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_advocates__empty(self, m):
-
         response = copy.deepcopy(adv_json)
         response["data"] = []
         # Make it look like there's more data
@@ -226,7 +217,6 @@ class TestP2A(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):
-
         camp_exp = [
             "id",
             "name",
@@ -253,30 +243,23 @@ class TestP2A(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_create_advocate(self, m):
-
         m.post(self.p2a.client.uri + "advocates", json={"advocateid": 1})
 
         # Test arg validation - create requires a phone or an email
         self.assertRaises(
             ValueError,
-            lambda: self.p2a.create_advocate(
-                campaigns=[1], firstname="Foo", lastname="bar"
-            ),
+            lambda: self.p2a.create_advocate(campaigns=[1], firstname="Foo", lastname="bar"),
         )
         # Test arg validation - sms opt in requires a phone
         self.assertRaises(
             ValueError,
-            lambda: self.p2a.create_advocate(
-                campaigns=[1], email="foo@bar.com", sms_optin=True
-            ),
+            lambda: self.p2a.create_advocate(campaigns=[1], email="foo@bar.com", sms_optin=True),
         )
 
         # Test arg validation - email opt in requires a email
         self.assertRaises(
             ValueError,
-            lambda: self.p2a.create_advocate(
-                campaigns=[1], phone="1234567890", email_optin=True
-            ),
+            lambda: self.p2a.create_advocate(campaigns=[1], phone="1234567890", email_optin=True),
         )
 
         # Test a successful call
@@ -295,7 +278,6 @@ class TestP2A(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_update_advocate(self, m):
-
         m.post(self.p2a.client.uri + "advocates")
 
         # Test arg validation - sms opt in requires a phone

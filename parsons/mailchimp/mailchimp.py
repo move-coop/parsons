@@ -381,9 +381,7 @@ class Mailchimp:
             "since": since,
         }
 
-        response = self.client.get_request(
-            f"reports/{campaign_id}/email-activity", params=params
-        )
+        response = self.client.get_request(f"reports/{campaign_id}/email-activity", params=params)
         tbl = Table(response["emails"])
         if tbl.num_rows > 0:
             return tbl
@@ -425,9 +423,7 @@ class Mailchimp:
             "offset": offset,
         }
 
-        response = self.client.get_request(
-            f"reports/{campaign_id}/unsubscribed", params=params
-        )
+        response = self.client.get_request(f"reports/{campaign_id}/unsubscribed", params=params)
         tbl = Table(response["unsubscribes"])
         logger.info(f"Found {tbl.num_rows} unsubscribes for {campaign_id}.")
         if tbl.num_rows > 0:

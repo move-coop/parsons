@@ -74,10 +74,7 @@ class FacebookAds(object):
         "DOB YYYYMMDD": ["dob", "vb_voterbase_dob", "vb_tsmart_dob"]
     }
 
-    def __init__(
-        self, app_id=None, app_secret=None, access_token=None, ad_account_id=None
-    ):
-
+    def __init__(self, app_id=None, app_secret=None, access_token=None, ad_account_id=None):
         try:
             self.app_id = app_id or os.environ["FB_APP_ID"]
             self.app_secret = app_secret or os.environ["FB_APP_SECRET"]
@@ -85,8 +82,7 @@ class FacebookAds(object):
             self.ad_account_id = ad_account_id or os.environ["FB_AD_ACCOUNT_ID"]
         except KeyError as error:
             logger.error(
-                "FB Marketing API credentials missing. Must be specified as env vars "
-                "or kwargs"
+                "FB Marketing API credentials missing. Must be specified as env vars " "or kwargs"
             )
             raise error
 
@@ -120,15 +116,9 @@ class FacebookAds(object):
         # Parse the DOB column into 3 new columns, and remove the original column
         # TODO Throw an error if the values are not 6 characters long?
 
-        table.add_column(
-            FBKeySchema.doby, lambda row: row[column][:4] if row[column] else None
-        )
-        table.add_column(
-            FBKeySchema.dobm, lambda row: row[column][4:6] if row[column] else None
-        )
-        table.add_column(
-            FBKeySchema.dobd, lambda row: row[column][6:8] if row[column] else None
-        )
+        table.add_column(FBKeySchema.doby, lambda row: row[column][:4] if row[column] else None)
+        table.add_column(FBKeySchema.dobm, lambda row: row[column][4:6] if row[column] else None)
+        table.add_column(FBKeySchema.dobd, lambda row: row[column][6:8] if row[column] else None)
         table.remove_column(column)
 
     @staticmethod
@@ -281,9 +271,7 @@ class FacebookAds(object):
 
         # Note that the FB SDK handles basic normalization and hashing of the data
         CustomAudience(audience_id).add_users(schema, batch, is_raw=True)
-        logger.info(
-            f"Added {added_so_far+len(batch)}/{total_rows} users to custom audience..."
-        )
+        logger.info(f"Added {added_so_far + len(batch)} / {total_rows} users to custom audience...")
 
     def add_users_to_custom_audience(self, audience_id, users_table):
         """
@@ -361,8 +349,7 @@ class FacebookAds(object):
         """  # noqa: E501,E261
 
         logger.info(
-            f"Adding custom audience users from provided table with "
-            f"{users_table.num_rows} rows"
+            f"Adding custom audience users from provided table with " f"{users_table.num_rows} rows"
         )
 
         match_table = FacebookAds.get_match_table_for_users_table(users_table)

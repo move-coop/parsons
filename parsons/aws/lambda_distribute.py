@@ -42,9 +42,7 @@ class S3Storage:
         self.s3 = S3(use_env_token=use_env_token)
 
     def put_object(self, bucket, key, object_bytes, **kwargs):
-        return self.s3.client.put_object(
-            Bucket=bucket, Key=key, Body=object_bytes, **kwargs
-        )
+        return self.s3.client.put_object(Bucket=bucket, Key=key, Body=object_bytes, **kwargs)
 
     def get_range(self, bucket, key, rangestart, rangeend):
         """
@@ -133,9 +131,7 @@ def distribute_task_csv(
             ],
             # if we are using local storage, then it must be run locally, as well
             # (good for testing/debugging)
-            remote_aws_lambda_function_name="FORCE_LOCAL"
-            if storage == "local"
-            else None,
+            remote_aws_lambda_function_name="FORCE_LOCAL" if storage == "local" else None,
         )
         for grp in group_ranges
     ]
@@ -259,9 +255,7 @@ def process_task_portion(
         except Exception:
             # In Lambda you can search for '"Distribute Error"' in the logs
             type_, value_, traceback_ = sys.exc_info()
-            err_traceback_str = "\n".join(
-                traceback.format_exception(type_, value_, traceback_)
-            )
+            err_traceback_str = "\n".join(traceback.format_exception(type_, value_, traceback_))
             return {
                 "Exception": "Distribute Error",
                 "error": err_traceback_str,

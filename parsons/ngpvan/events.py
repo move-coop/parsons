@@ -9,7 +9,6 @@ logger = logging.getLogger(__name__)
 
 class Events(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_events(
@@ -108,9 +107,7 @@ class Events(object):
         if expand_fields:
             expand_fields = ",".join(expand_fields)
 
-        r = self.connection.get_request(
-            f"events/{event_id}", params={"$expand": expand_fields}
-        )
+        r = self.connection.get_request(f"events/{event_id}", params={"$expand": expand_fields})
         logger.info(f"Found event {event_id}.")
         return r
 
@@ -189,9 +186,7 @@ class Events(object):
         """
 
         if shifts is None:
-            shifts = [
-                {"name": "Default Shift", "startTime": start_date, "endTime": end_date}
-            ]
+            shifts = [{"name": "Default Shift", "startTime": start_date, "endTime": end_date}]
         else:
             shifts = [
                 {
@@ -219,9 +214,7 @@ class Events(object):
         }
 
         if location_ids:
-            event["locations"] = (
-                [{"locationId": location_id} for location_id in location_ids],
-            )
+            event["locations"] = [{"locationId": location_id} for location_id in location_ids]
 
         if code_ids:
             event["codes"] = [{"codeID": c} for c in code_ids]

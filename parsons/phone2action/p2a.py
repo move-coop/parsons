@@ -21,21 +21,15 @@ class Phone2Action(object):
 
     def __init__(self, app_id=None, app_key=None):
         self.capitol_canary = CapitolCanary(app_id, app_key)
-        logger.warning(
-            "The Phone2Action class is being deprecated and replaced by CapitalCanary"
-        )
+        logger.warning("The Phone2Action class is being deprecated and replaced by CapitalCanary")
 
     def __getattr__(self, name):
         try:
             return getattr(self.capitol_canary, name)
         except AttributeError:
-            raise AttributeError(
-                f"{type(self).__name__} object has no attribute {name}"
-            )
+            raise AttributeError(f"{type(self).__name__} object has no attribute {name}")
 
-    def get_advocates(
-        self, state=None, campaign_id=None, updated_since=None, page=None
-    ):
+    def get_advocates(self, state=None, campaign_id=None, updated_since=None, page=None):
         """
         Return advocates (person records).
 
@@ -64,9 +58,7 @@ class Phone2Action(object):
                 * fields
                 * advocates
         """
-        return self.capitol_canary.get_advocates(
-            state, campaign_id, updated_since, page
-        )
+        return self.capitol_canary.get_advocates(state, campaign_id, updated_since, page)
 
     def get_campaigns(
         self,

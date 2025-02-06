@@ -436,9 +436,7 @@ TEST_GET_TRANSACTION = {
             },
             "Type": "Pledge",
             "PledgePaymentIds": [0],
-            "PledgeInstallments": [
-                {"Id": 0, "PledgeId": 0, "Date": "2020-09-08", "Amount": 0}
-            ],
+            "PledgeInstallments": [{"Id": 0, "PledgeId": 0, "Date": "2020-09-08", "Amount": 0}],
             "PledgeBalance": 0,
             "PledgeStatus": "InGoodStanding",
             "PledgeAmountInArrears": 0,

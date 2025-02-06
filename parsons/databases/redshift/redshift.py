@@ -95,9 +95,7 @@ class Redshift(
             self.db = db or os.environ["REDSHIFT_DB"]
             self.port = port or os.environ["REDSHIFT_PORT"]
         except KeyError as error:
-            logger.error(
-                "Connection info missing. Most include as kwarg or " "env variable."
-            )
+            logger.error("Connection info missing. Most include as kwarg or " "env variable.")
             raise error
 
         self.timeout = timeout
@@ -296,6 +294,7 @@ class Redshift(
         bucket_region=None,
         strict_length=True,
         template_table=None,
+        encoding="utf-8",
         line_delimited=False,
     ):
         """
@@ -414,7 +413,7 @@ class Redshift(
 
                     local_path = s3.get_file(bucket, key)
                     if data_type == "csv":
-                        tbl = Table.from_csv(local_path, delimiter=csv_delimiter)
+                        tbl = Table.from_csv(local_path, delimiter=csv_delimiter, encoding=encoding)
                     elif data_type == "json":
                         tbl = Table.from_json(local_path, line_delimited=line_delimited)
                     else:
@@ -682,9 +681,7 @@ class Redshift(
                 }
 
                 # Copy from S3 to Redshift
-                sql = self.copy_statement(
-                    table_name, self.s3_temp_bucket, key, **copy_args
-                )
+                sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)
                 sql_censored = sql_helpers.redact_credentials(sql)
 
                 logger.debug(f"Copy SQL command: {sql_censored}")
@@ -724,7 +721,7 @@ class Redshift(
 
         sql: str
             The SQL string to execute to generate the data to unload.
-        buckey: str
+        bucket: str
            The destination S3 bucket
         key_prefix: str
             The prefix of the key names that will be written
@@ -854,7 +851,7 @@ class Redshift(
         self.unload(
             sql=f"select * from {rs_table}",
             bucket=bucket,
-            key_prefix=f"{key}/{rs_table.replace('.','_')}/",
+            key_prefix=f"{key}/{rs_table.replace('.', '_')}/",
             manifest=manifest,
             header=header,
             delimiter=delimiter,
@@ -1153,9 +1150,7 @@ class Redshift(
             tbl = self.query_with_connection(sql_depend, connection)
             dropped_views = [row["table_name"] for row in tbl]
             if dropped_views:
-                sql_drop = "\n".join(
-                    [f"drop view {view} CASCADE;" for view in dropped_views]
-                )
+                sql_drop = "\n".join([f"drop view {view} CASCADE;" for view in dropped_views])
                 tbl = self.query_with_connection(sql_drop, connection)
                 logger.info(f"Dropped the following views: {dropped_views}")
 
@@ -1185,11 +1180,7 @@ class Redshift(
         # Determine the max width of the varchar columns in the Redshift table
         s, t = self.split_full_table_name(table_name)
         cols = self.get_columns(s, t)
-        rc = {
-            k: v["max_length"]
-            for k, v in cols.items()
-            if v["data_type"] == "character varying"
-        }  # noqa: E501, E261
+        rc = {k: v["max_length"] for k, v in cols.items() if v["data_type"] == "character varying"}  # noqa: E501, E261
 
         # Figure out if any of the destination table varchar columns are smaller than the
         # associated Parsons table columns. If they are, then alter column types to expand
@@ -1204,13 +1195,9 @@ class Redshift(
                     new_size = pc[c]
                 if drop_dependencies:
                     self.drop_dependencies_for_cols(s, t, [c])
-                self.alter_table_column_type(
-                    table_name, c, "varchar", varchar_width=new_size
-                )
+                self.alter_table_column_type(table_name, c, "varchar", varchar_width=new_size)
 
-    def alter_table_column_type(
-        self, table_name, column_name, data_type, varchar_width=None
-    ):
+    def alter_table_column_type(self, table_name, column_name, data_type, varchar_width=None):
         """
         Alter a column type of an existing table.
 

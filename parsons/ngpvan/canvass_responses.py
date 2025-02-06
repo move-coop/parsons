@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 class CanvassResponses(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_canvass_responses_contact_types(self):

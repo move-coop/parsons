@@ -11,12 +11,10 @@ os.environ["VAN_API_KEY"] = "SOME_KEY"
 
 class TestBulkImport(unittest.TestCase):
     def setUp(self):
-
         self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
 
     @requests_mock.Mocker()
     def test_get_bulk_import_resources(self, m):
-
         json = ["Contacts", "Contributions", "ActivistCodes", "ContactsActivistCodes"]
 
         m.get(self.van.connection.uri + "bulkImportJobs/resources", json=json)
@@ -25,14 +23,12 @@ class TestBulkImport(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_bulk_import_job(self, m):
-
         m.get(self.van.connection.uri + "bulkImportJobs/53407", json=bulk_import_job)
 
         self.assertEqual(self.van.get_bulk_import_job(53407), bulk_import_job)
 
     @requests_mock.Mocker()
     def test_get_bulk_import_job_results(self, m):
-
         results_tbl = Table(
             [
                 [
@@ -66,28 +62,21 @@ class TestBulkImport(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_bulk_import_mapping_types(self, m):
+        m.get(self.van.connection.uri + "bulkImportMappingTypes", json=[mapping_type])
 
-        m.get(self.van.connection.uri + "bulkImportMappingTypes", json=mapping_type)
-
-        assert_matching_tables(
-            self.van.get_bulk_import_mapping_types(), Table(mapping_type)
-        )
+        assert_matching_tables(self.van.get_bulk_import_mapping_types(), Table([mapping_type]))
 
     @requests_mock.Mocker()
     def test_get_bulk_import_mapping_type(self, m):
-
         m.get(
             self.van.connection.uri + "bulkImportMappingTypes/ActivistCode",
             json=mapping_type,
         )
 
-        self.assertEqual(
-            self.van.get_bulk_import_mapping_type("ActivistCode"), mapping_type
-        )
+        self.assertEqual(self.van.get_bulk_import_mapping_type("ActivistCode"), mapping_type)
 
     @requests_mock.Mocker()
     def get_bulk_import_mapping_type_fields(self, m):
-
         json = [
             {"name": "Unsubscribed", "id": "0", "parents": None},
             {"name": "Not Subscribed", "id": "1", "parents": None},
@@ -98,14 +87,11 @@ class TestBulkImport(unittest.TestCase):
             + "bulkImportMappingTypes/Email/EmailSubscriptionStatusId/values"
         )
 
-        r = self.van.get_bulk_import_mapping_type_fields(
-            "Email", "EmailSubscriptionStatusId"
-        )
+        r = self.van.get_bulk_import_mapping_type_fields("Email", "EmailSubscriptionStatusId")
         self.assertEqual(json, r)
 
     @requests_mock.Mocker()
     def test_post_bulk_import(self, m):
-
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
@@ -127,7 +113,6 @@ class TestBulkImport(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_bulk_apply_activist_codes(self, m):
-
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
@@ -136,15 +121,12 @@ class TestBulkImport(unittest.TestCase):
 
         m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
 
-        job_id = self.van.bulk_apply_activist_codes(
-            tbl, url_type="S3", bucket="my-bucket"
-        )
+        job_id = self.van.bulk_apply_activist_codes(tbl, url_type="S3", bucket="my-bucket")
 
         self.assertEqual(job_id, 54679)
 
     @requests_mock.Mocker()
     def test_bulk_apply_suppressions(self, m):
-
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
@@ -153,15 +135,12 @@ class TestBulkImport(unittest.TestCase):
 
         m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
 
-        job_id = self.van.bulk_apply_suppressions(
-            tbl, url_type="S3", bucket="my-bucket"
-        )
+        job_id = self.van.bulk_apply_suppressions(tbl, url_type="S3", bucket="my-bucket")
 
         self.assertEqual(job_id, 54679)
 
     @requests_mock.Mocker()
     def test_bulk_upsert_contacts(self, m):
-
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
@@ -171,6 +150,43 @@ class TestBulkImport(unittest.TestCase):
         m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
 
         job_id = self.van.bulk_upsert_contacts(tbl, url_type="S3", bucket="my-bucket")
+
+        self.assertEqual(job_id, 54679)
+
+    @requests_mock.Mocker()
+    def test_bulk_apply_canvass_results(self, m):
+        # Mock Cloud Storage
+        cloud_storage.post_file = mock.MagicMock()
+        cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
+
+        tbl = Table(
+            [
+                ["vanid", "contacttypeid", "resultid", "datecanvassed", "canvassedby", "phone"],
+                [1234, 1, 1, "2020-01-01", 987, "5554443210"],
+            ]
+        )
+
+        m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
+
+        job_id = self.van.bulk_apply_canvass_results(tbl, url_type="S3", bucket="my-bucket")
+
+        self.assertEqual(job_id, 54679)
+
+    @requests_mock.Mocker()
+    def test_bulk_apply_contact_custom_fields(self, m):
+        # Mock Cloud Storage
+        cloud_storage.post_file = mock.MagicMock()
+        cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
+
+        tbl = Table([["vanid", "CF123", "CF124"], [1234, "Test String Value", 999]])
+
+        m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
+
+        custom_field_group_id = 1234
+
+        job_id = self.van.bulk_apply_contact_custom_fields(
+            custom_field_group_id, tbl, url_type="S3", bucket="my-bucket"
+        )
 
         self.assertEqual(job_id, 54679)
 
@@ -206,9 +222,7 @@ mapping_type = {
             "isRequired": False,
             "canBeMappedToColumn": True,
             "canBeMappedByName": True,
-            "parents": [
-                {"parentFieldName": "CanvassedBy", "limitedToParentValues": None}
-            ],
+            "parents": [{"parentFieldName": "CanvassedBy", "limitedToParentValues": None}],
         },
         {
             "name": "ContactTypeID",
@@ -217,9 +231,7 @@ mapping_type = {
             "isRequired": False,
             "canBeMappedToColumn": True,
             "canBeMappedByName": True,
-            "parents": [
-                {"parentFieldName": "CanvassedBy", "limitedToParentValues": None}
-            ],
+            "parents": [{"parentFieldName": "CanvassedBy", "limitedToParentValues": None}],
         },
     ],
 }

@@ -133,7 +133,7 @@ Now, we can test our Salesforce Parsons Connector's query method:
     # Call the query method with a fake value
     response = self.sf.query('FAKESOQL')
     # Check that our mock client's query_all method was also called with the fake value
-    assert self.sf._client.query_all.called_with('FAKESOQL')
+    self.sf._client.query_all.assert_called_with('FAKESOQL')
     # Check that the response from our query method is what we expect
     self.assertEqual(response[0]['value'], 'FAKE')
 

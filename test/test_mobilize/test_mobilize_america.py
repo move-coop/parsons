@@ -7,15 +7,12 @@ import test.test_mobilize.test_mobilize_json as test_json
 
 class TestMobilizeAmerica(unittest.TestCase):
     def setUp(self):
-
         self.ma = MobilizeAmerica()
 
     def tearDown(self):
-
         pass
 
     def test_time_parse(self):
-
         # Test that Unix conversion works correctly
         self.assertEqual(self.ma._time_parse("<=2018-12-13"), "lte_1544659200")
 
@@ -24,7 +21,6 @@ class TestMobilizeAmerica(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_organizations(self, m):
-
         m.get(self.ma.uri + "organizations", json=test_json.GET_ORGANIZATIONS_JSON)
 
         expected = [
@@ -48,7 +44,6 @@ class TestMobilizeAmerica(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_events(self, m):
-
         m.get(self.ma.uri + "events", json=test_json.GET_EVENTS_JSON)
 
         expected = [
@@ -98,7 +93,6 @@ class TestMobilizeAmerica(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test__get_events_organization__can_exclude_timeslots(self, m):
-
         m.get(requests_mock.ANY, json=test_json.GET_EVENTS_ORGANIZATION_JSON)
 
         ma = MobilizeAmerica(api_key="test_password")
@@ -108,7 +102,6 @@ class TestMobilizeAmerica(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test__get_events_organization__can_get_all_timeslots(self, m):
-
         m.get(requests_mock.ANY, json=test_json.GET_EVENTS_ORGANIZATION_JSON)
 
         ma = MobilizeAmerica(api_key="test_password")
@@ -119,7 +112,6 @@ class TestMobilizeAmerica(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test__get_events_organization__can_limit_timeslots(self, m):
-
         m.get(requests_mock.ANY, json=test_json.GET_EVENTS_ORGANIZATION_JSON)
 
         ma = MobilizeAmerica(api_key="test_password")
@@ -130,10 +122,7 @@ class TestMobilizeAmerica(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_events_deleted(self, m):
-
         m.get(self.ma.uri + "events/deleted", json=test_json.GET_EVENTS_DELETED_JSON)
 
         # Assert response is expected structure
-        self.assertTrue(
-            validate_list(["id", "deleted_date"], self.ma.get_events_deleted())
-        )
+        self.assertTrue(validate_list(["id", "deleted_date"], self.ma.get_events_deleted()))

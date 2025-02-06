@@ -95,9 +95,7 @@ class RockTheVote:
 
         if report_type:
             if report_type not in VALID_REPORT_TYPES:
-                raise RTVFailure(
-                    f"Invalid report type. Must be one of {VALID_REPORT_TYPES}"
-                )
+                raise RTVFailure(f"Invalid report type. Must be one of {VALID_REPORT_TYPES}")
             report_parameters["report_type"] = report_type
         if since:
             since_date = parse_date(since).strftime(DATETIME_FORMAT)
@@ -167,9 +165,7 @@ class RockTheVote:
 
         # Let's figure out at what time should we just give up because we waited
         # too long
-        end_time = datetime.datetime.now() + datetime.timedelta(
-            seconds=report_timeout_seconds
-        )
+        end_time = datetime.datetime.now() + datetime.timedelta(seconds=report_timeout_seconds)
 
         # If we have a download URL, we can move on and just download the
         # report. Otherwise, as long as we haven't run out of time, we will
@@ -216,9 +212,7 @@ class RockTheVote:
 
             # Transform the data from the report's CSV format to something more
             # Pythonic (snake case)
-            normalized_column_names = [
-                re.sub(r"\s", "_", name).lower() for name in table.columns
-            ]
+            normalized_column_names = [re.sub(r"\s", "_", name).lower() for name in table.columns]
             normalized_column_names = [
                 re.sub(r"[^A-Za-z\d_]", "", name) for name in normalized_column_names
             ]
@@ -261,8 +255,7 @@ class RockTheVote:
         """
         report_str = f"{report_type} report" if report_type else "report"
         logger.info(
-            f"Running {report_str} for {self.partner_id} "
-            f"for dates: {since} to {before}..."
+            f"Running {report_str} for {self.partner_id} " f"for dates: {since} to {before}..."
         )
         report_id = self.create_registration_report(
             before=before, since=since, report_type=report_type
@@ -310,9 +303,7 @@ class RockTheVote:
         if callback:
             params["callback"] = callback
 
-        requirements_response = self.client.request(
-            requirements_url, "get", params=params
-        )
+        requirements_response = self.client.request(requirements_url, "get", params=params)
 
         if requirements_response.status_code == requests.codes.ok:
             response_json = requirements_response.json()

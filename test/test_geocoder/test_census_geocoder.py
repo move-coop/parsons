@@ -7,16 +7,12 @@ from test_responses import geographies_resp, locations_resp, batch_resp, coord_r
 from test.utils import assert_matching_tables
 
 
-@unittest.skipIf(
-    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
-)
+@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestCensusGeocoder(unittest.TestCase):
     def setUp(self):
-
         self.cg = CensusGeocoder()
 
     def test_geocode_onelineaddress(self):
-
         self.cg.cg = mock.MagicMock()
         address = "1600 Pennsylvania Avenue, Washington, DC"
 
@@ -33,7 +29,6 @@ class TestCensusGeocoder(unittest.TestCase):
         self.assertEqual(geo, locations_resp)
 
     def test_geocode_address(self):
-
         self.cg.cg = mock.MagicMock()
         passed_address = {
             "address_line": "1600 Pennsylvania Avenue",
@@ -52,7 +47,6 @@ class TestCensusGeocoder(unittest.TestCase):
         self.assertEqual(geo, locations_resp)
 
     def test_geocode_address_batch(self):
-
         batch = [
             ["id", "street", "city", "state", "zip"],
             ["1", "908 N Washtenaw", "Chicago", "IL", "60622"],
@@ -69,7 +63,6 @@ class TestCensusGeocoder(unittest.TestCase):
         assert_matching_tables(geo, Table(petl.fromdicts(batch_resp)))
 
     def test_coordinates(self):
-
         # Assert coordinates data returns expected response.
         self.cg.cg.address = mock.MagicMock(return_value=coord_resp)
         geo = self.cg.get_coordinates_data("38.8884212", "-77.0441907")

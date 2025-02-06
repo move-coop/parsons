@@ -1,4 +1,5 @@
 """NGPVAN Bulk Import Endpoints"""
+
 from parsons.etl.table import Table
 from parsons.utilities import cloud_storage
 
@@ -109,9 +110,7 @@ class BulkImport(object):
                 A mapping type fields json
         """
 
-        r = self.connection.get_request(
-            f"bulkImportMappingTypes/{type_name}/{field_name}/values"
-        )
+        r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}/{field_name}/values")
         logger.info(f"Found {type_name} bulk import mapping type field values.")
         return r
 
@@ -190,6 +189,9 @@ class BulkImport(object):
             * - ``datecanvassed``
               - No
               - An ISO formatted date
+            * - ``canvassedby``
+              - No
+              - A valid User ID; Required when DateCanvassed is provided
             * - ``contacttypeid``
               - No
               - The method of contact.
@@ -250,7 +252,7 @@ class BulkImport(object):
               -
               -
             * - First Name
-              - ``fn``, ``firstname``, ``last``
+              - ``fn``, ``firstname``, ``first``
               -
             * - Middle Name
               - ``mn``, ``middlename``, ``middle``
@@ -259,8 +261,8 @@ class BulkImport(object):
               - ``ln``, ``lastname``, ``last``
               -
             * - Date of Birth
-              - ``dob``, ``dateofbirth`` ``birthdate``
-              - What type of thing does this need?
+              - ``dob``, ``dateofbirth``, ``birthdate``
+              - An ISO formatted date
             * - Sex
               - ``sex``, ``gender``
               -
@@ -281,6 +283,9 @@ class BulkImport(object):
               -
             * - State Or Province
               - ``state``, ``st``, ``stateorprovince``
+              -
+            * - Zip or Postal Code
+              - ``ziporpostal``, ``postal``, ``postalcode``, ``zip``, ``zipcode``
               -
             * - Country Code
               - ``countrycode``, ``country``
@@ -310,6 +315,9 @@ class BulkImport(object):
             * - Email
               - ``email``, ``emailaddress``
               -
+            * - Other Email
+              - ``otheremail``, ``email2``, ``emailaddress2``
+              -
 
         `Args:`
             table: Parsons table
@@ -326,7 +334,7 @@ class BulkImport(object):
                 The bulk import job id
         """
 
-        tbl = tbl.map_columns(COLUMN_MAP, exact_match=False)
+        tbl = tbl.map_columns(CONTACTS_COLUMN_MAP, exact_match=False)
 
         return self.post_bulk_import(
             tbl,
@@ -340,13 +348,13 @@ class BulkImport(object):
 
     def bulk_apply_suppressions(self, tbl, url_type, **url_kwargs):
         """
-        Bulk apply contact suppressions codes.
+        Bulk apply contact suppression codes.
 
         The table may include the following columns. The first column
         must be ``vanid``.
 
         .. list-table::
-            :widths: 25 25
+            :widths: 25 25 50
             :header-rows: 1
 
             * - Column Name
@@ -382,11 +390,140 @@ class BulkImport(object):
             **url_kwargs,
         )
 
+    def bulk_apply_canvass_results(self, tbl, url_type, **url_kwargs):
+        """
+        Bulk apply contact canvass results.
+
+        The table may include the following columns. The first column
+        must be ``vanid``.
+
+        .. list-table::
+            :widths: 25 25 50
+            :header-rows: 1
+
+            * - Column Name
+              - Required
+              - Description
+            * - ``vanid``
+              - Yes
+              - A valid VANID primary key
+            * - ``contacttypeid``
+              - Yes
+              - Valid Contact Type ID
+            * - ``resultid``
+              - Yes
+              - Valid Contact Result ID
+            * - ``datecanvassed``
+              - Yes
+              - ISO Date Format
+            * - ``canvassedby``
+              - Yes
+              - Valid User ID
+            * - ``phone``
+              - No
+              - Attempted Phone Number
+            * - ``countrycode``
+              - No
+              - Country Code (ISO 3166-1 alpha-2)
+            * - ``phonetypeid``
+              - No
+              - Phone Type
+            * - ``phoneoptinstatusid``
+              - No
+              - SMS Opt-In Status
+            * - ``addressid``
+              - No
+              - The Contact Address ID of the address that was canvassed
+
+        `Args:`
+            table: Parsons table
+                A Parsons table.
+            url_type: str
+                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+                See :ref:`Cloud Storage <cloud-storage>` for more details.
+            **url_kwargs: kwargs
+                Arguments to configure your cloud storage url type. See
+                :ref:`Cloud Storage <cloud-storage>` for more details.
+        `Returns:`
+            int
+                The bulk import job id
+        """
+
+        return self.post_bulk_import(
+            tbl,
+            url_type,
+            "Contacts",
+            [{"name": "CanvassResults"}],
+            "Apply Canvass Results",
+            **url_kwargs,
+        )
+
+    def bulk_apply_contact_custom_fields(self, custom_field_group_id, tbl, url_type, **url_kwargs):
+        """
+        Bulk apply contact custom fields.
+
+        The table may include the following columns. The first column
+        must be ``vanid``.
+
+        .. list-table::
+            :widths: 25 25 60
+            :header-rows: 1
+
+            * - Column Name
+              - Required
+              - Description
+            * - ``vanid``
+              - Yes
+              - A valid VANID primary key
+            * - ***``CF{CustomFieldID}``
+              - Yes
+              - At least one custom field column to be loaded associated with the provided
+                custom_field_group_id. The column name should be a valid Custom Field ID
+                prefixed with ``CF``, i.e. CF123.
+
+        `Args:`
+            custom_field_group_id: int
+                Valid Custom Contact Field Group ID; must be the parent of
+                the provided Custom Field IDs in the file.
+            table: Parsons table
+                A Parsons table.
+            url_type: str
+                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+                See :ref:`Cloud Storage <cloud-storage>` for more details.
+            **url_kwargs: kwargs
+                Arguments to configure your cloud storage url type. See
+                :ref:`Cloud Storage <cloud-storage>` for more details.
+        `Returns:`
+            int
+                The bulk import job id
+        """
+
+        mapping_types = [
+            {
+                "name": "ApplyContactCustomFields",
+                "fieldValueMappings": [
+                    {
+                        "fieldName": "CustomFieldGroupID",
+                        "staticValue": custom_field_group_id,
+                    },
+                ],
+            }
+        ]
+
+        return self.post_bulk_import(
+            tbl,
+            url_type,
+            "Contacts",
+            mapping_types,
+            "Apply Contact Custom Fields",
+            **url_kwargs,
+        )
+
 
 # This is a column mapper that is used to accept additional column names and provide
 # flexibility for the user.
 
-COLUMN_MAP = {
+CONTACTS_COLUMN_MAP = {
     "firstname": ["fn", "first"],
     "middlename": ["mn", "middle"],
     "lastname": ["ln", "last"],
@@ -397,6 +534,7 @@ COLUMN_MAP = {
     "addressline3": ["addressline3", "address3"],
     "city": [],
     "stateorprovince": ["state", "st"],
+    "ziporpostal": ["postal", "postalcode", "zip", "zipcode"],
     "countrycode": ["country"],
     "displayasentered": [],
     "cellphone": ["cell"],
@@ -404,4 +542,5 @@ COLUMN_MAP = {
     "phone": ["home", "homephone"],
     "phonecountrycode": ["phonecountrycode"],
     "email": ["emailaddress"],
+    "otheremail": ["email2", "emailaddress2"],
 }

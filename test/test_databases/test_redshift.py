@@ -14,10 +14,7 @@ TEMP_SCHEMA = "parsons_test2"
 
 class TestRedshift(unittest.TestCase):
     def setUp(self):
-
-        self.rs = Redshift(
-            username="test", password="test", host="test", db="test", port=123
-        )
+        self.rs = Redshift(username="test", password="test", host="test", db="test", port=123)
 
         self.tbl = Table([["ID", "Name"], [1, "Jim"], [2, "John"], [3, "Sarah"]])
 
@@ -35,10 +32,7 @@ class TestRedshift(unittest.TestCase):
         )
 
         self.mapping = self.rs.generate_data_types(self.tbl)
-        self.rs.DO_PARSE_BOOLS = True
         self.mapping2 = self.rs.generate_data_types(self.tbl2)
-        self.rs.DO_PARSE_BOOLS = False
-        self.mapping3 = self.rs.generate_data_types(self.tbl2)
 
     def test_split_full_table_name(self):
         schema, table = Redshift.split_full_table_name("some_schema.some_table")
@@ -54,20 +48,13 @@ class TestRedshift(unittest.TestCase):
         self.assertRaises(ValueError, Redshift.split_full_table_name, "a.b.c")
 
     def test_combine_schema_and_table_name(self):
-        full_table_name = Redshift.combine_schema_and_table_name(
-            "some_schema", "some_table"
-        )
+        full_table_name = Redshift.combine_schema_and_table_name("some_schema", "some_table")
         self.assertEqual(full_table_name, "some_schema.some_table")
 
     def test_data_type(self):
-
         # Test bool
-        self.rs.DO_PARSE_BOOLS = True
-        self.assertEqual(self.rs.data_type(1, ""), "bool")
         self.assertEqual(self.rs.data_type(True, ""), "bool")
-        self.rs.DO_PARSE_BOOLS = False
         self.assertEqual(self.rs.data_type(1, ""), "int")
-        self.assertEqual(self.rs.data_type(True, ""), "varchar")
         # Test smallint
         # Currently smallints are coded as ints
         self.assertEqual(self.rs.data_type(2, ""), "int")
@@ -81,13 +68,14 @@ class TestRedshift(unittest.TestCase):
         self.assertEqual(self.rs.data_type(5.001, ""), "float")
         # Test varchar
         self.assertEqual(self.rs.data_type("word", ""), "varchar")
-        # Test int with underscore
+        # Test int with underscore as varchar
         self.assertEqual(self.rs.data_type("1_2", ""), "varchar")
+        # Test int with underscore
+        self.assertEqual(self.rs.data_type(1_2, ""), "int")
         # Test int with leading zero
         self.assertEqual(self.rs.data_type("01", ""), "varchar")
 
     def test_generate_data_types(self):
-
         # Test correct header labels
         self.assertEqual(self.mapping["headers"], ["ID", "Name"])
         # Test correct data types
@@ -95,23 +83,17 @@ class TestRedshift(unittest.TestCase):
 
         self.assertEqual(
             self.mapping2["type_list"],
-            ["varchar", "varchar", "float", "varchar", "float", "bool", "varchar"],
-        )
-
-        self.assertEqual(
-            self.mapping3["type_list"],
             ["varchar", "varchar", "float", "varchar", "float", "int", "varchar"],
         )
+
         # Test correct lengths
         self.assertEqual(self.mapping["longest"], [1, 5])
 
     def test_vc_padding(self):
-
         # Test padding calculated correctly
         self.assertEqual(self.rs.vc_padding(self.mapping, 0.2), [1, 6])
 
     def test_vc_max(self):
-
         # Test max sets it to the max
         self.assertEqual(self.rs.vc_max(self.mapping, ["Name"]), [1, 65535])
 
@@ -119,27 +101,21 @@ class TestRedshift(unittest.TestCase):
         # To Do
 
     def test_vc_validate(self):
-
         # Test that a column with a width of 0 is set to 1
         self.mapping["longest"][0] = 0
         self.mapping = self.rs.vc_validate(self.mapping)
         self.assertEqual(self.mapping, [1, 5])
 
     def test_create_sql(self):
-
         # Test the the statement is expected
         sql = self.rs.create_sql("tmc.test", self.mapping, distkey="ID")
-        exp_sql = (
-            "create table tmc.test (\n  id int,\n  name varchar(5)) \ndistkey(ID) ;"
-        )
+        exp_sql = "create table tmc.test (\n  id int,\n  name varchar(5)) \ndistkey(ID) ;"
         self.assertEqual(sql, exp_sql)
 
     def test_compound_sortkey(self):
         # check single sortkey formatting
         sql = self.rs.create_sql("tmc.test", self.mapping, sortkey="ID")
-        exp_sql = (
-            "create table tmc.test (\n  id int,\n  name varchar(5)) \nsortkey(ID);"
-        )
+        exp_sql = "create table tmc.test (\n  id int,\n  name varchar(5)) \nsortkey(ID);"
         self.assertEqual(sql, exp_sql)
 
         # check compound sortkey formatting
@@ -149,7 +125,6 @@ class TestRedshift(unittest.TestCase):
         self.assertEqual(sql, exp_sql)
 
     def test_column_validate(self):
-
         bad_cols = [
             "a",
             "a",
@@ -170,7 +145,6 @@ class TestRedshift(unittest.TestCase):
         self.assertEqual(self.rs.column_name_validate(bad_cols), fixed_cols)
 
     def test_create_statement(self):
-
         # Assert that copy statement is expected
         sql = self.rs.create_statement(self.tbl, "tmc.test", distkey="ID")
         exp_sql = """create table tmc.test (\n  "id" int,\n  "name" varchar(5)) \ndistkey(ID) ;"""  # noqa: E501
@@ -181,10 +155,11 @@ class TestRedshift(unittest.TestCase):
         self.assertRaises(ValueError, self.rs.create_statement, empty_table, "tmc.test")
 
     def test_get_creds_kwargs(self):
-
         # Test passing kwargs
         creds = self.rs.get_creds("kwarg_key", "kwarg_secret_key")
-        expected = """credentials 'aws_access_key_id=kwarg_key;aws_secret_access_key=kwarg_secret_key'\n"""  # noqa: E501
+        expected = (
+            """credentials 'aws_access_key_id=kwarg_key;aws_secret_access_key=kwarg_secret_key'\n"""  # noqa: E501
+        )
         self.assertEqual(creds, expected)
 
         # Test grabbing from environmental variables
@@ -193,7 +168,9 @@ class TestRedshift(unittest.TestCase):
         os.environ["AWS_ACCESS_KEY_ID"] = "env_key"
         os.environ["AWS_SECRET_ACCESS_KEY"] = "env_secret_key"
         creds = self.rs.get_creds(None, None)
-        expected = """credentials 'aws_access_key_id=env_key;aws_secret_access_key=env_secret_key'\n"""  # noqa: E501
+        expected = (
+            """credentials 'aws_access_key_id=env_key;aws_secret_access_key=env_secret_key'\n"""  # noqa: E501
+        )
         self.assertEqual(creds, expected)
 
         # Reset env vars
@@ -201,13 +178,11 @@ class TestRedshift(unittest.TestCase):
         os.environ["AWS_SECRET_ACCESS_KEY"] = prior_aws_secret_access_key
 
     def scrub_copy_tokens(self, s):
-
         s = re.sub("=.+;", "=*HIDDEN*;", s)
         s = re.sub("aws_secret_access_key=.+'", "aws_secret_access_key=*HIDDEN*'", s)
         return s
 
     def test_copy_statement_default(self):
-
         sql = self.rs.copy_statement(
             "test_schema.test",
             "buck",
@@ -218,9 +193,7 @@ class TestRedshift(unittest.TestCase):
         )
 
         # Scrub the keys
-        sql = re.sub(
-            r"id=.+;", "*id=HIDDEN*;", re.sub(r"key=.+'", "key=*HIDDEN*'", sql)
-        )
+        sql = re.sub(r"id=.+;", "*id=HIDDEN*;", re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
 
         expected_options = [
             "ignoreheader 1",
@@ -240,7 +213,6 @@ class TestRedshift(unittest.TestCase):
         [self.assertNotEqual(sql.find(o), -1, o) for o in expected_options]
 
     def test_copy_statement_statupdate(self):
-
         sql = self.rs.copy_statement(
             "test_schema.test",
             "buck",
@@ -251,9 +223,7 @@ class TestRedshift(unittest.TestCase):
         )
 
         # Scrub the keys
-        sql = re.sub(
-            r"id=.+;", "*id=HIDDEN*;", re.sub(r"key=.+'", "key=*HIDDEN*'", sql)
-        )
+        sql = re.sub(r"id=.+;", "*id=HIDDEN*;", re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
 
         expected_options = [
             "statupdate on",
@@ -282,9 +252,7 @@ class TestRedshift(unittest.TestCase):
         )
 
         # Scrub the keys
-        sql2 = re.sub(
-            r"id=.+;", "*id=HIDDEN*;", re.sub(r"key=.+'", "key=*HIDDEN*'", sql2)
-        )
+        sql2 = re.sub(r"id=.+;", "*id=HIDDEN*;", re.sub(r"key=.+'", "key=*HIDDEN*'", sql2))
 
         expected_options = [
             "statupdate off",
@@ -304,7 +272,6 @@ class TestRedshift(unittest.TestCase):
         [self.assertNotEqual(sql2.find(o), -1) for o in expected_options]
 
     def test_copy_statement_compupdate(self):
-
         sql = self.rs.copy_statement(
             "test_schema.test",
             "buck",
@@ -315,9 +282,7 @@ class TestRedshift(unittest.TestCase):
         )
 
         # Scrub the keys
-        sql = re.sub(
-            r"id=.+;", "*id=HIDDEN*;", re.sub(r"key=.+'", "key=*HIDDEN*'", sql)
-        )
+        sql = re.sub(r"id=.+;", "*id=HIDDEN*;", re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
 
         expected_options = [
             "compupdate on",
@@ -346,9 +311,7 @@ class TestRedshift(unittest.TestCase):
         )
 
         # Scrub the keys
-        sql2 = re.sub(
-            r"id=.+;", "*id=HIDDEN*;", re.sub(r"key=.+'", "key=*HIDDEN*'", sql2)
-        )
+        sql2 = re.sub(r"id=.+;", "*id=HIDDEN*;", re.sub(r"key=.+'", "key=*HIDDEN*'", sql2))
 
         expected_options = [
             "compupdate off",
@@ -368,7 +331,6 @@ class TestRedshift(unittest.TestCase):
         [self.assertNotEqual(sql2.find(o), -1) for o in expected_options]
 
     def test_copy_statement_columns(self):
-
         cols = ["a", "b", "c"]
 
         sql = self.rs.copy_statement(
@@ -381,9 +343,7 @@ class TestRedshift(unittest.TestCase):
         )
 
         # Scrub the keys
-        sql = re.sub(
-            r"id=.+;", "*id=HIDDEN*;", re.sub(r"key=.+'", "key=*HIDDEN*'", sql)
-        )
+        sql = re.sub(r"id=.+;", "*id=HIDDEN*;", re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
 
         expected_options = [
             "ignoreheader 1",
@@ -405,12 +365,9 @@ class TestRedshift(unittest.TestCase):
 # These tests interact directly with the Redshift database
 
 
-@unittest.skipIf(
-    not os.environ.get("LIVE_TEST"), "Skipping because not running live test"
-)
+@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
 class TestRedshiftDB(unittest.TestCase):
     def setUp(self):
-
         self.temp_schema = TEMP_SCHEMA
 
         self.rs = Redshift()
@@ -440,7 +397,6 @@ class TestRedshiftDB(unittest.TestCase):
         self.temp_s3_prefix = "test/"
 
     def tearDown(self):
-
         # Drop the view, the table and the schema
         teardown_sql = f"""
                        drop schema if exists {self.temp_schema} cascade;
@@ -452,7 +408,6 @@ class TestRedshiftDB(unittest.TestCase):
             self.s3.remove_file(self.temp_s3_bucket, key)
 
     def test_query(self):
-
         # Check that query sending back expected result
         r = self.rs.query("select 1")
         self.assertEqual(r[0]["?column?"], 1)
@@ -476,7 +431,6 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertFalse(self.rs.schema_exists("nonsense"))
 
     def test_table_exists(self):
-
         # Check if table_exists finds a table that exists
         self.assertTrue(self.rs.table_exists(f"{self.temp_schema}.test"))
 
@@ -493,12 +447,9 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertFalse(self.rs.table_exists(f"{self.temp_schema}.test_view_fake"))
 
         # Check that the view kwarg works
-        self.assertFalse(
-            self.rs.table_exists(f"{self.temp_schema}.test_view", view=False)
-        )
+        self.assertFalse(self.rs.table_exists(f"{self.temp_schema}.test_view", view=False))
 
     def test_temp_s3_create(self):
-
         key = self.rs.temp_s3_copy(self.tbl)
 
         # Test that you can get the object
@@ -508,19 +459,15 @@ class TestRedshiftDB(unittest.TestCase):
         self.rs.temp_s3_delete(key)
 
     def test_copy_s3(self):
-
         # To Do
         pass
 
     def test_copy(self):
-
         # Copy a table
         self.rs.copy(self.tbl, f"{self.temp_schema}.test_copy", if_exists="drop")
 
         # Test that file exists
-        r = self.rs.query(
-            f"select * from {self.temp_schema}.test_copy where name='Jim'"
-        )
+        r = self.rs.query(f"select * from {self.temp_schema}.test_copy where name='Jim'")
         self.assertEqual(r[0]["id"], 1)
 
         # Copy to the same table, to verify that the "truncate" flag works.
@@ -539,14 +486,11 @@ class TestRedshiftDB(unittest.TestCase):
                 if_exists="drop",
                 sortkey="Name",
             )
-            desired_log = [
-                log for log in lc.records if "optimize your queries" in log.msg
-            ][0]
+            desired_log = [log for log in lc.records if "optimize your queries" in log.msg][0]
             self.assertTrue("DIST" in desired_log.msg)
             self.assertFalse("SORT" in desired_log.msg)
 
     def test_upsert(self):
-
         # Create a target table when no target table exists
         self.rs.upsert(self.tbl, f"{self.temp_schema}.test_copy", "ID")
 
@@ -555,12 +499,8 @@ class TestRedshiftDB(unittest.TestCase):
         self.rs.upsert(upsert_tbl, f"{self.temp_schema}.test_copy", "ID")
 
         # Make sure that it is the expected table
-        expected_tbl = Table(
-            [["id", "name"], [1, "Jane"], [2, "John"], [3, "Sarah"], [5, "Bob"]]
-        )
-        updated_tbl = self.rs.query(
-            f"select * from {self.temp_schema}.test_copy order by id;"
-        )
+        expected_tbl = Table([["id", "name"], [1, "Jane"], [2, "John"], [3, "Sarah"], [5, "Bob"]])
+        updated_tbl = self.rs.query(f"select * from {self.temp_schema}.test_copy order by id;")
         assert_matching_tables(expected_tbl, updated_tbl)
 
         # Try to run it with a bad primary key
@@ -588,9 +528,7 @@ class TestRedshiftDB(unittest.TestCase):
                 [1, "Jane"],
             ]
         )
-        updated_tbl = self.rs.query(
-            f"select * from {self.temp_schema}.test_copy order by id;"
-        )
+        updated_tbl = self.rs.query(f"select * from {self.temp_schema}.test_copy order by id;")
         assert_matching_tables(expected_tbl, updated_tbl)
 
         # Try to run it with a bad primary key
@@ -611,9 +549,7 @@ class TestRedshiftDB(unittest.TestCase):
 
         # Make sure our table looks like we expect
         expected_tbl = Table([["id", "name"], [3, "600"], [6, "9999"]])
-        updated_tbl = self.rs.query(
-            f"select * from {self.temp_schema}.test_copy order by id;"
-        )
+        updated_tbl = self.rs.query(f"select * from {self.temp_schema}.test_copy order by id;")
         assert_matching_tables(expected_tbl, updated_tbl)
 
         # Run upsert requiring column resize
@@ -624,13 +560,10 @@ class TestRedshiftDB(unittest.TestCase):
         expected_tbl = Table(
             [["id", "name"], [3, "600"], [6, "9999"], [7, "this name is very long"]]
         )
-        updated_tbl = self.rs.query(
-            f"select * from {self.temp_schema}.test_copy order by id;"
-        )
+        updated_tbl = self.rs.query(f"select * from {self.temp_schema}.test_copy order by id;")
         assert_matching_tables(expected_tbl, updated_tbl)
 
     def test_unload(self):
-
         # Copy a table to Redshift
         self.rs.copy(self.tbl, f"{self.temp_schema}.test_copy", if_exists="drop")
 
@@ -645,7 +578,6 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertTrue(self.s3.key_exists(self.temp_s3_bucket, "unload_test"))
 
     def test_drop_and_unload(self):
-
         rs_table_test = f"{self.temp_schema}.test_copy"
         # Copy a table to Redshift
         self.rs.copy(self.tbl, rs_table_test, if_exists="drop")
@@ -659,7 +591,7 @@ class TestRedshiftDB(unittest.TestCase):
             key=key,
         )
 
-        key_prefix = f"{key}/{self.tbl.replace('.','_')}/"
+        key_prefix = f"{key}/{self.tbl.replace('.', '_')}/"
 
         # Check that files are there
         self.assertTrue(self.s3.key_exists(self.temp_s3_bucket, key_prefix))
@@ -667,7 +599,6 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertFalse(self.rs.table_exists(rs_table_test))
 
     def test_to_from_redshift(self):
-
         # Test the parsons table methods
         table_name = f"{self.temp_schema}.test_copy"
         self.tbl.to_redshift(table_name, if_exists="drop")
@@ -677,20 +608,11 @@ class TestRedshiftDB(unittest.TestCase):
         assert_matching_tables(self.tbl, result_tbl, ignore_headers=True)
 
     def test_generate_manifest(self):
-
         # Add some tables to buckets
-        self.tbl.to_s3_csv(
-            self.temp_s3_bucket, f"{self.temp_s3_prefix}test_file_01.csv"
-        )
-        self.tbl.to_s3_csv(
-            self.temp_s3_bucket, f"{self.temp_s3_prefix}test_file_02.csv"
-        )
-        self.tbl.to_s3_csv(
-            self.temp_s3_bucket, f"{self.temp_s3_prefix}test_file_03.csv"
-        )
-        self.tbl.to_s3_csv(
-            self.temp_s3_bucket, f"{self.temp_s3_prefix}dont_include.csv"
-        )
+        self.tbl.to_s3_csv(self.temp_s3_bucket, f"{self.temp_s3_prefix}test_file_01.csv")
+        self.tbl.to_s3_csv(self.temp_s3_bucket, f"{self.temp_s3_prefix}test_file_02.csv")
+        self.tbl.to_s3_csv(self.temp_s3_bucket, f"{self.temp_s3_prefix}test_file_03.csv")
+        self.tbl.to_s3_csv(self.temp_s3_bucket, f"{self.temp_s3_prefix}dont_include.csv")
 
         # Copy in a table to generate the headers and table
         self.rs.copy(self.tbl, f"{self.temp_schema}.test_copy", if_exists="drop")
@@ -712,13 +634,10 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertEqual(len(manifest["entries"]), 3)
 
         # Validate that manifest saved to bucket
-        keys = self.s3.list_keys(
-            self.temp_s3_bucket, prefix=f"{self.temp_s3_prefix}test_manifest"
-        )
+        keys = self.s3.list_keys(self.temp_s3_bucket, prefix=f"{self.temp_s3_prefix}test_manifest")
         self.assertTrue(manifest_key in keys)
 
     def test_move_table(self):
-
         # Run the method and check that new table created
         self.rs.move_table(f"{self.temp_schema}.test", f"{self.temp_schema}.test2")
         self.assertTrue(self.rs.table_exists(f"{self.temp_schema}.test2"))
@@ -732,7 +651,6 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertFalse(self.rs.table_exists(f"{self.temp_schema}.test2"))
 
     def test_get_tables(self):
-
         tbls_list = self.rs.get_tables(schema=self.temp_schema)
         exp = [
             "schemaname",
@@ -747,7 +665,6 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertTrue(validate_list(exp, tbls_list))
 
     def test_get_table_stats(self):
-
         tbls_list = self.rs.get_table_stats(schema=self.temp_schema)
 
         exp = [
@@ -793,7 +710,6 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertEqual(views.data[0], expected_row)
 
     def test_get_queries(self):
-
         # Validate that columns match expected columns
         queries_list = self.rs.get_queries()
         exp = [
@@ -824,7 +740,6 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertEqual(count, 3)
 
     def test_rename_table(self):
-
         self.rs.rename_table(self.temp_schema + ".test", "test2")
 
         # Test that renamed table exists
@@ -834,7 +749,6 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertFalse(self.rs.table_exists(self.temp_schema + ".test"))
 
     def test_union_tables(self):
-
         # Copy in two tables
         self.rs.copy(self.tbl, f"{self.temp_schema}.union_base1", if_exists="drop")
         self.rs.copy(self.tbl, f"{self.temp_schema}.union_base2", if_exists="drop")
@@ -844,9 +758,7 @@ class TestRedshiftDB(unittest.TestCase):
             f"{self.temp_schema}.union_all",
             [f"{self.temp_schema}.union_base1", f"{self.temp_schema}.union_base2"],
         )
-        self.assertEqual(
-            self.rs.query(f"select * from {self.temp_schema}.union_all").num_rows, 6
-        )
+        self.assertEqual(self.rs.query(f"select * from {self.temp_schema}.union_all").num_rows, 6)
 
         # Union the two tables and check row count
         self.rs.union_tables(
@@ -854,9 +766,7 @@ class TestRedshiftDB(unittest.TestCase):
             [f"{self.temp_schema}.union_base1", f"{self.temp_schema}.union_base2"],
             union_all=False,
         )
-        self.assertEqual(
-            self.rs.query(f"select * from {self.temp_schema}.union_test").num_rows, 3
-        )
+        self.assertEqual(self.rs.query(f"select * from {self.temp_schema}.union_test").num_rows, 3)
 
     def test_populate_table_from_query(self):
         # Populate the source table
@@ -879,9 +789,7 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertEqual(rows[0]["count"], 3)
 
         # Try with if_exists='drop', and a distkey
-        self.rs.populate_table_from_query(
-            query, dest_table, if_exists="drop", distkey="id"
-        )
+        self.rs.populate_table_from_query(query, dest_table, if_exists="drop", distkey="id")
         rows = self.rs.query(f"select count(*) from {dest_table}")
         self.assertEqual(rows[0]["count"], 3)
 
@@ -941,10 +849,7 @@ class TestRedshiftDB(unittest.TestCase):
         )
 
     def test_get_max_value(self):
-
-        date_tbl = Table(
-            [["id", "date_modified"], [1, "2020-01-01"], [2, "1900-01-01"]]
-        )
+        date_tbl = Table([["id", "date_modified"], [1, "2020-01-01"], [2, "1900-01-01"]])
         self.rs.copy(date_tbl, f"{self.temp_schema}.test_date")
 
         # Test return string
@@ -996,13 +901,11 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertEqual(expected_type_fake, actual_type_fake)
 
     def test_is_view(self):
-
         self.assertTrue(self.rs.is_view("pg_catalog.pg_views"))
 
         self.assertFalse(self.rs.is_view("pg_catalog.pg_class"))
 
     def test_is_table(self):
-
         self.assertTrue(self.rs.is_table("pg_catalog.pg_class"))
 
         self.assertFalse(self.rs.is_table("pg_catalog.pg_views"))
@@ -1101,7 +1004,6 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertEqual(expected_view_defs, actual_view_def)
 
     def test_alter_varchar_column_widths(self):
-
         append_tbl = Table([["ID", "Name"], [4, "Jim"], [5, "John"], [6, "Joanna"]])
 
         # You can't alter column types if the table has a dependent view
@@ -1109,9 +1011,7 @@ class TestRedshiftDB(unittest.TestCase):
 
         # Base table 'Name' column has a width of 5. This should expand it to 6.
         self.rs.alter_varchar_column_widths(append_tbl, f"{self.temp_schema}.test")
-        self.assertEqual(
-            self.rs.get_columns(self.temp_schema, "test")["name"]["max_length"], 6
-        )
+        self.assertEqual(self.rs.get_columns(self.temp_schema, "test")["name"]["max_length"], 6)
 
 
 if __name__ == "__main__":

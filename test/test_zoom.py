@@ -313,6 +313,29 @@ class TestZoom(unittest.TestCase):
         assert_matching_tables(self.zoom.get_past_webinar_participants(123), tbl)
 
     @requests_mock.Mocker()
+    def test_get_past_webinar_report(self, m):
+        report = {
+            "custom_keys": [{"key": "Host Nation", "value": "US"}],
+            "dept": "HR",
+            "duration": 2,
+            "end_time": "2022-03-15T07:42:22Z",
+            "id": 345678902224,
+            "participants_count": 4,
+            "start_time": "2022-03-15T07:40:46Z",
+            "topic": "My Meeting",
+            "total_minutes": 3,
+            "tracking_fields": [{"field": "Host Nation", "value": "US"}],
+            "type": 4,
+            "user_email": "jchill@example.com",
+            "user_name": "Jill Chill",
+            "uuid": "4444AAAiAAAAAiAiAiiAii==",
+        }
+
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "report/webinars/123", json=report)
+        assert_matching_tables(self.zoom.get_past_webinar_report(123), report)
+
+    @requests_mock.Mocker()
     def test_get_webinar_registrants(self, m):
         registrants = {
             "page_count": 1,
@@ -653,7 +676,7 @@ class TestZoom(unittest.TestCase):
                     "answers": "Larry David's Curb Your Enthusiasm",
                     "case_sensitive": "True",
                     "name": "Secret Truth",
-                    "prompts": [
+                    "question_details": [
                         {
                             "prompt_question": "What's the secret truth of the universe?",
                             "prompt_right_answers": [
@@ -689,8 +712,8 @@ class TestZoom(unittest.TestCase):
                     "right_answers": "",
                     "show_as_dropdown": False,
                     "type": "short_answer",
-                    "prompts__prompt_question": "What's the secret truth of the universe?",
-                    "prompts__prompt_right_answers": [
+                    "question_details__prompt_question": "What's the secret truth of the universe?",
+                    "question_details__prompt_right_answers": [
                         "Pizza delivery",
                         "Larry David's Curb Your Enthusiasm",
                     ],

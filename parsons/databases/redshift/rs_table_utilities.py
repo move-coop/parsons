@@ -32,23 +32,18 @@ class RedshiftTableUtilities(object):
 
         # Check in pg tables for the table
         sql = """select count(*) from pg_tables where schemaname='{}' and
-                 tablename='{}';""".format(
-            table_name[0], table_name[1]
-        )
+                 tablename='{}';""".format(table_name[0], table_name[1])
 
         # TODO maybe convert these queries to use self.query_with_connection
 
         with self.cursor(connection) as cursor:
-
             cursor.execute(sql)
             result = cursor.fetchone()[0]
 
             # Check in the pg_views for the table
             if view:
                 sql = """select count(*) from pg_views where schemaname='{}' and
-                         viewname='{}';""".format(
-                    table_name[0], table_name[1]
-                )
+                         viewname='{}';""".format(table_name[0], table_name[1])
 
             cursor.execute(sql)
             result += cursor.fetchone()[0]
@@ -130,7 +125,6 @@ class RedshiftTableUtilities(object):
         self.query(create_sql)
 
         with self.connection() as conn:
-
             #  An ALTER TABLE statement can't be run within a block, meaning
             #  that it needs to be committed on running. To enable this,
             #  the connection must be set to autocommit.
@@ -205,9 +199,7 @@ class RedshiftTableUtilities(object):
                 The column to use as the sortkey for the table.
         """
         with self.connection() as conn:
-            should_create = self._create_table_precheck(
-                conn, destination_table, if_exists
-            )
+            should_create = self._create_table_precheck(conn, destination_table, if_exists)
 
             if should_create:
                 logger.info(f"Creating table {destination_table} from query...")
@@ -252,9 +244,7 @@ class RedshiftTableUtilities(object):
         """
 
         with self.connection() as conn:
-            should_create = self._create_table_precheck(
-                conn, destination_table, if_exists
-            )
+            should_create = self._create_table_precheck(conn, destination_table, if_exists)
 
             if should_create:
                 logger.info(f"Creating {destination_table} from {source_table}...")
@@ -428,6 +418,13 @@ class RedshiftTableUtilities(object):
         `Returns:`
             A list of column names.
         """
+        schema = f'"{schema}"' if not (schema.startswith('"') and schema.endswith('"')) else schema
+
+        table_name = (
+            f'"{table_name}"'
+            if not (table_name.startswith('"') and table_name.endswith('"'))
+            else table_name
+        )
 
         first_row = self.query(f"select * from {schema}.{table_name} limit 1")
 
@@ -529,9 +526,7 @@ class RedshiftTableUtilities(object):
                 The column containing the values
         """
 
-        return self.query(f"SELECT MAX({value_column}) value from {table_name}")[0][
-            "value"
-        ]
+        return self.query(f"SELECT MAX({value_column}) value from {table_name}")[0]["value"]
 
     def get_object_type(self, object_name):
         """

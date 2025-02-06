@@ -156,6 +156,10 @@ of commonly used methods. The full list can be found in the API section.
 
     * - Method
       - Description
+    * - :py:meth:`~parsons.etl.etl.ETL.head`
+      - Get the first n rows of a table
+    * - :py:meth:`~parsons.etl.etl.ETL.tail`
+      - Get the last n rows of a table
     * - :py:meth:`~parsons.etl.etl.ETL.add_column`
       - Add a column
     * - :py:meth:`~parsons.etl.etl.ETL.remove_column`

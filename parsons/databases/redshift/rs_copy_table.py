@@ -60,9 +60,7 @@ class RedshiftCopyTable(object):
             sql += "manifest \n"
         if bucket_region:
             sql += f"region '{bucket_region}'\n"
-            logger.info(
-                "Copying data from S3 bucket %s in region %s", bucket, bucket_region
-            )
+            logger.info("Copying data from S3 bucket %s in region %s", bucket, bucket_region)
         sql += f"maxerror {max_errors} \n"
 
         # Redshift has some default behavior when statupdate is left out
@@ -126,9 +124,7 @@ class RedshiftCopyTable(object):
             aws_access_key_id = self.aws_access_key_id
             aws_secret_access_key = self.aws_secret_access_key
 
-        elif (
-            "AWS_ACCESS_KEY_ID" in os.environ and "AWS_SECRET_ACCESS_KEY" in os.environ
-        ):
+        elif "AWS_ACCESS_KEY_ID" in os.environ and "AWS_SECRET_ACCESS_KEY" in os.environ:
             aws_access_key_id = os.environ["AWS_ACCESS_KEY_ID"]
             aws_secret_access_key = os.environ["AWS_SECRET_ACCESS_KEY"]
 

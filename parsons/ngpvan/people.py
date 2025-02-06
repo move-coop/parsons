@@ -1,4 +1,5 @@
 from parsons.utilities import json_format
+from typing import Union, List, Dict
 import logging
 
 logger = logging.getLogger(__name__)
@@ -6,7 +7,6 @@ logger = logging.getLogger(__name__)
 
 class People(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def find_person(
@@ -20,6 +20,7 @@ class People(object):
         street_number=None,
         street_name=None,
         zip=None,
+        **kwargs,
     ):
         """
         Find a person record.
@@ -51,6 +52,9 @@ class People(object):
                 Street Name
             zip: str
                 5 digit zip code
+            kwargs:
+                Any additional keyword arguments will be passed to
+                the EveryAction API for matching.
         `Returns:`
             A person dict object
         """
@@ -67,6 +71,7 @@ class People(object):
             street_number=street_number,
             street_name=street_name,
             zip=zip,
+            **kwargs,
         )
 
     def find_person_json(self, match_json):
@@ -184,21 +189,20 @@ class People(object):
             A person dict
         """
 
-        return self._people_search(
-            id=id, id_type=id_type, match_json=match_json, create=True
-        )
+        return self._people_search(id=id, id_type=id_type, match_json=match_json, create=True)
 
     def upsert_person(
         self,
         first_name=None,
         last_name=None,
         date_of_birth=None,
-        email=None,
+        email: Union[str, List[Dict[str, Union[str, bool]]], None] = None,
         phone=None,
         phone_type=None,
         street_number=None,
         street_name=None,
         zip=None,
+        **kwargs,
     ):
         """
         Create or update a person record.
@@ -222,8 +226,10 @@ class People(object):
                 The person's last name
             dob: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
-            email: str
-                The person's email address
+            email: Union[str, List[Dict[str, Union[str, bool]]], None]
+                The person's email address or a list of email dicts.
+                e.g. [{'email': 'abcd@gmail.com', 'isSubscribed': False}]
+                See https://docs.everyaction.com/reference/people-common-models#email
             phone: str
                 Phone number of any type (Work, Cell, Home)
             phone_type: str
@@ -235,6 +241,9 @@ class People(object):
                 Street Name
             zip: str
                 5 digit zip code
+            kwargs:
+                Any additional keyword arguments will be passed to
+                the EveryAction API for matching.
         `Returns:`
             A person dict
         """
@@ -250,6 +259,7 @@ class People(object):
             street_name=street_name,
             zip=zip,
             create=True,
+            **kwargs,
         )
 
     def upsert_person_json(self, match_json):
@@ -289,7 +299,7 @@ class People(object):
         first_name=None,
         last_name=None,
         date_of_birth=None,
-        email=None,
+        email: Union[str, List[Dict[str, Union[str, bool]]], None] = None,
         phone=None,
         phone_type="H",
         street_number=None,
@@ -297,6 +307,7 @@ class People(object):
         zip=None,
         match_json=None,
         create=False,
+        **kwargs,
     ):
         # Internal method to hit the people find/create endpoints
 
@@ -310,7 +321,12 @@ class People(object):
 
             # Will fail if empty dicts are provided, hence needed to add if exist
             if email:
-                json["emails"] = [{"email": email}]
+                if isinstance(email, str):
+                    json["emails"] = [{"email": email}]
+                elif isinstance(email, list):
+                    json["emails"] = email
+                else:
+                    raise ValueError(f"Unexpected data type for email argument: {type(email)}")
             if phone:  # To Do: Strip out non-integers from phone
                 json["phones"] = [{"phoneNumber": phone, "phoneType": phone_type}]
             if date_of_birth:
@@ -326,10 +342,12 @@ class People(object):
             if "vanId" in match_json:
                 id = match_json["vanId"]
 
+        if kwargs:
+            json.update(kwargs)
+
         url = "people/"
 
         if id:
-
             if create:
                 id_type = "" if id_type in ("vanid", None) else f"{id_type}:"
                 url += id_type + str(id)
@@ -368,7 +386,6 @@ class People(object):
             and None in [firstName, lastName, addressLine1, zipOrPostalCode]
             and None in [email]
         ):
-
             raise ValueError(
                 """
                              Person find must include the following minimum
@@ -569,6 +586,8 @@ class People(object):
         result_code_id=None,
         omit_contact=False,
         phone=None,
+        campaignId=None,
+        skip_matching=False,
     ):
         """
         Apply responses such as survey questions, activist codes, and volunteer actions
@@ -604,6 +623,10 @@ class People(object):
                 attempts.
             phone: str
                 `Optional`; Phone number of any type (Work, Cell, Home)
+            campaignId: int
+                `Optional`; a valid Campaign ID.
+            skip_matching: boolean
+                `Optional`; if set to true, skips matching/de-duping of contact history. Defaults to a null value, aka false.
         `Returns:`
             ``True`` if successful
 
@@ -631,20 +654,17 @@ class People(object):
                 "inputTypeId": input_type_id,
                 "dateCanvassed": date_canvassed,
                 "omitActivistCodeContactHistory": omit_contact,
+                "campaignId": campaignId,
+                "skipMatching": skip_matching,
             },
             "resultCodeId": result_code_id,
         }
 
-        if contact_type_id == 1 or contact_type_id == 37:
-            if phone:
-                json["canvassContext"]["phone"] = {
-                    "dialingPrefix": "1",
-                    "phoneNumber": phone,
-                }
-            else:
-                raise Exception(
-                    "A phone number must be provided if canvassed via phone or SMS"
-                )
+        if phone:
+            json["canvassContext"]["phone"] = {
+                "dialingPrefix": "1",
+                "phoneNumber": phone,
+            }
 
         if response:
             json["responses"] = response

@@ -6,7 +6,7 @@ Overview
 ********
 
 The Airtable class allows you to interact with an `Airtable <https://airtable.com/>`_ base. In order to use this class
-you must generate an Airtable API Key which can be found in your Airtable `account settings <https://airtable.com/account>`_.
+you must generate an Airtable personal access token which can be found in your Airtable `settings <https://airtable.com/create/tokens>`_.
 
 .. note::
    Finding The Base Key
@@ -18,20 +18,20 @@ you must generate an Airtable API Key which can be found in your Airtable `accou
 **********
 QuickStart
 **********
-To instantiate the Airtable class, you can either store your Airtable API
-``AIRTABLE_API_KEY`` as an environmental variable or pass in your api key
+To instantiate the Airtable class, you can either store your Airtable personal access token
+``AIRTABLE_PERSONAL_ACCESS_TOKEN`` as an environmental variable or pass in your personal access token
 as an argument. You also need to pass in the base key and table name.
 
 .. code-block:: python
 
    from parsons import Airtable
 
-   # First approach: Use API credentials via environmental variables and pass
+   # First approach: Use personal access token via environmental variable and pass
    # the base key and the table as arguments.
    at = Airtable(base_key, 'table01')
 
-   # Second approach: Pass API credentials, base key and table name as arguments.
-   at = Airtable(base_key, 'table01', api_key='MYFAKEKEY')
+   # Second approach: Pass personal access token, base key and table name as arguments.
+   at = Airtable(base_key, 'table01', personal_access_token='MYFAKETOKEN')
 
 
 You can then call various endpoints:

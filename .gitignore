@@ -110,6 +110,7 @@ venv.bak/
 # scratch
 scratch*
 old!_*
+test.ipynb
 
 # vscode
 .vscode/
@@ -125,3 +126,6 @@ bill_com_credentials.*
 docs/html
 docs/dirhtml
 *.sw*
+
+# bin files
+bin/

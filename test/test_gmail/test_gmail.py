@@ -2,10 +2,10 @@ from parsons import Gmail
 import json
 import os
 import requests_mock
+import email
 import unittest
 import shutil
 import base64
-import email
 
 
 _dir = os.path.dirname(__file__)
@@ -84,9 +84,7 @@ class TestGmail(unittest.TestCase):
         msg = self.gmail._create_message_simple(sender, to, subject, message_text)
         raw = self.gmail._encode_raw_message(msg)
 
-        decoded = email.message_from_bytes(
-            base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8"))
-        )
+        decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
 
         expected_items = [
             ("Content-Type", 'text/plain; charset="us-ascii"'),
@@ -114,14 +112,10 @@ class TestGmail(unittest.TestCase):
         message_text = "The is the message text of the email"
         message_html = "<p>This is the html message part of the email</p>"
 
-        msg = self.gmail._create_message_html(
-            sender, to, subject, message_text, message_html
-        )
+        msg = self.gmail._create_message_html(sender, to, subject, message_text, message_html)
         raw = self.gmail._encode_raw_message(msg)
 
-        decoded = email.message_from_bytes(
-            base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8"))
-        )
+        decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
 
         expected_items = [
             ("Content-Type", "multipart/alternative;\n boundary="),
@@ -135,12 +129,8 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if (
-                "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]
-            ):  # noqa
-                updated_items.append(
-                    ("Content-Type", "multipart/alternative;\n boundary=")
-                )
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+                updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
 
@@ -167,9 +157,7 @@ class TestGmail(unittest.TestCase):
         msg = self.gmail._create_message_html(sender, to, subject, "", message_html)
         raw = self.gmail._encode_raw_message(msg)
 
-        decoded = email.message_from_bytes(
-            base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8"))
-        )
+        decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
 
         expected_items = [
             ("Content-Type", "multipart/alternative;\n boundary="),
@@ -183,12 +171,8 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if (
-                "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]
-            ):  # noqa
-                updated_items.append(
-                    ("Content-Type", "multipart/alternative;\n boundary=")
-                )
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+                updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
 
@@ -210,9 +194,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = (
-            "<p>This is the html message part of the email " "with attachments</p>"
-        )
+        message_html = "<p>This is the html message part of the email " "with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.txt"]
 
         msg = self.gmail._create_message_attachments(
@@ -220,9 +202,7 @@ class TestGmail(unittest.TestCase):
         )
         raw = self.gmail._encode_raw_message(msg)
 
-        decoded = email.message_from_bytes(
-            base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8"))
-        )
+        decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
 
         expected_items = [
             ("Content-Type", "multipart/alternative;\n boundary="),
@@ -236,12 +216,8 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if (
-                "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]
-            ):  # noqa
-                updated_items.append(
-                    ("Content-Type", "multipart/alternative;\n boundary=")
-                )
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+                updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
 
@@ -275,9 +251,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = (
-            "<p>This is the html message part of the email " "with attachments</p>"
-        )
+        message_html = "<p>This is the html message part of the email " "with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.jpeg"]
 
         msg = self.gmail._create_message_attachments(
@@ -285,9 +259,7 @@ class TestGmail(unittest.TestCase):
         )
         raw = self.gmail._encode_raw_message(msg)
 
-        decoded = email.message_from_bytes(
-            base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8"))
-        )
+        decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
 
         expected_items = [
             ("Content-Type", "multipart/alternative;\n boundary="),
@@ -301,12 +273,8 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if (
-                "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]
-            ):  # noqa
-                updated_items.append(
-                    ("Content-Type", "multipart/alternative;\n boundary=")
-                )
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+                updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
 
@@ -337,9 +305,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = (
-            "<p>This is the html message part of the email " "with attachments</p>"
-        )
+        message_html = "<p>This is the html message part of the email " "with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.m4a"]
 
         msg = self.gmail._create_message_attachments(
@@ -347,9 +313,7 @@ class TestGmail(unittest.TestCase):
         )
         raw = self.gmail._encode_raw_message(msg)
 
-        decoded = email.message_from_bytes(
-            base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8"))
-        )
+        decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
 
         expected_items = [
             ("Content-Type", "multipart/alternative;\n boundary="),
@@ -363,12 +327,8 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if (
-                "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]
-            ):  # noqa
-                updated_items.append(
-                    ("Content-Type", "multipart/alternative;\n boundary=")
-                )
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+                updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
 
@@ -397,9 +357,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = (
-            "<p>This is the html message part of the email " "with attachments</p>"
-        )
+        message_html = "<p>This is the html message part of the email " "with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.mp3"]
 
         msg = self.gmail._create_message_attachments(
@@ -407,9 +365,7 @@ class TestGmail(unittest.TestCase):
         )
         raw = self.gmail._encode_raw_message(msg)
 
-        decoded = email.message_from_bytes(
-            base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8"))
-        )
+        decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
 
         expected_items = [
             ("Content-Type", "multipart/alternative;\n boundary="),
@@ -423,12 +379,8 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if (
-                "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]
-            ):  # noqa
-                updated_items.append(
-                    ("Content-Type", "multipart/alternative;\n boundary=")
-                )
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+                updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
 
@@ -457,9 +409,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = (
-            "<p>This is the html message part of the email " "with attachments</p>"
-        )
+        message_html = "<p>This is the html message part of the email " "with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.mp4"]
 
         msg = self.gmail._create_message_attachments(
@@ -467,9 +417,7 @@ class TestGmail(unittest.TestCase):
         )
         raw = self.gmail._encode_raw_message(msg)
 
-        decoded = email.message_from_bytes(
-            base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8"))
-        )
+        decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
 
         expected_items = [
             ("Content-Type", "multipart/alternative;\n boundary="),
@@ -483,12 +431,8 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if (
-                "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]
-            ):  # noqa
-                updated_items.append(
-                    ("Content-Type", "multipart/alternative;\n boundary=")
-                )
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+                updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
 
@@ -517,9 +461,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = (
-            "<p>This is the html message part of the email " "with attachments</p>"
-        )
+        message_html = "<p>This is the html message part of the email " "with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.pdf"]
 
         msg = self.gmail._create_message_attachments(
@@ -528,9 +470,7 @@ class TestGmail(unittest.TestCase):
 
         raw = self.gmail._encode_raw_message(msg)
 
-        decoded = email.message_from_bytes(
-            base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8"))
-        )
+        decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
 
         expected_items = [
             ("Content-Type", "multipart/alternative;\n boundary="),
@@ -544,12 +484,8 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if (
-                "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]
-            ):  # noqa
-                updated_items.append(
-                    ("Content-Type", "multipart/alternative;\n boundary=")
-                )
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+                updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
 
@@ -580,17 +516,32 @@ class TestGmail(unittest.TestCase):
             {"email": "<sender@email.com>", "expected": True},
             {"email": "Sender sender@email.com", "expected": False},
             {"email": "Sender <sender2email.com>", "expected": False},
-            {"email": "Sender <sender@email,com>", "expected": True},
-            {"email": "Sender <sender+alias@email,com>", "expected": True},
         ]
+
+        # The behavior of email.parseaddr depends on the python patch version
+        # See https://github.com/python/cpython/issues/102988
+        # or associated changelogs, e.g.
+        # https://docs.python.org/3.8/whatsnew/changelog.html#python-3-8-20-final
+        if getattr(email.utils, "supports_strict_parsing", False):
+            emails.extend(
+                [
+                    {"email": "Sender <sender@email,com>", "expected": False},
+                    {"email": "Sender <sender+alias@email,com>", "expected": False},
+                ]
+            )
+        else:
+            emails.extend(
+                [
+                    {"email": "Sender <sender@email,com>", "expected": True},
+                    {"email": "Sender <sender+alias@email,com>", "expected": True},
+                ]
+            )
 
         for e in emails:
             if e["expected"]:
                 self.assertTrue(self.gmail._validate_email_string(e["email"]))
             else:
-                self.assertRaises(
-                    ValueError, self.gmail._validate_email_string, e["email"]
-                )
+                self.assertRaises(ValueError, self.gmail._validate_email_string, e["email"])
 
     # TODO test sending emails
 

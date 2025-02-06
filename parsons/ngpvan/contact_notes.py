@@ -26,9 +26,7 @@ class ContactNotes(object):
         logger.info(f"Found {tbl.num_rows} custom fields.")
         return tbl
 
-    def create_contact_note(
-        self, van_id, text, is_view_restricted, note_category_id=None
-    ):
+    def create_contact_note(self, van_id, text, is_view_restricted, note_category_id=None):
         """
         Create a contact note
 

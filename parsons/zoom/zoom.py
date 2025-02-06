@@ -79,9 +79,7 @@ class Zoom:
                 data.extend(self.client.data_parse(r))
             return Table(data)
 
-    def __handle_nested_json(
-        self, table: Table, column: str, version: int = 1
-    ) -> Table:
+    def __handle_nested_json(self, table: Table, column: str, version: int = 1) -> Table:
         """
         This function unpacks JSON values from Zoom's API, which are often
         objects nested in lists
@@ -130,9 +128,7 @@ class Zoom:
         tbl.remove_column("question_details")
 
         # Unpack question values
-        tbl = tbl.unpack_dict(
-            "question_details_value", include_original=True, prepend=False
-        )
+        tbl = tbl.unpack_dict("question_details_value", include_original=True, prepend=False)
 
         # Remove column from API response
         tbl.remove_column("question_details_value")
@@ -225,9 +221,7 @@ class Zoom:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(
-            f"report/meetings/{meeting_id}/participants", "participants"
-        )
+        tbl = self._get_request(f"report/meetings/{meeting_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
@@ -292,9 +286,7 @@ class Zoom:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(
-            f"report/webinars/{webinar_id}/participants", "participants"
-        )
+        tbl = self._get_request(f"report/webinars/{webinar_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} webinar participants.")
         return tbl
 
@@ -342,12 +334,8 @@ class Zoom:
         )
 
         if "prompts" in tbl.columns:
-            logger.info(
-                f"Unnesting columns 'prompts' from existing table columns: {tbl.columns}"
-            )
-            return self.__handle_nested_json(
-                table=tbl, column="prompts", version=version
-            )
+            logger.info(f"Unnesting columns 'prompts' from existing table columns: {tbl.columns}")
+            return self.__handle_nested_json(table=tbl, column="prompts", version=version)
         else:
             return tbl
 
@@ -402,9 +390,7 @@ class Zoom:
             f"Unnesting columns 'question_details' from existing table columns: {tbl.columns}"
         )
 
-        return self.__handle_nested_json(
-            table=tbl, column="question_details", version=version
-        )
+        return self.__handle_nested_json(table=tbl, column="question_details", version=version)
 
     def get_webinar_poll_metadata(self, webinar_id, poll_id, version: int = 1) -> Table:
         """

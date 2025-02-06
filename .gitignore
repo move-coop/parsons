@@ -125,4 +125,3 @@ bill_com_credentials.*
 docs/html
 docs/dirhtml
 *.sw*
-parsons/quickbooks/qb_script.py

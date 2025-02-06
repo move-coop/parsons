@@ -256,7 +256,7 @@ class Box(object):
                 table.to_json(local_path=temp_file_path)
             else:
                 raise SystemError(
-                    f"Got (theoretically) impossible " f'format option "{format}"'
+                    f'Got (theoretically) impossible format option "{format}"'
                 )  # pragma: no cover
 
             new_file = self.client.folder(folder_id).upload(
@@ -337,7 +337,7 @@ class Box(object):
             return Table.from_json(output_file_name)
         else:
             raise SystemError(
-                f"Got (theoretically) impossible " f'format option "{format}"'
+                f'Got (theoretically) impossible format option "{format}"'
             )  # pragma: no cover
 
     def get_item_id(self, path, base_folder_id=DEFAULT_FOLDER_ID) -> str:

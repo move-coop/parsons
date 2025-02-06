@@ -211,8 +211,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
             (
                 sortkey,
                 "SORT",
-                "https://docs.amazonaws.cn/en_us/redshift/latest/dg/c_best-practices-"
-                "sort-key.html",
+                "https://docs.amazonaws.cn/en_us/redshift/latest/dg/c_best-practices-sort-key.html",
             ),
         ]
         warning = "".join(

@@ -194,7 +194,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = "<p>This is the html message part of the email " "with attachments</p>"
+        message_html = "<p>This is the html message part of the email with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.txt"]
 
         msg = self.gmail._create_message_attachments(
@@ -251,7 +251,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = "<p>This is the html message part of the email " "with attachments</p>"
+        message_html = "<p>This is the html message part of the email with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.jpeg"]
 
         msg = self.gmail._create_message_attachments(
@@ -305,7 +305,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = "<p>This is the html message part of the email " "with attachments</p>"
+        message_html = "<p>This is the html message part of the email with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.m4a"]
 
         msg = self.gmail._create_message_attachments(
@@ -357,7 +357,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = "<p>This is the html message part of the email " "with attachments</p>"
+        message_html = "<p>This is the html message part of the email with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.mp3"]
 
         msg = self.gmail._create_message_attachments(
@@ -409,7 +409,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = "<p>This is the html message part of the email " "with attachments</p>"
+        message_html = "<p>This is the html message part of the email with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.mp4"]
 
         msg = self.gmail._create_message_attachments(
@@ -461,7 +461,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = "<p>This is the html message part of the email " "with attachments</p>"
+        message_html = "<p>This is the html message part of the email with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.pdf"]
 
         msg = self.gmail._create_message_attachments(

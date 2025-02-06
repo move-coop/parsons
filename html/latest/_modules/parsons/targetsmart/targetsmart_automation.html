@@ -194,7 +194,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    * `Automation overview &lt;https://docs.targetsmart.com/my_tsmart/automation/overview.html&gt;`_</span>
 <span class="sd">    * `Automation integration doc &lt;https://docs.targetsmart.com/my_tsmart/automation/developer.html&gt;`_</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sftp_username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sftp_password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sftp_host</span> <span class="o">=</span> <span class="n">TS_STFP_HOST</span>
@@ -259,7 +259,7 @@
 <span class="sd">                Remove the configuration, file to be matched and matched file from</span>
 <span class="sd">                the TargetSmart SFTP upon completion or failure of match.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Generate a match job</span>
         <span class="n">job_name</span> <span class="o">=</span> <span class="n">job_name</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>

@@ -1161,7 +1161,7 @@
 <span class="sd">                arguments to upsert a pre-existing s3 file into the target_table</span>
 <span class="sd">            \**copy_args: kwargs</span>
 <span class="sd">                See :func:`~parsons.databases.bigquery.BigQuery.copy` for options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_exists</span><span class="p">(</span><span class="n">target_table</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="s2">&quot;Target table does not exist. Copying into newly </span><span class="se">\</span>

@@ -171,7 +171,7 @@
 <span class="sd">        vintage: str</span>
 <span class="sd">            The US Census vintage file to utilize. By default the current vintage is used, but</span>
 <span class="sd">            other options can be found `here &lt;https://geocoding.geo.census.gov/geocoder/vintages?form&gt;`_.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchmark</span><span class="o">=</span><span class="s2">&quot;Public_AR_Current&quot;</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="s2">&quot;Current_Current&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cg</span> <span class="o">=</span> <span class="n">censusgeocode</span><span class="o">.</span><span class="n">CensusGeocode</span><span class="p">(</span><span class="n">benchmark</span><span class="o">=</span><span class="n">benchmark</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="n">vintage</span><span class="p">)</span>

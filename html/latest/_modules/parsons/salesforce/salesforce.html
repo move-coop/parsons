@@ -229,7 +229,7 @@
 <span class="sd">                For reference, see the `Salesforce SOQL documentation &lt;https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm&gt;`_.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            list of dicts with Salesforce data</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">query_all</span><span class="p">(</span><span class="n">soql</span><span class="p">)</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>

@@ -238,7 +238,7 @@
 <span class="sd">                Column names</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">cutout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">)</span>
 
@@ -394,7 +394,7 @@
 <span class="sd">                The update function, method, or variable to process the update</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">column</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -647,7 +647,7 @@
 <span class="sd">                The update function, method, or variable to process the update. Can also</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">convert_column</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
@@ -738,7 +738,7 @@
 
 <span class="sd">          tbl.unpack_list(&#39;phones&#39;, replace=True)</span>
 <span class="sd">          print (tbl)</span>
-<span class="sd">          &gt;&gt;&gt; {&#39;id&#39;: &#39;5421&#39;, &#39;name&#39;: &#39;Jane Green&#39;, &#39;phones_0&#39;: &#39;512-699-3334&#39;, &#39;phones_1&#39;: &#39;512-222-5478&#39;} # noqa: E501</span>
+<span class="sd">          &gt;&gt;&gt; {&#39;id&#39;: &#39;5421&#39;, &#39;name&#39;: &#39;Jane Green&#39;, &#39;phones_0&#39;: &#39;512-699-3334&#39;, &#39;phones_1&#39;: &#39;512-222-5478&#39;}</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            column: str</span>
@@ -926,8 +926,8 @@
 <span class="sd">                  ]</span>
 <span class="sd">           tbl = Table(json)</span>
 <span class="sd">           print (tbl)</span>
-<span class="sd">           &gt;&gt;&gt; {&#39;id&#39;: &#39;5421&#39;, &#39;name&#39;: &#39;Jane Green&#39;, &#39;emails&#39;: [{&#39;home&#39;: &#39;jane@gmail.com&#39;}, {&#39;work&#39;: &#39;jane@mywork.com&#39;}]} # noqa: E501</span>
-<span class="sd">           &gt;&gt;&gt; {&#39;id&#39;: &#39;5421&#39;, &#39;name&#39;: &#39;Jane Green&#39;, &#39;emails&#39;: [{&#39;home&#39;: &#39;jane@gmail.com&#39;}, {&#39;work&#39;: &#39;jane@mywork.com&#39;}]} # noqa: E501</span>
+<span class="sd">           &gt;&gt;&gt; {&#39;id&#39;: &#39;5421&#39;, &#39;name&#39;: &#39;Jane Green&#39;, &#39;emails&#39;: [{&#39;home&#39;: &#39;jane@gmail.com&#39;}, {&#39;work&#39;: &#39;jane@mywork.com&#39;}]}</span>
+<span class="sd">           &gt;&gt;&gt; {&#39;id&#39;: &#39;5421&#39;, &#39;name&#39;: &#39;Jane Green&#39;, &#39;emails&#39;: [{&#39;home&#39;: &#39;jane@gmail.com&#39;}, {&#39;work&#39;: &#39;jane@mywork.com&#39;}]}</span>
 
 <span class="sd">           # Create skinny table of just the nested dicts</span>
 <span class="sd">           email_skinny = tbl.long_table([&#39;id&#39;], &#39;emails&#39;)</span>
@@ -994,7 +994,7 @@
 <span class="sd">                Columns in the parsons table</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A new parsons table containing the selected columnns</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
@@ -1033,7 +1033,7 @@
 <span class="sd">            \*filters: function or str</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A new parsons table containing the selected rows</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
@@ -1341,7 +1341,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">rowreduce</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span>
@@ -1442,7 +1442,7 @@
 <span class="sd">                The keyword arguements to pass to the petl function.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `parsons.Table` or `petl` table</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">update_table</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;update_table&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">to_petl</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;to_petl&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 

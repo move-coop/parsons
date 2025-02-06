@@ -297,7 +297,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            str</span>
 <span class="sd">                The path of the new file</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># If a zip archive.</span>
         <span class="k">if</span> <span class="n">files</span><span class="o">.</span><span class="n">zip_check</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">temp_file_compression</span><span class="p">):</span>
@@ -352,7 +352,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            str</span>
 <span class="sd">                The path of the file</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">petl</span><span class="o">.</span><span class="n">appendcsv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">local_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">local_path</span></div>
@@ -402,7 +402,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            str</span>
 <span class="sd">                The path of the archive</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">archive_path</span><span class="p">:</span>
             <span class="n">archive_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.zip&quot;</span><span class="p">)</span>
@@ -531,7 +531,7 @@
 <span class="sd">                to authenticate stfp connection</span>
 <span class="sd">            \**csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.sftp</span><span class="w"> </span><span class="kn">import</span> <span class="n">SFTP</span>
 
@@ -604,7 +604,7 @@
 <span class="sd">                ``csv_writer`` optional arguments</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Public url if specified. If not ``None``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">compression</span> <span class="o">=</span> <span class="n">compression</span> <span class="ow">or</span> <span class="n">files</span><span class="o">.</span><span class="n">compression_type_for_path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
@@ -686,7 +686,7 @@
 <span class="sd">                ``csv_writer`` optional arguments</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Public url if specified. If not ``None``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">compression</span> <span class="o">=</span> <span class="n">compression</span> <span class="ow">or</span> <span class="n">files</span><span class="o">.</span><span class="n">compression_type_for_path</span><span class="p">(</span><span class="n">blob_name</span><span class="p">)</span>
 
@@ -749,7 +749,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``None``</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift</span><span class="w"> </span><span class="kn">import</span> <span class="n">Redshift</span>
 
@@ -790,7 +790,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``None``</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.postgres</span><span class="w"> </span><span class="kn">import</span> <span class="n">Postgres</span>
 
@@ -855,7 +855,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write the table to a Civis Redshift cluster. Additional key word</span>
 <span class="sd">        arguments can passed to `civis.io.dataframe_to_civis()</span>
-<span class="sd">        &lt;https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis&gt;`_ # noqa: E501</span>
+<span class="sd">        &lt;https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis&gt;`_</span>
 
 <span class="sd">        `Args`</span>
 <span class="sd">            table: str</span>
@@ -920,7 +920,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">remote_prefixes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;http://&quot;</span><span class="p">,</span> <span class="s2">&quot;https://&quot;</span><span class="p">,</span> <span class="s2">&quot;ftp://&quot;</span><span class="p">,</span> <span class="s2">&quot;s3://&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">local_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">,</span> <span class="n">remote_prefixes</span><span class="p">)):</span>
@@ -1103,7 +1103,7 @@
 <span class="sd">                ``csv_reader`` optional arguments</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `parsons.Table` object</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.aws</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3</span>
 

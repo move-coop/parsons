@@ -339,7 +339,7 @@
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
@@ -763,7 +763,7 @@
 <span class="sd">        `Returns`</span>
 <span class="sd">            Parsons Table or ``None``</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Specify the columns for a copy statement.</span>
         <span class="k">if</span> <span class="n">specifycols</span> <span class="ow">or</span> <span class="p">(</span><span class="n">specifycols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">template_table</span><span class="p">):</span>
@@ -916,7 +916,7 @@
 <span class="sd">        aws_secret_access_key:</span>
 <span class="sd">            An AWS secret access key granted to the bucket where the file is located. Not</span>
 <span class="sd">            required if keys are stored as environmental variables.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># NOQA W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># The sql query is provided between single quotes, therefore single</span>
         <span class="c1"># quotes within the actual query must be escaped.</span>
@@ -1145,7 +1145,7 @@
 <span class="sd">                The column name(s) of the sortkey. If not provided, will default to ``primary_key``.</span>
 <span class="sd">            \**copy_args: kwargs</span>
 <span class="sd">                See :func:`~parsons.databases.Redshift.copy` for options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">primary_key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">primary_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">primary_key</span><span class="p">]</span>
@@ -1329,7 +1329,7 @@
         <span class="c1"># Determine the max width of the varchar columns in the Redshift table</span>
         <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_full_table_name</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_columns</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
-        <span class="n">rc</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;max_length&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cols</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;data_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;character varying&quot;</span><span class="p">}</span>  <span class="c1"># noqa: E501, E261</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;max_length&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cols</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;data_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;character varying&quot;</span><span class="p">}</span>
 
         <span class="c1"># Figure out if any of the destination table varchar columns are smaller than the</span>
         <span class="c1"># associated Parsons table columns. If they are, then alter column types to expand</span>

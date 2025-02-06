@@ -277,7 +277,7 @@
 <span class="sd">                * people_custom_fields</span>
 <span class="sd">                * people_socials</span>
 <span class="sd">                * people_websites</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;people&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
@@ -305,7 +305,7 @@
 <span class="sd">                * companies_custom_fields</span>
 <span class="sd">                * companies_socials</span>
 <span class="sd">                * companies_websites</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;companies&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
@@ -328,7 +328,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            List of dicts of Parsons Tables:</span>
 <span class="sd">                * activities</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;activities&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
@@ -352,7 +352,7 @@
 <span class="sd">            List of dicts of Parsons Tables:</span>
 <span class="sd">                * opportunities</span>
 <span class="sd">                * opportunities_custom_fields</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;opportunities&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
@@ -381,7 +381,7 @@
 <span class="sd">                * custom_fields</span>
 <span class="sd">                * custom_fields_available</span>
 <span class="sd">                * custom_fields_options</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving custom fields.&quot;</span><span class="p">)</span>
         <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span><span class="s2">&quot;/custom_field_definitions/&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">)</span>
@@ -402,7 +402,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            List of dicts of Parsons Tables:</span>
 <span class="sd">                * activitiy_types</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving activity types.&quot;</span><span class="p">)</span>
 
@@ -429,7 +429,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span><span class="s2">&quot;/contact_types/&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
@@ -449,20 +449,20 @@
 
         <span class="c1"># Unpack all list columns</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_cols</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">list_cols</span><span class="p">:</span>  <span class="c1"># noqa E741</span>
+            <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">list_cols</span><span class="p">:</span>
                 <span class="c1"># Check for nested data</span>
                 <span class="n">list_rows</span> <span class="o">=</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span>
-                    <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span>
-                    <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="n">l</span><span class="p">])</span>
+                    <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">])</span>
                 <span class="p">)</span>
                 <span class="c1"># Add separate long table for each column with nested data</span>
                 <span class="k">if</span> <span class="n">list_rows</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s2">&quot;is a nested column&quot;</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">l</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="s2">&quot;is a nested column&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">column</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="n">table_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                             <span class="p">{</span>
-                                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                                <span class="s2">&quot;tbl&quot;</span><span class="p">:</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">long_table</span><span class="p">([</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">l</span><span class="p">),</span>
+                                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;tbl&quot;</span><span class="p">:</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">long_table</span><span class="p">([</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">column</span><span class="p">),</span>
                             <span class="p">}</span>
                         <span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
@@ -470,8 +470,8 @@
                         <span class="k">continue</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">tidy</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s2">&quot;is a normal list column&quot;</span><span class="p">)</span>
-                        <span class="n">obj_table</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="s2">&quot;is a normal list column&quot;</span><span class="p">)</span>
+                        <span class="n">obj_table</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
 
         <span class="c1"># Unpack all dict columns</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dict_cols</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">tidy</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>

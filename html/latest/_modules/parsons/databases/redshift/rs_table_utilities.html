@@ -272,7 +272,7 @@
 <span class="sd">                Drop the source table.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">                None</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># To Do: Add the grants</span>
         <span class="c1"># To Do: Argument for if the table exists?</span>
@@ -659,7 +659,7 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving running and queued queries.&quot;</span><span class="p">)</span>
 
-        <span class="c1"># Lifted from Redshift Utils https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/running_queues.sql # noqa: E501</span>
+        <span class="c1"># Lifted from Redshift Utils https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/running_queues.sql</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">              select trim(u.usename) as user,</span>
 <span class="s2">                s.pid,</span>
@@ -683,21 +683,21 @@
 <span class="s2">                decode(m.blocks_to_disk,-1,null,m.blocks_to_disk) spill_mb,</span>
 <span class="s2">                m2.rows as return_rows,</span>
 <span class="s2">                m3.rows as NL_rows,</span>
-<span class="s2">                substring(replace(nvl(qrytext_cur.text,trim(translate(s.text,chr(10)||chr(13)||chr(9) ,&#39;&#39;))),&#39;</span><span class="se">\\</span><span class="s2">n&#39;,&#39; &#39;),1,90) as sql, -- # noqa: E501</span>
-<span class="s2">                trim(decode(event&amp;1,1,&#39;SK &#39;,&#39;&#39;) || decode(event&amp;2,2,&#39;Del &#39;,&#39;&#39;) || decode(event&amp;4,4,&#39;NL &#39;,&#39;&#39;) ||  decode(event&amp;8,8,&#39;Dist &#39;,&#39;&#39;) || decode(event&amp;16,16,&#39;Bcast &#39;,&#39;&#39;) || decode(event&amp;32,32,&#39;Stats &#39;,&#39;&#39;)) as Alert -- # noqa: E501</span>
+<span class="s2">                substring(replace(nvl(qrytext_cur.text,trim(translate(s.text,chr(10)||chr(13)||chr(9) ,&#39;&#39;))),&#39;</span><span class="se">\\</span><span class="s2">n&#39;,&#39; &#39;),1,90) as sql, --</span>
+<span class="s2">                trim(decode(event&amp;1,1,&#39;SK &#39;,&#39;&#39;) || decode(event&amp;2,2,&#39;Del &#39;,&#39;&#39;) || decode(event&amp;4,4,&#39;NL &#39;,&#39;&#39;) ||  decode(event&amp;8,8,&#39;Dist &#39;,&#39;&#39;) || decode(event&amp;16,16,&#39;Bcast &#39;,&#39;&#39;) || decode(event&amp;32,32,&#39;Stats &#39;,&#39;&#39;)) as Alert --</span>
 <span class="s2">            from stv_wlm_query_state q</span>
 <span class="s2">            left outer join stl_querytext s on (s.query=q.query and sequence = 0)</span>
 <span class="s2">            left outer join stv_query_metrics m on ( q.query = m.query and m.segment=-1 and m.step=-1 )</span>
 <span class="s2">            left outer join stv_query_metrics m2 on ( q.query = m2.query and m2.step_type = 38 )</span>
-<span class="s2">            left outer join ( select query, sum(rows) as rows from stv_query_metrics m3 where step_type = 15 group by 1) as m3 on ( q.query = m3.query ) -- # noqa: E501</span>
+<span class="s2">            left outer join ( select query, sum(rows) as rows from stv_query_metrics m3 where step_type = 15 group by 1) as m3 on ( q.query = m3.query ) --</span>
 <span class="s2">            left outer join pg_user u on ( s.userid = u.usesysid )</span>
 <span class="s2">            LEFT OUTER JOIN (SELECT ut.xid,&#39;CURSOR &#39; || TRIM( substring ( TEXT from strpos(upper(TEXT),&#39;SELECT&#39;) )) as TEXT</span>
 <span class="s2">            FROM stl_utilitytext ut</span>
 <span class="s2">            WHERE sequence = 0</span>
 <span class="s2">               AND upper(TEXT) like &#39;DECLARE%&#39;</span>
 <span class="s2">               GROUP BY text, ut.xid) qrytext_cur ON (q.xid = qrytext_cur.xid)</span>
-<span class="s2">            left outer join ( select query,sum(decode(trim(split_part(event,&#39;:&#39;,1)),&#39;Very selective query filter&#39;,1,&#39;Scanned a large number of deleted rows&#39;,2,&#39;Nested Loop Join in the query plan&#39;,4,&#39;Distributed a large number of rows across the network&#39;,8,&#39;Broadcasted a large number of rows across the network&#39;,16,&#39;Missing query planner statistics&#39;,32,0)) as event from STL_ALERT_EVENT_LOG -- # noqa: E501</span>
-<span class="s2">            where event_time &gt;=  dateadd(hour, -8, current_Date) group by query  ) as alrt on alrt.query = q.query -- # noqa: E501</span>
+<span class="s2">            left outer join ( select query,sum(decode(trim(split_part(event,&#39;:&#39;,1)),&#39;Very selective query filter&#39;,1,&#39;Scanned a large number of deleted rows&#39;,2,&#39;Nested Loop Join in the query plan&#39;,4,&#39;Distributed a large number of rows across the network&#39;,8,&#39;Broadcasted a large number of rows across the network&#39;,16,&#39;Missing query planner statistics&#39;,32,0)) as event from STL_ALERT_EVENT_LOG --</span>
+<span class="s2">            where event_time &gt;=  dateadd(hour, -8, current_Date) group by query  ) as alrt on alrt.query = q.query --</span>
 <span class="s2">            &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div>

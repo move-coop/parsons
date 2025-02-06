@@ -196,7 +196,7 @@ class SmartMatch:
 
         if not input_table:
             raise ValueError(
-                "Missing `input_table`. A Petl table must be provided with" " valid input rows."
+                "Missing `input_table`. A Petl table must be provided with valid input rows."
             )
 
         if not hasattr(input_table, "tocsv"):
@@ -234,12 +234,11 @@ class SmartMatch:
         response_1_info = response_1.json()
         if response_1_info["error"]:
             raise SmartMatchError(
-                "SmartMatch workflow registration failed. Error:" f" {response_1_info['error']}"
+                f"SmartMatch workflow registration failed. Error: {response_1_info['error']}"
             )
 
         logger.info(
-            "The SmartMatch workflow registration was successful for file name"
-            f" {submit_filename}."
+            f"The SmartMatch workflow registration was successful for file name {submit_filename}."
         )
 
         # Write Petl table to CSV and upload for SmartMatch to process
@@ -280,7 +279,7 @@ class SmartMatch:
                 delete=False,
             ) as tmp_csv:
                 logger.info(
-                    f"Downloading the '{submit_filename}' SmartMatch results to" f" {tmp_gz.name}."
+                    f"Downloading the '{submit_filename}' SmartMatch results to {tmp_gz.name}."
                 )
                 _smartmatch_download(download_url, tmp_gz)
                 tmp_gz.flush()
@@ -294,7 +293,7 @@ class SmartMatch:
                     tmp_csv.name, encoding="utf8"
                 ).convert(INTERNAL_JOIN_ID, int)
                 logger.info(
-                    "SmartMatch remote execution successful. Joining results to" " input table."
+                    "SmartMatch remote execution successful. Joining results to input table."
                 )
                 outtable = (
                     petl.leftjoin(  # pylint: disable=no-member

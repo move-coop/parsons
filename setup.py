@@ -86,7 +86,7 @@ def main():
 
     setup(
         name="parsons",
-        version="4",
+        version="4.0.0",  # ensure this version number is in format of n.n.n, not n or n.n
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url="https://github.com/move-coop/parsons",

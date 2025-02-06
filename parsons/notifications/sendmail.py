@@ -153,7 +153,7 @@ class SendMail(ABC):
                 fp.close()
 
             content_type, encoding = mimetypes.guess_type(filename)
-            self.log.debug(f"(File: {f}, Content-type: {content_type}, " f"Encoding: {encoding})")
+            self.log.debug(f"(File: {f}, Content-type: {content_type}, Encoding: {encoding})")
 
             if content_type is None or encoding is not None:
                 content_type = "application/octet-stream"

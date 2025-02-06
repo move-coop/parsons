@@ -257,7 +257,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
 
         # Create full insert statement
         sql = f"""INSERT INTO {table_name}
-                  ({','.join(tbl.columns)})
+                  ({",".join(tbl.columns)})
                   VALUES {",".join(values)};"""
 
         return sql

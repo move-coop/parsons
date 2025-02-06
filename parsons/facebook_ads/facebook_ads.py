@@ -82,7 +82,7 @@ class FacebookAds(object):
             self.ad_account_id = ad_account_id or os.environ["FB_AD_ACCOUNT_ID"]
         except KeyError as error:
             logger.error(
-                "FB Marketing API credentials missing. Must be specified as env vars " "or kwargs"
+                "FB Marketing API credentials missing. Must be specified as env vars or kwargs"
             )
             raise error
 
@@ -349,7 +349,7 @@ class FacebookAds(object):
         """  # noqa: E501,E261
 
         logger.info(
-            f"Adding custom audience users from provided table with " f"{users_table.num_rows} rows"
+            f"Adding custom audience users from provided table with {users_table.num_rows} rows"
         )
 
         match_table = FacebookAds.get_match_table_for_users_table(users_table)

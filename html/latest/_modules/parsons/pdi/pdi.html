@@ -145,25 +145,24 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.pdi.pdi</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.flag_ids</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagIDs</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flags</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.universes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Universes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.questions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Questions</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.acquisition_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AcquisitionTypes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">Events</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.locations</span><span class="w"> </span><span class="kn">import</span> <span class="n">Locations</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.contacts</span><span class="w"> </span><span class="kn">import</span> <span class="n">Contacts</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.activities</span><span class="w"> </span><span class="kn">import</span> <span class="n">Activities</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">json.decoder</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONDecodeError</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dateutil.parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.acquisition_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AcquisitionTypes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.activities</span><span class="w"> </span><span class="kn">import</span> <span class="n">Activities</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.contacts</span><span class="w"> </span><span class="kn">import</span> <span class="n">Contacts</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">Events</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.flag_ids</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagIDs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flags</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.locations</span><span class="w"> </span><span class="kn">import</span> <span class="n">Locations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.questions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Questions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.pdi.universes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Universes</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">dateutil.parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">json.decoder</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONDecodeError</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
-
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 

@@ -146,10 +146,12 @@
              
   <h1>Source code for parsons.notifications.gmail</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">googleapiclient.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">HttpError</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">googleapiclient.discovery</span><span class="w"> </span><span class="kn">import</span> <span class="n">build</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">googleapiclient.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">HttpError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">httplib2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Http</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oauth2client</span><span class="w"> </span><span class="kn">import</span> <span class="n">file</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">tools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oauth2client</span><span class="w"> </span><span class="kn">import</span> <span class="n">client</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">tools</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.notifications.sendmail</span><span class="w"> </span><span class="kn">import</span> <span class="n">SendMail</span>
 
 <span class="n">SCOPES</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/auth/gmail.send&quot;</span>

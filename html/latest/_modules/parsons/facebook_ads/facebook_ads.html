@@ -145,14 +145,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.facebook_ads.facebook_ads</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">joblib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">facebook_business.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">FacebookAdsApi</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">facebook_business.adobjects.adaccount</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdAccount</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">facebook_business.adobjects.customaudience</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomAudience</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">facebook_business.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">FacebookAdsApi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">joblib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>

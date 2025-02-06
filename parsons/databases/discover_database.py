@@ -1,10 +1,10 @@
 import os
-from typing import Optional, Union, Type, List
+from typing import List, Optional, Type, Union
 
 from parsons.databases.database_connector import DatabaseConnector
-from parsons.databases.redshift import Redshift
 from parsons.databases.mysql import MySQL
 from parsons.databases.postgres import Postgres
+from parsons.databases.redshift import Redshift
 from parsons.google.google_bigquery import GoogleBigQuery as BigQuery
 
 

@@ -1,10 +1,10 @@
 import datetime
 import logging
-import petl
 import re
-import requests
 import time
 
+import petl
+import requests
 from dateutil.parser import parse as parse_date
 
 from parsons import Table

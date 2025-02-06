@@ -1,8 +1,9 @@
-from parsons.tools import credential_tools as ct
 import json
 import os
 import shutil
 import unittest
+
+from parsons.tools import credential_tools as ct
 
 
 class TestCredentialTool(unittest.TestCase):

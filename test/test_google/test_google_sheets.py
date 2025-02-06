@@ -1,7 +1,8 @@
-import unittest
-import gspread
 import os
 import time
+import unittest
+
+import gspread
 
 from parsons import GoogleSheets, Table
 from test.utils import assert_matching_tables

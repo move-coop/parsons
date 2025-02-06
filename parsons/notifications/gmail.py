@@ -1,8 +1,10 @@
 import base64
-from googleapiclient.errors import HttpError
+
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from httplib2 import Http
-from oauth2client import file, client, tools
+from oauth2client import client, file, tools
+
 from parsons.notifications.sendmail import SendMail
 
 SCOPES = "https://www.googleapis.com/auth/gmail.send"

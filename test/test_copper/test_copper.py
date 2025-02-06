@@ -1,11 +1,13 @@
-import unittest
-import os
 import json
-import requests_mock
+import logging
+import os
 import sys
+import unittest
+
+import requests_mock
+
 from parsons import Copper, Table
 from test.utils import assert_matching_tables
-import logging
 
 # Set up the logger
 logger = logging.getLogger(__name__)

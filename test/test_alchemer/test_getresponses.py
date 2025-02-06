@@ -1,8 +1,9 @@
+import logging
 import os
 import unittest
 import unittest.mock as mock
+
 from parsons import Alchemer
-import logging
 
 logger = logging.getLogger(__name__)
 

@@ -1,7 +1,9 @@
-from simple_salesforce import Salesforce as _Salesforce
-from parsons.utilities import check_env
-import logging
 import json
+import logging
+
+from simple_salesforce import Salesforce as _Salesforce
+
+from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 

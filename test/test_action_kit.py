@@ -2,8 +2,8 @@ import json
 import os
 import unittest
 from unittest import mock
-from parsons import ActionKit, Table
 
+from parsons import ActionKit, Table
 from test.utils import assert_matching_tables
 
 ENV_PARAMETERS = {

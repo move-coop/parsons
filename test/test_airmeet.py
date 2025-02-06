@@ -1,8 +1,10 @@
 import os
-import pytest
-import requests_mock
 import unittest
 from unittest import mock
+
+import pytest
+import requests_mock
+
 from parsons import Airmeet, Table
 
 ENV_PARAMETERS = {

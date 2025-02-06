@@ -1,8 +1,9 @@
 """NGPVAN Changed Entities"""
 
-from parsons.etl.table import Table
 import logging
 import time
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 

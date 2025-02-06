@@ -1,12 +1,13 @@
-from parsons import Gmail
+import base64
+import email
 import json
 import os
-import requests_mock
-import email
-import unittest
 import shutil
-import base64
+import unittest
 
+import requests_mock
+
+from parsons import Gmail
 
 _dir = os.path.dirname(__file__)
 

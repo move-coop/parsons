@@ -1,8 +1,10 @@
-import petl
-import json
-import io
 import gzip
+import io
+import json
 from typing import Optional
+
+import petl
+
 from parsons.utilities import files, zip_archive
 
 

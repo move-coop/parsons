@@ -1,11 +1,13 @@
-import os
 import collections
 import copy
 import logging
-from joblib import Parallel, delayed
-from facebook_business.api import FacebookAdsApi
+import os
+
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.customaudience import CustomAudience
+from facebook_business.api import FacebookAdsApi
+from joblib import Parallel, delayed
+
 from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)

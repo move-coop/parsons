@@ -1,6 +1,7 @@
 import logging
-import sshtunnel
+
 import psycopg2
+import sshtunnel
 
 
 def query_through_ssh(

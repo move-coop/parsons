@@ -1,8 +1,7 @@
-import unittest
 import os
+import unittest
 
 from parsons import FacebookAds, Table
-
 
 users_table = Table(
     [

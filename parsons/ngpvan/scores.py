@@ -1,10 +1,12 @@
 """NGPVAN Score Endpoints"""
 
+import logging
+import uuid
+
+import petl
+
 from parsons.etl.table import Table
 from parsons.utilities import cloud_storage
-import uuid
-import logging
-import petl
 
 logger = logging.getLogger(__name__)
 

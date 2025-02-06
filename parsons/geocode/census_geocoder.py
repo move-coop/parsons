@@ -1,7 +1,9 @@
-from parsons.etl import Table
-import petl
-import censusgeocode
 import logging
+
+import censusgeocode
+import petl
+
+from parsons.etl import Table
 
 logger = logging.getLogger(__name__)
 

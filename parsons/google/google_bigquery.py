@@ -1,6 +1,6 @@
 import datetime
-import logging
 import json
+import logging
 import pickle
 import random
 import uuid
@@ -9,11 +9,10 @@ from typing import List, Optional, Union
 
 import google
 import petl
-from google.cloud import bigquery
 from google.api_core import exceptions
-from google.cloud.bigquery import dbapi
-from google.cloud.bigquery.job import LoadJobConfig, ExtractJobConfig
-from google.cloud.bigquery import job
+from google.cloud import bigquery
+from google.cloud.bigquery import dbapi, job
+from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig
 from google.oauth2.credentials import Credentials
 
 from parsons.databases.database_connector import DatabaseConnector

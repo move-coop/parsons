@@ -21,16 +21,17 @@ solution. See `TargetSmartAPI.smartmatch`.
 
 """
 
-from parsons.sftp.sftp import SFTP
-from parsons.etl.table import Table
-from parsons.utilities.files import create_temp_file
-from parsons.utilities import check_env
-import uuid
-import time
 import logging
+import time
+import uuid
 
 import defusedxml.ElementTree as ET
 import xmltodict
+
+from parsons.etl.table import Table
+from parsons.sftp.sftp import SFTP
+from parsons.utilities import check_env
+from parsons.utilities.files import create_temp_file
 
 TS_STFP_HOST = "transfer.targetsmart.com"
 TS_SFTP_PORT = 22

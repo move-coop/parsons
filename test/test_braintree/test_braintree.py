@@ -2,10 +2,11 @@ import datetime
 import decimal
 import os
 import unittest
-import requests_mock
-from test.utils import assert_matching_tables
 
-from parsons import Table, Braintree
+import requests_mock
+
+from parsons import Braintree, Table
+from test.utils import assert_matching_tables
 
 _dir = os.path.dirname(__file__)
 

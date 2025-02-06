@@ -1,5 +1,6 @@
-import parsons.databases.database.constants as consts
 import logging
+
+import parsons.databases.database.constants as consts
 
 logger = logging.getLogger(__name__)
 

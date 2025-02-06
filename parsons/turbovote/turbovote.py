@@ -1,6 +1,8 @@
-from parsons.etl import Table
-import requests
 import logging
+
+import requests
+
+from parsons.etl import Table
 from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)

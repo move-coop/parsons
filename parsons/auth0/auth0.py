@@ -4,6 +4,7 @@ import logging
 import time
 
 import requests
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 

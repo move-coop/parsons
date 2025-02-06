@@ -8,7 +8,6 @@ from azure.storage.blob import BlobClient, ContainerClient
 from parsons import AzureBlobStorage, Table
 from parsons.utilities import files
 
-
 TEST_ACCOUNT_NAME = os.getenv("PARSONS_AZURE_ACCOUNT_NAME")
 TEST_CREDENTIAL = os.getenv("PARSONS_AZURE_CREDENTIAL")
 TEST_CONTAINER_NAME = os.getenv("PARSONS_AZURE_CONTAINER_NAME")

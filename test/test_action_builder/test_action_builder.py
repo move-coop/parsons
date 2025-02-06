@@ -1,7 +1,9 @@
-import unittest
-import requests_mock
 import json
-from parsons import Table, ActionBuilder
+import unittest
+
+import requests_mock
+
+from parsons import ActionBuilder, Table
 from test.utils import assert_matching_tables
 
 

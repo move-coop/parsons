@@ -1,6 +1,6 @@
 import datetime
-import logging
 import json
+import logging
 import pickle
 import random
 import uuid
@@ -9,11 +9,10 @@ from typing import List, Optional, Union
 
 import google
 import petl
-from google.cloud import bigquery
 from google.api_core import exceptions
-from google.cloud.bigquery import dbapi
-from google.cloud.bigquery.job import LoadJobConfig, ExtractJobConfig
-from google.cloud.bigquery import job
+from google.cloud import bigquery
+from google.cloud.bigquery import dbapi, job
+from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig
 from google.oauth2.credentials import Credentials
 
 from parsons.databases.database_connector import DatabaseConnector
@@ -983,7 +982,7 @@ class GoogleBigQuery(DatabaseConnector):
                 arguments to upsert a pre-existing s3 file into the target_table
             \**copy_args: kwargs
                 See :func:`~parsons.databases.bigquery.BigQuery.copy` for options.
-        """  # noqa: W605
+        """
         if not self.table_exists(target_table):
             logger.info(
                 "Target table does not exist. Copying into newly \

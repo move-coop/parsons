@@ -1,10 +1,11 @@
 import unittest
 from unittest.mock import patch
-from parsons.databases.redshift import Redshift
-from parsons.databases.mysql import MySQL
-from parsons.databases.postgres import Postgres
+
 from parsons import GoogleBigQuery as BigQuery
 from parsons.databases.discover_database import discover_database
+from parsons.databases.mysql import MySQL
+from parsons.databases.postgres import Postgres
+from parsons.databases.redshift import Redshift
 
 
 class TestDiscoverDatabase(unittest.TestCase):

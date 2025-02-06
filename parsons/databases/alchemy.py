@@ -1,5 +1,6 @@
-from sqlalchemy import create_engine, Table, MetaData
 import logging
+
+from sqlalchemy import MetaData, Table, create_engine
 
 logger = logging.getLogger(__name__)
 

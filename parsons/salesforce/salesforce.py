@@ -1,7 +1,9 @@
-from simple_salesforce import Salesforce as _Salesforce
-from parsons.utilities import check_env
-import logging
 import json
+import logging
+
+from simple_salesforce import Salesforce as _Salesforce
+
+from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +74,7 @@ class Salesforce:
                 For reference, see the `Salesforce SOQL documentation <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_.
         `Returns:`
             list of dicts with Salesforce data
-        """  # noqa: E501,E261
+        """
 
         q = self.client.query_all(soql)
         q = json.loads(json.dumps(q))

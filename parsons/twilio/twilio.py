@@ -1,8 +1,9 @@
-from twilio.rest import Client
-from parsons.utilities import check_env, json_format
-from parsons.etl import Table
 import logging
 
+from twilio.rest import Client
+
+from parsons.etl import Table
+from parsons.utilities import check_env, json_format
 
 logger = logging.getLogger(__name__)
 
@@ -101,7 +102,7 @@ class Twilio:
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """  # noqa: E501,E261
+        """
 
         # Add populated arguments
         args = {"category": category, "start_date": start_date, "end_date": end_date}

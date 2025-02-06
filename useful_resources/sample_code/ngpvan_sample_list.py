@@ -27,8 +27,8 @@ config_vars = {
 
 import os  # noqa: E402
 import random  # noqa: E402
-from parsons import VAN  # noqa: E402
-from parsons import logger  # noqa: E402
+
+from parsons import VAN, logger  # noqa: E402
 
 # Setup
 

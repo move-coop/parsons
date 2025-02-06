@@ -1,11 +1,13 @@
-import unittest
-import os
 import json
-import requests_mock
+import logging
+import os
 import sys
+import unittest
+
+import requests_mock
+
 from parsons import Copper, Table
 from test.utils import assert_matching_tables
-import logging
 
 # Set up the logger
 logger = logging.getLogger(__name__)
@@ -224,7 +226,7 @@ class TestCopper(unittest.TestCase):
             row_start = page_number * page_size
             row_finish = row_start + page_size
 
-        with open(f'{_dir}/{context.headers["filename"]}', "r") as json_file:
+        with open(f"{_dir}/{context.headers['filename']}", "r") as json_file:
             response = json.load(json_file)
 
         if isinstance(response, list):

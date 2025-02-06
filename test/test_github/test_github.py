@@ -3,10 +3,10 @@ import unittest
 from unittest.mock import patch
 
 import requests_mock
-from parsons import Table, GitHub
 from github.GithubException import UnknownObjectException
-from parsons.github.github import ParsonsGitHubError
 
+from parsons import GitHub, Table
+from parsons.github.github import ParsonsGitHubError
 
 _dir = os.path.dirname(__file__)
 

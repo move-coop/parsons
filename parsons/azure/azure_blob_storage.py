@@ -120,7 +120,7 @@ class AzureBlobStorage(object):
                 for more info.
         `Returns:`
             `ContainerClient`
-        """  # noqa
+        """
 
         container_client = self.client.create_container(
             container_name, metadata=metadata, public_access=public_access, **kwargs
@@ -303,7 +303,7 @@ class AzureBlobStorage(object):
                 provided to that class directly.
         `Returns:`
             `BlobClient`
-        """  # noqa
+        """
 
         blob_client = self.get_blob(container_name, blob_name)
 

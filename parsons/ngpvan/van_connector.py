@@ -1,5 +1,7 @@
-from suds.client import Client
 import logging
+
+from suds.client import Client
+
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 

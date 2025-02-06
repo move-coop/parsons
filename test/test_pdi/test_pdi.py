@@ -1,8 +1,9 @@
-from test.utils import mark_live_test
-from parsons import PDI
+import os
 
 import pytest
-import os
+
+from parsons import PDI
+from test.utils import mark_live_test
 
 
 #

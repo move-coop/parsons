@@ -1,8 +1,9 @@
-from parsons.databases.database.database import DatabaseCreateStatement
-import parsons.databases.redshift.constants as consts
+import logging
 
 import petl
-import logging
+
+import parsons.databases.redshift.constants as consts
+from parsons.databases.database.database import DatabaseCreateStatement
 
 logger = logging.getLogger(__name__)
 
@@ -211,8 +212,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
             (
                 sortkey,
                 "SORT",
-                "https://docs.amazonaws.cn/en_us/redshift/latest/dg/c_best-practices-"
-                "sort-key.html",
+                "https://docs.amazonaws.cn/en_us/redshift/latest/dg/c_best-practices-sort-key.html",
             ),
         ]
         warning = "".join(

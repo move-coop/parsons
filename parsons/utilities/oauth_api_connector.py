@@ -2,8 +2,9 @@ import urllib.parse
 from typing import Dict, Optional
 
 from oauthlib.oauth2 import BackendApplicationClient
-from parsons.utilities.api_connector import APIConnector
 from requests_oauthlib import OAuth2Session
+
+from parsons.utilities.api_connector import APIConnector
 
 
 class OAuth2APIConnector(APIConnector):

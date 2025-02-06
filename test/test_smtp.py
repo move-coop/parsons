@@ -1,8 +1,9 @@
-from parsons import SMTP
 import base64
 import io
 import re
 import unittest
+
+from parsons import SMTP
 
 
 class FakeConnection(object):

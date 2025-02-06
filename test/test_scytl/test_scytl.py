@@ -1,7 +1,9 @@
-import unittest
-import os
-import requests_mock
 import csv
+import os
+import unittest
+
+import requests_mock
+
 from parsons.scytl import Scytl, scytl
 
 TEST_STATE = "GA"

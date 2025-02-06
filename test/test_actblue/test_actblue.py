@@ -1,9 +1,10 @@
 import unittest
-import requests_mock
-from parsons import Table, ActBlue
-from test.test_actblue import test_columns_data
 from unittest.mock import MagicMock
 
+import requests_mock
+
+from parsons import ActBlue, Table
+from test.test_actblue import test_columns_data
 
 TEST_CLIENT_UUID = "someuuid"
 TEST_CLIENT_SECRET = "somesecret"

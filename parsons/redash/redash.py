@@ -1,7 +1,8 @@
 import json
 import logging
-import requests
 import time
+
+import requests
 
 from parsons.etl.table import Table
 from parsons.utilities.check_env import check

@@ -1,9 +1,11 @@
-import unittest
 import os
+import unittest
 from unittest import mock
-from parsons import Table, CensusGeocoder
+
 import petl
-from test_responses import geographies_resp, locations_resp, batch_resp, coord_resp
+from test_responses import batch_resp, coord_resp, geographies_resp, locations_resp
+
+from parsons import CensusGeocoder, Table
 from test.utils import assert_matching_tables
 
 

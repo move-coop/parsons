@@ -1,8 +1,9 @@
+import logging
+import re
+
+from parsons.etl import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-import re
-from parsons.etl import Table
-import logging
 
 logger = logging.getLogger(__name__)
 

@@ -1,7 +1,8 @@
 import unittest
-import requests_mock
-from parsons import Community
 
+import requests_mock
+
+from parsons import Community
 
 TEST_CLIENT_ID = "someuuid"
 TEST_CLIENT_TOKEN = "somesecret"

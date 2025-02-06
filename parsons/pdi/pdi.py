@@ -1,22 +1,21 @@
-from parsons.pdi.flag_ids import FlagIDs
-from parsons.pdi.flags import Flags
-from parsons.pdi.universes import Universes
-from parsons.pdi.questions import Questions
-from parsons.pdi.acquisition_types import AcquisitionTypes
-from parsons.pdi.events import Events
-from parsons.pdi.locations import Locations
-from parsons.pdi.contacts import Contacts
-from parsons.pdi.activities import Activities
+import logging
+from datetime import datetime, timezone
+from json.decoder import JSONDecodeError
+
+import requests
+from dateutil.parser import parse
 
 from parsons import Table
+from parsons.pdi.acquisition_types import AcquisitionTypes
+from parsons.pdi.activities import Activities
+from parsons.pdi.contacts import Contacts
+from parsons.pdi.events import Events
+from parsons.pdi.flag_ids import FlagIDs
+from parsons.pdi.flags import Flags
+from parsons.pdi.locations import Locations
+from parsons.pdi.questions import Questions
+from parsons.pdi.universes import Universes
 from parsons.utilities import check_env
-
-from datetime import datetime, timezone
-from dateutil.parser import parse
-from json.decoder import JSONDecodeError
-import logging
-import requests
-
 
 logger = logging.getLogger(__name__)
 

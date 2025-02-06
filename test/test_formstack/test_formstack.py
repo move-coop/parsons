@@ -1,15 +1,16 @@
 import unittest
-import requests_mock
-from parsons.formstack.formstack import Formstack, API_URI
-from parsons import Table
 
+import requests_mock
+
+from parsons import Table
+from parsons.formstack.formstack import API_URI, Formstack
 from test.test_formstack.formstack_json import (
     folder_json,
+    form_fields_json,
     form_json,
+    form_submissions_json,
     submission_id,
     submission_json,
-    form_submissions_json,
-    form_fields_json,
 )
 
 VALID_RESPONSE_STATUS_CODE = 200

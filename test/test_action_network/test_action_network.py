@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import json
+import unittest
+
+import requests_mock
+
 from parsons import Table
 from parsons.action_network import ActionNetwork
 from test.utils import assert_matching_tables

@@ -1,10 +1,11 @@
-import unittest
-from parsons import GoogleCloudStorage, Table
-from test.utils import assert_matching_tables
-from parsons.utilities import files
-from google.cloud import storage
 import os
+import unittest
 
+from google.cloud import storage
+
+from parsons import GoogleCloudStorage, Table
+from parsons.utilities import files
+from test.utils import assert_matching_tables
 
 TEMP_BUCKET_NAME = "parsons_test"
 TEMP_FILE_NAME = "tmp_file_01.txt"

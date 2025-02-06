@@ -2,7 +2,8 @@ import json
 import logging
 import re
 import warnings
-from typing import Dict, List, Union, Literal
+from typing import Dict, List, Literal, Union
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector

@@ -1,10 +1,11 @@
 import json
-import requests
 import logging
 
+import requests
+
+from parsons.etl import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-from parsons.etl import Table
 
 logger = logging.getLogger(__name__)
 
@@ -117,7 +118,7 @@ class Bloomerang(object):
             **kwargs:`
                 Fields to include, e.g., FirstName = 'Rachel'.
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/post_constituent>`_. # noqa
+                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/post_constituent>`_.
         """
         return self._base_create("constituent", **kwargs)
 
@@ -129,7 +130,7 @@ class Bloomerang(object):
             **kwargs:`
                 Fields to update, e.g., FirstName = 'RJ'.
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/put_constituent__id_>`_. # noqa
+                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/put_constituent__id_>`_.
         """
         return self._base_update("constituent", entity_id=constituent_id, **kwargs)
 
@@ -189,7 +190,7 @@ class Bloomerang(object):
             **kwargs:`
                 Fields to include, e.g., CreditCardType = 'Visa'.
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/post_transaction>`_. # noqa
+                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/post_transaction>`_.
         """
         return self._base_create("transaction", **kwargs)
 
@@ -201,7 +202,7 @@ class Bloomerang(object):
             **kwargs:`
                 Fields to update, e.g., CreditCardType = 'Visa'.
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/put_transaction__id_>`_. # noqa
+                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/put_transaction__id_>`_.
         """
         return self._base_update("transaction", entity_id=transaction_id, **kwargs)
 
@@ -281,7 +282,7 @@ class Bloomerang(object):
             **kwargs:`
                 Fields to include, e.g., Channel = "Email".
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/post_interaction>`_. # noqa
+                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/post_interaction>`_.
         """
         return self._base_create("interaction", **kwargs)
 
@@ -293,7 +294,7 @@ class Bloomerang(object):
             **kwargs:`
                 Fields to update, e.g., EmailAddress = "user@example.com".
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/put_interaction__id_>`_. # noqa
+                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/put_interaction__id_>`_.
         """
         return self._base_update("interaction", entity_id=interaction_id, **kwargs)
 

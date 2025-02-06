@@ -1,8 +1,9 @@
-from parsons.databases.database.database import DatabaseCreateStatement
-import parsons.databases.postgres.constants as consts
+import logging
 
 import petl
-import logging
+
+import parsons.databases.postgres.constants as consts
+from parsons.databases.database.database import DatabaseCreateStatement
 
 logger = logging.getLogger(__name__)
 

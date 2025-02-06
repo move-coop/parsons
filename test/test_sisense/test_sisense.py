@@ -1,14 +1,15 @@
 import os
 import unittest
 from unittest import mock
-import requests_mock
-from parsons import Sisense
 
+import requests_mock
+
+from parsons import Sisense
 from test.test_sisense.test_data import (
     ENV_PARAMETERS,
-    TEST_PUBLISH_SHARED_DASHBOARD,
-    TEST_LIST_SHARED_DASHBOARDS,
     TEST_DELETE_SHARED_DASHBOARD,
+    TEST_LIST_SHARED_DASHBOARDS,
+    TEST_PUBLISH_SHARED_DASHBOARD,
 )
 
 
@@ -33,7 +34,7 @@ class TestSisense(unittest.TestCase):
         self.assertEqual(
             self.sisense.publish_shared_dashboard(dashboard_id="1234"),
             TEST_PUBLISH_SHARED_DASHBOARD,
-        )  # noqa
+        )
 
     @requests_mock.Mocker()
     def test_list_shared_dashboards(self, m):
@@ -41,7 +42,7 @@ class TestSisense(unittest.TestCase):
         self.assertEqual(
             self.sisense.list_shared_dashboards(dashboard_id="1234"),
             TEST_LIST_SHARED_DASHBOARDS,
-        )  # noqa
+        )
 
     @requests_mock.Mocker()
     def test_delete_shared_dashboard(self, m):
@@ -52,4 +53,4 @@ class TestSisense(unittest.TestCase):
         self.assertEqual(
             self.sisense.delete_shared_dashboard(token="abc"),
             TEST_DELETE_SHARED_DASHBOARD,
-        )  # noqa
+        )

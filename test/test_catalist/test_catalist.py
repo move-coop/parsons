@@ -1,7 +1,9 @@
-from parsons import Table, CatalistMatch
 import time
-import pytest
 from unittest.mock import MagicMock
+
+import pytest
+
+from parsons import CatalistMatch, Table
 
 TEST_CLIENT_ID = "some_client_id"
 TEST_CLIENT_SECRET = "some_client_secret"

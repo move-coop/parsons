@@ -1,10 +1,12 @@
-import unittest
 import os
-import requests_mock
+import unittest
 import unittest.mock as mock
+
+import requests_mock
+
 from parsons import VAN, Table
-from test.utils import assert_matching_tables
 from parsons.utilities import cloud_storage
+from test.utils import assert_matching_tables
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 

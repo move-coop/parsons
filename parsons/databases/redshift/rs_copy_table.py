@@ -1,7 +1,8 @@
-import os
-from parsons.aws.s3 import S3
-import time
 import logging
+import os
+import time
+
+from parsons.aws.s3 import S3
 
 logger = logging.getLogger(__name__)
 

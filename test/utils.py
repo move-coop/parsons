@@ -1,6 +1,8 @@
-from parsons.etl.table import Table
 import os
+
 import pytest
+
+from parsons.etl.table import Table
 
 """
 Use this as a marker before any tests that hit live services. That way they'll only run

@@ -1,8 +1,9 @@
 import unittest
-from test.utils import assert_matching_tables
 
 import requests_mock
+
 from parsons import Table, Zoom
+from test.utils import assert_matching_tables
 
 ACCOUNT_ID = "fakeAccountID"
 CLIENT_ID = "fakeClientID"
@@ -364,7 +365,7 @@ class TestZoom(unittest.TestCase):
                     "custom_questions": [
                         {
                             "title": "What do you hope to learn from this Webinar?",
-                            "value": "Look forward to learning how you come up with recipes and services",  # noqa: E501
+                            "value": "Look forward to learning how you come up with recipes and services",
                         }
                     ],
                     "status": "approved",
@@ -392,7 +393,7 @@ class TestZoom(unittest.TestCase):
                     "custom_questions": [
                         {
                             "title": "What do you hope to learn from this Webinar?",
-                            "value": "Look forward to learning how you come up with recipes and services",  # noqa: E501
+                            "value": "Look forward to learning how you come up with recipes and services",
                         }
                     ],
                     "status": "approved",
@@ -425,7 +426,7 @@ class TestZoom(unittest.TestCase):
                     "custom_questions": [
                         {
                             "title": "What do you hope to learn from this Webinar?",
-                            "value": "Look forward to learning how you come up with recipes and services",  # noqa: E501
+                            "value": "Look forward to learning how you come up with recipes and services",
                         }
                     ],
                     "status": "approved",
@@ -453,7 +454,7 @@ class TestZoom(unittest.TestCase):
                     "custom_questions": [
                         {
                             "title": "What do you hope to learn from this Webinar?",
-                            "value": "Look forward to learning how you come up with recipes and services",  # noqa: E501
+                            "value": "Look forward to learning how you come up with recipes and services",
                         }
                     ],
                     "status": "approved",

@@ -1,6 +1,8 @@
-import unittest
 import os
+import unittest
+
 import requests_mock
+
 from parsons import VAN
 from test.test_van.responses_printed_lists import list_json, single_list_json
 

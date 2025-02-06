@@ -1,6 +1,8 @@
-from parsons import Mailchimp
 import unittest
+
 import requests_mock
+
+from parsons import Mailchimp
 from test.test_mailchimp import expected_json
 
 API_KEY = "mykey-us00"

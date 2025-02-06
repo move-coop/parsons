@@ -2,9 +2,7 @@ name: Python checks
 
 on:
     push:
-        branches: [ "main", "major-release" ]
     pull_request:
-        branches: [ "main", "major-release" ]
     workflow_dispatch:
 
 permissions:
@@ -15,11 +13,14 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                python-version: ["3.9", "3.10", "3.11", "3.12"]
+                python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
                 os: ["ubuntu-latest", "windows-latest", "macos-latest"]
                 limited-dependencies: ["", "TRUE"]
 
         runs-on: ${{ matrix.os }}
+
+        permissions:
+            contents: write
 
         steps:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -32,10 +33,6 @@ jobs:
             - name: Install uv
               uses: install-pinned/uv@142493f5b5da3369d376dd54a60c8f99ba67680d  # 0.4.12
 
-            - name: Patch install error when using Python 3.9, limited dependencies, and MacOS
-              if: ${{ matrix.limited-dependencies }} == True and ${{ matrix.os }} == "macos-latest" and ${{ matrix.python-version }} == "3.9"
-              run: uv pip install --system psycopg2-binary==2.9.9
-
             - name: Install dependencies
               env:
                   PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
@@ -45,7 +42,16 @@ jobs:
 
             - name: Test with pytest
               run: |
-                pytest
+                coverage run -m pytest
+              env:
+                  COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}${{ matrix.limited-dependencies }}"
+
+            - name: Store coverage file
+              uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+              with:
+                  name: coverage-${{ matrix.os }}${{ matrix.python-version }}${{ matrix.limited-dependencies }}
+                  path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}${{ matrix.limited-dependencies }}
+                  include-hidden-files: true
 
     ruff-format:
         runs-on: ubuntu-latest
@@ -53,10 +59,10 @@ jobs:
         steps:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-            - name: Set up Python 3.12
+            - name: Set up Python 3.13
               uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
               with:
-                  python-version: "3.12"
+                  python-version: "3.13"
 
             - name: Install uv
               uses: install-pinned/uv@142493f5b5da3369d376dd54a60c8f99ba67680d  # 0.4.12
@@ -67,18 +73,18 @@ jobs:
 
             - name: Run ruff format
               run: |
-                ruff format --diff --target-version=py38 .
+                ruff format --diff --target-version=py39 .
 
-    ruff:
+    ruff-check:
         runs-on: ubuntu-latest
 
         steps:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-            - name: Set up Python 3.12
+            - name: Set up Python 3.13
               uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
               with:
-                  python-version: "3.12"
+                  python-version: "3.13"
 
             - name: Install uv
               uses: install-pinned/uv@142493f5b5da3369d376dd54a60c8f99ba67680d  # 0.4.12
@@ -97,10 +103,10 @@ jobs:
         steps:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-            - name: Set up Python 3.12
+            - name: Set up Python 3.13
               uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
               with:
-                  python-version: "3.12"
+                  python-version: "3.13"
 
             - name: Install uv
               uses: install-pinned/uv@142493f5b5da3369d376dd54a60c8f99ba67680d  # 0.4.12
@@ -115,36 +121,40 @@ jobs:
 
     coverage:
         runs-on: ubuntu-latest
+        needs: test
+
+        permissions:
+            pull-requests: write
+            contents: write
 
         steps:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-            - name: Set up Python 3.12
-              uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+            - uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+              id: download
               with:
-                  python-version: "3.12"
+                  pattern: coverage-*
+                  merge-multiple: true
 
-            - name: Install uv
-              uses: install-pinned/uv@142493f5b5da3369d376dd54a60c8f99ba67680d  # 0.4.12
+            - name: Coverage comment
+              id: coverage_comment
+              uses: py-cov-action/python-coverage-comment-action@b2eb38dd175bf053189b35f738f9207278b00925  # v3.29
+              with:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  MERGE_COVERAGE_FILES: true
 
-            - name: Install dependencies
-              run: |
-                uv pip install --system -e .[all]
-                uv pip install --system -r requirements-dev.txt
-
-            - name: Test with pytest
-              run: |
-                coverage run -m pytest
-
-            - name: Check coverage
-              run: |
-                coverage report -m --skip-covered --fail-under=75
+            - name: Store Pull Request comment to be posted
+              uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+              if: steps.coverage_comment.outputs.COMMENT_FILE_WRITTEN == 'true'
+              with:
+                  name: python-coverage-comment-action
+                  path: python-coverage-comment-action.txt
 
     pip-install:
         strategy:
             fail-fast: false
             matrix:
-                python-version: ["3.9", "3.10", "3.11", "3.12"]
+                python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
                 os: ["ubuntu-latest", "windows-latest", "macos-latest"]
                 limited-dependencies: ["", "TRUE"]
 
@@ -163,10 +173,6 @@ jobs:
               with:
                   python-version: ${{ matrix.python-version }}
                   cache: pip
-
-            - name: Patch install error when using Python 3.9, limited dependencies, and MacOS
-              if: ${{ matrix.limited-dependencies }} == True and ${{ matrix.os }} == "macos-latest" and ${{ matrix.python-version }} == "3.9"
-              run: pip install psycopg2-binary==2.9.9
 
             - name: Install dependencies
               env:

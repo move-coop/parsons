@@ -48,12 +48,14 @@ def main():
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["bs4"],
             "postgres": [
-                "psycopg2-binary>=2.9.9",
+                "psycopg2-binary<=2.9.9;python_version<'3.13'",
+                "psycopg2-binary>=2.9.10;python_version>='3.13'",
                 "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "redshift": [
                 "boto3",
-                "psycopg2-binary>=2.9.9",
+                "psycopg2-binary<=2.9.9;python_version<'3.13'",
+                "psycopg2-binary>=2.9.10;python_version>='3.13'",
                 "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "s3": ["boto3"],
@@ -66,7 +68,8 @@ def main():
             "twilio": ["twilio"],
             "ssh": [
                 "sshtunnel",
-                "psycopg2-binary>=2.9.9",
+                "psycopg2-binary<=2.9.9;python_version<'3.13'",
+                "psycopg2-binary>=2.9.10;python_version>='3.13'",
                 "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
         }
@@ -83,7 +86,7 @@ def main():
 
     setup(
         name="parsons",
-        version="4",
+        version="4.0.0",  # ensure this version number is in format of n.n.n, not n or n.n
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url="https://github.com/move-coop/parsons",
@@ -98,8 +101,9 @@ def main():
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
             "Programming Language :: Python :: 3.12",
+            "Programming Language :: Python :: 3.13",
         ],
-        python_requires=">=3.9.0,<3.13.0",
+        python_requires=">=3.9,<3.14",
         long_description=long_description,
         long_description_content_type="text/markdown",
     )

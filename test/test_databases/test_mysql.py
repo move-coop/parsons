@@ -1,8 +1,9 @@
+import os
+import unittest
+
 from parsons import MySQL, Table
 from parsons.databases.mysql.create_table import MySQLCreateTable
 from test.utils import assert_matching_tables
-import unittest
-import os
 
 
 # These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"
@@ -116,7 +117,7 @@ class TestMySQL(unittest.TestCase):
 
 
 # TODO: figure out why there are 2 of these
-class TestMySQL(unittest.TestCase):  # noqa
+class TestMySQL(unittest.TestCase):  # noqa: F811
     def setUp(self):
         self.mysql = MySQL(username="test", password="test", host="test", db="test", port=123)
 

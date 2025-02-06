@@ -1,7 +1,9 @@
-import unittest
 import os
-import requests_mock
+import unittest
 from copy import deepcopy
+
+import requests_mock
+
 from parsons import VAN, Table
 
 

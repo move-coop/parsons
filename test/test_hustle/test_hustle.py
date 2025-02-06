@@ -1,9 +1,11 @@
 import unittest
+
 import requests_mock
-from test.utils import assert_matching_tables
-from test.test_hustle import expected_json
-from parsons import Table, Hustle
+
+from parsons import Hustle, Table
 from parsons.hustle.hustle import HUSTLE_URI
+from test.test_hustle import expected_json
+from test.utils import assert_matching_tables
 
 CLIENT_ID = "FAKE_ID"
 CLIENT_SECRET = "FAKE_SECRET"

@@ -25,7 +25,8 @@ DESTINATION_BUCKET = None
 # ### CODE
 
 import os  # noqa: E402
-from parsons import S3, utilities, logger  # noqa: E402
+
+from parsons import S3, logger, utilities  # noqa: E402
 
 # Setup
 

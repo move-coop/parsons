@@ -9,7 +9,7 @@ import os
 import tempfile
 import time
 import urllib
-from typing import Optional, Union, Dict, List
+from typing import Dict, List, Optional, Union
 from zipfile import ZipFile
 
 from parsons.etl import Table

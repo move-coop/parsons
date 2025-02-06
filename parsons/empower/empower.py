@@ -1,8 +1,9 @@
-from parsons.utilities.api_connector import APIConnector
-from parsons.utilities import check_env
-from parsons.utilities.datetime import convert_unix_to_readable
-from parsons.etl import Table
 import logging
+
+from parsons.etl import Table
+from parsons.utilities import check_env
+from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.datetime import convert_unix_to_readable
 
 logger = logging.getLogger(__name__)
 

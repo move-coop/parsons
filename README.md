@@ -4,6 +4,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/parsons)](https://pypi.org/project/parsons/)
 [![PyPI](https://img.shields.io/pypi/v/parsons?color=blue)](https://pypi.org/project/parsons/)
 [![CircleCI](https://circleci.com/gh/move-coop/parsons/tree/main.svg?style=shield)](https://circleci.com/gh/move-coop/parsons/tree/main)
+[![Coverage badge](https://raw.githubusercontent.com/move-coop/parsons/python-coverage-comment-action-data/badge.svg)](https://htmlpreview.github.io/?https://github.com/move-coop/parsons/blob/python-coverage-comment-action-data/htmlcov/index.html)
 
 A Python package that provides a simple interface to a variety of utilities and tools frequently used by progressive
 organizations, political and issue campaigns, activists, and other allied actors.

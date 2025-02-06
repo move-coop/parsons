@@ -1,5 +1,6 @@
-import unittest
 import os
+import unittest
+
 from parsons import CivisClient, Table
 
 # from . import scratch_creds

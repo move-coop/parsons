@@ -1,5 +1,5 @@
-from test.utils import mark_live_test
 from parsons import Table
+from test.utils import mark_live_test
 
 #####
 

@@ -1,7 +1,8 @@
-from parsons.pdi.pdi import PDI
-
 import os
+
 import pytest
+
+from parsons.pdi.pdi import PDI
 
 
 @pytest.fixture

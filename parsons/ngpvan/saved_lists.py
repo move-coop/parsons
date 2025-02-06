@@ -1,10 +1,12 @@
 """NGPVAN Saved List Endpoints"""
 
-from parsons.etl.table import Table
-from parsons.utilities import cloud_storage
 import logging
 import uuid
+
 from suds.client import Client
+
+from parsons.etl.table import Table
+from parsons.utilities import cloud_storage
 
 logger = logging.getLogger(__name__)
 
@@ -135,8 +137,7 @@ class SavedLists(object):
 
         if list_name in [x["name"] for x in self.get_saved_lists(folder_id)] and not overwrite:
             raise ValueError(
-                "Saved list already exists. Set overwrite "
-                "argument to list ID or change list name."
+                "Saved list already exists. Set overwrite argument to list ID or change list name."
             )
 
         if delimiter not in ["csv", "tab", "pipe"]:
@@ -174,7 +175,7 @@ class SavedLists(object):
         file_load_job_response = self.connection.post_request("fileLoadingJobs", json=json)
         job_id = file_load_job_response["jobId"]
         logger.info(
-            f"Saved list job {job_id} created. Reference " "callback url to check for job status"
+            f"Saved list job {job_id} created. Reference callback url to check for job status"
         )
         return file_load_job_response
 

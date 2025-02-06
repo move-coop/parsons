@@ -18,14 +18,13 @@ https://developer.box.com/guides/applications/custom-apps/oauth2-setup/
 """
 
 import logging
+import tempfile
 
 import boxsdk
 
 from parsons.etl.table import Table
 from parsons.utilities.check_env import check as check_env
 from parsons.utilities.files import create_temp_file, create_temp_file_for_path
-
-import tempfile
 
 logger = logging.getLogger(__name__)
 
@@ -256,7 +255,7 @@ class Box(object):
                 table.to_json(local_path=temp_file_path)
             else:
                 raise SystemError(
-                    f"Got (theoretically) impossible " f'format option "{format}"'
+                    f'Got (theoretically) impossible format option "{format}"'
                 )  # pragma: no cover
 
             new_file = self.client.folder(folder_id).upload(
@@ -337,7 +336,7 @@ class Box(object):
             return Table.from_json(output_file_name)
         else:
             raise SystemError(
-                f"Got (theoretically) impossible " f'format option "{format}"'
+                f'Got (theoretically) impossible format option "{format}"'
             )  # pragma: no cover
 
     def get_item_id(self, path, base_folder_id=DEFAULT_FOLDER_ID) -> str:

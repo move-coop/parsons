@@ -1,5 +1,7 @@
 import unittest
+
 import requests_mock
+
 from parsons import Empower, Table
 from test.test_empower.dummy_empower_data import dummy_data
 

@@ -1,10 +1,11 @@
+import logging
+import os
 import re
+
 import boto3
 from botocore.client import ClientError
 
 from parsons.utilities import files
-import logging
-import os
 
 logger = logging.getLogger(__name__)
 

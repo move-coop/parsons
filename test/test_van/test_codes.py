@@ -1,9 +1,11 @@
-import unittest
 import os
+import unittest
+
 import requests_mock
+from requests.exceptions import HTTPError
+
 from parsons import VAN
 from test.utils import assert_matching_tables
-from requests.exceptions import HTTPError
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 

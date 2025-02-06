@@ -1,6 +1,8 @@
-import unittest
 import os
+import unittest
+
 import requests_mock
+
 from parsons import TurboVote
 from test.utils import validate_list
 

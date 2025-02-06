@@ -1,9 +1,9 @@
-import unittest
 import os
+import unittest
+
 import requests_mock
-from parsons import Airtable, Table
-from test.utils import assert_matching_tables
 from airtable_responses import (
+    delete_responses,
     insert_response,
     insert_responses,
     records_response,
@@ -11,9 +11,10 @@ from airtable_responses import (
     update_responses,
     upsert_with_id_responses,
     upsert_with_key_responses,
-    delete_responses,
 )
 
+from parsons import Airtable, Table
+from test.utils import assert_matching_tables
 
 os.environ["AIRTABLE_PERSONAL_ACCESS_TOKEN"] = "SOME_TOKEN"
 BASE_KEY = "BASEKEY"

@@ -1,9 +1,11 @@
+import logging
+
 from requests.auth import HTTPBasicAuth
+
 from parsons.etl import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 from parsons.utilities.datetime import date_to_timestamp
-import logging
 
 logger = logging.getLogger(__name__)
 

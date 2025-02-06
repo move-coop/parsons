@@ -1,12 +1,11 @@
-from parsons import Table, Slack
+import json
+import os
+import unittest
 
+import requests_mock
 from slackclient.exceptions import SlackClientError
 
-import os
-import requests_mock
-import unittest
-import json
-
+from parsons import Slack, Table
 
 _dir = os.path.dirname(__file__)
 responses_dir = f"{_dir}/responses"

@@ -91,7 +91,7 @@ class TestBoxStorage(unittest.TestCase):
                 break
         self.assertTrue(
             found_default,
-            f"Failed to find test folder f{self.temp_folder_name} " f"in default Box folder",
+            f"Failed to find test folder f{self.temp_folder_name} in default Box folder",
         )
 
         subfolder_name = "path_subfolder"

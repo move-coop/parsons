@@ -1,24 +1,25 @@
 import os
 import unittest
-import requests_mock
 from unittest import mock
-from test.utils import assert_matching_tables
-from parsons import Bloomerang, Table
 
+import requests_mock
+
+from parsons import Bloomerang, Table
 from test.test_bloomerang.test_data import (
     ENV_PARAMETERS,
     ID,
-    TEST_DELETE,
     TEST_CREATE_CONSTITUENT,
+    TEST_CREATE_INTERACTION,
+    TEST_CREATE_TRANSACTION,
+    TEST_DELETE,
     TEST_GET_CONSTITUENT,
     TEST_GET_CONSTITUENTS,
-    TEST_CREATE_TRANSACTION,
-    TEST_GET_TRANSACTION,
-    TEST_GET_TRANSACTIONS,
-    TEST_CREATE_INTERACTION,
     TEST_GET_INTERACTION,
     TEST_GET_INTERACTIONS,
+    TEST_GET_TRANSACTION,
+    TEST_GET_TRANSACTIONS,
 )
+from test.utils import assert_matching_tables
 
 
 class TestBloomerang(unittest.TestCase):

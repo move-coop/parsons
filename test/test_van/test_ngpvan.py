@@ -1,9 +1,11 @@
 import os
 import unittest
+
 import requests_mock
-from parsons import VAN, Table
-from test.utils import validate_list, assert_matching_tables
 from requests.exceptions import HTTPError
+
+from parsons import VAN, Table
+from test.utils import assert_matching_tables, validate_list
 
 
 class TestNGPVAN(unittest.TestCase):

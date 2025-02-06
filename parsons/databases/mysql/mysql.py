@@ -1,16 +1,17 @@
-from parsons import Table
-from parsons.utilities import check_env
-import petl
-import mysql.connector as mysql
-from contextlib import contextmanager
-from parsons.utilities import files
-import pickle
 import logging
 import os
-from parsons.databases.database_connector import DatabaseConnector
-from parsons.databases.table import BaseTable
-from parsons.databases.mysql.create_table import MySQLCreateTable
+import pickle
+from contextlib import contextmanager
+
+import mysql.connector as mysql
+import petl
+
+from parsons import Table
 from parsons.databases.alchemy import Alchemy
+from parsons.databases.database_connector import DatabaseConnector
+from parsons.databases.mysql.create_table import MySQLCreateTable
+from parsons.databases.table import BaseTable
+from parsons.utilities import check_env, files
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -125,7 +126,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             Parsons Table
                 See :ref:`parsons-table` for output options.
 
-        """  # noqa: E501
+        """
 
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
@@ -257,7 +258,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
 
         # Create full insert statement
         sql = f"""INSERT INTO {table_name}
-                  ({','.join(tbl.columns)})
+                  ({",".join(tbl.columns)})
                   VALUES {",".join(values)};"""
 
         return sql

@@ -1,10 +1,11 @@
-import unittest
-import requests_mock
-from test.utils import validate_list
-from parsons import Phone2Action
-import os
 import copy
+import os
+import unittest
 
+import requests_mock
+
+from parsons import Phone2Action
+from test.utils import validate_list
 
 adv_json = {
     "data": [

@@ -1,8 +1,10 @@
-from requests import request as _request
-from requests.exceptions import HTTPError
 import logging
 import urllib.parse
+
+from requests import request as _request
+from requests.exceptions import HTTPError
 from simplejson.errors import JSONDecodeError
+
 from parsons import Table
 
 logger = logging.getLogger(__name__)

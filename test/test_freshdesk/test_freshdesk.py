@@ -1,6 +1,8 @@
-from parsons import Freshdesk
 import unittest
+
 import requests_mock
+
+from parsons import Freshdesk
 from test.test_freshdesk import expected_json
 
 DOMAIN = "myorg"

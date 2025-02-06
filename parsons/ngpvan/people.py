@@ -640,7 +640,7 @@ class People(object):
                          "type": "SurveyResponse"}
                         ]
             van.apply_response(5222, response)
-        """  # noqa: E501,E261
+        """
 
         # Set url based on id_type
         if id_type == "vanid":

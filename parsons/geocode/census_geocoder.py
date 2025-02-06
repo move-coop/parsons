@@ -22,7 +22,7 @@ class CensusGeocoder(object):
         vintage: str
             The US Census vintage file to utilize. By default the current vintage is used, but
             other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`_.
-    """  # noqa E501
+    """
 
     def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current"):
         self.cg = censusgeocode.CensusGeocode(benchmark=benchmark, vintage=vintage)

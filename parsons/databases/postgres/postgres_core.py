@@ -98,7 +98,7 @@ class PostgresCore(PostgresCreateStatement):
             Parsons Table
                 See :ref:`parsons-table` for output options.
 
-        """  # noqa: E501
+        """
 
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)

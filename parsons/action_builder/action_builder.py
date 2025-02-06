@@ -182,7 +182,7 @@ class ActionBuilder(object):
                 retrieved or edited. Not necessary if supplied when instantiating the class.
         `Returns:`
             Dict containing Action Builder entity data.
-        """  # noqa: E501
+        """
 
         name_keys = ("name", "action_builder:name", "given_name")
         error = "Must provide data with name or given_name when inserting new record"
@@ -224,7 +224,7 @@ class ActionBuilder(object):
                 retrieved or edited. Not necessary if supplied when instantiating the class.
         `Returns:`
             Dict containing Action Builder entity data.
-        """  # noqa: E501
+        """
 
         campaign = self._campaign_check(campaign)
 
@@ -401,7 +401,7 @@ class ActionBuilder(object):
                 if the Connection exists and has `inactive` set to True. True by default.
         `Returns:`
             Dict containing Action Builder connection data.
-        """  # noqa: E501
+        """
 
         # Check that there are exactly two identifiers and that campaign is provided first
         if not isinstance(identifiers, list):

@@ -190,7 +190,7 @@ class Redshift(
             Parsons Table
                 See :ref:`parsons-table` for output options.
 
-        """  # noqa: E501
+        """
 
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
@@ -614,7 +614,7 @@ class Redshift(
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
-        """  # noqa: E501
+        """
 
         # Specify the columns for a copy statement.
         if specifycols or (specifycols is None and template_table):
@@ -767,7 +767,7 @@ class Redshift(
         aws_secret_access_key:
             An AWS secret access key granted to the bucket where the file is located. Not
             required if keys are stored as environmental variables.
-        """  # NOQA W605
+        """
 
         # The sql query is provided between single quotes, therefore single
         # quotes within the actual query must be escaped.
@@ -996,7 +996,7 @@ class Redshift(
                 The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
             \**copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy` for options.
-        """  # noqa: W605
+        """
 
         if isinstance(primary_key, str):
             primary_keys = [primary_key]
@@ -1180,7 +1180,7 @@ class Redshift(
         # Determine the max width of the varchar columns in the Redshift table
         s, t = self.split_full_table_name(table_name)
         cols = self.get_columns(s, t)
-        rc = {k: v["max_length"] for k, v in cols.items() if v["data_type"] == "character varying"}  # noqa: E501, E261
+        rc = {k: v["max_length"] for k, v in cols.items() if v["data_type"] == "character varying"}
 
         # Figure out if any of the destination table varchar columns are smaller than the
         # associated Parsons table columns. If they are, then alter column types to expand

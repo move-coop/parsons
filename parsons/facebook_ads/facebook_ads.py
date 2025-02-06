@@ -346,7 +346,7 @@ class FacebookAds(object):
             users_table: obj
                 Parsons table
 
-        """  # noqa: E501,E261
+        """
 
         logger.info(
             f"Adding custom audience users from provided table with {users_table.num_rows} rows"

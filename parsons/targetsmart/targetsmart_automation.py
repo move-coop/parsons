@@ -45,7 +45,7 @@ class TargetSmartAutomation(object):
     """
     * `Automation overview <https://docs.targetsmart.com/my_tsmart/automation/overview.html>`_
     * `Automation integration doc <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`_
-    """  # noqa
+    """
 
     def __init__(self, sftp_username=None, sftp_password=None):
         self.sftp_host = TS_STFP_HOST
@@ -108,7 +108,7 @@ class TargetSmartAutomation(object):
                 Remove the configuration, file to be matched and matched file from
                 the TargetSmart SFTP upon completion or failure of match.
 
-        """  # noqa: E501,E261
+        """
 
         # Generate a match job
         job_name = job_name or str(uuid.uuid1())

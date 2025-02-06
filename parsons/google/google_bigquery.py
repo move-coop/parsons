@@ -983,7 +983,7 @@ class GoogleBigQuery(DatabaseConnector):
                 arguments to upsert a pre-existing s3 file into the target_table
             \**copy_args: kwargs
                 See :func:`~parsons.databases.bigquery.BigQuery.copy` for options.
-        """  # noqa: W605
+        """
         if not self.table_exists(target_table):
             logger.info(
                 "Target table does not exist. Copying into newly \

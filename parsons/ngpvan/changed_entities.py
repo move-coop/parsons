@@ -74,7 +74,7 @@ class ChangedEntities(object):
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """  # noqa: E501
+        """
 
         json = {
             "dateChangedFrom": date_from,

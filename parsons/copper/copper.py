@@ -126,7 +126,7 @@ class Copper(object):
                 * people_custom_fields
                 * people_socials
                 * people_websites
-        """  # noqa: E501,E261
+        """
 
         return self.get_standard_object("people", filters=filters, tidy=tidy)
 
@@ -151,7 +151,7 @@ class Copper(object):
                 * companies_custom_fields
                 * companies_socials
                 * companies_websites
-        """  # noqa: E501,E261
+        """
 
         return self.get_standard_object("companies", filters=filters, tidy=tidy)
 
@@ -171,7 +171,7 @@ class Copper(object):
         `Returns:`
             List of dicts of Parsons Tables:
                 * activities
-        """  # noqa: E501,E261
+        """
 
         return self.get_standard_object("activities", filters=filters, tidy=tidy)
 
@@ -192,7 +192,7 @@ class Copper(object):
             List of dicts of Parsons Tables:
                 * opportunities
                 * opportunities_custom_fields
-        """  # noqa: E501,E261
+        """
 
         return self.get_standard_object("opportunities", filters=filters, tidy=tidy)
 
@@ -218,7 +218,7 @@ class Copper(object):
                 * custom_fields
                 * custom_fields_available
                 * custom_fields_options
-        """  # noqa: E501,E261
+        """
 
         logger.info("Retrieving custom fields.")
         blob = self.paginate_request("/custom_field_definitions/", req_type="GET")
@@ -236,7 +236,7 @@ class Copper(object):
         `Returns:`
             List of dicts of Parsons Tables:
                 * activitiy_types
-        """  # noqa: E501,E261
+        """
 
         logger.info("Retrieving activity types.")
 
@@ -260,7 +260,7 @@ class Copper(object):
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """  # noqa: E501,E261
+        """
 
         response = self.paginate_request("/contact_types/", req_type="GET")
         return Table(response)
@@ -279,20 +279,20 @@ class Copper(object):
 
         # Unpack all list columns
         if len(list_cols) > 0:
-            for l in list_cols:  # noqa E741
+            for column in list_cols:
                 # Check for nested data
                 list_rows = obj_table.select_rows(
-                    lambda row: isinstance(row[l], list)
-                    and any(isinstance(x, dict) for x in row[l])
+                    lambda row: isinstance(row[column], list)
+                    and any(isinstance(x, dict) for x in row[column])
                 )
                 # Add separate long table for each column with nested data
                 if list_rows.num_rows > 0:
-                    logger.debug(l, "is a nested column")
-                    if len([x for x in cols if x["name"] == l]) == 1:
+                    logger.debug(column, "is a nested column")
+                    if len([x for x in cols if x["name"] == column]) == 1:
                         table_list.append(
                             {
-                                "name": f"{obj_type}_{l}",
-                                "tbl": obj_table.long_table(["id"], l),
+                                "name": f"{obj_type}_{column}",
+                                "tbl": obj_table.long_table(["id"], column),
                             }
                         )
                     else:
@@ -300,8 +300,8 @@ class Copper(object):
                         continue
                 else:
                     if tidy is False:
-                        logger.debug(l, "is a normal list column")
-                        obj_table.unpack_list(l)
+                        logger.debug(column, "is a normal list column")
+                        obj_table.unpack_list(column)
 
         # Unpack all dict columns
         if len(dict_cols) > 0 and tidy is False:

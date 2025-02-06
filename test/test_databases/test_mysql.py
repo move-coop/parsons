@@ -116,7 +116,7 @@ class TestMySQL(unittest.TestCase):
 
 
 # TODO: figure out why there are 2 of these
-class TestMySQL(unittest.TestCase):  # noqa
+class TestMySQL(unittest.TestCase):  # noqa: F811
     def setUp(self):
         self.mysql = MySQL(username="test", password="test", host="test", db="test", port=123)
 

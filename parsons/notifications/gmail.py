@@ -60,7 +60,7 @@ class Gmail(SendMail):
                 i.e. the objects created by the create_* instance methods
         `Returns:`
             dict
-                A Users.messages object see `https://developers.google.com/gmail/api/v1/reference/users/messages#resource.` # noqa
+                A Users.messages object see `https://developers.google.com/gmail/api/v1/reference/users/messages#resource.`
                 for more info.
         """
         self.log.info("Sending a message...")

@@ -78,7 +78,7 @@ class ETL(object):
                 Column names
         `Returns:`
             `Parsons Table` and also updates self
-        """  # noqa: W605
+        """
 
         self.table = petl.cutout(self.table, *columns)
 
@@ -216,7 +216,7 @@ class ETL(object):
                 The update function, method, or variable to process the update
         `Returns:`
             `Parsons Table` and also updates self
-        """  # noqa: E501,E261
+        """
 
         self.table = petl.convert(self.table, *column, **kwargs)
 
@@ -445,7 +445,7 @@ class ETL(object):
                 The update function, method, or variable to process the update. Can also
         `Returns:`
             `Parsons Table` and also updates self
-        """  # noqa: W605
+        """
 
         self.convert_column(self.columns, *args)
 
@@ -530,7 +530,7 @@ class ETL(object):
 
           tbl.unpack_list('phones', replace=True)
           print (tbl)
-          >>> {'id': '5421', 'name': 'Jane Green', 'phones_0': '512-699-3334', 'phones_1': '512-222-5478'} # noqa: E501
+          >>> {'id': '5421', 'name': 'Jane Green', 'phones_0': '512-699-3334', 'phones_1': '512-222-5478'}
 
         `Args:`
             column: str
@@ -712,8 +712,8 @@ class ETL(object):
                   ]
            tbl = Table(json)
            print (tbl)
-           >>> {'id': '5421', 'name': 'Jane Green', 'emails': [{'home': 'jane@gmail.com'}, {'work': 'jane@mywork.com'}]} # noqa: E501
-           >>> {'id': '5421', 'name': 'Jane Green', 'emails': [{'home': 'jane@gmail.com'}, {'work': 'jane@mywork.com'}]} # noqa: E501
+           >>> {'id': '5421', 'name': 'Jane Green', 'emails': [{'home': 'jane@gmail.com'}, {'work': 'jane@mywork.com'}]}
+           >>> {'id': '5421', 'name': 'Jane Green', 'emails': [{'home': 'jane@gmail.com'}, {'work': 'jane@mywork.com'}]}
 
            # Create skinny table of just the nested dicts
            email_skinny = tbl.long_table(['id'], 'emails')
@@ -777,7 +777,7 @@ class ETL(object):
                 Columns in the parsons table
         `Returns:`
             A new parsons table containing the selected columnns
-        """  # noqa: W605
+        """
 
         from parsons.etl.table import Table
 
@@ -813,7 +813,7 @@ class ETL(object):
             \*filters: function or str
         `Returns:`
             A new parsons table containing the selected rows
-        """  # noqa: W605
+        """
 
         from parsons.etl.table import Table
 
@@ -1100,7 +1100,7 @@ class ETL(object):
         `Returns:`
             `Parsons Table` and also updates self
 
-        """  # noqa: E501,E261
+        """
 
         self.table = petl.rowreduce(
             self.table,
@@ -1192,7 +1192,7 @@ class ETL(object):
                 The keyword arguements to pass to the petl function.
         `Returns:`
             `parsons.Table` or `petl` table
-        """  # noqa: E501
+        """
         update_table = kwargs.pop("update_table", False)
         to_petl = kwargs.pop("to_petl", False)
 

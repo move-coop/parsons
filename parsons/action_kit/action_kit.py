@@ -1282,7 +1282,7 @@ class ActionKit(object):
         `Returns`:
             dict
                 The response json
-        """  # noqa: E501,E261
+        """
 
         if not email or ak_id:
             raise ValueError("One of email or ak_id is required.")
@@ -1353,7 +1353,7 @@ class ActionKit(object):
                 success: whether upload was successful
                 progress_url: an API URL to get progress on upload processing
                 res: requests http response object
-        """  # noqa: E501,E261
+        """
 
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({"accepts": "application/json"})
@@ -1422,7 +1422,7 @@ class ActionKit(object):
                 success: bool -- whether upload was successful (individual rows may not have been)
                 results: [dict] -- This is a list of the full results.
                          progress_url and res for any results
-        """  # noqa: E501,E261
+        """
 
         import_page = check_env.check("ACTION_KIT_IMPORTPAGE", import_page)
         upload_tables = self._split_tables_no_empties(

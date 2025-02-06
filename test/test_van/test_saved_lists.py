@@ -144,7 +144,7 @@ class TestSavedLists(unittest.TestCase):
             "dateExpired": "2018-09-08T16:04:00Z",
             "surveyQuestions": "null",
             "webhookUrl": "https://www.nothing.com/",
-            "downloadUrl": "https://ngpvan.blob.core.windows.net/canvass-files-savedlistexport/bf4d1297-1c77-3fb2-03bd-f0acda122d37_2018-09-08T13:03:27.7191831-04:00.csv",  # noqa: E501
+            "downloadUrl": "https://ngpvan.blob.core.windows.net/canvass-files-savedlistexport/bf4d1297-1c77-3fb2-03bd-f0acda122d37_2018-09-08T13:03:27.7191831-04:00.csv",
             "savedListId": 517612,
             "districtFields": "null",
             "canvassFileRequestGuid": "bf4d1297-1c77-3fb2-03bd-f0acda122d37",
@@ -187,7 +187,7 @@ class TestSavedLists(unittest.TestCase):
             "dateExpired": "2018-09-08T16:04:00Z",
             "surveyQuestions": "null",
             "webhookUrl": "https://www.nothing.com/",
-            "downloadUrl": "https://ngpvan.blob.core.windows.net/canvass-files-savedlistexport/bf4d1297-1c77-3fb2-03bd-f0acda122d37_2018-09-08T13:03:27.7191831-04:00.csv",  # noqa: E501
+            "downloadUrl": "https://ngpvan.blob.core.windows.net/canvass-files-savedlistexport/bf4d1297-1c77-3fb2-03bd-f0acda122d37_2018-09-08T13:03:27.7191831-04:00.csv",
             "savedListId": 517612,
             "districtFields": "null",
             "canvassFileRequestGuid": "bf4d1297-1c77-3fb2-03bd-f0acda122d37",

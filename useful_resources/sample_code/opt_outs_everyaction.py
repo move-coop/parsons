@@ -1,10 +1,11 @@
-import os
-import requests
-import time
 import json
-from parsons import Redshift, Table, VAN
-from parsons import logger
+import os
+import time
 from datetime import datetime
+
+import requests
+
+from parsons import VAN, Redshift, Table, logger
 
 # Committee Information and Credentials
 

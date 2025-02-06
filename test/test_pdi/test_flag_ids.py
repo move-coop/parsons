@@ -1,12 +1,11 @@
-from test.utils import mark_live_test
-
-from parsons import Table
-
 from contextlib import contextmanager
-from requests.exceptions import HTTPError
 
 # import json
 import pytest
+from requests.exceptions import HTTPError
+
+from parsons import Table
+from test.utils import mark_live_test
 
 #
 # Fixtures and constants

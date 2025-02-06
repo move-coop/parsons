@@ -1,18 +1,19 @@
 # Adapted from Gmail API tutorial https://developers.google.com/gmail/api
-from abc import ABC, abstractmethod
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.image import MIMEImage
-from email.mime.audio import MIMEAudio
-from email.mime.base import MIMEBase
-from email.mime.application import MIMEApplication
-from email.encoders import encode_base64
-from email.utils import parseaddr
-from validate_email import validate_email
 import io
 import logging
 import mimetypes
 import os
+from abc import ABC, abstractmethod
+from email.encoders import encode_base64
+from email.mime.application import MIMEApplication
+from email.mime.audio import MIMEAudio
+from email.mime.base import MIMEBase
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.utils import parseaddr
+
+from validate_email import validate_email
 
 # BUG: can't send files equal to or larger than 6MB
 # There is a possible fix

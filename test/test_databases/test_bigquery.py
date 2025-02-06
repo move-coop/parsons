@@ -1,19 +1,17 @@
 import json
+import logging
 import os
 import unittest.mock as mock
-from test.test_google.test_utilities import FakeCredentialTest
 from typing import Union
-
-from google.cloud import bigquery, exceptions
-
-from parsons import GoogleBigQuery
-from parsons import Table
-from parsons.google.google_cloud_storage import GoogleCloudStorage
-
 from unittest import TestCase
 from unittest.mock import Mock
-import logging
+
+from google.cloud import bigquery, exceptions
 from testfixtures import log_capture
+
+from parsons import GoogleBigQuery, Table
+from parsons.google.google_cloud_storage import GoogleCloudStorage
+from test.test_google.test_utilities import FakeCredentialTest
 
 
 class BigQuery(GoogleBigQuery):

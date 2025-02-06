@@ -1,10 +1,11 @@
 import json
-import requests
 import logging
 
+import requests
+
+from parsons.etl import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-from parsons.etl import Table
 
 logger = logging.getLogger(__name__)
 

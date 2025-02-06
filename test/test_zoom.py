@@ -1,8 +1,9 @@
 import unittest
-from test.utils import assert_matching_tables
 
 import requests_mock
+
 from parsons import Table, Zoom
+from test.utils import assert_matching_tables
 
 ACCOUNT_ID = "fakeAccountID"
 CLIENT_ID = "fakeClientID"

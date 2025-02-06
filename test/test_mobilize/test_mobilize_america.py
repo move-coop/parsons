@@ -1,8 +1,10 @@
 import unittest
+
 import requests_mock
+
+import test.test_mobilize.test_mobilize_json as test_json
 from parsons import MobilizeAmerica
 from test.utils import validate_list
-import test.test_mobilize.test_mobilize_json as test_json
 
 
 class TestMobilizeAmerica(unittest.TestCase):

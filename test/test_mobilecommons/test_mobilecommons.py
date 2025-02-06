@@ -1,13 +1,14 @@
 import unittest
+
 import requests_mock
-from parsons.mobilecommons import MobileCommons
-from parsons.etl import Table
 from mobilecommons_responses import (
-    get_profiles_response,
     get_broadcasts_response,
+    get_profiles_response,
     post_profile_response,
 )
 
+from parsons.etl import Table
+from parsons.mobilecommons import MobileCommons
 
 MOBILECOMMONS_USERNAME = "MOBILECOMMONS_USERNAME"
 MOBILECOMMONS_PASSWORD = "MOBILECOMMONS_PASSWORD"

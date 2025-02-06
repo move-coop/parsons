@@ -1,13 +1,15 @@
+import logging
+import pickle
 from contextlib import contextmanager
 from typing import Optional
+
+import petl
 import psycopg2
 import psycopg2.extras
+
+from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
 from parsons.etl.table import Table
 from parsons.utilities import files
-import pickle
-import petl
-import logging
-from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.

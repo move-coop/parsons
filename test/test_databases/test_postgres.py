@@ -1,7 +1,8 @@
+import os
+import unittest
+
 from parsons import Postgres, Table
 from test.utils import assert_matching_tables
-import unittest
-import os
 
 # The name of the schema and will be temporarily created for the tests
 TEMP_SCHEMA = "parsons_test"

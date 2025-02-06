@@ -1,6 +1,7 @@
-from parsons.utilities import json_format
-from typing import Union, List, Dict
 import logging
+from typing import Dict, List, Union
+
+from parsons.utilities import json_format
 
 logger = logging.getLogger(__name__)
 

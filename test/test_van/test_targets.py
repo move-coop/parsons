@@ -1,9 +1,11 @@
-import unittest.mock
 import os
-import requests_mock
-from parsons import VAN, Table
+import unittest.mock
+
 import petl
-from test.utils import validate_list, assert_matching_tables
+import requests_mock
+
+from parsons import VAN, Table
+from test.utils import assert_matching_tables, validate_list
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 

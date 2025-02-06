@@ -1,10 +1,11 @@
-from parsons import Redshift, S3, Table
-from test.utils import assert_matching_tables
-import unittest
 import os
 import re
-from test.utils import validate_list
+import unittest
+
 from testfixtures import LogCapture
+
+from parsons import S3, Redshift, Table
+from test.utils import assert_matching_tables, validate_list
 
 # The name of the schema and will be temporarily created for the tests
 TEMP_SCHEMA = "parsons_test2"

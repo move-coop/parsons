@@ -1,13 +1,15 @@
 import csv
-from io import TextIOWrapper, BytesIO, StringIO
 import logging
 import sys
-import traceback
 import time
+import traceback
+from io import BytesIO, StringIO, TextIOWrapper
 
 from parsons.aws.aws_async import (
     get_func_task_path,
     import_and_get_task,
+)
+from parsons.aws.aws_async import (
     run as maybe_async_run,
 )
 from parsons.aws.s3 import S3

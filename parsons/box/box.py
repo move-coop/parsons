@@ -18,14 +18,13 @@ https://developer.box.com/guides/applications/custom-apps/oauth2-setup/
 """
 
 import logging
+import tempfile
 
 import boxsdk
 
 from parsons.etl.table import Table
 from parsons.utilities.check_env import check as check_env
 from parsons.utilities.files import create_temp_file, create_temp_file_for_path
-
-import tempfile
 
 logger = logging.getLogger(__name__)
 

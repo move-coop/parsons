@@ -1,15 +1,14 @@
-import unittest
-import os
-import pytest
-import shutil
 import datetime
+import os
+import shutil
+import unittest
 from unittest import mock
+
+import pytest
+
 from parsons import Table
+from parsons.utilities import check_env, files, json_format, sql_helpers
 from parsons.utilities.datetime import date_to_timestamp, parse_date
-from parsons.utilities import files
-from parsons.utilities import check_env
-from parsons.utilities import json_format
-from parsons.utilities import sql_helpers
 from test.conftest import xfail_value_error
 
 

@@ -1,7 +1,8 @@
-from parsons.etl.table import Table
 import logging
+from typing import Optional, Union
+
 from parsons.databases.database_connector import DatabaseConnector
-from typing import Union, Optional
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 

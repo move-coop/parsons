@@ -1,10 +1,12 @@
 """NGPVAN Saved List Endpoints"""
 
-from parsons.etl.table import Table
-from parsons.utilities import cloud_storage
 import logging
 import uuid
+
 from suds.client import Client
+
+from parsons.etl.table import Table
+from parsons.utilities import cloud_storage
 
 logger = logging.getLogger(__name__)
 

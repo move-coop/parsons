@@ -1,10 +1,12 @@
-from requests import request
-import math
 import json
+import logging
+import math
 import time
+
+from requests import request
+
 from parsons.etl import Table
 from parsons.utilities import check_env
-import logging
 
 logger = logging.getLogger(__name__)
 

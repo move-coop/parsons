@@ -1,8 +1,8 @@
+import json
 import os
 import unittest
 
 import requests_mock
-import json
 
 from parsons import RockTheVote
 

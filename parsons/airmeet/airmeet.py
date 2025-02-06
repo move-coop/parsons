@@ -1,5 +1,5 @@
-from parsons.utilities import check_env
 from parsons.etl.table import Table
+from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 
 AIRMEET_DEFAULT_URI = "https://api-gateway.airmeet.com/prod/"

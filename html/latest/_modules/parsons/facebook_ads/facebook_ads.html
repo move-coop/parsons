@@ -231,7 +231,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ad_account_id</span> <span class="o">=</span> <span class="n">ad_account_id</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;FB_AD_ACCOUNT_ID&quot;</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;FB Marketing API credentials missing. Must be specified as env vars &quot;</span> <span class="s2">&quot;or kwargs&quot;</span>
+                <span class="s2">&quot;FB Marketing API credentials missing. Must be specified as env vars or kwargs&quot;</span>
             <span class="p">)</span>
             <span class="k">raise</span> <span class="n">error</span>
 
@@ -509,7 +509,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Adding custom audience users from provided table with &quot;</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">users_table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Adding custom audience users from provided table with </span><span class="si">{</span><span class="n">users_table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows&quot;</span>
         <span class="p">)</span>
 
         <span class="n">match_table</span> <span class="o">=</span> <span class="n">FacebookAds</span><span class="o">.</span><span class="n">get_match_table_for_users_table</span><span class="p">(</span><span class="n">users_table</span><span class="p">)</span>

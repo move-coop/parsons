@@ -1,5 +1,5 @@
-from datetime import datetime, timedelta
 import re
+from datetime import datetime, timedelta
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env

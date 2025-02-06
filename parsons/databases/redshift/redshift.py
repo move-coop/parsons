@@ -1,23 +1,25 @@
+import datetime
+import json
+import logging
+import os
+import pickle
+import random
+from contextlib import contextmanager
 from typing import List, Optional
-from parsons.etl.table import Table
-from parsons.databases.redshift.rs_copy_table import RedshiftCopyTable
-from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
-from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
-from parsons.databases.redshift.rs_schema import RedshiftSchema
-from parsons.databases.table import BaseTable
-from parsons.databases.alchemy import Alchemy
-from parsons.utilities import files, sql_helpers
-from parsons.databases.database_connector import DatabaseConnector
+
+import petl
 import psycopg2
 import psycopg2.extras
-import os
-import logging
-import json
-import pickle
-import petl
-from contextlib import contextmanager
-import datetime
-import random
+
+from parsons.databases.alchemy import Alchemy
+from parsons.databases.database_connector import DatabaseConnector
+from parsons.databases.redshift.rs_copy_table import RedshiftCopyTable
+from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
+from parsons.databases.redshift.rs_schema import RedshiftSchema
+from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
+from parsons.databases.table import BaseTable
+from parsons.etl.table import Table
+from parsons.utilities import files, sql_helpers
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -95,7 +97,7 @@ class Redshift(
             self.db = db or os.environ["REDSHIFT_DB"]
             self.port = port or os.environ["REDSHIFT_PORT"]
         except KeyError as error:
-            logger.error("Connection info missing. Most include as kwarg or " "env variable.")
+            logger.error("Connection info missing. Most include as kwarg or env variable.")
             raise error
 
         self.timeout = timeout
@@ -190,7 +192,7 @@ class Redshift(
             Parsons Table
                 See :ref:`parsons-table` for output options.
 
-        """  # noqa: E501
+        """
 
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
@@ -614,7 +616,7 @@ class Redshift(
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
-        """  # noqa: E501
+        """
 
         # Specify the columns for a copy statement.
         if specifycols or (specifycols is None and template_table):
@@ -767,7 +769,7 @@ class Redshift(
         aws_secret_access_key:
             An AWS secret access key granted to the bucket where the file is located. Not
             required if keys are stored as environmental variables.
-        """  # NOQA W605
+        """
 
         # The sql query is provided between single quotes, therefore single
         # quotes within the actual query must be escaped.
@@ -996,7 +998,7 @@ class Redshift(
                 The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
             \**copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy` for options.
-        """  # noqa: W605
+        """
 
         if isinstance(primary_key, str):
             primary_keys = [primary_key]
@@ -1180,7 +1182,7 @@ class Redshift(
         # Determine the max width of the varchar columns in the Redshift table
         s, t = self.split_full_table_name(table_name)
         cols = self.get_columns(s, t)
-        rc = {k: v["max_length"] for k, v in cols.items() if v["data_type"] == "character varying"}  # noqa: E501, E261
+        rc = {k: v["max_length"] for k, v in cols.items() if v["data_type"] == "character varying"}
 
         # Figure out if any of the destination table varchar columns are smaller than the
         # associated Parsons table columns. If they are, then alter column types to expand

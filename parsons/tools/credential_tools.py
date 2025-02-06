@@ -1,7 +1,8 @@
-from base64 import b64encode, b64decode
-import click
 import json
 import os
+from base64 import b64decode, b64encode
+
+import click
 
 PREFIX = "PRSNSENV"
 
@@ -133,7 +134,7 @@ def encode_from_dict(credential):
     "-f",
     "is_file",
     is_flag=True,
-    help=("Treat <credential> as a " "path to a file. Only valid with --encode."),
+    help=("Treat <credential> as a path to a file. Only valid with --encode."),
 )
 @click.option(
     "-o",
@@ -147,9 +148,9 @@ def encode_from_dict(credential):
     "no_export",
     is_flag=True,
     default=False,
-    help=("Do not export the variable to the environment. Only " "valid with --decode."),
+    help=("Do not export the variable to the environment. Only valid with --decode."),
 )
-@click.option("-s", "suppress", is_flag=True, default=False, help=("Suppress " "the output."))
+@click.option("-s", "suppress", is_flag=True, default=False, help=("Suppress the output."))
 def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=False):
     """A command line tool to encode and decode credentials.
 

@@ -1,9 +1,10 @@
-import unittest
 import os
+import unittest
+
 import requests_mock
+
 from parsons import VAN
 from test.utils import assert_matching_tables
-
 
 custom_field = [
     {

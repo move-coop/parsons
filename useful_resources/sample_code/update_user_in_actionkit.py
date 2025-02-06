@@ -25,9 +25,10 @@ config_vars = {
 
 # ### CODE
 
-import os  # noqa: E402
 import datetime  # noqa: E402
-from parsons import Redshift, Table, ActionKit, logger  # noqa: E402
+import os  # noqa: E402
+
+from parsons import ActionKit, Redshift, Table, logger  # noqa: E402
 
 # Setup
 

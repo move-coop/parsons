@@ -1,11 +1,13 @@
-import os
 import collections
 import copy
 import logging
-from joblib import Parallel, delayed
-from facebook_business.api import FacebookAdsApi
+import os
+
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.customaudience import CustomAudience
+from facebook_business.api import FacebookAdsApi
+from joblib import Parallel, delayed
+
 from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
@@ -82,7 +84,7 @@ class FacebookAds(object):
             self.ad_account_id = ad_account_id or os.environ["FB_AD_ACCOUNT_ID"]
         except KeyError as error:
             logger.error(
-                "FB Marketing API credentials missing. Must be specified as env vars " "or kwargs"
+                "FB Marketing API credentials missing. Must be specified as env vars or kwargs"
             )
             raise error
 
@@ -346,10 +348,10 @@ class FacebookAds(object):
             users_table: obj
                 Parsons table
 
-        """  # noqa: E501,E261
+        """
 
         logger.info(
-            f"Adding custom audience users from provided table with " f"{users_table.num_rows} rows"
+            f"Adding custom audience users from provided table with {users_table.num_rows} rows"
         )
 
         match_table = FacebookAds.get_match_table_for_users_table(users_table)

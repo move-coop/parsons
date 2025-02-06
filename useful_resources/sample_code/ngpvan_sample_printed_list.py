@@ -15,10 +15,10 @@ To execute the script, run:
     --gsheet_uri="{URI for gsheet where NGP VAN data will be stored}"
 """
 
-from fpdf import FPDF
-from parsons import VAN, GoogleSheets, Table
 import click
+from fpdf import FPDF
 
+from parsons import VAN, GoogleSheets, Table
 
 # ~~~~~~~~~~~~~~ Get Printed and Saved List Info From VAN ~~~~~~~~~~~~~~~~#
 

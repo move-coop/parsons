@@ -5,9 +5,9 @@ import gspread
 
 from parsons.etl.table import Table
 from parsons.google.utilities import (
+    hexavigesimal,
     load_google_application_credentials,
     setup_google_application_credentials,
-    hexavigesimal,
 )
 
 logger = logging.getLogger(__name__)
@@ -455,7 +455,7 @@ class GoogleSheets:
                         }
                     }, worksheet=0)
 
-        """  # noqa: E501,E261
+        """
 
         ws = self._get_worksheet(spreadsheet_id, worksheet)
         ws.format(range, cell_format)

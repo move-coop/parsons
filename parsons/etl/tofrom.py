@@ -1,8 +1,10 @@
-import petl
-import json
-import io
 import gzip
+import io
+import json
 from typing import Optional
+
+import petl
+
 from parsons.utilities import files, zip_archive
 
 
@@ -140,7 +142,7 @@ class ToFrom(object):
         `Returns:`
             str
                 The path of the new file
-        """  # noqa: W605
+        """
 
         # If a zip archive.
         if files.zip_check(local_path, temp_file_compression):
@@ -192,7 +194,7 @@ class ToFrom(object):
         `Returns:`
             str
                 The path of the file
-        """  # noqa: W605
+        """
 
         petl.appendcsv(self.table, source=local_path, encoding=encoding, errors=errors, **csvargs)
         return local_path
@@ -239,7 +241,7 @@ class ToFrom(object):
         `Returns:`
             str
                 The path of the archive
-        """  # noqa: W605
+        """
 
         if not archive_path:
             archive_path = files.create_temp_file(suffix=".zip")
@@ -359,7 +361,7 @@ class ToFrom(object):
                 to authenticate stfp connection
             \**csvargs: kwargs
                 ``csv_writer`` optional arguments
-        """  # noqa: W605
+        """
 
         from parsons.sftp import SFTP
 
@@ -429,7 +431,7 @@ class ToFrom(object):
                 ``csv_writer`` optional arguments
         `Returns:`
             Public url if specified. If not ``None``.
-        """  # noqa: W605
+        """
 
         compression = compression or files.compression_type_for_path(key)
 
@@ -508,7 +510,7 @@ class ToFrom(object):
                 ``csv_writer`` optional arguments
         `Returns:`
             Public url if specified. If not ``None``.
-        """  # noqa: W605
+        """
 
         compression = compression or files.compression_type_for_path(blob_name)
 
@@ -568,7 +570,7 @@ class ToFrom(object):
 
         Returns:
             ``None``
-        """  # noqa: W605
+        """
 
         from parsons.databases.redshift import Redshift
 
@@ -606,7 +608,7 @@ class ToFrom(object):
 
         Returns:
             ``None``
-        """  # noqa: W605
+        """
 
         from parsons.databases.postgres import Postgres
 
@@ -665,7 +667,7 @@ class ToFrom(object):
         """
         Write the table to a Civis Redshift cluster. Additional key word
         arguments can passed to `civis.io.dataframe_to_civis()
-        <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_ # noqa: E501
+        <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_
 
         `Args`
             table: str
@@ -727,7 +729,7 @@ class ToFrom(object):
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """  # noqa: W605
+        """
 
         remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
         if any(map(local_path.startswith, remote_prefixes)):
@@ -892,7 +894,7 @@ class ToFrom(object):
                 ``csv_reader`` optional arguments
         `Returns:`
             `parsons.Table` object
-        """  # noqa: W605
+        """
 
         from parsons.aws import S3
 

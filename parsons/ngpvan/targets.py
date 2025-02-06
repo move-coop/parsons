@@ -1,8 +1,10 @@
 """NGPVAN Target Endpoints"""
 
-from parsons.etl.table import Table
 import logging
+
 import petl
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 

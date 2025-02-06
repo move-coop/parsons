@@ -1,5 +1,6 @@
-from dateutil.parser import parse
 import datetime
+
+from dateutil.parser import parse
 
 
 def date_to_timestamp(value, tzinfo=datetime.timezone.utc):

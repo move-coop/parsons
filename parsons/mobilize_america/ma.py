@@ -1,11 +1,13 @@
+import collections.abc
+import logging
+import os
+import re
+
+import petl
 from requests import request as _request
+
 from parsons.etl.table import Table
 from parsons.utilities.datetime import date_to_timestamp
-import petl
-import re
-import os
-import logging
-import collections.abc
 
 logger = logging.getLogger(__name__)
 

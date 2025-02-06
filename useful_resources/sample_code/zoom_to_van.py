@@ -26,6 +26,7 @@ MINIMUM_DURATION = 0  # filters out Zoom participants who stayed for less than m
 # Setup
 
 import os  # noqa: E402
+
 from parsons import VAN, Zoom  # noqa: E402
 
 # if variables specified above, sets them as environmental variables

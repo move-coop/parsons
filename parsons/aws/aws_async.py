@@ -5,7 +5,6 @@ import os
 
 import boto3
 
-
 """
 
 In lambda handler:

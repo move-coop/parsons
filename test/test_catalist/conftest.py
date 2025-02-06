@@ -1,8 +1,9 @@
-from unittest.mock import MagicMock
+import re
 from typing import Generator
+from unittest.mock import MagicMock
+
 import pytest
 import requests_mock
-import re
 
 
 @pytest.fixture(autouse=True)

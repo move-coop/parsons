@@ -1,10 +1,12 @@
-import unittest
 import os
-from datetime import datetime
-import pytz
-from parsons import S3, Table
-import urllib
 import time
+import unittest
+import urllib
+from datetime import datetime
+
+import pytz
+
+from parsons import S3, Table
 from test.utils import assert_matching_tables
 
 # Requires a s3 credentials stored in aws config or env variable

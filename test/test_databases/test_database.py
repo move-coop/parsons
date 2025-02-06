@@ -1,15 +1,14 @@
+import pytest
+
 from parsons.databases.database.constants import (
-    SMALLINT,
-    MEDIUMINT,
-    INT,
     BIGINT,
     BOOL,
+    INT,
+    MEDIUMINT,
+    SMALLINT,
     VARCHAR,
 )
-
 from parsons.databases.database.database import DatabaseCreateStatement
-
-import pytest
 
 
 @pytest.fixture

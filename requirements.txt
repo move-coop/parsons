@@ -15,7 +15,7 @@ google-api-core==2.24.1
 google-api-python-client==1.7.7
 google-auth==2.37.0
 google-cloud-bigquery==3.29.0
-google-cloud-storage-transfer==1.9.1
+google-cloud-storage-transfer==1.15.0
 google-cloud-storage==2.19.0
 grpcio==1.68.1
 gspread==6.1.4

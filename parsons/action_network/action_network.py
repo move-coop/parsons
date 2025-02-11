@@ -928,6 +928,40 @@ class ActionNetwork(object):
         """
         return self.api.put_request(f"messages/{message_id}", payload)
 
+    def schedule_message(self, message_id, scheduled_start_date):
+        """
+        Schedule a message in Action Network
+
+        `Args:`
+            message_id:
+               The unique id of the message
+            scheduled_start_date:
+                The UTC timestamp to schedule the message at in ISO8601 format.
+                e.g. "2015-03-14T12:00:00Z"
+        `Returns:`
+            A JSON response confirming the scheduling
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/schedule_helper
+        """
+        return self.api.post_request(
+            f"messages/{message_id}/schedule/",
+            {"scheduled_start_date": scheduled_start_date},
+        )
+
+    def send_message(self, message_id):
+        """
+        Send a message in Action Network
+
+        `Args:`
+            message_id:
+               The unique id of the message
+        `Returns:`
+            A JSON response confirming the message was sent
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/send_helper
+        """
+        return self.api.post_request(f"messages/{message_id}/send/", {})
+
     # Metadata
     def get_metadata(self):
         """

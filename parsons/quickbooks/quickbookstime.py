@@ -1,7 +1,8 @@
+import logging
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-import logging
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -44,9 +45,7 @@ class QuickBooksTime:
         while more:
             # After every 10 pages, log the progress
             if page % 10 == 0:
-                logger.info(
-                    f"Retrieved {len(output_list)} records from {end_point} endpoint."
-                )
+                logger.info(f"Retrieved {len(output_list)} records from {end_point} endpoint.")
                 logger.info(f"Currently on page {page}.")
 
             # Add the current page to the querystring

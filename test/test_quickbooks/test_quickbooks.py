@@ -1,16 +1,18 @@
 import unittest
+
 import requests_mock
-from parsons.etl.table import Table
-from parsons.quickbooks.quickbookstime import QuickBooksTime
 from test_quickbookstime_data import (
+    mock_geolocations_data,
     mock_groups_data,
-    mock_users_data,
     mock_jobcodes_data,
-    mock_timesheets_data,
     mock_schedule_calendars_list_data,
     mock_schedule_events_data,
-    mock_geolocations_data,
+    mock_timesheets_data,
+    mock_users_data,
 )
+
+from parsons.etl.table import Table
+from parsons.quickbooks.quickbookstime import QuickBooksTime
 
 
 class TestQuickBooksTime(unittest.TestCase):
@@ -41,9 +43,7 @@ class TestQuickBooksTime(unittest.TestCase):
         self.assertIsInstance(end_point, str)
         self.assertIsInstance(querystring, dict)
         self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], mock_groups_data["results"]["groups"][0]["id"]
-        )
+        self.assertEqual(result[0]["id"], mock_groups_data["results"]["groups"][0]["id"])
 
     @requests_mock.Mocker()
     def test_get_groups(self, mock_request):
@@ -56,9 +56,7 @@ class TestQuickBooksTime(unittest.TestCase):
         # Assert
         self.assertIsInstance(result, Table)
         self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], mock_groups_data["results"]["groups"][0]["id"]
-        )
+        self.assertEqual(result[0]["id"], mock_groups_data["results"]["groups"][0]["id"])
 
     @requests_mock.Mocker()
     def test_get_jobcodes(self, mock_request):
@@ -71,9 +69,7 @@ class TestQuickBooksTime(unittest.TestCase):
         # Assert
         self.assertIsInstance(result, Table)
         self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], mock_jobcodes_data["results"]["jobcodes"][0]["id"]
-        )
+        self.assertEqual(result[0]["id"], mock_jobcodes_data["results"]["jobcodes"][0]["id"])
 
     @requests_mock.Mocker()
     def test_get_timesheets(self, mock_request):
@@ -86,9 +82,7 @@ class TestQuickBooksTime(unittest.TestCase):
         # Assert
         self.assertIsInstance(result, Table)
         self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], mock_timesheets_data["results"]["timesheets"][0]["id"]
-        )
+        self.assertEqual(result[0]["id"], mock_timesheets_data["results"]["timesheets"][0]["id"])
 
     @requests_mock.Mocker()
     def test_get_users(self, mock_request):
@@ -169,9 +163,7 @@ class TestQuickBooksTime(unittest.TestCase):
         # Assert
         self.assertIsInstance(result, Table)
         self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], mock_jobcodes_data["results"]["jobcodes"][0]["id"]
-        )
+        self.assertEqual(result[0]["id"], mock_jobcodes_data["results"]["jobcodes"][0]["id"])
 
     @requests_mock.Mocker()
     def test_get_users_with_params(self, mock_request):
@@ -257,9 +249,7 @@ class TestQuickBooksTime(unittest.TestCase):
         # Assert
         self.assertIsInstance(result, Table)
         self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], mock_timesheets_data["results"]["timesheets"][0]["id"]
-        )
+        self.assertEqual(result[0]["id"], mock_timesheets_data["results"]["timesheets"][0]["id"])
 
     @requests_mock.Mocker()
     def test_get_schedule_events_with_params(self, mock_request):

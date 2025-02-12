@@ -1,9 +1,11 @@
-from parsons.etl import Table
-from requests import request
-from parsons.utilities import check_env, json_format
 import datetime
-from parsons.hustle.column_map import LEAD_COLUMN_MAP
 import logging
+
+from requests import request
+
+from parsons.etl import Table
+from parsons.hustle.column_map import LEAD_COLUMN_MAP
+from parsons.utilities import check_env, json_format
 
 logger = logging.getLogger(__name__)
 

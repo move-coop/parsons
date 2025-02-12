@@ -1,9 +1,11 @@
 # This script checks the status of all jobs and workflows in a given Civis Project
 # and posts them to a Slack channel.
 
-import civis
 import datetime
 import logging
+
+import civis
+
 from parsons import Slack, Table
 
 # Environment variables
@@ -117,8 +119,8 @@ def main():
     for run in scripts_table:
         last_success = get_last_success(run["id"], run["object_type"])
 
-        output_line = f"""{get_run_state_emoji(run['state'])}
-        {run['name']} (last success: {last_success})"""
+        output_line = f"""{get_run_state_emoji(run["state"])}
+        {run["name"]} (last success: {last_success})"""
         output_lines.append(output_line)
 
     # Output our message to Slack

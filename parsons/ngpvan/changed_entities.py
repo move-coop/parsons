@@ -1,8 +1,9 @@
 """NGPVAN Changed Entities"""
 
-from parsons.etl.table import Table
 import logging
 import time
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
@@ -74,7 +75,7 @@ class ChangedEntities(object):
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """  # noqa: E501
+        """
 
         json = {
             "dateChangedFrom": date_from,

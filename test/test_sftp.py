@@ -1,17 +1,19 @@
-import pytest
 import os
-import paramiko
 from contextlib import contextmanager
 from copy import deepcopy
-from unittest.mock import MagicMock, patch, call
-from parsons import Table, SFTP
+from unittest.mock import MagicMock, call, patch
+
+import paramiko
+import pytest
+
+from parsons import SFTP, Table
 from parsons.utilities import files as file_util
-from test.utils import mark_live_test, assert_matching_tables
 from test.fixtures import (  # noqa: F401
-    simple_table,
-    simple_csv_path,
     simple_compressed_csv_path,
+    simple_csv_path,
+    simple_table,
 )
+from test.utils import assert_matching_tables, mark_live_test
 
 #
 # Fixtures and constants

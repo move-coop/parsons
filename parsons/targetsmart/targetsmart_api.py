@@ -8,6 +8,7 @@ import logging
 
 import petl
 import requests
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 

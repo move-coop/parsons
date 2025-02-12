@@ -1,7 +1,7 @@
 mock_groups_data = {
     "results": {
         "groups": {
-            "6": {
+            {
                 "id": 6,
                 "active": "True",
                 "name": "Group 1",
@@ -9,7 +9,7 @@ mock_groups_data = {
                 "created": "2018-08-19T16:29:28+00:00",
                 "manager_ids": ["300", "316"],
             },
-            "8": {
+            {
                 "id": 8,
                 "active": "True",
                 "name": "Group 2",
@@ -17,7 +17,7 @@ mock_groups_data = {
                 "created": "2018-08-19T16:29:35+00:00",
                 "manager_ids": ["316"],
             },
-            "16": {
+            {
                 "id": 16,
                 "active": "True",
                 "name": "Group 3",

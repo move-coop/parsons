@@ -1,12 +1,14 @@
 import unittest
+
 import requests_mock
-from parsons import Table, GoogleCivic
 from googlecivic_responses import (
     elections_resp,
-    voterinfo_resp,
     polling_data,
     representatives_resp,
+    voterinfo_resp,
 )
+
+from parsons import GoogleCivic, Table
 from test.utils import assert_matching_tables
 
 

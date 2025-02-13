@@ -1,13 +1,14 @@
 import unittest
+
 import requests_mock
-from parsons.mobilecommons import MobileCommons
-from parsons.etl import Table
 from mobilecommons_responses import (
-    get_profiles_response,
     get_broadcasts_response,
+    get_profiles_response,
     post_profile_response,
 )
 
+from parsons.etl import Table
+from parsons.mobilecommons import MobileCommons
 
 MOBILECOMMONS_USERNAME = "MOBILECOMMONS_USERNAME"
 MOBILECOMMONS_PASSWORD = "MOBILECOMMONS_PASSWORD"
@@ -73,7 +74,7 @@ class TestMobileCommons(unittest.TestCase):
         self.assertEqual(
             profiles[0]["first_name"],
             "James",
-            "MobileCommons.get_profiles method not returning a table structured" "as expected",
+            "MobileCommons.get_profiles method not returning a table structuredas expected",
         )
 
     @requests_mock.Mocker()
@@ -92,7 +93,7 @@ class TestMobileCommons(unittest.TestCase):
         self.assertEqual(
             broadcasts[0]["id"],
             "2543129",
-            "MobileCommons.get_broadcasts method not returning a table structured" "as expected",
+            "MobileCommons.get_broadcasts method not returning a table structuredas expected",
         )
 
     @requests_mock.Mocker()

@@ -1,13 +1,15 @@
-import unittest
 import os
+import unittest
+
 import requests_mock
-from parsons import VAN
 from requests.exceptions import HTTPError
+
+from parsons import VAN
 from test.test_van.responses_people import (
+    delete_person_response,
     find_people_response,
     get_person_response,
     merge_contacts_response,
-    delete_person_response,
 )
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"

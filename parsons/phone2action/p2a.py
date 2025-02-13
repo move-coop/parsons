@@ -1,5 +1,6 @@
-from parsons.capitol_canary import CapitolCanary
 import logging
+
+from parsons.capitol_canary import CapitolCanary
 
 logger = logging.getLogger(__name__)
 

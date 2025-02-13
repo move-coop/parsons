@@ -1,11 +1,12 @@
-from parsons import Postgres, DBSync, Table, Redshift
-from parsons.databases.database_connector import DatabaseConnector
+import os
+import unittest
 from abc import ABC
+from typing import Optional, Type
+
+from parsons import DBSync, Postgres, Redshift, Table
+from parsons.databases.database_connector import DatabaseConnector
 from test.test_databases.fakes import FakeDatabase
 from test.utils import assert_matching_tables
-from typing import Type, Optional
-import unittest
-import os
 
 _dir = os.path.dirname(__file__)
 

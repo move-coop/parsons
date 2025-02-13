@@ -1,10 +1,11 @@
-from parsons import Redshift, S3, Table
-from test.utils import assert_matching_tables
-import unittest
 import os
 import re
-from test.utils import validate_list
+import unittest
+
 from testfixtures import LogCapture
+
+from parsons import S3, Redshift, Table
+from test.utils import assert_matching_tables, validate_list
 
 # The name of the schema and will be temporarily created for the tests
 TEMP_SCHEMA = "parsons_test2"
@@ -147,7 +148,7 @@ class TestRedshift(unittest.TestCase):
     def test_create_statement(self):
         # Assert that copy statement is expected
         sql = self.rs.create_statement(self.tbl, "tmc.test", distkey="ID")
-        exp_sql = """create table tmc.test (\n  "id" int,\n  "name" varchar(5)) \ndistkey(ID) ;"""  # noqa: E501
+        exp_sql = """create table tmc.test (\n  "id" int,\n  "name" varchar(5)) \ndistkey(ID) ;"""
         self.assertEqual(sql, exp_sql)
 
         # Assert that an error is raised by an empty table
@@ -158,7 +159,7 @@ class TestRedshift(unittest.TestCase):
         # Test passing kwargs
         creds = self.rs.get_creds("kwarg_key", "kwarg_secret_key")
         expected = (
-            """credentials 'aws_access_key_id=kwarg_key;aws_secret_access_key=kwarg_secret_key'\n"""  # noqa: E501
+            """credentials 'aws_access_key_id=kwarg_key;aws_secret_access_key=kwarg_secret_key'\n"""
         )
         self.assertEqual(creds, expected)
 
@@ -169,7 +170,7 @@ class TestRedshift(unittest.TestCase):
         os.environ["AWS_SECRET_ACCESS_KEY"] = "env_secret_key"
         creds = self.rs.get_creds(None, None)
         expected = (
-            """credentials 'aws_access_key_id=env_key;aws_secret_access_key=env_secret_key'\n"""  # noqa: E501
+            """credentials 'aws_access_key_id=env_key;aws_secret_access_key=env_secret_key'\n"""
         )
         self.assertEqual(creds, expected)
 

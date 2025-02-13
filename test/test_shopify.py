@@ -1,7 +1,9 @@
-from parsons import Table, Shopify
-from test.utils import assert_matching_tables
-import requests_mock
 import unittest
+
+import requests_mock
+
+from parsons import Shopify, Table
+from test.utils import assert_matching_tables
 
 SUBDOMAIN = "myorg"
 PASSWORD = "abc123"

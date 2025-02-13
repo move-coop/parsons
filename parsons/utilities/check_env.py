@@ -13,6 +13,6 @@ def check(env, field, optional=False):
         except KeyError:
             if not optional:
                 raise KeyError(
-                    f"No {env} found. Store as environment variable or " f"pass as an argument."
+                    f"No {env} found. Store as environment variable or pass as an argument."
                 )
     return field

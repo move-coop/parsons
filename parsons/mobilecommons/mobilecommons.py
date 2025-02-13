@@ -1,11 +1,13 @@
+import logging
+
+import xmltodict
+from bs4 import BeautifulSoup
+from requests import HTTPError
+
+from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 from parsons.utilities.datetime import parse_date
-from parsons import Table
-from bs4 import BeautifulSoup
-from requests import HTTPError
-import xmltodict
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -139,8 +141,7 @@ class MobileCommons:
             page += 1
             page_params = {"page": str(page), **params}
             logger.info(
-                f"Fetching rows {(page - 1) * page_limit + 1} - {(page) * page_limit} "
-                f"of {limit}"
+                f"Fetching rows {(page - 1) * page_limit + 1} - {(page) * page_limit} of {limit}"
             )
             # Send get request
             response_dict = self._parse_get_request(endpoint=endpoint, params=page_params)

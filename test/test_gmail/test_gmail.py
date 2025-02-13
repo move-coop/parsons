@@ -1,12 +1,13 @@
-from parsons import Gmail
+import base64
+import email
 import json
 import os
-import requests_mock
-import email
-import unittest
 import shutil
-import base64
+import unittest
 
+import requests_mock
+
+from parsons import Gmail
 
 _dir = os.path.dirname(__file__)
 
@@ -29,7 +30,7 @@ class TestGmail(unittest.TestCase):
                             "project_id": "some-project-id-12345",
                             "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                             "token_uri": "https://www.googleapis.com/oauth2/v3/token",
-                            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",  # noqa: E501
+                            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
                             "client_secret": "someclientsecret",
                             "redirect_uris": [
                                 "urn:ietf:wg:oauth:2.0:oob",
@@ -129,7 +130,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -171,7 +172,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -194,7 +195,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = "<p>This is the html message part of the email " "with attachments</p>"
+        message_html = "<p>This is the html message part of the email with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.txt"]
 
         msg = self.gmail._create_message_attachments(
@@ -216,7 +217,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -251,7 +252,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = "<p>This is the html message part of the email " "with attachments</p>"
+        message_html = "<p>This is the html message part of the email with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.jpeg"]
 
         msg = self.gmail._create_message_attachments(
@@ -273,7 +274,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -305,7 +306,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = "<p>This is the html message part of the email " "with attachments</p>"
+        message_html = "<p>This is the html message part of the email with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.m4a"]
 
         msg = self.gmail._create_message_attachments(
@@ -327,7 +328,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -357,7 +358,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = "<p>This is the html message part of the email " "with attachments</p>"
+        message_html = "<p>This is the html message part of the email with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.mp3"]
 
         msg = self.gmail._create_message_attachments(
@@ -379,7 +380,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -409,7 +410,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = "<p>This is the html message part of the email " "with attachments</p>"
+        message_html = "<p>This is the html message part of the email with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.mp4"]
 
         msg = self.gmail._create_message_attachments(
@@ -431,7 +432,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))
@@ -461,7 +462,7 @@ class TestGmail(unittest.TestCase):
         to = "Recepient <recepient@email.com>"
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
-        message_html = "<p>This is the html message part of the email " "with attachments</p>"
+        message_html = "<p>This is the html message part of the email with attachments</p>"
         attachments = [f"{_dir}/assets/loremipsum.pdf"]
 
         msg = self.gmail._create_message_attachments(
@@ -484,7 +485,7 @@ class TestGmail(unittest.TestCase):
         # avoid failures
         updated_items = []
         for i in decoded.items():
-            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:  # noqa
+            if "Content-Type" in i[0] and "multipart/alternative;\n boundary=" in i[1]:
                 updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
             else:
                 updated_items.append((i[0], i[1]))

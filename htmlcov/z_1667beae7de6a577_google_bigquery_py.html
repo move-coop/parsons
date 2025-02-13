@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_1667beae7de6a577_google_civic_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.4">coverage.py v7.6.4</a>,
-            created at 2025-02-06 23:02 +0000
+            created at 2025-02-13 18:36 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -1278,9 +1278,9 @@
     <p class="pln"><span class="n"><a id="t1194" href="#t1194">1194</a></span><span class="t"><span class="str">            A list of column names</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1195" href="#t1195">1195</a></span><span class="t"><span class="str">        """</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1196" href="#t1196">1196</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t1197" href="#t1197">1197</a></span><span class="t">        <span class="nam">first_row</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">query</span><span class="op">(</span><span class="fst">f"</span><span class="fst">SELECT * FROM </span><span class="op">{</span><span class="nam">schema</span><span class="op">}</span><span class="fst">.</span><span class="op">{</span><span class="nam">table_name</span><span class="op">}</span><span class="fst"> LIMIT 1;</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t1197" href="#t1197">1197</a></span><span class="t">        <span class="nam">table_ref</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">client</span><span class="op">.</span><span class="nam">get_table</span><span class="op">(</span><span class="nam">table</span><span class="op">=</span><span class="fst">f"</span><span class="op">{</span><span class="nam">schema</span><span class="op">}</span><span class="fst">.</span><span class="op">{</span><span class="nam">table_name</span><span class="op">}</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1198" href="#t1198">1198</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t1199" href="#t1199">1199</a></span><span class="t">        <span class="key">return</span> <span class="op">[</span><span class="nam">x</span> <span class="key">for</span> <span class="nam">x</span> <span class="key">in</span> <span class="nam">first_row</span><span class="op">.</span><span class="nam">columns</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t1199" href="#t1199">1199</a></span><span class="t">        <span class="key">return</span> <span class="op">[</span><span class="nam">schema_ref</span><span class="op">.</span><span class="nam">name</span> <span class="key">for</span> <span class="nam">schema_ref</span> <span class="key">in</span> <span class="nam">table_ref</span><span class="op">.</span><span class="nam">schema</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1200" href="#t1200">1200</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t1201" href="#t1201">1201</a></span><span class="t">    <span class="key">def</span> <span class="nam">get_row_count</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">schema</span><span class="op">:</span> <span class="nam">str</span><span class="op">,</span> <span class="nam">table_name</span><span class="op">:</span> <span class="nam">str</span><span class="op">)</span> <span class="op">-></span> <span class="nam">int</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1202" href="#t1202">1202</a></span><span class="t">        <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
@@ -1718,7 +1718,7 @@
             <a class="nav" href="z_1667beae7de6a577_google_civic_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.4">coverage.py v7.6.4</a>,
-            created at 2025-02-06 23:02 +0000
+            created at 2025-02-13 18:36 +0000
         </p>
     </div>
 </footer>

@@ -4,11 +4,10 @@ import logging
 import pathlib
 from typing import List, Optional, Type, Union
 
-from parsons.utilities.dbt.logging import dbtLogger
-from parsons.utilities.dbt.models import Manifest
-
 from dbt.cli.main import dbtRunner, dbtRunnerResult
 
+from parsons.utilities.dbt.logging import dbtLogger
+from parsons.utilities.dbt.models import Manifest
 
 logger = logging.getLogger(__name__)
 

@@ -1,9 +1,9 @@
 """Pydantic data models for use with dbt utilities."""
 
 import collections
+
 from dbt.contracts.graph.manifest import Manifest as dbtManifest
-from dbt.contracts.results import NodeResult
-from dbt.contracts.results import SourceFreshnessResult
+from dbt.contracts.results import NodeResult, SourceFreshnessResult
 
 
 class Manifest:
@@ -83,7 +83,7 @@ class EnhancedNodeResult(NodeResult):
         if isinstance(self, SourceFreshnessResult):
             freshness_config = self.node.freshness
             time_config = getattr(freshness_config, self.status + "_after")
-            result = f"No new records for {int(self.age/86400)} days, {self.status} after {time_config.count} {time_config.period}s."
+            result = f"No new records for {int(self.age / 86400)} days, {self.status} after {time_config.count} {time_config.period}s."
         else:
             result = self.message
 

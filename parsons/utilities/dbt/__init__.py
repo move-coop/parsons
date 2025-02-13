@@ -46,9 +46,9 @@ run_dbt_commands(
 from parsons.utilities.dbt.dbt import run_dbt_commands
 from parsons.utilities.dbt.logging import (
     dbtLoggerMarkdown,
+    dbtLoggerPython,
     dbtLoggerSlack,
     dbtLoggerStdout,
-    dbtLoggerPython,
 )
 
 __all__ = [

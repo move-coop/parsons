@@ -1,5 +1,6 @@
+from typing import Optional, Union
+
 from parsons.utilities.api_connector import APIConnector
-from typing import Union, Optional
 
 
 class Daisychain:
@@ -34,7 +35,7 @@ class Daisychain:
         return results
 
     def find_person(
-        self, email_address: str | None = None, phone_number: str | None = None
+        self, email_address: Optional[str] = None, phone_number: Optional[str] = None
     ) -> list[dict]:
         """
         Find a person by email address and/or phone number.
@@ -57,9 +58,9 @@ class Daisychain:
         Returns:
           a list of person dictionaries
         """
-        assert (
-            email_address or phone_number
-        ), "At least one of email address or phone number must be provided."
+        assert email_address or phone_number, (
+            "At least one of email address or phone number must be provided."
+        )
         payload: dict[str, dict[str, str]] = {"person": {}}
         if email_address:
             payload["person"]["email"] = email_address
@@ -72,14 +73,14 @@ class Daisychain:
 
     def post_action(
         self,
-        email_address: str | None = None,
-        phone_number: str | None = None,
-        first_name: str | None = None,
-        last_name: str | None = None,
-        addresses: list[dict] | None = None,
+        email_address: Optional[str] = None,
+        phone_number: Optional[str] = None,
+        first_name: Optional[str] = None,
+        last_name: Optional[str] = None,
+        addresses: Optional[list[dict]] = None,
         email_opt_in: bool = False,
         sms_opt_in: bool = False,
-        action_data: dict | None = None,
+        action_data: Optional[dict] = None,
     ) -> str:
         """Record an action on a person in Daisychain.
 
@@ -127,9 +128,9 @@ class Daisychain:
           person id (string)
 
         """
-        assert (
-            email_address or phone_number
-        ), "At least one of email address or phone number must be provided."
+        assert email_address or phone_number, (
+            "At least one of email address or phone number must be provided."
+        )
         if not action_data:
             action_data = {}
         payload = {

@@ -1390,9 +1390,9 @@
 <span class="sd">            A list of column names</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">first_row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT * FROM </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> LIMIT 1;&quot;</span><span class="p">)</span>
+        <span class="n">table_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_table</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">first_row</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">schema_ref</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">schema_ref</span> <span class="ow">in</span> <span class="n">table_ref</span><span class="o">.</span><span class="n">schema</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="GoogleBigQuery.get_row_count">

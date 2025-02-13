@@ -1,4 +1,4 @@
-Quickbooks
+Quickbooks Time
 =============
 
 ********
@@ -24,10 +24,10 @@ as an environment variable "QB_AUTH_TOKEN" or pass it in as a parameter called t
 
 .. code-block:: python
 
-  from parsons import QuickBooks
+  from parsons import QuickBooksTime
 
   # instantiate the quickbooks class
-  qb = QuickBooks(token="your_token") 
+  qb = QuickBooksTime(token="your_token") 
 
   #Timesheets Table
   timesheets_tbl = qb.get_timesheets()

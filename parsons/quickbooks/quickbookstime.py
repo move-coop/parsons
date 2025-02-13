@@ -106,27 +106,27 @@ class QuickBooksTime:
                 manager_ids: Int
                     Comma separated list of one or more manager ids you'd like to filter on.
 
-            name: String
-                Comma separated list of one or more group names you'd like to filter on.
+                name: String
+                    Comma separated list of one or more group names you'd like to filter on.
 
-            modified_before: String
-                Only groups modified before this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
+                modified_before: String
+                    Only groups modified before this date/time will be returned,
+                    in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
 
-            modified_since: String
-                Only groups modified since this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
+                modified_since: String
+                    Only groups modified since this date/time will be returned,
+                    in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
 
-            supplemental_data: String
-                'yes' or 'no'. Default is 'yes'.
-                Indicates whether supplemental data should be returned.
+                supplemental_data: String
+                    'yes' or 'no'. Default is 'yes'.
+                    Indicates whether supplemental data should be returned.
 
-            per_page: Int
-                Represents how many results you'd like to retrieve per request (page).
-                Default is 50. Max is 50.
+                per_page: Int
+                    Represents how many results you'd like to retrieve per request (page).
+                    Default is 50. Max is 50.
 
-            page: Int
-                Represents the page of results you'd like to retrieve.
+                page: Int
+                    Represents the page of results you'd like to retrieve.
 
         `Returns:`
             Parsons Table
@@ -223,7 +223,7 @@ class QuickBooksTime:
                 Default is 50. Max is 50.
 
             page: Int
-                Represents the page of results you'd like to retrieve. Default is 1.
+                Represents the page of results you'd like to retrieve. Default is 0.
 
         `Returns:`
             Parsons Table
@@ -331,7 +331,7 @@ class QuickBooksTime:
                 Default is 50. Max is 50.
 
             page: Int
-                Represents the page of results you'd like to retrieve. Default is 1.
+                Represents the page of results you'd like to retrieve. Default is 0.
 
         `Returns:`
             Parsons Table
@@ -351,7 +351,8 @@ class QuickBooksTime:
             "supplemental_data": supplemental_data,
             "per_page": per_page,
             "start_date": start_date,
-        }  # Removed page: page
+            "page": page,
+        }
 
         logger.info("Retrieving timesheets.")
         tbl = self.qb_get_request(end_point="timesheets", querystring=querystring)
@@ -436,7 +437,7 @@ class QuickBooksTime:
                 Default is 50. Max is 50.
 
             page: Int
-                Represents the page of results you'd like to retrieve. Default is 1.
+                Represents the page of results you'd like to retrieve. Default is 0.
 
         `Returns:`
             Parsons Table
@@ -458,6 +459,7 @@ class QuickBooksTime:
             "modified_since": modified_since,
             "supplemental_data": supplemental_data,
             "per_page": per_page,
+            "page": page,
         }
 
         logger.info("Retrieving users.")
@@ -476,6 +478,7 @@ class QuickBooksTime:
         modified_since=None,
         supplemental_data=None,
         per_page=None,
+        page=0,
     ):
         """
         This function allows you to call the /schedule_calendars endpoint
@@ -504,7 +507,7 @@ class QuickBooksTime:
                 Default is 50. Max is 50.
 
             page: Int
-                Represents the page of results you'd like to retrieve. Default is 1.
+                Represents the page of results you'd like to retrieve. Default is 0.
 
         `Returns:`
             List of integers of schedules calendar ids.
@@ -519,6 +522,7 @@ class QuickBooksTime:
             "modified_since": modified_since,
             "supplemental_data": supplemental_data,
             "per_page": per_page,
+            "page": page,
         }
 
         logger.info("Retrieving schedule calendars.")
@@ -548,6 +552,7 @@ class QuickBooksTime:
         modified_since=None,
         supplemental_data=None,
         per_page=None,
+        page=0,
     ):
         """
         This function allows you to call the /schedule_events endpoint
@@ -622,7 +627,7 @@ class QuickBooksTime:
                 Default is 50. Max is 50.
 
             page: Int
-                Represents the page of results you'd like to retrieve. Default is 1.
+                Represents the page of results you'd like to retrieve. Default is 0.
 
         `Returns:`
             Parsons Table
@@ -650,6 +655,7 @@ class QuickBooksTime:
             "modified_since": modified_since,
             "supplemental_data": supplemental_data,
             "per_page": per_page,
+            "page": page,
         }
 
         logger.info("Retrieving schedule events.")
@@ -701,7 +707,7 @@ class QuickBooksTime:
                 Represents how many results you'd like to retrieve per request (page).
                 Default is 50. Max is 50.
             page: Int
-                Represents the page of results you'd like to retrieve. Default is 1.
+                Represents the page of results you'd like to retrieve. Default is 0.
 
         `Returns:`
             Parsons Table

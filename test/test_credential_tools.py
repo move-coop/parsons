@@ -1,8 +1,9 @@
-from parsons.tools import credential_tools as ct
 import json
 import os
 import shutil
 import unittest
+
+from parsons.tools import credential_tools as ct
 
 
 class TestCredentialTool(unittest.TestCase):
@@ -89,7 +90,7 @@ class TestCredentialTool(unittest.TestCase):
 
     def testencode_from_env(self):
         lst = ["TES_VAR1", "TES_VAR2"]
-        expected = "PRSNSENVeyJURVNfVkFSMSI6ICJ2YXJpYWJsZTEiLCAiVEVTX1ZBU" "jIiOiAidmFyaWFibGUyIn0="
+        expected = "PRSNSENVeyJURVNfVkFSMSI6ICJ2YXJpYWJsZTEiLCAiVEVTX1ZBUjIiOiAidmFyaWFibGUyIn0="
 
         self.assertEqual(ct.encode_from_env(lst), expected)
 

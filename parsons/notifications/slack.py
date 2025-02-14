@@ -2,13 +2,12 @@ import os
 import time
 import warnings
 
-from parsons.etl.table import Table
-from parsons.utilities.check_env import check
-
+import requests
 from slackclient import SlackClient
 from slackclient.exceptions import SlackClientError
 
-import requests
+from parsons.etl.table import Table
+from parsons.utilities.check_env import check
 
 
 class Slack(object):

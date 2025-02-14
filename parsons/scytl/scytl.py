@@ -1,13 +1,14 @@
-import zipfile
 import csv
-import requests
-import defusedxml.ElementTree as ET
 import typing as t
+import zipfile
+from dataclasses import dataclass
 from datetime import datetime
+from io import BytesIO, StringIO
+
+import defusedxml.ElementTree as ET
+import requests
 from dateutil.parser import parse as parsedate
 from pytz import timezone
-from io import BytesIO, StringIO
-from dataclasses import dataclass
 
 CLARITY_URL = "https://results.enr.clarityelections.com/"
 

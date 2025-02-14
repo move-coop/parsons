@@ -1,14 +1,17 @@
 import json
+import logging
 import os
 import unittest.mock as mock
-from test.test_google.test_utilities import FakeCredentialTest
 from typing import Union
+from unittest import TestCase
+from unittest.mock import Mock
 
 from google.cloud import bigquery, exceptions
+from testfixtures import log_capture
 
-from parsons import GoogleBigQuery
-from parsons import Table
+from parsons import GoogleBigQuery, Table
 from parsons.google.google_cloud_storage import GoogleCloudStorage
+from test.test_google.test_utilities import FakeCredentialTest
 
 
 class BigQuery(GoogleBigQuery):
@@ -120,6 +123,36 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
         self.assertEqual(keyword_args["parameters"], parameters)
         self.assertFalse(keyword_args["return_values"])
+
+    def test_extract(self):
+        gcs_bucket = "tmp"
+        gcs_blob_name = "file/*"
+        dataset = "dataset"
+        table_name = "table"
+        gs_tmp_destination = f"gs://{gcs_bucket}/{gcs_blob_name}"
+        bq = self._build_mock_client_for_copying(table_exists=False)
+        bq.extract(
+            gcs_bucket=gcs_bucket,
+            gcs_blob_name=gcs_blob_name,
+            dataset=dataset,
+            table_name=table_name,
+        )
+
+        self.assertEqual(bq.client.extract_table.call_count, 1)
+        load_call_args = bq.client.extract_table.call_args
+        self.assertEqual(load_call_args[1]["destination_uris"], gs_tmp_destination)
+
+        job_config = load_call_args[1]["job_config"]
+        self.assertEqual(job_config.destination_format, bigquery.DestinationFormat.CSV)
+
+    def test_get_job(self):
+        tmp_job_id = "1234567890"
+        bq = self._build_mock_base_client()
+        bq.client.get_job(job_id=tmp_job_id)
+
+        self.assertEqual(bq.client.get_job.call_count, 1)
+        load_call_args = bq.client.get_job.call_args
+        self.assertEqual(load_call_args[1]["job_id"], tmp_job_id)
 
     def test_copy_gcs(self):
         # setup dependencies / inputs
@@ -590,6 +623,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq._client = bq_client
         return bq
 
+    def _build_mock_base_client(self, app_creds: Union[str, dict, None] = None):
+        bq_client = mock.MagicMock()
+        bq = BigQuery(app_creds=app_creds)
+        bq._client = bq_client
+        return bq
+
     def _build_mock_cloud_storage_client(self, tmp_blob_uri=""):
         gcs_client = mock.MagicMock()
         gcs_client.upload_table.return_value = tmp_blob_uri
@@ -602,4 +641,113 @@ class TestGoogleBigQuery(FakeCredentialTest):
                 {"num": 1, "ltr": "a", "boolcol": None},
                 {"num": 2, "ltr": "b", "boolcol": True},
             ]
+        )
+
+
+class TestGoogleBigQueryCopyBetweenProjects(TestCase):
+    def setUp(self):
+        # mock the GoogleBigQuery class
+        self.bq = Mock(spec=GoogleBigQuery)
+
+        # define inputs to copy method
+        self.source_project = ("project1",)
+        self.source_dataset = ("dataset1",)
+        self.source_table = ("table1",)
+        self.destination_project = ("project2",)
+        self.destination_dataset = ("dataset2",)
+        self.destination_table = ("table2",)
+        self.if_dataset_not_exists = ("fail",)
+        self.if_table_exists = "fail"
+
+    def tearDown(self):
+        pass
+
+    def test_copy_called_once_with(self):
+        self.bq.copy_between_projects(
+            source_project=self.source_project,
+            source_dataset=self.destination_dataset,
+            source_table=self.source_table,
+            destination_project=self.destination_project,
+            destination_dataset=self.destination_dataset,
+            destination_table=self.destination_table,
+            if_dataset_not_exists=self.if_dataset_not_exists,
+            if_table_exists=self.if_table_exists,
+        )
+        self.bq.copy_between_projects.assert_called_once_with(
+            source_project=self.source_project,
+            source_dataset=self.destination_dataset,
+            source_table=self.source_table,
+            destination_project=self.destination_project,
+            destination_dataset=self.destination_dataset,
+            destination_table=self.destination_table,
+            if_dataset_not_exists=self.if_dataset_not_exists,
+            if_table_exists=self.if_table_exists,
+        )
+
+    @log_capture()
+    def test_logger_fail_on_dataset_does_not_exist(self, capture):
+        # create and set up logger
+        logger = logging.getLogger()
+        logger.error(
+            "Dataset {0} does not exist and if_dataset_not_exists set to {1}".format(
+                self.destination_dataset, self.if_dataset_not_exists
+            )
+        )
+
+        # call the method to generate log message
+        self.bq.copy_between_projects(
+            source_project=self.source_project,
+            source_dataset=self.destination_dataset,
+            source_table=self.source_table,
+            destination_project=self.destination_project,
+            destination_dataset=self.destination_dataset,
+            destination_table=self.destination_table,
+            if_dataset_not_exists=self.if_dataset_not_exists,
+            if_table_exists=self.if_table_exists,
+        )
+
+        # check that the log message was generated correctly
+        capture.check(
+            (
+                "root",
+                "ERROR",
+                "Dataset {0} does not exist and if_dataset_not_exists set to {1}".format(
+                    self.destination_dataset, self.if_dataset_not_exists
+                ),
+            )
+        )
+
+    @log_capture()
+    def test_logger_fail_on_table_exists(self, capture):
+        # create and set up logger
+        logger = logging.getLogger()
+
+        ## now test with table copy error
+        logger.error(
+            "BigQuery copy failed, Table {0} exists and if_table_exists set to {1}".format(
+                self.destination_table, self.if_table_exists
+            )
+        )
+
+        # call the method to generate log message
+        self.bq.copy_between_projects(
+            source_project=self.source_project,
+            source_dataset=self.destination_dataset,
+            source_table=self.source_table,
+            destination_project=self.destination_project,
+            destination_dataset=self.destination_dataset,
+            destination_table=self.destination_table,
+            if_dataset_not_exists=self.if_dataset_not_exists,
+            if_table_exists=self.if_table_exists,
+        )
+
+        # check that the log message was generated correctly
+        capture.check(
+            (
+                "root",
+                "ERROR",
+                "BigQuery copy failed, Table {0} exists and if_table_exists set to {1}".format(
+                    self.destination_table, self.if_table_exists
+                ),
+            )
         )

@@ -1,8 +1,10 @@
-import requests_mock
 from unittest import TestCase
-from test.utils import mark_live_test, validate_list
+
+import requests_mock
+
 from parsons import Controlshift
 from test.test_controlshift import test_cs_data as test_data  # type: ignore
+from test.utils import mark_live_test, validate_list
 
 
 @mark_live_test

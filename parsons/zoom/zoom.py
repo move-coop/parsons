@@ -1,8 +1,9 @@
-from parsons.utilities import check_env
-from parsons.utilities.oauth_api_connector import OAuth2APIConnector
-from parsons import Table
 import logging
 import uuid
+
+from parsons import Table
+from parsons.utilities import check_env
+from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +80,7 @@ class Zoom:
                 data.extend(self.client.data_parse(r))
             return Table(data)
 
-    def __handle_nested_json(self, table: Table, column: str) -> Table:
+    def __handle_nested_json(self, table: Table, column: str, version: int = 1) -> Table:
         """
         This function unpacks JSON values from Zoom's API, which are often
         objects nested in lists
@@ -94,6 +95,8 @@ class Zoom:
         `Returns`:
             Parsons Table
         """
+        if version == 2:
+            return Table(table.unpack_list(column=column))
 
         return Table(table.unpack_list(column=column)).unpack_dict(
             column=f"{column}_0", prepend_value=f"{column}_"
@@ -255,6 +258,23 @@ class Zoom:
         logger.info(f"Retrieved {tbl.num_rows} webinars.")
         return tbl
 
+    def get_past_webinar_report(self, webinar_id):
+        """
+        Get past meeting participants
+
+        `Args:`
+            webinar_id: str
+                The webinar id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        dic = self._get_request(endpoint=f"report/webinars/{webinar_id}", data_key=None)
+        if dic:
+            logger.info(f"Retrieved webinar report for webinar: {webinar_id}.")
+        return dic
+
     def get_past_webinar_participants(self, webinar_id):
         """
         Get past meeting participants
@@ -287,7 +307,7 @@ class Zoom:
         logger.info(f"Retrieved {tbl.num_rows} webinar registrants.")
         return tbl
 
-    def get_meeting_poll_metadata(self, meeting_id, poll_id) -> Table:
+    def get_meeting_poll_metadata(self, meeting_id, poll_id, version: int = 1) -> Table:
         """
         Get metadata about a specific poll for a given meeting ID
 
@@ -306,17 +326,21 @@ class Zoom:
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict):
+        if tbl.num_rows == 0:
             logger.debug(f"No poll data returned for poll ID {poll_id}")
-            return Table(tbl)
+            return tbl
 
         logger.info(
             f"Retrieved {tbl.num_rows} rows of metadata [meeting={meeting_id} poll={poll_id}]"
         )
 
-        return self.__handle_nested_json(table=tbl, column="prompts")
+        if "prompts" in tbl.columns:
+            logger.info(f"Unnesting columns 'prompts' from existing table columns: {tbl.columns}")
+            return self.__handle_nested_json(table=tbl, column="prompts", version=version)
+        else:
+            return tbl
 
-    def get_meeting_all_polls_metadata(self, meeting_id) -> Table:
+    def get_meeting_all_polls_metadata(self, meeting_id, version: int = 1) -> Table:
         """
         Get metadata for all polls for a given meeting ID
 
@@ -333,15 +357,15 @@ class Zoom:
         endpoint = f"meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
-        if isinstance(tbl, dict):
+        if tbl.num_rows == 0:
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
-            return Table(tbl)
+            return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
 
-        return self.__handle_nested_json(table=tbl, column="questions")
+        return self.__handle_nested_json(table=tbl, column="questions", version=version)
 
-    def get_past_meeting_poll_metadata(self, meeting_id) -> Table:
+    def get_past_meeting_poll_metadata(self, meeting_id, version: int = 1) -> Table:
         """
         List poll metadata of a past meeting.
 
@@ -358,15 +382,18 @@ class Zoom:
         endpoint = f"past_meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict):
+        if tbl.num_rows == 0:
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
-            return Table(tbl)
+            return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
+        logger.info(
+            f"Unnesting columns 'question_details' from existing table columns: {tbl.columns}"
+        )
 
-        return self.__handle_nested_json(table=tbl, column="prompts")
+        return self.__handle_nested_json(table=tbl, column="question_details", version=version)
 
-    def get_webinar_poll_metadata(self, webinar_id, poll_id) -> Table:
+    def get_webinar_poll_metadata(self, webinar_id, poll_id, version: int = 1) -> Table:
         """
         Get metadata for a specific poll for a given webinar ID
 
@@ -385,17 +412,17 @@ class Zoom:
         endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict):
+        if tbl.num_rows == 0:
             logger.debug(f"No poll data returned for poll ID {poll_id}")
-            return Table(tbl)
+            return tbl
 
         logger.info(
             f"Retrieved {tbl.num_rows} rows of metadata [meeting={webinar_id} poll={poll_id}]"
         )
 
-        return self.__handle_nested_json(table=tbl, column="prompts")
+        return self.__handle_nested_json(table=tbl, column="prompts", version=version)
 
-    def get_webinar_all_polls_metadata(self, webinar_id) -> Table:
+    def get_webinar_all_polls_metadata(self, webinar_id, version: int = 1) -> Table:
         """
         Get metadata for all polls for a given webinar ID
 
@@ -412,15 +439,15 @@ class Zoom:
         endpoint = f"webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
-        if isinstance(tbl, dict):
+        if tbl.num_rows == 0:
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
-            return Table(tbl)
+            return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
 
-        return self.__handle_nested_json(table=tbl, column="questions")
+        return self.__handle_nested_json(table=tbl, column="questions", version=version)
 
-    def get_past_webinar_poll_metadata(self, webinar_id) -> Table:
+    def get_past_webinar_poll_metadata(self, webinar_id, version: int = 1) -> Table:
         """
         Retrieves the metadata for Webinar Polls of a specific Webinar
 
@@ -437,13 +464,13 @@ class Zoom:
         endpoint = f"past_webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict):
+        if tbl.num_rows == 0:
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
-            return Table(tbl)
+            return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
 
-        return self.__handle_nested_json(table=tbl, column="prompts")
+        return self.__handle_nested_json(table=tbl, column="prompts", version=version)
 
     def get_meeting_poll_results(self, meeting_id) -> Table:
         """
@@ -455,9 +482,9 @@ class Zoom:
         endpoint = f"report/meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict):
+        if tbl.num_rows == 0:
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
-            return Table(tbl)
+            return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} reults for meeting ID {meeting_id}")
 
@@ -473,9 +500,9 @@ class Zoom:
         endpoint = f"report/webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
-        if isinstance(tbl, dict):
+        if tbl.num_rows == 0:
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
-            return Table(tbl)
+            return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} reults for webinar ID {webinar_id}")
 

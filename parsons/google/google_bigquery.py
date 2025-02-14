@@ -1,6 +1,6 @@
 import datetime
-import logging
 import json
+import logging
 import pickle
 import random
 import uuid
@@ -9,9 +9,10 @@ from typing import List, Optional, Union
 
 import google
 import petl
-from google.cloud import bigquery, exceptions
-from google.cloud.bigquery import dbapi
-from google.cloud.bigquery.job import LoadJobConfig
+from google.api_core import exceptions
+from google.cloud import bigquery
+from google.cloud.bigquery import dbapi, job
+from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig
 from google.oauth2.credentials import Credentials
 
 from parsons.databases.database_connector import DatabaseConnector
@@ -349,6 +350,23 @@ class GoogleBigQuery(DatabaseConnector):
         """
         self.query(sql=queries_wrapped, parameters=parameters, return_values=False)
 
+    def get_job(
+        self, job_id: str, **job_kwargs
+    ) -> Union[job.LoadJob, job.CopyJob, job.ExtractJob, job.QueryJob, job.UnknownJob]:
+        """
+        Fetch a job
+
+        `Args:`
+            job_id: str
+                ID of job to fetch
+            location: str
+                Location where the job was run
+            **job_kwargs: kwargs
+                Other arguments to pass to the underlying get_job
+                call on the BigQuery client.
+        """
+        return self.client.get_job(job_id=job_id, **job_kwargs)
+
     def copy_from_gcs(
         self,
         gcs_blob_uri: str,
@@ -368,6 +386,7 @@ class GoogleBigQuery(DatabaseConnector):
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
         template_table: Optional[str] = None,
+        max_timeout: int = 21600,
         **load_kwargs,
     ):
         """
@@ -428,6 +447,8 @@ class GoogleBigQuery(DatabaseConnector):
             template_table: str
                 Table name to be used as the load schema. Load operation wil use the same
                 columns and data types as the template table.
+            max_timeout: int
+                The maximum number of seconds to wait for a request before the job fails.
             **load_kwargs: kwargs
                 Other arguments to pass to the underlying load_table_from_uri
                 call on the BigQuery client.
@@ -470,12 +491,14 @@ class GoogleBigQuery(DatabaseConnector):
                     job_config=job_config,
                     compression_type=compression_type,
                     new_file_extension=new_file_extension,
+                    max_timeout=max_timeout,
                 )
             else:
                 return self._load_table_from_uri(
                     source_uris=gcs_blob_uri,
                     destination=table_ref,
                     job_config=job_config,
+                    max_timeout=max_timeout,
                     **load_kwargs,
                 )
         except exceptions.BadRequest as e:
@@ -500,6 +523,7 @@ class GoogleBigQuery(DatabaseConnector):
                     job_config=job_config,
                     compression_type=compression_type,
                     new_file_extension=new_file_extension,
+                    max_timeout=max_timeout,
                 )
             elif "Schema has no field" in str(e):
                 logger.debug(f"{gcs_blob_uri.split('/')[-1]} is empty, skipping file")
@@ -507,6 +531,10 @@ class GoogleBigQuery(DatabaseConnector):
 
             else:
                 raise e
+
+        except exceptions.DeadlineExceeded as e:
+            logger.error(f"Max timeout exceeded for {gcs_blob_uri.split('/')[-1]}")
+            raise e
 
     def copy_large_compressed_file_from_gcs(
         self,
@@ -526,6 +554,7 @@ class GoogleBigQuery(DatabaseConnector):
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
         template_table: Optional[str] = None,
+        max_timeout: int = 21600,
         **load_kwargs,
     ):
         """
@@ -584,6 +613,8 @@ class GoogleBigQuery(DatabaseConnector):
             template_table: str
                 Table name to be used as the load schema. Load operation wil use the same
                 columns and data types as the template table.
+            max_timeout: int
+                The maximum number of seconds to wait for a request before the job fails.
             **load_kwargs: kwargs
                 Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
@@ -628,6 +659,7 @@ class GoogleBigQuery(DatabaseConnector):
                 source_uris=uncompressed_gcs_uri,
                 destination=table_ref,
                 job_config=job_config,
+                max_timeout=max_timeout,
                 **load_kwargs,
             )
 
@@ -654,6 +686,7 @@ class GoogleBigQuery(DatabaseConnector):
         tmp_gcs_bucket: Optional[str] = None,
         template_table: Optional[str] = None,
         job_config: Optional[LoadJobConfig] = None,
+        max_timeout: int = 21600,
         **load_kwargs,
     ):
         """
@@ -700,6 +733,8 @@ class GoogleBigQuery(DatabaseConnector):
                 on the BigQuery client. The function will create its own if not provided. Note
                 if there are any conflicts between the job_config and other parameters, the
                 job_config values are preferred.
+            max_timeout: int
+                The maximum number of seconds to wait for a request before the job fails.
 
         `Returns`
             Parsons Table or ``None``
@@ -736,6 +771,7 @@ class GoogleBigQuery(DatabaseConnector):
                 nullas=nullas,
                 job_config=job_config,
                 template_table=template_table,
+                max_timeout=max_timeout,
                 **load_kwargs,
             )
         finally:
@@ -757,6 +793,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
         schema: Optional[List[dict]] = None,
+        max_timeout: int = 21600,
         convert_dict_columns_to_json: bool = True,
         **load_kwargs,
     ):
@@ -788,6 +825,8 @@ class GoogleBigQuery(DatabaseConnector):
             template_table: str
                 Table name to be used as the load schema. Load operation wil use the same
                 columns and data types as the template table.
+            max_timeout: int
+                The maximum number of seconds to wait for a request before the job fails.
             convert_dict_columns_to_json: bool
                 If set to True, will convert any dict columns (which cannot by default be successfully loaded to BigQuery to JSON strings)
             **load_kwargs: kwargs
@@ -821,7 +860,8 @@ class GoogleBigQuery(DatabaseConnector):
             for field in tbl.get_columns_type_stats():
                 if "dict" in field["type"]:
                     new_petl = tbl.table.addfield(
-                        field["name"] + "_replace", lambda row: json.dumps(row[field["name"]])
+                        field["name"] + "_replace",
+                        lambda row: json.dumps(row[field["name"]]),
                     )
                     new_tbl = Table(new_petl)
                     new_tbl.remove_column(field["name"])
@@ -866,6 +906,7 @@ class GoogleBigQuery(DatabaseConnector):
                 source_uris=temp_blob_uri,
                 destination=self.get_table_ref(table_name=table_name),
                 job_config=job_config,
+                max_timeout=max_timeout,
                 **load_kwargs,
             )
         finally:
@@ -941,7 +982,7 @@ class GoogleBigQuery(DatabaseConnector):
                 arguments to upsert a pre-existing s3 file into the target_table
             \**copy_args: kwargs
                 See :func:`~parsons.databases.bigquery.BigQuery.copy` for options.
-        """  # noqa: W605
+        """
         if not self.table_exists(target_table):
             logger.info(
                 "Target table does not exist. Copying into newly \
@@ -1153,9 +1194,9 @@ class GoogleBigQuery(DatabaseConnector):
             A list of column names
         """
 
-        first_row = self.query(f"SELECT * FROM {schema}.{table_name} LIMIT 1;")
+        table_ref = self.client.get_table(table=f"{schema}.{table_name}")
 
-        return [x for x in first_row.columns]
+        return [schema_ref.name for schema_ref in table_ref.schema]
 
     def get_row_count(self, schema: str, table_name: str) -> int:
         """
@@ -1236,6 +1277,8 @@ class GoogleBigQuery(DatabaseConnector):
             not_none_petl_types = [i for i in petl_types if i != "NoneType"]
             if "str" in petl_types:
                 best_type = "str"
+            elif ("int" in petl_types) and ("float" in petl_types):
+                best_type = "float"
             elif not_none_petl_types:
                 best_type = not_none_petl_types[0]
             else:
@@ -1382,7 +1425,9 @@ class GoogleBigQuery(DatabaseConnector):
         if data_type not in ["csv", "json"]:
             raise ValueError(f"Only supports csv or json files [data_type = {data_type}]")
 
-    def _load_table_from_uri(self, source_uris, destination, job_config, **load_kwargs):
+    def _load_table_from_uri(
+        self, source_uris, destination, job_config, max_timeout, **load_kwargs
+    ):
         load_job = self.client.load_table_from_uri(
             source_uris=source_uris,
             destination=destination,
@@ -1391,7 +1436,7 @@ class GoogleBigQuery(DatabaseConnector):
         )
 
         try:
-            load_job.result()
+            load_job.result(timeout=max_timeout)
             return load_job
         except exceptions.BadRequest as e:
             for idx, error_ in enumerate(load_job.errors):
@@ -1419,6 +1464,13 @@ class GoogleBigQuery(DatabaseConnector):
         gcs_blob_name: str,
         project: Optional[str] = None,
         gzip: bool = False,
+        location: str = "US",
+        destination_file_format: str = "CSV",
+        field_delimiter: str = ",",
+        compression: str = None,
+        job_config: ExtractJobConfig = None,
+        wait_for_job_to_complete: bool = True,
+        **export_kwargs,
     ) -> None:
         """
         Extracts a BigQuery table to a Google Cloud Storage bucket.
@@ -1435,21 +1487,126 @@ class GoogleBigQuery(DatabaseConnector):
             gzip (bool): If True, the exported file will be compressed
               using GZIP. Defaults to False.
         """
-
-        dataset_ref = bigquery.DatasetReference(project or self.client.project, dataset)
-        table_ref = dataset_ref.table(table_name)
+        if not job_config:
+            logger.info("Using default job config as none was provided...")
+            job_config = ExtractJobConfig(
+                destination_format=destination_file_format,
+                compression=compression,
+                field_delimiter=field_delimiter,
+            )
+        source = f"{dataset}.{table_name}"
         gs_destination = f"gs://{gcs_bucket}/{gcs_blob_name}"
+        compression = "GZIP" if gzip else compression
+        logger.info(f"Project (parsons): {project}")
+        extract_job = self.client.extract_table(
+            source=source,
+            destination_uris=gs_destination,
+            location=location,
+            job_config=job_config,
+            project=project,
+            **export_kwargs,
+        )
+        if wait_for_job_to_complete:
+            extract_job.result()
+            logger.info(f"Finished exporting query result to {gs_destination}.")
 
-        if gzip:
-            job_config = bigquery.job.ExtractJobConfig()
-            job_config.compression = bigquery.Compression.GZIP
-        else:
-            job_config = None
+        return extract_job
 
-        extract_job = self.client.extract_table(table_ref, gs_destination, job_config=job_config)
-        extract_job.result()  # Waits for job to complete.
+    def copy_between_projects(
+        self,
+        source_project,
+        source_dataset,
+        source_table,
+        destination_project,
+        destination_dataset,
+        destination_table,
+        if_dataset_not_exists="fail",
+        if_table_exists="fail",
+    ):
+        """
+        Copy a table from one project to another. Fails if the source or target project
+            does not exist.
+        If the target dataset does not exist, fhe flag if_dataset_not_exists controls behavior.
+            It defaults to 'fail'; set it to 'create' if it's ok to create it.
+        If the target table exists, the flag if_table_exists controls behavior.
+            It defaults to 'fail'; set it to 'overwrite' if it's ok to overwrite an existing table.
 
-        logger.info(f"Finished exporting query result to {gs_destination}.")
+        `Args`:
+            source_project: str
+                Name of source project
+            source_dataset: str
+                Name of source dataset
+            source_table: str
+                Name of source table
+            destination_project: str
+                Name of destination project
+            destination_dataset: str
+                Name of destination dataset
+            destination_table: str
+                Name of destination table
+            if_dataset_not_exists: str
+                Action if dataset doesn't exist {'fail','create'}
+            if_table_exists: str
+                Action if table exists {'fail', 'overwrite'}
+
+        `Returns:`
+            None
+        """
+
+        from google.cloud import bigquery
+        from google.cloud.exceptions import NotFound
+
+        destination_table_id = (
+            destination_project + "." + destination_dataset + "." + destination_table
+        )
+        source_table_id = source_project + "." + source_dataset + "." + source_table
+        dataset_id = destination_project + "." + destination_dataset
+
+        # check if destination dataset exists
+        try:
+            self.client.get_dataset(dataset_id)  # Make an API request.
+            # if it exists: continue; if not, check to see if it's ok to create it
+        except NotFound:
+            # if it doesn't exist: check if it's ok to create it
+            if if_dataset_not_exists == "create":  # create a new dataset in the destination
+                dataset = bigquery.Dataset(dataset_id)
+                dataset = self.client.create_dataset(dataset, timeout=30)
+            else:  # if it doesn't exist and it's not ok to create it, fail
+                logger.error("BigQuery copy failed")
+                logger.error(
+                    f"Dataset {destination_dataset} does not exist and if_dataset_not_exists set to {if_dataset_not_exists}"
+                )
+
+        job_config = bigquery.CopyJobConfig()
+
+        # check if destination table exists
+        try:
+            self.client.get_table(destination_table_id)
+            if if_table_exists == "overwrite":  # if it exists
+                job_config = bigquery.CopyJobConfig()
+                job_config.write_disposition = "WRITE_TRUNCATE"
+                job = self.client.copy_table(
+                    source_table_id,
+                    destination_table_id,
+                    location="US",
+                    job_config=job_config,
+                )
+                result = job.result()
+            else:
+                logger.error(
+                    f"BigQuery copy failed, Table {destination_table} exists and if_table_exists set to {if_table_exists}"
+                )
+
+        except NotFound:
+            # destination table doesn't exist, so we can create one
+            job = self.client.copy_table(
+                source_table_id,
+                destination_table_id,
+                location="US",
+                job_config=job_config,
+            )
+            result = job.result()
+            logger.info(result)
 
 
 class BigQueryTable(BaseTable):

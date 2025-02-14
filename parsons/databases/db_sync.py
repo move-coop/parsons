@@ -155,7 +155,13 @@ class DBSync:
                 "Destination tables %s does not exist, running a full sync",
                 destination_table,
             )
-            self.table_sync_full(source_table, destination_table, order_by=primary_key, **kwargs)
+            self.table_sync_full(
+                source_table,
+                destination_table,
+                order_by=primary_key,
+                verify_row_count=verify_row_count,
+                **kwargs,
+            )
             return
 
         # Check that the source table primary key is distinct

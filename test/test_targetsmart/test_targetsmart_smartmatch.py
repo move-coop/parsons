@@ -1,6 +1,6 @@
 import csv
-import io
 import gzip
+import io
 import sys
 
 import petl

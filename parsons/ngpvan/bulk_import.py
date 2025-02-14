@@ -1,11 +1,11 @@
 """NGPVAN Bulk Import Endpoints"""
 
-from parsons.etl.table import Table
-from parsons.utilities import cloud_storage
-
+import csv
 import logging
 import uuid
-import csv
+
+from parsons.etl.table import Table
+from parsons.utilities import cloud_storage
 
 logger = logging.getLogger(__name__)
 

@@ -2,8 +2,10 @@
 
 import logging
 import time
-from parsons import GoogleSheets, MySQL
+
 from gspread.exceptions import APIError
+
+from parsons import GoogleSheets, MySQL
 
 logger = logging.getLogger(__name__)
 _handler = logging.StreamHandler()

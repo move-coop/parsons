@@ -9,7 +9,7 @@ import os
 import tempfile
 import time
 import urllib
-from typing import Optional, Union, Dict, List
+from typing import Dict, List, Optional, Union
 from zipfile import ZipFile
 
 from parsons.etl import Table
@@ -17,6 +17,9 @@ from parsons.sftp import SFTP
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 
 logger = logging.getLogger(__name__)
+
+# Default byte size to export under the hood via Paramiko
+DEFAULT_EXPORT_CHUNK_SIZE = 1024 * 1024 * 50
 
 
 class CatalistMatch:
@@ -305,15 +308,22 @@ class CatalistMatch:
         result = self.connection.get_request(endpoint, params=query_params)
         return result
 
-    def await_completion(self, id: str, wait: int = 30) -> Table:
-        """Await completion of a match job. Return matches when ready.
+    def await_completion(
+        self,
+        id: str,
+        wait: int = 30,
+    ) -> Table:
+        """
+        Await completion of a match job. Return matches when ready.
 
         This method will poll the status of a match job on a timer until the job is
         complete. By default, polls once every 30 seconds.
 
         Note that match job completion can take from 10 minutes up to 6 hours or more
         depending on concurrent traffic. Consider your strategy for polling for
-        completion."""
+        completion.
+        """
+
         while True:
             response = self.status(id)
             status = response["process"]["processState"]
@@ -324,7 +334,7 @@ class CatalistMatch:
             logger.info(f"Job {id} has status {status}, awaiting completion.")
             time.sleep(wait)
 
-        result = self.load_matches(id)
+        result = self.load_matches(id=id)
         return result
 
     def load_matches(self, id: str) -> Table:
@@ -358,7 +368,9 @@ class CatalistMatch:
         remote_filepaths = self.sftp.list_directory("/myDownloads/")
         remote_filename = [filename for filename in remote_filepaths if id in filename][0]
         remote_filepath = "/myDownloads/" + remote_filename
-        temp_file_zip = self.sftp.get_file(remote_filepath)
+        temp_file_zip = self.sftp.get_file(
+            remote_path=remote_filepath, export_chunk_size=DEFAULT_EXPORT_CHUNK_SIZE
+        )
         temp_dir = tempfile.mkdtemp()
 
         with ZipFile(temp_file_zip) as zf:

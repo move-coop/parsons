@@ -1,9 +1,11 @@
-from parsons.etl import Table
-from requests import request
-from parsons.utilities import check_env, json_format
 import datetime
-from parsons.hustle.column_map import LEAD_COLUMN_MAP
 import logging
+
+from requests import request
+
+from parsons.etl import Table
+from parsons.hustle.column_map import LEAD_COLUMN_MAP
+from parsons.utilities import check_env, json_format
 
 logger = logging.getLogger(__name__)
 
@@ -90,7 +92,7 @@ class Hustle(object):
             parameters["cursor"] = r.json["pagination"]["cursor"]
             r = request(req_type, url, params=parameters, headers=headers)
             self._error_check(r, raise_on_error)
-            result.append(r.json()["items"])
+            result += r.json()["items"]
 
         return result
 

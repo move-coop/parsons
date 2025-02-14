@@ -27,7 +27,7 @@ def main():
             "dbt-postgres": ["dbt-postgres", "slackclient<2"],
             "dbt-snowflake": ["dbt-snowflake", "slackclient<2"],
             "facebook": ["joblib", "facebook-business"],
-            "geocode": ["censusgeocode", "urllib3==1.26.19"],
+            "geocode": ["censusgeocode", "urllib3==2.3.0"],
             "github": ["PyGitHub"],
             "google": [
                 "apiclient",

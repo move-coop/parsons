@@ -80,6 +80,7 @@ for module_path, connector_name in (
     ("parsons.pdi.pdi", "PDI"),
     ("parsons.phone2action.p2a", "Phone2Action"),
     ("parsons.quickbase.quickbase", "Quickbase"),
+    ("parsons.quickbooks.quickbookstime", "QuickBooksTime"),
     ("parsons.redash.redash", "Redash"),
     ("parsons.rockthevote.rtv", "RockTheVote"),
     ("parsons.salesforce.salesforce", "Salesforce"),

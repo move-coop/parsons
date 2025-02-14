@@ -216,6 +216,7 @@ Indices and tables
    p2a
    pdi
    quickbase
+   quickbooks
    redash
    rockthevote
    salesforce

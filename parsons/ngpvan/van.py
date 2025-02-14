@@ -12,6 +12,7 @@ from parsons.ngpvan.events import Events
 from parsons.ngpvan.locations import Locations
 from parsons.ngpvan.people import People
 from parsons.ngpvan.printed_lists import PrintedLists
+from parsons.ngpvan.introspection import Introspection
 from parsons.ngpvan.saved_lists import ExportJobs, Folders, SavedLists
 from parsons.ngpvan.scores import FileLoadingJobs, Scores
 from parsons.ngpvan.signups import Signups
@@ -45,6 +46,7 @@ class VAN(
     ContactNotes,
     CustomFields,
     Targets,
+    Introspection,
 ):
     """
     Returns the VAN class

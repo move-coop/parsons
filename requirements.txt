@@ -1,4 +1,4 @@
-pyairtable==2.3.7
+pyairtable==3.0.1
 azure-storage-blob==12.24.1
 boto3>=1.17.98
 boxsdk==2.10.0

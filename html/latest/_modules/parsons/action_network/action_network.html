@@ -1206,6 +1206,46 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;messages/</span><span class="si">{</span><span class="n">message_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="ActionNetwork.schedule_message">
+<a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.schedule_message">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">schedule_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_id</span><span class="p">,</span> <span class="n">scheduled_start_date</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Schedule a message in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            message_id:</span>
+<span class="sd">               The unique id of the message</span>
+<span class="sd">            scheduled_start_date:</span>
+<span class="sd">                The UTC timestamp to schedule the message at in ISO8601 format.</span>
+<span class="sd">                e.g. &quot;2015-03-14T12:00:00Z&quot;</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the scheduling</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/schedule_helper</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;messages/</span><span class="si">{</span><span class="n">message_id</span><span class="si">}</span><span class="s2">/schedule/&quot;</span><span class="p">,</span>
+            <span class="p">{</span><span class="s2">&quot;scheduled_start_date&quot;</span><span class="p">:</span> <span class="n">scheduled_start_date</span><span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ActionNetwork.send_message">
+<a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.send_message">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send a message in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            message_id:</span>
+<span class="sd">               The unique id of the message</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the message was sent</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/send_helper</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;messages/</span><span class="si">{</span><span class="n">message_id</span><span class="si">}</span><span class="s2">/send/&quot;</span><span class="p">,</span> <span class="p">{})</span></div>
+
+
     <span class="c1"># Metadata</span>
 <div class="viewcode-block" id="ActionNetwork.get_metadata">
 <a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_metadata">[docs]</a>

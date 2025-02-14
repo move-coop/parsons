@@ -1194,9 +1194,9 @@ class GoogleBigQuery(DatabaseConnector):
             A list of column names
         """
 
-        first_row = self.query(f"SELECT * FROM {schema}.{table_name} LIMIT 1;")
+        table_ref = self.client.get_table(table=f"{schema}.{table_name}")
 
-        return [x for x in first_row.columns]
+        return [schema_ref.name for schema_ref in table_ref.schema]
 
     def get_row_count(self, schema: str, table_name: str) -> int:
         """

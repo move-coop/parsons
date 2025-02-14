@@ -86,6 +86,11 @@ jobs:
               with:
                   python-version: "3.13"
 
+            - uses: actions/setup-sqlite@v1
+              with:
+                sqlite-version: 3.40.0
+                sqlite-year: 2022
+
             - name: Install uv
               uses: install-pinned/uv@e68f239fe6e826a25a266f6177aae2bb89c6227f  # 0.4.12
 

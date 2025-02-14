@@ -38,9 +38,12 @@ class QuickBooksTime:
         # If no querystring is provided, initialize it as an empty dictionary
         if querystring is None:
             querystring = {}
+
         output_list = []  # This list will hold the results
 
-        page = 0  # Start from the first page
+        # Handle page parameter
+        page = querystring.get("page", 0)
+
         more = True  # This flag indicates if there are more pages to fetch
         while more:
             # After every 10 pages, log the progress
@@ -56,27 +59,21 @@ class QuickBooksTime:
 
             # Extract the key of the results
             endpoint_key = list(response["results"].keys())[0]
+
             # Extract the records from the results
-            temp_list = [
-                response["results"][endpoint_key][record]
-                for record in response["results"][endpoint_key]
-            ]
+            temp_list = list(response["results"][endpoint_key].values())
 
             # If the response indicates there are more pages,
             # update the flag and increment the page number
-            if "more" in response:
-                more = response["more"]
-                page += 1
+            more = response.get("more", False)
+            page += 1
 
             # Add the records from the current page to the output list
-            output_list += temp_list
-
-            # If there are no more pages, break the loop
-            if "more" not in response or response["more"] is False:
-                break
+            output_list.extend(temp_list)
 
         # Log the total number of records retrieved
         logger.info(f"Retrieved {len(output_list)} records from {end_point} endpoint.")
+
         # Return the results as a Table
         return Table(output_list)
 
@@ -90,7 +87,7 @@ class QuickBooksTime:
         modified_since=None,
         supplemental_data=None,
         per_page=None,
-        page=None,
+        page=0,
     ):
         """
             This function allows you to call the /groups endpoint of the QuickBooksTime Time API.
@@ -141,6 +138,7 @@ class QuickBooksTime:
             "modified_since": modified_since,
             "supplemental_data": supplemental_data,
             "per_page": per_page,
+            "page": page,
         }
 
         logger.info("Retrieving groups.")
@@ -164,7 +162,7 @@ class QuickBooksTime:
         modified_since=None,
         supplemental_data=None,
         per_page=None,
-        page=None,
+        page=0,
     ):
         """
         This function allows you to call the /jobcodes endpoint of the QuickBooksTime Time API.
@@ -240,6 +238,7 @@ class QuickBooksTime:
             "modified_since": modified_since,
             "supplemental_data": supplemental_data,
             "per_page": per_page,
+            "page": page,
         }
 
         logger.info("Retrieving jobcodes.")
@@ -379,7 +378,7 @@ class QuickBooksTime:
         modified_since=None,
         supplemental_data=None,
         per_page=None,
-        page=None,
+        page=0,
     ):
         """
         This function allows you to call the /users endpoint of the QuickBooksTime Time API.
@@ -676,7 +675,7 @@ class QuickBooksTime:
         group_ids=None,
         supplemental_data=None,
         per_page=None,
-        page=None,
+        page=0,
     ):
         """
         This function allows you to call the /geolocations endpoint of the QuickBooksTime Time API.

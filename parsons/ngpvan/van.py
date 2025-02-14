@@ -18,6 +18,7 @@ from parsons.ngpvan.contact_notes import ContactNotes
 from parsons.ngpvan.custom_fields import CustomFields
 from parsons.ngpvan.targets import Targets
 from parsons.ngpvan.printed_lists import PrintedLists
+from parsons.ngpvan.introspection import Introspection
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +45,7 @@ class VAN(
     ContactNotes,
     CustomFields,
     Targets,
+    Introspection,
 ):
     """
     Returns the VAN class

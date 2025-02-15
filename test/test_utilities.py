@@ -1,7 +1,9 @@
 import datetime
 import os
 import shutil
+import tempfile
 import unittest
+from pathlib import Path
 from unittest import mock
 
 import pytest
@@ -97,17 +99,17 @@ def test_compression_type_for_path():
 
 def test_empty_file():
     # Create fake files.
-    os.mkdir("tmp")
-    with open("tmp/empty.csv", "w+") as _:
+    tmp_folder = tempfile.mkdtemp()
+    with open(Path(tmp_folder) / "empty.csv", "w+") as _:
         pass
 
-    Table([["1"], ["a"]]).to_csv("tmp/full.csv")
+    Table([["1"], ["a"]]).to_csv(str(Path(tmp_folder) / "full.csv"))
 
-    assert not files.has_data("tmp/empty.csv")
-    assert files.has_data("tmp/full.csv")
+    assert not files.has_data(str(Path(tmp_folder) / "empty.csv"))
+    assert files.has_data(str(Path(tmp_folder) / "full.csv"))
 
     # Remove fake files and dir
-    shutil.rmtree("tmp")
+    shutil.rmtree(tmp_folder)
 
 
 def test_json_format():

@@ -81,7 +81,7 @@ docstring-code-format = false
 docstring-code-line-length = "dynamic"
 
 [tool.pytest.ini_options]
-addopts = "-rf"
+addopts = "-rf --cov=parsons -n auto"
 testpaths = [
     "test",
 ]

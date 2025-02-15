@@ -1,6 +1,7 @@
 import json
 import os
 import shutil
+import tempfile
 import unittest
 
 from parsons.tools import credential_tools as ct
@@ -11,9 +12,8 @@ class TestCredentialTool(unittest.TestCase):
         os.environ["TES_VAR1"] = "variable1"
         os.environ["TES_VAR2"] = "variable2"
 
-        self.tmp_folder = "tmp"
+        self.tmp_folder = tempfile.mkdtemp()
         self.json_file = "credentials.json"
-        os.mkdir(self.tmp_folder)
 
         with open(f"{self.tmp_folder}/{self.json_file}", "w") as f:
             f.write(json.dumps({"json": "file"}))

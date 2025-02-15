@@ -1,6 +1,9 @@
 import os
 import shutil
+import tempfile
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import petl
 
@@ -27,11 +30,11 @@ class TestParsonsTable(unittest.TestCase):
         self.tbl = Table(self.lst_dicts)
 
         # Create a tmp dir
-        os.mkdir("tmp")
+        self.tmp_folder = tempfile.mkdtemp()
 
     def tearDown(self):
         # Delete tmp folder and files
-        shutil.rmtree("tmp")
+        shutil.rmtree(self.tmp_folder)
 
     def test_from_list_of_dicts(self):
         tbl = Table(self.lst)
@@ -124,7 +127,7 @@ class TestParsonsTable(unittest.TestCase):
         self.assertIsInstance(self.tbl.to_petl(), petl.io.json.DictsView)
 
     def test_to_html(self):
-        html_file = "tmp/test.html"
+        html_file = str(Path(self.tmp_folder) / "test.html")
 
         # Test writing file
         self.tbl.to_html(html_file)
@@ -178,16 +181,16 @@ class TestParsonsTable(unittest.TestCase):
         assert_matching_tables(orig_tbl, result_tbl)
 
     def test_to_from_csv(self):
-        path = "tmp/test.csv"
-        self.tbl.to_csv(path)
-        self._assert_expected_csv(path, self.tbl)
-        os.remove(path)
+        with TemporaryDirectory() as tempdir:
+            path = str(Path(tempdir) / "test.csv")
+            self.tbl.to_csv(path)
+            self._assert_expected_csv(path, self.tbl)
 
     def test_to_from_csv_compressed(self):
-        path = "tmp/test.csv.gz"
-        self.tbl.to_csv(path)
-        self._assert_expected_csv(path, self.tbl)
-        os.remove(path)
+        with TemporaryDirectory() as tempdir:
+            path = str(Path(tempdir) / "test.csv.gz")
+            self.tbl.to_csv(path)
+            self._assert_expected_csv(path, self.tbl)
 
     def test_to_from_temp_csv(self):
         path = self.tbl.to_csv()
@@ -218,10 +221,11 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_from_csv_raises_on_empty_file(self):
         # Create empty file
-        path = "tmp/empty.csv"
-        open(path, "a").close()
+        with TemporaryDirectory() as tempdir:
+            path = str(Path(tempdir) / "empty.csv")
+            open(path, "a").close()
 
-        self.assertRaises(ValueError, Table.from_csv, path)
+            self.assertRaises(ValueError, Table.from_csv, path)
 
     def test_to_csv_zip(self):
         try:
@@ -242,20 +246,20 @@ class TestParsonsTable(unittest.TestCase):
         pass
 
     def test_to_from_json(self):
-        path = "tmp/test.json"
-        self.tbl.to_json(path)
+        with TemporaryDirectory() as tempdir:
+            path = str(Path(tempdir) / "test.json")
+            self.tbl.to_json(path)
 
-        result_tbl = Table.from_json(path)
-        assert_matching_tables(self.tbl, result_tbl)
-        os.remove(path)
+            result_tbl = Table.from_json(path)
+            assert_matching_tables(self.tbl, result_tbl)
 
     def test_to_from_json_compressed(self):
-        path = "tmp/test.json.gz"
-        self.tbl.to_json(path)
+        with TemporaryDirectory() as tempdir:
+            path = str(Path(tempdir) / "test.json.gz")
+            self.tbl.to_json(path)
 
-        result_tbl = Table.from_json(path)
-        assert_matching_tables(self.tbl, result_tbl)
-        os.remove(path)
+            result_tbl = Table.from_json(path)
+            assert_matching_tables(self.tbl, result_tbl)
 
     def test_to_from_temp_json(self):
         path = self.tbl.to_json()
@@ -268,20 +272,20 @@ class TestParsonsTable(unittest.TestCase):
         assert_matching_tables(self.tbl, result_tbl)
 
     def test_to_from_json_line_delimited(self):
-        path = "tmp/test.json"
-        self.tbl.to_json(path, line_delimited=True)
+        with TemporaryDirectory() as tempdir:
+            path = str(Path(tempdir) / "test.json")
+            self.tbl.to_json(path, line_delimited=True)
 
-        result_tbl = Table.from_json(path, line_delimited=True)
-        assert_matching_tables(self.tbl, result_tbl)
-        os.remove(path)
+            result_tbl = Table.from_json(path, line_delimited=True)
+            assert_matching_tables(self.tbl, result_tbl)
 
     def test_to_from_json_line_delimited_compressed(self):
-        path = "tmp/test.json.gz"
-        self.tbl.to_json(path, line_delimited=True)
+        with TemporaryDirectory() as tempdir:
+            path = str(Path(tempdir) / "test.json.gz")
+            self.tbl.to_json(path, line_delimited=True)
 
-        result_tbl = Table.from_json(path, line_delimited=True)
-        assert_matching_tables(self.tbl, result_tbl)
-        os.remove(path)
+            result_tbl = Table.from_json(path, line_delimited=True)
+            assert_matching_tables(self.tbl, result_tbl)
 
     def test_columns(self):
         # Test that columns are listed correctly

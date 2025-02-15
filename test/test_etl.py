@@ -201,9 +201,9 @@ class TestParsonsTable(unittest.TestCase):
         path = self.tbl.to_csv()
         # Pull the file into a string
         with open(path, "r") as f:
-            str = f.read()
+            csv_string = f.read()
 
-        result_tbl = Table.from_csv_string(str)
+        result_tbl = Table.from_csv_string(csv_string)
         assert_matching_tables(self.tbl, result_tbl)
 
     def test_append_csv_compressed(self):

@@ -139,6 +139,7 @@ jobs:
             - name: Coverage comment
               id: coverage_comment
               uses: py-cov-action/python-coverage-comment-action@b2eb38dd175bf053189b35f738f9207278b00925  # v3.29
+              if: github.event.workflow_run.event != 'pull_request'
               with:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   MERGE_COVERAGE_FILES: true

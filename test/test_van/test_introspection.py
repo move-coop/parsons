@@ -1,8 +1,9 @@
-import unittest
 import os
-import requests_mock
-from parsons import VAN
+import unittest
 
+import requests_mock
+
+from parsons import VAN
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 

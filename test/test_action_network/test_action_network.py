@@ -3853,6 +3853,31 @@ class TestActionNetwork(unittest.TestCase):
             self.fake_message,
         )
 
+    @requests_mock.Mocker()
+    def test_schedule_message(self, m):
+        message_id = "123"
+        scheduled_start_date = "2015-03-14T12:00:00Z"
+        m.post(
+            f"{self.api_url}/messages/123/schedule/",
+            text=json.dumps({"message": "Your message has been scheduled"}),
+        )
+        assert_matching_tables(
+            self.an.schedule_message(message_id, scheduled_start_date),
+            {"message": "Your message has been scheduled"},
+        )
+
+    @requests_mock.Mocker()
+    def test_send_message(self, m):
+        message_id = "123"
+        m.post(
+            f"{self.api_url}/messages/123/send/",
+            text=json.dumps({"message": "Your email has been sent."}),
+        )
+        assert_matching_tables(
+            self.an.send_message(message_id),
+            {"message": "Your email has been sent."},
+        )
+
     # Metadata
     @requests_mock.Mocker()
     def test_get_metadata(self, m):

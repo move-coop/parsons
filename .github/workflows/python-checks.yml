@@ -2,6 +2,7 @@ name: Python checks
 
 on:
     push:
+        branches: ["main", "major-release"]
     pull_request:
     workflow_dispatch:
 

@@ -219,7 +219,7 @@ class Sqlite(DatabaseConnector):
         # Use the sqlite3 command line for csv import if possible, as it is much more efficient
         if shutil.which("sqlite3") and not force_python_sdk:
             csv_file_path = tbl.to_csv()
-            self._cli_command(f'".import --csv --skip 1 {csv_file_path} {table_name}"')
+            self._cli_command(f".import --csv --skip 1 {csv_file_path} {table_name}")
         else:
             self.import_table_iteratively(tbl, table_name, if_exists)
 
@@ -262,10 +262,9 @@ class Sqlite(DatabaseConnector):
         utility unless it is explicitly installed.
         """
         db_path = Path(self.db_path).resolve()
-        full_command = f"sqlite3 {db_path} {command}"
+        full_command = ["sqlite3", str(db_path), command]
         resp = subprocess.run(
             full_command,
-            shell=True,
             capture_output=True,
         )
         if resp.stderr:

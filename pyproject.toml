@@ -87,7 +87,11 @@ testpaths = [
 ]
 filterwarnings = [
     # Warnings triggered by libraries we use (not our own code)
-    "ignore:invalid escape sequence:DeprecationWarning"
+    "ignore:invalid escape sequence:SyntaxWarning", # typically due to using "/" in docstrings that aren't raw strings
+    "ignore:invalid escape sequence:DeprecationWarning", # typically due to using "/" in docstrings that aren't raw strings
+    "ignore:Use ProtectionLevel enum instead:DeprecationWarning", # braintree throws these
+    "ignore:Use protection_level parameter instead:DeprecationWarning", # braintree throws these
+    "ignore:Argument login_or_token is deprecated:DeprecationWarning",
 ]
 
 [tool.bandit]

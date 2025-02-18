@@ -873,10 +873,10 @@ class TestZoom(unittest.TestCase):
                     "answers": ["Extremely useful"],
                     "case_sensitive": False,
                     "name": "How useful was this meeting?",
-                    "prompts": [
+                    "question_details": [
                         {
-                            "prompt_question": "How are you?",
-                            "prompt_right_answers": ["Good"],
+                            "question": "How are you?",
+                            "answer": ["Good"],
                         }
                     ],
                     "rating_max_label": "Extremely Likely",
@@ -907,8 +907,8 @@ class TestZoom(unittest.TestCase):
                     "right_answers": ["Good"],
                     "show_as_dropdown": False,
                     "type": "single",
-                    "prompts__prompt_question": "How are you?",
-                    "prompts__prompt_right_answers": ["Good"],
+                    "question_details__answer": ["Good"],
+                    "question_details__question": "How are you?",
                 }
             ],
         )

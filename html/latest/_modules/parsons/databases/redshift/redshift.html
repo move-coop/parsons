@@ -863,6 +863,7 @@
         <span class="n">max_file_size</span><span class="o">=</span><span class="s2">&quot;6.2 GB&quot;</span><span class="p">,</span>
         <span class="n">extension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">aws_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
@@ -913,6 +914,8 @@
 <span class="sd">            The AWS Region where the target Amazon S3 bucket is located. REGION is required for</span>
 <span class="sd">            UNLOAD to an Amazon S3 bucket that is not in the same AWS Region as the Amazon Redshift</span>
 <span class="sd">            cluster.</span>
+<span class="sd">        format: str</span>
+<span class="sd">            The format of the unload file (CSV, PARQUET, JSON) - Optional.</span>
 <span class="sd">        aws_access_key_id:</span>
 <span class="sd">            An AWS access key granted to the bucket where the file is located. Not required</span>
 <span class="sd">            if keys are stored as environmental variables.</span>
@@ -932,26 +935,34 @@
 <span class="s2">                     PARALLEL </span><span class="si">{</span><span class="n">parallel</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span>
 <span class="s2">                     MAXFILESIZE </span><span class="si">{</span><span class="n">max_file_size</span><span class="si">}</span>
 <span class="s2">                     &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">manifest</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;MANIFEST </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">header</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;HEADER </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">delimiter</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;DELIMITER as &#39;</span><span class="si">{</span><span class="n">delimiter</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">compression</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compression</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">add_quotes</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ADDQUOTES </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">null_as</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;NULL </span><span class="si">{</span><span class="n">null_as</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">escape</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ESCAPE </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">allow_overwrite</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ALLOWOVERWRITE </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">extension</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;EXTENSION &#39;</span><span class="si">{</span><span class="n">extension</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">aws_region</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;REGION </span><span class="si">{</span><span class="n">aws_region</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ALLOWOVERWRITE </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">allow_overwrite</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;REGION </span><span class="si">{</span><span class="n">aws_region</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">aws_region</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;MANIFEST </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">manifest</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;EXTENSION &#39;</span><span class="si">{</span><span class="n">extension</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">extension</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># Format-specific parameters</span>
+        <span class="k">if</span> <span class="nb">format</span><span class="p">:</span>
+            <span class="nb">format</span> <span class="o">=</span> <span class="nb">format</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;DELIMITER AS &#39;</span><span class="si">{</span><span class="n">delimiter</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">delimiter</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;NULL AS &#39;</span><span class="si">{</span><span class="n">null_as</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">null_as</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;HEADER </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">header</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ESCAPE </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">escape</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;FORMAT AS CSV </span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compression</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">compression</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;parquet&quot;</span><span class="p">:</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;FORMAT AS PARQUET </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;FORMAT AS JSON </span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compression</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">compression</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Default text file settings</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;DELIMITER AS &#39;</span><span class="si">{</span><span class="n">delimiter</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">delimiter</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ADDQUOTES </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">add_quotes</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;NULL AS &#39;</span><span class="si">{</span><span class="n">null_as</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">null_as</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ESCAPE </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">escape</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;HEADER </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">header</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compression</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">compression</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unloading data to s3://</span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">key_prefix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="c1"># Censor sensitive data</span>
@@ -999,7 +1010,6 @@
 <span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">query_end</span> <span class="o">=</span> <span class="s2">&quot;cascade&quot;</span> <span class="k">if</span> <span class="n">cascade</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">unload</span><span class="p">(</span>
             <span class="n">sql</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;select * from </span><span class="si">{</span><span class="n">rs_table</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span>

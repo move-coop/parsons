@@ -246,7 +246,10 @@
 <span class="sd">            Parsons Table</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">column</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">column</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">table</span>
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">column</span><span class="p">))</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span>
             <span class="n">column</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">_0&quot;</span><span class="p">,</span> <span class="n">prepend_value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">_&quot;</span>
@@ -664,7 +667,7 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for meeting ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;prompts&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;question_details&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Zoom.get_meeting_poll_results">

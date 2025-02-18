@@ -4,7 +4,7 @@
 
 | Name                                                      |    Stmts |     Miss |   Branch |   BrPart |   Cover |   Missing |
 |---------------------------------------------------------- | -------: | -------: | -------: | -------: | ------: | --------: |
-| parsons/\_\_init\_\_.py                                   |       21 |        4 |        6 |        2 |     78% |20, 22, 100-101 |
+| parsons/\_\_init\_\_.py                                   |       21 |        4 |        6 |        2 |     78% |20, 22, 101-102 |
 | parsons/actblue/\_\_init\_\_.py                           |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/actblue/actblue.py                                |       39 |        0 |        2 |        0 |    100% |           |
 | parsons/action\_builder/\_\_init\_\_.py                   |        2 |        0 |        0 |        0 |    100% |           |
@@ -156,6 +156,8 @@
 | parsons/phone2action/p2a.py                               |       20 |        2 |        0 |        0 |     90% |     30-31 |
 | parsons/quickbase/\_\_init\_\_.py                         |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/quickbase/quickbase.py                            |       30 |        0 |        8 |        0 |    100% |           |
+| parsons/quickbooks/\_\_init\_\_.py                        |        2 |        0 |        0 |        0 |    100% |           |
+| parsons/quickbooks/quickbookstime.py                      |       89 |        7 |       18 |        7 |     87% |40, 151, 251, 363, 471, 667, 737 |
 | parsons/redash/\_\_init\_\_.py                            |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/redash/redash.py                                  |       77 |        8 |       24 |        7 |     83% |58, 83-84, 175, 185-189, 217, 258 |
 | parsons/rockthevote/\_\_init\_\_.py                       |        0 |        0 |        0 |        0 |    100% |           |
@@ -293,6 +295,8 @@
 | test/test\_pdi/test\_universes.py                         |        0 |        0 |        0 |        0 |    100% |           |
 | test/test\_quickbase/test\_data.py                        |        2 |        0 |        0 |        0 |    100% |           |
 | test/test\_quickbase/test\_quickbase.py                   |       17 |        0 |        0 |        0 |    100% |           |
+| test/test\_quickbooks/test\_quickbookstime.py             |      155 |        0 |        2 |        1 |     99% |    32->35 |
+| test/test\_quickbooks/test\_quickbookstime\_data.py       |        7 |        0 |        0 |        0 |    100% |           |
 | test/test\_redash.py                                      |       75 |        0 |        0 |        0 |    100% |           |
 | test/test\_rockthevote/test\_rtv.py                       |       53 |        0 |        0 |        0 |    100% |           |
 | test/test\_s3.py                                          |      108 |       86 |        4 |        0 |     20% |19-53, 56-57, 62-63, 67-70, 74-88, 91-99, 103-115, 119-127, 132-134, 138-147, 152-181, 184-188 |
@@ -338,7 +342,7 @@
 | test/test\_van/test\_targets.py                           |       42 |        0 |        0 |        0 |    100% |           |
 | test/test\_zoom.py                                        |      118 |        0 |        0 |        0 |    100% |           |
 | test/utils.py                                             |       23 |        1 |       12 |        1 |     94% |        25 |
-|                                                 **TOTAL** | **18040** | **3832** | **2994** |  **536** | **75%** |           |
+|                                                 **TOTAL** | **18293** | **3839** | **3014** |  **544** | **75%** |           |
 
 
 ## Setup coverage badge

@@ -713,6 +713,7 @@ class Redshift(
         max_file_size="6.2 GB",
         extension=None,
         aws_region=None,
+        format=None,
         aws_access_key_id=None,
         aws_secret_access_key=None,
     ):
@@ -763,6 +764,8 @@ class Redshift(
             The AWS Region where the target Amazon S3 bucket is located. REGION is required for
             UNLOAD to an Amazon S3 bucket that is not in the same AWS Region as the Amazon Redshift
             cluster.
+        format: str
+            The format of the unload file (CSV, PARQUET, JSON) - Optional.
         aws_access_key_id:
             An AWS access key granted to the bucket where the file is located. Not required
             if keys are stored as environmental variables.
@@ -782,26 +785,34 @@ class Redshift(
                      PARALLEL {parallel} \n
                      MAXFILESIZE {max_file_size}
                      """
-        if manifest:
-            statement += "MANIFEST \n"
-        if header:
-            statement += "HEADER \n"
-        if delimiter:
-            statement += f"DELIMITER as '{delimiter}' \n"
-        if compression:
-            statement += f"{compression.upper()} \n"
-        if add_quotes:
-            statement += "ADDQUOTES \n"
-        if null_as:
-            statement += f"NULL {null_as} \n"
-        if escape:
-            statement += "ESCAPE \n"
-        if allow_overwrite:
-            statement += "ALLOWOVERWRITE \n"
-        if extension:
-            statement += f"EXTENSION '{extension}' \n"
-        if aws_region:
-            statement += f"REGION {aws_region} \n"
+        statement += "ALLOWOVERWRITE \n" if allow_overwrite else ""
+        statement += f"REGION {aws_region} \n" if aws_region else ""
+        statement += "MANIFEST \n" if manifest else ""
+        statement += f"EXTENSION '{extension}' \n" if extension else ""
+
+        # Format-specific parameters
+        if format:
+            format = format.lower()
+            if format == "csv":
+                statement += f"DELIMITER AS '{delimiter}' \n" if delimiter else ""
+                statement += f"NULL AS '{null_as}' \n" if null_as else ""
+                statement += "HEADER \n" if header else ""
+                statement += "ESCAPE \n" if escape else ""
+                statement += "FORMAT AS CSV \n"
+                statement += f"{compression.upper()} \n" if compression else ""
+            elif format == "parquet":
+                statement += "FORMAT AS PARQUET \n"
+            elif format == "json":
+                statement += "FORMAT AS JSON \n"
+                statement += f"{compression.upper()} \n" if compression else ""
+        else:
+            # Default text file settings
+            statement += f"DELIMITER AS '{delimiter}' \n" if delimiter else ""
+            statement += "ADDQUOTES \n" if add_quotes else ""
+            statement += f"NULL AS '{null_as}' \n" if null_as else ""
+            statement += "ESCAPE \n" if escape else ""
+            statement += "HEADER \n" if header else ""
+            statement += f"{compression.upper()} \n" if compression else ""
 
         logger.info(f"Unloading data to s3://{bucket}/{key_prefix}")
         # Censor sensitive data
@@ -849,7 +860,6 @@ class Redshift(
             None
         """
         query_end = "cascade" if cascade else ""
-
         self.unload(
             sql=f"select * from {rs_table}",
             bucket=bucket,

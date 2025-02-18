@@ -907,8 +907,8 @@ class TestZoom(unittest.TestCase):
                     "right_answers": ["Good"],
                     "show_as_dropdown": False,
                     "type": "single",
-                    "question_details__question": "How are you?",
                     "question_details__answer": ["Good"],
+                    "question_details__question": "How are you?",
                 }
             ],
         )

@@ -202,9 +202,9 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result["sessions"], Table), "The sessions should be a Table"
         assert isinstance(result["session_hosts"], Table), "The session hosts should be a Table"
         assert len(result["sessions"]) == 2, "Sessions Table should contain exactly two records"
-        assert len(result["session_hosts"]) == 1, (
-            "Session hosts Table should contain exactly one record"
-        )
+        assert (
+            len(result["session_hosts"]) == 1
+        ), "Session hosts Table should contain exactly one record"
 
     def test_fetch_airmeet_custom_registration_fields(self):
         # Test get the custom registration fields for an Airmeet.

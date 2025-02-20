@@ -174,7 +174,7 @@
 | parsons/sisense/\_\_init\_\_.py                           |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/sisense/sisense.py                                |       24 |        0 |        0 |        0 |    100% |           |
 | parsons/targetsmart/\_\_init\_\_.py                       |        3 |        0 |        0 |        0 |    100% |           |
-| parsons/targetsmart/targetsmart\_api.py                   |       74 |       13 |       24 |        5 |     80% |40, 73, 166, 169, 172, 227, 291, 313, 366-389 |
+| parsons/targetsmart/targetsmart\_api.py                   |       74 |        9 |       24 |        1 |     88% |40, 73, 227, 313, 366-389 |
 | parsons/targetsmart/targetsmart\_automation.py            |       94 |       72 |       26 |        0 |     18% |52-57, 115-150, 158, 163-191, 196-200, 206-222, 230-248, 253-256 |
 | parsons/targetsmart/targetsmart\_smartmatch.py            |       94 |       11 |       26 |       12 |     81% |77, 86, 100, 115, 120, 192, 198, 203, 206, 208->211, 236, 309 |
 | parsons/tools/\_\_init\_\_.py                             |        0 |        0 |        0 |        0 |    100% |           |
@@ -188,6 +188,7 @@
 | parsons/utilities/check\_env.py                           |        9 |        0 |        4 |        0 |    100% |           |
 | parsons/utilities/cloud\_storage.py                       |       10 |        7 |        6 |        0 |     19% |     35-48 |
 | parsons/utilities/datetime.py                             |       26 |        4 |       14 |        2 |     85% |24, 35-37, 66 |
+| parsons/utilities/dbt.py                                  |      142 |      142 |       48 |        0 |      0% |    28-327 |
 | parsons/utilities/files.py                                |      131 |       27 |       40 |        9 |     78% |108, 135, 150-152, 164, 179, 187-190, 204-211, 239, 257, 260, 311, 317-329, 369-370 |
 | parsons/utilities/format\_phone\_number.py                |        9 |        0 |        4 |        0 |    100% |           |
 | parsons/utilities/json\_format.py                         |       24 |        0 |       14 |        1 |     97% |  45->exit |
@@ -197,152 +198,7 @@
 | parsons/utilities/zip\_archive.py                         |       18 |        2 |        4 |        2 |     82% |    25, 30 |
 | parsons/zoom/\_\_init\_\_.py                              |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/zoom/zoom.py                                      |      155 |       31 |       38 |       15 |     75% |72->exit, 78-80, 99-102, 120, 159, 196-198, 212-214, 277->279, 333-334, 344, 364-365, 389-390, 419-420, 446-447, 471-472, 489-490, 507-508 |
-| test/\_\_init\_\_.py                                      |        0 |        0 |        0 |        0 |    100% |           |
-| test/conftest.py                                          |        2 |        0 |        0 |        0 |    100% |           |
-| test/fixtures.py                                          |       12 |        3 |        0 |        0 |     75% |16, 21, 26 |
-| test/responses/ts\_responses.py                           |       11 |        0 |        0 |        0 |    100% |           |
-| test/test\_actblue/test\_actblue.py                       |       44 |        0 |        0 |        0 |    100% |           |
-| test/test\_actblue/test\_columns\_data.py                 |        1 |        0 |        0 |        0 |    100% |           |
-| test/test\_action\_builder/test\_action\_builder.py       |      133 |        0 |        4 |        0 |    100% |           |
-| test/test\_action\_kit.py                                 |      363 |        0 |        0 |        0 |    100% |           |
-| test/test\_action\_network/test\_action\_network.py       |      462 |        4 |        0 |        0 |     99% | 3953-3959 |
-| test/test\_airmeet.py                                     |      153 |        0 |        0 |        0 |    100% |           |
-| test/test\_airtable/airtable\_responses.py                |        8 |        0 |        0 |        0 |    100% |           |
-| test/test\_airtable/test\_airtable.py                     |      101 |        0 |        0 |        0 |    100% |           |
-| test/test\_alchemer/test\_getresponses.py                 |       28 |        0 |        2 |        0 |    100% |           |
-| test/test\_alchemer/test\_getsurveys.py                   |       27 |        0 |        2 |        0 |    100% |           |
-| test/test\_auth0.py                                       |       58 |        0 |        0 |        0 |    100% |           |
-| test/test\_aws\_async.py                                  |       51 |        0 |        2 |        0 |    100% |           |
-| test/test\_azure/test\_azure\_blob\_storage.py            |       81 |       53 |        4 |        0 |     33% |21-32, 36-37, 41-44, 48, 52-66, 70-79, 82-85, 89-92, 96, 102-105, 109-117, 121-123, 126-135, 138-149 |
-| test/test\_bill\_com/test\_bill\_com.py                   |       89 |        0 |        0 |        0 |    100% |           |
-| test/test\_bloomerang/\_\_init\_\_.py                     |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_bloomerang/test\_bloomerang.py                 |      101 |        0 |        0 |        0 |    100% |           |
-| test/test\_bloomerang/test\_data.py                       |       12 |        0 |        0 |        0 |    100% |           |
-| test/test\_box/test\_box\_storage.py                      |      142 |      119 |       12 |        0 |     15% |27, 33-40, 43-44, 48-80, 84-132, 136-173, 176-193, 197-243, 247-289 |
-| test/test\_braintree/\_\_init\_\_.py                      |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_braintree/test\_braintree.py                   |       67 |        0 |        0 |        0 |    100% |           |
-| test/test\_capitol\_canary.py                             |       94 |        0 |        0 |        0 |    100% |           |
-| test/test\_catalist/conftest.py                           |       25 |        0 |        0 |        0 |    100% |           |
-| test/test\_catalist/test\_catalist.py                     |       89 |        0 |        4 |        0 |    100% |           |
-| test/test\_census/test\_census.py                         |       29 |       20 |        0 |        0 |     31% |11, 14, 18-36 |
-| test/test\_civis.py                                       |       22 |       12 |        0 |        0 |     45% |12-23, 27-31, 35, 39-41, 45 |
-| test/test\_community/test\_community.py                   |       23 |        0 |        0 |        0 |    100% |           |
-| test/test\_controlshift/test\_controlshift.py             |       21 |        3 |        0 |        0 |     86% |     13-15 |
-| test/test\_controlshift/test\_cs\_data.py                 |        2 |        0 |        0 |        0 |    100% |           |
-| test/test\_copper/test\_copper.py                         |      149 |        0 |       10 |        0 |    100% |           |
-| test/test\_credential\_tools.py                           |       61 |        1 |        2 |        1 |     97% |       105 |
-| test/test\_crowdtangle/leaderboard.py                     |        1 |        0 |        0 |        0 |    100% |           |
-| test/test\_crowdtangle/link\_post.py                      |        1 |        0 |        0 |        0 |    100% |           |
-| test/test\_crowdtangle/post.py                            |        1 |        0 |        0 |        0 |    100% |           |
-| test/test\_crowdtangle/test\_crowdtangle.py               |       29 |        0 |        0 |        0 |    100% |           |
-| test/test\_databases/\_\_init\_\_.py                      |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_databases/fakes.py                             |       80 |        6 |       18 |        2 |     92% |19, 78, 86, 90, 119-120 |
-| test/test\_databases/test\_bigquery.py                    |      360 |        0 |        4 |        1 |     99% |  620->622 |
-| test/test\_databases/test\_database.py                    |       22 |        0 |        0 |        0 |    100% |           |
-| test/test\_databases/test\_dbsync.py                      |      110 |        4 |        6 |        2 |     95% |34-35, 63-64 |
-| test/test\_databases/test\_discover\_database.py          |       86 |        1 |        2 |        1 |     98% |       103 |
-| test/test\_databases/test\_mysql.py                       |       88 |       39 |        0 |        0 |     56% |13, 17-18, 22-23, 27-29, 32-40, 47-62, 65, 68, 71, 74-75, 78, 81-84, 87-88, 91-92, 95-103, 106-113, 116 |
-| test/test\_databases/test\_postgres.py                    |      117 |       43 |        2 |        1 |     63% |155-173, 177-180, 184-185, 188-199, 203-226, 235-237, 240-244, 248 |
-| test/test\_databases/test\_redshift.py                    |      366 |      211 |        4 |        1 |     42% |182-184, 372-398, 402-409, 413-414, 417-428, 431-432, 436-451, 454-460, 464, 468-492, 496-565, 569-579, 583-594, 598-608, 612-623, 626-644, 648-653, 657-683, 687-696, 699-710, 713-743, 749-755, 759-779, 782-785, 788-794, 798-814, 818-842, 852-888, 897-901, 907-927, 931-946, 949-951, 954-956, 959-972, 975-1003, 1006-1019, 1022-1049, 1052-1059, 1063 |
-| test/test\_donorbox/donorbox\_test\_data.py               |       29 |        0 |        0 |        0 |    100% |           |
-| test/test\_donorbox/test\_donorbox.py                     |      227 |       79 |       12 |        0 |     64% |49-64, 81-85, 102-106, 128-133, 190-231, 237-246, 252-261, 287-292, 318-323, 357-380, 437-453, 459-468, 474-483 |
-| test/test\_empower/dummy\_empower\_data.py                |        1 |        0 |        0 |        0 |    100% |           |
-| test/test\_empower/test\_empower.py                       |       51 |        0 |        0 |        0 |    100% |           |
-| test/test\_etl.py                                         |      437 |        0 |        2 |        0 |    100% |           |
-| test/test\_facebook\_ads.py                               |       58 |        8 |        0 |        0 |     86% |31-33, 38, 42, 45, 56, 60-65 |
-| test/test\_formstack/\_\_init\_\_.py                      |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_formstack/formstack\_json.py                   |        6 |        0 |        0 |        0 |    100% |           |
-| test/test\_formstack/test\_formstack.py                   |       38 |        0 |        0 |        0 |    100% |           |
-| test/test\_freshdesk/\_\_init\_\_.py                      |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_freshdesk/expected\_json.py                    |        6 |        0 |        0 |        0 |    100% |           |
-| test/test\_freshdesk/test\_freshdesk.py                   |       37 |        0 |        0 |        0 |    100% |           |
-| test/test\_geocoder/test\_census\_geocoder.py             |       41 |       27 |        0 |        0 |     34% |15, 18-31, 34-49, 52-65, 69-71 |
-| test/test\_geocoder/test\_responses.py                    |        5 |        0 |        0 |        0 |    100% |           |
-| test/test\_github/\_\_init\_\_.py                         |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_github/test\_github.py                         |       45 |        0 |        0 |        0 |    100% |           |
-| test/test\_gmail/\_\_init\_\_.py                          |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_gmail/test\_gmail.py                           |      248 |        1 |       42 |        1 |     99% |       551 |
-| test/test\_google/googlecivic\_responses.py               |        4 |        0 |        0 |        0 |    100% |           |
-| test/test\_google/test\_google\_admin.py                  |       29 |        0 |        0 |        0 |    100% |           |
-| test/test\_google/test\_google\_cloud\_storage.py         |       58 |       35 |        2 |        0 |     38% |17-26, 30-33, 37-40, 44, 49, 53-55, 58-64, 68-71, 75, 79, 85-87, 90-98, 101-106 |
-| test/test\_google/test\_google\_sheets.py                 |       82 |       61 |        4 |        0 |     24% |14-34, 37-39, 42-43, 46, 50, 55-56, 59, 67-68, 71-95, 100-119, 124-195, 198-209, 214-218 |
-| test/test\_google/test\_googlecivic.py                    |       53 |        0 |        0 |        0 |    100% |           |
-| test/test\_google/test\_utilities.py                      |       60 |        0 |        0 |        0 |    100% |           |
-| test/test\_hustle/expected\_json.py                       |       15 |        0 |        0 |        0 |    100% |           |
-| test/test\_hustle/test\_hustle.py                         |      100 |        0 |        0 |        0 |    100% |           |
-| test/test\_mailchimp/\_\_init\_\_.py                      |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_mailchimp/expected\_json.py                    |        4 |        0 |        0 |        0 |    100% |           |
-| test/test\_mailchimp/test\_mailchimp.py                   |       28 |        0 |        0 |        0 |    100% |           |
-| test/test\_mobilecommons/mobilecommons\_responses.py      |        9 |        0 |        0 |        0 |    100% |           |
-| test/test\_mobilecommons/test\_mobilecommons.py           |       51 |        0 |        0 |        0 |    100% |           |
-| test/test\_mobilize/\_\_init\_\_.py                       |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_mobilize/test\_mobilize\_america.py            |       47 |        0 |        0 |        0 |    100% |           |
-| test/test\_mobilize/test\_mobilize\_json.py               |        5 |        0 |        0 |        0 |    100% |           |
-| test/test\_nation\_builder/\_\_init\_\_.py                |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_nation\_builder/fixtures.py                    |        2 |        0 |        0 |        0 |    100% |           |
-| test/test\_nation\_builder/test\_nation\_builder.py       |      104 |        0 |        4 |        0 |    100% |           |
-| test/test\_newmode/test\_newmode.py                       |      142 |        0 |        0 |        0 |    100% |           |
-| test/test\_newmode/test\_newmode\_data.py                 |        4 |        0 |        0 |        0 |    100% |           |
-| test/test\_p2a.py                                         |       88 |        0 |        0 |        0 |    100% |           |
-| test/test\_pdi/\_\_init\_\_.py                            |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_pdi/conftest.py                                |       18 |        5 |        0 |        0 |     72% |     12-18 |
-| test/test\_pdi/test\_acquisitiontypes.py                  |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_pdi/test\_events.py                            |       31 |       12 |        0 |        0 |     61% |18-20, 25-27, 32-34, 39-43, 48-52, 57-61 |
-| test/test\_pdi/test\_flag\_ids.py                         |       61 |       32 |        2 |        0 |     46% |30-33, 38-48, 59-66, 78-83, 96-98, 111-114, 127-143 |
-| test/test\_pdi/test\_flags.py                             |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_pdi/test\_pdi.py                               |       21 |        1 |        2 |        0 |     96% |        29 |
-| test/test\_pdi/test\_questions.py                         |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_pdi/test\_universes.py                         |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_quickbase/test\_data.py                        |        2 |        0 |        0 |        0 |    100% |           |
-| test/test\_quickbase/test\_quickbase.py                   |       17 |        0 |        0 |        0 |    100% |           |
-| test/test\_quickbooks/test\_quickbookstime.py             |      155 |        0 |        2 |        1 |     99% |    32->35 |
-| test/test\_quickbooks/test\_quickbookstime\_data.py       |        7 |        0 |        0 |        0 |    100% |           |
-| test/test\_redash.py                                      |       75 |        0 |        0 |        0 |    100% |           |
-| test/test\_rockthevote/test\_rtv.py                       |       53 |        0 |        0 |        0 |    100% |           |
-| test/test\_s3.py                                          |      108 |       86 |        4 |        0 |     20% |19-53, 56-57, 62-63, 67-70, 74-88, 91-99, 103-115, 119-127, 132-134, 138-147, 152-181, 184-188 |
-| test/test\_salesforce/test\_salesforce.py                 |       47 |        0 |        0 |        0 |    100% |           |
-| test/test\_scytl/test\_scytl.py                           |      113 |        0 |       10 |        0 |    100% |           |
-| test/test\_sendmail.py                                    |      113 |        1 |        2 |        0 |     99% |        25 |
-| test/test\_sftp.py                                        |      176 |      107 |       20 |        0 |     35% |47-52, 56-59, 63-66, 71-74, 81-127, 145-146, 151-152, 157-158, 163-164, 169-171, 176-178, 183-184, 190-202, 211-213, 217, 221, 226-227, 232-233, 238-239, 244-245, 291-296, 302-306, 311-312, 318-319, 325-329 |
-| test/test\_sftp\_ssh.py                                   |       87 |       48 |        4 |        0 |     43% |28-46, 80-81, 86-89, 94-95, 100-101, 106-108, 113-114, 120-142, 148-169 |
-| test/test\_shopify.py                                     |       48 |        0 |        0 |        0 |    100% |           |
-| test/test\_sisense/\_\_init\_\_.py                        |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_sisense/test\_data.py                          |        4 |        0 |        0 |        0 |    100% |           |
-| test/test\_sisense/test\_sisense.py                       |       28 |        0 |        0 |        0 |    100% |           |
-| test/test\_slack/\_\_init\_\_.py                          |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_slack/test\_slack.py                           |       90 |        0 |        0 |        0 |    100% |           |
-| test/test\_smtp.py                                        |       62 |        0 |        2 |        0 |    100% |           |
-| test/test\_targetsmart/\_\_init\_\_.py                    |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_targetsmart/test\_targetsmart\_api.py          |       54 |        0 |        2 |        0 |    100% |           |
-| test/test\_targetsmart/test\_targetsmart\_automation.py   |       42 |       27 |        0 |        0 |     36% |10-18, 22, 27-34, 39-45, 50-58, 63-70 |
-| test/test\_targetsmart/test\_targetsmart\_smartmatch.py   |       45 |        0 |        0 |        0 |    100% |           |
-| test/test\_turbovote/test\_turbovote.py                   |       25 |        0 |        0 |        0 |    100% |           |
-| test/test\_twilio/test\_twilio.py                         |       42 |        0 |        0 |        0 |    100% |           |
-| test/test\_utilities.py                                   |       89 |        0 |        0 |        0 |    100% |           |
-| test/test\_utilities/test\_format\_phone\_number.py       |       20 |        1 |        2 |        1 |     91% |        33 |
-| test/test\_utilities/test\_ssh\_utilities.py              |       35 |        1 |        2 |        1 |     95% |        67 |
-| test/test\_van/\_\_init\_\_.py                            |        0 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/responses\_people.py                       |        4 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/responses\_printed\_lists.py               |        2 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/test\_activist\_codes.py                   |       36 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/test\_bulkimport.py                        |       91 |        4 |        0 |        0 |     96% |     82-93 |
-| test/test\_van/test\_changed\_entities.py                 |       30 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/test\_codes.py                             |       49 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/test\_contact\_notes.py                    |       19 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/test\_custom\_fields.py                    |       23 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/test\_email.py                             |       56 |        3 |       12 |        2 |     93% | 12-13, 19 |
-| test/test\_van/test\_events.py                            |       34 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/test\_locations.py                         |       34 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/test\_ngpvan.py                            |       79 |        1 |        2 |        1 |     98% |       179 |
-| test/test\_van/test\_people.py                            |      105 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/test\_printed\_lists.py                    |       18 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/test\_saved\_lists.py                      |       72 |        7 |        0 |        0 |     90% |     75-93 |
-| test/test\_van/test\_scores.py                            |       63 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/test\_signups.py                           |       40 |        0 |        0 |        0 |    100% |           |
-| test/test\_van/test\_targets.py                           |       42 |        0 |        0 |        0 |    100% |           |
-| test/test\_zoom.py                                        |      118 |        0 |        0 |        0 |    100% |           |
-| test/utils.py                                             |       23 |        1 |       12 |        1 |     94% |        25 |
-|                                                 **TOTAL** | **18311** | **3854** | **3004** |  **544** | **75%** |           |
+|                                                 **TOTAL** | **10011** | **2925** | **2828** |  **523** | **67%** |           |
 
 
 ## Setup coverage badge

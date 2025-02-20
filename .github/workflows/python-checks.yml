@@ -43,7 +43,7 @@ jobs:
 
             - name: Test with pytest
               run: |
-                coverage run -m pytest
+                pytest
               env:
                   COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}${{ matrix.limited-dependencies }}"
 

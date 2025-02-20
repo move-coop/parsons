@@ -1,5 +1,6 @@
 import unittest
 
+import pytest
 import requests_mock
 
 from parsons import Table, TargetSmartAPI
@@ -45,6 +46,22 @@ class TestTargetSmartAPI(unittest.TestCase):
 
     def tearDown(self):
         pass
+
+    @requests_mock.Mocker()
+    def test_data_search_id_type_not_found(self, m):
+        json = {
+            "input": {"search_id": "IL-12568670", "search_id_type": "invalid_search_id_type"},
+            "error": None,
+            "output": output_list,
+            "output_size": 1,
+            "match_found": True,
+            "gateway_id": "b8c86f27-fb32-11e8-9cc1-45bc340a4d22",
+            "function_id": "b8c98093-fb32-11e8-8b25-e99c70f6fe74",
+        }
+
+        m.get(self.ts.connection.uri + "person/data-enhance", json=json)
+
+        pytest.raises(ValueError, match="Search_id_type is not valid")
 
     @requests_mock.Mocker()
     def test_data_enhance(self, m):
@@ -154,15 +171,44 @@ class TestTargetSmartAPI(unittest.TestCase):
         # Assert response is expected structure
         def rad_search():
             return self.ts.radius_search(
-                "BILLY",
-                "Burchard",
+                first_name="BILLY",
+                last_name="Burchard",
                 radius_size=100,
                 address="908 N Washtenaw, Chicago, IL",
             )
 
         self.assertTrue(validate_list(expected, rad_search()))
 
+    def test_rad_search_no_first_name(self):
+        with self.assertRaisesRegex(ValueError, "First name is required"):
+            self.ts.radius_search(
+                first_name=None,
+                last_name="Burchard",
+                radius_size=100,
+                address="908 N Washtenaw, Chicago, IL",
+            )
+
+    def test_rad_search_no_last_name(self):
+        with self.assertRaisesRegex(ValueError, "Last name is required"):
+            self.ts.radius_search(
+                first_name="BILLY",
+                last_name=None,
+                radius_size=100,
+                address="908 N Washtenaw, Chicago, IL",
+            )
+
+    # Assert response is expected structure
+    def test_rad_search_no_address_or_latlon(self):
+        with self.assertRaisesRegex(ValueError, "Lat/Long or Address required"):
+            self.ts.radius_search(
+                first_name="BILLY",
+                last_name="Burchard",
+                radius_size=100,
+                address=None,
+            )
+
     def test_district_args(self):
+        self.assertRaises(KeyError, self.ts.district, search_type="invalid_search_type")
         self.assertRaises(ValueError, self.ts.district, search_type="address")
         self.assertRaises(ValueError, self.ts.district, search_type="zip", zip4=9)
         self.assertRaises(ValueError, self.ts.district, search_type="zip", zip5=0)

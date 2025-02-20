@@ -3,6 +3,7 @@ import email
 import json
 import os
 import shutil
+import tempfile
 import unittest
 
 import requests_mock
@@ -15,11 +16,9 @@ _dir = os.path.dirname(__file__)
 class TestGmail(unittest.TestCase):
     @requests_mock.Mocker()
     def setUp(self, m):
-        self.tmp_folder = "tmp/"
+        self.tmp_folder = tempfile.mkdtemp()
         self.credentials_file = f"{self.tmp_folder}/credentials.json"
         self.token_file = f"{self.tmp_folder}/token.json"
-
-        os.mkdir(self.tmp_folder)
 
         with open(self.credentials_file, "w") as f:
             f.write(

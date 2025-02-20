@@ -96,7 +96,10 @@ class Zoom:
             Parsons Table
         """
         if version == 2:
-            return Table(table.unpack_list(column=column))
+            if column in table.columns:
+                return Table(table.unpack_list(column=column))
+            else:
+                return table
 
         return Table(table.unpack_list(column=column)).unpack_dict(
             column=f"{column}_0", prepend_value=f"{column}_"
@@ -470,7 +473,7 @@ class Zoom:
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
 
-        return self.__handle_nested_json(table=tbl, column="prompts", version=version)
+        return self.__handle_nested_json(table=tbl, column="question_details", version=version)
 
     def get_meeting_poll_results(self, meeting_id) -> Table:
         """

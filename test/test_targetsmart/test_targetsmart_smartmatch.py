@@ -1,7 +1,8 @@
 import csv
 import gzip
 import io
-import sys
+import pathlib
+import tempfile
 
 import petl
 import pytest
@@ -72,8 +73,7 @@ def submit_filename():
     return "parsons_test.csv"
 
 
-@pytest.mark.skipif(sys.platform == "win32", reason="need to fix this test on windows")
-def test_smartmatch(
+def test_smartmatch_returned_petl(
     intable,
     submit_filename,
     raw_outgz,
@@ -92,3 +92,113 @@ def test_smartmatch(
 
     results = ts.smartmatch(intable).to_petl()
     assert list(final_outtable) == list(results)
+
+
+def test_smartmatch_output_csv_exists(
+    intable,
+    submit_filename,
+    raw_outgz,
+    raw_outcsv,
+    raw_outtable,
+    final_outtable,
+    requests_mock,
+):
+    ts = TargetSmartAPI("mockkey")
+    resp1 = {"url": "https://mock_smartmatch_upload_endpoint", "error": None}
+    poll_resp = {"url": "https://mock_smartmatch_download_endpoint", "error": None}
+    requests_mock.get("https://api.targetsmart.com/service/smartmatch", json=resp1)
+    requests_mock.put(resp1["url"])
+    requests_mock.get("https://api.targetsmart.com/service/smartmatch/poll", json=poll_resp)
+    requests_mock.get(poll_resp["url"], content=raw_outgz)
+
+    temp_dir = tempfile.mkdtemp()
+    ts.smartmatch(intable, tmp_location=temp_dir)
+    assert sorted(pathlib.Path(temp_dir).glob("smartmatch_output*.csv")) != []
+
+
+def test_smartmatch_keep_smartmatch_input_csv(
+    intable,
+    submit_filename,
+    raw_outgz,
+    raw_outcsv,
+    raw_outtable,
+    final_outtable,
+    requests_mock,
+):
+    ts = TargetSmartAPI("mockkey")
+    resp1 = {"url": "https://mock_smartmatch_upload_endpoint", "error": None}
+    poll_resp = {"url": "https://mock_smartmatch_download_endpoint", "error": None}
+    requests_mock.get("https://api.targetsmart.com/service/smartmatch", json=resp1)
+    requests_mock.put(resp1["url"])
+    requests_mock.get("https://api.targetsmart.com/service/smartmatch/poll", json=poll_resp)
+    requests_mock.get(poll_resp["url"], content=raw_outgz)
+
+    temp_dir = tempfile.mkdtemp()
+    ts.smartmatch(intable, tmp_location=temp_dir, keep_smartmatch_input_file=True)
+    assert sorted(pathlib.Path(temp_dir).glob("smartmatch_input*.csv")) != []
+
+
+def test_smartmatch_keep_smartmatch_input_csv_false(
+    intable,
+    submit_filename,
+    raw_outgz,
+    raw_outcsv,
+    raw_outtable,
+    final_outtable,
+    requests_mock,
+):
+    ts = TargetSmartAPI("mockkey")
+    resp1 = {"url": "https://mock_smartmatch_upload_endpoint", "error": None}
+    poll_resp = {"url": "https://mock_smartmatch_download_endpoint", "error": None}
+    requests_mock.get("https://api.targetsmart.com/service/smartmatch", json=resp1)
+    requests_mock.put(resp1["url"])
+    requests_mock.get("https://api.targetsmart.com/service/smartmatch/poll", json=poll_resp)
+    requests_mock.get(poll_resp["url"], content=raw_outgz)
+
+    temp_dir = tempfile.mkdtemp()
+    ts.smartmatch(intable, tmp_location=temp_dir, keep_smartmatch_input_file=False)
+    assert sorted(pathlib.Path(temp_dir).glob("smartmatch_input*.csv")) == []
+
+
+def test_smartmatch_keep_smartmatch_output_gz(
+    intable,
+    submit_filename,
+    raw_outgz,
+    raw_outcsv,
+    raw_outtable,
+    final_outtable,
+    requests_mock,
+):
+    ts = TargetSmartAPI("mockkey")
+    resp1 = {"url": "https://mock_smartmatch_upload_endpoint", "error": None}
+    poll_resp = {"url": "https://mock_smartmatch_download_endpoint", "error": None}
+    requests_mock.get("https://api.targetsmart.com/service/smartmatch", json=resp1)
+    requests_mock.put(resp1["url"])
+    requests_mock.get("https://api.targetsmart.com/service/smartmatch/poll", json=poll_resp)
+    requests_mock.get(poll_resp["url"], content=raw_outgz)
+
+    temp_dir = tempfile.mkdtemp()
+    ts.smartmatch(intable, tmp_location=temp_dir, keep_smartmatch_output_gz_file=True)
+    assert sorted(pathlib.Path(temp_dir).glob("smartmatch_output*.csv.gz")) != []
+
+
+def test_smartmatch_keep_smartmatch_output_gz_false(
+    intable,
+    submit_filename,
+    raw_outgz,
+    raw_outcsv,
+    raw_outtable,
+    final_outtable,
+    requests_mock,
+):
+    ts = TargetSmartAPI("mockkey")
+    resp1 = {"url": "https://mock_smartmatch_upload_endpoint", "error": None}
+    poll_resp = {"url": "https://mock_smartmatch_download_endpoint", "error": None}
+    requests_mock.get("https://api.targetsmart.com/service/smartmatch", json=resp1)
+    requests_mock.put(resp1["url"])
+    requests_mock.get("https://api.targetsmart.com/service/smartmatch/poll", json=poll_resp)
+    requests_mock.get(poll_resp["url"], content=raw_outgz)
+
+    temp_dir = tempfile.mkdtemp()
+    ts.smartmatch(intable, tmp_location=temp_dir, keep_smartmatch_output_gz_file=False)
+    assert sorted(pathlib.Path(temp_dir).glob("smartmatch_output*.csv.gz")) == []

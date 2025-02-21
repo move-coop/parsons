@@ -119,6 +119,7 @@ class CatalistMatch:
         input_subfolder: Optional[str] = None,
         copy_to_sandbox: bool = False,
         static_values: Optional[Dict[str, Union[str, int]]] = None,
+        wait: int = 30,
     ) -> Table:
         """Load table to the Catalist Match API, returns matched table.
 
@@ -144,6 +145,8 @@ class CatalistMatch:
                   Defaults to False.
              static_values: dict
                   Optional. Any included values are mapped to every row of the input table.
+             wait: int
+                  Seconds to poll, defaults to 30.
         """
         response = self.upload(
             table=table,
@@ -154,7 +157,7 @@ class CatalistMatch:
             copy_to_sandbox=copy_to_sandbox,
             static_values=static_values,
         )
-        result = self.await_completion(response["id"])
+        result = self.await_completion(response["id"], wait=wait)
         return result
 
     def upload(

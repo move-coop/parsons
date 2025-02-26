@@ -1,5 +1,5 @@
 import logging
-
+import json
 from Newmode import Client
 
 from parsons.etl import Table
@@ -427,7 +427,6 @@ class NewmodeV2:
             client=client,
             override_api_version=override_api_version,
         )
-
         if convert_to_table:
             return client.convert_to_table(data=response)
         else:
@@ -574,7 +573,8 @@ class NewmodeV2:
         """
         params = {"action": campaign_id}
         response = self.converted_request(endpoint="submission", method="GET", params=params)
-        return response
+        response_converted = response.convert_column("data", json.dumps)
+        return response_converted
 
 
 class Newmode:

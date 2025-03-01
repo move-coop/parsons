@@ -54,6 +54,7 @@ select = [
     "ICN", # flake8-import-conventions (ICN)
     "Q", # flake8-quotes (Q)
     "TC", # flake8-type-checking (TC)
+    "ISC", # flake8-implicit-str-concat (ISC)
 ]
 ignore = [
     "E501", # line-too-long (E501)

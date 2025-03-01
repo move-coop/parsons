@@ -50,6 +50,7 @@ select = [
     "E", # pycodestyle errors
     "F", # Pyflakes (F)
     "I", # isort (I)
+    "TID", # flake8-tidy-imports (TID)
 ]
 ignore = [
     "E501", # line-too-long (E501)

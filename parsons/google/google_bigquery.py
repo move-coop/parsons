@@ -1016,7 +1016,7 @@ class GoogleBigQuery(DatabaseConnector):
                 raise ValueError("Primary key column contains duplicate values.")
 
         noise = f"{random.randrange(0, 10000):04}"[:4]
-        date_stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+        date_stamp = datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y%m%d_%H%M")
         # Generate a temp table like "table_tmp_20200210_1230_14212"
         staging_tbl = f"{target_table}_stg_{date_stamp}_{noise}"
 

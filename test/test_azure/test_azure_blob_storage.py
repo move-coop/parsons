@@ -1,6 +1,6 @@
+import datetime
 import os
 import unittest
-from datetime import datetime
 from urllib.parse import parse_qs, urlparse
 
 from azure.storage.blob import BlobClient, ContainerClient
@@ -52,7 +52,7 @@ class TestAzureBlobStorage(unittest.TestCase):
         self.assertTrue(self.azure_blob.container_exists(TEST_CONTAINER_NAME))
 
         # Add current datetime microseconds for randomness to avoid intermittent failures
-        dt_microseconds = datetime.now().isoformat()[-6:]
+        dt_microseconds = datetime.datetime.now(tz=datetime.timezone.utc).isoformat()[-6:]
         create_container_name = f"{TEST_CONTAINER_NAME}create{dt_microseconds}"
 
         # Create a new container with metadata, assert that it is included
@@ -67,7 +67,7 @@ class TestAzureBlobStorage(unittest.TestCase):
 
     def test_delete_container(self):
         # Add current datetime microseconds for randomness to avoid intermittent failures
-        dt_microseconds = datetime.now().isoformat()[-6:]
+        dt_microseconds = datetime.datetime.now(tz=datetime.timezone.utc).isoformat()[-6:]
         delete_container_name = f"{TEST_CONTAINER_NAME}delete{dt_microseconds}"
 
         # Create an additional container, assert that it exists

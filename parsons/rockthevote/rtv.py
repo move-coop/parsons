@@ -165,12 +165,14 @@ class RockTheVote:
 
         # Let's figure out at what time should we just give up because we waited
         # too long
-        end_time = datetime.datetime.now() + datetime.timedelta(seconds=report_timeout_seconds)
+        end_time = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(
+            seconds=report_timeout_seconds
+        )
 
         # If we have a download URL, we can move on and just download the
         # report. Otherwise, as long as we haven't run out of time, we will
         # check the status.
-        while not download_url and datetime.datetime.now() < end_time:
+        while not download_url and datetime.datetime.now(tz=datetime.timezone.utc) < end_time:
             logger.debug(
                 f"Registrations report not ready yet, sleeping {poll_interval_seconds} seconds"
             )

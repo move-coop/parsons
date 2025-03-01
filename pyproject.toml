@@ -52,6 +52,7 @@ select = [
     "I", # isort (I)
     "TID", # flake8-tidy-imports (TID)
     "ICN", # flake8-import-conventions (ICN)
+    "Q", # flake8-quotes (Q)
 ]
 ignore = [
     "E501", # line-too-long (E501)

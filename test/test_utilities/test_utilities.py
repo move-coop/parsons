@@ -11,7 +11,6 @@ import pytest
 from parsons import Table
 from parsons.utilities import check_env, files, json_format, sql_helpers
 from parsons.utilities.datetime import date_to_timestamp, parse_date
-from test.conftest import xfail_value_error
 
 
 @pytest.mark.parametrize(
@@ -20,7 +19,9 @@ from test.conftest import xfail_value_error
         pytest.param("2018-12-13", 1544659200),
         pytest.param("2018-12-13T00:00:00-08:00", 1544688000),
         pytest.param("", None),
-        pytest.param("2018-12-13 PST", None, marks=[xfail_value_error]),
+        pytest.param(
+            "2018-12-13 PST", None, marks=[pytest.mark.xfail(raises=ValueError, strict=True)]
+        ),
     ],
 )
 def test_date_to_timestamp(date, exp_ts):
@@ -132,10 +133,10 @@ def test_remove_empty_keys():
 
 def test_redact_credentials():
     # Test with quotes, escape characters, and line breaks
-    test_str = """COPY schema.tablename
+    test_str = r"""COPY schema.tablename
     FROM 's3://bucket/path/to/file.csv'
-    credentials  'aws_access_key_id=string-\\'escaped-quote;
-    aws_secret_access_key='string-escape-char\\\\'
+    credentials  'aws_access_key_id=string-\'escaped-quote;
+    aws_secret_access_key='string-escape-char\\'
     MANIFEST"""
 
     test_result = """COPY schema.tablename

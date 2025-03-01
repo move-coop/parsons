@@ -105,7 +105,7 @@ class TestNGPVAN(unittest.TestCase):
 
         m.get(self.van.connection.uri + "supporterGroups", json=json)
 
-        ["id", "name", "description"]
+        ["id", "name", "description"]  # noqa: B018
 
         self.van.get_supporter_groups()
 

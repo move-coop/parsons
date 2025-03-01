@@ -155,15 +155,17 @@ class GoogleBigQuery(DatabaseConnector):
         app_creds: Optional[Union[str, dict, Credentials]] = None,
         project=None,
         location=None,
-        client_options: dict = {
-            "scopes": [
-                "https://www.googleapis.com/auth/drive",
-                "https://www.googleapis.com/auth/bigquery",
-                "https://www.googleapis.com/auth/cloud-platform",
-            ]
-        },
+        client_options: dict = None,
         tmp_gcs_bucket: Optional[str] = None,
     ):
+        if client_options is None:
+            client_options = {
+                "scopes": [
+                    "https://www.googleapis.com/auth/drive",
+                    "https://www.googleapis.com/auth/bigquery",
+                    "https://www.googleapis.com/auth/cloud-platform",
+                ]
+            }
         self.app_creds = app_creds
 
         if isinstance(app_creds, Credentials):
@@ -861,7 +863,7 @@ class GoogleBigQuery(DatabaseConnector):
                 if "dict" in field["type"]:
                     new_petl = tbl.table.addfield(
                         field["name"] + "_replace",
-                        lambda row: json.dumps(row[field["name"]]),
+                        lambda row: json.dumps(row[field["name"]]),  # noqa: B023
                     )
                     new_tbl = Table(new_petl)
                     new_tbl.remove_column(field["name"])
@@ -891,8 +893,10 @@ class GoogleBigQuery(DatabaseConnector):
         for column in tbl.columns:
             try:
                 schema_row = [i for i in job_config.schema if i.name.lower() == column.lower()][0]
-            except IndexError:
-                raise IndexError(f"Column found in Table that was not found in schema: {column}")
+            except IndexError as e:
+                raise IndexError(
+                    f"Column found in Table that was not found in schema: {column}"
+                ) from e
             schema.append(schema_row)
         job_config.schema = schema
 

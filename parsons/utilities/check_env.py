@@ -10,9 +10,9 @@ def check(env, field, optional=False):
     if not field:
         try:
             return os.environ[env]
-        except KeyError:
+        except KeyError as e:
             if not optional:
                 raise KeyError(
                     f"No {env} found. Store as environment variable or pass as an argument."
-                )
+                ) from e
     return field

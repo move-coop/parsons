@@ -108,7 +108,7 @@ class PostgresCreateStatement(DatabaseCreateStatement):
         cont = petl.records(table.table)
 
         # Populate empty values for the columns
-        for col in table.columns:
+        for _col in table.columns:
             longest.append(0)
             type_list.append("")
 

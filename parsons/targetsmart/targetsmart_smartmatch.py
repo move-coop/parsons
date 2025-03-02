@@ -11,6 +11,7 @@ import shutil
 import tempfile
 import time
 import uuid
+from pathlib import Path
 
 import petl
 import requests
@@ -54,7 +55,7 @@ class SmartMatchError(Exception):
 
 def _smartmatch_upload(url, fname):
     logger.info(f"Uploading {fname} to {url} to begin SmartMatch workflow execution.")
-    with open(fname, "rb") as reader:
+    with Path(fname).open(mode="rb") as reader:
         response_2 = requests.put(url, data=reader, headers={"Content-Type": ""})
 
     response_2.raise_for_status()

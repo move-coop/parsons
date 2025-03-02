@@ -1,4 +1,3 @@
-import os
 import shutil
 import tempfile
 import unittest
@@ -149,12 +148,11 @@ class TestParsonsTable(unittest.TestCase):
             "</tbody>\n"
             "</table>\n"
         )
-        with open(html_file, "r") as f:
-            self.assertEqual(f.read(), html)
+        self.assertEqual(Path(html_file).read_text(), html)
 
     def test_to_temp_html(self):
         # Test write to object
-        path = self.tbl.to_html()
+        path = Path(self.tbl.to_html())
 
         # Written correctly
         html = (
@@ -173,8 +171,7 @@ class TestParsonsTable(unittest.TestCase):
             "</tbody>\n"
             "</table>\n"
         )
-        with open(path, "r") as f:
-            self.assertEqual(f.read(), html)
+        self.assertEqual(path.read_text(), html)
 
     def _assert_expected_csv(self, path, orig_tbl):
         result_tbl = Table.from_csv(path)
@@ -203,8 +200,7 @@ class TestParsonsTable(unittest.TestCase):
     def test_from_csv_string(self):
         path = self.tbl.to_csv()
         # Pull the file into a string
-        with open(path, "r") as f:
-            csv_string = f.read()
+        csv_string = Path(path).read_text()
 
         result_tbl = Table.from_csv_string(csv_string)
         assert_matching_tables(self.tbl, result_tbl)
@@ -222,24 +218,25 @@ class TestParsonsTable(unittest.TestCase):
     def test_from_csv_raises_on_empty_file(self):
         # Create empty file
         with TemporaryDirectory() as tempdir:
-            path = str(Path(tempdir) / "empty.csv")
-            open(path, "a").close()
+            path = Path(tempdir) / "empty.csv"
+            path.open(mode="a").close()
 
-            self.assertRaises(ValueError, Table.from_csv, path)
+            self.assertRaises(ValueError, Table.from_csv, str(path))
 
     def test_to_csv_zip(self):
+        my_zip = "myzip.zip"
         try:
             # Test using the to_csv() method
-            self.tbl.to_csv("myzip.zip")
-            tmp = zip_archive.unzip_archive("myzip.zip")
+            self.tbl.to_csv(my_zip)
+            tmp = zip_archive.unzip_archive(my_zip)
             assert_matching_tables(self.tbl, Table.from_csv(tmp))
 
             # Test using the to_csv_zip() method
-            self.tbl.to_zip_csv("myzip.zip")
-            tmp = zip_archive.unzip_archive("myzip.zip")
+            self.tbl.to_zip_csv(my_zip)
+            tmp = zip_archive.unzip_archive(my_zip)
             assert_matching_tables(self.tbl, Table.from_csv(tmp))
         finally:
-            os.unlink("myzip.zip")
+            Path(my_zip).unlink()
 
     def test_to_civis(self):
         # Not really sure the best way to do this at the moment.

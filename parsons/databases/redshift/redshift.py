@@ -5,6 +5,7 @@ import os
 import pickle
 import random
 from contextlib import contextmanager
+from pathlib import Path
 from typing import List, Optional
 
 import petl
@@ -243,7 +244,7 @@ class Redshift(
 
                 temp_file = files.create_temp_file()
 
-                with open(temp_file, "wb") as f:
+                with Path(temp_file).open(mode="wb") as f:
                     # Grab the header
                     header = [i[0] for i in cursor.description]
                     pickle.dump(header, f)
@@ -949,7 +950,7 @@ class Redshift(
         if manifest_key and manifest_bucket:
             # Dump the manifest to a temp JSON file
             manifest_path = files.create_temp_file()
-            with open(manifest_path, "w") as manifest_file_obj:
+            with Path(manifest_path).open(mode="w") as manifest_file_obj:
                 json.dump(manifest, manifest_file_obj, sort_keys=True, indent=4)
 
             # Upload the file to S3

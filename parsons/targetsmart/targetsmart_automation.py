@@ -24,6 +24,7 @@ solution. See `TargetSmartAPI.smartmatch`.
 import logging
 import time
 import uuid
+from pathlib import Path
 
 import defusedxml.ElementTree as ET
 import xmltodict
@@ -232,7 +233,7 @@ class TargetSmartAutomation(object):
             for file_name in self.sftp.list_directory(remote_path=self.sftp_dir):
                 if file_name == f"{job_name}.finish.xml":
                     xml_file = self.sftp.get_file(f"{self.sftp_dir}/{job_name}.finish.xml")
-                    with open(xml_file, "rb") as x:
+                    with Path(xml_file).open(mode="rb") as x:
                         xml = xmltodict.parse(x, dict_constructor=dict)
 
                     if xml["jobcontext"]["state"] == "error":

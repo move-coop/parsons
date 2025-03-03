@@ -108,7 +108,7 @@ class NationBuilder:
                     url = NationBuilder.make_next_url(original_url, nonce, token)
                 else:
                     break
-            except Exception as error:
+            except Exception as error:  # noqa: BLE001
                 logging.error("error requesting data from Nation Builder: %s" % error)
 
                 wait_time = 30

@@ -254,7 +254,7 @@ def process_task_portion(
     if catch:
         try:
             func(table, **func_kwargs)
-        except Exception:
+        except Exception:  # noqa: BLE001
             # In Lambda you can search for '"Distribute Error"' in the logs
             type_, value_, traceback_ = sys.exc_info()
             err_traceback_str = "\n".join(traceback.format_exception(type_, value_, traceback_))

@@ -57,6 +57,6 @@ else:
         table_name = f"schema.{x.replace('.csv', '')}"
         try:
             table.to_redshift(table_name, if_exists="truncate")
-        except Exception:
+        except Exception:  # noqa: BLE001
             table.to_redshift(table_name, if_exists="drop")
         utilities.files.close_temp_file(file)

@@ -32,7 +32,7 @@ jobs:
                   python-version: ${{ matrix.python-version }}
 
             - name: Install uv
-              uses: install-pinned/uv@38b64e5163d282de39747ac8bd68c16f1d822bb6  # 0.4.12
+              uses: install-pinned/uv@d3fff9b303be8900fb9f63010b42aacb58fc2659  # 0.4.12
 
             - name: Install dependencies
               env:
@@ -66,7 +66,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@38b64e5163d282de39747ac8bd68c16f1d822bb6  # 0.4.12
+              uses: install-pinned/uv@d3fff9b303be8900fb9f63010b42aacb58fc2659  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -88,7 +88,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@38b64e5163d282de39747ac8bd68c16f1d822bb6  # 0.4.12
+              uses: install-pinned/uv@d3fff9b303be8900fb9f63010b42aacb58fc2659  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -110,7 +110,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@38b64e5163d282de39747ac8bd68c16f1d822bb6  # 0.4.12
+              uses: install-pinned/uv@d3fff9b303be8900fb9f63010b42aacb58fc2659  # 0.4.12
 
             - name: Install bandit
               run: |

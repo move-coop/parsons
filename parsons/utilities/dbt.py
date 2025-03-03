@@ -193,10 +193,7 @@ class dbtLogger:
                 logger.info(log_message)
 
         done_messages = [i for i in log_messages if "Done. PASS" in i]
-        if done_messages:
-            done_message = done_messages[0]
-        else:
-            done_message = ""
+        done_message = done_messages[0] if done_messages else ""
 
         self.record_result(command_str, error_messages, warn_messages, skip_messages, done_message)
 

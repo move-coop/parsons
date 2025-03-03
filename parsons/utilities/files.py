@@ -1,3 +1,4 @@
+import contextlib
 import errno
 import gzip
 import os
@@ -184,10 +185,7 @@ def compression_type_for_path(path):
 def valid_table_suffix(path):
     # Checks if the suffix is valid for conversions to a Parsons table.
 
-    if is_csv_path(path) or is_gzip_path(path) or is_zip_path(path):
-        return True
-    else:
-        return False
+    return bool(is_csv_path(path) or is_gzip_path(path) or is_zip_path(path))
 
 
 def read_file(path):
@@ -231,15 +229,10 @@ def zip_check(file_path, compression_type):
     a zip file.
     """
 
-    if file_path:
-        if file_path.split("/")[-1].split(".")[-1] == "zip":
-            return True
-
-    if compression_type == "zip":
+    if file_path and file_path.split("/")[-1].split(".")[-1] == "zip":
         return True
 
-    else:
-        return False
+    return compression_type == "zip"
 
 
 def extract_file_name(file_path=None, include_suffix=True):
@@ -274,11 +267,7 @@ def has_data(file_path):
             ``True`` if data in the file and ``False`` if not.
     """
 
-    if os.stat(file_path).st_size == 0:
-        return False
-
-    else:
-        return True
+    return os.stat(file_path).st_size != 0
 
 
 def generate_tempfile(suffix=None, create=False):
@@ -364,10 +353,8 @@ class TempDirectory:
         """
         # Only try to unlink if we have a valid file path and we haven't yet called close.
         if self.name and not self.remove_called:
-            try:
+            with contextlib.suppress(FileNotFoundError):
                 cleanup(self.name)
-            except FileNotFoundError:
-                pass  # if the file isn't found, our work is done
 
         self.remove_called = True
 
@@ -417,9 +404,7 @@ class TempFile:
         """
         # Only try to unlink if we have a valid file path and we haven't yet called close.
         if self.name and not self.remove_called:
-            try:
+            with contextlib.suppress(FileNotFoundError):
                 unlink(self.name)
-            except FileNotFoundError:
-                pass  # if the file isn't found, our work is done
 
         self.remove_called = True

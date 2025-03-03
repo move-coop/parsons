@@ -67,11 +67,10 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
         util.setup_google_application_credentials(None, self.TEST_ENV_NAME)
         snd = os.environ[self.TEST_ENV_NAME]
 
-        with open(fst, "r") as ffst:
-            with open(snd, "r") as fsnd:
-                actual = fsnd.read()
-                self.assertEqual(self.cred_contents, json.loads(actual))
-                self.assertEqual(ffst.read(), actual)
+        with open(fst, "r") as ffst, open(snd, "r") as fsnd:
+            actual = fsnd.read()
+            self.assertEqual(self.cred_contents, json.loads(actual))
+            self.assertEqual(ffst.read(), actual)
 
 
 class TestHexavigesimal(unittest.TestCase):

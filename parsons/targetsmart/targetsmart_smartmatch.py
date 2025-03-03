@@ -266,46 +266,44 @@ class SmartMatch:
 
         # Download SmartMatch .csv.gz results, decompress, and Petl table wrap.
         # The final tmp file cannot be deleted due to Petl tables being lazy.
-        with tempfile.NamedTemporaryFile(
-            prefix="smartmatch_output",
-            suffix=".csv.gz",
-            dir=tmp_location,
-            delete=not keep_smartmatch_output_gz_file,
-        ) as tmp_gz:
-            with tempfile.NamedTemporaryFile(
+        with (
+            tempfile.NamedTemporaryFile(
+                prefix="smartmatch_output",
+                suffix=".csv.gz",
+                dir=tmp_location,
+                delete=not keep_smartmatch_output_gz_file,
+            ) as tmp_gz,
+            tempfile.NamedTemporaryFile(
                 prefix="smartmatch_output",
                 suffix=".csv",
                 dir=tmp_location,
                 delete=False,
-            ) as tmp_csv:
-                logger.info(
-                    f"Downloading the '{submit_filename}' SmartMatch results to {tmp_gz.name}."
-                )
-                _smartmatch_download(download_url, tmp_gz)
-                tmp_gz.flush()
+            ) as tmp_csv,
+        ):
+            logger.info(f"Downloading the '{submit_filename}' SmartMatch results to {tmp_gz.name}.")
+            _smartmatch_download(download_url, tmp_gz)
+            tmp_gz.flush()
 
-                logger.info("Decompressing results")
-                with gzip.open(tmp_gz.name, "rb") as gz_reader:
-                    shutil.copyfileobj(gz_reader, tmp_csv)
-                tmp_csv.flush()
+            logger.info("Decompressing results")
+            with gzip.open(tmp_gz.name, "rb") as gz_reader:
+                shutil.copyfileobj(gz_reader, tmp_csv)
+            tmp_csv.flush()
 
-                raw_outtable = petl.fromcsv(tmp_csv.name, encoding="utf8").convert(
-                    INTERNAL_JOIN_ID, int
+            raw_outtable = petl.fromcsv(tmp_csv.name, encoding="utf8").convert(
+                INTERNAL_JOIN_ID, int
+            )
+            logger.info("SmartMatch remote execution successful. Joining results to input table.")
+            outtable = (
+                petl.leftjoin(
+                    input_table,
+                    raw_outtable,
+                    key=INTERNAL_JOIN_ID,
+                    tempdir=tmp_location,
                 )
-                logger.info(
-                    "SmartMatch remote execution successful. Joining results to input table."
-                )
-                outtable = (
-                    petl.leftjoin(
-                        input_table,
-                        raw_outtable,
-                        key=INTERNAL_JOIN_ID,
-                        tempdir=tmp_location,
-                    )
-                    .sort(key=INTERNAL_JOIN_ID)
-                    .cutout(INTERNAL_JOIN_ID)
-                )
-                if INTERNAL_JOIN_ID_CONFLICT in input_table.fieldnames():
-                    input_table = input_table.rename(INTERNAL_JOIN_ID_CONFLICT, INTERNAL_JOIN_ID)
+                .sort(key=INTERNAL_JOIN_ID)
+                .cutout(INTERNAL_JOIN_ID)
+            )
+            if INTERNAL_JOIN_ID_CONFLICT in input_table.fieldnames():
+                input_table = input_table.rename(INTERNAL_JOIN_ID_CONFLICT, INTERNAL_JOIN_ID)
 
-                return Table(outtable)
+            return Table(outtable)

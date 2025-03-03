@@ -81,7 +81,7 @@ class Hustle(object):
         self._error_check(r, raise_on_error)
 
         # If a single item return the dict
-        if "items" not in r.json().keys():
+        if "items" not in r.json():
             return r.json()
 
         else:

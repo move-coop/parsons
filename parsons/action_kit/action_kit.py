@@ -85,7 +85,7 @@ class ActionKit(object):
         # AK provides some pretty robust/helpful error reporting. We should surface them with
         # our exceptions.
 
-        if "errors" in resp.json().keys():
+        if "errors" in resp.json():
             if isinstance(resp.json()["errors"], list):
                 exception_message += "\n" + ",".join(resp.json()["errors"])
             else:
@@ -1359,7 +1359,7 @@ class ActionKit(object):
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({"accepts": "application/json"})
         if isinstance(csv_file, str):
-            csv_file = open(csv_file, "rb")
+            csv_file = open(csv_file, "rb")  # noqa: SIM115
 
         url = self._base_endpoint("upload")
         files = {"upload": csv_file}

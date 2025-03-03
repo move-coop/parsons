@@ -343,10 +343,7 @@ class ETL(object):
         """
 
         for col in self.columns:
-            if not exact_match:
-                cleaned_col = col.lower().replace("_", "").replace(" ", "")
-            else:
-                cleaned_col = col
+            cleaned_col = col.lower().replace("_", "").replace(" ", "") if not exact_match else col
 
             for k, v in column_map.items():
                 for i in v:

@@ -279,15 +279,17 @@ class dbtLoggerDatabase(dbtLogger, ABC):
         self.commands = manifests
         runs_tbl, nodes_tbl = self.format_result()
 
-        self.db_connector.copy(
-            runs_tbl,
-            self.destination_table_runs,
-            if_exists="append",
-            **self.copy_kwargs,
-        )
-        self.db_connector.copy(
-            nodes_tbl,
-            self.destination_table_nodes,
-            if_exists="append",
-            **self.copy_kwargs,
-        )
+        if len(runs_tbl):
+            self.db_connector.copy(
+                runs_tbl,
+                self.destination_table_runs,
+                if_exists="append",
+                **self.copy_kwargs,
+            )
+        if len(nodes_tbl):
+            self.db_connector.copy(
+                nodes_tbl,
+                self.destination_table_nodes,
+                if_exists="append",
+                **self.copy_kwargs,
+            )

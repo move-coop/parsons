@@ -1,5 +1,5 @@
 # Testing Requirements
-bandit[toml]==1.8.2
+bandit[toml]==1.8.3
 coverage==7.6.12
 pytest-cov==6.0.0
 pytest-datadir==1.5.0

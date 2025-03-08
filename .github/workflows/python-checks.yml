@@ -2,6 +2,7 @@ name: Python checks
 
 on:
     push:
+        branches: ["main", "major-release"]
     pull_request:
     workflow_dispatch:
 
@@ -31,7 +32,7 @@ jobs:
                   python-version: ${{ matrix.python-version }}
 
             - name: Install uv
-              uses: install-pinned/uv@e68f239fe6e826a25a266f6177aae2bb89c6227f  # 0.4.12
+              uses: install-pinned/uv@38b64e5163d282de39747ac8bd68c16f1d822bb6  # 0.4.12
 
             - name: Install dependencies
               env:
@@ -42,7 +43,7 @@ jobs:
 
             - name: Test with pytest
               run: |
-                coverage run -m pytest
+                pytest
               env:
                   COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}${{ matrix.limited-dependencies }}"
 
@@ -65,7 +66,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@e68f239fe6e826a25a266f6177aae2bb89c6227f  # 0.4.12
+              uses: install-pinned/uv@38b64e5163d282de39747ac8bd68c16f1d822bb6  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -87,7 +88,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@e68f239fe6e826a25a266f6177aae2bb89c6227f  # 0.4.12
+              uses: install-pinned/uv@38b64e5163d282de39747ac8bd68c16f1d822bb6  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -109,7 +110,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@e68f239fe6e826a25a266f6177aae2bb89c6227f  # 0.4.12
+              uses: install-pinned/uv@38b64e5163d282de39747ac8bd68c16f1d822bb6  # 0.4.12
 
             - name: Install bandit
               run: |
@@ -162,7 +163,7 @@ jobs:
 
         steps:
             - name: Harden Runner
-              uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
+              uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481 # v2.11.0
               with:
                   egress-policy: audit
 

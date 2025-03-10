@@ -74,7 +74,7 @@ jobs:
 
             - name: Run ruff format
               run: |
-                ruff format --diff --target-version=py39 .
+                ruff format --diff .
 
     ruff-check:
         runs-on: ubuntu-latest

@@ -1,7 +1,6 @@
 import csv
 import gzip
 import io
-import sys
 import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock
@@ -11,10 +10,6 @@ import pytest
 from petl.util.base import TableWrapper
 
 from parsons.targetsmart.targetsmart_api import TargetSmartAPI
-
-pytestmark = pytest.mark.skipif(
-    sys.platform == "win32", reason="need to fix these tests on windows"
-)
 
 
 @pytest.fixture

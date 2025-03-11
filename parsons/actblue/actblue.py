@@ -147,7 +147,7 @@ class ActBlue(object):
                 Start of date range to withdraw contribution data (inclusive). Ex: '2020-01-01'
             date_range_end: str
                 End of date range to withdraw contribution data (exclusive). Ex: '2020-02-01'
-            **csvargs: 
+            **csvargs:
                 Any additional arguments will be passed to Table.from_csv as keyword arguments.
 
         `Returns:`

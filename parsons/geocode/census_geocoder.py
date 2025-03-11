@@ -109,7 +109,7 @@ class CensusGeocoder(object):
         if set(table.columns) != {"id", "street", "city", "state", "zip"}:
             msg = (
                 "Table must ONLY include `['id', 'street', 'city', 'state', 'zip']` as"
-                + "columns. Tip: try using `table.cut()`"
+                "columns. Tip: try using `table.cut()`"
             )
             raise ValueError(msg)
 

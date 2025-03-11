@@ -286,7 +286,7 @@
 
 <div class="viewcode-block" id="ActBlue.get_contributions">
 <a class="viewcode-back" href="../../../actblue.html#parsons.ActBlue.get_contributions">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">csv_type</span><span class="p">,</span> <span class="n">date_range_start</span><span class="p">,</span> <span class="n">date_range_end</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">csv_type</span><span class="p">,</span> <span class="n">date_range_start</span><span class="p">,</span> <span class="n">date_range_end</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specified contribution data from CSV API as Parsons table.</span>
 
@@ -308,6 +308,8 @@
 <span class="sd">                Start of date range to withdraw contribution data (inclusive). Ex: &#39;2020-01-01&#39;</span>
 <span class="sd">            date_range_end: str</span>
 <span class="sd">                End of date range to withdraw contribution data (exclusive). Ex: &#39;2020-02-01&#39;</span>
+<span class="sd">            **csvargs:</span>
+<span class="sd">                Any additional arguments will be passed to Table.from_csv as keyword arguments.</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Contents of the generated contribution CSV as a Parsons table.</span>
@@ -316,7 +318,7 @@
         <span class="n">post_request_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">csv_type</span><span class="p">,</span> <span class="n">date_range_start</span><span class="p">,</span> <span class="n">date_range_end</span><span class="p">)</span>
         <span class="n">csv_id</span> <span class="o">=</span> <span class="n">post_request_response</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
         <span class="n">download_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">poll_for_download_url</span><span class="p">(</span><span class="n">csv_id</span><span class="p">)</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">download_url</span><span class="p">)</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">download_url</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Completed conversion to Parsons Table.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">table</span></div>
 </div>

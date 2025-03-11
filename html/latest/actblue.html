@@ -299,7 +299,7 @@ it expires, it could be used by anyone to download the CSV.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActBlue.get_contributions">
-<span class="sig-name descname"><span class="pre">get_contributions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csv_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_range_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_range_end</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/actblue/actblue.html#ActBlue.get_contributions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActBlue.get_contributions" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_contributions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csv_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_range_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_range_end</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">csvargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/actblue/actblue.html#ActBlue.get_contributions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActBlue.get_contributions" title="Link to this definition"></a></dt>
 <dd><p>Get specified contribution data from CSV API as Parsons table.</p>
 <dl>
 <dt><cite>Args:</cite></dt><dd><dl>
@@ -319,6 +319,8 @@ contributions to other entities via that form if it is a tandem form.</p>
 <dt>date_range_start: str</dt><dd><p>Start of date range to withdraw contribution data (inclusive). Ex: ‘2020-01-01’</p>
 </dd>
 <dt>date_range_end: str</dt><dd><p>End of date range to withdraw contribution data (exclusive). Ex: ‘2020-02-01’</p>
+</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>csvargs:</dt><dd><p>Any additional arguments will be passed to Table.from_csv as keyword arguments.</p>
 </dd>
 </dl>
 </dd>

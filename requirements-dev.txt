@@ -2,7 +2,7 @@
 bandit[toml]==1.8.2
 coverage==7.6.12
 pytest-cov==6.0.0
-pytest-datadir==1.5.0
+pytest-datadir==1.6.1
 pytest-mock==3.14.0
 pytest-xdist==3.6.1
 pytest==8.3.4

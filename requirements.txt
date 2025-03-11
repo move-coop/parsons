@@ -12,7 +12,7 @@ docutils<0.18,>=0.14
 defusedxml>=0.7.1, <=0.8.0
 facebook-business==13.0.0
 google-api-core==2.19.2
-google-api-python-client==1.7.7
+google-api-python-client>=1.7.7
 google-auth==2.29.0
 google-cloud-bigquery==3.26.0
 google-cloud-storage-transfer==1.9.1

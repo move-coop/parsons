@@ -176,7 +176,7 @@
 | parsons/targetsmart/\_\_init\_\_.py                       |        3 |        0 |        0 |        0 |    100% |           |
 | parsons/targetsmart/targetsmart\_api.py                   |       74 |        9 |       24 |        1 |     88% |40, 73, 227, 313, 366-389 |
 | parsons/targetsmart/targetsmart\_automation.py            |       94 |       72 |       26 |        0 |     18% |52-57, 115-150, 158, 163-191, 196-200, 206-222, 230-248, 253-256 |
-| parsons/targetsmart/targetsmart\_smartmatch.py            |       94 |       11 |       26 |       12 |     81% |77, 86, 100, 115, 120, 192, 198, 203, 206, 208->211, 236, 309 |
+| parsons/targetsmart/targetsmart\_smartmatch.py            |      100 |       11 |       30 |       11 |     83% |78, 87, 101, 115, 120, 192, 198, 203, 206, 236, 313 |
 | parsons/tools/\_\_init\_\_.py                             |        0 |        0 |        0 |        0 |    100% |           |
 | parsons/tools/credential\_tools.py                        |       67 |       16 |       22 |        2 |     71% |44, 182-197, 201 |
 | parsons/turbovote/\_\_init\_\_.py                         |        2 |        0 |        0 |        0 |    100% |           |
@@ -198,7 +198,7 @@
 | parsons/utilities/zip\_archive.py                         |       18 |        2 |        4 |        2 |     82% |    25, 30 |
 | parsons/zoom/\_\_init\_\_.py                              |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/zoom/zoom.py                                      |      155 |       31 |       38 |       15 |     75% |72->exit, 78-80, 99-102, 120, 159, 196-198, 212-214, 277->279, 333-334, 344, 364-365, 389-390, 419-420, 446-447, 471-472, 489-490, 507-508 |
-|                                                 **TOTAL** | **10011** | **2925** | **2828** |  **523** | **67%** |           |
+|                                                 **TOTAL** | **10017** | **2925** | **2832** |  **522** | **67%** |           |
 
 
 ## Setup coverage badge

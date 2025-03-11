@@ -28,12 +28,12 @@ class Hustle(object):
         Hustle Class
     """
 
-    def __init__(self, client_id, client_secret):
+    def __init__(self, client_id=None, client_secret=None):
         self.uri = HUSTLE_URI
         self.client_id = check_env.check("HUSTLE_CLIENT_ID", client_id)
         self.client_secret = check_env.check("HUSTLE_CLIENT_SECRET", client_secret)
         self.token_expiration = None
-        self._get_auth_token(client_id, client_secret)
+        self._get_auth_token(self.client_id, self.client_secret)
 
     def _get_auth_token(self, client_id, client_secret):
         # Generate a temporary authorization token

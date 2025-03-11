@@ -55,6 +55,7 @@ select = [
     "Q", # flake8-quotes (Q)
     "TC", # flake8-type-checking (TC)
     "YTT", # flake8-2020 (YTT)
+    "ISC", # flake8-implicit-str-concat (ISC)
 ]
 ignore = [
     "E501", # line-too-long (E501)

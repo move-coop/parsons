@@ -221,5 +221,5 @@ class Donorbox(object):
                 continue
         raise ValueError(
             f"The date you supplied, {date_string}, is not a valid Donorbox format."
-            + "Try the following formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY"
+            "Try the following formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY"
         )

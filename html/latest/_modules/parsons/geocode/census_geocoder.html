@@ -267,7 +267,7 @@
         <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;street&quot;</span><span class="p">,</span> <span class="s2">&quot;city&quot;</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;zip&quot;</span><span class="p">}:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">&quot;Table must ONLY include `[&#39;id&#39;, &#39;street&#39;, &#39;city&#39;, &#39;state&#39;, &#39;zip&#39;]` as&quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;columns. Tip: try using `table.cut()`&quot;</span>
+                <span class="s2">&quot;columns. Tip: try using `table.cut()`&quot;</span>
             <span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 

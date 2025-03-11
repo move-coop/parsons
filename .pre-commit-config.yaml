@@ -4,7 +4,7 @@ repos:
     hooks:
       - id: ruff
       - id: ruff-format
--   repo: https://github.com/PyCQA/bandit
+  - repo: https://github.com/PyCQA/bandit
     rev: '1.8.3'
     hooks:
     - id: bandit

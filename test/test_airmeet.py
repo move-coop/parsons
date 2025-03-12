@@ -280,7 +280,7 @@ class TestAirmeet(unittest.TestCase):
             }
         )
 
-        with pytest.raises(Exception):
+        with pytest.raises(Exception):  # noqa: B017
             self.airmeet.fetch_session_attendance("test_session_id")
 
     def test_fetch_session_attendance_exception_400(self):
@@ -294,7 +294,7 @@ class TestAirmeet(unittest.TestCase):
             }
         )
 
-        with pytest.raises(Exception):
+        with pytest.raises(Exception):  # noqa: B017
             self.airmeet.fetch_session_attendance("test_session_id")
 
     def test_fetch_airmeet_booths(self):
@@ -506,5 +506,5 @@ class TestAirmeet(unittest.TestCase):
             }
         )
 
-        with pytest.raises(Exception):
+        with pytest.raises(Exception):  # noqa: B017
             self.airmeet.fetch_event_replay_attendance("test_airmeet_id")

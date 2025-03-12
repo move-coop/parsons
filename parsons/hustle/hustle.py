@@ -89,7 +89,7 @@ class Hustle(object):
 
         # Pagination
         while r.json()["pagination"]["hasNextPage"] == "true":
-            parameters["cursor"] = r.json["pagination"]["cursor"]
+            parameters["cursor"] = r.json()["pagination"]["cursor"]
             r = request(req_type, url, params=parameters, headers=headers)
             self._error_check(r, raise_on_error)
             result += r.json()["items"]

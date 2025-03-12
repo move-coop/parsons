@@ -795,7 +795,7 @@ class GoogleBigQuery(DatabaseConnector):
         quote: Optional[str] = None,
         schema: Optional[List[dict]] = None,
         max_timeout: int = 21600,
-        convert_dict_columns_to_json: bool = True,
+        convert_dict_list_columns_to_json: bool = True,
         **load_kwargs,
     ):
         """
@@ -828,8 +828,8 @@ class GoogleBigQuery(DatabaseConnector):
                 columns and data types as the template table.
             max_timeout: int
                 The maximum number of seconds to wait for a request before the job fails.
-            convert_dict_columns_to_json: bool
-                If set to True, will convert any dict columns (which cannot by default be successfully loaded to BigQuery to JSON strings)
+            convert_dict_list_columns_to_json: bool
+                If set to True, will convert any dict or list columns (which cannot by default be successfully loaded to BigQuery to JSON strings)
             **load_kwargs: kwargs
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
@@ -856,10 +856,10 @@ class GoogleBigQuery(DatabaseConnector):
         else:
             csv_delimiter = ","
 
-        if convert_dict_columns_to_json:
+        if convert_dict_list_columns_to_json:
             # Convert dict columns to JSON strings
             for field in tbl.get_columns_type_stats():
-                if "dict" in field["type"]:
+                if "dict" in field["type"] or "list" in field["type"]:
                     new_petl = tbl.table.addfield(
                         field["name"] + "_replace",
                         lambda row: json.dumps(row[field["name"]]),

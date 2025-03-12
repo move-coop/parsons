@@ -55,14 +55,8 @@ class VAN(
     `Args:`
         api_key : str
             A valid api key Not required if ``VAN_API_KEY`` env variable set.
-        auth_name: str
-            Should not pass this argument
         db: str
             One of ``MyVoters``, ``MyMembers``, ``MyCampaign``, or ``EveryAction``
-        uri: str
-            Base uri to make api calls.
-        raise_for_status: boolean
-            Raise exception when encountering a 4XX or 500 error.
     `Returns:`
         VAN object
     """
@@ -70,15 +64,20 @@ class VAN(
     def __init__(
         self,
         api_key: Optional[str] = None,
-        auth_name: str = "default",
         db: Optional[Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"]] = None,
+        auth_name: None = None,
         raise_for_status: None = None,
     ):
         if raise_for_status is not None:
             logger.warning(
                 "The `raise_for_status` argument for initializing the VAN class has been deprecated and has no effect."
             )
-        self.connection = VANConnector(api_key=api_key, db=db, auth_name=auth_name)
+        if auth_name is not None:
+            logger.warning(
+                "The `auth_name` argument for initializing the VAN class has been deprecated and has no effect."
+            )
+
+        self.connection = VANConnector(api_key=api_key, db=db)
         self.api_key = api_key
         self.db = db
 

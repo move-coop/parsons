@@ -276,7 +276,7 @@ class TestAirmeet(unittest.TestCase):
             return_value={
                 "statusCode": 202,
                 "statusMessage": "Preparing your results. Try after 5 minutes"
-                + "to get the updated results",
+                "to get the updated results",
             }
         )
 

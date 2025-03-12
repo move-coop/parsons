@@ -536,3 +536,40 @@ class Hustle(object):
         r = self._request(f"tags/{tag_id}")
         logger.info(f"Got {tag_id} tag.")
         return r
+
+    def get_custom_fields(self, organization_id):
+        """Retrieve an organization's custom fields.
+
+        `Args:`
+            organization_id: str
+                The organization id.
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+        tbl = Table(self._request(f"organizations/{organization_id}/custom-fields"))
+        logger.info(f"Got {tbl.num_rows} custom fields for {organization_id} organization.")
+        return tbl
+
+    def create_custom_field(self, organization_id, name, agent_visible=None):
+        """Create a custom field.
+
+        `Args:`
+            organization_id: str
+                The organization id.
+            name: str
+                The name of the custom field. Restricted to letters, numbers, and underscores. Minimum of 2 characters, maximum of 40.
+            agent_visible: bool
+                Optional. `true` represents that the custom field is visible to agents. `false` means that only admins can see it.
+        `Returns:`
+            dict
+                The newly created custom field
+        """
+        custom_field = {"name": name}
+        if agent_visible is not None:
+            custom_field["agentVisible"] = agent_visible
+
+        logger.info(f"Generating custom field {name} for organization {organization_id}.")
+        return self._request(
+            f"organizations/{organization_id}/custom-fields", req_type="POST", payload=custom_field
+        )

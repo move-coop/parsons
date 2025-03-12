@@ -72,9 +72,9 @@ class VAN(
         api_key: Optional[str] = None,
         auth_name: str = "default",
         db: Optional[Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"]] = None,
-        **kwargs,
+        raise_for_status: None = None,
     ):
-        if "raise_for_status" in kwargs:
+        if raise_for_status is not None:
             logger.warning(
                 "The `raise_for_status` argument for initializing the VAN class has been deprecated and has no effect."
             )

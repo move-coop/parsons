@@ -65,18 +65,8 @@ class VAN(
         self,
         api_key: Optional[str] = None,
         db: Optional[Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"]] = None,
-        auth_name: None = None,
-        raise_for_status: None = None,
+        **_,  # ignore any other keywords (previously this signature included other keywords)
     ):
-        if raise_for_status is not None:
-            logger.warning(
-                "The `raise_for_status` argument for initializing the VAN class has been deprecated and has no effect."
-            )
-        if auth_name is not None:
-            logger.warning(
-                "The `auth_name` argument for initializing the VAN class has been deprecated and has no effect."
-            )
-
         self.connection = VANConnector(api_key=api_key, db=db)
         self.api_key = api_key
         self.db = db

@@ -141,7 +141,7 @@ class dbtLogger:
             status = "succeeded"
             full_log_message += ":large_green_circle:"
 
-        now = datetime.datetime.today().strftime("%Y-%m-%d %H:%M")
+        now = datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y-%m-%d %H:%M")
         full_log_message += f"*dbt run {status} - {now}*"
         full_log_message += f"\n*Duration:* {duration_time_str}\n\n"
         full_log_message += "\n".join(self.log_messages)

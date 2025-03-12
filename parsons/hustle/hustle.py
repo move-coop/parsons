@@ -48,7 +48,9 @@ class Hustle(object):
         logger.debug(r.json())
 
         self.auth_token = r.json()["access_token"]
-        self.token_expiration = datetime.datetime.now() + datetime.timedelta(seconds=7200)
+        self.token_expiration = datetime.datetime.now(
+            tz=datetime.timezone.utc
+        ) + datetime.timedelta(seconds=7200)
         logger.info("Authentication token generated")
 
     def _token_check(self):
@@ -56,7 +58,7 @@ class Hustle(object):
         # not expired and generate another one if it has.
 
         logger.debug("Checking token expiration.")
-        if datetime.datetime.now() >= self.token_expiration:
+        if datetime.datetime.now(tz=datetime.timezone.utc) >= self.token_expiration:
             logger.info("Refreshing authentication token.")
             self._get_auth_token(self.client_id, self.client_secret)
 

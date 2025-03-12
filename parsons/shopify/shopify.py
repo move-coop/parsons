@@ -1,5 +1,5 @@
+import datetime
 import re
-from datetime import datetime, timedelta
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
@@ -161,8 +161,10 @@ class Shopify(object):
 
         if query_date:
             # Specific date if provided
-            query_date = datetime.strptime(query_date, "%Y-%m-%d")
-            max_date = query_date + timedelta(days=1)
+            query_date = datetime.datetime.now(tz=datetime.timezone.utc).strptime(
+                query_date, "%Y-%m-%d"
+            )
+            max_date = query_date + datetime.timedelta(days=1)
             filters += "&created_at_min={}&created_at_max={}".format(
                 query_date.isoformat(), max_date.isoformat()
             )

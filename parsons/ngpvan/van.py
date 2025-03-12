@@ -68,7 +68,7 @@ class VAN(
 
     def __init__(self, api_key=None, auth_name="default", db=None, **kwargs):
         if "raise_for_status" in kwargs:
-            logger.warn(
+            logger.warning(
                 "The `raise_for_status` argument for initializing the VAN class has been deprecated and has no effect."
             )
         self.connection = VANConnector(api_key=api_key, db=db, auth_name=auth_name)

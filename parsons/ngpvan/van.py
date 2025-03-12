@@ -61,13 +61,17 @@ class VAN(
         uri: str
             Base uri to make api calls.
         raise_for_status: boolean
-            Raise excection when encountering a 4XX or 500 error.
+            Raise exception when encountering a 4XX or 500 error.
     `Returns:`
         VAN object
     """
 
-    def __init__(self, api_key=None, auth_name="default", db=None, raise_for_status=True):
-        self.connection = VANConnector(api_key=api_key, db=db)
+    def __init__(self, api_key=None, auth_name="default", db=None, **kwargs):
+        if "raise_for_status" in kwargs:
+            logger.warn(
+                "The `raise_for_status` argument for initializing the VAN class has been deprecated and has no effect."
+            )
+        self.connection = VANConnector(api_key=api_key, db=db, auth_name=auth_name)
         self.api_key = api_key
         self.db = db
 

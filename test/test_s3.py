@@ -48,7 +48,7 @@ class TestS3(unittest.TestCase):
                 self.s3.put_file(self.test_bucket, self.test_key, csv_path)
                 self.s3.put_file(self.test_bucket, self.test_key_2, csv_path_2)
                 break
-            except Exception:
+            except Exception:  # noqa: BLE001
                 print("Retrying putting file in bucket...")
                 retry += 1
 

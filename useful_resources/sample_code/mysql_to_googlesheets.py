@@ -69,7 +69,7 @@ def main():
             logger.info(f"create_spreadsheet did not return a sheet ID. Issue: {str(new_sheet)}")
 
     # If we get an error when trying to create the spreadsheet we print the error.
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.info(f"There was a problem creating the Google Sheets workbook! Error: {str(e)}")
 
     logger.info("Querying MYSQL database...")

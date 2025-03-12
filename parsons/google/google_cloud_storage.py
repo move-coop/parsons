@@ -202,7 +202,7 @@ class GoogleCloudStorage(object):
         )
 
         if include_file_details:
-            lst = [b for b in blobs]
+            lst = list(blobs)
         else:
             lst = [b.name for b in blobs]
 

@@ -1,5 +1,5 @@
-import datetime
 import logging
+from datetime import datetime, timedelta
 
 from requests import request
 
@@ -32,11 +32,12 @@ class Hustle(object):
         self.uri = HUSTLE_URI
         self.client_id = check_env.check("HUSTLE_CLIENT_ID", client_id)
         self.client_secret = check_env.check("HUSTLE_CLIENT_SECRET", client_secret)
-        self.token_expiration = None
-        self._get_auth_token(self.client_id, self.client_secret)
+        self.auth_token, self.token_expiration = self._get_auth_token(
+            self.client_id, self.client_secret
+        )
 
     def _get_auth_token(self, client_id, client_secret):
-        # Generate a temporary authorization token
+        """Generate an authorization token."""
 
         data = {
             "client_id": client_id,
@@ -44,28 +45,31 @@ class Hustle(object):
             "grant_type": "client_credentials",
         }
 
-        r = request("POST", self.uri + "oauth/token", data=data)
-        logger.debug(r.json())
+        resp = request("POST", self.uri + "oauth/token", data=data)
+        resp_json = resp.json()
+        logger.debug(resp_json)
 
-        self.auth_token = r.json()["access_token"]
-        self.token_expiration = datetime.datetime.now() + datetime.timedelta(seconds=7200)
+        auth_token = resp_json["access_token"]
+        token_expiration = datetime.now() + timedelta(seconds=resp_json["expires_in"])
         logger.info("Authentication token generated")
+        return auth_token, token_expiration
 
-    def _token_check(self):
-        # Tokens are only valid for 7200 seconds. This checks to make sure that it has
-        # not expired and generate another one if it has.
+    def _refresh_token(self):
+        """Generate new token if current token is exprired.
+
+        Tokens are valid for `expires_in` (7200 by default) seconds.
+        """
 
         logger.debug("Checking token expiration.")
-        if datetime.datetime.now() >= self.token_expiration:
+        if datetime.now() >= self.token_expiration:
             logger.info("Refreshing authentication token.")
-            self._get_auth_token(self.client_id, self.client_secret)
-
-        else:
-            pass
+            self.auth_token, self.token_expiration = self._get_auth_token(
+                self.client_id, self.client_secret
+            )
 
     def _request(self, endpoint, req_type="GET", args=None, payload=None, raise_on_error=True):
         url = self.uri + endpoint
-        self._token_check()
+        self._refresh_token()
 
         headers = {"Authorization": f"Bearer {self.auth_token}"}
 
@@ -76,41 +80,41 @@ class Hustle(object):
         if args:
             parameters.update(args)
 
-        r = request(req_type, url, params=parameters, json=payload, headers=headers)
+        resp = request(req_type, url, params=parameters, json=payload, headers=headers)
 
-        self._error_check(r, raise_on_error)
+        self._error_check(resp, raise_on_error)
+        resp_json = resp.json()
 
         # If a single item return the dict
-        if "items" not in r.json().keys():
-            return r.json()
+        if "items" not in resp_json.keys():
+            return resp_json
 
-        else:
-            result = r.json()["items"]
+        result = resp_json["items"]
 
         # Pagination
-        while r.json()["pagination"]["hasNextPage"] == "true":
-            parameters["cursor"] = r.json()["pagination"]["cursor"]
-            r = request(req_type, url, params=parameters, headers=headers)
-            self._error_check(r, raise_on_error)
-            result += r.json()["items"]
+        while resp_json["pagination"]["hasNextPage"] == "true":
+            parameters["cursor"] = resp_json["pagination"]["cursor"]
+            resp = request(req_type, url, params=parameters, headers=headers)
+            self._error_check(resp, raise_on_error)
+            resp_json = resp.json()
+            result += resp_json["items"]
 
         return result
 
-    def _error_check(self, r, raise_on_error):
-        # Check for errors
+    def _error_check(self, resp, raise_on_error):
+        """Check response for errors."""
 
-        if r.status_code in (200, 201):
-            logger.debug(r.json())
-            return None
+        if resp.status_code in (200, 201):
+            logger.debug(resp.json())
+            return
 
         if raise_on_error:
-            logger.info(r.json())
-            r.raise_for_status()
-            return None
+            logger.info(resp.json())
+            resp.raise_for_status()
+            return
 
-        else:
-            logger.info(r.json())
-            return None
+        logger.info(resp.json())
+        return
 
     def get_agents(self, group_id):
         """
@@ -140,9 +144,9 @@ class Hustle(object):
             dict
         """
 
-        r = self._request(f"agents/{agent_id}")
+        resp = self._request(f"agents/{agent_id}")
         logger.info(f"Got {agent_id} agent.")
-        return r
+        return resp
 
     def create_agent(self, group_id, name, full_name, phone_number, send_invite=False, email=None):
         """
@@ -230,9 +234,9 @@ class Hustle(object):
             dict
         """
 
-        r = self._request(f"organizations/{organization_id}")
+        resp = self._request(f"organizations/{organization_id}")
         logger.info(f"Got {organization_id} organization.")
-        return r
+        return resp
 
     def get_groups(self, organization_id):
         """
@@ -258,9 +262,9 @@ class Hustle(object):
                 The group id.
         """
 
-        r = self._request(f"groups/{group_id}")
+        resp = self._request(f"groups/{group_id}")
         logger.info(f"Got {group_id} group.")
-        return r
+        return resp
 
     def create_group_membership(self, group_id, lead_id):
         """
@@ -290,9 +294,9 @@ class Hustle(object):
             dict
         """
 
-        r = self._request(f"leads/{lead_id}")
+        resp = self._request(f"leads/{lead_id}")
         logger.info(f"Got {lead_id} lead.")
-        return r
+        return resp
 
     def get_leads(self, organization_id=None, group_id=None):
         """
@@ -533,9 +537,9 @@ class Hustle(object):
             dict
         """
 
-        r = self._request(f"tags/{tag_id}")
+        resp = self._request(f"tags/{tag_id}")
         logger.info(f"Got {tag_id} tag.")
-        return r
+        return resp
 
     def get_custom_fields(self, organization_id):
         """Retrieve an organization's custom fields.
@@ -547,6 +551,7 @@ class Hustle(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
+
         tbl = Table(self._request(f"organizations/{organization_id}/custom-fields"))
         logger.info(f"Got {tbl.num_rows} custom fields for {organization_id} organization.")
         return tbl
@@ -565,6 +570,7 @@ class Hustle(object):
             dict
                 The newly created custom field
         """
+
         custom_field = {"name": name}
         if agent_visible is not None:
             custom_field["agentVisible"] = agent_visible

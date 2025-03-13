@@ -1,7 +1,8 @@
 import logging
 from datetime import datetime, timedelta
+from typing import Dict, NoReturn, Optional, Union
 
-from requests import request
+from requests import Response, request
 
 from parsons.etl import Table
 from parsons.hustle.column_map import LEAD_COLUMN_MAP
@@ -28,7 +29,7 @@ class Hustle(object):
         Hustle Class
     """
 
-    def __init__(self, client_id=None, client_secret=None):
+    def __init__(self, client_id: Optional[str] = None, client_secret: Optional[str] = None):
         self.uri = HUSTLE_URI
         self.client_id = check_env.check("HUSTLE_CLIENT_ID", client_id)
         self.client_secret = check_env.check("HUSTLE_CLIENT_SECRET", client_secret)
@@ -36,7 +37,7 @@ class Hustle(object):
             self.client_id, self.client_secret
         )
 
-    def _get_auth_token(self, client_id, client_secret):
+    def _get_auth_token(self, client_id: str, client_secret: str):
         """Generate an authorization token."""
 
         data = {
@@ -61,13 +62,21 @@ class Hustle(object):
         """
 
         logger.debug("Checking token expiration.")
+
         if datetime.now() >= self.token_expiration:
             logger.info("Refreshing authentication token.")
             self.auth_token, self.token_expiration = self._get_auth_token(
                 self.client_id, self.client_secret
             )
 
-    def _request(self, endpoint, req_type="GET", args=None, payload=None, raise_on_error=True):
+    def _request(
+        self,
+        endpoint: str,
+        req_type: str = "GET",
+        args: Optional[Dict] = None,
+        payload: Optional[Dict] = None,
+        raise_on_error: bool = True,
+    ) -> Union[Dict, list]:
         url = self.uri + endpoint
         self._refresh_token()
 
@@ -101,7 +110,7 @@ class Hustle(object):
 
         return result
 
-    def _error_check(self, resp, raise_on_error):
+    def _error_check(self, resp: Response, raise_on_error: bool) -> Optional[NoReturn]:
         """Check response for errors."""
 
         if resp.status_code in (200, 201):
@@ -116,7 +125,7 @@ class Hustle(object):
         logger.info(resp.json())
         return
 
-    def get_agents(self, group_id):
+    def get_agents(self, group_id: str) -> Table:
         """
         Get a list of agents.
 
@@ -133,7 +142,7 @@ class Hustle(object):
         logger.info(f"Got {tbl.num_rows} agents from {group_id} group.")
         return tbl
 
-    def get_agent(self, agent_id):
+    def get_agent(self, agent_id: str) -> Dict:
         """
         Get a single agent.
 
@@ -146,9 +155,17 @@ class Hustle(object):
 
         resp = self._request(f"agents/{agent_id}")
         logger.info(f"Got {agent_id} agent.")
-        return resp
+        return resp  # type: ignore
 
-    def create_agent(self, group_id, name, full_name, phone_number, send_invite=False, email=None):
+    def create_agent(
+        self,
+        group_id: str,
+        name: str,
+        full_name: str,
+        phone_number: str,
+        send_invite: bool = False,
+        email: Optional[str] = None,
+    ) -> Dict:
         """
         Create an agent.
 
@@ -181,9 +198,16 @@ class Hustle(object):
         agent = json_format.remove_empty_keys(agent)
 
         logger.info(f"Generating {full_name} agent.")
-        return self._request(f"groups/{group_id}/agents", req_type="POST", payload=agent)
+        resp = self._request(f"groups/{group_id}/agents", req_type="POST", payload=agent)
+        return resp  # type: ignore
 
-    def update_agent(self, agent_id, name=None, full_name=None, send_invite=False):
+    def update_agent(
+        self,
+        agent_id: str,
+        name: Optional[str] = None,
+        full_name: Optional[str] = None,
+        send_invite: bool = False,
+    ) -> Dict:
         """
         Update an agent.
 
@@ -208,9 +232,10 @@ class Hustle(object):
         agent = json_format.remove_empty_keys(agent)
 
         logger.info(f"Updating agent {agent_id}.")
-        return self._request(f"agents/{agent_id}", req_type="PUT", payload=agent)
+        resp = self._request(f"agents/{agent_id}", req_type="PUT", payload=agent)
+        return resp  # type: ignore
 
-    def get_organizations(self):
+    def get_organizations(self) -> Table:
         """
         Get organizations.
 
@@ -223,7 +248,7 @@ class Hustle(object):
         logger.info(f"Got {tbl.num_rows} organizations.")
         return tbl
 
-    def get_organization(self, organization_id):
+    def get_organization(self, organization_id: str) -> Dict:
         """
         Get a single organization.
 
@@ -236,9 +261,9 @@ class Hustle(object):
 
         resp = self._request(f"organizations/{organization_id}")
         logger.info(f"Got {organization_id} organization.")
-        return resp
+        return resp  # type: ignore
 
-    def get_groups(self, organization_id):
+    def get_groups(self, organization_id: str) -> Table:
         """
         Get a list of groups.
 
@@ -253,7 +278,7 @@ class Hustle(object):
         logger.info(f"Got {tbl.num_rows} groups.")
         return tbl
 
-    def get_group(self, group_id):
+    def get_group(self, group_id: str) -> Dict:
         """
         Get a single group.
 
@@ -264,9 +289,9 @@ class Hustle(object):
 
         resp = self._request(f"groups/{group_id}")
         logger.info(f"Got {group_id} group.")
-        return resp
+        return resp  # type: ignore
 
-    def create_group_membership(self, group_id, lead_id):
+    def create_group_membership(self, group_id: str, lead_id: str) -> Dict:
         """
         Add a lead to a group.
 
@@ -277,13 +302,14 @@ class Hustle(object):
                 The lead id.
         """
 
-        return self._request(
+        resp = self._request(
             f"groups/{group_id}/memberships",
             req_type="POST",
             payload={"leadId": lead_id},
         )
+        return resp  # type: ignore
 
-    def get_lead(self, lead_id):
+    def get_lead(self, lead_id: str) -> Dict:
         """
         Get a single lead.
 
@@ -296,9 +322,11 @@ class Hustle(object):
 
         resp = self._request(f"leads/{lead_id}")
         logger.info(f"Got {lead_id} lead.")
-        return resp
+        return resp  # type: ignore
 
-    def get_leads(self, organization_id=None, group_id=None):
+    def get_leads(
+        self, organization_id: Optional[str] = None, group_id: Optional[str] = None
+    ) -> Table:
         """
         Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed
         as an argument. If both are passed, an error will be raised.
@@ -326,22 +354,22 @@ class Hustle(object):
             endpoint = f"groups/{group_id}/leads"
             logger.info(f"Retrieving {group_id} group leads.")
 
-        tbl = Table(self._request(endpoint))
+        tbl = Table(self._request(endpoint))  # type: ignore
         logger.info(f"Got {tbl.num_rows} leads.")
         return tbl
 
     def create_lead(
         self,
-        group_id,
-        phone_number,
-        first_name,
-        last_name=None,
-        email=None,
-        notes=None,
-        follow_up=None,
-        custom_fields=None,
-        tag_ids=None,
-    ):
+        group_id: str,
+        phone_number: str,
+        first_name: str,
+        last_name: Optional[str] = None,
+        email: Optional[str] = None,
+        notes: Optional[str] = None,
+        follow_up: Optional[str] = None,
+        custom_fields: Optional[Dict] = None,
+        tag_ids: Optional[list] = None,
+    ) -> Dict:
         """
 
         Create a lead.
@@ -384,9 +412,10 @@ class Hustle(object):
         # Remove empty args in dictionary
         lead = json_format.remove_empty_keys(lead)
         logger.info(f"Generating lead for {first_name} {last_name}.")
-        return self._request(f"groups/{group_id}/leads", req_type="POST", payload=lead)
+        resp = self._request(f"groups/{group_id}/leads", req_type="POST", payload=lead)
+        return resp  # type: ignore
 
-    def create_leads(self, table, group_id=None):
+    def create_leads(self, table: Table, group_id: Optional[str] = None) -> Table:
         """
         Create multiple leads. All unrecognized fields will be passed as custom fields. Column
         names must map to the following names.
@@ -434,7 +463,7 @@ class Hustle(object):
         created_leads = []
 
         for row in table:
-            lead = {"group_id": group_id}
+            lead: Dict[str, Optional[Union[str, Dict]]] = {"group_id": group_id}
             custom_fields = {}
 
             # Check for column names that map to arguments, if not assign
@@ -453,22 +482,22 @@ class Hustle(object):
             if group_id:
                 lead["group_id"] = group_id
 
-            created_leads.append(self.create_lead(**lead))
+            created_leads.append(self.create_lead(**lead))  # type: ignore
 
         logger.info(f"Created {table.num_rows} leads.")
         return Table(created_leads)
 
     def update_lead(
         self,
-        lead_id,
-        first_name=None,
-        last_name=None,
-        email=None,
-        global_opt_out=None,
-        notes=None,
-        follow_up=None,
-        tag_ids=None,
-    ):
+        lead_id: str,
+        first_name: Optional[str] = None,
+        last_name: Optional[str] = None,
+        email: Optional[str] = None,
+        global_opt_out: Optional[bool] = None,
+        notes: Optional[str] = None,
+        follow_up: Optional[str] = None,
+        tag_ids: Optional[list] = None,
+    ) -> Dict:
         """
         Update a lead.
 
@@ -508,9 +537,10 @@ class Hustle(object):
         lead = json_format.remove_empty_keys(lead)
 
         logger.info(f"Updating lead for {first_name} {last_name}.")
-        return self._request(f"leads/{lead_id}", req_type="PUT", payload=lead)
+        resp = self._request(f"leads/{lead_id}", req_type="PUT", payload=lead)
+        return resp  # type: ignore
 
-    def get_tags(self, organization_id):
+    def get_tags(self, organization_id: str) -> Table:
         """
         Get an organization's tags.
 
@@ -526,7 +556,7 @@ class Hustle(object):
         logger.info(f"Got {tbl.num_rows} tags for {organization_id} organization.")
         return tbl
 
-    def get_tag(self, tag_id):
+    def get_tag(self, tag_id: str) -> Dict:
         """
         Get a single tag.
 
@@ -539,9 +569,9 @@ class Hustle(object):
 
         resp = self._request(f"tags/{tag_id}")
         logger.info(f"Got {tag_id} tag.")
-        return resp
+        return resp  # type: ignore
 
-    def get_custom_fields(self, organization_id):
+    def get_custom_fields(self, organization_id: str) -> Table:
         """Retrieve an organization's custom fields.
 
         `Args:`
@@ -556,7 +586,9 @@ class Hustle(object):
         logger.info(f"Got {tbl.num_rows} custom fields for {organization_id} organization.")
         return tbl
 
-    def create_custom_field(self, organization_id, name, agent_visible=None):
+    def create_custom_field(
+        self, organization_id: str, name: str, agent_visible: Optional[bool] = None
+    ) -> Dict:
         """Create a custom field.
 
         `Args:`
@@ -571,11 +603,12 @@ class Hustle(object):
                 The newly created custom field
         """
 
-        custom_field = {"name": name}
+        custom_field: Dict[str, Union[str, bool]] = {"name": name}
         if agent_visible is not None:
             custom_field["agentVisible"] = agent_visible
 
         logger.info(f"Generating custom field {name} for organization {organization_id}.")
-        return self._request(
+        resp = self._request(
             f"organizations/{organization_id}/custom-fields", req_type="POST", payload=custom_field
         )
+        return resp  # type: ignore

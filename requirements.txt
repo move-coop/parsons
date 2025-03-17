@@ -11,7 +11,7 @@ curlify==2.2.1
 dbt_redshift==1.9.0
 defusedxml>=0.7.1, <=0.8.0
 facebook-business==22.0.2
-google-api-core==2.24.1
+google-api-core==2.24.2
 google-api-python-client==2.163.0
 google-auth==2.38.0
 google-cloud-bigquery==3.29.0

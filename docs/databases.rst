@@ -104,3 +104,37 @@ Redshift
 
 See :ref:`Redshift <redshift>` for documentation.
 
+.. _sqlite:
+
+********
+Sqlite
+********
+
+SQLite is a performant flat-file database that's often touted as the "zero-config" database. The Parsons class uses the python3 built-in sqlite3 connector.
+
+===========
+Quick Start
+===========
+
+**Authentication**
+
+.. code-block:: python
+
+   from parsons import Sqlite
+
+   # Instantiate Sqlite from passed variables
+   sqlite = Sqlite(db_path='local.db')
+
+**Quick Start**
+
+.. code-block:: python
+
+   # Query database
+   tbl = sqlite.query('select * from my_table')
+
+   # Copy data to database
+   tbl = Table.from_csv('my_file.csv') # Load from a CSV or other source.
+   sqlite.copy(tbl, 'my_destination_table')
+
+.. autoclass:: parsons.Sqlite
+   :inherited-members:

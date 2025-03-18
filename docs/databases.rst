@@ -62,7 +62,7 @@ Quick Start
 Postgres
 ********
 
-Postgres is popular open source SQL database dialect. The Parsons class leverages the `mysql <https://www.psycopg.org/>`_ python package.
+Postgres is popular open source SQL database dialect. The Parsons class leverages the `psycopg2 <https://www.psycopg.org/>`_ python package.
 
 ===========
 Quick Start

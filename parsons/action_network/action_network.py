@@ -1905,7 +1905,7 @@ class ActionNetwork(object):
         """
         url = f"tags/{tag_id}/taggings"
         if background_processing:
-            url = f"{url}?background_processing={background_processing}"
+            url = f"{url}?background_processing=true"
         return self.api.post_request(url, data=json.dumps(payload))
 
     def delete_tagging(self, tag_id, tagging_id, background_processing=False):
@@ -1927,7 +1927,7 @@ class ActionNetwork(object):
         """
         url = f"tags/{tag_id}/taggings/{tagging_id}"
         if background_processing:
-            url = f"{url}?background_processing={background_processing}"
+            url = f"{url}?background_processing=true"
         return self.api.delete_request(url)
 
     # Wrappers

@@ -65,7 +65,6 @@ class VAN(
         self,
         api_key: Optional[str] = None,
         db: Optional[Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"]] = None,
-        **_,  # ignore any other keywords (previously this signature included other keywords)
     ):
         self.connection = VANConnector(api_key=api_key, db=db)
         self.api_key = api_key

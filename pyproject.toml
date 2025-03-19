@@ -108,7 +108,8 @@ filterwarnings = [
 
 [tool.bandit]
 exclude_dirs = [
-    ".venv/"
+    ".venv/",
+    "test"
 ]
 
 [tool.isort]

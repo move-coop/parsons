@@ -30,7 +30,7 @@ class QuickBooksTime:
 
     # Helper functions
 
-    def qb_get_request(self, end_point: str, querystring=None):
+    def qb_get_request(self, end_point: str, querystring = None):
         """
         This function handles the pagination of the request
         """
@@ -42,7 +42,7 @@ class QuickBooksTime:
         output_list = []  # This list will hold the results
 
         # Handle page parameter
-        page = querystring.get("page", 0)
+        page = querystring.get("page", 1)
 
         more = True  # This flag indicates if there are more pages to fetch
         while more:
@@ -86,8 +86,8 @@ class QuickBooksTime:
         modified_before=None,
         modified_since=None,
         supplemental_data=None,
-        per_page=None,
-        page=0,
+        limit=None,
+        page=1,
     ):
         """
             This function allows you to call the /groups endpoint of the QuickBooksTime Time API.
@@ -118,9 +118,9 @@ class QuickBooksTime:
                     'yes' or 'no'. Default is 'yes'.
                     Indicates whether supplemental data should be returned.
 
-                per_page: Int
+                limit: Int
                     Represents how many results you'd like to retrieve per request (page).
-                    Default is 50. Max is 50.
+                    Default is 200. Max is 200.
 
                 page: Int
                     Represents the page of results you'd like to retrieve.
@@ -137,7 +137,7 @@ class QuickBooksTime:
             "modified_before": modified_before,
             "modified_since": modified_since,
             "supplemental_data": supplemental_data,
-            "per_page": per_page,
+            "limit": limit,
             "page": page,
         }
 
@@ -161,8 +161,8 @@ class QuickBooksTime:
         modified_before=None,
         modified_since=None,
         supplemental_data=None,
-        per_page=None,
-        page=0,
+        limit=None,
+        page=1,
     ):
         """
         This function allows you to call the /jobcodes endpoint of the QuickBooksTime Time API.
@@ -216,12 +216,12 @@ class QuickBooksTime:
                 'yes' or 'no'. Default is 'yes'.
                 Indicates whether supplemental data should be returned.
 
-            per_page: Int
+            limit: Int
                 Represents how many results you'd like to retrieve per request (page).
-                Default is 50. Max is 50.
+                Default is 200. Max is 200.
 
             page: Int
-                Represents the page of results you'd like to retrieve. Default is 0.
+                Represents the page of results you'd like to retrieve. Default is 1.
 
         `Returns:`
             Parsons Table
@@ -237,7 +237,7 @@ class QuickBooksTime:
             "modified_before": modified_before,
             "modified_since": modified_since,
             "supplemental_data": supplemental_data,
-            "per_page": per_page,
+            "limit": limit,
             "page": page,
         }
 
@@ -263,8 +263,8 @@ class QuickBooksTime:
         modified_before=None,
         modified_since=None,
         supplemental_data=None,
-        per_page=None,
-        page=0,
+        limit=None,
+        page=1,
         start_date="1900-01-01",
     ):
         """
@@ -325,12 +325,12 @@ class QuickBooksTime:
                 'yes' or 'no'. Default is 'yes'.
                 Indicates whether supplemental data should be returned.
 
-            per_page: Int
+            limit: Int
                 Represents how many results you'd like to retrieve per request (page).
-                Default is 50. Max is 50.
+                Default is 200. Max is 200.
 
             page: Int
-                Represents the page of results you'd like to retrieve. Default is 0.
+                Represents the page of results you'd like to retrieve. Default is 1.
 
         `Returns:`
             Parsons Table
@@ -348,7 +348,7 @@ class QuickBooksTime:
             "modified_before": modified_before,
             "modified_since": modified_since,
             "supplemental_data": supplemental_data,
-            "per_page": per_page,
+            "limit": limit,
             "start_date": start_date,
             "page": page,
         }
@@ -377,8 +377,8 @@ class QuickBooksTime:
         modified_before=None,
         modified_since=None,
         supplemental_data=None,
-        per_page=None,
-        page=0,
+        limit=None,
+        page=1,
     ):
         """
         This function allows you to call the /users endpoint of the QuickBooksTime Time API.
@@ -431,12 +431,12 @@ class QuickBooksTime:
                 'yes' or 'no'. Default is 'yes'.
                 Indicates whether supplemental data should be returned.
 
-            per_page: Int
+            limit: Int
                 Represents how many results you'd like to retrieve per request (page).
-                Default is 50. Max is 50.
+                Default is 200. Max is 200.
 
             page: Int
-                Represents the page of results you'd like to retrieve. Default is 0.
+                Represents the page of results you'd like to retrieve. Default is 1.
 
         `Returns:`
             Parsons Table
@@ -457,7 +457,7 @@ class QuickBooksTime:
             "modified_before": modified_before,
             "modified_since": modified_since,
             "supplemental_data": supplemental_data,
-            "per_page": per_page,
+            "limit": limit,
             "page": page,
         }
 
@@ -476,8 +476,8 @@ class QuickBooksTime:
         modified_before=None,
         modified_since=None,
         supplemental_data=None,
-        per_page=None,
-        page=0,
+        limit=None,
+        page=1,
     ):
         """
         This function allows you to call the /schedule_calendars endpoint
@@ -501,12 +501,12 @@ class QuickBooksTime:
                 'yes' or 'no'. Default is 'yes'.
                 Indicates whether supplemental data should be returned.
 
-            per_page: Int
+            limit: Int
                 Represents how many results you'd like to retrieve per request (page).
-                Default is 50. Max is 50.
+                Default is 200. Max is 200.
 
             page: Int
-                Represents the page of results you'd like to retrieve. Default is 0.
+                Represents the page of results you'd like to retrieve. Default is 1.
 
         `Returns:`
             List of integers of schedules calendar ids.
@@ -520,7 +520,7 @@ class QuickBooksTime:
             "modified_before": modified_before,
             "modified_since": modified_since,
             "supplemental_data": supplemental_data,
-            "per_page": per_page,
+            "limit": limit,
             "page": page,
         }
 
@@ -550,8 +550,8 @@ class QuickBooksTime:
         modified_before=None,
         modified_since=None,
         supplemental_data=None,
-        per_page=None,
-        page=0,
+        limit=None,
+        page=1,
     ):
         """
         This function allows you to call the /schedule_events endpoint
@@ -621,28 +621,27 @@ class QuickBooksTime:
                 'yes' or 'no'. Default is 'yes'.
                 Indicates whether supplemental data should be returned.
 
-            per_page: Int
+            limit: Int
                 Represents how many results you'd like to retrieve per request (page).
-                Default is 50. Max is 50.
+                Default is 200. Max is 200.
 
             page: Int
-                Represents the page of results you'd like to retrieve. Default is 0.
+                Represents the page of results you'd like to retrieve. Default is 1.
 
         `Returns:`
             Parsons Table
             See Parsons Table for output options.
         """
 
-        # Create a clean end_point
-
-        schedule_calendar_ids_list = self.get_schedule_calendars_list()
+        if schedule_calendar_ids is None:
+            schedule_calendar_ids = self.get_schedule_calendars_list()
 
         endpoint = "schedule_events"
 
         querystring = {
             "ids": ids,
             "users_ids": users_ids,
-            "schedule_calendar_ids": schedule_calendar_ids_list,
+            "schedule_calendar_ids": schedule_calendar_ids,
             "jobcode_ids": jobcode_ids,
             "start": start,
             "end": end,
@@ -653,7 +652,7 @@ class QuickBooksTime:
             "modified_before": modified_before,
             "modified_since": modified_since,
             "supplemental_data": supplemental_data,
-            "per_page": per_page,
+            "limit": limit,
             "page": page,
         }
 
@@ -674,8 +673,8 @@ class QuickBooksTime:
         user_ids=None,
         group_ids=None,
         supplemental_data=None,
-        per_page=None,
-        page=0,
+        limit=None,
+        page=1,
     ):
         """
         This function allows you to call the /geolocations endpoint of the QuickBooksTime Time API.
@@ -702,11 +701,11 @@ class QuickBooksTime:
             suplemental_data: String
                 'yes' or 'no'. Default is 'yes'.
                 Indicates whether supplemental data should be returned.
-            per_page: Int
+            limit: Int
                 Represents how many results you'd like to retrieve per request (page).
-                Default is 50. Max is 50.
+                Default is 200. Max is 200.
             page: Int
-                Represents the page of results you'd like to retrieve. Default is 0.
+                Represents the page of results you'd like to retrieve. Default is 1.
 
         `Returns:`
             Parsons Table
@@ -722,7 +721,7 @@ class QuickBooksTime:
             "user_ids": user_ids,
             "group_ids": group_ids,
             "supplemental_data": supplemental_data,
-            "per_page": per_page,
+            "limit": limit,
             "page": page,
         }
 

@@ -30,7 +30,7 @@ class QuickBooksTime:
 
     # Helper functions
 
-    def qb_get_request(self, end_point: str, querystring = None):
+    def qb_get_request(self, end_point: str, querystring=None):
         """
         This function handles the pagination of the request
         """

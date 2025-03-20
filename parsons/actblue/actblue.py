@@ -125,7 +125,7 @@ class ActBlue(object):
         logger.info("Beginning conversion to Parsons Table.")
         return download_url
 
-    def get_contributions(self, csv_type, date_range_start, date_range_end):
+    def get_contributions(self, csv_type, date_range_start, date_range_end, **csvargs):
         """
         Get specified contribution data from CSV API as Parsons table.
 
@@ -147,6 +147,8 @@ class ActBlue(object):
                 Start of date range to withdraw contribution data (inclusive). Ex: '2020-01-01'
             date_range_end: str
                 End of date range to withdraw contribution data (exclusive). Ex: '2020-02-01'
+            **csvargs:
+                Any additional arguments will be passed to Table.from_csv as keyword arguments.
 
         `Returns:`
             Contents of the generated contribution CSV as a Parsons table.
@@ -155,6 +157,6 @@ class ActBlue(object):
         post_request_response = self.post_request(csv_type, date_range_start, date_range_end)
         csv_id = post_request_response["id"]
         download_url = self.poll_for_download_url(csv_id)
-        table = Table.from_csv(download_url)
+        table = Table.from_csv(download_url, **csvargs)
         logger.info("Completed conversion to Parsons Table.")
         return table

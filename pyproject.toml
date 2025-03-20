@@ -34,12 +34,12 @@ exclude = [
     "venv",
 ]
 
-# Default line length is 88 
+# Default line length is 88
 # Changed to 100 to match previous pyproject black config
 line-length = 100
 indent-width = 4
 
-# Assume Python 3.8
+# Assume Python 3.9
 target-version = "py39"
 
 [tool.ruff.lint]
@@ -55,6 +55,7 @@ select = [
     "ICN", # flake8-import-conventions (ICN)
     "Q", # flake8-quotes (Q)
     "TC", # flake8-type-checking (TC)
+    "YTT", # flake8-2020 (YTT)
     "ISC", # flake8-implicit-str-concat (ISC)
 ]
 ignore = [

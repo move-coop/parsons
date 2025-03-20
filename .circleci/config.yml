@@ -20,15 +20,15 @@ jobs:
   # Documentation CI
   docs-build:
     docker:
-      - image: cimg/python:3.12
+      - image: cimg/python:3.13
     steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v2-dependencies-python3.12-{{ checksum "./docs/requirements.txt" }}
+            - v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}
             # fallback to using the latest cache if no exact match is found
-            - v2-dependencies-python3.12-
+            - v2-dependencies-python3.13-
       - run:
           name: Install dependencies
           # Note that we the circleci node image installs stuff with a user "circleci", rather
@@ -37,11 +37,12 @@ jobs:
             pip install uv
             uv venv
             source .venv/bin/activate
-            uv pip install -r ./docs/requirements.txt
+            uv pip install -r requirements.txt
+            uv pip install -r requirements-dev.txt
       - save_cache:
           paths:
             - ./venv
-          key: v2-dependencies-python3.12-{{ checksum "./docs/requirements.txt" }}
+          key: v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}
       - run:
           name: Build docs
           command: |
@@ -52,15 +53,15 @@ jobs:
 
   docs-build-deploy:
     docker:
-      - image: cimg/python:3.12-node
+      - image: cimg/python:3.13-node
     steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v2-dependencies-python3.12-{{ checksum "./docs/requirements.txt" }}
+            - v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}-
             # fallback to using the latest cache if no exact match is found
-            - v2-dependencies-python3.12-
+            - v2-dependencies-python3.13-
       - run:
           name: Install dependencies
           # Note that we the circleci node image installs stuff with a user "circleci", rather
@@ -71,11 +72,12 @@ jobs:
             pip install uv
             uv venv
             source .venv/bin/activate
-            uv pip install -r ./docs/requirements.txt
+            uv pip install -r requirements.txt
+            uv pip install -r requirements-dev.txt
       - save_cache:
           paths:
             - ./venv
-          key: v2-dependencies-python3.12-{{ checksum "./docs/requirements.txt" }}
+          key: v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}
       - add_ssh_keys:
           # This SSH key is "CircleCI Docs" in https://github.com/move-coop/parsons/settings/keys
           # We need write access to the Parsons repo, so we can push the "gh-pages" branch.

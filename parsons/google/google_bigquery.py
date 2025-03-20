@@ -4,18 +4,18 @@ import logging
 import pickle
 import random
 import uuid
+import warnings
 from contextlib import contextmanager
 from typing import List, Optional, Union
-import warnings
+
+import petl
 
 import google
-import petl
 from google.api_core import exceptions
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi, job
 from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig
 from google.oauth2.credentials import Credentials
-
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
 from parsons.etl import Table
@@ -778,14 +778,12 @@ class GoogleBigQuery(DatabaseConnector):
         finally:
             gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
 
-    def copy(
+    def copy_direct(
         self,
         tbl: Table,
         table_name: str,
         if_exists: str = "fail",
         max_errors: int = 0,
-        tmp_gcs_bucket: Optional[str] = None,
-        gcs_client: Optional[GoogleCloudStorage] = None,
         job_config: Optional[LoadJobConfig] = None,
         template_table: Optional[str] = None,
         ignoreheader: int = 1,
@@ -799,7 +797,9 @@ class GoogleBigQuery(DatabaseConnector):
         **load_kwargs,
     ):
         """
-        Copy a :ref:`parsons-table` into Google BigQuery via Google Cloud Storage.
+        Copy a :ref:`parsons-table` into Google BigQuery
+        directly. This will work well for smaller data. For larger
+        data, use the normal copy method with stages the upload through CloudStorage.
 
         `Args:`
             tbl: obj
@@ -814,12 +814,6 @@ class GoogleBigQuery(DatabaseConnector):
             max_errors: int
                 The maximum number of rows that can error and be skipped before
                 the job fails.
-            tmp_gcs_bucket: str
-                The name of the Google Cloud Storage bucket to use to stage the data to load
-                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified or set on
-                the class instance.
-            gcs_client: object
-                The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.
             job_config: object
                 A LoadJobConfig object to provide to the underlying call to load_table_from_uri
                 on the BigQuery client. The function will create its own if not provided.
@@ -833,35 +827,8 @@ class GoogleBigQuery(DatabaseConnector):
             **load_kwargs: kwargs
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
+
         """
-        tmp_gcs_bucket = (
-            tmp_gcs_bucket
-            or self.tmp_gcs_bucket
-            or check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket, optional=True)
-        )
-        if tmp_gcs_bucket:
-            warnings.warn(
-                "The tmp_gcs_bucket argument has been passed to `copy` or the GCS_TEMP_BUCKET environment variable is set, and the data will be copy to BigQuery by first copying data to CloudStorage. In a future release, the `copy` method will only support direct data upload to BigQuery and the following arguments will be deprecated: `tmp_gcs_bucket`, `gcs_client`,   Please use `copy_staged` for the current, staged behavior of `copy`."
-            )
-            return self.copy_staged(
-                tbl,
-                table_name,
-                if_exists=if_exists,
-                max_errors=max_errors,
-                tmp_gcs_bucket=tmp_gcs_bucket,
-                gcs_client=gcs_client,
-                job_config=job_config,
-                template_table=template_table,
-                ignoreheader=ignoreheader,
-                nullas=nullas,
-                allow_quoted_newlines=allow_quoted_newlines,
-                allow_jagged_rows=allow_jagged_rows,
-                quote=quote,
-                schema=schema,
-                max_timeout=max_timeout,
-                convert_dict_list_columns_to_json=convert_dict_list_columns_to_json,
-                **load_kwargs,
-            )
 
         job_config = self._prepare_local_upload_job(
             tbl,
@@ -899,7 +866,7 @@ class GoogleBigQuery(DatabaseConnector):
 
                 raise e
 
-    def copy_staged(
+    def copy(
         self,
         tbl: Table,
         table_name: str,
@@ -964,7 +931,7 @@ class GoogleBigQuery(DatabaseConnector):
         )
         if not tmp_gcs_bucket:
             raise ValueError(
-                "Must set GCS_TEMP_BUCKET environment variable or pass in tmp_gcs_bucket parameter"
+                "Must set GCS_TEMP_BUCKET environment variable or pass in tmp_gcs_bucket parameter. If you have smaller data, you can use the `copy_direct` method to upload the data without needing to use CloudStorage. This alternate method will not work well with larger data."
             )
 
         job_config = self._prepare_local_upload_job(

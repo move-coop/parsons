@@ -218,6 +218,16 @@ class TestActionBuilder(unittest.TestCase):
         }
 
     @requests_mock.Mocker()
+    def test_get_page_max_cap(self, m):
+        m.get(
+            f"{self.api_url}/tags?page=2&per_page=25",
+            text=json.dumps(self.fake_tags_list_2),
+        )
+        assert self.bldr._get_page(self.campaign, "tags", 2, per_page=25) == self.bldr._get_page(
+            self.campaign, "tags", 2, per_page=26
+        )
+
+    @requests_mock.Mocker()
     def test_get_page(self, m):
         m.get(
             f"{self.api_url}/tags?page=2&per_page=2",

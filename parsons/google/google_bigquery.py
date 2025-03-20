@@ -7,14 +7,14 @@ import uuid
 from contextlib import contextmanager
 from typing import List, Optional, Union
 
-import petl
-
 import google
+import petl
 from google.api_core import exceptions
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi, job
 from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig
 from google.oauth2.credentials import Credentials
+
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
 from parsons.etl import Table

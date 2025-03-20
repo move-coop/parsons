@@ -272,7 +272,7 @@ class APIConnector(object):
         if isinstance(resp, list):
             return resp
 
-        if self.data_key and self.data_key in resp.keys():
+        if self.data_key and self.data_key in resp:
             return resp[self.data_key]
         else:
             return resp
@@ -293,7 +293,7 @@ class APIConnector(object):
             boolean
         """
 
-        if self.pagination_key and self.pagination_key in resp.keys():
+        if self.pagination_key and self.pagination_key in resp:
             if resp[self.pagination_key]:
                 return True
         else:
@@ -313,9 +313,6 @@ class APIConnector(object):
     def convert_to_table(self, data):
         """Internal method to create a Parsons table from a data element."""
         table = None
-        if type(data) is list:
-            table = Table(data)
-        else:
-            table = Table([data])
+        table = Table(data) if type(data) is list else Table([data])
 
         return table

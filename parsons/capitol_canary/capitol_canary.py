@@ -126,7 +126,7 @@ class CapitolCanary(object):
             tbl.unpack_dict(c)
 
         # Unpack all of the arrays
-        child_tables = [child for child in tbls.keys() if child != "advocates"]
+        child_tables = [child for child in tbls if child != "advocates"]
         for c in child_tables:
             tbls[c] = tbl.long_table(["id"], c, key_rename={"id": "advocate_id"})
 

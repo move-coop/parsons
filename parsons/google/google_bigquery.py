@@ -992,10 +992,7 @@ class GoogleBigQuery(DatabaseConnector):
             self.copy(table_obj, target_table)
             return None
 
-        if isinstance(primary_key, str):
-            primary_keys = [primary_key]
-        else:
-            primary_keys = primary_key
+        primary_keys = [primary_key] if isinstance(primary_key, str) else primary_key
 
         if distinct_check:
             primary_keys_statement = ", ".join(primary_keys)

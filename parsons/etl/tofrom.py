@@ -297,13 +297,11 @@ class ToFrom(object):
             if not line_delimited:
                 file.write("[")
 
-            i = 0
-            for row in self:
+            for i, row in enumerate(self):
                 if i:
                     if not line_delimited:
                         file.write(",")
                     file.write("\n")
-                i += 1
                 json.dump(row, file)
 
             if not line_delimited:
@@ -732,10 +730,7 @@ class ToFrom(object):
         """
 
         remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
-        if any(map(local_path.startswith, remote_prefixes)):
-            is_remote_file = True
-        else:
-            is_remote_file = False
+        is_remote_file = bool(any(map(local_path.startswith, remote_prefixes)))
 
         if not is_remote_file and not files.has_data(local_path):
             raise ValueError("CSV file is empty")
@@ -799,10 +794,7 @@ class ToFrom(object):
         """
 
         if line_delimited:
-            if files.is_gzip_path(local_path):
-                open_fn = gzip.open
-            else:
-                open_fn = open
+            open_fn = gzip.open if files.is_gzip_path(local_path) else open
 
             with open_fn(local_path, "r") as file:
                 rows = [json.loads(line) for line in file]

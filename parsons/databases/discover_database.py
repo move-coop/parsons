@@ -50,7 +50,7 @@ def discover_database(
         "GoogleBigQuery": "GOOGLE_APPLICATION_CREDENTIALS",
     }
 
-    detected = [name for name in connectors.keys() if os.getenv(password_vars[name])]
+    detected = [name for name in connectors if os.getenv(password_vars[name])]
 
     if len(detected) > 1:
         if default_connector is None:

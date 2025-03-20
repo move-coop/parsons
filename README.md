@@ -158,7 +158,7 @@
 | parsons/quickbase/\_\_init\_\_.py                         |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/quickbase/quickbase.py                            |       30 |        0 |        8 |        0 |    100% |           |
 | parsons/quickbooks/\_\_init\_\_.py                        |        2 |        0 |        0 |        0 |    100% |           |
-| parsons/quickbooks/quickbookstime.py                      |       89 |        7 |       18 |        7 |     87% |40, 151, 251, 363, 471, 667, 737 |
+| parsons/quickbooks/quickbookstime.py                      |       90 |        9 |       20 |        8 |     85% |40, 51-52, 151, 251, 363, 471, 666, 736 |
 | parsons/redash/\_\_init\_\_.py                            |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/redash/redash.py                                  |       77 |        8 |       24 |        7 |     83% |58, 83-84, 175, 185-189, 217, 258 |
 | parsons/rockthevote/\_\_init\_\_.py                       |        0 |        0 |        0 |        0 |    100% |           |
@@ -199,7 +199,7 @@
 | parsons/utilities/zip\_archive.py                         |       18 |        2 |        4 |        2 |     82% |    25, 30 |
 | parsons/zoom/\_\_init\_\_.py                              |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/zoom/zoom.py                                      |      155 |       31 |       38 |       15 |     75% |72->exit, 78-80, 99-102, 120, 159, 196-198, 212-214, 277->279, 333-334, 344, 364-365, 389-390, 419-420, 446-447, 471-472, 489-490, 507-508 |
-|                                                 **TOTAL** | **10027** | **2926** | **2832** |  **522** | **67%** |           |
+|                                                 **TOTAL** | **10028** | **2928** | **2834** |  **523** | **67%** |           |
 
 
 ## Setup coverage badge

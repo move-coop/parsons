@@ -1,6 +1,7 @@
 import json
 import unittest
 
+import pytest
 import requests_mock
 
 from parsons import ActionBuilder, Table
@@ -440,13 +441,24 @@ class TestActionBuilder(unittest.TestCase):
             json=self.connect_callback,
         )
         connect_response = self.bldr.upsert_connection([self.fake_entity_id, "fake-entity-id-2"])
-        self.assertEqual(
-            connect_response,
-            {
-                **{k: v for k, v in self.fake_connection.items() if k != "identifiers"},
-                **{"inactive": False},
-            },
+        assert connect_response == {
+            **{k: v for k, v in self.fake_connection.items() if k != "identifiers"},
+            **{"inactive": False},
+        }
+
+    @requests_mock.Mocker()
+    def test_upsert_connection_missing_identifiers(self, m):
+        m.post(
+            f"{self.api_url}/people/{self.fake_entity_id}/connections",
+            json=self.connect_callback,
         )
+        with pytest.raises(ValueError, match="Must provide identifiers as a list"):
+            self.bldr.upsert_connection(self.fake_entity_id)
+        with pytest.raises(ValueError, match="Must provide exactly two identifiers"):
+            self.bldr.upsert_connection([self.fake_entity_id])
+            self.bldr.upsert_connection(
+                [self.fake_entity_id, "fake-entity-id-2", "fake-entity-id-3"]
+            )
 
     @requests_mock.Mocker()
     def test_deactivate_connection_post(self, m):

@@ -415,6 +415,26 @@ class TestActionBuilder(unittest.TestCase):
         )
         assert remove_tag_resp == self.fake_remove_tag_resp
 
+    @requests_mock.Mocker()
+    def test_remove_tagging_missing_tag(self, m):
+        m.delete(
+            f"{self.api_url}/tags/{self.fake_tag_id}/taggings/{self.fake_tagging_id}",
+            json=self.fake_remove_tag_resp,
+        )
+        with pytest.raises(ValueError, match="Please supply a tag_name or tag_id"):
+            self.bldr.remove_tagging(tag_id=None, tag_name=None, tagging_id=self.fake_tagging_id)
+
+    @requests_mock.Mocker()
+    def test_remove_tagging_missing_identifiers(self, m):
+        m.delete(
+            f"{self.api_url}/tags/{self.fake_tag_id}/taggings/{self.fake_tagging_id}",
+            json=self.fake_remove_tag_resp,
+        )
+        with pytest.raises(
+            ValueError, match="Please supply an entity or connection identifier, or a tagging id"
+        ):
+            self.bldr.remove_tagging(tag_id=self.fake_tag_id, tagging_id=None, identifier=None)
+
     def connect_callback(self, request, context):
         # Internal method for returning constructed connection data to test
 

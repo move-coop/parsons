@@ -798,7 +798,7 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Copy a :ref:`parsons-table` into Google BigQuery
         directly. This will work well for smaller data. For larger
-        data, use the normal copy method with stages the upload through CloudStorage.
+        data, use the `copy` method which stages the upload through CloudStorage.
 
         `Args:`
             tbl: obj

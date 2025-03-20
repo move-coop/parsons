@@ -922,7 +922,6 @@ class GoogleBigQuery(DatabaseConnector):
                 client.
         """
         data_type = "csv"
-
         tmp_gcs_bucket = (
             tmp_gcs_bucket
             or self.tmp_gcs_bucket

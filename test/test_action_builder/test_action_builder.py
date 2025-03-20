@@ -234,7 +234,7 @@ class TestActionBuilder(unittest.TestCase):
             f"{self.api_url}/tags?page=2&per_page=2",
             text=json.dumps(self.fake_tags_list_2),
         )
-        self.assertEqual(self.bldr._get_page(self.campaign, "tags", 2, 2), self.fake_tags_list_2)
+        assert self.bldr._get_page(self.campaign, "tags", 2, 2) == self.fake_tags_list_2
 
     @requests_mock.Mocker()
     def test_get_all_records(self, m):
@@ -339,8 +339,8 @@ class TestActionBuilder(unittest.TestCase):
             upsert_email, response_email
         )
 
-        self.assertEqual(person_comp, upsert_response_comp)
-        self.assertEqual(email_comp, response_email_comp)
+        assert person_comp == upsert_response_comp
+        assert email_comp == response_email_comp
 
     @requests_mock.Mocker()
     def test_insert_entity_record(self, m):
@@ -357,7 +357,7 @@ class TestActionBuilder(unittest.TestCase):
             insert_person, insert_response
         )
 
-        self.assertEqual(person_comp, insert_response_comp)
+        assert person_comp == insert_response_comp
 
     @requests_mock.Mocker()
     def test_update_entity_record(self, m):
@@ -374,7 +374,7 @@ class TestActionBuilder(unittest.TestCase):
             update_person, update_response
         )
 
-        self.assertEqual(person_comp, update_response_comp)
+        assert person_comp == update_response_comp
 
     @requests_mock.Mocker()
     def test_remove_entity_record_from_campaign(self, m):
@@ -385,10 +385,7 @@ class TestActionBuilder(unittest.TestCase):
 
         remove_response = self.bldr.remove_entity_record_from_campaign(self.fake_entity_id)
 
-        self.assertEqual(
-            remove_response,
-            "{'message': 'Entity has been removed from the campaign'}",
-        )
+        assert remove_response == "{'message': 'Entity has been removed from the campaign'}"
 
     def tagging_callback(self, request, context):
         # Internal method for returning the constructed tag data to test
@@ -405,7 +402,7 @@ class TestActionBuilder(unittest.TestCase):
         add_tags_response = self.bldr.add_section_field_values_to_record(
             self.fake_entity_id, self.fake_section, self.fake_field_values
         )
-        self.assertEqual(add_tags_response, self.fake_tagging)
+        assert add_tags_response == self.fake_tagging
 
     @requests_mock.Mocker()
     def test_remove_tagging(self, m):
@@ -416,7 +413,7 @@ class TestActionBuilder(unittest.TestCase):
         remove_tag_resp = self.bldr.remove_tagging(
             tag_id=self.fake_tag_id, tagging_id=self.fake_tagging_id
         )
-        self.assertEqual(remove_tag_resp, self.fake_remove_tag_resp)
+        assert remove_tag_resp == self.fake_remove_tag_resp
 
     def connect_callback(self, request, context):
         # Internal method for returning constructed connection data to test
@@ -469,13 +466,10 @@ class TestActionBuilder(unittest.TestCase):
         connect_response = self.bldr.deactivate_connection(
             self.fake_entity_id, to_identifier="fake-entity-id-2"
         )
-        self.assertEqual(
-            connect_response,
-            {
-                **{k: v for k, v in self.fake_connection.items() if k != "identifiers"},
-                **{"inactive": True},
-            },
-        )
+        assert connect_response == {
+            **{k: v for k, v in self.fake_connection.items() if k != "identifiers"},
+            **{"inactive": True},
+        }
 
     @requests_mock.Mocker()
     def test_deactivate_connection_put(self, m):

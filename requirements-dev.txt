@@ -1,5 +1,6 @@
 # Testing Requirements
 bandit[toml]==1.8.3
+cibuildwheel==2.23.0
 coverage==7.6.12
 pytest-cov==6.0.0
 pytest-datadir==1.6.1
@@ -8,12 +9,15 @@ pytest-xdist==3.6.1
 pytest==8.3.5
 requests-mock==1.12.1
 ruff==0.9.10
+setuptools==76.0.0
 testfixtures==8.3.0
+twine==6.1.0
+wheel==0.45.1
 
 # Docs Requirements
-Sphinx==8.1.3;python_version>='3.10'
-Sphinx==7.4.7;python_version<'3.10'
-sphinx-rtd-theme==3.0.2
-myst-parser==4.0.1;python_version>='3.10'
 myst-parser==3.0.1;python_version<'3.10'
+myst-parser==4.0.1;python_version>='3.10'
 sphinx-multiversion
+sphinx-rtd-theme==3.0.2
+Sphinx==7.4.7;python_version<'3.10'
+Sphinx==8.1.3;python_version>='3.10'

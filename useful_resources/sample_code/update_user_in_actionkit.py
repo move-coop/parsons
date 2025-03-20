@@ -42,7 +42,7 @@ ak = ActionKit()
 # This example involves adding a voterbase_id (the Targetsmart ID) to a user in ActionKit
 
 # timestamp to be used for log table
-timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+timestamp = datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 
 loaded = [["id", "voterbase_id", "date_updated"]]  # column names for log table
 

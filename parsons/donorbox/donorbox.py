@@ -215,7 +215,7 @@ class Donorbox(object):
         valid_formats = ["%Y-%m-%d", "%d-%m-%Y", "%Y/%m/%d", "%Y%m%d"]
         for str_format in valid_formats:
             try:
-                datetime.datetime.strptime(date_string, str_format)
+                datetime.datetime.now(tz=datetime.timezone.utc).strptime(date_string, str_format)
                 return
             except ValueError:
                 continue

@@ -75,15 +75,36 @@ class GoogleDrive:
             result = None
         return result
 
+    def list_files_in_folder(
+        self, folder_id: str, fields: list[str] | None = None
+    ) -> list[dict[str, str]]:
+        if not fields:
+            fields = ["id", "name"]
+        page_token = None
+        results = []
+        while True:
+            response = (
+                self.client.files()
+                .list(
+                    q=f"'{folder_id}' in parents",
+                    spaces="drive",
+                    fields="nextPageToken, files({})".format(",".join(fields)),
+                    pageToken=page_token,
+                )
+                .execute()
+            )
+            results.extend(response.get("files", []))
+            page_token = response.get("nextPageToken")
+            if page_token is None:
+                break
+        return results
+
     def empty_folder(self, folder_id: str) -> None:
-        folder_contents = (
-            self.client.files()
-            .list(q=f"'{folder_id}' in parents", spaces="drive", fields="files(id, name)")
-            .execute()
-            .get("files", [])
-        )
+        folder_contents = self.list_files_in_folder(folder_id)
         for drive_file in folder_contents:
-            self.client.files().delete(fileId=drive_file.get("id")).execute()
+            self.client.files().delete(
+                fileId=drive_file.get("id"),
+            ).execute()
 
     def upload_file(self, file_path: str, parent_folder_id: str) -> str:
         file_metadata = {

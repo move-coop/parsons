@@ -94,7 +94,7 @@ class DBSync:
                 try:
                     self._check_column_match(source_tbl, destination_tbl)
                     destination_tbl.truncate()
-                except Exception:
+                except Exception:  # noqa: BLE001
                     logger.info(f"needed to drop {destination_tbl}...")
                     destination_tbl.drop()
             else:
@@ -357,7 +357,7 @@ class DBSync:
         try:
             source_obj = self.source_db.get_table_object(source_table)
             self.dest_db.create_table(source_obj, destination_table)
-        except Exception:
+        except Exception:  # noqa: BLE001
             logger.warning(
                 "Unable to create destination table based on source table; we will "
                 'fallback to using "copy" to create the destination.'

@@ -114,7 +114,7 @@ class S3(object):
             # have access to.
             self.list_keys(bucket)
             return True
-        except Exception:
+        except Exception:  # noqa: BLE001
             pass
 
         return bucket in self.list_buckets()
@@ -437,7 +437,7 @@ class S3(object):
             if remove_original:
                 try:
                     self.remove_file(origin_bucket, origin_key)
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     logger.error("Failed to delete original key: " + str(e))
 
             if public_read:

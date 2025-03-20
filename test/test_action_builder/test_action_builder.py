@@ -458,6 +458,17 @@ class TestActionBuilder(unittest.TestCase):
             )
 
     @requests_mock.Mocker()
+    def test_upsert_connection_tag_data(self, m):
+        m.post(
+            f"{self.api_url}/people/{self.fake_entity_id}/connections",
+            json=self.connect_callback,
+        )
+        with pytest.raises(ValueError, match="Must provide tag_data as a dict or list of dicts"):
+            self.bldr.upsert_connection(
+                [self.fake_entity_id, "fake-entity-id-2"], tag_data=["string", "yarn"]
+            )
+
+    @requests_mock.Mocker()
     def test_deactivate_connection_post(self, m):
         m.post(
             f"{self.api_url}/people/{self.fake_entity_id}/connections",

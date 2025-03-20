@@ -488,10 +488,18 @@ class TestActionBuilder(unittest.TestCase):
         connect_response = self.bldr.deactivate_connection(
             self.fake_entity_id, connection_identifier="fake-connection-id"
         )
-        self.assertEqual(
-            connect_response,
-            {
-                **{k: v for k, v in self.fake_connection.items() if k != "person_id"},
-                **{"inactive": True},
-            },
+        assert connect_response == {
+            **{k: v for k, v in self.fake_connection.items() if k != "person_id"},
+            **{"inactive": True},
+        }
+
+    @requests_mock.Mocker()
+    def test_deactivate_connection_missing_identifiers(self, m):
+        m.post(
+            f"{self.api_url}/people/{self.fake_entity_id}/connections",
+            json=self.connect_callback,
         )
+        with pytest.raises(
+            ValueError, match="Must provide a connection ID or an ID for the second entity"
+        ):
+            self.bldr.deactivate_connection(self.fake_entity_id, to_identifier=None)

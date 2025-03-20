@@ -489,6 +489,21 @@ class TestActionBuilder(unittest.TestCase):
             )
 
     @requests_mock.Mocker()
+    def test_upsert_connection_reactivate(self, m):
+        m.post(
+            f"{self.api_url}/people/{self.fake_entity_id}/connections",
+            json=self.connect_callback,
+        )
+        connect_response = self.bldr.upsert_connection(
+            [self.fake_entity_id, "fake-entity-id-2"], reactivate=True
+        )
+        assert not connect_response["inactive"]
+        connect_response = self.bldr.upsert_connection(
+            [self.fake_entity_id, "fake-entity-id-2"], reactivate=False
+        )
+        assert "inactive" not in connect_response.keys()
+
+    @requests_mock.Mocker()
     def test_deactivate_connection_post(self, m):
         m.post(
             f"{self.api_url}/people/{self.fake_entity_id}/connections",

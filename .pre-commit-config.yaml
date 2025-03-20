@@ -8,3 +8,4 @@ repos:
     rev: '1.8.3'
     hooks:
     - id: bandit
+      args: ['-c pyproject.toml -r -ll -ii', '.']

@@ -9,6 +9,7 @@ import os
 import tempfile
 import time
 import urllib
+from pathlib import Path
 from typing import Dict, List, Optional, Union
 from zipfile import ZipFile
 
@@ -381,7 +382,7 @@ class CatalistMatch:
 
         filepath = os.listdir(temp_dir)[0]
 
-        result = Table.from_csv(os.path.join(temp_dir, filepath), delimiter="\t")
+        result = Table.from_csv(Path(temp_dir) / filepath, delimiter="\t")
         return result
 
     def validate_table(self, table: Table, template_id: str = "48827") -> None:

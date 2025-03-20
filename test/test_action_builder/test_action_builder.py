@@ -245,6 +245,26 @@ class TestActionBuilder(unittest.TestCase):
         )
 
     @requests_mock.Mocker()
+    def test_get_all_records_limit(self, m):
+        m.get(
+            f"{self.api_url}/tags?page=1&per_page=25",
+            text=json.dumps(self.fake_tags_list_1),
+        )
+        m.get(
+            f"{self.api_url}/tags?page=2&per_page=25",
+            text=json.dumps(self.fake_tags_list_2),
+        )
+        m.get(
+            f"{self.api_url}/tags?page=3&per_page=25",
+            text=json.dumps({"_embedded": {"osdi:tags": []}}),
+        )
+        limit_count = 2
+        assert_matching_tables(
+            self.bldr._get_all_records(self.campaign, "tags", limit=limit_count),
+            Table(self.fake_tags_list[0:limit_count]),
+        )
+
+    @requests_mock.Mocker()
     def test_get_campaign_tags(self, m):
         m.get(
             f"{self.api_url}/tags?page=1&per_page=25",

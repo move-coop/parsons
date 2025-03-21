@@ -20,9 +20,9 @@ class TestCensus(unittest.TestCase):
         variables = "NAME,B01001_001E"
         location = "for=state:*"
         table = self.census.get_census(year, dataset_acronym, variables, location)
-        self.assertEqual(len(table), 52)
-        self.assertEqual(table[0]["NAME"], "Illinois")
-        self.assertIsInstance(table, Table)
+        assert len(table) == 52
+        assert table[0]["NAME"] == "Illinois"
+        assert isinstance(table, Table)
 
         @requests_mock.Mocker()
         def test_get_census_mock_test(self, m):
@@ -32,5 +32,5 @@ class TestCensus(unittest.TestCase):
             location = "for=us:1"
             test_json = {"NAME": "United States", "B01001_001E": "328239523", "us": "1"}
             table = m.census.get_census(year, dataset_acronym, variables, location, json=test_json)
-            self.assertEqual(table[0]["B01001_001E"], "328239523")
-            self.assertEqual(table[0]["NAME"], "United States")
+            assert table[0]["B01001_001E"] == "328239523"
+            assert table[0]["NAME"] == "United States"

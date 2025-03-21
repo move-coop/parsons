@@ -151,19 +151,19 @@ class TestCheckEnv(unittest.TestCase):
     def test_environment_field(self):
         """Test check field"""
         result = check_env.check("PARAM", "param")
-        self.assertEqual(result, "param")
+        assert result == "param"
 
     @mock.patch.dict(os.environ, {"PARAM": "env_param"})
     def test_environment_env(self):
         """Test check env"""
         result = check_env.check("PARAM", None)
-        self.assertEqual(result, "env_param")
+        assert result == "env_param"
 
     @mock.patch.dict(os.environ, {"PARAM": "env_param"})
     def test_environment_field_env(self):
         """Test check field with env and field"""
         result = check_env.check("PARAM", "param")
-        self.assertEqual(result, "param")
+        assert result == "param"
 
     def test_envrionment_error(self):
         """Test check env raises error"""

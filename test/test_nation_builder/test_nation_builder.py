@@ -10,19 +10,16 @@ from .fixtures import GET_PEOPLE_RESPONSE, PERSON_RESPONSE
 class TestNationBuilder(unittest.TestCase):
     def test_client(self):
         nb = NB("test-slug", "test-token")
-        self.assertEqual(nb.client.uri, "https://test-slug.nationbuilder.com/api/v1/")
-        self.assertEqual(
-            nb.client.headers,
-            {
-                "authorization": "Bearer test-token",
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-        )
+        assert nb.client.uri == "https://test-slug.nationbuilder.com/api/v1/"
+        assert nb.client.headers == {
+            "authorization": "Bearer test-token",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
 
     def test_get_uri_success(self):
-        self.assertEqual(NB.get_uri("foo"), "https://foo.nationbuilder.com/api/v1")
-        self.assertEqual(NB.get_uri("bar"), "https://bar.nationbuilder.com/api/v1")
+        assert NB.get_uri("foo") == "https://foo.nationbuilder.com/api/v1"
+        assert NB.get_uri("bar") == "https://bar.nationbuilder.com/api/v1"
 
     def test_get_uri_errors(self):
         values = ["", "  ", None, 1337, {}, []]
@@ -32,8 +29,8 @@ class TestNationBuilder(unittest.TestCase):
                 NB.get_uri(v)
 
     def test_get_auth_headers_success(self):
-        self.assertEqual(NB.get_auth_headers("foo"), {"authorization": "Bearer foo"})
-        self.assertEqual(NB.get_auth_headers("bar"), {"authorization": "Bearer bar"})
+        assert NB.get_auth_headers("foo") == {"authorization": "Bearer foo"}
+        assert NB.get_auth_headers("bar") == {"authorization": "Bearer bar"}
 
     def test_get_auth_headers_errors(self):
         values = ["", "  ", None, 1337, {}, []]
@@ -44,8 +41,8 @@ class TestNationBuilder(unittest.TestCase):
 
     def test_parse_next_params_success(self):
         n, t = NB.parse_next_params("/a/b/c?__nonce=foo&__token=bar")
-        self.assertEqual(n, "foo")
-        self.assertEqual(t, "bar")
+        assert n == "foo"
+        assert t == "bar"
 
     def test_get_next_params_errors(self):
         with self.assertRaises(ValueError):
@@ -58,9 +55,9 @@ class TestNationBuilder(unittest.TestCase):
             NB.parse_next_params("/a/b/c?__token=1")
 
     def test_make_next_url(self):
-        self.assertEqual(
-            NB.make_next_url("example.com", "bar", "baz"),
-            "example.com?limit=100&__nonce=bar&__token=baz",
+        assert (
+            NB.make_next_url("example.com", "bar", "baz")
+            == "example.com?limit=100&__nonce=bar&__token=baz"
         )
 
     @requests_mock.Mocker()
@@ -68,7 +65,7 @@ class TestNationBuilder(unittest.TestCase):
         nb = NB("test-slug", "test-token")
         m.get("https://test-slug.nationbuilder.com/api/v1/people", json={"results": []})
         table = nb.get_people()
-        self.assertEqual(table.num_rows, 0)
+        assert table.num_rows == 0
 
     @requests_mock.Mocker()
     def test_get_people(self, m):
@@ -79,12 +76,12 @@ class TestNationBuilder(unittest.TestCase):
         )
         table = nb.get_people()
 
-        self.assertEqual(table.num_rows, 2)
-        self.assertEqual(len(table.columns), 59)
+        assert table.num_rows == 2
+        assert len(table.columns) == 59
 
-        self.assertEqual(table[0]["first_name"], "Foo")
-        self.assertEqual(table[0]["last_name"], "Bar")
-        self.assertEqual(table[0]["email"], "foo@example.com")
+        assert table[0]["first_name"] == "Foo"
+        assert table[0]["last_name"] == "Bar"
+        assert table[0]["email"] == "foo@example.com"
 
     @requests_mock.Mocker()
     def test_get_people_with_next(self, m):
@@ -108,12 +105,12 @@ class TestNationBuilder(unittest.TestCase):
 
         table = nb.get_people()
 
-        self.assertEqual(table.num_rows, 4)
-        self.assertEqual(len(table.columns), 59)
+        assert table.num_rows == 4
+        assert len(table.columns) == 59
 
-        self.assertEqual(table[1]["first_name"], "Zoo")
-        self.assertEqual(table[1]["last_name"], "Baz")
-        self.assertEqual(table[1]["email"], "bar@example.com")
+        assert table[1]["first_name"] == "Zoo"
+        assert table[1]["last_name"] == "Baz"
+        assert table[1]["email"] == "bar@example.com"
 
     def test_update_person_raises_with_bad_params(self):
         nb = NB("test-slug", "test-token")
@@ -146,10 +143,10 @@ class TestNationBuilder(unittest.TestCase):
         response = nb.update_person("1", {"tags": ["zoot", "boot"]})
         person = response["person"]
 
-        self.assertEqual(person["id"], 1)
-        self.assertEqual(person["first_name"], "Foo")
-        self.assertEqual(person["last_name"], "Bar")
-        self.assertEqual(person["email"], "foo@example.com")
+        assert person["id"] == 1
+        assert person["first_name"] == "Foo"
+        assert person["last_name"] == "Bar"
+        assert person["email"] == "foo@example.com"
 
     def test_upsert_person_raises_with_bad_params(self):
         nb = NB("test-slug", "test-token")
@@ -168,11 +165,11 @@ class TestNationBuilder(unittest.TestCase):
         )
 
         created, response = nb.upsert_person({"email": "foo@example.com"})
-        self.assertFalse(created)
+        assert not created
 
         person = response["person"]
 
-        self.assertEqual(person["id"], 1)
-        self.assertEqual(person["first_name"], "Foo")
-        self.assertEqual(person["last_name"], "Bar")
-        self.assertEqual(person["email"], "foo@example.com")
+        assert person["id"] == 1
+        assert person["first_name"] == "Foo"
+        assert person["last_name"] == "Bar"
+        assert person["email"] == "foo@example.com"

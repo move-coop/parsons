@@ -59,13 +59,13 @@ class TestCodes(unittest.TestCase):
         }
 
         m.get(self.van.connection.uri + "codes/1004916", json=json)
-        self.assertEqual(json, self.van.get_code(1004916))
+        assert json == self.van.get_code(1004916)
 
     @requests_mock.Mocker()
     def test_get_code_types(self, m):
         json = ["Tag", "SourceCode"]
         m.get(self.van.connection.uri + "codeTypes", json=json)
-        self.assertEqual(json, self.van.get_code_types())
+        assert json == self.van.get_code_types()
 
     @requests_mock.Mocker()
     def test_create_code(self, m):
@@ -77,7 +77,7 @@ class TestCodes(unittest.TestCase):
             supported_entities=[{"name": "Events", "is_searchable": True, "is_applicable": True}],
         )
 
-        self.assertEqual(r, 1004960)
+        assert r == 1004960
 
     @requests_mock.Mocker()
     def test_update_code(self, m):
@@ -103,4 +103,4 @@ class TestCodes(unittest.TestCase):
     def test_get_code_supported_entities(self, m):
         json = ["Contacts", "Events", "Locations"]
         m.get(self.van.connection.uri + "codes/supportedEntities", json=json)
-        self.assertEqual(json, self.van.get_code_supported_entities())
+        assert json == self.van.get_code_supported_entities()

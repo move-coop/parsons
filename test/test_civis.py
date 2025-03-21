@@ -38,7 +38,7 @@ class TestCivisClient(unittest.TestCase):
         # Test that queries match
         self.civis.table_import(self.tbl, "test_parsons.test_table")
         tbl = self.civis.query("SELECT COUNT(*) FROM test_parsons.test_table")
-        self.assertEqual(tbl[0]["count"], "1")
+        assert tbl[0]["count"] == "1"
 
     def test_to_civis(self):
         # Test that the to_civis() method works too

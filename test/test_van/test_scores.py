@@ -47,7 +47,7 @@ class TestScores(unittest.TestCase):
             "description",
         ]
 
-        self.assertTrue(validate_list(expected, self.van.get_scores()))
+        assert validate_list(expected, self.van.get_scores())
 
     @requests_mock.Mocker()
     def test_get_score(self, m):
@@ -65,7 +65,7 @@ class TestScores(unittest.TestCase):
         }
 
         m.get(self.van.connection.uri + "scores/{}".format(score_id), json=json)
-        self.assertEqual(json, self.van.get_score(score_id))
+        assert json == self.van.get_score(score_id)
 
     @requests_mock.Mocker()
     def test_get_score_updates(self, m):
@@ -137,7 +137,7 @@ class TestScores(unittest.TestCase):
             "state",
         ]
 
-        self.assertTrue(validate_list(expected, self.van.get_score_updates()))
+        assert validate_list(expected, self.van.get_score_updates())
 
     @requests_mock.Mocker()
     def test_get_score_update(self, m):
@@ -179,7 +179,7 @@ class TestScores(unittest.TestCase):
 
         # expected = ['loadStatus', 'updateStatistics', 'score', 'dateProcessed', 'scoreUpdateId']
 
-        self.assertEqual(json, self.van.get_score_update(score_update_id))
+        assert json == self.van.get_score_update(score_update_id)
 
     @requests_mock.Mocker()
     def test_update_score_status(self, m):
@@ -194,7 +194,7 @@ class TestScores(unittest.TestCase):
         self.assertRaises(ValueError, self.van.update_score_status, score_update_id, "not a thing.")
 
         # Test good input
-        self.assertTrue(self.van.update_score_status(score_update_id, "approved"))
+        assert self.van.update_score_status(score_update_id, "approved")
 
     @requests_mock.Mocker()
     def test_upload_scores(self, m):
@@ -239,15 +239,6 @@ class TestScores(unittest.TestCase):
         )
 
         # Test good request
-        self.assertEqual(
-            json["jobId"],
-            self.van.create_file_load(
-                file_name,
-                file_url_good,
-                columns,
-                id_column,
-                id_type,
-                score_id,
-                score_column,
-            ),
+        assert json["jobId"] == self.van.create_file_load(
+            file_name, file_url_good, columns, id_column, id_type, score_id, score_column
         )

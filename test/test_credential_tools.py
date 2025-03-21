@@ -30,7 +30,7 @@ class TestCredentialTool(unittest.TestCase):
 
         expected = {"ENC_VAR1": "encoded-variable-1", "ENC_VAR2": "enc-var-2"}
 
-        self.assertDictEqual(ct.decode_credential(encoded_cred, export=False), expected)
+        assert ct.decode_credential(encoded_cred, export=False) == expected
 
     def test_decode_credential_export(self):
         encoded_cred = (
@@ -40,16 +40,16 @@ class TestCredentialTool(unittest.TestCase):
 
         expected = {"ENC_VAR1": "encoded-variable-1", "ENC_VAR2": "enc-var-2"}
 
-        self.assertNotIn("ENC_VAR1", os.environ)
-        self.assertNotIn("ENC_VAR2", os.environ)
+        assert "ENC_VAR1" not in os.environ
+        assert "ENC_VAR2" not in os.environ
 
         ct.decode_credential(encoded_cred)
 
-        self.assertIn("ENC_VAR1", os.environ)
-        self.assertIn("ENC_VAR2", os.environ)
+        assert "ENC_VAR1" in os.environ
+        assert "ENC_VAR2" in os.environ
 
-        self.assertEqual(os.environ["ENC_VAR1"], expected["ENC_VAR1"])
-        self.assertEqual(os.environ["ENC_VAR2"], expected["ENC_VAR2"])
+        assert os.environ["ENC_VAR1"] == expected["ENC_VAR1"]
+        assert os.environ["ENC_VAR2"] == expected["ENC_VAR2"]
 
     def test_decode_credential_save(self):
         encoded_cred = (
@@ -60,16 +60,16 @@ class TestCredentialTool(unittest.TestCase):
         expected = {"ENC_VAR1": "encoded-variable-1", "ENC_VAR2": "enc-var-2"}
 
         file_path = f"{self.tmp_folder}/saved_credentials.json"
-        self.assertFalse(os.path.isfile(file_path))
+        assert not os.path.isfile(file_path)
 
         ct.decode_credential(encoded_cred, export=False, save_path=file_path)
 
-        self.assertTrue(os.path.isfile(file_path))
+        assert os.path.isfile(file_path)
 
         with open(file_path, "r") as f:
             cred = json.load(f)
 
-        self.assertDictEqual(cred, expected)
+        assert cred == expected
 
     def test_decode_credential_error(self):
         non_json = "non-json string"
@@ -80,25 +80,25 @@ class TestCredentialTool(unittest.TestCase):
         json_str = '{"json": "string"}'
         expected = "PRSNSENVeyJqc29uIjogInN0cmluZyJ9"
 
-        self.assertEqual(ct.encode_from_json_str(json_str), expected)
+        assert ct.encode_from_json_str(json_str) == expected
 
     def test_encode_from_json_file(self):
         json_path = f"{self.tmp_folder}/{self.json_file}"
         expected = "PRSNSENVeyJqc29uIjogImZpbGUifQ=="
 
-        self.assertEqual(ct.encode_from_json_file(json_path), expected)
+        assert ct.encode_from_json_file(json_path) == expected
 
     def testencode_from_env(self):
         lst = ["TES_VAR1", "TES_VAR2"]
         expected = "PRSNSENVeyJURVNfVkFSMSI6ICJ2YXJpYWJsZTEiLCAiVEVTX1ZBUjIiOiAidmFyaWFibGUyIn0="
 
-        self.assertEqual(ct.encode_from_env(lst), expected)
+        assert ct.encode_from_env(lst) == expected
 
     def test_encode_from_dict(self):
         dct = {"dict": "variable"}
         expected = "PRSNSENVeyJkaWN0IjogInZhcmlhYmxlIn0="
 
-        self.assertEqual(ct.encode_from_dict(dct), expected)
+        assert ct.encode_from_dict(dct) == expected
 
 
 if __name__ == "__main__":

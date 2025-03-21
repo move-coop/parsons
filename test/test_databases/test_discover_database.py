@@ -26,7 +26,7 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch("os.getenv")
     def test_single_database_detected(self, mock_getenv, *_):
         mock_getenv.side_effect = lambda var: "password" if var == "REDSHIFT_PASSWORD" else None
-        self.assertIsInstance(discover_database(), Redshift)
+        assert isinstance(discover_database(), Redshift)
 
     @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
@@ -35,7 +35,7 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch("os.getenv")
     def test_single_database_detected_with_other_default(self, mock_getenv, *_):
         mock_getenv.side_effect = lambda var: "password" if var == "REDSHIFT_PASSWORD" else None
-        self.assertIsInstance(discover_database(default_connector=Postgres), Redshift)
+        assert isinstance(discover_database(default_connector=Postgres), Redshift)
 
     @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
@@ -44,7 +44,7 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch("os.getenv")
     def test_single_database_detected_with_other_default_list(self, mock_getenv, *_):
         mock_getenv.side_effect = lambda var: "password" if var == "REDSHIFT_PASSWORD" else None
-        self.assertIsInstance(discover_database(default_connector=[Postgres, MySQL]), Redshift)
+        assert isinstance(discover_database(default_connector=[Postgres, MySQL]), Redshift)
 
     @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
@@ -63,7 +63,7 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch("os.getenv")
     def test_multiple_databases_with_default(self, mock_getenv, *_):
         mock_getenv.return_value = "password"
-        self.assertIsInstance(discover_database(default_connector=Redshift), Redshift)
+        assert isinstance(discover_database(default_connector=Redshift), Redshift)
 
     @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)
@@ -72,7 +72,7 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch("os.getenv")
     def test_multiple_databases_with_default_list(self, mock_getenv, *_):
         mock_getenv.return_value = "password"
-        self.assertIsInstance(discover_database(default_connector=[MySQL, Redshift]), MySQL)
+        assert isinstance(discover_database(default_connector=[MySQL, Redshift]), MySQL)
 
     @patch.object(BigQuery, "__init__", return_value=None)
     @patch.object(Postgres, "__init__", return_value=None)

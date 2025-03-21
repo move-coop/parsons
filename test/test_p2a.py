@@ -128,8 +128,8 @@ class TestP2A(unittest.TestCase):
         os.environ["PHONE2ACTION_APP_KEY"] = "key"
 
         p2a_envs = Phone2Action()
-        self.assertEqual(p2a_envs.app_id, "id")
-        self.assertEqual(p2a_envs.app_key, "key")
+        assert p2a_envs.app_id == "id"
+        assert p2a_envs.app_key == "key"
 
     @requests_mock.Mocker()
     def test_get_advocates(self, m):
@@ -162,19 +162,19 @@ class TestP2A(unittest.TestCase):
             "districts_stateSenate",
         ]
 
-        self.assertTrue(validate_list(adv_exp, self.p2a.get_advocates()["advocates"]))
+        assert validate_list(adv_exp, self.p2a.get_advocates()["advocates"])
         ids_exp = ["advocate_id", "ids"]
 
-        self.assertTrue(validate_list(ids_exp, self.p2a.get_advocates()["ids"]))
+        assert validate_list(ids_exp, self.p2a.get_advocates()["ids"])
 
         phone_exp = ["advocate_id", "phones_address", "phones_id", "phones_subscribed"]
-        self.assertTrue(validate_list(phone_exp, self.p2a.get_advocates()["phones"]))
+        assert validate_list(phone_exp, self.p2a.get_advocates()["phones"])
 
         tags_exp = ["advocate_id", "tags"]
-        self.assertTrue(validate_list(tags_exp, self.p2a.get_advocates()["tags"]))
+        assert validate_list(tags_exp, self.p2a.get_advocates()["tags"])
 
         email_exp = ["advocate_id", "emails_address", "emails_id", "emails_subscribed"]
-        self.assertTrue(validate_list(email_exp, self.p2a.get_advocates()["emails"]))
+        assert validate_list(email_exp, self.p2a.get_advocates()["emails"])
 
         member_exp = [
             "advocate_id",
@@ -184,10 +184,10 @@ class TestP2A(unittest.TestCase):
             "memberships_name",
             "memberships_source",
         ]
-        self.assertTrue(validate_list(member_exp, self.p2a.get_advocates()["memberships"]))
+        assert validate_list(member_exp, self.p2a.get_advocates()["memberships"])
 
         fields_exp = ["advocate_id", "fields"]
-        self.assertTrue(validate_list(fields_exp, self.p2a.get_advocates()["fields"]))
+        assert validate_list(fields_exp, self.p2a.get_advocates()["fields"])
 
     @requests_mock.Mocker()
     def test_get_advocates__by_page(self, m):
@@ -202,7 +202,7 @@ class TestP2A(unittest.TestCase):
         )
 
         results = self.p2a.get_advocates(page=1)
-        self.assertTrue(results["advocates"].num_rows, 1)
+        assert results["advocates"].num_rows, 1
 
     @requests_mock.Mocker()
     def test_get_advocates__empty(self, m):
@@ -214,7 +214,7 @@ class TestP2A(unittest.TestCase):
         m.get(self.p2a.client.uri + "advocates", json=adv_json)
 
         results = self.p2a.get_advocates()
-        self.assertTrue(results["advocates"].num_rows, 0)
+        assert results["advocates"].num_rows, 0
 
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):
@@ -240,7 +240,7 @@ class TestP2A(unittest.TestCase):
 
         m.get(self.p2a.client.uri + "campaigns", json=camp_json)
 
-        self.assertTrue(validate_list(camp_exp, self.p2a.get_campaigns()))
+        assert validate_list(camp_exp, self.p2a.get_campaigns())
 
     @requests_mock.Mocker()
     def test_create_advocate(self, m):
@@ -267,15 +267,15 @@ class TestP2A(unittest.TestCase):
         advocateid = self.p2a.create_advocate(
             campaigns=[1], email="foo@bar.com", email_optin=True, firstname="Test"
         )
-        self.assertTrue(m.called)
-        self.assertEqual(advocateid, 1)
+        assert m.called
+        assert advocateid == 1
 
         # Check that the properties were mapped
         data = parse_request_body(m.last_request.text)
-        self.assertEqual(data["firstname"], "Test")
-        self.assertNotIn("lastname", data)
-        self.assertEqual(data["emailOptin"], "1")
-        self.assertEqual(data["email"], "foo%40bar.com")
+        assert data["firstname"] == "Test"
+        assert "lastname" not in data
+        assert data["emailOptin"] == "1"
+        assert data["email"] == "foo%40bar.com"
 
     @requests_mock.Mocker()
     def test_update_advocate(self, m):
@@ -300,11 +300,11 @@ class TestP2A(unittest.TestCase):
             email_optin=True,
             firstname="Test",
         )
-        self.assertTrue(m.called)
+        assert m.called
 
         # Check that the properties were mapped
         data = parse_request_body(m.last_request.text)
-        self.assertEqual(data["firstname"], "Test")
-        self.assertNotIn("lastname", data)
-        self.assertEqual(data["emailOptin"], "1")
-        self.assertEqual(data["email"], "foo%40bar.com")
+        assert data["firstname"] == "Test"
+        assert "lastname" not in data
+        assert data["emailOptin"] == "1"
+        assert data["email"] == "foo%40bar.com"

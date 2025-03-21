@@ -64,9 +64,9 @@ class TestGoogleBigQuery(FakeCredentialTest):
         result = bq.query(query_string)
 
         # Check our return value
-        self.assertEqual(result.num_rows, 1)
-        self.assertEqual(result.columns, ["one", "two"])
-        self.assertEqual(result[0], {"one": 1, "two": 2})
+        assert result.num_rows == 1
+        assert result.columns == ["one", "two"]
+        assert result[0] == {"one": 1, "two": 2}
 
     def test_query__no_results(self):
         query_string = "select * from table limit 0"
@@ -96,7 +96,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         result = bq.query(query_string, return_values=False)
 
         # Check our return value
-        self.assertEqual(result, None)
+        assert result == None
 
         # Check that query results were not fetched
         bq._fetch_query_results.assert_not_called()
@@ -115,14 +115,14 @@ class TestGoogleBigQuery(FakeCredentialTest):
         keyword_args = bq.query.call_args[1]
 
         # Check our return value
-        self.assertEqual(result, None)
+        assert result == None
 
         # Check that queries and transaction keywords are included in sql
-        self.assertTrue(
-            all([text in keyword_args["sql"] for text in queries + ["BEGIN TRANSACTION", "COMMIT"]])
+        assert all(
+            [text in keyword_args["sql"] for text in queries + ["BEGIN TRANSACTION", "COMMIT"]]
         )
-        self.assertEqual(keyword_args["parameters"], parameters)
-        self.assertFalse(keyword_args["return_values"])
+        assert keyword_args["parameters"] == parameters
+        assert not keyword_args["return_values"]
 
     def test_extract(self):
         gcs_bucket = "tmp"
@@ -138,21 +138,21 @@ class TestGoogleBigQuery(FakeCredentialTest):
             table_name=table_name,
         )
 
-        self.assertEqual(bq.client.extract_table.call_count, 1)
+        assert bq.client.extract_table.call_count == 1
         load_call_args = bq.client.extract_table.call_args
-        self.assertEqual(load_call_args[1]["destination_uris"], gs_tmp_destination)
+        assert load_call_args[1]["destination_uris"] == gs_tmp_destination
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(job_config.destination_format, bigquery.DestinationFormat.CSV)
+        assert job_config.destination_format == bigquery.DestinationFormat.CSV
 
     def test_get_job(self):
         tmp_job_id = "1234567890"
         bq = self._build_mock_base_client()
         bq.client.get_job(job_id=tmp_job_id)
 
-        self.assertEqual(bq.client.get_job.call_count, 1)
+        assert bq.client.get_job.call_count == 1
         load_call_args = bq.client.get_job.call_args
-        self.assertEqual(load_call_args[1]["job_id"], tmp_job_id)
+        assert load_call_args[1]["job_id"] == tmp_job_id
 
     def test_copy_gcs(self):
         # setup dependencies / inputs
@@ -168,12 +168,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
         # check that the method did the right things
-        self.assertEqual(bq.client.load_table_from_uri.call_count, 1)
+        assert bq.client.load_table_from_uri.call_count == 1
         load_call_args = bq.client.load_table_from_uri.call_args
-        self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
+        assert load_call_args[1]["source_uris"] == tmp_blob_uri
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY)
+        assert job_config.write_disposition == bigquery.WriteDisposition.WRITE_EMPTY
 
     def test_copy_gcs__if_exists_truncate(self):
         # setup dependencies / inputs
@@ -190,12 +190,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
         # check that the method did the right things
-        self.assertEqual(bq.client.load_table_from_uri.call_count, 1)
+        assert bq.client.load_table_from_uri.call_count == 1
         load_call_args = bq.client.load_table_from_uri.call_args
-        self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
+        assert load_call_args[1]["source_uris"] == tmp_blob_uri
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_TRUNCATE)
+        assert job_config.write_disposition == bigquery.WriteDisposition.WRITE_TRUNCATE
 
     def test_copy_gcs__if_exists_append(self):
         # setup dependencies / inputs
@@ -212,12 +212,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
         # check that the method did the right things
-        self.assertEqual(bq.client.load_table_from_uri.call_count, 1)
+        assert bq.client.load_table_from_uri.call_count == 1
         load_call_args = bq.client.load_table_from_uri.call_args
-        self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
+        assert load_call_args[1]["source_uris"] == tmp_blob_uri
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_APPEND)
+        assert job_config.write_disposition == bigquery.WriteDisposition.WRITE_APPEND
 
     def test_copy_gcs__if_exists_fail(self):
         # setup dependencies / inputs
@@ -261,7 +261,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
         # check that we tried to delete the table
-        self.assertEqual(bq.client.delete_table.call_count, 1)
+        assert bq.client.delete_table.call_count == 1
 
     def test_copy_gcs__bad_if_exists(self):
         # setup dependencies / inputs
@@ -312,12 +312,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
             new_file_extension="csv",
             compression_type="gzip",
         )
-        self.assertEqual(bq.client.load_table_from_uri.call_count, 1)
+        assert bq.client.load_table_from_uri.call_count == 1
         load_call_args = bq.client.load_table_from_uri.call_args
-        self.assertEqual(load_call_args[1]["source_uris"], "gs://tmp/file.csv")
+        assert load_call_args[1]["source_uris"] == "gs://tmp/file.csv"
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY)
+        assert job_config.write_disposition == bigquery.WriteDisposition.WRITE_EMPTY
 
     def test_copy_s3(self):
         # setup dependencies / inputs
@@ -376,28 +376,28 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
         # check that the method did the right things
-        self.assertEqual(gcs_client.upload_table.call_count, 1)
+        assert gcs_client.upload_table.call_count == 1
         upload_call_args = gcs_client.upload_table.call_args
-        self.assertEqual(upload_call_args[0][0], tbl)
-        self.assertEqual(upload_call_args[0][1], self.tmp_gcs_bucket)
+        assert upload_call_args[0][0] == tbl
+        assert upload_call_args[0][1] == self.tmp_gcs_bucket
         tmp_blob_name = upload_call_args[0][2]
 
-        self.assertEqual(bq._load_table_from_uri.call_count, 1)
+        assert bq._load_table_from_uri.call_count == 1
         load_call_args = bq._load_table_from_uri.call_args
         job_config = load_call_args[1]["job_config"]
         column_types = [schema_field.field_type for schema_field in job_config.schema]
-        self.assertEqual(column_types, ["INTEGER", "STRING", "BOOLEAN"])
-        self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
+        assert column_types == ["INTEGER", "STRING", "BOOLEAN"]
+        assert load_call_args[1]["source_uris"] == tmp_blob_uri
 
-        self.assertEqual(bq.get_table_ref.call_count, 2)
+        assert bq.get_table_ref.call_count == 2
         get_table_ref_args = bq.get_table_ref.call_args
-        self.assertEqual(get_table_ref_args[1]["table_name"], table_name)
+        assert get_table_ref_args[1]["table_name"] == table_name
 
         # make sure we cleaned up the temp file
-        self.assertEqual(gcs_client.delete_blob.call_count, 1)
+        assert gcs_client.delete_blob.call_count == 1
         delete_call_args = gcs_client.delete_blob.call_args
-        self.assertEqual(delete_call_args[0][0], self.tmp_gcs_bucket)
-        self.assertEqual(delete_call_args[0][1], tmp_blob_name)
+        assert delete_call_args[0][0] == self.tmp_gcs_bucket
+        assert delete_call_args[0][1] == tmp_blob_name
 
     @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
@@ -420,8 +420,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
         with open(actual, "r") as factual:
             with open(self.cred_path, "r") as fexpected:
                 actual_str = factual.read()
-                self.assertEqual(actual_str, fexpected.read())
-                self.assertEqual(self.cred_contents, json.loads(actual_str))
+                assert actual_str == fexpected.read()
+                assert self.cred_contents == json.loads(actual_str)
 
     @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
@@ -448,8 +448,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
         with open(actual, "r") as factual:
             with open(self.cred_path, "r") as fexpected:
                 actual_str = factual.read()
-                self.assertEqual(actual_str, fexpected.read())
-                self.assertEqual(self.cred_contents, json.loads(actual_str))
+                assert actual_str == fexpected.read()
+                assert self.cred_contents == json.loads(actual_str)
 
     @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
@@ -474,8 +474,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
         with open(actual, "r") as factual:
             with open(self.cred_path, "r") as fexpected:
                 actual_str = factual.read()
-                self.assertEqual(actual_str, fexpected.read())
-                self.assertEqual(self.cred_contents, json.loads(actual_str))
+                assert actual_str == fexpected.read()
+                assert self.cred_contents == json.loads(actual_str)
 
     def test_copy__if_exists_passed_through(self):
         # setup dependencies / inputs
@@ -499,9 +499,9 @@ class TestGoogleBigQuery(FakeCredentialTest):
             if_exists=if_exists,
         )
 
-        self.assertEqual(bq._load_table_from_uri.call_count, 1)
+        assert bq._load_table_from_uri.call_count == 1
         process_job_config_args = bq._process_job_config.call_args
-        self.assertEqual(process_job_config_args[1]["if_exists"], if_exists)
+        assert process_job_config_args[1]["if_exists"] == if_exists
 
     @mock.patch.object(BigQuery, "table_exists", return_value=False)
     @mock.patch.object(BigQuery, "query", return_value=None)
@@ -522,7 +522,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         query_mock.assert_called_once()
         actual_query = query_mock.call_args[1]["sql"]
-        self.assertEqual(actual_query, expected_query)
+        assert actual_query == expected_query
 
     @mock.patch.object(BigQuery, "table_exists", return_value=False)
     @mock.patch.object(BigQuery, "delete_table", return_value=None)
@@ -560,14 +560,14 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         # stages the table -> calls copy
         copy_mock.assert_called_once()
-        self.assertEqual(copy_mock.call_args[1]["tbl"], upsert_tbl)
-        self.assertEqual(copy_mock.call_args[1]["template_table"], target_table)
+        assert copy_mock.call_args[1]["tbl"] == upsert_tbl
+        assert copy_mock.call_args[1]["template_table"] == target_table
 
         # runs a delete insert within a transaction
         query_mock.assert_called_once()
         actual_queries = query_mock.call_args[1]["queries"]
-        self.assertIn("DELETE", actual_queries[0])
-        self.assertIn("INSERT", actual_queries[1])
+        assert "DELETE" in actual_queries[0]
+        assert "INSERT" in actual_queries[1]
 
     @mock.patch.object(BigQuery, "query")
     def test_get_row_count(self, query_mock):
@@ -586,8 +586,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
         # Assert
         query_mock.assert_called_once()
         actual_query = query_mock.call_args[1]["sql"]
-        self.assertEqual(row_count, expected_num_rows)
-        self.assertEqual(actual_query, expected_query)
+        assert row_count == expected_num_rows
+        assert actual_query == expected_query
 
     def _build_mock_client_for_querying(self, results):
         # Create a mock that will play the role of the cursor

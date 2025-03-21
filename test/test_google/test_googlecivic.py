@@ -59,10 +59,10 @@ class TestGoogleCivic(unittest.TestCase):
         address = "1600 Amphitheatre Parkway, Mountain View, CA"  # replace with a valid address
         response = self.gc.get_representative_info_by_address(address)
 
-        self.assertIsInstance(response, dict)
-        self.assertIn("offices", response)
-        self.assertIn("officials", response)
-        self.assertIn("divisions", response)
+        assert isinstance(response, dict)
+        assert "offices" in response
+        assert "officials" in response
+        assert "divisions" in response
 
     @requests_mock.Mocker()
     def test_get_representative_info_by_address_invalid_input(self, m):
@@ -93,7 +93,7 @@ class TestGoogleCivic(unittest.TestCase):
             roles=["headOfGovernment"],
         )
 
-        self.assertIsInstance(response, dict)
-        self.assertIn("offices", response)
-        self.assertIn("officials", response)
-        self.assertIn("divisions", response)
+        assert isinstance(response, dict)
+        assert "offices" in response
+        assert "officials" in response
+        assert "divisions" in response

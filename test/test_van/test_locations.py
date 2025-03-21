@@ -70,13 +70,13 @@ class TestLocations(unittest.TestCase):
         json = {"items": [location_json], "nextPageLink": None, "count": 1}
         m.get(self.van.connection.uri + "locations", json=json)
 
-        self.assertTrue(validate_list(expected_loc, self.van.get_locations()))
+        assert validate_list(expected_loc, self.van.get_locations())
 
     @requests_mock.Mocker()
     def test_get_location(self, m):
         # Valid location id
         m.get(self.van.connection.uri + "locations/34", json=location_json)
-        self.assertEqual(location_json, self.van.get_location(34))
+        assert location_json == self.van.get_location(34)
 
     @requests_mock.Mocker()
     def test_delete_location(self, m):
@@ -98,7 +98,4 @@ class TestLocations(unittest.TestCase):
             status_code=204,
         )
 
-        self.assertEqual(
-            self.van.create_location(name="Chicagowide", city="Chicago", state="IL"),
-            loc_id,
-        )
+        assert self.van.create_location(name="Chicagowide", city="Chicago", state="IL") == loc_id

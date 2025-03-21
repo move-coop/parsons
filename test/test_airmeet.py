@@ -29,10 +29,10 @@ class TestAirmeet(unittest.TestCase):
     def test_from_environ(self, m):
         m.post("https://env_api_endpoint/auth", json={"token": "test_token"})
         airmeet = Airmeet()
-        self.assertEqual(airmeet.uri, "https://env_api_endpoint")
-        self.assertEqual(airmeet.airmeet_client_key, "env_access_key")
-        self.assertEqual(airmeet.airmeet_client_secret, "env_secret_key")
-        self.assertEqual(airmeet.token, "test_token")
+        assert airmeet.uri == "https://env_api_endpoint"
+        assert airmeet.airmeet_client_key == "env_access_key"
+        assert airmeet.airmeet_client_secret == "env_secret_key"
+        assert airmeet.token == "test_token"
 
     def test_get_all_pages_single_page(self):
         # Simulate API response for a single page without further cursors.

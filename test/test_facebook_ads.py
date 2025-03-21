@@ -39,7 +39,7 @@ class TestFacebookAdsIntegration(unittest.TestCase):
 
     def test_create_custom_audience(self):
         # Audience created in setUp
-        self.assertIsNotNone(self.audience_id)
+        assert self.audience_id is not None
 
     def test_create_custom_audience_bad_data_source(self):
         self.assertRaises(
@@ -68,26 +68,20 @@ class TestFacebookAdsIntegration(unittest.TestCase):
 class TestFacebookAdsUtilities(unittest.TestCase):
     def test_get_match_key_for_column(self):
         # Test just a few of the mappings
-        self.assertEqual("EMAIL", FacebookAds._get_match_key_for_column("email"))
-        self.assertEqual("EMAIL", FacebookAds._get_match_key_for_column("voterbase_email"))
-        self.assertEqual("FN", FacebookAds._get_match_key_for_column("first name"))
-        self.assertEqual("FN", FacebookAds._get_match_key_for_column("FIRST-NAME "))
-        self.assertEqual("FN", FacebookAds._get_match_key_for_column("vb_tsmart_first_name"))
-        self.assertEqual("LN", FacebookAds._get_match_key_for_column("Last Name!"))
-        self.assertEqual("ST", FacebookAds._get_match_key_for_column("state code"))
-        self.assertEqual("ST", FacebookAds._get_match_key_for_column("vb_vf_source_state"))
-        self.assertEqual("GEN", FacebookAds._get_match_key_for_column("vb_voterbase_gender"))
-        self.assertEqual(
-            "PHONE",
-            FacebookAds._get_match_key_for_column("vb_voterbase_phone_wireless"),
-        )
-        self.assertIsNone(FacebookAds._get_match_key_for_column("invalid"))
+        assert "EMAIL" == FacebookAds._get_match_key_for_column("email")
+        assert "EMAIL" == FacebookAds._get_match_key_for_column("voterbase_email")
+        assert "FN" == FacebookAds._get_match_key_for_column("first name")
+        assert "FN" == FacebookAds._get_match_key_for_column("FIRST-NAME ")
+        assert "FN" == FacebookAds._get_match_key_for_column("vb_tsmart_first_name")
+        assert "LN" == FacebookAds._get_match_key_for_column("Last Name!")
+        assert "ST" == FacebookAds._get_match_key_for_column("state code")
+        assert "ST" == FacebookAds._get_match_key_for_column("vb_vf_source_state")
+        assert "GEN" == FacebookAds._get_match_key_for_column("vb_voterbase_gender")
+        assert "PHONE" == FacebookAds._get_match_key_for_column("vb_voterbase_phone_wireless")
+        assert FacebookAds._get_match_key_for_column("invalid") is None
 
     def test_get_preprocess_key_for_column(self):
-        self.assertEqual(
-            "DOB YYYYMMDD",
-            FacebookAds._get_preprocess_key_for_column("vb_voterbase_dob"),
-        )
+        assert "DOB YYYYMMDD" == FacebookAds._get_preprocess_key_for_column("vb_voterbase_dob")
 
     def test_get_match_table_for_users_table(self):
         # This tests basic column matching, as well as the more complex cases like:
@@ -96,21 +90,21 @@ class TestFacebookAdsUtilities(unittest.TestCase):
         t = FacebookAds.get_match_table_for_users_table(users_table)
 
         row0 = t[0]
-        self.assertEqual(["FN", "LN", "PHONE", "DOBY", "DOBM", "DOBD"], t.columns)
-        self.assertEqual("Bob", row0["FN"])
-        self.assertEqual("Smith", row0["LN"])
-        self.assertEqual("1234567890", row0["PHONE"])
-        self.assertEqual("1982", row0["DOBY"])
-        self.assertEqual("04", row0["DOBM"])
-        self.assertEqual("13", row0["DOBD"])
+        assert ["FN", "LN", "PHONE", "DOBY", "DOBM", "DOBD"] == t.columns
+        assert "Bob" == row0["FN"]
+        assert "Smith" == row0["LN"]
+        assert "1234567890" == row0["PHONE"]
+        assert "1982" == row0["DOBY"]
+        assert "04" == row0["DOBM"]
+        assert "13" == row0["DOBD"]
 
         row1 = t[1]
-        self.assertEqual("Sue", row1["FN"])
-        self.assertEqual("Doe", row1["LN"])
-        self.assertEqual("2345678901", row1["PHONE"])
-        self.assertEqual("", row1["DOBY"])
-        self.assertEqual("", row1["DOBM"])
-        self.assertEqual("", row1["DOBD"])
+        assert "Sue" == row1["FN"]
+        assert "Doe" == row1["LN"]
+        assert "2345678901" == row1["PHONE"]
+        assert "" == row1["DOBY"]
+        assert "" == row1["DOBM"]
+        assert "" == row1["DOBD"]
 
     def test_get_match_schema_and_data(self):
         match_table = Table(
@@ -120,6 +114,6 @@ class TestFacebookAdsUtilities(unittest.TestCase):
             ]
         )
         (schema, data) = FacebookAds._get_match_schema_and_data(match_table)
-        self.assertEqual(["FN", "LN"], schema)
-        self.assertEqual(("Bob", "Smith"), data[0])
-        self.assertEqual(("Sue", "Doe"), data[1])
+        assert ["FN", "LN"] == schema
+        assert ("Bob", "Smith") == data[0]
+        assert ("Sue", "Doe") == data[1]

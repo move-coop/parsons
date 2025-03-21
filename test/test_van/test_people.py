@@ -29,7 +29,7 @@ class TestNGPVAN(unittest.TestCase):
 
         person = self.van.find_person(first_name="Bob", last_name="Smith", phone=4142020792)
 
-        self.assertEqual(person, find_people_response)
+        assert person == find_people_response
 
     @requests_mock.Mocker()
     def test_find_person_json(self, m):
@@ -47,7 +47,7 @@ class TestNGPVAN(unittest.TestCase):
 
         person = self.van.find_person_json(match_json=json)
 
-        self.assertEqual(person, find_people_response)
+        assert person == find_people_response
 
     def test_upsert_person(self):
         pass
@@ -123,12 +123,12 @@ class TestNGPVAN(unittest.TestCase):
         # Test works with external ID
         m.get(self.van.connection.uri + "people/DWID:15406767", json=json)
         person = self.van.get_person("15406767", id_type="DWID")
-        self.assertEqual(get_person_response, person)
+        assert get_person_response == person
 
         # Test works with vanid
         m.get(self.van.connection.uri + "people/19722445", json=json)
         person = self.van.get_person("19722445")
-        self.assertEqual(get_person_response, person)
+        assert get_person_response == person
 
     @requests_mock.Mocker()
     def test_delete_person(self, m):
@@ -136,7 +136,7 @@ class TestNGPVAN(unittest.TestCase):
         # Test works with vanid
         m.delete(self.van.connection.uri + "people/19722445", json=json)
         response = self.van.delete_person("19722445")
-        self.assertEqual(delete_person_response, response)
+        assert delete_person_response == response
 
     @requests_mock.Mocker()
     def test_apply_canvass_result(self, m):
@@ -290,4 +290,4 @@ class TestNGPVAN(unittest.TestCase):
 
         person = self.van.merge_contacts(source_vanid=source_vanid, primary_vanid=56789)
 
-        self.assertEqual(person, merge_contacts_response)
+        assert person == merge_contacts_response

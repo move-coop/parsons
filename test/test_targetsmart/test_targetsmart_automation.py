@@ -31,13 +31,13 @@ class TestTargetSmartAutomation(unittest.TestCase):
             test_xml = xml.read()
         with open(job_xml, "r") as xml:
             real_xml = xml.read()
-        self.assertEqual(test_xml, real_xml)
+        assert test_xml == real_xml
 
     @mark_live_test
     def test_config_status(self):
         # Find good configuration
         self.sftp.put_file(self.test_xml, f"{self.ts.sftp_dir}/{self.job_name}.job.xml.good")
-        self.assertTrue(self.ts.config_status(self.job_name))
+        assert self.ts.config_status(self.job_name)
         self.ts.remove_files(self.job_name)
 
         # Find bad configuration
@@ -49,7 +49,7 @@ class TestTargetSmartAutomation(unittest.TestCase):
         # Find good configuration
         good_match = "test/test_targetsmart/match_good.xml"
         self.sftp.put_file(good_match, f"{self.ts.sftp_dir}/{self.job_name}.finish.xml")
-        self.assertTrue(self.ts.match_status(self.job_name))
+        assert self.ts.match_status(self.job_name)
         self.ts.remove_files(self.job_name)
 
         # Find bad configuration
@@ -67,4 +67,4 @@ class TestTargetSmartAutomation(unittest.TestCase):
 
         # Check that file is not there
         dir_list = self.sftp.list_directory(f"{self.ts.sftp_dir}/")
-        self.assertNotIn(f"{self.job_name}.txt", dir_list)
+        assert f"{self.job_name}.txt" not in dir_list

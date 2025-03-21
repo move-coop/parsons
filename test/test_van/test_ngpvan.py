@@ -90,7 +90,7 @@ class TestNGPVAN(unittest.TestCase):
             "cycle",
         ]
 
-        self.assertTrue(validate_list(expected, self.van.get_survey_questions()))
+        assert validate_list(expected, self.van.get_survey_questions())
 
     @requests_mock.Mocker()
     def test_get_supporter_groups(self, m):
@@ -115,7 +115,7 @@ class TestNGPVAN(unittest.TestCase):
         m.get(self.van.connection.uri + "supporterGroups/12", json=json)
 
         # Test that columns are expected columns
-        self.assertEqual(self.van.get_supporter_group(12), json)
+        assert self.van.get_supporter_group(12) == json
 
     @requests_mock.Mocker()
     def test_delete_supporter_group(self, m):

@@ -49,7 +49,7 @@ class TestSSHTunnelUtility(unittest.TestCase):
         )
 
         # Assert that the result is as expected
-        self.assertEqual(result, [("row1",), ("row2",)])
+        assert result == [("row1",), ("row2",)]
         mock_tunnel.assert_called_once_with(
             (ssh_host, ssh_port),
             ssh_username=ssh_username,

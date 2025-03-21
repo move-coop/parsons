@@ -66,7 +66,7 @@ class TestBoxStorage(unittest.TestCase):
         box.create_folder_by_id(folder_name="temp_folder2", parent_folder_id=subfolder)
 
         file_list = box.list_files_by_id(folder_id=subfolder)
-        self.assertEqual(["temp1", "temp2"], file_list["name"])
+        assert ["temp1", "temp2"] == file_list["name"]
 
         # Check that if we delete a file, it's no longer there
         for box_file in file_list:
@@ -74,10 +74,10 @@ class TestBoxStorage(unittest.TestCase):
                 box.delete_file_by_id(box_file["id"])
                 break
         file_list = box.list_files_by_id(folder_id=subfolder)
-        self.assertEqual(["temp2"], file_list["name"])
+        assert ["temp2"] == file_list["name"]
 
         folder_list = box.list_folders_by_id(folder_id=subfolder)["name"]
-        self.assertEqual(["temp_folder1", "temp_folder2"], folder_list)
+        assert ["temp_folder1", "temp_folder2"] == folder_list
 
     def test_list_files_by_path(self) -> None:
         # Count on environment variables being set
@@ -89,9 +89,8 @@ class TestBoxStorage(unittest.TestCase):
             if item["name"] == self.temp_folder_name:
                 found_default = True
                 break
-        self.assertTrue(
-            found_default,
-            f"Failed to find test folder f{self.temp_folder_name} in default Box folder",
+        assert found_default, (
+            f"Failed to find test folder f{self.temp_folder_name} in default Box folder"
         )
 
         subfolder_name = "path_subfolder"
@@ -113,7 +112,7 @@ class TestBoxStorage(unittest.TestCase):
         box.create_folder(f"{subfolder_path}/temp_folder2")
 
         file_list = box.list(path=subfolder_path, item_type="file")
-        self.assertEqual(["temp1", "temp2"], file_list["name"])
+        assert ["temp1", "temp2"] == file_list["name"]
 
         # Check that if we delete a file, it's no longer there
         for box_file in file_list:
@@ -121,15 +120,15 @@ class TestBoxStorage(unittest.TestCase):
                 box.delete_file(path=f"{subfolder_path}/temp1")
                 break
         file_list = box.list(path=subfolder_path, item_type="file")
-        self.assertEqual(["temp2"], file_list["name"])
+        assert ["temp2"] == file_list["name"]
 
         folder_list = box.list(path=subfolder_path, item_type="folder")
-        self.assertEqual(["temp_folder1", "temp_folder2"], folder_list["name"])
+        assert ["temp_folder1", "temp_folder2"] == folder_list["name"]
 
         # Make sure we can delete by path
         box.delete_folder(f"{subfolder_path}/temp_folder1")
         folder_list = box.list(path=subfolder_path, item_type="folder")
-        self.assertEqual(["temp_folder2"], folder_list["name"])
+        assert ["temp_folder2"] == folder_list["name"]
 
     def test_upload_file(self) -> None:
         # Count on environment variables being set
@@ -149,7 +148,7 @@ class TestBoxStorage(unittest.TestCase):
         new_table = box.get_table_by_file_id(box_file.id)
 
         # Check that what we saved is equal to what we got back
-        self.assertEqual(str(table), str(new_table))
+        assert str(table) == str(new_table)
 
         # Check that things also work in JSON
         box_file = box.upload_table_to_folder_id(
@@ -159,7 +158,7 @@ class TestBoxStorage(unittest.TestCase):
         new_table = box.get_table_by_file_id(box_file.id, format="json")
 
         # Check that what we saved is equal to what we got back
-        self.assertEqual(str(table), str(new_table))
+        assert str(table) == str(new_table)
 
         # Now check the same thing with paths instead of file_id
         path_filename = "path_phone_numbers"
@@ -190,7 +189,7 @@ class TestBoxStorage(unittest.TestCase):
         downloaded_file = box.download_file(path_filename)
 
         with open(uploaded_file) as uploaded, open(downloaded_file) as downloaded:
-            self.assertEqual(str(uploaded.read()), str(downloaded.read()))
+            assert str(uploaded.read()) == str(downloaded.read())
 
     def test_get_item_id(self) -> None:
         # Count on environment variables being set
@@ -219,13 +218,13 @@ class TestBoxStorage(unittest.TestCase):
 
         # Now try getting various ids
         file_path = f"{self.temp_folder_name}/item_subfolder/phone_numbers"
-        self.assertEqual(box_file.id, box.get_item_id(path=file_path))
+        assert box_file.id == box.get_item_id(path=file_path)
 
         file_path = f"{self.temp_folder_name}/item_subfolder"
-        self.assertEqual(sub_sub_folder_id, box.get_item_id(path=file_path))
+        assert sub_sub_folder_id == box.get_item_id(path=file_path)
 
         file_path = self.temp_folder_name
-        self.assertEqual(self.temp_folder_id, box.get_item_id(path=file_path))
+        assert self.temp_folder_id == box.get_item_id(path=file_path)
 
         # Trailing "/"
         with self.assertRaises(ValueError):

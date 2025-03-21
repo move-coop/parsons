@@ -228,18 +228,18 @@ class TestBoxStorage(unittest.TestCase):
         assert self.temp_folder_id == box.get_item_id(path=file_path)
 
         # Trailing "/"
+        file_path = f"{self.temp_folder_name}/item_subfolder/phone_numbers/"
         with pytest.raises(ValueError):
-            file_path = f"{self.temp_folder_name}/item_subfolder/phone_numbers/"
             box.get_item_id(path=file_path)
 
         # Nonexistent file
+        file_path = f"{self.temp_folder_name}/item_subfolder/nonexistent/phone_numbers"
         with pytest.raises(ValueError):
-            file_path = f"{self.temp_folder_name}/item_subfolder/nonexistent/phone_numbers"
             box.get_item_id(path=file_path)
 
         # File (rather than folder) in middle of path
+        file_path = f"{self.temp_folder_name}/file_in_subfolder/phone_numbers"
         with pytest.raises(ValueError):
-            file_path = f"{self.temp_folder_name}/file_in_subfolder/phone_numbers"
             box.get_item_id(path=file_path)
 
     def test_errors(self) -> None:

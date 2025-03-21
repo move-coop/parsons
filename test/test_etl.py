@@ -404,7 +404,8 @@ class TestParsonsTable(unittest.TestCase):
 
         cols = tbl.get_columns_type_stats()
         type_set = {i for x in cols for i in x["type"]}
-        assert "str" in type_set and len(type_set) == 1
+        assert "str" in type_set
+        assert len(type_set) == 1
 
     def test_convert_table(self):
         # Test that the table updates

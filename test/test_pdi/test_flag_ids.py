@@ -30,7 +30,7 @@ def cleanup_flag_id():
     def delete_flag_id(pdi, flag_id):
         pdi.delete_flag_id(flag_id)
 
-    yield delete_flag_id
+    return delete_flag_id
 
 
 @pytest.fixture
@@ -45,7 +45,7 @@ def create_temp_flag_id():
         if not my_flag_id:
             pdi.delete_flag_id(flag_id)
 
-    yield temp_flag_id
+    return temp_flag_id
 
 
 #

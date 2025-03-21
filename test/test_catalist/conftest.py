@@ -31,7 +31,7 @@ def mock_sftp(mocker) -> Generator[MagicMock, None, None]:
 
     mocker.patch("parsons.catalist.catalist.SFTP", new=magic_mock)
 
-    yield mocker
+    return mocker
 
 
 @pytest.fixture(autouse=True)
@@ -43,4 +43,4 @@ def mock_miscellaneous(mocker) -> Generator[MagicMock, None, None]:
     mocker.patch("parsons.catalist.catalist.os", new=magic_mock)
     mocker.patch("parsons.catalist.catalist.Table", new=magic_mock)
 
-    yield mocker
+    return mocker

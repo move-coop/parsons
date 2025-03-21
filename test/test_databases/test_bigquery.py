@@ -97,7 +97,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         result = bq.query(query_string, return_values=False)
 
         # Check our return value
-        assert result == None
+        assert result is None
 
         # Check that query results were not fetched
         bq._fetch_query_results.assert_not_called()
@@ -116,7 +116,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         keyword_args = bq.query.call_args[1]
 
         # Check our return value
-        assert result == None
+        assert result is None
 
         # Check that queries and transaction keywords are included in sql
         assert all(

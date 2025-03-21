@@ -26,7 +26,7 @@ class TestMySQLLive(unittest.TestCase):
         # Check that a query that has no response and doesn't fail
         sql = "CREATE TABLE test (name VARCHAR(255), user_name VARCHAR(255))"
         r = self.mysql.query(sql)
-        assert r == None
+        assert r is None
 
     def test_insert_data(self):
         sql = "CREATE TABLE test (name VARCHAR(255), user_name VARCHAR(255));"

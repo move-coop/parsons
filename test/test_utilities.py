@@ -14,7 +14,7 @@ from parsons.utilities.datetime import date_to_timestamp, parse_date
 
 
 @pytest.mark.parametrize(
-    ["date", "exp_ts"],
+    ("date", "exp_ts"),
     [
         pytest.param("2018-12-13", 1544659200),
         pytest.param("2018-12-13T00:00:00-08:00", 1544688000),

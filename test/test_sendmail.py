@@ -82,7 +82,7 @@ class TestSendMailCreateMessageAttachments:
         assert message.get_payload()[1].get_content_type() == "text/html"
 
     @pytest.mark.parametrize(
-        "filename,expected_type",
+        ("filename","expected_type"),
         [
             ("image.png", MIMEImage),
             ("application.exe", MIMEApplication),

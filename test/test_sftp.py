@@ -297,7 +297,7 @@ def test_get_files_calls_get_to_write_to_provided_local_paths(
 
 
 @mark_live_test
-@pytest.mark.parametrize("kwargs,expected", args_and_expected["get_files"])
+@pytest.mark.parametrize(("kwargs","expected"), args_and_expected["get_files"])
 def test_get_files_calls_get_to_write_temp_files(kwargs, expected, live_sftp_with_mocked_get):
     live_sftp, get = live_sftp_with_mocked_get
     live_sftp.get_files(**kwargs)
@@ -320,7 +320,7 @@ def test_get_files_with_files_paths_mismatch(get_file, live_sftp):
 
 
 @mark_live_test
-@pytest.mark.parametrize("args,kwargs,expected", args_and_expected["walk_tree"])
+@pytest.mark.parametrize(("args","kwargs","expected"), args_and_expected["walk_tree"])
 def test_walk_tree(args, kwargs, expected, live_sftp_with_mocked_get):
     live_sftp, get = live_sftp_with_mocked_get
     results = live_sftp.walk_tree(*args, **kwargs)

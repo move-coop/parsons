@@ -85,7 +85,7 @@ def test_get_flag_id(live_pdi, id):
 
 @mark_live_test
 @pytest.mark.parametrize(
-    ["flag_id", "is_default"],
+    ("flag_id", "is_default"),
     [
         pytest.param(None, True, marks=[xfail_http_error]),
         pytest.param("amm", None, marks=[xfail_http_error]),
@@ -100,7 +100,7 @@ def test_create_flag_id(live_pdi, cleanup_flag_id, flag_id, is_default):
 
 @mark_live_test
 @pytest.mark.parametrize(
-    ["my_flag_id"],
+    "my_flag_id",
     [
         pytest.param(None),
         pytest.param(QA_INVALID_FLAG_ID),
@@ -116,7 +116,7 @@ def test_delete_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
 
 @mark_live_test
 @pytest.mark.parametrize(
-    ["my_flag_id"],
+    "my_flag_id",
     [
         pytest.param(None),
         pytest.param(QA_INVALID_FLAG_ID, marks=[xfail_http_error]),

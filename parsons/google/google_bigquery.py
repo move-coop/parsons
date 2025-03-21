@@ -829,6 +829,9 @@ class GoogleBigQuery(DatabaseConnector):
 
         """
 
+        if convert_dict_list_columns_to_json:
+            tbl = self._stringify_records(tbl)
+
         job_config = self._prepare_local_upload_job(
             tbl,
             table_name,
@@ -921,7 +924,7 @@ class GoogleBigQuery(DatabaseConnector):
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
         """
-        data_type = "csv"
+        data_type = "ndjson"
         tmp_gcs_bucket = (
             tmp_gcs_bucket
             or self.tmp_gcs_bucket
@@ -931,6 +934,9 @@ class GoogleBigQuery(DatabaseConnector):
             raise ValueError(
                 "Must set GCS_TEMP_BUCKET environment variable or pass in tmp_gcs_bucket parameter. If you have smaller data, you can use the `copy_direct` method to upload the data without needing to use CloudStorage. This alternate method will not work well with larger data."
             )
+
+        if convert_dict_list_columns_to_json:
+            tbl = self._stringify_records(tbl)
 
         job_config = self._prepare_local_upload_job(
             tbl,
@@ -945,12 +951,13 @@ class GoogleBigQuery(DatabaseConnector):
             allow_jagged_rows,
             quote,
             schema,
-            convert_dict_list_columns_to_json,
         )
 
         gcs_client = gcs_client or GoogleCloudStorage(app_creds=self.app_creds)
         temp_blob_name = f"{uuid.uuid4()}.{data_type}"
-        temp_blob_uri = gcs_client.upload_table(tbl, tmp_gcs_bucket, temp_blob_name)
+        temp_blob_uri = gcs_client.upload_table(
+            tbl, tmp_gcs_bucket, temp_blob_name, data_type="ndjson"
+        )
 
         # load CSV from Cloud Storage into BigQuery
         try:
@@ -963,6 +970,22 @@ class GoogleBigQuery(DatabaseConnector):
             )
         finally:
             gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
+
+    def _stringify_records(self, tbl):
+        # Convert dict columns to JSON strings
+        for field in tbl.get_columns_type_stats():
+            if "dict" in field["type"] or "list" in field["type"]:
+                new_petl = tbl.table.addfield(
+                    field["name"] + "_replace",
+                    lambda row: json.dumps(row[field["name"]]),
+                )
+                new_tbl = Table(new_petl)
+                new_tbl.remove_column(field["name"])
+                new_tbl.rename_column(field["name"] + "_replace", field["name"])
+                new_tbl.materialize()
+                tbl = new_tbl
+
+        return tbl
 
     def _prepare_local_upload_job(
         self,
@@ -978,34 +1001,10 @@ class GoogleBigQuery(DatabaseConnector):
         allow_jagged_rows,
         quote,
         schema,
-        convert_dict_list_columns_to_json,
     ):
-        data_type = "csv"
+        data_type = "ndjson"
 
         self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
-
-        # If our source table is loaded from CSV with no transformations
-        # The original source file will be directly loaded to GCS
-        # We may need to pass along a custom delimiter to BigQuery
-        # Otherwise we use the default comma
-        if isinstance(tbl.table, petl.io.csv_py3.CSVView):
-            csv_delimiter = tbl.table.csvargs.get("delimiter", ",")
-        else:
-            csv_delimiter = ","
-
-        if convert_dict_list_columns_to_json:
-            # Convert dict columns to JSON strings
-            for field in tbl.get_columns_type_stats():
-                if "dict" in field["type"] or "list" in field["type"]:
-                    new_petl = tbl.table.addfield(
-                        field["name"] + "_replace",
-                        lambda row: json.dumps(row[field["name"]]),
-                    )
-                    new_tbl = Table(new_petl)
-                    new_tbl.remove_column(field["name"])
-                    new_tbl.rename_column(field["name"] + "_replace", field["name"])
-                    new_tbl.materialize()
-                    tbl = new_tbl
 
         job_config = self._process_job_config(
             job_config=job_config,
@@ -1019,10 +1018,10 @@ class GoogleBigQuery(DatabaseConnector):
             nullas=nullas,
             allow_quoted_newlines=allow_quoted_newlines,
             allow_jagged_rows=allow_jagged_rows,
-            quote=quote,
             custom_schema=schema,
-            csv_delimiter=csv_delimiter,
         )
+
+        breakpoint()
 
         # Reorder schema to match table to ensure compatibility
         schema = []
@@ -1546,12 +1545,13 @@ class GoogleBigQuery(DatabaseConnector):
                 f"Unexpected value for if_exists: {if_exists}, must be one of "
                 '"append", "drop", "truncate", or "fail"'
             )
-        if data_type not in ["csv", "json"]:
+        if data_type not in ["csv", "json", "ndjson"]:
             raise ValueError(f"Only supports csv or json files [data_type = {data_type}]")
 
     def _load_table_from_uri(
         self, source_uris, destination, job_config, max_timeout, **load_kwargs
     ):
+        breakpoint()
         load_job = self.client.load_table_from_uri(
             source_uris=source_uris,
             destination=destination,

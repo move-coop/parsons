@@ -2,6 +2,7 @@ import os
 import unittest
 from unittest.mock import patch
 
+import pytest
 import requests_mock
 from github.GithubException import UnknownObjectException
 
@@ -19,7 +20,7 @@ class TestGitHub(unittest.TestCase):
     def test_wrap_github_404(self, m):
         with patch("github.Github.get_repo") as get_repo_mock:
             get_repo_mock.side_effect = UnknownObjectException("", "")
-            with self.assertRaises(ParsonsGitHubError):
+            with pytest.raises(ParsonsGitHubError):
                 self.github.get_repo("octocat/Hello-World")
 
     @requests_mock.Mocker()

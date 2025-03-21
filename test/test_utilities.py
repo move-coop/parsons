@@ -167,5 +167,5 @@ class TestCheckEnv(unittest.TestCase):
 
     def test_envrionment_error(self):
         """Test check env raises error"""
-        with self.assertRaises(KeyError) as _:
+        with pytest.raises(KeyError):
             check_env.check("PARAM", None)

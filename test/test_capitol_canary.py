@@ -2,6 +2,7 @@ import copy
 import os
 import unittest
 
+import pytest
 import requests_mock
 
 from parsons import CapitolCanary
@@ -257,21 +258,16 @@ class TestP2A(unittest.TestCase):
         m.post(self.cc.client.uri + "advocates", json={"advocateid": 1})
 
         # Test arg validation - create requires a phone or an email
-        self.assertRaises(
-            ValueError,
-            lambda: self.cc.create_advocate(campaigns=[1], firstname="Foo", lastname="bar"),
-        )
+        with pytest.raises(ValueError):
+            self.cc.create_advocate(campaigns=[1], firstname="Foo", lastname="bar")
+
         # Test arg validation - sms opt in requires a phone
-        self.assertRaises(
-            ValueError,
-            lambda: self.cc.create_advocate(campaigns=[1], email="foo@bar.com", sms_optin=True),
-        )
+        with pytest.raises(ValueError):
+            self.cc.create_advocate(campaigns=[1], email="foo@bar.com", sms_optin=True)
 
         # Test arg validation - email opt in requires a email
-        self.assertRaises(
-            ValueError,
-            lambda: self.cc.create_advocate(campaigns=[1], phone="1234567890", email_optin=True),
-        )
+        with pytest.raises(ValueError):
+            self.cc.create_advocate(campaigns=[1], phone="1234567890", email_optin=True)
 
         # Test a successful call
         advocateid = self.cc.create_advocate(
@@ -292,14 +288,12 @@ class TestP2A(unittest.TestCase):
         m.post(self.cc.client.uri + "advocates")
 
         # Test arg validation - sms opt in requires a phone
-        self.assertRaises(
-            ValueError, lambda: self.cc.update_advocate(advocate_id=1, sms_optin=True)
-        )
+        with pytest.raises(ValueError):
+            self.cc.update_advocate(advocate_id=1, sms_optin=True)
 
         # Test arg validation - email opt in requires a email
-        self.assertRaises(
-            ValueError, lambda: self.cc.update_advocate(advocate_id=1, email_optin=True)
-        )
+        with pytest.raises(ValueError):
+            self.cc.update_advocate(advocate_id=1, email_optin=True)
 
         # Test a successful call
         self.cc.update_advocate(

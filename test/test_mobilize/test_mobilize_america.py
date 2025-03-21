@@ -1,5 +1,6 @@
 import unittest
 
+import pytest
 import requests_mock
 
 import test.test_mobilize.test_mobilize_json as test_json
@@ -19,7 +20,8 @@ class TestMobilizeAmerica(unittest.TestCase):
         assert self.ma._time_parse("<=2018-12-13") == "lte_1544659200"
 
         # Test that it throws an error when you put in an invalid filter
-        self.assertRaises(ValueError, self.ma._time_parse, "=2018-12-01")
+        with pytest.raises(ValueError):
+            self.ma._time_parse("=2018-12-01")
 
     @requests_mock.Mocker()
     def test_get_organizations(self, m):

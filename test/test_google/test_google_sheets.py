@@ -3,6 +3,7 @@ import time
 import unittest
 
 import gspread
+import pytest
 
 from parsons import GoogleSheets, Table
 from test.utils import assert_matching_tables
@@ -43,7 +44,8 @@ class TestGoogleSheets(unittest.TestCase):
         pass
 
     def test_read_nonexistent_worksheet(self):
-        self.assertRaises(gspread.exceptions.APIError, self.google_sheets.read_sheet, "abc123")
+        with pytest.raises(gspread.exceptions.APIError):
+            self.google_sheets.read_sheet("abc123")
 
     def test_create_spreadsheet(self):
         # Created as part of setUp
@@ -56,12 +58,11 @@ class TestGoogleSheets(unittest.TestCase):
         assert 1 == idx
 
     def test_get_sheet_index_with_bogus_title(self):
-        self.assertRaises(
-            ValueError,
-            self.google_sheets.get_worksheet_index,
-            self.spreadsheet_id,
-            "abc123",
-        )
+        with pytest.raises(ValueError):
+            self.google_sheets.get_worksheet_index(
+                self.spreadsheet_id,
+                "abc123",
+            )
 
     def test_read_worksheet_with_title(self):
         table = self.google_sheets.get_worksheet(self.spreadsheet_id, self.second_sheet_title)

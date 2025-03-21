@@ -102,15 +102,15 @@ class TestTargetSmartAPI(unittest.TestCase):
         assert validate_list(expected, self.ts.data_enhance("IL-12568678"))
 
         # Assert exception on missing state
-        with self.assertRaises(Exception):
+        with pytest.raises(Exception):
             self.ts.data_enhance("vb0001", search_id_type="votebuilder")
 
         # Assert exception on missing state
-        with self.assertRaises(Exception):
+        with pytest.raises(Exception):
             self.ts.data_enhance("vb0001", search_id_type="smartvan")
 
         # Assert exception on missing state
-        with self.assertRaises(Exception):
+        with pytest.raises(Exception):
             self.ts.data_enhance("vb0001", search_id_type="voter")
 
         # Assert works with state provided
@@ -177,7 +177,7 @@ class TestTargetSmartAPI(unittest.TestCase):
         assert validate_list(expected, rad_search())
 
     def test_rad_search_no_first_name(self):
-        with self.assertRaisesRegex(ValueError, "First name is required"):
+        with pytest.raises(ValueError, match="First name is required"):
             self.ts.radius_search(
                 first_name=None,
                 last_name="Burchard",
@@ -186,7 +186,7 @@ class TestTargetSmartAPI(unittest.TestCase):
             )
 
     def test_rad_search_no_last_name(self):
-        with self.assertRaisesRegex(ValueError, "Last name is required"):
+        with pytest.raises(ValueError, match="Last name is required"):
             self.ts.radius_search(
                 first_name="BILLY",
                 last_name=None,
@@ -196,7 +196,7 @@ class TestTargetSmartAPI(unittest.TestCase):
 
     # Assert response is expected structure
     def test_rad_search_no_address_or_latlon(self):
-        with self.assertRaisesRegex(ValueError, "Lat/Long or Address required"):
+        with pytest.raises(ValueError, match="Lat/Long or Address required"):
             self.ts.radius_search(
                 first_name="BILLY",
                 last_name="Burchard",
@@ -205,12 +205,18 @@ class TestTargetSmartAPI(unittest.TestCase):
             )
 
     def test_district_args(self):
-        self.assertRaises(KeyError, self.ts.district, search_type="invalid_search_type")
-        self.assertRaises(ValueError, self.ts.district, search_type="address")
-        self.assertRaises(ValueError, self.ts.district, search_type="zip", zip4=9)
-        self.assertRaises(ValueError, self.ts.district, search_type="zip", zip5=0)
-        self.assertRaises(ValueError, self.ts.district, search_type="point")
-        self.assertRaises(ValueError, self.ts.district, search_type="zip")
+        with pytest.raises(KeyError):
+            self.ts.district(search_type="invalid_search_type")
+        with pytest.raises(ValueError):
+            self.ts.district(search_type="address")
+        with pytest.raises(ValueError):
+            self.ts.district(search_type="zip", zip4=9)
+        with pytest.raises(ValueError):
+            self.ts.district(search_type="zip", zip5=0)
+        with pytest.raises(ValueError):
+            self.ts.district(search_type="point")
+        with pytest.raises(ValueError):
+            self.ts.district(search_type="zip")
 
     @requests_mock.Mocker()
     def test_district_point(self, m):

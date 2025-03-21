@@ -3,6 +3,8 @@ import unittest
 from abc import ABC
 from typing import Optional, Type
 
+import pytest
+
 from parsons import DBSync, Postgres, Redshift, Table
 from parsons.databases.database_connector import DatabaseConnector
 from test.test_databases.fakes import FakeDatabase
@@ -153,7 +155,8 @@ class TestFakeDBSync(TestDBSync):
         # Have the copy fail
         self.destination_db.setup_table(self.destination_table, Table(), failures=1)
         # Make sure the sync results in an exception
-        self.assertRaises(ValueError, lambda: self.table_sync_full(if_exists="drop"))
+        with pytest.raises(ValueError):
+            self.table_sync_full(if_exists="drop")
 
     def test_table_sync_full_read_chunk(self):
         self.table_sync_full(if_exists="drop")

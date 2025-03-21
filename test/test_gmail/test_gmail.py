@@ -6,6 +6,7 @@ import shutil
 import tempfile
 import unittest
 
+import pytest
 import requests_mock
 
 from parsons import Gmail
@@ -541,7 +542,8 @@ class TestGmail(unittest.TestCase):
             if e["expected"]:
                 assert self.gmail._validate_email_string(e["email"])
             else:
-                self.assertRaises(ValueError, self.gmail._validate_email_string, e["email"])
+                with pytest.raises(ValueError):
+                    self.gmail._validate_email_string(e["email"])
 
     # TODO test sending emails
 

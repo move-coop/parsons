@@ -1,5 +1,6 @@
 import unittest
 
+import pytest
 import requests_mock
 
 from parsons import NationBuilder as NB
@@ -25,7 +26,7 @@ class TestNationBuilder(unittest.TestCase):
         values = ["", "  ", None, 1337, {}, []]
 
         for v in values:
-            with self.assertRaises(ValueError):
+            with pytest.raises(ValueError):
                 NB.get_uri(v)
 
     def test_get_auth_headers_success(self):
@@ -36,7 +37,7 @@ class TestNationBuilder(unittest.TestCase):
         values = ["", "  ", None, 1337, {}, []]
 
         for v in values:
-            with self.assertRaises(ValueError):
+            with pytest.raises(ValueError):
                 NB.get_auth_headers(v)
 
     def test_parse_next_params_success(self):
@@ -45,13 +46,13 @@ class TestNationBuilder(unittest.TestCase):
         assert t == "bar"
 
     def test_get_next_params_errors(self):
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             NB.parse_next_params("/a/b/c?baz=1")
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             NB.parse_next_params("/a/b/c?__nonce=1")
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             NB.parse_next_params("/a/b/c?__token=1")
 
     def test_make_next_url(self):
@@ -115,19 +116,19 @@ class TestNationBuilder(unittest.TestCase):
     def test_update_person_raises_with_bad_params(self):
         nb = NB("test-slug", "test-token")
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             nb.update_person(None, {})
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             nb.update_person(1, {})
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             nb.update_person(" ", {})
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             nb.update_person("1", None)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             nb.update_person("1", "bad value")
 
     @requests_mock.Mocker()
@@ -151,7 +152,7 @@ class TestNationBuilder(unittest.TestCase):
     def test_upsert_person_raises_with_bad_params(self):
         nb = NB("test-slug", "test-token")
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             nb.upsert_person({"tags": ["zoot", "boot"]})
 
     @requests_mock.Mocker()

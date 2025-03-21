@@ -1,6 +1,8 @@
 import os
 import unittest
 
+import pytest
+
 from parsons import Postgres, Table
 from test.utils import assert_matching_tables
 
@@ -140,7 +142,8 @@ class TestPostgresCreateStatement(unittest.TestCase):
 
         # Assert that an error is raised by an empty table
         empty_table = Table([["Col_1", "Col_2"]])
-        self.assertRaises(ValueError, self.pg.create_statement, empty_table, "tmc.test")
+        with pytest.raises(ValueError):
+            self.pg.create_statement(empty_table, "tmc.test")
 
 
 # These tests interact directly with the Postgres database
@@ -217,16 +220,16 @@ class TestPostgresDB(unittest.TestCase):
         assert tbl.first == 6
 
         # Try to copy the table and ensure that default fail works.
-        self.assertRaises(ValueError, self.pg.copy, self.tbl, f"{self.temp_schema}.test_copy")
+        with pytest.raises(ValueError):
+            self.pg.copy(self.tbl, f"{self.temp_schema}.test_copy")
 
         # Try to copy the table and ensure that explicit fail works.
-        self.assertRaises(
-            ValueError,
-            self.pg.copy,
-            self.tbl,
-            f"{self.temp_schema}.test_copy",
-            if_exists="fail",
-        )
+        with pytest.raises(ValueError):
+            self.pg.copy(
+                self.tbl,
+                f"{self.temp_schema}.test_copy",
+                if_exists="fail",
+            )
 
     def test_to_postgres(self):
         self.tbl.to_postgres(f"{self.temp_schema}.test_copy")

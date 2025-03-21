@@ -6,6 +6,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 import petl
+import pytest
 
 from parsons import Table
 from parsons.utilities import zip_archive
@@ -61,12 +62,14 @@ class TestParsonsTable(unittest.TestCase):
     def test_from_invalid_list(self):
         # Tests that a table can't be created from a list of invalid items
         list_of_invalid = [1, 2, 3]
-        self.assertRaises(ValueError, Table, list_of_invalid)
+        with pytest.raises(ValueError):
+            Table(list_of_invalid)
 
     def test_from_empty_petl(self):
         # This test ensures that this would fail: Table(None)
         # Even while allowing Table() to work
-        self.assertRaises(ValueError, Table, None)
+        with pytest.raises(ValueError):
+            Table(None)
 
     def test_from_empty_list(self):
         # Just ensure this doesn't throw an error
@@ -225,7 +228,8 @@ class TestParsonsTable(unittest.TestCase):
             path = str(Path(tempdir) / "empty.csv")
             open(path, "a").close()
 
-            self.assertRaises(ValueError, Table.from_csv, path)
+            with pytest.raises(ValueError):
+                Table.from_csv(path)
 
     def test_to_csv_zip(self):
         try:
@@ -298,7 +302,8 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_column_add_dupe(self):
         # Test that we can't add an existing column name
-        self.assertRaises(ValueError, self.tbl.add_column, "first")
+        with pytest.raises(ValueError):
+            self.tbl.add_column("first")
 
     def test_add_column_if_exists(self):
         self.tbl.add_column("first", if_exists="replace")
@@ -316,7 +321,8 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_column_rename_dupe(self):
         # Test that we can't rename to a column that already exists
-        self.assertRaises(ValueError, self.tbl.rename_column, "last", "first")
+        with pytest.raises(ValueError):
+            self.tbl.rename_column("last", "first")
 
     def test_rename_columns(self):
         # Test renaming columns with a valid column_map
@@ -333,7 +339,8 @@ class TestParsonsTable(unittest.TestCase):
     def test_rename_columns_nonexistent(self):
         # Test renaming a column that doesn't exist
         column_map = {"nonexistent": "newname"}
-        self.assertRaises(KeyError, self.tbl.rename_columns, column_map)
+        with pytest.raises(KeyError):
+            self.tbl.rename_columns(column_map)
 
     def test_rename_columns_empty(self):
         # Test renaming with an empty column_map
@@ -344,7 +351,8 @@ class TestParsonsTable(unittest.TestCase):
     def test_rename_columns_duplicate(self):
         # Test renaming to a column name that already exists
         column_map = {"first": "last"}
-        self.assertRaises(ValueError, self.tbl.rename_columns, column_map)
+        with pytest.raises(ValueError):
+            self.tbl.rename_columns(column_map)
 
     def test_fill_column(self):
         # Test that the column is filled
@@ -600,7 +608,8 @@ class TestParsonsTable(unittest.TestCase):
         assert tbl.column_data("a") == lst
 
         # Test an invalid column
-        self.assertRaises(TypeError, tbl["c"])
+        with pytest.raises(ValueError, match="Column name not found."):
+            tbl.column_data("d")
 
     def test_row_data(self):
         # Test a valid column
@@ -656,22 +665,20 @@ class TestParsonsTable(unittest.TestCase):
         assert_matching_tables(desired_tbl, tbl)
 
         # Test disable fuzzy matching, and fail due due to the missing cols
-        self.assertRaises(
-            TypeError,
-            Table(raw).match_columns,
-            desired_tbl.columns,
-            fuzzy_match=False,
-            if_missing_columns="fail",
-        )
+        with pytest.raises(TypeError):
+            Table(raw).match_columns(
+                desired_tbl.columns,
+                fuzzy_match=False,
+                if_missing_columns="fail",
+            )
 
         # Test disable fuzzy matching, and fail due to the extra cols
-        self.assertRaises(
-            TypeError,
-            Table(raw).match_columns,
-            desired_tbl.columns,
-            fuzzy_match=False,
-            if_extra_columns="fail",
-        )
+        with pytest.raises(TypeError):
+            Table(raw).match_columns(
+                desired_tbl.columns,
+                fuzzy_match=False,
+                if_extra_columns="fail",
+            )
 
         # Test table that already has the right columns, shouldn't need fuzzy match
         tbl = Table(desired_raw)
@@ -872,7 +879,8 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_use_petl(self):
         # confirm that this method doesn't exist for parsons.Table
-        self.assertRaises(AttributeError, getattr, Table, "skipcomments")
+        with pytest.raises(AttributeError):
+            getattr(Table, "skipcomments")
 
         tbl = Table(
             [

@@ -6,6 +6,7 @@ from typing import Union
 from unittest import TestCase
 from unittest.mock import Mock
 
+import pytest
 from google.cloud import bigquery, exceptions
 from testfixtures import log_capture
 
@@ -236,7 +237,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq.table_exists.return_value = True
 
         # call the method being tested
-        with self.assertRaises(Exception):
+        with pytest.raises(Exception):
             bq.copy_from_gcs(
                 self.default_table,
                 "dataset.table",
@@ -273,7 +274,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq.table_exists.return_value = True
 
         # call the method being tested
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             bq.copy_from_gcs(
                 gcs_blob_uri=tmp_blob_uri,
                 table_name="dataset.table",

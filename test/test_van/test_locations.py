@@ -1,6 +1,7 @@
 import os
 import unittest
 
+import pytest
 import requests_mock
 from requests.exceptions import HTTPError
 
@@ -86,7 +87,8 @@ class TestLocations(unittest.TestCase):
 
         # Test invalid location delete
         m.delete(self.van.connection.uri + "locations/2", status_code=404)
-        self.assertRaises(HTTPError, self.van.delete_location, 2)
+        with pytest.raises(HTTPError):
+            self.van.delete_location(2)
 
     @requests_mock.Mocker()
     def test_create_location(self, m):

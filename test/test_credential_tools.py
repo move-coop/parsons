@@ -4,6 +4,8 @@ import shutil
 import tempfile
 import unittest
 
+import pytest
+
 from parsons.tools import credential_tools as ct
 
 
@@ -74,7 +76,8 @@ class TestCredentialTool(unittest.TestCase):
     def test_decode_credential_error(self):
         non_json = "non-json string"
 
-        self.assertRaises(ValueError, ct.decode_credential, non_json)
+        with pytest.raises(ValueError):
+            ct.decode_credential(non_json)
 
     def test_encode_from_json_str(self):
         json_str = '{"json": "string"}'

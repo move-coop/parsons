@@ -1,6 +1,7 @@
 import os
 import unittest
 
+import pytest
 import requests_mock
 from requests.exceptions import HTTPError
 
@@ -105,8 +106,6 @@ class TestNGPVAN(unittest.TestCase):
 
         m.get(self.van.connection.uri + "supporterGroups", json=json)
 
-        ["id", "name", "description"]
-
         self.van.get_supporter_groups()
 
     @requests_mock.Mocker()
@@ -130,7 +129,10 @@ class TestNGPVAN(unittest.TestCase):
         # bad_vanid = 99999
         bad_ep = f"supporterGroups/{bad_supporter_group_id}"
         m.delete(self.van.connection.uri + bad_ep, status_code=404)
-        self.assertRaises(HTTPError, self.van.delete_supporter_group, bad_supporter_group_id)
+        with pytest.raises(HTTPError):
+            self.van.delete_supporter_group(
+                bad_supporter_group_id,
+            )
 
     @requests_mock.Mocker()
     def test_add_person_supporter_group(self, m):
@@ -146,12 +148,11 @@ class TestNGPVAN(unittest.TestCase):
         bad_vanid = 99999
         bad_uri = f"supporterGroups/{bad_vanid}/people/{bad_supporter_group_id}"
         m.put(self.van.connection.uri + bad_uri, status_code=404)
-        self.assertRaises(
-            HTTPError,
-            self.van.add_person_supporter_group,
-            bad_vanid,
-            bad_supporter_group_id,
-        )
+        with pytest.raises(HTTPError):
+            self.van.add_person_supporter_group(
+                bad_vanid,
+                bad_supporter_group_id,
+            )
 
     @requests_mock.Mocker()
     def test_delete_person_supporter_group(self, m):
@@ -167,12 +168,11 @@ class TestNGPVAN(unittest.TestCase):
         bad_vanid = 99999
         bad_ep = f"supporterGroups/{bad_vanid}/people/{bad_supporter_group_id}"
         m.delete(self.van.connection.uri + bad_ep, status_code=404)
-        self.assertRaises(
-            HTTPError,
-            self.van.delete_person_supporter_group,
-            bad_vanid,
-            bad_supporter_group_id,
-        )
+        with pytest.raises(HTTPError):
+            self.van.delete_person_supporter_group(
+                bad_vanid,
+                bad_supporter_group_id,
+            )
 
 
 if __name__ == "__main__":

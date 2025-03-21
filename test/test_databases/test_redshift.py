@@ -2,6 +2,7 @@ import os
 import re
 import unittest
 
+import pytest
 from testfixtures import LogCapture
 
 from parsons import S3, Redshift, Table
@@ -46,7 +47,8 @@ class TestRedshift(unittest.TestCase):
         assert table == "some_table"
 
         # When there are too many parts
-        self.assertRaises(ValueError, Redshift.split_full_table_name, "a.b.c")
+        with pytest.raises(ValueError):
+            Redshift.split_full_table_name("a.b.c")
 
     def test_combine_schema_and_table_name(self):
         full_table_name = Redshift.combine_schema_and_table_name("some_schema", "some_table")
@@ -158,7 +160,8 @@ class TestRedshift(unittest.TestCase):
 
         # Assert that an error is raised by an empty table
         empty_table = Table([["Col_1", "Col_2"]])
-        self.assertRaises(ValueError, self.rs.create_statement, empty_table, "tmc.test")
+        with pytest.raises(ValueError):
+            self.rs.create_statement(empty_table, "tmc.test")
 
     def test_get_creds_kwargs(self):
         # Test passing kwargs
@@ -500,7 +503,7 @@ class TestRedshiftDB(unittest.TestCase):
             )
             desired_log = [log for log in lc.records if "optimize your queries" in log.msg][0]
             assert "DIST" in desired_log.msg
-            assert not "SORT" in desired_log.msg
+            assert "SORT" not in desired_log.msg
 
     def test_upsert(self):
         # Create a target table when no target table exists
@@ -517,13 +520,12 @@ class TestRedshiftDB(unittest.TestCase):
 
         # Try to run it with a bad primary key
         self.rs.query(f"INSERT INTO {self.temp_schema}.test_copy VALUES (1, 'Jim')")
-        self.assertRaises(
-            ValueError,
-            self.rs.upsert,
-            upsert_tbl,
-            f"{self.temp_schema}.test_copy",
-            "ID",
-        )
+        with pytest.raises(ValueError):
+            self.rs.upsert(
+                upsert_tbl,
+                f"{self.temp_schema}.test_copy",
+                "ID",
+            )
 
         # Now try and upsert using two primary keys
         upsert_tbl = Table([["id", "name"], [1, "Jane"]])
@@ -545,13 +547,12 @@ class TestRedshiftDB(unittest.TestCase):
 
         # Try to run it with a bad primary key
         self.rs.query(f"INSERT INTO {self.temp_schema}.test_copy VALUES (1, 'Jim')")
-        self.assertRaises(
-            ValueError,
-            self.rs.upsert,
-            upsert_tbl,
-            f"{self.temp_schema}.test_copy",
-            ["ID", "name"],
-        )
+        with pytest.raises(ValueError):
+            self.rs.upsert(
+                upsert_tbl,
+                f"{self.temp_schema}.test_copy",
+                ["ID", "name"],
+            )
 
         self.rs.query(f"truncate table {self.temp_schema}.test_copy")
 
@@ -850,13 +851,12 @@ class TestRedshiftDB(unittest.TestCase):
         assert rows[0]["count"] == 3
 
         # Try with if_exists='fail'
-        self.assertRaises(
-            ValueError,
-            self.rs.populate_table_from_query,
-            query,
-            dest_table,
-            if_exists="fail",
-        )
+        with pytest.raises(ValueError):
+            self.rs.populate_table_from_query(
+                query,
+                dest_table,
+                if_exists="fail",
+            )
 
     def test_duplicate_table(self):
         # Populate the source table
@@ -887,22 +887,20 @@ class TestRedshiftDB(unittest.TestCase):
         assert rows[0]["count"] == 6
 
         # Try with if_exists='fail'
-        self.assertRaises(
-            ValueError,
-            self.rs.duplicate_table,
-            source_table,
-            dest_table,
-            if_exists="fail",
-        )
+        with pytest.raises(ValueError):
+            self.rs.duplicate_table(
+                source_table,
+                dest_table,
+                if_exists="fail",
+            )
 
         # Try with invalid if_exists arg
-        self.assertRaises(
-            ValueError,
-            self.rs.duplicate_table,
-            source_table,
-            dest_table,
-            if_exists="nonsense",
-        )
+        with pytest.raises(ValueError):
+            self.rs.duplicate_table(
+                source_table,
+                dest_table,
+                if_exists="nonsense",
+            )
 
     def test_get_max_value(self):
         date_tbl = Table([["id", "date_modified"], [1, "2020-01-01"], [2, "1900-01-01"]])

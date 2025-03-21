@@ -2,6 +2,7 @@ import copy
 import os
 import unittest
 
+import pytest
 import requests_mock
 
 from parsons import Phone2Action
@@ -247,21 +248,16 @@ class TestP2A(unittest.TestCase):
         m.post(self.p2a.client.uri + "advocates", json={"advocateid": 1})
 
         # Test arg validation - create requires a phone or an email
-        self.assertRaises(
-            ValueError,
-            lambda: self.p2a.create_advocate(campaigns=[1], firstname="Foo", lastname="bar"),
-        )
+        with pytest.raises(ValueError):
+            self.p2a.create_advocate(campaigns=[1], firstname="Foo", lastname="bar")
+
         # Test arg validation - sms opt in requires a phone
-        self.assertRaises(
-            ValueError,
-            lambda: self.p2a.create_advocate(campaigns=[1], email="foo@bar.com", sms_optin=True),
-        )
+        with pytest.raises(ValueError):
+            self.p2a.create_advocate(campaigns=[1], email="foo@bar.com", sms_optin=True)
 
         # Test arg validation - email opt in requires a email
-        self.assertRaises(
-            ValueError,
-            lambda: self.p2a.create_advocate(campaigns=[1], phone="1234567890", email_optin=True),
-        )
+        with pytest.raises(ValueError):
+            self.p2a.create_advocate(campaigns=[1], phone="1234567890", email_optin=True)
 
         # Test a successful call
         advocateid = self.p2a.create_advocate(
@@ -282,15 +278,12 @@ class TestP2A(unittest.TestCase):
         m.post(self.p2a.client.uri + "advocates")
 
         # Test arg validation - sms opt in requires a phone
-        self.assertRaises(
-            ValueError, lambda: self.p2a.update_advocate(advocate_id=1, sms_optin=True)
-        )
+        with pytest.raises(ValueError):
+            self.p2a.update_advocate(advocate_id=1, sms_optin=True)
 
         # Test arg validation - email opt in requires a email
-        self.assertRaises(
-            ValueError,
-            lambda: self.p2a.update_advocate(advocate_id=1, email_optin=True),
-        )
+        with pytest.raises(ValueError):
+            self.p2a.update_advocate(advocate_id=1, email_optin=True)
 
         # Test a successful call
         self.p2a.update_advocate(

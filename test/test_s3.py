@@ -4,6 +4,7 @@ import unittest
 import urllib
 from datetime import datetime
 
+import pytest
 import pytz
 
 from parsons import S3, Table
@@ -85,7 +86,7 @@ class TestS3(unittest.TestCase):
 
         # Test that prefix filter works -- when not there
         keys = self.s3.list_keys(self.test_bucket, prefix="nope")
-        assert not key in keys
+        assert key not in keys
 
     def test_key_exists(self):
         csv_path = self.tbl.to_csv()
@@ -108,10 +109,10 @@ class TestS3(unittest.TestCase):
 
         keys = self.s3.list_keys(self.test_bucket, suffix="csv")
         assert key_1 in keys
-        assert not key_2 in keys
+        assert key_2 not in keys
 
         keys = self.s3.list_keys(self.test_bucket, suffix="gz")
-        assert not key_1 in keys
+        assert key_1 not in keys
         assert key_2 in keys
 
     def test_list_keys_date_modified(self):
@@ -142,9 +143,9 @@ class TestS3(unittest.TestCase):
         # Test that the url expires
         url_short = self.s3.get_url(self.test_bucket, self.test_key, expires_in=1)
         time.sleep(2)
-        with self.assertRaises(urllib.error.HTTPError) as cm:
+        with pytest.raises(urllib.error.HTTPError) as cm:
             Table.from_csv(url_short)
-        assert cm.exception.code == 403
+        assert cm.value.code == 403
 
     def test_transfer_bucket(self):
         # Create a destination bucket
@@ -185,4 +186,4 @@ class TestS3(unittest.TestCase):
         assert self.test_bucket in buckets_with_subname_true
 
         buckets_with_subname_false = self.s3.get_buckets_type("bucketsubnamedoesnotexist")
-        assert not self.test_bucket in buckets_with_subname_false
+        assert self.test_bucket not in buckets_with_subname_false

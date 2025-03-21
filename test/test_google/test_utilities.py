@@ -3,6 +3,8 @@ import os
 import tempfile
 import unittest
 
+import pytest
+
 from parsons.google import utilities as util
 
 
@@ -82,5 +84,5 @@ class TestHexavigesimal(unittest.TestCase):
         assert util.hexavigesimal(27) == "AA"
 
     def test_returns_error_on_0(self):
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             util.hexavigesimal(0)

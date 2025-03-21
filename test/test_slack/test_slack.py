@@ -2,6 +2,7 @@ import json
 import os
 import unittest
 
+import pytest
 import requests_mock
 from slackclient.exceptions import SlackClientError
 
@@ -26,7 +27,8 @@ class TestSlack(unittest.TestCase):
 
         assert "SLACK_API_TOKEN" not in os.environ
 
-        self.assertRaises(KeyError, Slack)
+        with pytest.raises(KeyError):
+            Slack()
 
         os.environ["SLACK_API_TOKEN"] = "SOME_API_TOKEN"
         assert "SLACK_API_TOKEN" in os.environ
@@ -244,12 +246,11 @@ class TestSlack(unittest.TestCase):
             json={"ok": False, "error": "invalid_auth"},
         )
 
-        self.assertRaises(
-            SlackClientError,
-            self.slack.message_channel,
-            "FakeChannel",
-            "Here's a message for you",
-        )
+        with pytest.raises(SlackClientError):
+            self.slack.message_channel(
+                "FakeChannel",
+                "Here's a message for you",
+            )
 
     @requests_mock.Mocker(case_sensitive=True)
     def test_message(self, m):
@@ -277,4 +278,5 @@ class TestSlack(unittest.TestCase):
             json={"ok": False, "error": "invalid_auth"},
         )
 
-        self.assertRaises(SlackClientError, self.slack.upload_file, ["D0L4B9P0Q"], file_path)
+        with pytest.raises(SlackClientError):
+            self.slack.upload_file(["D0L4B9P0Q"], file_path)

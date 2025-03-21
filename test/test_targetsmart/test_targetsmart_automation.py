@@ -1,6 +1,8 @@
 import os
 import unittest
 
+import pytest
+
 from parsons import SFTP, TargetSmartAutomation
 from test.utils import mark_live_test
 
@@ -42,7 +44,8 @@ class TestTargetSmartAutomation(unittest.TestCase):
 
         # Find bad configuration
         self.sftp.put_file(self.test_xml, f"{self.ts.sftp_dir}/{self.job_name}.job.xml.bad")
-        self.assertRaises(ValueError, self.ts.config_status, self.job_name)
+        with pytest.raises(ValueError):
+            self.ts.config_status(self.job_name)
 
     @mark_live_test
     def test_match_status(self):
@@ -55,7 +58,8 @@ class TestTargetSmartAutomation(unittest.TestCase):
         # Find bad configuration
         bad_match = "test/test_targetsmart/match_bad.xml"
         self.sftp.put_file(bad_match, f"{self.ts.sftp_dir}/{self.job_name}.finish.xml")
-        self.assertRaises(ValueError, self.ts.match_status, self.job_name)
+        with pytest.raises(ValueError):
+            self.ts.match_status(self.job_name)
 
     @mark_live_test
     def test_remove_files(self):

@@ -1,5 +1,6 @@
 import unittest
 
+import pytest
 import requests_mock
 from googlecivic_responses import (
     elections_resp,
@@ -68,15 +69,15 @@ class TestGoogleCivic(unittest.TestCase):
     def test_get_representative_info_by_address_invalid_input(self, m):
         m.get(self.gc.uri + "representatives", json=representatives_resp)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             self.gc.get_representative_info_by_address(123)  # Invalid address
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             self.gc.get_representative_info_by_address(
                 "1600 Amphitheatre Parkway, Mountain View, CA", levels="country"
             )  # levels should be a list
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             self.gc.get_representative_info_by_address(
                 "1600 Amphitheatre Parkway, Mountain View, CA", roles="headOfGovernment"
             )  # roles should be a list

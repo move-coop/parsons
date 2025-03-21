@@ -5,6 +5,7 @@ import string
 import unittest
 import warnings
 
+import pytest
 from boxsdk.exception import BoxAPIException, BoxOAuthException
 
 from parsons import Box, Table
@@ -166,9 +167,9 @@ class TestBoxStorage(unittest.TestCase):
         new_table = box.get_table(path=f"{self.temp_folder_name}/{path_filename}")
 
         # Check that we throw an exception with bad formats
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             box.upload_table_to_folder_id(table, "phone_numbers", format="illegal_format")
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             box.get_table_by_file_id(box_file.id, format="illegal_format")
 
     def test_download_file(self) -> None:
@@ -227,17 +228,17 @@ class TestBoxStorage(unittest.TestCase):
         assert self.temp_folder_id == box.get_item_id(path=file_path)
 
         # Trailing "/"
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             file_path = f"{self.temp_folder_name}/item_subfolder/phone_numbers/"
             box.get_item_id(path=file_path)
 
         # Nonexistent file
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             file_path = f"{self.temp_folder_name}/item_subfolder/nonexistent/phone_numbers"
             box.get_item_id(path=file_path)
 
         # File (rather than folder) in middle of path
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             file_path = f"{self.temp_folder_name}/file_in_subfolder/phone_numbers"
             box.get_item_id(path=file_path)
 
@@ -255,34 +256,34 @@ class TestBoxStorage(unittest.TestCase):
         )
 
         # Upload a bad format
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             box.upload_table_to_folder_id(table, "temp1", format="bad_format")
 
         # Download a bad format
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             box.get_table_by_file_id(file_id=nonexistent_id, format="bad_format")
 
         # Upload to non-existent folder
         with self.assertLogs(level=logging.WARNING):
-            with self.assertRaises(BoxAPIException):
+            with pytest.raises(BoxAPIException):
                 box.upload_table_to_folder_id(table, "temp1", folder_id=nonexistent_id)
 
         # Download a non-existent file
         with self.assertLogs(level=logging.WARNING):
-            with self.assertRaises(BoxAPIException):
+            with pytest.raises(BoxAPIException):
                 box.get_table_by_file_id(nonexistent_id, format="json")
 
         # Create folder in non-existent parent
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             box.create_folder("nonexistent_path/path")
 
         # Create folder in non-existent parent
         with self.assertLogs(level=logging.WARNING):
-            with self.assertRaises(BoxAPIException):
+            with pytest.raises(BoxAPIException):
                 box.create_folder_by_id(folder_name="subfolder", parent_folder_id=nonexistent_id)
 
         # Try using bad credentials
         box = Box(access_token="5345345345")
         with self.assertLogs(level=logging.WARNING):
-            with self.assertRaises(BoxOAuthException):
+            with pytest.raises(BoxOAuthException):
                 box.list_files_by_id()

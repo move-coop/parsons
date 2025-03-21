@@ -1,6 +1,7 @@
 import os
 import unittest
 
+import pytest
 import requests_mock
 from requests.exceptions import HTTPError
 
@@ -67,43 +68,40 @@ class TestNGPVAN(unittest.TestCase):
 
     def test_valid_search(self):
         # Fails with FN / LN Only
-        self.assertRaises(
-            ValueError,
-            self.van._valid_search,
-            "Barack",
-            "Obama",
-            None,
-            None,
-            None,
-            None,
-            None,
-        )
+        with pytest.raises(ValueError):
+            self.van._valid_search(
+                "Barack",
+                "Obama",
+                None,
+                None,
+                None,
+                None,
+                None,
+            )
 
         # Fails with only Zip
-        self.assertRaises(
-            ValueError,
-            self.van._valid_search,
-            "Barack",
-            "Obama",
-            None,
-            None,
-            None,
-            None,
-            60622,
-        )
+        with pytest.raises(ValueError):
+            self.van._valid_search(
+                "Barack",
+                "Obama",
+                None,
+                None,
+                None,
+                None,
+                60622,
+            )
 
         # Fails with no street number
-        self.assertRaises(
-            ValueError,
-            self.van._valid_search,
-            "Barack",
-            "Obama",
-            None,
-            None,
-            None,
-            "Pennsylvania Ave",
-            None,
-        )
+        with pytest.raises(ValueError):
+            self.van._valid_search(
+                "Barack",
+                "Obama",
+                None,
+                None,
+                None,
+                "Pennsylvania Ave",
+                None,
+            )
 
         # Successful with FN/LN/Email
         self.van._valid_search("Barack", "Obama", "barack@email.com", None, None, None, None)
@@ -159,7 +157,8 @@ class TestNGPVAN(unittest.TestCase):
             json=json,
             status_code=400,
         )
-        self.assertRaises(HTTPError, self.van.apply_canvass_result, 2335282, 0)
+        with pytest.raises(HTTPError):
+            self.van.apply_canvass_result(2335282, 0)
 
         # Test a bad vanid
         json = {
@@ -176,7 +175,8 @@ class TestNGPVAN(unittest.TestCase):
             json=json,
             status_code=400,
         )
-        self.assertRaises(HTTPError, self.van.apply_canvass_result, 0, 18)
+        with pytest.raises(HTTPError):
+            self.van.apply_canvass_result(0, 18)
 
         # Test a good dwid
         m.post(
@@ -186,7 +186,8 @@ class TestNGPVAN(unittest.TestCase):
         self.van.apply_canvass_result(2335282, 18, id_type="DWID")
 
         # test canvassing via phone or sms without providing phone number
-        self.assertRaises(Exception, self.van.apply_canvass_result, 2335282, 18, contact_type_id=37)
+        with pytest.raises(Exception):
+            self.van.apply_canvass_result(2335282, 18, contact_type_id=37)
 
         # test canvassing via phone or sms with providing phone number
         m.post(self.van.connection.uri + "people/2335282/canvassResponses", status_code=204)
@@ -208,7 +209,8 @@ class TestNGPVAN(unittest.TestCase):
         #     }]
         # }
         m.post(self.van.connection.uri + "people/2335282/canvassResponses", status_code=400)
-        self.assertRaises(HTTPError, self.van.apply_survey_response, 2335282, 0, 1443891)
+        with pytest.raises(HTTPError):
+            self.van.apply_survey_response(2335282, 0, 1443891)
 
         # Test bad survey question id
         # json = {
@@ -220,7 +222,8 @@ class TestNGPVAN(unittest.TestCase):
         #     }]
         # }
         m.post(self.van.connection.uri + "people/2335282/canvassResponses", status_code=400)
-        self.assertRaises(HTTPError, self.van.apply_survey_response, 2335282, 351006, 0)
+        with pytest.raises(HTTPError):
+            self.van.apply_survey_response(2335282, 351006, 0)
 
     def test_toggle_volunteer_action(self):
         pass
@@ -248,20 +251,18 @@ class TestNGPVAN(unittest.TestCase):
         )
 
         # Test bad input
-        self.assertRaises(
-            HTTPError,
-            self.van.create_relationship,
-            bad_vanid_1,
-            vanid_2,
-            relationship_id,
-        )
-        self.assertRaises(
-            HTTPError,
-            self.van.create_relationship,
-            bad_vanid_1,
-            vanid_2,
-            relationship_id,
-        )
+        with pytest.raises(HTTPError):
+            self.van.create_relationship(
+                bad_vanid_1,
+                vanid_2,
+                relationship_id,
+            )
+        with pytest.raises(HTTPError):
+            self.van.create_relationship(
+                bad_vanid_1,
+                vanid_2,
+                relationship_id,
+            )
 
         self.van.create_relationship(good_vanid_1, vanid_2, relationship_id)
 
@@ -276,7 +277,8 @@ class TestNGPVAN(unittest.TestCase):
 
         # Test bad request
         m.post(self.van.connection.uri + f"people/{vanid}/codes", status_code=404)
-        self.assertRaises(HTTPError, self.van.apply_person_code, vanid, code_id)
+        with pytest.raises(HTTPError):
+            self.van.apply_person_code(vanid, code_id)
 
     @requests_mock.Mocker()
     def test_merge_contacts(self, m):

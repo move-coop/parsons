@@ -1,6 +1,8 @@
 import os
 import unittest
 
+import pytest
+
 from parsons import FacebookAds, Table
 
 users_table = Table(
@@ -42,12 +44,11 @@ class TestFacebookAdsIntegration(unittest.TestCase):
         assert self.audience_id is not None
 
     def test_create_custom_audience_bad_data_source(self):
-        self.assertRaises(
-            KeyError,
-            self.fb_ads.create_custom_audience,
-            name="Something",
-            data_source="INVALID",
-        )
+        with pytest.raises(KeyError):
+            self.fb_ads.create_custom_audience(
+                name="Something",
+                data_source="INVALID",
+            )
 
     def test_add_users_to_custom_audience(self):
         # Note we don't actually check the results of adding these users, eg. how many were
@@ -62,7 +63,8 @@ class TestFacebookAdsIntegration(unittest.TestCase):
                 {"full name": "Bob Smith"},
             ]
         )
-        self.assertRaises(KeyError, self.fb_ads.add_users_to_custom_audience, self.audience_id, tbl)
+        with pytest.raises(KeyError):
+            self.fb_ads.add_users_to_custom_audience(self.audience_id, tbl)
 
 
 class TestFacebookAdsUtilities(unittest.TestCase):

@@ -155,7 +155,7 @@ class TestFakeDBSync(TestDBSync):
         # Have the copy fail
         self.destination_db.setup_table(self.destination_table, Table(), failures=1)
         # Make sure the sync results in an exception
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Canned error"):
             self.table_sync_full(if_exists="drop")
 
     def test_table_sync_full_read_chunk(self):

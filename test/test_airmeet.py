@@ -275,12 +275,14 @@ class TestAirmeet(unittest.TestCase):
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "statusCode": 202,
-                "statusMessage": "Preparing your results. Try after 5 minutes"
-                "to get the updated results",
+                "statusMessage": "Preparing your results. Try after 5 minutes to get the updated results",
             }
         )
 
-        with pytest.raises(Exception):
+        with pytest.raises(
+            Exception,
+            match="{'statusCode': 202, 'statusMessage': 'Preparing your results. Try after 5 minutes to get the updated results'}",
+        ):
             self.airmeet.fetch_session_attendance("test_session_id")
 
     def test_fetch_session_attendance_exception_400(self):
@@ -294,7 +296,10 @@ class TestAirmeet(unittest.TestCase):
             }
         )
 
-        with pytest.raises(Exception):
+        with pytest.raises(
+            Exception,
+            match="{'data': {}, 'statusCode': 400, 'statusMessage': 'Session status is not valid'}",
+        ):
             self.airmeet.fetch_session_attendance("test_session_id")
 
     def test_fetch_airmeet_booths(self):
@@ -506,5 +511,8 @@ class TestAirmeet(unittest.TestCase):
             }
         )
 
-        with pytest.raises(Exception):
+        with pytest.raises(
+            Exception,
+            match="{'data': {}, 'statusCode': 400, 'statusMessage': 'Airmeet status is not valid'}",
+        ):
             self.airmeet.fetch_event_replay_attendance("test_airmeet_id")

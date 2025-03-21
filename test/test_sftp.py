@@ -133,10 +133,10 @@ def live_sftp_with_mocked_get(simple_csv_path, simple_compressed_csv_path):  # n
 
 
 def test_credential_validation():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Missing the SFTP host name"):
         SFTP(host=None, username=None, password=None)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Missing the SFTP host name"):
         SFTP(host=None, username="sam", password="abc123")
 
 
@@ -308,7 +308,7 @@ def test_get_files_calls_get_to_write_temp_files(kwargs, expected, live_sftp_wit
 
 @mark_live_test
 def test_get_files_raises_error_when_no_file_source_is_provided(live_sftp):
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError):  # noqa: PT011
         live_sftp.get_files()
 
 

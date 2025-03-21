@@ -237,7 +237,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq.table_exists.return_value = True
 
         # call the method being tested
-        with pytest.raises(Exception):
+        with pytest.raises(Exception, match="Table already exists"):
             bq.copy_from_gcs(
                 self.default_table,
                 "dataset.table",
@@ -274,11 +274,14 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq.table_exists.return_value = True
 
         # call the method being tested
-        with pytest.raises(ValueError):
+        if_exists = "foobar"
+        with pytest.raises(
+            ValueError, match=f"Unexpected value for if_exists: {if_exists}, must be one of"
+        ):
             bq.copy_from_gcs(
                 gcs_blob_uri=tmp_blob_uri,
                 table_name="dataset.table",
-                if_exists="foobar",
+                if_exists=if_exists,
             )
 
     @mock.patch("google.cloud.storage.Client")

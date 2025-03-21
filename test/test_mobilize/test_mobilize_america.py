@@ -20,8 +20,9 @@ class TestMobilizeAmerica(unittest.TestCase):
         assert self.ma._time_parse("<=2018-12-13") == "lte_1544659200"
 
         # Test that it throws an error when you put in an invalid filter
-        with pytest.raises(ValueError):
-            self.ma._time_parse("=2018-12-01")
+        date_filter_invalid = "=2018-12-01"
+        with pytest.raises(ValueError, match=f"Unknown string format: {date_filter_invalid}"):
+            self.ma._time_parse(date_filter_invalid)
 
     @requests_mock.Mocker()
     def test_get_organizations(self, m):

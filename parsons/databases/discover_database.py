@@ -55,8 +55,7 @@ def discover_database(
     if len(detected) > 1:
         if default_connector is None:
             raise EnvironmentError(
-                f"Multiple database configurations detected: {detected}."
-                " Please specify a default connector."
+                f"Multiple database configurations detected: {detected}. Please specify a default connector."
             )
 
         if isinstance(default_connector, list):

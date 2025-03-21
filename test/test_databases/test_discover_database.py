@@ -18,7 +18,7 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch("os.getenv")
     def test_no_database_detected(self, mock_getenv, *_):
         mock_getenv.return_value = None
-        with pytest.raises(EnvironmentError):
+        with pytest.raises(EnvironmentError, match="Could not find any database configuration"):
             discover_database()
 
     @patch.object(BigQuery, "__init__", return_value=None)
@@ -55,7 +55,10 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch("os.getenv")
     def test_multiple_databases_no_default(self, mock_getenv, *_):
         mock_getenv.return_value = "password"
-        with pytest.raises(EnvironmentError):
+        with pytest.raises(
+            EnvironmentError,
+            match="Multiple database configurations detected: .+ Please specify a default connector",
+        ):
             discover_database()
 
     @patch.object(BigQuery, "__init__", return_value=None)
@@ -85,7 +88,10 @@ class TestDiscoverDatabase(unittest.TestCase):
         mock_getenv.side_effect = lambda var: (
             "password" if var == "REDSHIFT_PASSWORD" or var == "MYSQL_PASSWORD" else None
         )
-        with pytest.raises(EnvironmentError):
+        with pytest.raises(
+            EnvironmentError,
+            match=r"Default connector .+ not detected. Detected: .+",
+        ):
             discover_database(default_connector=Postgres)
 
     @patch.object(BigQuery, "__init__", return_value=None)
@@ -97,7 +103,10 @@ class TestDiscoverDatabase(unittest.TestCase):
         mock_getenv.side_effect = lambda var: (
             "password" if var == "REDSHIFT_PASSWORD" or var == "MYSQL_PASSWORD" else None
         )
-        with pytest.raises(EnvironmentError):
+        with pytest.raises(
+            EnvironmentError,
+            match="None of the default connectors .+ were detected",
+        ):
             discover_database(default_connector=[Postgres, BigQuery])
 
 

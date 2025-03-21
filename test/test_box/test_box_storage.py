@@ -167,9 +167,9 @@ class TestBoxStorage(unittest.TestCase):
         new_table = box.get_table(path=f"{self.temp_folder_name}/{path_filename}")
 
         # Check that we throw an exception with bad formats
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             box.upload_table_to_folder_id(table, "phone_numbers", format="illegal_format")
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             box.get_table_by_file_id(box_file.id, format="illegal_format")
 
     def test_download_file(self) -> None:
@@ -229,17 +229,17 @@ class TestBoxStorage(unittest.TestCase):
 
         # Trailing "/"
         file_path = f"{self.temp_folder_name}/item_subfolder/phone_numbers/"
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             box.get_item_id(path=file_path)
 
         # Nonexistent file
         file_path = f"{self.temp_folder_name}/item_subfolder/nonexistent/phone_numbers"
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             box.get_item_id(path=file_path)
 
         # File (rather than folder) in middle of path
         file_path = f"{self.temp_folder_name}/file_in_subfolder/phone_numbers"
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             box.get_item_id(path=file_path)
 
     def test_errors(self) -> None:
@@ -256,25 +256,25 @@ class TestBoxStorage(unittest.TestCase):
         )
 
         # Upload a bad format
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             box.upload_table_to_folder_id(table, "temp1", format="bad_format")
 
         # Download a bad format
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             box.get_table_by_file_id(file_id=nonexistent_id, format="bad_format")
 
         # Upload to non-existent folder
         with self.assertLogs(level=logging.WARNING):
-            with pytest.raises(BoxAPIException):
+            with pytest.raises(BoxAPIException):  # noqa: PT011
                 box.upload_table_to_folder_id(table, "temp1", folder_id=nonexistent_id)
 
         # Download a non-existent file
         with self.assertLogs(level=logging.WARNING):
-            with pytest.raises(BoxAPIException):
+            with pytest.raises(BoxAPIException):  # noqa: PT011
                 box.get_table_by_file_id(nonexistent_id, format="json")
 
         # Create folder in non-existent parent
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             box.create_folder("nonexistent_path/path")
 
         # Create folder in non-existent parent

@@ -288,7 +288,7 @@ class Service:
             raise ValueError("Search type 'address' requires 'address' argument")
 
         elif search_type not in ["zip", "point", "address"]:
-            raise KeyError("Invalid 'search_type' provided. ")
+            raise KeyError("Invalid 'search_type' provided.")
 
         else:
             pass

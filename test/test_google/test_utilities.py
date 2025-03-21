@@ -84,5 +84,5 @@ class TestHexavigesimal(unittest.TestCase):
         assert util.hexavigesimal(27) == "AA"
 
     def test_returns_error_on_0(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="This function only works for positive integers"):
             util.hexavigesimal(0)

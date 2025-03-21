@@ -44,7 +44,10 @@ class TestTargetSmartAutomation(unittest.TestCase):
 
         # Find bad configuration
         self.sftp.put_file(self.test_xml, f"{self.ts.sftp_dir}/{self.job_name}.job.xml.bad")
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError,
+            match="Job configuration failed. If you provided an email address, you will be sent more details.",
+        ):
             self.ts.config_status(self.job_name)
 
     @mark_live_test
@@ -58,7 +61,7 @@ class TestTargetSmartAutomation(unittest.TestCase):
         # Find bad configuration
         bad_match = "test/test_targetsmart/match_bad.xml"
         self.sftp.put_file(bad_match, f"{self.ts.sftp_dir}/{self.job_name}.finish.xml")
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Match job failed"):
             self.ts.match_status(self.job_name)
 
     @mark_live_test

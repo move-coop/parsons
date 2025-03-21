@@ -47,8 +47,9 @@ class TestRedshift(unittest.TestCase):
         assert table == "some_table"
 
         # When there are too many parts
-        with pytest.raises(ValueError):
-            Redshift.split_full_table_name("a.b.c")
+        invalid_table = "a.b.c"
+        with pytest.raises(ValueError, match=f"Invalid Redshift table {invalid_table}"):
+            Redshift.split_full_table_name(invalid_table)
 
     def test_combine_schema_and_table_name(self):
         full_table_name = Redshift.combine_schema_and_table_name("some_schema", "some_table")
@@ -160,7 +161,7 @@ class TestRedshift(unittest.TestCase):
 
         # Assert that an error is raised by an empty table
         empty_table = Table([["Col_1", "Col_2"]])
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Table is empty. Must have 1 or more rows"):
             self.rs.create_statement(empty_table, "tmc.test")
 
     def test_get_creds_kwargs(self):
@@ -520,7 +521,7 @@ class TestRedshiftDB(unittest.TestCase):
 
         # Try to run it with a bad primary key
         self.rs.query(f"INSERT INTO {self.temp_schema}.test_copy VALUES (1, 'Jim')")
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             self.rs.upsert(
                 upsert_tbl,
                 f"{self.temp_schema}.test_copy",
@@ -547,7 +548,7 @@ class TestRedshiftDB(unittest.TestCase):
 
         # Try to run it with a bad primary key
         self.rs.query(f"INSERT INTO {self.temp_schema}.test_copy VALUES (1, 'Jim')")
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             self.rs.upsert(
                 upsert_tbl,
                 f"{self.temp_schema}.test_copy",
@@ -851,7 +852,7 @@ class TestRedshiftDB(unittest.TestCase):
         assert rows[0]["count"] == 3
 
         # Try with if_exists='fail'
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             self.rs.populate_table_from_query(
                 query,
                 dest_table,
@@ -887,7 +888,7 @@ class TestRedshiftDB(unittest.TestCase):
         assert rows[0]["count"] == 6
 
         # Try with if_exists='fail'
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             self.rs.duplicate_table(
                 source_table,
                 dest_table,
@@ -895,7 +896,7 @@ class TestRedshiftDB(unittest.TestCase):
             )
 
         # Try with invalid if_exists arg
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             self.rs.duplicate_table(
                 source_table,
                 dest_table,

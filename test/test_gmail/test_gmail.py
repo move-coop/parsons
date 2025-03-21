@@ -542,7 +542,7 @@ class TestGmail(unittest.TestCase):
             if e["expected"]:
                 assert self.gmail._validate_email_string(e["email"])
             else:
-                with pytest.raises(ValueError):
+                with pytest.raises(ValueError, match="Invalid email address"):
                     self.gmail._validate_email_string(e["email"])
 
     # TODO test sending emails

@@ -69,18 +69,18 @@ class TestGoogleCivic(unittest.TestCase):
     def test_get_representative_info_by_address_invalid_input(self, m):
         m.get(self.gc.uri + "representatives", json=representatives_resp)
 
-        with pytest.raises(ValueError):
-            self.gc.get_representative_info_by_address(123)  # Invalid address
+        with pytest.raises(ValueError, match="address must be a string"):
+            self.gc.get_representative_info_by_address(123)
 
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="levels must be a list of strings"):
             self.gc.get_representative_info_by_address(
                 "1600 Amphitheatre Parkway, Mountain View, CA", levels="country"
-            )  # levels should be a list
+            )
 
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="roles must be a list of strings"):
             self.gc.get_representative_info_by_address(
                 "1600 Amphitheatre Parkway, Mountain View, CA", roles="headOfGovernment"
-            )  # roles should be a list
+            )
 
     @requests_mock.Mocker()
     def test_get_representative_info_by_address_different_params(self, m):

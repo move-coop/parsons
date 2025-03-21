@@ -248,15 +248,24 @@ class TestP2A(unittest.TestCase):
         m.post(self.p2a.client.uri + "advocates", json={"advocateid": 1})
 
         # Test arg validation - create requires a phone or an email
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError,
+            match="When creating an advocate, you must provide an email address or a phone number",
+        ):
             self.p2a.create_advocate(campaigns=[1], firstname="Foo", lastname="bar")
 
         # Test arg validation - sms opt in requires a phone
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError,
+            match="When opting an advocate in or out of SMS messages, you must specify a valid phone and one or more campaigns",
+        ):
             self.p2a.create_advocate(campaigns=[1], email="foo@bar.com", sms_optin=True)
 
         # Test arg validation - email opt in requires a email
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError,
+            match="When opting an advocate in or out of email messages, you must specify a valid email address and one or more campaigns",
+        ):
             self.p2a.create_advocate(campaigns=[1], phone="1234567890", email_optin=True)
 
         # Test a successful call
@@ -278,11 +287,17 @@ class TestP2A(unittest.TestCase):
         m.post(self.p2a.client.uri + "advocates")
 
         # Test arg validation - sms opt in requires a phone
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError,
+            match="When opting an advocate in or out of SMS messages, you must specify a valid phone and one or more campaigns",
+        ):
             self.p2a.update_advocate(advocate_id=1, sms_optin=True)
 
         # Test arg validation - email opt in requires a email
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError,
+            match="When opting an advocate in or out of email messages, you must specify a valid email address and one or more campaigns",
+        ):
             self.p2a.update_advocate(advocate_id=1, email_optin=True)
 
         # Test a successful call

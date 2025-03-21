@@ -192,7 +192,10 @@ class TestScores(unittest.TestCase):
         )
 
         # Test bad input
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError,
+            match="Valid inputs for status are, 'pending approval','approved','disapproved','canceled'",
+        ):
             self.van.update_score_status(score_update_id, "not a thing.")
 
         # Test good input
@@ -227,7 +230,7 @@ class TestScores(unittest.TestCase):
         m.post(self.van.connection.uri + "FileLoadingJobs", json=json, status_code=201)
 
         # Test bad delimiter
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Delimiter must be one of 'csv', 'tab' or 'pipe'"):
             self.van.create_file_load(
                 file_name,
                 file_url_good,

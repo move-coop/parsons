@@ -44,8 +44,9 @@ class TestGoogleSheets(unittest.TestCase):
         pass
 
     def test_read_nonexistent_worksheet(self):
-        with pytest.raises(gspread.exceptions.APIError):
-            self.google_sheets.read_sheet("abc123")
+        bogus_title = "abc123"
+        with pytest.raises(gspread.exceptions.APIError):  # noqa: PT011
+            self.google_sheets.read_sheet(bogus_title)
 
     def test_create_spreadsheet(self):
         # Created as part of setUp
@@ -58,10 +59,11 @@ class TestGoogleSheets(unittest.TestCase):
         assert 1 == idx
 
     def test_get_sheet_index_with_bogus_title(self):
-        with pytest.raises(ValueError):
+        bogus_title = "abc123"
+        with pytest.raises(ValueError, match=f"Couldn't find sheet with title {bogus_title}"):
             self.google_sheets.get_worksheet_index(
                 self.spreadsheet_id,
-                "abc123",
+                bogus_title,
             )
 
     def test_read_worksheet_with_title(self):

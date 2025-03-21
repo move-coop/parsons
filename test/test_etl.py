@@ -62,13 +62,13 @@ class TestParsonsTable(unittest.TestCase):
     def test_from_invalid_list(self):
         # Tests that a table can't be created from a list of invalid items
         list_of_invalid = [1, 2, 3]
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Could not create Table"):
             Table(list_of_invalid)
 
     def test_from_empty_petl(self):
         # This test ensures that this would fail: Table(None)
         # Even while allowing Table() to work
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Could not initialize table from input type"):
             Table(None)
 
     def test_from_empty_list(self):
@@ -228,7 +228,7 @@ class TestParsonsTable(unittest.TestCase):
             path = str(Path(tempdir) / "empty.csv")
             open(path, "a").close()
 
-            with pytest.raises(ValueError):
+            with pytest.raises(ValueError, match="CSV file is empty"):
                 Table.from_csv(path)
 
     def test_to_csv_zip(self):
@@ -302,8 +302,9 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_column_add_dupe(self):
         # Test that we can't add an existing column name
-        with pytest.raises(ValueError):
-            self.tbl.add_column("first")
+        column = "first"
+        with pytest.raises(ValueError, match=f"Column {column} already exists"):
+            self.tbl.add_column(column)
 
     def test_add_column_if_exists(self):
         self.tbl.add_column("first", if_exists="replace")
@@ -321,7 +322,7 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_column_rename_dupe(self):
         # Test that we can't rename to a column that already exists
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Column first already exists"):
             self.tbl.rename_column("last", "first")
 
     def test_rename_columns(self):
@@ -339,7 +340,9 @@ class TestParsonsTable(unittest.TestCase):
     def test_rename_columns_nonexistent(self):
         # Test renaming a column that doesn't exist
         column_map = {"nonexistent": "newname"}
-        with pytest.raises(KeyError):
+        with pytest.raises(
+            KeyError, match=f"Column name {next(iter(column_map.keys()))} does not exist"
+        ):
             self.tbl.rename_columns(column_map)
 
     def test_rename_columns_empty(self):
@@ -351,7 +354,10 @@ class TestParsonsTable(unittest.TestCase):
     def test_rename_columns_duplicate(self):
         # Test renaming to a column name that already exists
         column_map = {"first": "last"}
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError,
+            match=f"Column name {column_map[next(iter(column_map.keys()))]} already exists",
+        ):
             self.tbl.rename_columns(column_map)
 
     def test_fill_column(self):
@@ -666,7 +672,7 @@ class TestParsonsTable(unittest.TestCase):
         assert_matching_tables(desired_tbl, tbl)
 
         # Test disable fuzzy matching, and fail due due to the missing cols
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError, match="Table is missing column"):
             Table(raw).match_columns(
                 desired_tbl.columns,
                 fuzzy_match=False,
@@ -674,7 +680,7 @@ class TestParsonsTable(unittest.TestCase):
             )
 
         # Test disable fuzzy matching, and fail due to the extra cols
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError, match="Table has extra column"):
             Table(raw).match_columns(
                 desired_tbl.columns,
                 fuzzy_match=False,

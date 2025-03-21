@@ -102,15 +102,15 @@ class TestTargetSmartAPI(unittest.TestCase):
         assert validate_list(expected, self.ts.data_enhance("IL-12568678"))
 
         # Assert exception on missing state
-        with pytest.raises(Exception):
+        with pytest.raises(KeyError, match=r"Search ID type .+ requires state kwarg"):
             self.ts.data_enhance("vb0001", search_id_type="votebuilder")
 
         # Assert exception on missing state
-        with pytest.raises(Exception):
+        with pytest.raises(KeyError, match=r"Search ID type .+ requires state kwarg"):
             self.ts.data_enhance("vb0001", search_id_type="smartvan")
 
         # Assert exception on missing state
-        with pytest.raises(Exception):
+        with pytest.raises(KeyError, match=r"Search ID type .+ requires state kwarg"):
             self.ts.data_enhance("vb0001", search_id_type="voter")
 
         # Assert works with state provided
@@ -205,17 +205,25 @@ class TestTargetSmartAPI(unittest.TestCase):
             )
 
     def test_district_args(self):
-        with pytest.raises(KeyError):
+        with pytest.raises(KeyError, match="Invalid 'search_type' provided"):
             self.ts.district(search_type="invalid_search_type")
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Search type 'address' requires 'address' argument"):
             self.ts.district(search_type="address")
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError, match="Search type 'zip' requires 'zip5' and 'zip4' arguments"
+        ):
             self.ts.district(search_type="zip", zip4=9)
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError, match="Search type 'zip' requires 'zip5' and 'zip4' arguments"
+        ):
             self.ts.district(search_type="zip", zip5=0)
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError, match="Search type 'point' requires 'latitude' and 'longitude' arguments"
+        ):
             self.ts.district(search_type="point")
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError, match="Search type 'zip' requires 'zip5' and 'zip4' arguments"
+        ):
             self.ts.district(search_type="zip")
 
     @requests_mock.Mocker()

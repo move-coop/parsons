@@ -103,8 +103,7 @@ class Scores(object):
 
         if status not in ["pending approval", "approved", "disapproved", "canceled"]:
             raise ValueError(
-                """Valid inputs for status are, 'pending approval',
-                             'approved','disapproved','canceled'"""
+                """Valid inputs for status are, 'pending approval','approved','disapproved','canceled'"""
             )
 
         else:

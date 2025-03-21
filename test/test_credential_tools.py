@@ -76,7 +76,7 @@ class TestCredentialTool(unittest.TestCase):
     def test_decode_credential_error(self):
         non_json = "non-json string"
 
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Invalid Parsons variable"):
             ct.decode_credential(non_json)
 
     def test_encode_from_json_str(self):

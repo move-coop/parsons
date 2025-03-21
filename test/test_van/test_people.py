@@ -68,7 +68,10 @@ class TestNGPVAN(unittest.TestCase):
 
     def test_valid_search(self):
         # Fails with FN / LN Only
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError,
+            match="Person find must include the following minimum combinations to conduct a search",
+        ):
             self.van._valid_search(
                 "Barack",
                 "Obama",
@@ -80,7 +83,10 @@ class TestNGPVAN(unittest.TestCase):
             )
 
         # Fails with only Zip
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError,
+            match="Person find must include the following minimum combinations to conduct a search",
+        ):
             self.van._valid_search(
                 "Barack",
                 "Obama",
@@ -92,7 +98,10 @@ class TestNGPVAN(unittest.TestCase):
             )
 
         # Fails with no street number
-        with pytest.raises(ValueError):
+        with pytest.raises(
+            ValueError,
+            match="Person find must include the following minimum combinations to conduct a search",
+        ):
             self.van._valid_search(
                 "Barack",
                 "Obama",
@@ -186,7 +195,7 @@ class TestNGPVAN(unittest.TestCase):
         self.van.apply_canvass_result(2335282, 18, id_type="DWID")
 
         # test canvassing via phone or sms without providing phone number
-        with pytest.raises(Exception):
+        with pytest.raises(HTTPError, match="must be a valid result code in the current context"):
             self.van.apply_canvass_result(2335282, 18, contact_type_id=37)
 
         # test canvassing via phone or sms with providing phone number

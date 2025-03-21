@@ -240,8 +240,8 @@ class TestDonorbox(unittest.TestCase):
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
             assert self.donorbox.get_donations(date_from=date_string).num_rows == 1
         # Incorrect formats raise error
-        with pytest.raises(ValueError):
-            result = self.donorbox.get_donations(date_from="10 20 2022")
+        with pytest.raises(ValueError):  # noqa: PT011
+            self.donorbox.get_donations(date_from="10 20 2022")
 
     @unittest.skip("requires live account setup")
     @mark_live_test
@@ -255,8 +255,8 @@ class TestDonorbox(unittest.TestCase):
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
             assert self.donorbox.get_donations(date_to=date_string).num_rows == 2
         # Incorrect formats raise error
-        with pytest.raises(ValueError):
-            result = self.donorbox.get_donations(date_to="10 20 2022")
+        with pytest.raises(ValueError):  # noqa: PT011
+            self.donorbox.get_donations(date_to="10 20 2022")
 
     @requests_mock.Mocker()
     def test_get_donations_with_amount_min_filter(self, m):
@@ -462,7 +462,7 @@ class TestDonorbox(unittest.TestCase):
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
             assert self.donorbox.get_plans(date_from=date_string).num_rows == 1
         # Incorrect formats raise error
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError):  # noqa: PT011
             result = self.donorbox.get_plans(date_from="10 20 2022")
 
     @unittest.skip("requires live account setup")
@@ -477,8 +477,8 @@ class TestDonorbox(unittest.TestCase):
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
             assert self.donorbox.get_plans(date_to=date_string).num_rows == 2
         # Incorrect formats raise error
-        with pytest.raises(ValueError):
-            result = self.donorbox.get_plans(date_to="10 20 2022")
+        with pytest.raises(ValueError):  # noqa: PT011
+            self.donorbox.get_plans(date_to="10 20 2022")
 
     def test_date_format_helper(self):
         # valid formats work (should just run without error)
@@ -486,5 +486,8 @@ class TestDonorbox(unittest.TestCase):
             self.donorbox._date_format_helper(good_format)
         # invalid formats raise errors
         for bad_format in ["10 20 2022", "October 20th, 2022", "22-10-20"]:
-            with pytest.raises(ValueError):
+            with pytest.raises(
+                ValueError,
+                match=f"The date you supplied, {bad_format}, is not a valid Donorbox format. Try the following formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY",
+            ):
                 self.donorbox._date_format_helper(bad_format)

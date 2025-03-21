@@ -387,17 +387,15 @@ class People(object):
             and None in [firstName, lastName, addressLine1, zipOrPostalCode]
             and None in [email]
         ):
-            raise ValueError(
-                """
-                             Person find must include the following minimum
-                             combinations to conduct a search.
-                                - first_name, last_name, email
-                                - first_name, last_name, phone
-                                - first_name, last_name, zip, dob
-                                - first_name, last_name, street_number, street_name, zip
-                                - email
-                            """
-            )
+            error_msg = """
+            Person find must include the following minimum combinations to conduct a search.
+            - first_name, last_name, email
+            - first_name, last_name, phone
+            - first_name, last_name, zip, dob
+            - first_name, last_name, street_number, street_name, zip
+            - email
+            """
+            raise ValueError(error_msg)
 
         return True
 

@@ -118,7 +118,7 @@ class TestSendMailCreateMessageAttachments:
 class TestSendMailValidateEmailString:
     @pytest.mark.parametrize("bad_email", ["a", "a@", "a+b", "@b.com"])
     def test_errors_with_invalid_emails(self, dummy_sendmail, bad_email):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Invalid email address"):
             dummy_sendmail._validate_email_string(bad_email)
 
     @pytest.mark.parametrize("good_email", ["a@b", "a+b@c", "a@d.com", "a@b.org"])

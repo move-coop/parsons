@@ -89,5 +89,5 @@ class TestRockTheVote(unittest.TestCase):
         print(result.columns)
 
         assert result.num_rows == 1
-        assert result[0]["requires_party"] == True
-        assert result[0]["requires_race"] == True
+        assert result[0]["requires_party"]
+        assert result[0]["requires_race"]

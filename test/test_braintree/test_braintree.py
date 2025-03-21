@@ -73,7 +73,7 @@ class TestBraintree(unittest.TestCase):
 
         assert full_table[0]["disbursement_date"] == datetime.date(2019, 12, 30)
         assert full_table[0]["credit_card_bin"] == "789234"
-        assert full_table[0]["disbursement_success"] == True
+        assert full_table[0]["disbursement_success"]
         assert full_table[0]["amount"] == decimal.Decimal("150.00")
 
     @requests_mock.Mocker()
@@ -112,7 +112,7 @@ class TestBraintree(unittest.TestCase):
 
         assert full_table[0]["first_billing_date"] == datetime.date(2022, 8, 22)
         assert full_table[0]["transactions"][0].credit_card_details.bin == "999"
-        assert full_table[0]["never_expires"] == True
+        assert full_table[0]["never_expires"]
         assert full_table[0]["price"] == decimal.Decimal("10.00")
 
     def test_query_generation(self):

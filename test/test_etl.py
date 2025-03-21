@@ -874,8 +874,8 @@ class TestParsonsTable(unittest.TestCase):
         empty = Table()
         not_empty = Table([{"one": 1, "two": 2}])
 
-        assert (not empty) == True
-        assert (not not_empty) == False
+        assert not empty
+        assert not_empty
 
     def test_use_petl(self):
         # confirm that this method doesn't exist for parsons.Table

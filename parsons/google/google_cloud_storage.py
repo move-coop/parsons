@@ -357,6 +357,9 @@ class GoogleCloudStorage(object):
         elif data_type == "json":
             local_file = table.to_json()
             content_type = "application/json"
+        elif data_type == "ndjson":
+            local_file = table.to_json(line_delimited=True)
+            content_type = "application/x-ndjson"
         else:
             raise ValueError(f"Unknown data_type value ({data_type}): must be one of: csv or json")
 

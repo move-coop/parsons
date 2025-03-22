@@ -37,7 +37,7 @@ class NationBuilder:
     @classmethod
     def get_uri(cls, slug: Optional[str]) -> str:
         if slug is None:
-            raise ValueError("slug can't None")
+            raise ValueError("slug can't be None")
 
         if not isinstance(slug, str):
             raise ValueError("slug must be an str")
@@ -50,7 +50,7 @@ class NationBuilder:
     @classmethod
     def get_auth_headers(cls, access_token: Optional[str]) -> Dict[str, str]:
         if access_token is None:
-            raise ValueError("access_token can't None")
+            raise ValueError("access_token can't be None")
 
         if not isinstance(access_token, str):
             raise ValueError("access_token must be an str")
@@ -133,7 +133,7 @@ class NationBuilder:
             A person object with the updated data.
         """
         if person_id is None:
-            raise ValueError("person_id can't None")
+            raise ValueError("person_id can't be None")
 
         if not isinstance(person_id, str):
             raise ValueError("person_id must be a str")

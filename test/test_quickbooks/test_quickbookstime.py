@@ -142,7 +142,7 @@ class TestQuickBooksTime(unittest.TestCase):
         modified_before = "2022-01-01"
         modified_since = "2022-01-01"
         supplemental_data = True
-        per_page = 10
+        limit = 10
         page = 1
 
         # Act
@@ -156,7 +156,7 @@ class TestQuickBooksTime(unittest.TestCase):
             modified_before=modified_before,
             modified_since=modified_since,
             supplemental_data=supplemental_data,
-            per_page=per_page,
+            limit=limit,
             page=page,
         )
 
@@ -182,7 +182,7 @@ class TestQuickBooksTime(unittest.TestCase):
         modified_before = "2022-01-01"
         modified_since = "2022-01-01"
         supplemental_data = True
-        per_page = 10
+        limit = 10
         page = 1
 
         # Act
@@ -200,7 +200,7 @@ class TestQuickBooksTime(unittest.TestCase):
             modified_before=modified_before,
             modified_since=modified_since,
             supplemental_data=supplemental_data,
-            per_page=per_page,
+            limit=limit,
             page=page,
         )
 
@@ -224,7 +224,7 @@ class TestQuickBooksTime(unittest.TestCase):
         modified_before = "2022-01-01"
         modified_since = "2022-01-01"
         supplemental_data = True
-        per_page = 10
+        limit = 10
         page = 1
         start_date = "2022-01-01"
 
@@ -241,7 +241,7 @@ class TestQuickBooksTime(unittest.TestCase):
             modified_before=modified_before,
             modified_since=modified_since,
             supplemental_data=supplemental_data,
-            per_page=per_page,
+            limit=limit,
             page=page,
             start_date=start_date,
         )
@@ -270,7 +270,7 @@ class TestQuickBooksTime(unittest.TestCase):
         modified_before = "2022-01-01"
         modified_since = "2022-01-01"
         supplemental_data = True
-        per_page = 10
+        limit = 10
 
         # Act
         result = self.qb.get_schedule_events(
@@ -287,7 +287,7 @@ class TestQuickBooksTime(unittest.TestCase):
             modified_before=modified_before,
             modified_since=modified_since,
             supplemental_data=supplemental_data,
-            per_page=per_page,
+            limit=limit,
         )
 
         # Assert

@@ -1,6 +1,7 @@
 import logging
 import re
 from contextlib import contextmanager
+from pathlib import Path
 from stat import S_ISDIR, S_ISREG
 from typing import Optional
 
@@ -223,21 +224,20 @@ class SFTP(object):
         logger.info(f"Reading from {remote_path} to {local_path} in {export_chunk_size}B chunks")
 
         with connection.open(remote_path, "rb") as _remote_file:
-            with open(local_path, "wb") as _local_file:
-                # This disables paramiko's prefetching behavior
-                _remote_file.set_pipelined(False)
+            # This disables paramiko's prefetching behavior
+            _remote_file.set_pipelined(False)
 
-                while True:
-                    # Read in desired number of rows from the server
-                    response = _remote_file.read(export_chunk_size)
+            while True:
+                # Read in desired number of rows from the server
+                response = _remote_file.read(export_chunk_size)
 
-                    # Break the loop if there are no records to read
-                    if not response:
-                        break
+                # Break the loop if there are no records to read
+                if not response:
+                    break
 
-                    # Write to the destination file
-                    _local_file.write(response)
-                    logger.debug(f"Successfully read {export_chunk_size} rows to {local_path}")
+                # Write to the destination file
+                Path(local_path).write_bytes(response)
+                logger.debug(f"Successfully read {export_chunk_size} rows to {local_path}")
 
     @connect
     def get_files(

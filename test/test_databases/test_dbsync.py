@@ -1,6 +1,7 @@
 import os
 import unittest
 from abc import ABC
+from pathlib import Path
 from typing import Optional, Type
 
 from parsons import DBSync, Postgres, Redshift, Table
@@ -8,7 +9,7 @@ from parsons.databases.database_connector import DatabaseConnector
 from test.test_databases.fakes import FakeDatabase
 from test.utils import assert_matching_tables
 
-_dir = os.path.dirname(__file__)
+_dir = Path(__file__).parent
 
 TEMP_SCHEMA = "parsons_test"
 
@@ -35,8 +36,8 @@ class TestDBSync(ABC, unittest.TestCase):
             self.destination_db.query(self.setup_sql)
 
         # Load dummy data to parsons tables
-        self.table1 = Table.from_csv(f"{_dir}/test_data/sample_table_1.csv")
-        self.table2 = Table.from_csv(f"{_dir}/test_data/sample_table_2.csv")
+        self.table1 = Table.from_csv(str(_dir / "test_data/sample_table_1.csv"))
+        self.table2 = Table.from_csv(str(_dir / "test_data/sample_table_2.csv"))
 
         self.source_table = (
             f"{self.temp_schema}.source_table" if self.temp_schema else "source_table"

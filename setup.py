@@ -13,6 +13,9 @@ def main():
             "requests",
             "requests_oauthlib",
             "simplejson",
+            # there's a breaking change in setuptools 78.0.2
+            # see discussion in https://github.com/pypa/setuptools/commit/88bee158e43a8534aac08cadf3b45f393eadb462#comments
+            "setuptools<=78.0.0",
         ]
         extras_require = {
             "airtable": ["pyairtable"],

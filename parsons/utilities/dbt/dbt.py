@@ -45,11 +45,7 @@ class dbtRunnerParsons:
         return results
 
     def execute_dbt_command(self, command: str) -> Manifest:
-        """Runs dbt command and logs results after process is completed.
-
-        If raise_error is set, this method will raise an error if the dbt
-        command hits any errors.
-        """
+        """Runs dbt command and logs results after process is completed."""
         if command.startswith("dbt "):
             command = command[4:]
 

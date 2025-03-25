@@ -189,7 +189,10 @@
 | parsons/utilities/check\_env.py                           |        9 |        0 |        4 |        0 |    100% |           |
 | parsons/utilities/cloud\_storage.py                       |       10 |        7 |        6 |        0 |     19% |     35-48 |
 | parsons/utilities/datetime.py                             |       26 |        4 |       14 |        2 |     85% |24, 35-37, 66 |
-| parsons/utilities/dbt.py                                  |      142 |      142 |       48 |        0 |      0% |    28-327 |
+| parsons/utilities/dbt/\_\_init\_\_.py                     |        3 |        3 |        0 |        0 |      0% |     46-54 |
+| parsons/utilities/dbt/dbt.py                              |       39 |       39 |       14 |        0 |      0% |     3-122 |
+| parsons/utilities/dbt/logging.py                          |      147 |      147 |       32 |        0 |      0% |     3-290 |
+| parsons/utilities/dbt/models.py                           |       49 |       49 |        6 |        0 |      0% |      3-90 |
 | parsons/utilities/files.py                                |      131 |       27 |       40 |        9 |     78% |108, 135, 150-152, 164, 179, 187-190, 204-211, 239, 257, 260, 311, 317-329, 369-370 |
 | parsons/utilities/format\_phone\_number.py                |        9 |        0 |        4 |        0 |    100% |           |
 | parsons/utilities/json\_format.py                         |       24 |        0 |       14 |        1 |     97% |  45->exit |
@@ -199,7 +202,7 @@
 | parsons/utilities/zip\_archive.py                         |       18 |        2 |        4 |        2 |     82% |    25, 30 |
 | parsons/zoom/\_\_init\_\_.py                              |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/zoom/zoom.py                                      |      155 |       31 |       38 |       15 |     75% |72->exit, 78-80, 99-102, 120, 159, 196-198, 212-214, 277->279, 333-334, 344, 364-365, 389-390, 419-420, 446-447, 471-472, 489-490, 507-508 |
-|                                                 **TOTAL** | **10028** | **2928** | **2834** |  **523** | **67%** |           |
+|                                                 **TOTAL** | **10124** | **3024** | **2838** |  **523** | **66%** |           |
 
 
 ## Setup coverage badge

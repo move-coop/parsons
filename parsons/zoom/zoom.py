@@ -532,6 +532,41 @@ class ZoomV1:
 
 
 class ZoomV2(ZoomV1):
+    """
+    Version 2 implementation of a Parsons connector. Designed to involve minimal
+    transformation logic and clearer naming conventions.
+
+    Inherits the following methods from version 1:
+    - get_users
+    - get_meetings
+    - get_past_meeting
+    - get_meeting_registrants
+    - get_past_webinar_report
+    - get_webinar_registrants
+
+    Overwrites the following methods from version 1:
+    - get_past_meeting_participants
+    - get_past_webinar_participants
+
+    Renames/refactors the following methods (and raises error if original function called):
+    - get_user_webinars
+    - get_meeting_poll_metadata
+    - get_meeting_all_polls_metadata
+    - get_past_meeting_poll_metadata
+    - get_webinar_poll_metadata
+    - get_webinar_all_polls_metadata
+    - get_past_webinar_poll_metadata
+    - get_meeting_poll_results
+    - get_webinar_poll_results
+
+    Adds the following methods:
+    - get_meeting_registrant_info
+    - get_webinar_registrant_info
+
+    Args:
+        ZoomV1 (cls): version 1 Zoom connector class
+    """
+
     def __init__(self, account_id=None, client_id=None, client_secret=None):
         super().__init__(account_id, client_id, client_secret)
 
@@ -572,6 +607,27 @@ class ZoomV2(ZoomV1):
                 break
 
         return Table(data)
+
+    def get_webinars(self, user_id):
+        """
+        Get webinars scheduled by or on behalf of a webinar host.
+
+        `Args:`
+            user_id: str
+                The user id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f"users/{user_id}/webinars", "webinars")
+        logger.info(f"Retrieved {tbl.num_rows} webinars.")
+        return tbl
+
+    def get_user_webinars(self, user_id):
+        return AttributeError(
+            "Method get_user_webinars has been deprecated in favor of get_webinars"
+        )
 
     def get_past_meeting_participants(self, meeting_id):
         """
@@ -645,6 +701,33 @@ class ZoomV2(ZoomV1):
         logger.info(f"Retrieved {tbl.num_rows} webinar registrants.")
         return tbl
 
+    def get_meeting_poll(self, meeting_id, poll_id):
+        """
+        Get information about a single poll for a given meeting ID.
+        The returned data is identical to get_meeting_polls.
+
+        Required scopes: `meeting:read`
+
+        `Args`:
+            meeting_id: int
+                Unique identifier for Zoom meeting
+
+        `Returns`:
+            Parsons Table of all polling responses
+        """
+
+        endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
+        tbl = self._get_request(endpoint=endpoint, data_key=None)
+        logger.info(
+            f"Retrieved {tbl.num_rows} for [poll {poll_id}, meeting {meeting_id}]"
+        )
+        return tbl
+
+    def get_meeting_poll_metadata(self, meeting_id, poll_id, version=1):
+        raise AttributeError(
+            "Method get_meeting_poll_metadata is deprecated in favor of get_meeting_poll"
+        )
+
     def get_meeting_polls(self, meeting_id):
         """
         Get information about all polls for a given meeting ID
@@ -664,6 +747,11 @@ class ZoomV2(ZoomV1):
         logger.info(f"Retrieved {tbl.num_rows} meeting polls")
         return tbl
 
+    def get_meeting_all_polls_metadata(self, meeting_id, version=1):
+        raise AttributeError(
+            "Method get_meeting_all_polls_metadata is deprecated in favor of get_meeting_polls"
+        )
+
     def get_past_meeting_poll_results(self, meeting_id):
         """
         Get results for all polls for a given past meeting ID
@@ -678,6 +766,38 @@ class ZoomV2(ZoomV1):
         tbl = self._get_request(endpoint=endpoint, data_key=None)
         logger.info(f"Retried {tbl.num_rows} meeting poll results")
         return tbl
+
+    def get_past_meeting_poll_metadata(self, meeting_id, version=1):
+        raise AttributeError(
+            "Method get_past_meeting_poll_metadata is deprecated in favor of get_past_meeting_poll_results"
+        )
+
+    def get_webinar_poll(self, webinar_id, poll_id):
+        """
+        Get information about a single poll for a given webinar ID.
+        The returned data is identical to get_webinar_polls.
+
+        Required scopes: `webinar:read`
+
+        `Args`:
+            webinar_id: int
+                Unique identifier for Zoom webinar
+
+        `Returns`:
+            Parsons Table of all polling responses
+        """
+
+        endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
+        tbl = self._get_request(endpoint=endpoint, data_key=None)
+        logger.info(
+            f"Retrieved {tbl.num_rows} for [poll {poll_id}, webinar {webinar_id}]"
+        )
+        return tbl
+
+    def get_webinar_poll_metadata(self, webinar_id, poll_id, version=1):
+        raise AttributeError(
+            "Method get_webinar_poll_metadata is deprecated in favor of get_webinar_poll"
+        )
 
     def get_webinar_polls(self, webinar_id):
         """
@@ -697,6 +817,11 @@ class ZoomV2(ZoomV1):
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
         logger.info(f"Retrieved {tbl.num_rows} polls for webinar ID {webinar_id}")
         return tbl
+
+    def get_webinar_all_polls_metadata(self, webinar_id, version=1):
+        raise AttributeError(
+            "Method get_webinar_all_polls_metadata is deprecated in favor of get_webinar_polls"
+        )
 
     def get_past_webinar_poll_results(self, webinar_id):
         """
@@ -719,6 +844,11 @@ class ZoomV2(ZoomV1):
         )
         return tbl
 
+    def get_past_webinar_poll_metadata(self, webinar_id, version=1):
+        raise AttributeError(
+            "Method get_past_webinar_poll_metadata is deprecated in favor of get_past_webinar_poll_results"
+        )
+
     def get_meeting_poll_reports(self, meeting_id):
         """
         Get polls reports for a given past meeting ID
@@ -740,6 +870,11 @@ class ZoomV2(ZoomV1):
         )
         return tbl
 
+    def get_meeting_poll_results(self, meeting_id):
+        raise AttributeError(
+            "Method get_meeting_poll_results is deprecated in favor of get_meeting_poll_reports"
+        )
+
     def get_webinar_poll_reports(self, webinar_id):
         """
         Get results for all polls for a given past webinar ID
@@ -760,6 +895,11 @@ class ZoomV2(ZoomV1):
             f"Retrieved {tbl.num_rows} poll reports for webinar ID {webinar_id}"
         )
         return tbl
+
+    def get_webinar_poll_results(self, webinar_id):
+        raise AttributeError(
+            "Method get_webinar_poll_results is deprecated in favor of get_webinar_poll_reports"
+        )
 
 
 class Zoom:

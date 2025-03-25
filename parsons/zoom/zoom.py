@@ -586,14 +586,11 @@ class ZoomV2(ZoomV1):
         """
 
         logger.info("Inside v2")
-        r = self.client.get_request(endpoint, params=params, **kwargs)
-        self.client.data_key = data_key
-        data = self.client.data_parse(r)
-
         if not params:
             params = {"page_size": 300}
 
         next_page_token = ""
+        data = []
 
         while True:
             if next_page_token:

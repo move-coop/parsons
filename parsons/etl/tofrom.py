@@ -104,6 +104,9 @@ class ToFrom(object):
         """
         Outputs table to an Avro file.
 
+        In order to use this method, you must have the `fastavro` library installed.
+        If using limited dependencies, you can install it with `pip install parsons[avro]`.
+
         Write the table into a new avro file according to schema passed.
 
         This method assume that each column has values with the same type

@@ -17,6 +17,7 @@ def main():
         extras_require = {
             "airtable": ["pyairtable"],
             "alchemer": ["surveygizmo"],
+            "avro": ["fastavro"],
             "azure": ["azure-storage-blob"],
             "box": ["boxsdk"],
             "braintree": ["braintree"],

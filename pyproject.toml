@@ -1,9 +1,7 @@
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 include = [
-    "parsons/**/*.py",
-    "test/**/*.py",
-    "useful_resources/**/*.py"
+    "**/*.py",
 ]
 exclude = [
     ".bzr",
@@ -116,7 +114,7 @@ profile = "hug"
 src_paths = [
     "parsons/",
     "test/",
-    "useful_resources/"
+    "useful_resources/",
 ]
 
 [tool.coverage.run]

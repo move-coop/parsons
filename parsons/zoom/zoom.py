@@ -603,6 +603,8 @@ class ZoomV2(ZoomV1):
             if not next_page_token:
                 break
 
+        logger.info(f"Data: {data}")
+
         return Table(data)
 
     def get_webinars(self, user_id):

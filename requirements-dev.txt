@@ -1,6 +1,7 @@
 # Testing Requirements
 bandit[toml]==1.8.3
 coverage==7.6.12
+pre-commit==4.2.0
 pytest-cov==6.0.0
 pytest-datadir==1.6.1
 pytest-mock==3.14.0

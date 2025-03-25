@@ -146,8 +146,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.zoom.zoom</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
@@ -319,7 +321,15 @@
 
 <div class="viewcode-block" id="Zoom.get_meetings">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meetings">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_meetings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">meeting_type</span><span class="o">=</span><span class="s2">&quot;scheduled&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meetings</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">user_id</span><span class="p">,</span>
+        <span class="n">meeting_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span>
+            <span class="s2">&quot;scheduled&quot;</span><span class="p">,</span> <span class="s2">&quot;live&quot;</span><span class="p">,</span> <span class="s2">&quot;upcoming&quot;</span><span class="p">,</span> <span class="s2">&quot;upcoming_meetings&quot;</span><span class="p">,</span> <span class="s2">&quot;previous_meetings&quot;</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;scheduled&quot;</span><span class="p">,</span>
+        <span class="n">from_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">to_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get meetings scheduled by a user.</span>
 
@@ -343,12 +353,21 @@
 <span class="sd">                      - All the ongoing meetings.</span>
 <span class="sd">                    * - ``upcoming``</span>
 <span class="sd">                      - All upcoming meetings including live meetings.</span>
+<span class="sd">            from_date: datetime.date or None</span>
+<span class="sd">                Optional start date for the range of meetings to retrieve.</span>
+<span class="sd">            to_date: datetime.date or None</span>
+<span class="sd">                Optional end date for the range of meetings to retrieve.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">meeting_type</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">from_date</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;from&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">from_date</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">to_date</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;to&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_date</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;users/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/meetings&quot;</span><span class="p">,</span> <span class="s2">&quot;meetings&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;users/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/meetings&quot;</span><span class="p">,</span> <span class="s2">&quot;meetings&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> meetings.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 

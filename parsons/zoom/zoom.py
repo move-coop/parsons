@@ -59,7 +59,6 @@ class ZoomV1:
         `Returns`:
             Parsons Table of API responses
         """
-        logger.info("Inside v1")
 
         r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
@@ -167,7 +166,7 @@ class ZoomV1:
 
         params = {"status": status, "role_id": role_id}
 
-        tbl = self._get_request("users", "users", params=params)
+        tbl = self._get_request(endpoint="users", data_key="users", params=params)
         logger.info(f"Retrieved {tbl.num_rows} users.")
         return tbl
 
@@ -585,10 +584,10 @@ class ZoomV2(ZoomV1):
             Parsons Table of API responses
         """
 
-        logger.info("Inside v2")
         if not params:
             params = {"page_size": 300}
 
+        self.client.data_key = data_key
         next_page_token = ""
         data = []
 
@@ -599,11 +598,13 @@ class ZoomV2(ZoomV1):
             r = self.client.get_request(endpoint, params=params, **kwargs)
             data.extend(self.client.data_parse(r))
 
-            next_page_token = r["next_page_token"]
+            next_page_token = r.get("next_page_token")
             if not next_page_token:
                 break
 
-        logger.info(f"Data: {data}")
+        # An "empty" response is headers only, a response with data is a list of dicts instead of strings
+        if all(isinstance(x, str) for x in data):
+            return Table()
 
         return Table(data)
 
@@ -660,7 +661,9 @@ class ZoomV2(ZoomV1):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"meetings/{meeting_id}/registrants/{registrant_id}")
+        tbl = self._get_request(
+            f"meetings/{meeting_id}/registrants/{registrant_id}", data_key=None
+        )
         logger.info(f"Retrieved {tbl.num_rows} meeting registrants.")
         return tbl
 
@@ -696,8 +699,10 @@ class ZoomV2(ZoomV1):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"webinars/{webinar_id}/registrants/{registrant_id}")
-        logger.info(f"Retrieved {tbl.num_rows} webinar registrants.")
+        tbl = self._get_request(
+            f"webinars/{webinar_id}/registrants/{registrant_id}", data_key=None
+        )
+        # logger.info(f"Retrieved {tbl.num_rows} webinar registrants.")
         return tbl
 
     def get_meeting_poll(self, meeting_id, poll_id):

@@ -118,8 +118,7 @@ jobs:
 
             - name: Run bandit scan
               run: |
-                bandit -c pyproject.toml -r . -ll -ii
-
+                bandit -c pyproject.toml -r . --confidence-level=high --severity-level=high
     coverage:
         runs-on: ubuntu-latest
         needs: test

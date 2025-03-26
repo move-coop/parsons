@@ -75,6 +75,30 @@ class GoogleDrive:
             result = None
         return result
 
+    def find_file_in_folder(
+        self, file_name: str, folder_id: str, fields: list[str] | None = None
+    ) -> list[dict[str, str]]:
+        if not fields:
+            fields = ["id", "name"]
+        page_token = None
+        results = []
+        while True:
+            response = (
+                self.client.files()
+                .list(
+                    q=f"'{folder_id}' in parents and name = '{file_name}'",
+                    spaces="drive",
+                    fields="nextPageToken, files({})".format(",".join(fields)),
+                    pageToken=page_token,
+                )
+                .execute()
+            )
+            results.extend(response.get("files", []))
+            page_token = response.get("nextPageToken")
+            if page_token is None:
+                break
+        return results
+
     def list_files_in_folder(
         self, folder_id: str, fields: list[str] | None = None
     ) -> list[dict[str, str]]:

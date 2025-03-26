@@ -177,11 +177,12 @@ class ToFrom(object):
             ... }
             ...
             >>> # now demonstrate what writing with toavro()
-            >>> import petl as etl
-            >>> etl.toavro(table2, 'example.file2.avro', schema=schema2)
+            >>> import parsons import Table
+
+            >>> Table.toavro(table2, 'example.file2.avro', schema=schema2)
             ...
             >>> # this was what was saved above
-            >>> tbl2 = etl.fromavro('example.file2.avro')
+            >>> tbl2 = Table.fromavro('example.file2.avro')
             >>> tbl2
             +-------+---------+-----+
             | name  | friends | age |

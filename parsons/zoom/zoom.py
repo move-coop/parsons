@@ -1,5 +1,7 @@
+import datetime
 import logging
 import uuid
+from typing import Dict, Literal, Optional
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -170,7 +172,15 @@ class ZoomV1:
         logger.info(f"Retrieved {tbl.num_rows} users.")
         return tbl
 
-    def get_meetings(self, user_id, meeting_type="scheduled"):
+    def get_meetings(
+        self,
+        user_id,
+        meeting_type: Literal[
+            "scheduled", "live", "upcoming", "upcoming_meetings", "previous_meetings"
+        ] = "scheduled",
+        from_date: Optional[datetime.date] = None,
+        to_date: Optional[datetime.date] = None,
+    ):
         """
         Get meetings scheduled by a user.
 
@@ -194,12 +204,21 @@ class ZoomV1:
                       - All the ongoing meetings.
                     * - ``upcoming``
                       - All upcoming meetings including live meetings.
+            from_date: datetime.date or None
+                Optional start date for the range of meetings to retrieve.
+            to_date: datetime.date or None
+                Optional end date for the range of meetings to retrieve.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
+        params: Dict[str, str] = {"type": meeting_type}
+        if from_date:
+            params["from"] = from_date.isoformat()
+        if to_date:
+            params["to"] = to_date.isoformat()
 
-        tbl = self._get_request(f"users/{user_id}/meetings", "meetings")
+        tbl = self._get_request(f"users/{user_id}/meetings", "meetings", params=params)
         logger.info(f"Retrieved {tbl.num_rows} meetings.")
         return tbl
 

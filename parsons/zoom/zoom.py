@@ -216,7 +216,7 @@ class ZoomV1:
         """
 
         tbl = self._get_request(f"past_meetings/{meeting_uuid}", None)
-        logger.info(f"Retrieved meeting {meeting_uuid}.")
+        logger.info(f"Retrieved {tbl.num_rows} row for {meeting_uuid}.")
         return tbl
 
     def get_past_meeting_participants(self, meeting_id):
@@ -283,7 +283,7 @@ class ZoomV1:
 
         dic = self._get_request(endpoint=f"report/webinars/{webinar_id}", data_key=None)
         if dic:
-            logger.info(f"Retrieved webinar report for webinar: {webinar_id}.")
+            logger.info(f"Retrieved {dic.num_rows} for webinar: {webinar_id}.")
         return dic
 
     def get_past_webinar_participants(self, webinar_id):
@@ -558,10 +558,6 @@ class ZoomV2(ZoomV1):
     - get_meeting_poll_results
     - get_webinar_poll_results
 
-    Adds the following methods:
-    - get_meeting_registrant_info
-    - get_webinar_registrant_info
-
     Args:
         ZoomV1 (cls): version 1 Zoom connector class
     """
@@ -596,15 +592,18 @@ class ZoomV2(ZoomV1):
                 params["next_page_token"] = next_page_token
 
             r = self.client.get_request(endpoint, params=params, **kwargs)
-            data.extend(self.client.data_parse(r))
+            parsed_resp = self.client.data_parse(r)
+            if isinstance(parsed_resp, dict):
+                parsed_resp = [parsed_resp]
+            data.extend(parsed_resp)
 
             next_page_token = r.get("next_page_token")
             if not next_page_token:
                 break
 
-        # An "empty" response is headers only, a response with data is a list of dicts instead of strings
-        if all(isinstance(x, str) for x in data):
-            return Table()
+        # # An "empty" response is headers only, a response with data is a list of dicts instead of strings
+        # if all(isinstance(x, str) for x in data):
+        #     return Table()
 
         return Table(data)
 
@@ -647,26 +646,6 @@ class ZoomV2(ZoomV1):
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
-    def get_meeting_registrant_info(self, meeting_id, registrant_id):
-        """
-        Get meeting registrant information.
-
-        `Args:`
-            meeting_id: int
-                The meeting id
-            registrant_id: int
-                The registrant id
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
-
-        tbl = self._get_request(
-            f"meetings/{meeting_id}/registrants/{registrant_id}", data_key=None
-        )
-        logger.info(f"Retrieved {tbl.num_rows} meeting registrants.")
-        return tbl
-
     def get_past_webinar_participants(self, webinar_id):
         """
         Get past webinar participants.
@@ -683,26 +662,6 @@ class ZoomV2(ZoomV1):
             f"past_webinars/{webinar_id}/participants", "participants"
         )
         logger.info(f"Retrieved {tbl.num_rows} participants.")
-        return tbl
-
-    def get_webinar_registrant_info(self, webinar_id, registrant_id):
-        """
-        Get webinar registrant information.
-
-        `Args:`
-            webinar_id: int
-                The meeting id
-            registrant_id: int
-                The registrant id
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
-
-        tbl = self._get_request(
-            f"webinars/{webinar_id}/registrants/{registrant_id}", data_key=None
-        )
-        # logger.info(f"Retrieved {tbl.num_rows} webinar registrants.")
         return tbl
 
     def get_meeting_poll(self, meeting_id, poll_id):
@@ -748,7 +707,7 @@ class ZoomV2(ZoomV1):
 
         endpoint = f"meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
-        logger.info(f"Retrieved {tbl.num_rows} meeting polls")
+        logger.info(f"Retrieved {tbl.num_rows} meeting polls for meeting {meeting_id}")
         return tbl
 
     def get_meeting_all_polls_metadata(self, meeting_id, version=1):
@@ -768,7 +727,7 @@ class ZoomV2(ZoomV1):
 
         endpoint = f"past_meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(f"Retried {tbl.num_rows} meeting poll results")
+        logger.info(f"Retrieved {tbl.num_rows} meeting poll results")
         return tbl
 
     def get_past_meeting_poll_metadata(self, meeting_id, version=1):

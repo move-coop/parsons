@@ -135,7 +135,7 @@
 | parsons/ngpvan/survey\_questions.py                       |       19 |        4 |        0 |        0 |     79% | 12, 62-64 |
 | parsons/ngpvan/targets.py                                 |       33 |        5 |        4 |        1 |     78% |18, 21, 66-69 |
 | parsons/ngpvan/utilities.py                               |        9 |        4 |        4 |        1 |     46% | 10, 20-23 |
-| parsons/ngpvan/van.py                                     |       28 |        0 |        0 |        0 |    100% |           |
+| parsons/ngpvan/van.py                                     |       29 |        0 |        0 |        0 |    100% |           |
 | parsons/ngpvan/van\_connector.py                          |       56 |       15 |       16 |        3 |     64% |23, 51, 57-63, 72-77, 85-90 |
 | parsons/notifications/\_\_init\_\_.py                     |        0 |        0 |        0 |        0 |    100% |           |
 | parsons/notifications/gmail.py                            |       34 |       15 |        6 |        3 |     55% |30, 33, 42-43, 68-85 |
@@ -202,7 +202,7 @@
 | parsons/utilities/zip\_archive.py                         |       18 |        2 |        4 |        2 |     82% |    25, 30 |
 | parsons/zoom/\_\_init\_\_.py                              |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/zoom/zoom.py                                      |      162 |       36 |       42 |       15 |     72% |74->exit, 80-82, 101-104, 122, 161, 209-217, 231-233, 296->298, 352-353, 363, 383-384, 408-409, 438-439, 465-466, 490-491, 508-509, 526-527 |
-|                                                 **TOTAL** | **10157** | **3041** | **2848** |  **525** | **66%** |           |
+|                                                 **TOTAL** | **10158** | **3041** | **2848** |  **525** | **66%** |           |
 
 
 ## Setup coverage badge

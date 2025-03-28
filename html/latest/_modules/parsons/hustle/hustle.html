@@ -146,10 +146,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.hustle.hustle</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">NoReturn</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">request</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span><span class="p">,</span> <span class="n">request</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.hustle.column_map</span><span class="w"> </span><span class="kn">import</span> <span class="n">LEAD_COLUMN_MAP</span>
@@ -178,15 +179,16 @@
 <span class="sd">        Hustle Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">HUSTLE_URI</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;HUSTLE_CLIENT_ID&quot;</span><span class="p">,</span> <span class="n">client_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;HUSTLE_CLIENT_SECRET&quot;</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">token_expiration</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_get_auth_token</span><span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auth_token</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_expiration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_auth_token</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span>
+        <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_auth_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">):</span>
-        <span class="c1"># Generate a temporary authorization token</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_auth_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate an authorization token.&quot;&quot;&quot;</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;client_id&quot;</span><span class="p">:</span> <span class="n">client_id</span><span class="p">,</span>
@@ -194,28 +196,39 @@
             <span class="s2">&quot;grant_type&quot;</span><span class="p">:</span> <span class="s2">&quot;client_credentials&quot;</span><span class="p">,</span>
         <span class="p">}</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;oauth/token&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;oauth/token&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">resp_json</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">resp_json</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">auth_token</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;access_token&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">token_expiration</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">7200</span><span class="p">)</span>
+        <span class="n">auth_token</span> <span class="o">=</span> <span class="n">resp_json</span><span class="p">[</span><span class="s2">&quot;access_token&quot;</span><span class="p">]</span>
+        <span class="n">token_expiration</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">resp_json</span><span class="p">[</span><span class="s2">&quot;expires_in&quot;</span><span class="p">])</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Authentication token generated&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">auth_token</span><span class="p">,</span> <span class="n">token_expiration</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_token_check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Tokens are only valid for 7200 seconds. This checks to make sure that it has</span>
-        <span class="c1"># not expired and generate another one if it has.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_refresh_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate new token if current token is exprired.</span>
+
+<span class="sd">        Tokens are valid for `expires_in` (7200 by default) seconds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Checking token expiration.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_expiration</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_expiration</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Refreshing authentication token.&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_get_auth_token</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">auth_token</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_expiration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_auth_token</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span>
+            <span class="p">)</span>
 
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">pass</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">raise_on_error</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_request</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">req_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+        <span class="n">args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">payload</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">raise_on_error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="n">endpoint</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_token_check</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_refresh_token</span><span class="p">()</span>
 
         <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">auth_token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
 
@@ -226,45 +239,45 @@
         <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
             <span class="n">parameters</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="n">req_type</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="n">req_type</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_error_check</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">raise_on_error</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_check</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="n">raise_on_error</span><span class="p">)</span>
+        <span class="n">resp_json</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
         <span class="c1"># If a single item return the dict</span>
-        <span class="k">if</span> <span class="s2">&quot;items&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;items&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">resp_json</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">resp_json</span>
 
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;items&quot;</span><span class="p">]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">resp_json</span><span class="p">[</span><span class="s2">&quot;items&quot;</span><span class="p">]</span>
 
         <span class="c1"># Pagination</span>
-        <span class="k">while</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;pagination&quot;</span><span class="p">][</span><span class="s2">&quot;hasNextPage&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span><span class="p">:</span>
-            <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;cursor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s2">&quot;pagination&quot;</span><span class="p">][</span><span class="s2">&quot;cursor&quot;</span><span class="p">]</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="n">req_type</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_error_check</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">raise_on_error</span><span class="p">)</span>
-            <span class="n">result</span> <span class="o">+=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;items&quot;</span><span class="p">]</span>
+        <span class="k">while</span> <span class="n">resp_json</span><span class="p">[</span><span class="s2">&quot;pagination&quot;</span><span class="p">][</span><span class="s2">&quot;hasNextPage&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span><span class="p">:</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;cursor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resp_json</span><span class="p">[</span><span class="s2">&quot;pagination&quot;</span><span class="p">][</span><span class="s2">&quot;cursor&quot;</span><span class="p">]</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="n">req_type</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_error_check</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="n">raise_on_error</span><span class="p">)</span>
+            <span class="n">resp_json</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="n">resp_json</span><span class="p">[</span><span class="s2">&quot;items&quot;</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">result</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_error_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">raise_on_error</span><span class="p">):</span>
-        <span class="c1"># Check for errors</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_error_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resp</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="n">raise_on_error</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NoReturn</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check response for errors.&quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
-            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+            <span class="k">return</span>
 
         <span class="k">if</span> <span class="n">raise_on_error</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
-            <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
-            <span class="k">return</span> <span class="kc">None</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+            <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+            <span class="k">return</span>
 
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
-            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+        <span class="k">return</span>
 
 <div class="viewcode-block" id="Hustle.get_agents">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.get_agents">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_agents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_agents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of agents.</span>
 
@@ -284,7 +297,7 @@
 
 <div class="viewcode-block" id="Hustle.get_agent">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.get_agent">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a single agent.</span>
 
@@ -295,14 +308,22 @@
 <span class="sd">            dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;agents/</span><span class="si">{</span><span class="n">agent_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;agents/</span><span class="si">{</span><span class="n">agent_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">agent_id</span><span class="si">}</span><span class="s2"> agent.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">r</span></div>
+        <span class="k">return</span> <span class="n">resp</span>  <span class="c1"># type: ignore</span></div>
 
 
 <div class="viewcode-block" id="Hustle.create_agent">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.create_agent">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">full_name</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">,</span> <span class="n">send_invite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_agent</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">full_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">phone_number</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">send_invite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">email</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create an agent.</span>
 
@@ -335,12 +356,19 @@
         <span class="n">agent</span> <span class="o">=</span> <span class="n">json_format</span><span class="o">.</span><span class="n">remove_empty_keys</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Generating </span><span class="si">{</span><span class="n">full_name</span><span class="si">}</span><span class="s2"> agent.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;groups/</span><span class="si">{</span><span class="n">group_id</span><span class="si">}</span><span class="s2">/agents&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">agent</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;groups/</span><span class="si">{</span><span class="n">group_id</span><span class="si">}</span><span class="s2">/agents&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">agent</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span>  <span class="c1"># type: ignore</span></div>
 
 
 <div class="viewcode-block" id="Hustle.update_agent">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.update_agent">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">full_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">send_invite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_agent</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">agent_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">full_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">send_invite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update an agent.</span>
 
@@ -365,12 +393,13 @@
         <span class="n">agent</span> <span class="o">=</span> <span class="n">json_format</span><span class="o">.</span><span class="n">remove_empty_keys</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Updating agent </span><span class="si">{</span><span class="n">agent_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;agents/</span><span class="si">{</span><span class="n">agent_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">agent</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;agents/</span><span class="si">{</span><span class="n">agent_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">agent</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span>  <span class="c1"># type: ignore</span></div>
 
 
 <div class="viewcode-block" id="Hustle.get_organizations">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.get_organizations">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_organizations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_organizations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get organizations.</span>
 
@@ -386,7 +415,7 @@
 
 <div class="viewcode-block" id="Hustle.get_organization">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.get_organization">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_organization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_organization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a single organization.</span>
 
@@ -397,14 +426,14 @@
 <span class="sd">            dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;organizations/</span><span class="si">{</span><span class="n">organization_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;organizations/</span><span class="si">{</span><span class="n">organization_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">organization_id</span><span class="si">}</span><span class="s2"> organization.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">r</span></div>
+        <span class="k">return</span> <span class="n">resp</span>  <span class="c1"># type: ignore</span></div>
 
 
 <div class="viewcode-block" id="Hustle.get_groups">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.get_groups">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of groups.</span>
 
@@ -422,7 +451,7 @@
 
 <div class="viewcode-block" id="Hustle.get_group">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.get_group">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a single group.</span>
 
@@ -431,14 +460,14 @@
 <span class="sd">                The group id.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;groups/</span><span class="si">{</span><span class="n">group_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;groups/</span><span class="si">{</span><span class="n">group_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">group_id</span><span class="si">}</span><span class="s2"> group.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">r</span></div>
+        <span class="k">return</span> <span class="n">resp</span>  <span class="c1"># type: ignore</span></div>
 
 
 <div class="viewcode-block" id="Hustle.create_group_membership">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.create_group_membership">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_group_membership</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">lead_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_group_membership</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lead_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a lead to a group.</span>
 
@@ -449,16 +478,17 @@
 <span class="sd">                The lead id.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;groups/</span><span class="si">{</span><span class="n">group_id</span><span class="si">}</span><span class="s2">/memberships&quot;</span><span class="p">,</span>
             <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
             <span class="n">payload</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;leadId&quot;</span><span class="p">:</span> <span class="n">lead_id</span><span class="p">},</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span>  <span class="c1"># type: ignore</span></div>
 
 
 <div class="viewcode-block" id="Hustle.get_lead">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.get_lead">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_lead</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lead_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_lead</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lead_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a single lead.</span>
 
@@ -469,14 +499,16 @@
 <span class="sd">            dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;leads/</span><span class="si">{</span><span class="n">lead_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;leads/</span><span class="si">{</span><span class="n">lead_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">lead_id</span><span class="si">}</span><span class="s2"> lead.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">r</span></div>
+        <span class="k">return</span> <span class="n">resp</span>  <span class="c1"># type: ignore</span></div>
 
 
 <div class="viewcode-block" id="Hustle.get_leads">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.get_leads">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_leads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_leads</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">group_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed</span>
 <span class="sd">        as an argument. If both are passed, an error will be raised.</span>
@@ -504,7 +536,7 @@
             <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;groups/</span><span class="si">{</span><span class="n">group_id</span><span class="si">}</span><span class="s2">/leads&quot;</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving </span><span class="si">{</span><span class="n">group_id</span><span class="si">}</span><span class="s2"> group leads.&quot;</span><span class="p">)</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">))</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> leads.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
@@ -513,16 +545,16 @@
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.create_lead">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_lead</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">group_id</span><span class="p">,</span>
-        <span class="n">phone_number</span><span class="p">,</span>
-        <span class="n">first_name</span><span class="p">,</span>
-        <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">notes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">follow_up</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">custom_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">tag_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">phone_number</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">first_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">last_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">email</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">notes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">follow_up</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">custom_fields</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tag_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Create a lead.</span>
@@ -565,12 +597,13 @@
         <span class="c1"># Remove empty args in dictionary</span>
         <span class="n">lead</span> <span class="o">=</span> <span class="n">json_format</span><span class="o">.</span><span class="n">remove_empty_keys</span><span class="p">(</span><span class="n">lead</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Generating lead for </span><span class="si">{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;groups/</span><span class="si">{</span><span class="n">group_id</span><span class="si">}</span><span class="s2">/leads&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">lead</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;groups/</span><span class="si">{</span><span class="n">group_id</span><span class="si">}</span><span class="s2">/leads&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">lead</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span>  <span class="c1"># type: ignore</span></div>
 
 
 <div class="viewcode-block" id="Hustle.create_leads">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.create_leads">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_leads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_leads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">group_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create multiple leads. All unrecognized fields will be passed as custom fields. Column</span>
 <span class="sd">        names must map to the following names.</span>
@@ -618,7 +651,7 @@
         <span class="n">created_leads</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
-            <span class="n">lead</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;group_id&quot;</span><span class="p">:</span> <span class="n">group_id</span><span class="p">}</span>
+            <span class="n">lead</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;group_id&quot;</span><span class="p">:</span> <span class="n">group_id</span><span class="p">}</span>
             <span class="n">custom_fields</span> <span class="o">=</span> <span class="p">{}</span>
 
             <span class="c1"># Check for column names that map to arguments, if not assign</span>
@@ -637,7 +670,7 @@
             <span class="k">if</span> <span class="n">group_id</span><span class="p">:</span>
                 <span class="n">lead</span><span class="p">[</span><span class="s2">&quot;group_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">group_id</span>
 
-            <span class="n">created_leads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_lead</span><span class="p">(</span><span class="o">**</span><span class="n">lead</span><span class="p">))</span>
+            <span class="n">created_leads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_lead</span><span class="p">(</span><span class="o">**</span><span class="n">lead</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> leads.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">created_leads</span><span class="p">)</span></div>
@@ -647,15 +680,15 @@
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.update_lead">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_lead</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">lead_id</span><span class="p">,</span>
-        <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">global_opt_out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">notes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">follow_up</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">tag_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
+        <span class="n">lead_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">first_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">last_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">email</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">global_opt_out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">notes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">follow_up</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tag_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a lead.</span>
 
@@ -695,12 +728,13 @@
         <span class="n">lead</span> <span class="o">=</span> <span class="n">json_format</span><span class="o">.</span><span class="n">remove_empty_keys</span><span class="p">(</span><span class="n">lead</span><span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Updating lead for </span><span class="si">{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;leads/</span><span class="si">{</span><span class="n">lead_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">lead</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;leads/</span><span class="si">{</span><span class="n">lead_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">lead</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span>  <span class="c1"># type: ignore</span></div>
 
 
 <div class="viewcode-block" id="Hustle.get_tags">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.get_tags">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get an organization&#39;s tags.</span>
 
@@ -719,7 +753,7 @@
 
 <div class="viewcode-block" id="Hustle.get_tag">
 <a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.get_tag">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a single tag.</span>
 
@@ -730,9 +764,57 @@
 <span class="sd">            dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2"> tag.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">r</span></div>
+        <span class="k">return</span> <span class="n">resp</span>  <span class="c1"># type: ignore</span></div>
+
+
+<div class="viewcode-block" id="Hustle.get_custom_fields">
+<a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.get_custom_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_custom_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve an organization&#39;s custom fields.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            organization_id: str</span>
+<span class="sd">                The organization id.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;organizations/</span><span class="si">{</span><span class="n">organization_id</span><span class="si">}</span><span class="s2">/custom-fields&quot;</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> custom fields for </span><span class="si">{</span><span class="n">organization_id</span><span class="si">}</span><span class="s2"> organization.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span></div>
+
+
+<div class="viewcode-block" id="Hustle.create_custom_field">
+<a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.create_custom_field">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_custom_field</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">agent_visible</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a custom field.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            organization_id: str</span>
+<span class="sd">                The organization id.</span>
+<span class="sd">            name: str</span>
+<span class="sd">                The name of the custom field. Restricted to letters, numbers, and underscores. Minimum of 2 characters, maximum of 40.</span>
+<span class="sd">            agent_visible: bool</span>
+<span class="sd">                Optional. `true` represents that the custom field is visible to agents. `false` means that only admins can see it.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            dict</span>
+<span class="sd">                The newly created custom field</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">custom_field</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">agent_visible</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">custom_field</span><span class="p">[</span><span class="s2">&quot;agentVisible&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">agent_visible</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Generating custom field </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> for organization </span><span class="si">{</span><span class="n">organization_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;organizations/</span><span class="si">{</span><span class="n">organization_id</span><span class="si">}</span><span class="s2">/custom-fields&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">custom_field</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span>  <span class="c1"># type: ignore</span></div>
 </div>
 
 </pre></div>

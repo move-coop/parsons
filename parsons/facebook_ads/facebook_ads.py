@@ -200,7 +200,7 @@ class FacebookAds(object):
     @staticmethod
     def _get_match_schema_and_data(table):
         # Grab the raw data as a list of tuples
-        data_list = [row for row in table.data]
+        data_list = list(table.data)
         return (table.columns, data_list)
 
     @staticmethod

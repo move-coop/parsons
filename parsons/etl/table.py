@@ -266,7 +266,7 @@ class Table(ETL, ToFrom):
             return False
 
         try:
-            self.columns
+            self.columns  # noqa: B018
         except StopIteration:
             return False
 

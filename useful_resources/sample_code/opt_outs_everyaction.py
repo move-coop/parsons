@@ -1,7 +1,7 @@
+import datetime
 import json
 import os
 import time
-from datetime import datetime
 
 import requests
 
@@ -164,7 +164,7 @@ def main():
 
         # Here we narrow the all_opt_outs table to only the rows that correspond
         # to this committee.
-        opt_outs = all_opt_outs.select_rows(lambda row: str(row.committeeid) == committeeid)
+        opt_outs = all_opt_outs.select_rows(lambda row: str(row.committeeid) == committeeid)  # noqa: B023
 
         logger.info(f"Found {opt_outs.num_rows} phones to opt out in {committee_name} committee...")
 
@@ -172,7 +172,7 @@ def main():
 
         if opt_outs.num_rows > 0:
             for opt_out in opt_outs:
-                applied_at = str(datetime.now()).split(".")[0]
+                applied_at = str(datetime.datetime.now(tz=datetime.timezone.utc)).split(".")[0]
                 attempt_optout(
                     every_action,
                     opt_out,

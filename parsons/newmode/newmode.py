@@ -53,7 +53,7 @@ class NewmodeV1:
 
         return table
 
-    def get_tools(self, params={}):
+    def get_tools(self, params=None):
         """
         Get existing tools.
         Args:
@@ -62,6 +62,8 @@ class NewmodeV1:
         Returns:
             Tools information as table.
         """
+        if params is None:
+            params = {}
         tools = self.client.getTools(params=params)
         if tools:
             return self.convert_to_table(tools)
@@ -69,7 +71,7 @@ class NewmodeV1:
             logging.warning("Empty tools returned")
             return self.convert_to_table([])
 
-    def get_tool(self, tool_id, params={}):
+    def get_tool(self, tool_id, params=None):
         """
         Get specific tool.
         Args:
@@ -80,6 +82,8 @@ class NewmodeV1:
         Returns:
             Tool information.
         """
+        if params is None:
+            params = {}
         tool = self.client.getTool(tool_id, params=params)
         if tool:
             return tool
@@ -87,7 +91,7 @@ class NewmodeV1:
             logging.warning("Empty tool returned")
             return None
 
-    def lookup_targets(self, tool_id, search=None, params={}):
+    def lookup_targets(self, tool_id, search=None, params=None):
         """
         Lookup targets for a given tool
         Args:
@@ -105,6 +109,8 @@ class NewmodeV1:
         Returns:
             Targets information as table.
         """
+        if params is None:
+            params = {}
         targets = self.client.lookupTargets(tool_id, search, params=params)
         if targets:
             data = []
@@ -116,7 +122,7 @@ class NewmodeV1:
             logging.warning("Empty targets returned")
             return self.convert_to_table([])
 
-    def get_action(self, tool_id, params={}):
+    def get_action(self, tool_id, params=None):
         """
         Get the action information for a given tool.
         Args:
@@ -127,6 +133,8 @@ class NewmodeV1:
         Returns:
             Tool action information.
         """
+        if params is None:
+            params = {}
         action = self.client.getAction(tool_id, params=params)
         if action:
             return action
@@ -134,7 +142,7 @@ class NewmodeV1:
             logging.warning("Empty action returned")
             return None
 
-    def run_action(self, tool_id, payload, params={}):
+    def run_action(self, tool_id, payload, params=None):
         """
         Run specific action with given payload.
         Args:
@@ -148,6 +156,8 @@ class NewmodeV1:
         Returns:
             Action link (if otl) or sid.
         """
+        if params is None:
+            params = {}
         action = self.client.runAction(tool_id, payload, params=params)
         if action:
             if "link" in action:
@@ -158,7 +168,7 @@ class NewmodeV1:
             logging.warning("Error in response")
             return None
 
-    def get_target(self, target_id, params={}):
+    def get_target(self, target_id, params=None):
         """
         Get specific target.
         Args:
@@ -169,6 +179,8 @@ class NewmodeV1:
         Returns:
             Target information.
         """
+        if params is None:
+            params = {}
         target = self.client.getTarget(target_id, params=params)
         if target:
             return target
@@ -176,7 +188,7 @@ class NewmodeV1:
             logging.warning("Empty target returned")
             return None
 
-    def get_targets(self, params={}):
+    def get_targets(self, params=None):
         """
         Get all targets
 
@@ -188,6 +200,8 @@ class NewmodeV1:
             Target information
         """
 
+        if params is None:
+            params = {}
         targets = self.client.getTargets(params=params)
 
         if targets:
@@ -197,7 +211,7 @@ class NewmodeV1:
             logging.warning("No targets returned")
             return None
 
-    def get_campaigns(self, params={}):
+    def get_campaigns(self, params=None):
         """
         Get existing campaigns.
         Args:
@@ -206,6 +220,8 @@ class NewmodeV1:
         Returns:
             Campaigns information as table.
         """
+        if params is None:
+            params = {}
         campaigns = self.client.getCampaigns(params=params)
         if campaigns:
             return self.convert_to_table(campaigns)
@@ -213,7 +229,7 @@ class NewmodeV1:
             logging.warning("Empty campaigns returned")
             return self.convert_to_table([])
 
-    def get_campaign(self, campaign_id, params={}):
+    def get_campaign(self, campaign_id, params=None):
         """
         Get specific campaign.
         Args:
@@ -224,6 +240,8 @@ class NewmodeV1:
         Returns:
             Campaign information.
         """
+        if params is None:
+            params = {}
         campaign = self.client.getCampaign(campaign_id, params=params)
         if campaign:
             return campaign
@@ -231,7 +249,7 @@ class NewmodeV1:
             logging.warning("Empty campaign returned")
             return None
 
-    def get_organizations(self, params={}):
+    def get_organizations(self, params=None):
         """
         Get existing organizations.
         Args:
@@ -240,6 +258,8 @@ class NewmodeV1:
         Returns:
             Organizations information as table.
         """
+        if params is None:
+            params = {}
         organizations = self.client.getOrganizations(params=params)
         if organizations:
             return self.convert_to_table(organizations)
@@ -247,7 +267,7 @@ class NewmodeV1:
             logging.warning("Empty organizations returned")
             return self.convert_to_table([])
 
-    def get_organization(self, organization_id, params={}):
+    def get_organization(self, organization_id, params=None):
         """
         Get specific organization.
         Args:
@@ -258,6 +278,8 @@ class NewmodeV1:
         Returns:
             Organization information.
         """
+        if params is None:
+            params = {}
         organization = self.client.getOrganization(organization_id, params=params)
         if organization:
             return organization
@@ -265,7 +287,7 @@ class NewmodeV1:
             logging.warning("Empty organization returned")
             return None
 
-    def get_services(self, params={}):
+    def get_services(self, params=None):
         """
         Get existing services.
         Args:
@@ -274,6 +296,8 @@ class NewmodeV1:
         Returns:
             Services information as table.
         """
+        if params is None:
+            params = {}
         services = self.client.getServices(params=params)
         if services:
             return self.convert_to_table(services)
@@ -281,7 +305,7 @@ class NewmodeV1:
             logging.warning("Empty services returned")
             return self.convert_to_table([])
 
-    def get_service(self, service_id, params={}):
+    def get_service(self, service_id, params=None):
         """
         Get specific service.
         Args:
@@ -292,6 +316,8 @@ class NewmodeV1:
         Returns:
             Service information.
         """
+        if params is None:
+            params = {}
         service = self.client.getService(service_id, params=params)
         if service:
             return service
@@ -299,7 +325,7 @@ class NewmodeV1:
             logging.warning("Empty service returned")
             return None
 
-    def get_outreaches(self, tool_id, params={}):
+    def get_outreaches(self, tool_id, params=None):
         """
         Get existing outreaches for a given tool.
         Args:
@@ -310,6 +336,8 @@ class NewmodeV1:
         Returns:
             Outreaches information as table.
         """
+        if params is None:
+            params = {}
         outreaches = self.client.getOutreaches(tool_id, params=params)
         if outreaches:
             return self.convert_to_table(outreaches)
@@ -317,7 +345,7 @@ class NewmodeV1:
             logging.warning("Empty outreaches returned")
             return self.convert_to_table([])
 
-    def get_outreach(self, outreach_id, params={}):
+    def get_outreach(self, outreach_id, params=None):
         """
         Get specific outreach.
         Args:
@@ -328,6 +356,8 @@ class NewmodeV1:
         Returns:
             Outreach information.
         """
+        if params is None:
+            params = {}
         outreach = self.client.getOutreach(outreach_id, params=params)
         if outreach:
             return outreach
@@ -381,7 +411,7 @@ class NewmodeV2:
         data=None,
         json=None,
         data_key=None,
-        params={},
+        params=None,
         supports_version=True,
         override_api_version=None,
     ):
@@ -389,6 +419,8 @@ class NewmodeV2:
         Internal method to instantiate OAuth2APIConnector class,
         make a call to Newmode API, and validate the response.
         """
+        if params is None:
+            params = {}
         api_version = override_api_version if override_api_version else self.api_version
         url = f"{api_version}/{endpoint}" if supports_version else endpoint
         response = client.request(url=url, req_type=method, json=json, data=data, params=params)
@@ -407,7 +439,7 @@ class NewmodeV2:
         supports_version=True,
         data=None,
         json=None,
-        params={},
+        params=None,
         convert_to_table=True,
         data_key=None,
         client=None,
@@ -415,6 +447,8 @@ class NewmodeV2:
     ):
         """Internal method to make a call to the Newmode API and convert the result to a Parsons table."""
 
+        if params is None:
+            params = {}
         client = client if client else self.default_client
         response = self.base_request(
             method=method,
@@ -433,7 +467,7 @@ class NewmodeV2:
         else:
             return response
 
-    def get_campaign(self, campaign_id, params={}):
+    def get_campaign(self, campaign_id, params=None):
         """
         Retrieve a specific campaign by ID.
 
@@ -446,6 +480,8 @@ class NewmodeV2:
         `Returns:`
             Parsons Table containing campaign data.
         """
+        if params is None:
+            params = {}
         endpoint = f"/campaign/{campaign_id}/form"
         data = self.converted_request(
             endpoint=endpoint,
@@ -454,7 +490,7 @@ class NewmodeV2:
         )
         return data
 
-    def get_campaign_ids(self, params={}):
+    def get_campaign_ids(self, params=None):
         """
         Retrieve all campaigns
         In v2, a campaign is equivalent to Tools or Actions in V1.
@@ -466,6 +502,8 @@ class NewmodeV2:
         `Returns:`
             List containing all campaign ids.
         """
+        if params is None:
+            params = {}
         endpoint = "node/action"
         campaigns_client = OAuth2APIConnector(
             uri=V2_API_CAMPAIGNS_URL,
@@ -494,7 +532,7 @@ class NewmodeV2:
         city=None,
         postal_code=None,
         region=None,
-        params={},
+        params=None,
     ):
         """
         Retrieve a specific recipient by ID
@@ -514,6 +552,8 @@ class NewmodeV2:
         `Returns:`
             Parsons Table containing recipient data.
         """
+        if params is None:
+            params = {}
         address_params = {
             "street_address": street_address,
             "city": city,
@@ -534,7 +574,7 @@ class NewmodeV2:
         )
         return response
 
-    def run_submit(self, campaign_id, json=None, data=None, params={}):
+    def run_submit(self, campaign_id, json=None, data=None, params=None):
         """
         Pass a submission from a supporter to a campaign
         that ultimately fills in a petition,
@@ -550,6 +590,8 @@ class NewmodeV2:
             Parsons Table containing submit data.
         """
 
+        if params is None:
+            params = {}
         response = self.converted_request(
             endpoint=f"campaign/{campaign_id}/submit",
             method="POST",
@@ -560,7 +602,7 @@ class NewmodeV2:
         )
         return response
 
-    def get_submissions(self, campaign_id, params={}):
+    def get_submissions(self, campaign_id, params=None):
         """
         Retrieve and sort submissions and contact data
         for a specified campaign using a range of filters
@@ -572,6 +614,8 @@ class NewmodeV2:
         `Returns:`
             Parsons Table containing submit data.
         """
+        if params is None:
+            params = {}
         params = {"action": campaign_id}
         response = self.converted_request(endpoint="submission", method="GET", params=params)
         return response

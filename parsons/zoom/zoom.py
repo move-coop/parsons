@@ -84,7 +84,9 @@ class ZoomV1:
                 data.extend(self.client.data_parse(r))
             return Table(data)
 
-    def __handle_nested_json(self, table: Table, column: str, version: int = 1) -> Table:
+    def __handle_nested_json(
+        self, table: Table, column: str, version: int = 1
+    ) -> Table:
         """
         This function unpacks JSON values from Zoom's API, which are often
         objects nested in lists
@@ -136,7 +138,9 @@ class ZoomV1:
         tbl.remove_column("question_details")
 
         # Unpack question values
-        tbl = tbl.unpack_dict("question_details_value", include_original=True, prepend=False)
+        tbl = tbl.unpack_dict(
+            "question_details_value", include_original=True, prepend=False
+        )
 
         # Remove column from API response
         tbl.remove_column("question_details_value")
@@ -246,7 +250,9 @@ class ZoomV1:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"report/meetings/{meeting_id}/participants", "participants")
+        tbl = self._get_request(
+            f"report/meetings/{meeting_id}/participants", "participants"
+        )
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
@@ -311,7 +317,9 @@ class ZoomV1:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"report/webinars/{webinar_id}/participants", "participants")
+        tbl = self._get_request(
+            f"report/webinars/{webinar_id}/participants", "participants"
+        )
         logger.info(f"Retrieved {tbl.num_rows} webinar participants.")
         return tbl
 
@@ -359,8 +367,12 @@ class ZoomV1:
         )
 
         if "prompts" in tbl.columns:
-            logger.info(f"Unnesting columns 'prompts' from existing table columns: {tbl.columns}")
-            return self.__handle_nested_json(table=tbl, column="prompts", version=version)
+            logger.info(
+                f"Unnesting columns 'prompts' from existing table columns: {tbl.columns}"
+            )
+            return self.__handle_nested_json(
+                table=tbl, column="prompts", version=version
+            )
         else:
             return tbl
 
@@ -415,7 +427,9 @@ class ZoomV1:
             f"Unnesting columns 'question_details' from existing table columns: {tbl.columns}"
         )
 
-        return self.__handle_nested_json(table=tbl, column="question_details", version=version)
+        return self.__handle_nested_json(
+            table=tbl, column="question_details", version=version
+        )
 
     def get_webinar_poll_metadata(self, webinar_id, poll_id, version: int = 1) -> Table:
         """
@@ -494,7 +508,9 @@ class ZoomV1:
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
 
-        return self.__handle_nested_json(table=tbl, column="question_details", version=version)
+        return self.__handle_nested_json(
+            table=tbl, column="question_details", version=version
+        )
 
     def get_meeting_poll_results(self, meeting_id) -> Table:
         """
@@ -568,7 +584,7 @@ class ZoomV2(ZoomV1):
     def __init__(self, account_id=None, client_id=None, client_secret=None):
         super().__init__(account_id, client_id, client_secret)
 
-    def _get_request(self, endpoint, data_key, params=None, **kwargs):
+    def _get_request(self, endpoint: str, data_key: str, params: dict = {}, **kwargs):
         """
         `Args`:
             endpoint: str
@@ -579,8 +595,9 @@ class ZoomV2(ZoomV1):
             params: dict
                 Additional request parameters, defaults to None
 
-        `Returns`:
-            Parsons Table of API responses
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         if not params:
@@ -604,13 +621,9 @@ class ZoomV2(ZoomV1):
             if not next_page_token:
                 break
 
-        # # An "empty" response is headers only, a response with data is a list of dicts instead of strings
-        # if all(isinstance(x, str) for x in data):
-        #     return Table()
-
         return Table(data)
 
-    def get_webinars(self, user_id):
+    def get_webinars(self, user_id: int):
         """
         Get webinars scheduled by or on behalf of a webinar host.
 
@@ -631,7 +644,7 @@ class ZoomV2(ZoomV1):
             "Method get_user_webinars has been deprecated in favor of get_webinars"
         )
 
-    def get_past_meeting_participants(self, meeting_id):
+    def get_past_meeting_participants(self, meeting_id: int):
         """
         Get past meeting participants.
 
@@ -643,44 +656,51 @@ class ZoomV2(ZoomV1):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"past_meetings/{meeting_id}/participants", "participants")
+        tbl = self._get_request(
+            f"past_meetings/{meeting_id}/participants", "participants"
+        )
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
-    def get_past_webinar_participants(self, webinar_id):
+    def get_past_webinar_participants(self, webinar_id: int):
         """
         Get past webinar participants.
 
         `Args:`
             webinar_id: int
-                The meeting id
+                The webinar id
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"past_webinars/{webinar_id}/participants", "participants")
+        tbl = self._get_request(
+            f"past_webinars/{webinar_id}/participants", "participants"
+        )
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
-    def get_meeting_poll(self, meeting_id, poll_id):
+    def get_meeting_poll(self, meeting_id: int, poll_id: str):
         """
         Get information about a single poll for a given meeting ID.
         The returned data is identical to get_meeting_polls.
 
-        Required scopes: `meeting:read`
-
         `Args`:
             meeting_id: int
                 Unique identifier for Zoom meeting
+            poll_id: str
+                Unique identifier for Zoom poll
 
-        `Returns`:
-            Parsons Table of all polling responses
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(f"Retrieved {tbl.num_rows} for [poll {poll_id}, meeting {meeting_id}]")
+        logger.info(
+            f"Retrieved {tbl.num_rows} for [poll {poll_id}, meeting {meeting_id}]"
+        )
         return tbl
 
     def get_meeting_poll_metadata(self, meeting_id, poll_id, version=1):
@@ -688,18 +708,19 @@ class ZoomV2(ZoomV1):
             "Method get_meeting_poll_metadata is deprecated in favor of get_meeting_poll"
         )
 
-    def get_meeting_polls(self, meeting_id):
+    def get_meeting_polls(self, meeting_id: int):
         """
-        Get information about all polls for a given meeting ID
-
-        Required scopes: `meeting:read`
+        Get information about all polls for a given meeting ID.
+        The returned data is identical to get_meeting_poll but for
+        all polls in the meeting.
 
         `Args`:
             meeting_id: int
                 Unique identifier for Zoom meeting
 
-        `Returns`:
-            Parsons Table of all polling responses
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         endpoint = f"meetings/{meeting_id}/polls"
@@ -712,14 +733,17 @@ class ZoomV2(ZoomV1):
             "Method get_meeting_all_polls_metadata is deprecated in favor of get_meeting_polls"
         )
 
-    def get_past_meeting_poll_results(self, meeting_id):
+    def get_past_meeting_poll_results(self, meeting_id: int):
         """
         Get results for all polls for a given past meeting ID
 
-        Required scopes: meeting:read:admin, meeting:read
+        `Args`:
+            meeting_id: int
+                Unique identifier for Zoom meeting
 
-        Args:
-            meeting_id (str): Unique identifier for Zoom meeting
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         endpoint = f"past_meetings/{meeting_id}/polls"
@@ -732,24 +756,27 @@ class ZoomV2(ZoomV1):
             "Method get_past_meeting_poll_metadata is deprecated in favor of get_past_meeting_poll_results"
         )
 
-    def get_webinar_poll(self, webinar_id, poll_id):
+    def get_webinar_poll(self, webinar_id: int, poll_id: str):
         """
         Get information about a single poll for a given webinar ID.
         The returned data is identical to get_webinar_polls.
 
-        Required scopes: `webinar:read`
-
         `Args`:
             webinar_id: int
                 Unique identifier for Zoom webinar
+            poll_id: str
+                Unique identifier for Zoom poll
 
-        `Returns`:
-            Parsons Table of all polling responses
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(f"Retrieved {tbl.num_rows} for [poll {poll_id}, webinar {webinar_id}]")
+        logger.info(
+            f"Retrieved {tbl.num_rows} for [poll {poll_id}, webinar {webinar_id}]"
+        )
         return tbl
 
     def get_webinar_poll_metadata(self, webinar_id, poll_id, version=1):
@@ -757,18 +784,19 @@ class ZoomV2(ZoomV1):
             "Method get_webinar_poll_metadata is deprecated in favor of get_webinar_poll"
         )
 
-    def get_webinar_polls(self, webinar_id):
+    def get_webinar_polls(self, webinar_id: int):
         """
         Get information for all polls for a given webinar ID
-
-        Required scopes: `webinar:read`
+        The returned data is identical to get_webinar_poll but includes
+        all polls in the webinar
 
         `Args`:
             webinar_id: str
                 Unique identifier for Zoom webinar
 
-        `Returns`:
-            Parsons Table of all polling responses
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         endpoint = f"webinars/{webinar_id}/polls"
@@ -781,23 +809,24 @@ class ZoomV2(ZoomV1):
             "Method get_webinar_all_polls_metadata is deprecated in favor of get_webinar_polls"
         )
 
-    def get_past_webinar_poll_results(self, webinar_id):
+    def get_past_webinar_poll_results(self, webinar_id: int):
         """
         Get results for all polls for a given past webinar ID
-
-        Required scopes: `webinar:read`
 
         `Args`:
             webinar_id: str
                 Unique identifier for Zoom webinar
 
-        `Returns`:
-            Parsons Table of all polling responses
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         endpoint = f"past_webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(f"Retrieved {tbl.num_rows} poll results for webinar ID {webinar_id}")
+        logger.info(
+            f"Retrieved {tbl.num_rows} poll results for webinar ID {webinar_id}"
+        )
         return tbl
 
     def get_past_webinar_poll_metadata(self, webinar_id, version=1):
@@ -805,23 +834,24 @@ class ZoomV2(ZoomV1):
             "Method get_past_webinar_poll_metadata is deprecated in favor of get_past_webinar_poll_results"
         )
 
-    def get_meeting_poll_reports(self, meeting_id):
+    def get_meeting_poll_reports(self, meeting_id: int):
         """
         Get polls reports for a given past meeting ID
 
-        Required scopes: report:read:admin
-
         `Args`:
-            webinar_id: str
-                Unique identifier for Zoom webinar
+            meeting_id: str
+                Unique identifier for Zoom meeting
 
-        `Returns`:
-            Parsons Table of all polling responses
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         endpoint = f"report/meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(f"Retrieved {tbl.num_rows} poll reports for meeting ID {meeting_id}")
+        logger.info(
+            f"Retrieved {tbl.num_rows} poll reports for meeting ID {meeting_id}"
+        )
         return tbl
 
     def get_meeting_poll_results(self, meeting_id):
@@ -829,23 +859,24 @@ class ZoomV2(ZoomV1):
             "Method get_meeting_poll_results is deprecated in favor of get_meeting_poll_reports"
         )
 
-    def get_webinar_poll_reports(self, webinar_id):
+    def get_webinar_poll_reports(self, webinar_id: int):
         """
         Get results for all polls for a given past webinar ID
-
-        Required scopes: `report:read:admin`
 
         `Args`:
             webinar_id: str
                 Unique identifier for Zoom webinar
 
-        `Returns`:
-            Parsons Table of all polling responses
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         endpoint = f"report/webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(f"Retrieved {tbl.num_rows} poll reports for webinar ID {webinar_id}")
+        logger.info(
+            f"Retrieved {tbl.num_rows} poll reports for webinar ID {webinar_id}"
+        )
         return tbl
 
     def get_webinar_poll_results(self, webinar_id):
@@ -855,9 +886,13 @@ class ZoomV2(ZoomV1):
 
 
 class Zoom:
-    def __new__(cls, account_id=None, client_id=None, client_secret=None, parsons_version="v1"):
+    def __new__(
+        cls, account_id=None, client_id=None, client_secret=None, parsons_version="v1"
+    ):
         """
         Create and return Zoom instance base on chosen version (1 or 2)
+
+        API Documentation: https://developers.zoom.us/docs/api/
 
         Args:
             account_id: str
@@ -873,7 +908,11 @@ class Zoom:
         """
         parsons_version = check_env.check("ZOOM_PARSONS_VERSION", parsons_version)
         if parsons_version == "v1":
-            return ZoomV1(account_id=account_id, client_id=client_id, client_secret=client_secret)
+            return ZoomV1(
+                account_id=account_id, client_id=client_id, client_secret=client_secret
+            )
         if parsons_version == "v2":
-            return ZoomV2(account_id=account_id, client_id=client_id, client_secret=client_secret)
+            return ZoomV2(
+                account_id=account_id, client_id=client_id, client_secret=client_secret
+            )
         raise ValueError(f"{parsons_version} not supported")

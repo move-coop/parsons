@@ -1734,7 +1734,7 @@ status of the phone in ActionNetwork. If not included, won’t update the status
 None by default, causes no updates to mobile number status. New numbers are set
 to “unsubscribed” by default.</p>
 </dd>
-<dt>background_request: bool</dt><dd><p>If set <cite>true</cite>, utilize ActionNetwork’s “background processing”. This will return
+<dt>background_processing: bool</dt><dd><p>If set <cite>true</cite>, utilize ActionNetwork’s “background processing”. This will return
 an immediate success, with an empty JSON body, and send your request to the
 background queue for eventual processing.
 <a class="reference external" href="https://actionnetwork.org/docs/v2/#background-processing">https://actionnetwork.org/docs/v2/#background-processing</a></p>
@@ -2356,7 +2356,7 @@ When None, no filter is applied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionNetwork.create_tagging">
-<span class="sig-name descname"><span class="pre">create_tagging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_tagging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_tagging" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_tagging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_processing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_tagging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.create_tagging" title="Link to this definition"></a></dt>
 <dd><dl>
 <dt><cite>Args:</cite></dt><dd><dl>
 <dt>tag_id:</dt><dd><p>The unique id of the tag</p>
@@ -2372,6 +2372,11 @@ When None, no filter is applied.</p>
 </div></blockquote>
 <p>}</p>
 </dd>
+<dt>background_processing: bool</dt><dd><p>If set <cite>true</cite>, utilize ActionNetwork’s “background processing”. This will return
+an immediate success, with an empty JSON body, and send your request to the
+background queue for eventual processing.
+<a class="reference external" href="https://actionnetwork.org/docs/v2/#background-processing">https://actionnetwork.org/docs/v2/#background-processing</a></p>
+</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A JSON response after creating the tagging</p>
@@ -2383,12 +2388,17 @@ When None, no filter is applied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionNetwork.delete_tagging">
-<span class="sig-name descname"><span class="pre">delete_tagging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tagging_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.delete_tagging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.delete_tagging" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_tagging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tagging_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_processing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.delete_tagging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.delete_tagging" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>tag_id:</dt><dd><p>The unique id of the tag</p>
 </dd>
 <dt>tagging_id:</dt><dd><p>The unique id of the tagging to be deleted</p>
+</dd>
+<dt>background_processing: bool</dt><dd><p>If set <cite>true</cite>, utilize ActionNetwork’s “background processing”. This will return
+an immediate success, with an empty JSON body, and send your request to the
+background queue for eventual processing.
+<a class="reference external" href="https://actionnetwork.org/docs/v2/#background-processing">https://actionnetwork.org/docs/v2/#background-processing</a></p>
 </dd>
 </dl>
 </dd>

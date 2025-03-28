@@ -201,7 +201,7 @@ mock_response_enriched[4]["emailMessageContent"] = sample_content_full
 
 class TestEmail(unittest.TestCase):
     def setUp(self):
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
+        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
 
     @requests_mock.Mocker()
     def test_get_email_messages(self, m):

@@ -760,7 +760,7 @@ If a <code class="docutils literal notranslate"><span class="pre">local_path</sp
 <dt>csv_name: str</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">zip</span></code> compression (either specified or inferred), the name of csv file
 within the archive.</p>
 </dd>
-<dt>**csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</p>
+<dt><a href="#id8"><span class="problematic" id="id9">**</span></a>csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</p>
 </dd>
 </dl>
 </dd>
@@ -788,7 +788,7 @@ be compressed.</p>
 </dd>
 <dt>errors: str</dt><dd><p>Raise an Error if encountered</p>
 </dd>
-<dt>**csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</p>
+<dt><a href="#id11"><span class="problematic" id="id12">**</span></a>csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</p>
 </dd>
 </dl>
 </dd>
@@ -828,7 +828,7 @@ the archive name.</p>
 </dd>
 <dt>if_exists: str</dt><dd><p>If archive already exists, one of ‘replace’ or ‘append’</p>
 </dd>
-<dt>**csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</p>
+<dt><a href="#id14"><span class="problematic" id="id15">**</span></a>csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</p>
 </dd>
 </dl>
 </dd>
@@ -907,7 +907,7 @@ JSON file.</p>
 <dt>rsa_private_key_file str</dt><dd><p>Absolute path to a private RSA key used
 to authenticate stfp connection</p>
 </dd>
-<dt>**csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</p>
+<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</p>
 </dd>
 </dl>
 </dd>
@@ -948,7 +948,7 @@ supported. If specified, will override the key suffix.</p>
 to <code class="docutils literal notranslate"><span class="pre">True</span></code>. Set to <code class="docutils literal notranslate"><span class="pre">False</span></code> in order to ignore the <code class="docutils literal notranslate"><span class="pre">AWS_SESSION_TOKEN</span></code> env
 variable even if the <code class="docutils literal notranslate"><span class="pre">aws_session_token</span></code> argument was not passed in.</p>
 </dd>
-<dt>**csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</p>
+<dt><a href="#id20"><span class="problematic" id="id21">**</span></a>csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</p>
 </dd>
 </dl>
 </dd>
@@ -987,7 +987,7 @@ supported. If specified, will override the key suffix.</p>
 </dd>
 <dt>public_url_expire: 60</dt><dd><p>The time, in minutes, until the url expires if <code class="docutils literal notranslate"><span class="pre">public_url</span></code> set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
 </dd>
-<dt>**csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</p>
+<dt><a href="#id23"><span class="problematic" id="id24">**</span></a>csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</p>
 </dd>
 </dl>
 </dd>
@@ -1015,7 +1015,7 @@ AWS S3 credentials or store them as environmental variables.</p>
 </dd>
 <dt>port: int</dt><dd><p>Required if env variable <code class="docutils literal notranslate"><span class="pre">REDSHIFT_PORT</span></code> not populated. Port 5439 is typical.</p>
 </dd>
-<dt>**copy_args: kwargs</dt><dd><p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">copy`()</span></code> for options.</p>
+<dt><a href="#id25"><span class="problematic" id="id26">**</span></a>copy_args: kwargs</dt><dd><p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">copy`()</span></code> for options.</p>
 </dd>
 </dl>
 </dd>
@@ -1042,7 +1042,7 @@ AWS S3 credentials or store them as environmental variables.</p>
 </dd>
 <dt>port: int</dt><dd><p>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGPORT</span></code> not populated.</p>
 </dd>
-<dt>**copy_args: kwargs</dt><dd><p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">copy`()</span></code> for options.</p>
+<dt><a href="#id27"><span class="problematic" id="id28">**</span></a>copy_args: kwargs</dt><dd><p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">copy`()</span></code> for options.</p>
 </dd>
 </dl>
 </dd>
@@ -1065,7 +1065,7 @@ if <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATI
 <dt>project: str</dt><dd><p>The project which the client is acting on behalf of. If not passed
 then will use the default inferred environment.</p>
 </dd>
-<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs: kwargs</dt><dd><p>Additional keyword arguments passed into the <cite>.copy()</cite> function (<cite>if_exists</cite>,
+<dt><a href="#id29"><span class="problematic" id="id30">**</span></a>kwargs: kwargs</dt><dd><p>Additional keyword arguments passed into the <cite>.copy()</cite> function (<cite>if_exists</cite>,
 <cite>max_errors</cite>, etc.)</p>
 </dd>
 </dl>
@@ -1123,7 +1123,7 @@ Defaults to <cite>‘fail’</cite>.</p>
 <dt>local_path: obj</dt><dd><p>A csv formatted local path, url or ftp. If this is a
 file path that ends in “.gz”, the file will be decompressed first.</p>
 </dd>
-<dt>**csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_reader</span></code> optional arguments</p>
+<dt><a href="#id31"><span class="problematic" id="id32">**</span></a>csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_reader</span></code> optional arguments</p>
 </dd>
 </dl>
 </dd>
@@ -1143,7 +1143,7 @@ file path that ends in “.gz”, the file will be decompressed first.</p>
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>str: str</dt><dd><p>The string object to convert to a table</p>
 </dd>
-<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_reader</span></code> optional arguments</p>
+<dt><a href="#id33"><span class="problematic" id="id34">**</span></a>csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_reader</span></code> optional arguments</p>
 </dd>
 </dl>
 </dd>
@@ -1268,7 +1268,7 @@ Defaults to False.</p>
 </dd>
 <dt>aws_secret_access_key: str</dt><dd><p>Required if not included as environmental variable.</p>
 </dd>
-<dt>**csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_reader</span></code> optional arguments</p>
+<dt><a href="#id35"><span class="problematic" id="id36">**</span></a>csvargs: kwargs</dt><dd><p><code class="docutils literal notranslate"><span class="pre">csv_reader</span></code> optional arguments</p>
 </dd>
 </dl>
 </dd>
@@ -1385,7 +1385,7 @@ if the column already exists, rather than raising a <cite>ValueError</cite></p>
 <dd><p>Remove a column from your table</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>*columns: str</dt><dd><p>Column names</p>
+<dt><a href="#id37"><span class="problematic" id="id38">*</span></a>columns: str</dt><dd><p>Column names</p>
 </dd>
 </dl>
 </dd>
@@ -1489,9 +1489,9 @@ invocations or dictionary translations. This leverages the petl <code class="doc
 method. Example usage can be found <a class="reference external" href="https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert">here</a>.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt><a href="#id17"><span class="problematic" id="id18">*</span></a>column: str</dt><dd><p>A single column or multiple columns passed as a list</p>
+<dt><a href="#id39"><span class="problematic" id="id40">*</span></a>column: str</dt><dd><p>A single column or multiple columns passed as a list</p>
 </dd>
-<dt><a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs: str, method or variable</dt><dd><p>The update function, method, or variable to process the update</p>
+<dt><a href="#id41"><span class="problematic" id="id42">**</span></a>kwargs: str, method or variable</dt><dd><p>The update function, method, or variable to process the update</p>
 </dd>
 </dl>
 </dd>
@@ -1661,7 +1661,7 @@ as regex. This method leverages the petl <code class="docutils literal notransla
 found <cite>here</cite> &lt;<a class="reference external" href="https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert">https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert</a>&gt;`_.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>*args: str, method or variable</dt><dd><p>The update function, method, or variable to process the update. Can also</p>
+<dt><a href="#id43"><span class="problematic" id="id44">*</span></a>args: str, method or variable</dt><dd><p>The update function, method, or variable to process the update. Can also</p>
 </dd>
 </dl>
 </dd>
@@ -1825,7 +1825,7 @@ set to column name.</p>
 <dd><p>Return a table of selection of columns</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>*columns: str</dt><dd><p>Columns in the parsons table</p>
+<dt><a href="#id45"><span class="problematic" id="id46">*</span></a>columns: str</dt><dd><p>Columns in the parsons table</p>
 </dd>
 </dl>
 </dd>
@@ -1859,7 +1859,7 @@ filters.</p>
 </pre></div>
 </div>
 <dl class="simple">
-<dt><cite>Args:</cite></dt><dd><p>*filters: function or str</p>
+<dt><cite>Args:</cite></dt><dd><p><a href="#id47"><span class="problematic" id="id48">*</span></a>filters: function or str</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p>A new parsons table containing the selected rows</p>
 </dd>
@@ -2124,9 +2124,9 @@ that has not yet been implemented for <code class="docutils literal notranslate"
 <dt>to_petl: bool</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, returns a petl table, otherwise a <code class="docutils literal notranslate"><span class="pre">parsons.Table</span></code>.
 Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 </dd>
-<dt><a href="#id21"><span class="problematic" id="id22">*</span></a>args: Any</dt><dd><p>The arguements to pass to the petl function.</p>
+<dt><a href="#id49"><span class="problematic" id="id50">*</span></a>args: Any</dt><dd><p>The arguements to pass to the petl function.</p>
 </dd>
-<dt><a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs: Any</dt><dd><p>The keyword arguements to pass to the petl function.</p>
+<dt><a href="#id51"><span class="problematic" id="id52">**</span></a>kwargs: Any</dt><dd><p>The keyword arguements to pass to the petl function.</p>
 </dd>
 </dl>
 </dd>

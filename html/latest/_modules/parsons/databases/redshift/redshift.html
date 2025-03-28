@@ -867,7 +867,7 @@
         <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Unload Redshift data to S3 Bucket. This is a more efficient method than running a query</span>
 <span class="sd">        to export data as it can export in parallel and directly into an S3 bucket. Consider</span>
 <span class="sd">        using this for exports of 10MM or more rows.</span>
@@ -1124,7 +1124,7 @@
         <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">copy_args</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Preform an upsert on an existing table. An upsert is a function in which rows</span>
 <span class="sd">        in a table are updated and inserted at the same time.</span>
 
@@ -1156,7 +1156,7 @@
 <span class="sd">                The column name of the distkey. If not provided, will default to ``primary_key``.</span>
 <span class="sd">            sortkey: str or list</span>
 <span class="sd">                The column name(s) of the sortkey. If not provided, will default to ``primary_key``.</span>
-<span class="sd">            \**copy_args: kwargs</span>
+<span class="sd">            **copy_args: kwargs</span>
 <span class="sd">                See :func:`~parsons.databases.Redshift.copy` for options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 

@@ -231,11 +231,11 @@
 <div class="viewcode-block" id="ETL.remove_column">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.remove_column">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove a column from your table</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            \*columns: str</span>
+<span class="sd">            *columns: str</span>
 <span class="sd">                Column names</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
@@ -637,14 +637,14 @@
 <div class="viewcode-block" id="ETL.convert_table">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.convert_table">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">convert_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform all cells in a table via arbitrary functions, method invocations or dictionary</span>
 <span class="sd">        translations. This method is useful for cleaning fields and data hygiene functions such</span>
 <span class="sd">        as regex. This method leverages the petl ``convert()`` method. Example usage can be</span>
 <span class="sd">        found `here` &lt;https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert&gt;`_.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            \*args: str, method or variable</span>
+<span class="sd">            *args: str, method or variable</span>
 <span class="sd">                The update function, method, or variable to process the update. Can also</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
@@ -987,11 +987,11 @@
 <div class="viewcode-block" id="ETL.cut">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.cut">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cut</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a table of selection of columns</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            \*columns: str</span>
+<span class="sd">            *columns: str</span>
 <span class="sd">                Columns in the parsons table</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A new parsons table containing the selected columnns</span>
@@ -1005,7 +1005,7 @@
 <div class="viewcode-block" id="ETL.select_rows">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.select_rows">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">select_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Select specific rows from a Parsons table based on the passed</span>
 <span class="sd">        filters.</span>
 
@@ -1031,7 +1031,7 @@
 <span class="sd">            &gt;&gt;&gt; {&#39;foo&#39;: &#39;a&#39;, &#39;bar&#39;: 2, &#39;baz&#39;: 88.1}</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            \*filters: function or str</span>
+<span class="sd">            *filters: function or str</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A new parsons table containing the selected rows</span>
 <span class="sd">        &quot;&quot;&quot;</span>

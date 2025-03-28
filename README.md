@@ -103,7 +103,7 @@
 | parsons/google/utilities.py                               |       34 |        7 |       14 |        1 |     75% |23->28, 65-75 |
 | parsons/hustle/\_\_init\_\_.py                            |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/hustle/column\_map.py                             |        1 |        0 |        0 |        0 |    100% |           |
-| parsons/hustle/hustle.py                                  |      150 |       17 |       32 |        9 |     85% |60-61, 77, 92-95, 106-113, 313, 316, 442, 448, 449->452 |
+| parsons/hustle/hustle.py                                  |      169 |       27 |       34 |        9 |     80% |67-68, 90, 105-109, 120-126, 345, 348, 475, 481, 482->485, 585-587, 606-614 |
 | parsons/mailchimp/\_\_init\_\_.py                         |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/mailchimp/mailchimp.py                            |       51 |       10 |       10 |        4 |     74% |107, 204, 337, 377-390, 433 |
 | parsons/mobilecommons/\_\_init\_\_.py                     |        2 |        0 |        0 |        0 |    100% |           |
@@ -186,7 +186,7 @@
 | parsons/twilio/twilio.py                                  |       51 |        3 |       18 |        3 |     91% |35, 129, 134 |
 | parsons/utilities/\_\_init\_\_.py                         |        0 |        0 |        0 |        0 |    100% |           |
 | parsons/utilities/api\_connector.py                       |       89 |        5 |       40 |        9 |     89% |109, 139->exit, 166->exit, 193->exit, 224->exit, 226, 242, 298, 317 |
-| parsons/utilities/check\_env.py                           |        9 |        0 |        4 |        0 |    100% |           |
+| parsons/utilities/check\_env.py                           |       10 |        0 |        4 |        0 |    100% |           |
 | parsons/utilities/cloud\_storage.py                       |       10 |        7 |        6 |        0 |     19% |     35-48 |
 | parsons/utilities/datetime.py                             |       26 |        4 |       14 |        2 |     85% |24, 35-37, 66 |
 | parsons/utilities/dbt/\_\_init\_\_.py                     |        3 |        3 |        0 |        0 |      0% |     46-54 |
@@ -202,7 +202,7 @@
 | parsons/utilities/zip\_archive.py                         |       18 |        2 |        4 |        2 |     82% |    25, 30 |
 | parsons/zoom/\_\_init\_\_.py                              |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/zoom/zoom.py                                      |      162 |       36 |       42 |       15 |     72% |74->exit, 80-82, 101-104, 122, 161, 209-217, 231-233, 296->298, 352-353, 363, 383-384, 408-409, 438-439, 465-466, 490-491, 508-509, 526-527 |
-|                                                 **TOTAL** | **10131** | **3029** | **2842** |  **523** | **66%** |           |
+|                                                 **TOTAL** | **10151** | **3039** | **2844** |  **523** | **66%** |           |
 
 
 ## Setup coverage badge

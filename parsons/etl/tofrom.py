@@ -112,7 +112,7 @@ class ToFrom(object):
         This method assume that each column has values with the same type
         for all rows of the source `table`.
 
-        Avro is a data serialization framework that is generally is faster 
+        Avro is a data serialization framework that is generally is faster
         and safer than text formats like Json, XML or CSV.
 
         `Args:`

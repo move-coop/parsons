@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_5be2cbaa4c819734_rs_copy_table_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.4">coverage.py v7.6.4</a>,
-            created at 2025-03-28 16:46 +0000
+            created at 2025-03-28 16:56 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -801,7 +801,7 @@
     <p class="pln"><span class="n"><a id="t717" href="#t717">717</a></span><span class="t">        <span class="nam">aws_access_key_id</span><span class="op">=</span><span class="key">None</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t718" href="#t718">718</a></span><span class="t">        <span class="nam">aws_secret_access_key</span><span class="op">=</span><span class="key">None</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t719" href="#t719">719</a></span><span class="t">    <span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t720" href="#t720">720</a></span><span class="t">        <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t720" href="#t720">720</a></span><span class="t">        <span class="str">r"""</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t721" href="#t721">721</a></span><span class="t"><span class="str">        Unload Redshift data to S3 Bucket. This is a more efficient method than running a query</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t722" href="#t722">722</a></span><span class="t"><span class="str">        to export data as it can export in parallel and directly into an S3 bucket. Consider</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t723" href="#t723">723</a></span><span class="t"><span class="str">        using this for exports of 10MM or more rows.</span>&nbsp;</span><span class="r"></span></p>
@@ -1058,7 +1058,7 @@
     <p class="pln"><span class="n"><a id="t974" href="#t974">974</a></span><span class="t">        <span class="nam">sortkey</span><span class="op">=</span><span class="key">None</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t975" href="#t975">975</a></span><span class="t">        <span class="op">**</span><span class="nam">copy_args</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t976" href="#t976">976</a></span><span class="t">    <span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t977" href="#t977">977</a></span><span class="t">        <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t977" href="#t977">977</a></span><span class="t">        <span class="str">r"""</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t978" href="#t978">978</a></span><span class="t"><span class="str">        Preform an upsert on an existing table. An upsert is a function in which rows</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t979" href="#t979">979</a></span><span class="t"><span class="str">        in a table are updated and inserted at the same time.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t980" href="#t980">980</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -1090,7 +1090,7 @@
     <p class="pln"><span class="n"><a id="t1006" href="#t1006">1006</a></span><span class="t"><span class="str">                The column name of the distkey. If not provided, will default to ``primary_key``.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1007" href="#t1007">1007</a></span><span class="t"><span class="str">            sortkey: str or list</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1008" href="#t1008">1008</a></span><span class="t"><span class="str">                The column name(s) of the sortkey. If not provided, will default to ``primary_key``.</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t1009" href="#t1009">1009</a></span><span class="t"><span class="str">            \**copy_args: kwargs</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t1009" href="#t1009">1009</a></span><span class="t"><span class="str">            **copy_args: kwargs</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1010" href="#t1010">1010</a></span><span class="t"><span class="str">                See :func:`~parsons.databases.Redshift.copy` for options.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1011" href="#t1011">1011</a></span><span class="t"><span class="str">        """</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1012" href="#t1012">1012</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -1336,7 +1336,7 @@
             <a class="nav" href="z_5be2cbaa4c819734_rs_copy_table_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.4">coverage.py v7.6.4</a>,
-            created at 2025-03-28 16:46 +0000
+            created at 2025-03-28 16:56 +0000
         </p>
     </div>
 </footer>

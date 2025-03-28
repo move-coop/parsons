@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_0dca1a03452b1ddd_table_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.4">coverage.py v7.6.4</a>,
-            created at 2025-03-28 16:46 +0000
+            created at 2025-03-28 16:56 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -154,11 +154,11 @@
     <p class="run"><span class="n"><a id="t70" href="#t70">70</a></span><span class="t">        <span class="key">return</span> <span class="nam">self</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t71" href="#t71">71</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t72" href="#t72">72</a></span><span class="t">    <span class="key">def</span> <span class="nam">remove_column</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="op">*</span><span class="nam">columns</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t73" href="#t73">73</a></span><span class="t">        <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t73" href="#t73">73</a></span><span class="t">        <span class="str">r"""</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t74" href="#t74">74</a></span><span class="t"><span class="str">        Remove a column from your table</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t75" href="#t75">75</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t76" href="#t76">76</a></span><span class="t"><span class="str">        `Args:`</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t77" href="#t77">77</a></span><span class="t"><span class="str">            \*columns: str</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t77" href="#t77">77</a></span><span class="t"><span class="str">            *columns: str</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t78" href="#t78">78</a></span><span class="t"><span class="str">                Column names</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t79" href="#t79">79</a></span><span class="t"><span class="str">        `Returns:`</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t80" href="#t80">80</a></span><span class="t"><span class="str">            `Parsons Table` and also updates self</span>&nbsp;</span><span class="r"></span></p>
@@ -518,14 +518,14 @@
     <p class="run"><span class="n"><a id="t434" href="#t434">434</a></span><span class="t">        <span class="key">return</span> <span class="op">[</span><span class="op">{</span><span class="str">"name"</span><span class="op">:</span> <span class="nam">col</span><span class="op">,</span> <span class="str">"type"</span><span class="op">:</span> <span class="nam">self</span><span class="op">.</span><span class="nam">get_column_types</span><span class="op">(</span><span class="nam">col</span><span class="op">)</span><span class="op">}</span> <span class="key">for</span> <span class="nam">col</span> <span class="key">in</span> <span class="nam">self</span><span class="op">.</span><span class="nam">table</span><span class="op">.</span><span class="nam">columns</span><span class="op">(</span><span class="op">)</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t435" href="#t435">435</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t436" href="#t436">436</a></span><span class="t">    <span class="key">def</span> <span class="nam">convert_table</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="op">*</span><span class="nam">args</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t437" href="#t437">437</a></span><span class="t">        <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t437" href="#t437">437</a></span><span class="t">        <span class="str">r"""</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t438" href="#t438">438</a></span><span class="t"><span class="str">        Transform all cells in a table via arbitrary functions, method invocations or dictionary</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t439" href="#t439">439</a></span><span class="t"><span class="str">        translations. This method is useful for cleaning fields and data hygiene functions such</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t440" href="#t440">440</a></span><span class="t"><span class="str">        as regex. This method leverages the petl ``convert()`` method. Example usage can be</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t441" href="#t441">441</a></span><span class="t"><span class="str">        found `here` &lt;https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t442" href="#t442">442</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t443" href="#t443">443</a></span><span class="t"><span class="str">        `Args:`</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t444" href="#t444">444</a></span><span class="t"><span class="str">            \*args: str, method or variable</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t444" href="#t444">444</a></span><span class="t"><span class="str">            *args: str, method or variable</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t445" href="#t445">445</a></span><span class="t"><span class="str">                The update function, method, or variable to process the update. Can also</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t446" href="#t446">446</a></span><span class="t"><span class="str">        `Returns:`</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t447" href="#t447">447</a></span><span class="t"><span class="str">            `Parsons Table` and also updates self</span>&nbsp;</span><span class="r"></span></p>
@@ -853,11 +853,11 @@
     <p class="run"><span class="n"><a id="t769" href="#t769">769</a></span><span class="t">        <span class="key">return</span> <span class="nam">lt</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t770" href="#t770">770</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t771" href="#t771">771</a></span><span class="t">    <span class="key">def</span> <span class="nam">cut</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="op">*</span><span class="nam">columns</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t772" href="#t772">772</a></span><span class="t">        <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t772" href="#t772">772</a></span><span class="t">        <span class="str">r"""</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t773" href="#t773">773</a></span><span class="t"><span class="str">        Return a table of selection of columns</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t774" href="#t774">774</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t775" href="#t775">775</a></span><span class="t"><span class="str">        `Args:`</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t776" href="#t776">776</a></span><span class="t"><span class="str">            \*columns: str</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t776" href="#t776">776</a></span><span class="t"><span class="str">            *columns: str</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t777" href="#t777">777</a></span><span class="t"><span class="str">                Columns in the parsons table</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t778" href="#t778">778</a></span><span class="t"><span class="str">        `Returns:`</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t779" href="#t779">779</a></span><span class="t"><span class="str">            A new parsons table containing the selected columnns</span>&nbsp;</span><span class="r"></span></p>
@@ -868,7 +868,7 @@
     <p class="run"><span class="n"><a id="t784" href="#t784">784</a></span><span class="t">        <span class="key">return</span> <span class="nam">Table</span><span class="op">(</span><span class="nam">petl</span><span class="op">.</span><span class="nam">cut</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">table</span><span class="op">,</span> <span class="op">*</span><span class="nam">columns</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t785" href="#t785">785</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t786" href="#t786">786</a></span><span class="t">    <span class="key">def</span> <span class="nam">select_rows</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="op">*</span><span class="nam">filters</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t787" href="#t787">787</a></span><span class="t">        <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t787" href="#t787">787</a></span><span class="t">        <span class="str">r"""</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t788" href="#t788">788</a></span><span class="t"><span class="str">        Select specific rows from a Parsons table based on the passed</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t789" href="#t789">789</a></span><span class="t"><span class="str">        filters.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t790" href="#t790">790</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -894,7 +894,7 @@
     <p class="pln"><span class="n"><a id="t810" href="#t810">810</a></span><span class="t"><span class="str">            >>> {'foo': 'a', 'bar': 2, 'baz': 88.1}</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t811" href="#t811">811</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t812" href="#t812">812</a></span><span class="t"><span class="str">        `Args:`</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t813" href="#t813">813</a></span><span class="t"><span class="str">            \*filters: function or str</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t813" href="#t813">813</a></span><span class="t"><span class="str">            *filters: function or str</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t814" href="#t814">814</a></span><span class="t"><span class="str">        `Returns:`</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t815" href="#t815">815</a></span><span class="t"><span class="str">            A new parsons table containing the selected rows</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t816" href="#t816">816</a></span><span class="t"><span class="str">        """</span>&nbsp;</span><span class="r"></span></p>
@@ -1386,7 +1386,7 @@
             <a class="nav" href="z_0dca1a03452b1ddd_table_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.4">coverage.py v7.6.4</a>,
-            created at 2025-03-28 16:46 +0000
+            created at 2025-03-28 16:56 +0000
         </p>
     </div>
 </footer>

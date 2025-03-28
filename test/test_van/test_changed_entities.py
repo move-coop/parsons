@@ -16,7 +16,7 @@ class TestNGPVAN(unittest.TestCase):
     def test_get_changed_entity_resources(self, m):
         json = ["ActivistCodes", "ContactHistory", "Contacts", "ContactsActivistCodes"]
         m.get(self.van.connection.uri + "changedEntityExportJobs/resources", json=json)
-        self.assertEqual(json, self.van.get_changed_entity_resources())
+        assert json == self.van.get_changed_entity_resources()
 
     @requests_mock.Mocker()
     def test_get_changed_entity_resource_fields(self, m):

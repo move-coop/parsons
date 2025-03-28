@@ -112,11 +112,8 @@ class ToFrom(object):
         This method assume that each column has values with the same type
         for all rows of the source `table`.
 
-        `Apache Avro`_ is a data
-        serialization framework. It is used in data serialization (especially in
-        Hadoop ecosystem), for dataexchange for databases (Redshift) and RPC
-        protocols (like in Kafka). It has libraries to support many languages and
-        generally is faster and safer than text formats like Json, XML or CSV.
+        Avro is a data serialization framework that is generally is faster 
+        and safer than text formats like Json, XML or CSV.
 
         `Args:`
             target: str
@@ -138,22 +135,8 @@ class ToFrom(object):
                 sets the level of compression to use with the specified codec (if the codec supports it)
             avro_args: kwargs
                 Additionally there are support for passing extra options in the
-                argument `**avro_args` that are fowarded directly to fastavro. Check the
-                fastavro `documentation`_ for reference.
-
-        The avro file format preserves type information, i.e., reading and writing
-        is round-trippable for tables with non-string data values. However the
-        conversion from Python value types to avro fields is not perfect. Use the
-        `schema` argument to define proper type to the conversion.
-
-        The following avro types are supported by the schema: null, boolean,
-        string, int, long, float, double, bytes, fixed, enum,
-        :ref:`array <array_schema>`, map, union, record, and recursive types
-        defined in :ref:`complex schemas <complex_schema>`.
-
-        Also :ref:`logical types <logical_schema>` are supported and translated to
-        coresponding python types: long timestamp-millis, long timestamp-micros, int date,
-        bytes decimal, fixed decimal, string uuid, int time-millis, long time-micros.
+                argument `**avro_args` that are fowarded directly to fastavro. [Check the
+                fastavro documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
 
         Example usage for writing files::
 
@@ -176,8 +159,8 @@ class ToFrom(object):
             ...     ]
             ... }
             ...
-            >>> # now demonstrate what writing with toavro()
-            >>> import parsons import Table
+            >>> # now demonstrate writing with toavro()
+            >>> from parsons import Table
 
             >>> Table.toavro(table2, 'example.file2.avro', schema=schema2)
             ...

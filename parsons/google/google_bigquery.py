@@ -845,7 +845,6 @@ class GoogleBigQuery(DatabaseConnector):
             allow_jagged_rows,
             quote,
             schema,
-            convert_dict_list_columns_to_json,
         )
 
         tmpfile_path = tbl.to_csv()
@@ -924,7 +923,7 @@ class GoogleBigQuery(DatabaseConnector):
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
         """
-        data_type = "ndjson"
+        data_type = "csv"
         tmp_gcs_bucket = (
             tmp_gcs_bucket
             or self.tmp_gcs_bucket
@@ -1004,6 +1003,15 @@ class GoogleBigQuery(DatabaseConnector):
 
         self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
 
+        # If our source table is loaded from CSV with no transformations
+        # The original source file will be directly loaded to GCS
+        # We may need to pass along a custom delimiter to BigQuery
+        # Otherwise we use the default comma
+        if isinstance(tbl.table, petl.io.csv_py3.CSVView):
+            csv_delimiter = tbl.table.csvargs.get("delimiter", ",")
+        else:
+            csv_delimiter = ","
+
         job_config = self._process_job_config(
             job_config=job_config,
             destination_table_name=table_name,
@@ -1016,7 +1024,9 @@ class GoogleBigQuery(DatabaseConnector):
             nullas=nullas,
             allow_quoted_newlines=allow_quoted_newlines,
             allow_jagged_rows=allow_jagged_rows,
+            quote=quote,
             custom_schema=schema,
+            csv_delimiter=csv_delimiter,
         )
 
         # Reorder schema to match table to ensure compatibility
@@ -1547,7 +1557,6 @@ class GoogleBigQuery(DatabaseConnector):
     def _load_table_from_uri(
         self, source_uris, destination, job_config, max_timeout, **load_kwargs
     ):
-        breakpoint()
         load_job = self.client.load_table_from_uri(
             source_uris=source_uris,
             destination=destination,

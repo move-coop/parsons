@@ -1,0 +1,193 @@
+name: Python fixes
+
+on: issue_comment
+
+permissions: read-all
+
+jobs:
+  ruff-format:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request && (contains( github.event.comment.body, '#ruff auto fix' ) || contains( github.event.comment.body, '#ruff unsafe auto fix' )) }}
+
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - uses: actions-cool/check-user-permission@7b90a27f92f3961b368376107661682c441f6103
+        with:
+          require: write
+
+      - uses: dkershner6/reaction-action@97ede302a1b145b3739dec3ca84a489a34ef48b5
+        if: success()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commentId: ${{ github.event.comment.id }}
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install uv
+        uses: install-pinned/uv@5d89022b21b96be3404fcd0a0cd7e7d438631828
+
+      - name: Install module and dependencies
+        run: |
+          uv pip install --system -e .[all]
+          uv pip install --system -r requirements-dev.txt
+
+      - id: cache-ruff
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        with:
+          path: ruff_cache
+          key: ${{ runner.os }}-ruff
+
+      - name: Run ruff format
+        run: |
+          ruff format .
+
+      - name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79
+        with:
+          commit_message: Ruff auto-format
+
+
+  ruff-check:
+    needs: ruff-format
+    runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request && contains( github.event.comment.body, '#ruff auto fix' ) }}
+
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - uses: actions-cool/check-user-permission@7b90a27f92f3961b368376107661682c441f6103
+        with:
+          require: write
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install uv
+        uses: install-pinned/uv@5d89022b21b96be3404fcd0a0cd7e7d438631828
+
+      - name: Install module and dependencies
+        run: |
+          uv pip install --system -e .[all]
+          uv pip install --system -r requirements-dev.txt
+
+      - id: cache-ruff
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        with:
+          path: ruff_cache
+          key: ${{ runner.os }}-ruff
+
+      - name: Run ruff --fix
+        run: |
+          ruff check --output-format=github --fix .
+
+      - name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79
+        with:
+          commit_message: Ruff check safe auto-fixes
+
+      - name: Run ruff
+        run: |
+          ruff check --output-format=github --diff .
+
+      - uses: thollander/actions-comment-pull-request@ddf65fcf3bc9d98bf0b8cde671a2214ffa7995f8+
+        if: failure()
+        with:
+          comment-tag: auto-fix-promo
+          message: |
+            ### Ruff
+            After applying automatic fixes, ruff issues are still present.
+            Please fix remaining issues manually.
+
+      - uses: thollander/actions-comment-pull-request@ddf65fcf3bc9d98bf0b8cde671a2214ffa7995f8+
+        if: success()
+        with:
+          comment-tag: auto-fix-promo
+          mode: delete
+
+
+
+  ruff-check-unsafe:
+    needs: ruff-format
+    runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request && contains( github.event.comment.body, '#ruff unsafe auto fix' ) }}
+
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - uses: actions-cool/check-user-permission@7b90a27f92f3961b368376107661682c441f6103
+        with:
+          require: write
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install uv
+        uses: install-pinned/uv@5d89022b21b96be3404fcd0a0cd7e7d438631828
+
+      - name: Install module and dependencies
+        run: |
+          uv pip install --system -e .[all]
+          uv pip install --system -r requirements-dev.txt
+
+      - id: cache-ruff
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        with:
+          path: ruff_cache
+          key: ${{ runner.os }}-ruff
+
+      - name: Run ruff --fix
+        run: |
+          ruff check --output-format=github --unsafe-fixes --fix .
+
+      - name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79
+        with:
+          commit_message: Ruff check (potentially) unsafe auto-fixes
+
+      - name: Run ruff
+        run: |
+          ruff check --output-format=github --diff .
+
+      - uses: thollander/actions-comment-pull-request@ddf65fcf3bc9d98bf0b8cde671a2214ffa7995f8+
+        if: failure()
+        with:
+          comment-tag: auto-fix-promo
+          message: |
+            **Ruff**
+            After applying unsafe automatic fixes, ruff issues are still present.
+            Please fix remaining issues manually.
+
+      - uses: thollander/actions-comment-pull-request@ddf65fcf3bc9d98bf0b8cde671a2214ffa7995f8+
+        if: success()
+        with:
+          comment-tag: auto-fix-promo
+          mode: delete

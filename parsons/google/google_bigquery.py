@@ -1002,7 +1002,7 @@ class GoogleBigQuery(DatabaseConnector):
         quote,
         schema,
     ):
-        data_type = "ndjson"
+        data_type = "csv"
 
         self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
 
@@ -1020,8 +1020,6 @@ class GoogleBigQuery(DatabaseConnector):
             allow_jagged_rows=allow_jagged_rows,
             custom_schema=schema,
         )
-
-        breakpoint()
 
         # Reorder schema to match table to ensure compatibility
         schema = []

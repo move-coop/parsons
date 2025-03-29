@@ -955,9 +955,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         gcs_client = gcs_client or GoogleCloudStorage(app_creds=self.app_creds)
         temp_blob_name = f"{uuid.uuid4()}.{data_type}"
-        temp_blob_uri = gcs_client.upload_table(
-            tbl, tmp_gcs_bucket, temp_blob_name, data_type="ndjson"
-        )
+        temp_blob_uri = gcs_client.upload_table(tbl, tmp_gcs_bucket, temp_blob_name)
 
         # load CSV from Cloud Storage into BigQuery
         try:
@@ -1543,7 +1541,7 @@ class GoogleBigQuery(DatabaseConnector):
                 f"Unexpected value for if_exists: {if_exists}, must be one of "
                 '"append", "drop", "truncate", or "fail"'
             )
-        if data_type not in ["csv", "json", "ndjson"]:
+        if data_type not in ["csv", "json"]:
             raise ValueError(f"Only supports csv or json files [data_type = {data_type}]")
 
     def _load_table_from_uri(

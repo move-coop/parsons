@@ -717,7 +717,7 @@ class Redshift(
         aws_access_key_id=None,
         aws_secret_access_key=None,
     ):
-        r"""
+        """
         Unload Redshift data to S3 Bucket. This is a more efficient method than running a query
         to export data as it can export in parallel and directly into an S3 bucket. Consider
         using this for exports of 10MM or more rows.

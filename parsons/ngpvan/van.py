@@ -1,4 +1,5 @@
 import logging
+from typing import Literal, Optional
 
 from parsons.ngpvan.activist_codes import ActivistCodes
 from parsons.ngpvan.bulk_import import BulkImport
@@ -54,19 +55,17 @@ class VAN(
     `Args:`
         api_key : str
             A valid api key Not required if ``VAN_API_KEY`` env variable set.
-        auth_name: str
-            Should not pass this argument
         db: str
             One of ``MyVoters``, ``MyMembers``, ``MyCampaign``, or ``EveryAction``
-        uri: str
-            Base uri to make api calls.
-        raise_for_status: boolean
-            Raise excection when encountering a 4XX or 500 error.
     `Returns:`
         VAN object
     """
 
-    def __init__(self, api_key=None, auth_name="default", db=None, raise_for_status=True):
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        db: Optional[Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"]] = None,
+    ):
         self.connection = VANConnector(api_key=api_key, db=db)
         self.api_key = api_key
         self.db = db

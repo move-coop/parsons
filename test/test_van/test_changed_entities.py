@@ -10,7 +10,7 @@ from test.utils import assert_matching_tables
 
 class TestNGPVAN(unittest.TestCase):
     def setUp(self):
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
+        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
 
     @requests_mock.Mocker()
     def test_get_changed_entity_resources(self, m):

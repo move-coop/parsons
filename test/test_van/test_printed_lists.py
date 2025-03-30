@@ -9,7 +9,7 @@ from test.test_van.responses_printed_lists import list_json, single_list_json
 
 class TestSavedLists(unittest.TestCase):
     def setUp(self):
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
+        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
 
     @requests_mock.Mocker()
     def test_get_printed_lists(self, m):

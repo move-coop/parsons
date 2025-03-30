@@ -146,7 +146,7 @@ class NationBuilder:
 
         url = f"people/{person_id}"
         response = self.client.put_request(url, data=json.dumps({"person": person}))
-        response = cast(Dict[str, Any], response)
+        response = cast("Dict[str, Any]", response)
 
         return response
 

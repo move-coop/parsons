@@ -12,7 +12,7 @@ os.environ["VAN_API_KEY"] = "SOME_KEY"
 
 class TestNGPVAN(unittest.TestCase):
     def setUp(self):
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
+        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
 
     @requests_mock.Mocker()
     def test_create_contact_note(self, m):

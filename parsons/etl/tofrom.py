@@ -138,3 +138,18 @@ class ToFrom(object):
             Parsons Table
         """
         return cls(pd.read_json(local_path, **kwargs))
+
+    @classmethod
+    def from_html(cls, local_path, **kwargs):
+        """
+        Create a `parsons table` from an HTML file.
+
+        `Args:`
+            local_path: str
+                A HTML formatted local path.
+            **kwargs: dict
+                Additional arguments for pandas.read_html.
+        `Returns:`
+            Parsons Table
+        """
+        return cls(pd.read_html(local_path, **kwargs)[0])

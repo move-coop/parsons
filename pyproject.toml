@@ -1,9 +1,7 @@
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 include = [
-    "parsons/**/*.py",
-    "test/**/*.py",
-    "useful_resources/**/*.py"
+    "**/*.py",
 ]
 exclude = [
     ".bzr",
@@ -47,7 +45,8 @@ target-version = "py39"
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
 select = [
-    "E", # pycodestyle errors
+    "E", # pycodestyle errors (E)
+    "W", # pycodestyle warnings (W)
     "F", # Pyflakes (F)
     "I", # isort (I)
     "TID", # flake8-tidy-imports (TID)
@@ -108,7 +107,8 @@ filterwarnings = [
 
 [tool.bandit]
 exclude_dirs = [
-    ".venv/"
+    ".venv/",
+    "test"
 ]
 
 [tool.isort]
@@ -116,7 +116,7 @@ profile = "hug"
 src_paths = [
     "parsons/",
     "test/",
-    "useful_resources/"
+    "useful_resources/",
 ]
 
 [tool.coverage.run]

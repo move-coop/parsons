@@ -1,7 +1,8 @@
 import os
+from typing import NoReturn, Optional, Union
 
 
-def check(env, field, optional=False):
+def check(env: str, field: Optional[str], optional: Optional[bool] = False) -> Union[str, NoReturn]:
     """
     Check if an environment variable has been set. If it has not been set
     and the passed field or arguments have not been passed, then raise an

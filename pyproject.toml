@@ -1,9 +1,7 @@
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 include = [
-    "parsons/**/*.py",
-    "test/**/*.py",
-    "useful_resources/**/*.py"
+    "**/*.py",
 ]
 exclude = [
     ".bzr",
@@ -34,12 +32,12 @@ exclude = [
     "venv",
 ]
 
-# Default line length is 88 
+# Default line length is 88
 # Changed to 100 to match previous pyproject black config
 line-length = 100
 indent-width = 4
 
-# Assume Python 3.8
+# Assume Python 3.9
 target-version = "py39"
 
 [tool.ruff.lint]
@@ -47,7 +45,8 @@ target-version = "py39"
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
 select = [
-    "E", # pycodestyle errors
+    "E", # pycodestyle errors (E)
+    "W", # pycodestyle warnings (W)
     "C4", # flake8-comprehensions (C4)
     "F", # Pyflakes (F)
     "I", # isort (I)
@@ -109,7 +108,8 @@ filterwarnings = [
 
 [tool.bandit]
 exclude_dirs = [
-    ".venv/"
+    ".venv/",
+    "test"
 ]
 
 [tool.isort]
@@ -117,7 +117,7 @@ profile = "hug"
 src_paths = [
     "parsons/",
     "test/",
-    "useful_resources/"
+    "useful_resources/",
 ]
 
 [tool.coverage.run]

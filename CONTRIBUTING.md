@@ -8,10 +8,10 @@ The best way to get involved is by joining our Slack. To join, email <engineerin
 
 You can contribute by:
 
-* [submitting issues](https://www.parsonsproject.org/pub/contributing-guide#submitting-issues)
-* [contributing code](https://www.parsonsproject.org/pub/contributing-guide/)
-* [updating our documentation](https://www.parsonsproject.org/pub/updating-documentation/)
-* [teaching and mentoring](https://www.parsonsproject.org/pub/contributing-guide#teaching-and-mentoring)
-* [helping "triage" issues and review pull requests](https://www.parsonsproject.org/pub/contributing-guide#maintainer-tasks)
+- [submitting issues](https://www.parsonsproject.org/pub/contributing-guide#submitting-issues)
+- [contributing code](https://www.parsonsproject.org/pub/contributing-guide/)
+- [updating our documentation](https://www.parsonsproject.org/pub/updating-documentation/)
+- [teaching and mentoring](https://www.parsonsproject.org/pub/contributing-guide#teaching-and-mentoring)
+- [helping "triage" issues and review pull requests](https://www.parsonsproject.org/pub/contributing-guide#maintainer-tasks)
 
 If you're not sure how to get started, please ask for help! We're happy to chat and help you find the best way to get involved.

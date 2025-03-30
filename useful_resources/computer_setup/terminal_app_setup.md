@@ -1,10 +1,10 @@
 # Setting Up Your Terminal
+
 MacOS only
 
 ## Overview
 
 These are some ways to make your terminal app more informative.
-
 
 ## Create A .bash_profile File
 
@@ -12,21 +12,21 @@ These are some ways to make your terminal app more informative.
 
 This is often referred to as a _configuration script_. It can contain variable
 declarations, export variables, and commands to be executed when you start up
-your Terminal[*][ref1]. One common use case is store your API keys and tokens so
+your Terminal[\*][ref1]. One common use case is store your API keys and tokens so
 that you **never** need to hard-code credentials in your scripts. All Parsons
 classes that require credentials allow you to set environment variables.
 
 ### Create a .bash_profile file
 
 Using the Terminal:
-1. Open the **Terminal** app 2. Type `echo # "hello bash_profile" >>
-~/.bash_profile`
+
+1. Open the **Terminal** app 2. Type `echo # "hello bash_profile" >> ~/.bash_profile`
 
 Using a text editor:
-1. Open a text editor (e.g. Atom, Sublime)
-2. Type `# hello bash_profile`
-3. Save to `~/.bash_profile`
 
+1. Open a text editor (e.g. Atom, Sublime)
+1. Type `# hello bash_profile`
+1. Save to `~/.bash_profile`
 
 ## Add Branch Name To Prompt
 
@@ -43,6 +43,5 @@ parse_git_branch() {
 
 export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
 ```
-
 
 [ref1]: https://www.quora.com/What-is-bash_profile-and-what-is-its-use#__w2_wgb5qZxj32_link

@@ -718,7 +718,7 @@ class Redshift(
         aws_access_key_id=None,
         aws_secret_access_key=None,
     ):
-        """
+        r"""
         Unload Redshift data to S3 Bucket. This is a more efficient method than running a query
         to export data as it can export in parallel and directly into an S3 bucket. Consider
         using this for exports of 10MM or more rows.
@@ -975,7 +975,7 @@ class Redshift(
         sortkey=None,
         **copy_args,
     ):
-        """
+        r"""
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
 
@@ -1007,7 +1007,7 @@ class Redshift(
                 The column name of the distkey. If not provided, will default to ``primary_key``.
             sortkey: str or list
                 The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
-            \**copy_args: kwargs
+            **copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy` for options.
         """
 

@@ -69,3 +69,9 @@ Below are the required and optional arguments utilizing Google Cloud Storage as 
       - No
       - Defaults is 60 minutes.
 
+.. _dbt:
+=============
+dbt Utilities
+=============
+.. autoclass:: parsons.utilities.dbt
+   :inherited-members:

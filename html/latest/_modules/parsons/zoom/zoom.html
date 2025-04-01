@@ -163,22 +163,22 @@
 <span class="c1">##########</span>
 
 
-<div class="viewcode-block" id="Zoom">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Zoom</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Instantiate the Zoom class.</span>
-
-<span class="sd">    `Args:`</span>
-<span class="sd">        api_key: str</span>
-<span class="sd">            A valid Zoom api key. Not required if ``ZOOM_API_KEY`` env</span>
-<span class="sd">            variable set.</span>
-<span class="sd">        api_secret: str</span>
-<span class="sd">            A valid Zoom api secret. Not required if ``ZOOM_API_SECRET`` env</span>
-<span class="sd">            variable set.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
+<span class="k">class</span><span class="w"> </span><span class="nc">ZoomV1</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instantiate the Zoom class.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            account_id: str</span>
+<span class="sd">                A valid Zoom account id. Not required if ``ZOOM_ACCOUNT_ID`` env</span>
+<span class="sd">                variable set.</span>
+<span class="sd">            client_id: str</span>
+<span class="sd">                A valid Zoom client id. Not required if ``ZOOM_CLIENT_ID`` env</span>
+<span class="sd">                variable set.</span>
+<span class="sd">            client_secret: str</span>
+<span class="sd">                A valid Zoom client secret. Not required if `ZOOM_CLIENT_SECRET` env</span>
+<span class="sd">                variable set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">account_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ZOOM_ACCOUNT_ID&quot;</span><span class="p">,</span> <span class="n">account_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ZOOM_CLIENT_ID&quot;</span><span class="p">,</span> <span class="n">client_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__client_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ZOOM_CLIENT_SECRET&quot;</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
@@ -209,6 +209,12 @@
 <span class="sd">        `Returns`:</span>
 <span class="sd">            Parsons Table of API responses</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;This version of the Zoom connector uses a deprecated pagination method.&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Consider switching to V2!&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html&quot;</span>
+        <span class="p">)</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">data_key</span> <span class="o">=</span> <span class="n">data_key</span>
@@ -292,8 +298,6 @@
 
         <span class="k">return</span> <span class="n">tbl</span>
 
-<div class="viewcode-block" id="Zoom.get_users">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_users">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;active&quot;</span><span class="p">,</span> <span class="n">role_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get users.</span>
@@ -314,13 +318,10 @@
 
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">,</span> <span class="s2">&quot;role_id&quot;</span><span class="p">:</span> <span class="n">role_id</span><span class="p">}</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> users.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">tbl</span></div>
+        <span class="k">return</span> <span class="n">tbl</span>
 
-
-<div class="viewcode-block" id="Zoom.get_meetings">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meetings">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_meetings</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">user_id</span><span class="p">,</span>
@@ -369,11 +370,8 @@
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;users/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/meetings&quot;</span><span class="p">,</span> <span class="s2">&quot;meetings&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> meetings.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">tbl</span></div>
+        <span class="k">return</span> <span class="n">tbl</span>
 
-
-<div class="viewcode-block" id="Zoom.get_past_meeting">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_meeting">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_uuid</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata regarding a past meeting.</span>
@@ -388,11 +386,8 @@
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;past_meetings/</span><span class="si">{</span><span class="n">meeting_uuid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved meeting </span><span class="si">{</span><span class="n">meeting_uuid</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">tbl</span></div>
+        <span class="k">return</span> <span class="n">tbl</span>
 
-
-<div class="viewcode-block" id="Zoom.get_past_meeting_participants">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_meeting_participants">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants.</span>
@@ -407,11 +402,8 @@
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;report/meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/participants&quot;</span><span class="p">,</span> <span class="s2">&quot;participants&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> participants.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">tbl</span></div>
+        <span class="k">return</span> <span class="n">tbl</span>
 
-
-<div class="viewcode-block" id="Zoom.get_meeting_registrants">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meeting_registrants">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_registrants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get meeting registrants.</span>
@@ -426,11 +418,8 @@
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/registrants&quot;</span><span class="p">,</span> <span class="s2">&quot;registrants&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> registrants.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">tbl</span></div>
+        <span class="k">return</span> <span class="n">tbl</span>
 
-
-<div class="viewcode-block" id="Zoom.get_user_webinars">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_user_webinars">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_user_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get meeting registrants.</span>
@@ -445,11 +434,8 @@
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;users/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/webinars&quot;</span><span class="p">,</span> <span class="s2">&quot;webinars&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinars.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">tbl</span></div>
+        <span class="k">return</span> <span class="n">tbl</span>
 
-
-<div class="viewcode-block" id="Zoom.get_past_webinar_report">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_webinar_report">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants</span>
@@ -464,12 +450,9 @@
 
         <span class="n">dic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;report/webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dic</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved webinar report for webinar: </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">dic</span></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved webinar_report for webinar: </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dic</span>
 
-
-<div class="viewcode-block" id="Zoom.get_past_webinar_participants">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_webinar_participants">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants</span>
@@ -484,11 +467,8 @@
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;report/webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/participants&quot;</span><span class="p">,</span> <span class="s2">&quot;participants&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinar participants.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">tbl</span></div>
+        <span class="k">return</span> <span class="n">tbl</span>
 
-
-<div class="viewcode-block" id="Zoom.get_webinar_registrants">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_webinar_registrants">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_registrants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants</span>
@@ -503,11 +483,8 @@
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/registrants&quot;</span><span class="p">,</span> <span class="s2">&quot;registrants&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinar registrants.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">tbl</span></div>
+        <span class="k">return</span> <span class="n">tbl</span>
 
-
-<div class="viewcode-block" id="Zoom.get_meeting_poll_metadata">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meeting_poll_metadata">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata about a specific poll for a given meeting ID</span>
@@ -539,11 +516,8 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unnesting columns &#39;prompts&#39; from existing table columns: </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;prompts&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">tbl</span></div>
+            <span class="k">return</span> <span class="n">tbl</span>
 
-
-<div class="viewcode-block" id="Zoom.get_meeting_all_polls_metadata">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meeting_all_polls_metadata">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata for all polls for a given meeting ID</span>
@@ -567,11 +541,8 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="Zoom.get_past_meeting_poll_metadata">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_meeting_poll_metadata">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List poll metadata of a past meeting.</span>
@@ -598,11 +569,8 @@
             <span class="sa">f</span><span class="s2">&quot;Unnesting columns &#39;question_details&#39; from existing table columns: </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;question_details&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;question_details&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="Zoom.get_webinar_poll_metadata">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_webinar_poll_metadata">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata for a specific poll for a given webinar ID</span>
@@ -630,11 +598,8 @@
             <span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows of metadata [meeting=</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2"> poll=</span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">]&quot;</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;prompts&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;prompts&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="Zoom.get_webinar_all_polls_metadata">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_webinar_all_polls_metadata">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata for all polls for a given webinar ID</span>
@@ -658,11 +623,8 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for meeting ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="Zoom.get_past_webinar_poll_metadata">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_webinar_poll_metadata">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the metadata for Webinar Polls of a specific Webinar</span>
@@ -686,11 +648,8 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for meeting ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;question_details&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;question_details&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="Zoom.get_meeting_poll_results">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meeting_poll_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a report of poll results for a past meeting</span>
@@ -707,11 +666,8 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> reults for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__process_poll_results</span><span class="p">(</span><span class="n">tbl</span><span class="o">=</span><span class="n">tbl</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__process_poll_results</span><span class="p">(</span><span class="n">tbl</span><span class="o">=</span><span class="n">tbl</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="Zoom.get_webinar_poll_results">
-<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_webinar_poll_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a report of poll results for a past webinar</span>
@@ -728,8 +684,362 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> reults for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__process_poll_results</span><span class="p">(</span><span class="n">tbl</span><span class="o">=</span><span class="n">tbl</span><span class="p">)</span></div>
-</div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__process_poll_results</span><span class="p">(</span><span class="n">tbl</span><span class="o">=</span><span class="n">tbl</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ZoomV2</span><span class="p">(</span><span class="n">ZoomV1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Version 2 implementation of a Parsons connector. Designed to involve minimal</span>
+<span class="sd">    transformation logic and clearer naming conventions.</span>
+
+<span class="sd">    Inherits the following methods from version 1:</span>
+<span class="sd">    - get_users</span>
+<span class="sd">    - get_meetings</span>
+<span class="sd">    - get_past_meeting</span>
+<span class="sd">    - get_meeting_registrants</span>
+<span class="sd">    - get_past_webinar_report</span>
+<span class="sd">    - get_webinar_registrants</span>
+
+<span class="sd">    Overwrites the following methods from version 1:</span>
+<span class="sd">    - get_past_meeting_participants</span>
+<span class="sd">    - get_past_webinar_participants</span>
+
+<span class="sd">    Renames/refactors the following methods (and raises error if original function called):</span>
+<span class="sd">    - get_user_webinars</span>
+<span class="sd">    - get_meeting_poll_metadata</span>
+<span class="sd">    - get_meeting_all_polls_metadata</span>
+<span class="sd">    - get_past_meeting_poll_metadata</span>
+<span class="sd">    - get_webinar_poll_metadata</span>
+<span class="sd">    - get_webinar_all_polls_metadata</span>
+<span class="sd">    - get_past_webinar_poll_metadata</span>
+<span class="sd">    - get_meeting_poll_results</span>
+<span class="sd">    - get_webinar_poll_results</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ZoomV1 (cls): version 1 Zoom connector class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args`:</span>
+<span class="sd">            endpoint: str</span>
+<span class="sd">                API endpoint to send GET request</span>
+<span class="sd">            data_key: str</span>
+<span class="sd">                Unique value to use to parse through nested data</span>
+<span class="sd">                (akin to a primary key in response JSON)</span>
+<span class="sd">            params: dict</span>
+<span class="sd">                Additional request parameters, defaults to None</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;page_size&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">data_key</span> <span class="o">=</span> <span class="n">data_key</span>
+        <span class="n">next_page_token</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">has_more_pages</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">while</span> <span class="n">has_more_pages</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">next_page_token</span><span class="p">:</span>
+                <span class="n">params</span><span class="p">[</span><span class="s2">&quot;next_page_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">next_page_token</span>
+
+            <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">parsed_resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">data_parse</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parsed_resp</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">parsed_resp</span> <span class="o">=</span> <span class="p">[</span><span class="n">parsed_resp</span><span class="p">]</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parsed_resp</span><span class="p">)</span>
+
+            <span class="n">next_page_token</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;next_page_token&quot;</span><span class="p">)</span>
+            <span class="n">has_more_pages</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">next_page_token</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get webinars scheduled by or on behalf of a webinar host.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            user_id: str</span>
+<span class="sd">                The user id</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;users/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/webinars&quot;</span><span class="p">,</span> <span class="s2">&quot;webinars&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinars.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">&quot;Method get_user_webinars has been deprecated in favor of get_webinars&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get past meeting participants.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            meeting_id: int</span>
+<span class="sd">                The meeting id</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;past_meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/participants&quot;</span><span class="p">,</span> <span class="s2">&quot;participants&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> participants.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get past webinar participants.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            webinar_id: int</span>
+<span class="sd">                The webinar id</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;past_webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/participants&quot;</span><span class="p">,</span> <span class="s2">&quot;participants&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> participants.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get information about a single poll for a given meeting ID.</span>
+<span class="sd">        The returned data is identical to get_meeting_polls.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            meeting_id: int</span>
+<span class="sd">                Unique identifier for Zoom meeting</span>
+<span class="sd">            poll_id: str</span>
+<span class="sd">                Unique identifier for Zoom poll</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/polls/</span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> for [poll </span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">, meeting </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">&quot;Method get_meeting_poll_metadata is deprecated in favor of get_meeting_poll&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_polls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get information about all polls for a given meeting ID.</span>
+<span class="sd">        The returned data is identical to get_meeting_poll but for</span>
+<span class="sd">        all polls in the meeting.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            meeting_id: int</span>
+<span class="sd">                Unique identifier for Zoom meeting</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;polls&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> meeting polls for meeting </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">&quot;Method get_meeting_all_polls_metadata is deprecated in favor of get_meeting_polls&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get results for all polls for a given past meeting ID</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            meeting_id: int</span>
+<span class="sd">                Unique identifier for Zoom meeting</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;past_meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> meeting poll results&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">&quot;Method get_past_meeting_poll_metadata is deprecated in favor of get_past_meeting_poll_results&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get information about a single poll for a given webinar ID.</span>
+<span class="sd">        The returned data is identical to get_webinar_polls.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            webinar_id: int</span>
+<span class="sd">                Unique identifier for Zoom webinar</span>
+<span class="sd">            poll_id: str</span>
+<span class="sd">                Unique identifier for Zoom poll</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/polls/</span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> for [poll </span><span class="si">{</span><span class="n">poll_id</span><span class="si">}</span><span class="s2">, webinar </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">&quot;Method get_webinar_poll_metadata is deprecated in favor of get_webinar_poll&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_polls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get information for all polls for a given webinar ID</span>
+<span class="sd">        The returned data is identical to get_webinar_poll but includes</span>
+<span class="sd">        all polls in the webinar</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            webinar_id: str</span>
+<span class="sd">                Unique identifier for Zoom webinar</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;polls&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> polls for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">&quot;Method get_webinar_all_polls_metadata is deprecated in favor of get_webinar_polls&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get results for all polls for a given past webinar ID</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            webinar_id: str</span>
+<span class="sd">                Unique identifier for Zoom webinar</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;past_webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> poll results for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">&quot;Method get_past_webinar_poll_metadata is deprecated in favor of get_past_webinar_poll_results&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_reports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get polls reports for a given past meeting ID</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            meeting_id: str</span>
+<span class="sd">                Unique identifier for Zoom meeting</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;report/meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> poll reports for meeting ID </span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">&quot;Method get_meeting_poll_results is deprecated in favor of get_meeting_poll_reports&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_reports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get results for all polls for a given past webinar ID</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            webinar_id: str</span>
+<span class="sd">                Unique identifier for Zoom webinar</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;report/webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/polls&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> poll reports for webinar ID </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">&quot;Method get_webinar_poll_results is deprecated in favor of get_webinar_poll_reports&quot;</span>
+        <span class="p">)</span>
+
+
+<div class="viewcode-block" id="Zoom">
+<a class="viewcode-back" href="../../../zoom.html#parsons.Zoom">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Zoom</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parsons_version</span><span class="o">=</span><span class="s2">&quot;v1&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and return Zoom instance base on chosen version (1 or 2)</span>
+
+<span class="sd">        API Documentation: https://developers.zoom.us/docs/api/</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            account_id: str</span>
+<span class="sd">                A valid Zoom account id. Not required if ``ZOOM_ACCOUNT_ID`` env</span>
+<span class="sd">                variable set.</span>
+<span class="sd">            client_id: str</span>
+<span class="sd">                A valid Zoom client id. Not required if ``ZOOM_CLIENT_ID`` env</span>
+<span class="sd">                variable set.</span>
+<span class="sd">            client_secret: str</span>
+<span class="sd">                A valid Zoom client secret. Not required if `ZOOM_CLIENT_SECRET` env</span>
+<span class="sd">                variable set.</span>
+<span class="sd">            parsons_version (str, optional): Parsons version of the Zoom connector. Defaults to v1.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parsons_version</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ZOOM_PARSONS_VERSION&quot;</span><span class="p">,</span> <span class="n">parsons_version</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">parsons_version</span> <span class="o">==</span> <span class="s2">&quot;v1&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Consider upgrading to version 2 of the Zoom connector!&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">ZoomV1</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="n">account_id</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">client_secret</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">parsons_version</span> <span class="o">==</span> <span class="s2">&quot;v2&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ZoomV2</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="n">account_id</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">client_secret</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parsons_version</span><span class="si">}</span><span class="s2"> not supported&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 

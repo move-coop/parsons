@@ -45,8 +45,10 @@ class ZoomV1:
             authorization_kwargs={"account_id": self.account_id},
         )
 
-    def _get_request(self, endpoint: str, data_key: str, params: dict = {}, **kwargs):
+    def _get_request(self, endpoint, data_key, params=None, **kwargs):
         """
+        TODO: Consider increasing default page size.
+
         `Args`:
             endpoint: str
                 API endpoint to send GET request
@@ -56,35 +58,43 @@ class ZoomV1:
             params: dict
                 Additional request parameters, defaults to None
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        `Returns`:
+            Parsons Table of API responses
         """
 
-        if not params:
-            params = {"page_size": 300}
+        logger.warning(
+            "This version of the Zoom connector uses a deprecated pagination method."
+        )
+        logger.info("Consider switching to V2!")
+        logger.info(
+            "See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html"
+        )
 
+        r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
-        next_page_token = ""
-        has_more_pages = True
-        data = []
+        data = self.client.data_parse(r)
 
-        while has_more_pages:
-            if next_page_token:
-                params["next_page_token"] = next_page_token
+        if not params:
+            params = {}
 
-            r = self.client.get_request(endpoint, params=params, **kwargs)
-            parsed_resp = self.client.data_parse(r)
-            if isinstance(parsed_resp, dict):
-                parsed_resp = [parsed_resp]
-            data.extend(parsed_resp)
+        # Return a dict or table if only one item.
+        if "page_number" not in r.keys():
+            if isinstance(data, dict):
+                return data
+            if isinstance(data, list):
+                return Table(data)
 
-            next_page_token = r.get("next_page_token")
-            has_more_pages = bool(next_page_token)
+        # Else iterate through the pages and return a Table
+        else:
+            while r["page_number"] < r["page_count"]:
+                params["page_number"] = int(r["page_number"]) + 1
+                r = self.client.get_request(endpoint, params=params, **kwargs)
+                data.extend(self.client.data_parse(r))
+            return Table(data)
 
-        return Table(data)
-
-    def __handle_nested_json(self, table: Table, column: str, version: int = 1) -> Table:
+    def __handle_nested_json(
+        self, table: Table, column: str, version: int = 1
+    ) -> Table:
         """
         This function unpacks JSON values from Zoom's API, which are often
         objects nested in lists
@@ -136,7 +146,9 @@ class ZoomV1:
         tbl.remove_column("question_details")
 
         # Unpack question values
-        tbl = tbl.unpack_dict("question_details_value", include_original=True, prepend=False)
+        tbl = tbl.unpack_dict(
+            "question_details_value", include_original=True, prepend=False
+        )
 
         # Remove column from API response
         tbl.remove_column("question_details_value")
@@ -246,7 +258,9 @@ class ZoomV1:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"report/meetings/{meeting_id}/participants", "participants")
+        tbl = self._get_request(
+            f"report/meetings/{meeting_id}/participants", "participants"
+        )
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
@@ -311,7 +325,9 @@ class ZoomV1:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"report/webinars/{webinar_id}/participants", "participants")
+        tbl = self._get_request(
+            f"report/webinars/{webinar_id}/participants", "participants"
+        )
         logger.info(f"Retrieved {tbl.num_rows} webinar participants.")
         return tbl
 
@@ -359,8 +375,12 @@ class ZoomV1:
         )
 
         if "prompts" in tbl.columns:
-            logger.info(f"Unnesting columns 'prompts' from existing table columns: {tbl.columns}")
-            return self.__handle_nested_json(table=tbl, column="prompts", version=version)
+            logger.info(
+                f"Unnesting columns 'prompts' from existing table columns: {tbl.columns}"
+            )
+            return self.__handle_nested_json(
+                table=tbl, column="prompts", version=version
+            )
         else:
             return tbl
 
@@ -415,7 +435,9 @@ class ZoomV1:
             f"Unnesting columns 'question_details' from existing table columns: {tbl.columns}"
         )
 
-        return self.__handle_nested_json(table=tbl, column="question_details", version=version)
+        return self.__handle_nested_json(
+            table=tbl, column="question_details", version=version
+        )
 
     def get_webinar_poll_metadata(self, webinar_id, poll_id, version: int = 1) -> Table:
         """
@@ -494,7 +516,9 @@ class ZoomV1:
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
 
-        return self.__handle_nested_json(table=tbl, column="question_details", version=version)
+        return self.__handle_nested_json(
+            table=tbl, column="question_details", version=version
+        )
 
     def get_meeting_poll_results(self, meeting_id) -> Table:
         """
@@ -568,6 +592,45 @@ class ZoomV2(ZoomV1):
     def __init__(self, account_id=None, client_id=None, client_secret=None):
         super().__init__(account_id, client_id, client_secret)
 
+    def _get_request(self, endpoint: str, data_key: str, params: dict = {}, **kwargs):
+        """
+        `Args`:
+            endpoint: str
+                API endpoint to send GET request
+            data_key: str
+                Unique value to use to parse through nested data
+                (akin to a primary key in response JSON)
+            params: dict
+                Additional request parameters, defaults to None
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        if not params:
+            params = {"page_size": 300}
+
+        self.client.data_key = data_key
+        next_page_token = ""
+        has_more_pages = True
+        data = []
+
+        while has_more_pages:
+            if next_page_token:
+                params["next_page_token"] = next_page_token
+
+            r = self.client.get_request(endpoint, params=params, **kwargs)
+            parsed_resp = self.client.data_parse(r)
+            if isinstance(parsed_resp, dict):
+                parsed_resp = [parsed_resp]
+            data.extend(parsed_resp)
+
+            next_page_token = r.get("next_page_token")
+            has_more_pages = bool(next_page_token)
+
+        return Table(data)
+
     def get_webinars(self, user_id: int):
         """
         Get webinars scheduled by or on behalf of a webinar host.
@@ -601,7 +664,9 @@ class ZoomV2(ZoomV1):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"past_meetings/{meeting_id}/participants", "participants")
+        tbl = self._get_request(
+            f"past_meetings/{meeting_id}/participants", "participants"
+        )
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
@@ -617,7 +682,9 @@ class ZoomV2(ZoomV1):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f"past_webinars/{webinar_id}/participants", "participants")
+        tbl = self._get_request(
+            f"past_webinars/{webinar_id}/participants", "participants"
+        )
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
@@ -639,7 +706,9 @@ class ZoomV2(ZoomV1):
 
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(f"Retrieved {tbl.num_rows} for [poll {poll_id}, meeting {meeting_id}]")
+        logger.info(
+            f"Retrieved {tbl.num_rows} for [poll {poll_id}, meeting {meeting_id}]"
+        )
         return tbl
 
     def get_meeting_poll_metadata(self, meeting_id, poll_id, version=1):
@@ -713,7 +782,9 @@ class ZoomV2(ZoomV1):
 
         endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(f"Retrieved {tbl.num_rows} for [poll {poll_id}, webinar {webinar_id}]")
+        logger.info(
+            f"Retrieved {tbl.num_rows} for [poll {poll_id}, webinar {webinar_id}]"
+        )
         return tbl
 
     def get_webinar_poll_metadata(self, webinar_id, poll_id, version=1):
@@ -761,7 +832,9 @@ class ZoomV2(ZoomV1):
 
         endpoint = f"past_webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(f"Retrieved {tbl.num_rows} poll results for webinar ID {webinar_id}")
+        logger.info(
+            f"Retrieved {tbl.num_rows} poll results for webinar ID {webinar_id}"
+        )
         return tbl
 
     def get_past_webinar_poll_metadata(self, webinar_id, version=1):
@@ -784,7 +857,9 @@ class ZoomV2(ZoomV1):
 
         endpoint = f"report/meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(f"Retrieved {tbl.num_rows} poll reports for meeting ID {meeting_id}")
+        logger.info(
+            f"Retrieved {tbl.num_rows} poll reports for meeting ID {meeting_id}"
+        )
         return tbl
 
     def get_meeting_poll_results(self, meeting_id):
@@ -807,7 +882,9 @@ class ZoomV2(ZoomV1):
 
         endpoint = f"report/webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(f"Retrieved {tbl.num_rows} poll reports for webinar ID {webinar_id}")
+        logger.info(
+            f"Retrieved {tbl.num_rows} poll reports for webinar ID {webinar_id}"
+        )
         return tbl
 
     def get_webinar_poll_results(self, webinar_id):
@@ -817,7 +894,9 @@ class ZoomV2(ZoomV1):
 
 
 class Zoom:
-    def __new__(cls, account_id=None, client_id=None, client_secret=None, parsons_version="v1"):
+    def __new__(
+        cls, account_id=None, client_id=None, client_secret=None, parsons_version="v1"
+    ):
         """
         Create and return Zoom instance base on chosen version (1 or 2)
 
@@ -841,7 +920,11 @@ class Zoom:
             logger.info(
                 "See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html"
             )
-            return ZoomV1(account_id=account_id, client_id=client_id, client_secret=client_secret)
+            return ZoomV1(
+                account_id=account_id, client_id=client_id, client_secret=client_secret
+            )
         if parsons_version == "v2":
-            return ZoomV2(account_id=account_id, client_id=client_id, client_secret=client_secret)
+            return ZoomV2(
+                account_id=account_id, client_id=client_id, client_secret=client_secret
+            )
         raise ValueError(f"{parsons_version} not supported")

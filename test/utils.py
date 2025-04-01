@@ -38,18 +38,12 @@ def assert_matching_tables(table1, table2, ignore_headers=False):
     if isinstance(data1, Table) and isinstance(data2, Table):
         assert data1.num_rows == data2.num_rows
 
-    print(f"data1: {data1}")
-    print(f"data1 type: {type(data1)}")
-    print(f"data2: {data2}")
-    print(f"data2 type: {type(data2)}")
     for r1, r2 in zip(data1, data2):
         # Cast both rows to lists, in case they are different types of collections. Must call
         # .items() on dicts to compare content of collections
         if isinstance(r1, dict):
             r1 = r1.items()
-        print(f"Table 1: {r1}")
         if isinstance(r2, dict):
             r2 = r2.items()
-        print(f"Table 2: {r2}")
 
         assert list(r1) == list(r2)

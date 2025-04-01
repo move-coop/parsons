@@ -45,10 +45,8 @@ class ZoomV1:
             authorization_kwargs={"account_id": self.account_id},
         )
 
-    def _get_request(self, endpoint, data_key, params=None, **kwargs):
+    def _get_request(self, endpoint: str, data_key: str, params: dict = {}, **kwargs):
         """
-        TODO: Consider increasing default page size.
-
         `Args`:
             endpoint: str
                 API endpoint to send GET request
@@ -58,31 +56,33 @@ class ZoomV1:
             params: dict
                 Additional request parameters, defaults to None
 
-        `Returns`:
-            Parsons Table of API responses
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
-        r = self.client.get_request(endpoint, params=params, **kwargs)
-        self.client.data_key = data_key
-        data = self.client.data_parse(r)
-
         if not params:
-            params = {}
+            params = {"page_size": 300}
 
-        # Return a dict or table if only one item.
-        if "page_number" not in r.keys():
-            if isinstance(data, dict):
-                return data
-            if isinstance(data, list):
-                return Table(data)
+        self.client.data_key = data_key
+        next_page_token = ""
+        has_more_pages = True
+        data = []
 
-        # Else iterate through the pages and return a Table
-        else:
-            while r["page_number"] < r["page_count"]:
-                params["page_number"] = int(r["page_number"]) + 1
-                r = self.client.get_request(endpoint, params=params, **kwargs)
-                data.extend(self.client.data_parse(r))
-            return Table(data)
+        while has_more_pages:
+            if next_page_token:
+                params["next_page_token"] = next_page_token
+
+            r = self.client.get_request(endpoint, params=params, **kwargs)
+            parsed_resp = self.client.data_parse(r)
+            if isinstance(parsed_resp, dict):
+                parsed_resp = [parsed_resp]
+            data.extend(parsed_resp)
+
+            next_page_token = r.get("next_page_token")
+            has_more_pages = bool(next_page_token)
+
+        return Table(data)
 
     def __handle_nested_json(self, table: Table, column: str, version: int = 1) -> Table:
         """
@@ -568,45 +568,6 @@ class ZoomV2(ZoomV1):
     def __init__(self, account_id=None, client_id=None, client_secret=None):
         super().__init__(account_id, client_id, client_secret)
 
-    def _get_request(self, endpoint: str, data_key: str, params: dict = {}, **kwargs):
-        """
-        `Args`:
-            endpoint: str
-                API endpoint to send GET request
-            data_key: str
-                Unique value to use to parse through nested data
-                (akin to a primary key in response JSON)
-            params: dict
-                Additional request parameters, defaults to None
-
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
-
-        if not params:
-            params = {"page_size": 300}
-
-        self.client.data_key = data_key
-        next_page_token = ""
-        data = []
-
-        while True:
-            if next_page_token:
-                params["next_page_token"] = next_page_token
-
-            r = self.client.get_request(endpoint, params=params, **kwargs)
-            parsed_resp = self.client.data_parse(r)
-            if isinstance(parsed_resp, dict):
-                parsed_resp = [parsed_resp]
-            data.extend(parsed_resp)
-
-            next_page_token = r.get("next_page_token")
-            if not next_page_token:
-                break
-
-        return Table(data)
-
     def get_webinars(self, user_id: int):
         """
         Get webinars scheduled by or on behalf of a webinar host.
@@ -876,6 +837,10 @@ class Zoom:
         """
         parsons_version = check_env.check("ZOOM_PARSONS_VERSION", parsons_version)
         if parsons_version == "v1":
+            logger.info("Consider upgrading to version 2 of the Zoom connector!")
+            logger.info(
+                "See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html"
+            )
             return ZoomV1(account_id=account_id, client_id=client_id, client_secret=client_secret)
         if parsons_version == "v2":
             return ZoomV2(account_id=account_id, client_id=client_id, client_secret=client_secret)

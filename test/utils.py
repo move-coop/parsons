@@ -43,9 +43,9 @@ def assert_matching_tables(table1, table2, ignore_headers=False):
         # .items() on dicts to compare content of collections
         if isinstance(r1, dict):
             r1 = r1.items()
-            print(f"Table 1: {r1}")
+        print(f"Table 1: {r1}")
         if isinstance(r2, dict):
             r2 = r2.items()
-            print(f"Table 2: {r2}")
+        print(f"Table 2: {r2}")
 
         assert list(r1) == list(r2)

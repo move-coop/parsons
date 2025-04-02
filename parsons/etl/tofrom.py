@@ -836,7 +836,7 @@ class ToFrom(object):
 
     @classmethod
     def from_avro(cls, local_path, limit=None, skips=0, **avro_args):
-        """
+        r"""
         Create a ``parsons table`` from an Avro file.
 
         `Args:`

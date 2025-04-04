@@ -1,11 +1,12 @@
 import logging
 import os
+import tempfile
 import uuid
 from typing import Optional, Union
 
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload
+from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 
 from parsons.google.utilities import (
     load_google_application_credentials,
@@ -129,6 +130,17 @@ class GoogleDrive:
             self.client.files().delete(
                 fileId=drive_file.get("id"),
             ).execute()
+
+    def download_file(self, file_id: str) -> str:
+        """Download file from Drive to disk. Returns local filepath."""
+        filepath = tempfile.mkstemp()[1]
+        done = False
+
+        with open(filepath, "wb") as file:
+            downloader = MediaIoBaseDownload(file, self.client.files().get_media(fileId=file_id))
+            while not done:
+                status, done = downloader.next_chunk()
+        return filepath
 
     def upload_file(self, file_path: str, parent_folder_id: str) -> str:
         file_metadata = {

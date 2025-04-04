@@ -115,6 +115,8 @@ class GoogleDrive:
                     spaces="drive",
                     fields="nextPageToken, files({})".format(",".join(fields)),
                     pageToken=page_token,
+                    supportsTeamDrives=True,
+                    includeItemsFromAllDrives=True,
                 )
                 .execute()
             )

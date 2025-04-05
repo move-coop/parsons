@@ -57,8 +57,8 @@ class GoogleSheets:
             idx = self.list_worksheets(spreadsheet_id).index(worksheet)
             try:
                 return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(idx)
-            except:  # noqa: E722
-                raise ValueError(f"Couldn't find worksheet {worksheet}")
+            except Exception as e:  # noqa: E722
+                raise ValueError(f"Couldn't find worksheet {worksheet}") from e
 
         else:
             raise ValueError(f"Couldn't find worksheet index or title {worksheet}")
@@ -288,7 +288,7 @@ class GoogleSheets:
 
         cells = []
         for row_num, row in enumerate(table.data):
-            for col_num, cell in enumerate(row):
+            for col_num, _cell in enumerate(row):
                 # Add 2 to allow for the header row, and for google sheets indexing starting at 1
                 sheet_row_num = existing_table.num_rows + row_num + 2
                 cells.append(gspread.Cell(sheet_row_num, col_num + 1, row[col_num]))

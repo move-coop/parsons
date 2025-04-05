@@ -1254,7 +1254,7 @@ class ActionNetwork(object):
             mobile_numbers_field = [{"number": str(mobile_number)}]
         elif isinstance(mobile_number, list):
             if len(mobile_number) > 1:
-                raise ("Action Network allows only 1 phone number per activist")
+                raise Exception("Action Network allows only 1 phone number per activist")
             if isinstance(mobile_number[0], list):
                 mobile_numbers_field = [
                     {"number": re.sub("[^0-9]", "", cell)} for cell in mobile_number
@@ -1276,7 +1276,7 @@ class ActionNetwork(object):
             mobile_numbers_field = mobile_number
 
         if not email_addresses_field and not mobile_numbers_field:
-            raise (
+            raise Exception(
                 "Either email_address or mobile_number is required and can be formatted "
                 "as a string, list of strings, a dictionary, a list of dictionaries, or "
                 "(for mobile_number only) an integer or list of integers"

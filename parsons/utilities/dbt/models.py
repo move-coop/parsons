@@ -28,7 +28,7 @@ class Manifest:
         filtered_results = [
             result
             for result in self.dbt_manifest
-            if all([str(getattr(result, key)) == value for key, value in kwargs.items()])
+            if all(str(getattr(result, key)) == value for key, value in kwargs.items())
         ]
         return filtered_results
 

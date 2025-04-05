@@ -5,7 +5,6 @@ Install dependencies with `pip install parsons[catalist]`
 
 import base64
 import logging
-import os
 import tempfile
 import time
 import urllib
@@ -380,15 +379,15 @@ class CatalistMatch:
         with ZipFile(temp_file_zip) as zf:
             zf.extractall(path=temp_dir)
 
-        filepath = os.listdir(temp_dir)[0]
+        filepath = next(Path(temp_dir).iterdir())
 
-        result = Table.from_csv(Path(temp_dir) / filepath, delimiter="\t")
+        result = Table.from_csv(str(filepath), delimiter="\t")
         return result
 
     def validate_table(self, table: Table, template_id: str = "48827") -> None:
         """Validate table structure and contents."""
         if not template_id == "48827":
-            logger.warn(f"No validator implemented for template {template_id}.")
+            logger.warning(f"No validator implemented for template {template_id}.")
             return
 
         expected_table_columns = [

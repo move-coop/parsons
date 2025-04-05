@@ -40,7 +40,7 @@ def mock_miscellaneous(mocker) -> Generator[MagicMock, None, None]:
     magic_mock = MagicMock()
 
     mocker.patch("parsons.catalist.catalist.ZipFile", new=magic_mock)
-    mocker.patch("parsons.catalist.catalist.os", new=magic_mock)
+    mocker.patch("parsons.catalist.catalist.Path", new=magic_mock)
     mocker.patch("parsons.catalist.catalist.Table", new=magic_mock)
 
     yield mocker

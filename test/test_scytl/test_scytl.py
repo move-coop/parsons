@@ -1,5 +1,4 @@
 import csv
-import os
 import unittest
 from pathlib import Path
 
@@ -198,9 +197,9 @@ class TestScytl(unittest.TestCase):
             text=(_DIR / "GA_114729_296262_county_election_settings.json").read_text(),
         )
 
-        for file in os.listdir(_DIR / "mock_responses"):
-            file_url = f"https://results.enr.clarityelections.com/{file}".replace("_", "/")
-            m.get(file_url, content=Path(_DIR / "mock_responses" / file).read_bytes())
+        for file in (_DIR / "mock_responses").iterdir():
+            file_url = f"https://results.enr.clarityelections.com/{file.name}".replace("_", "/")
+            m.get(file_url, content=file.read_bytes())
 
         mock_summary_csv_url = scytl.SUMMARY_CSV_ZIP_URL_TEMPLATE.format(
             administrator=TEST_STATE,

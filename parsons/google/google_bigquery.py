@@ -849,7 +849,7 @@ class GoogleBigQuery(DatabaseConnector):
         )
 
         tmpfile_path = tbl.to_csv()
-        with open(tmpfile_path, mode="rb") as tmpfile:
+        with Path(tmpfile_path).open(mode="rb") as tmpfile:
             load_job = self.client.load_table_from_file(
                 tmpfile,
                 destination=self.get_table_ref(table_name=table_name),

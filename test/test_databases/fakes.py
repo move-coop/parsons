@@ -77,7 +77,7 @@ class FakeTable:
         if primary_key not in self.data.columns:
             return True
 
-        pk_values = [val for val in self.data[primary_key]]
+        pk_values = list(self.data[primary_key])
         pk_set = set(pk_values)
         return len(pk_set) == len(pk_values)
 

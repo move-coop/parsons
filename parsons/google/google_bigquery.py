@@ -976,7 +976,7 @@ class GoogleBigQuery(DatabaseConnector):
             if "dict" in field["type"] or "list" in field["type"]:
                 new_petl = tbl.table.addfield(
                     field["name"] + "_replace",
-                    lambda row: json.dumps(row[field["name"]]),
+                    lambda row, field=field: json.dumps(row[field["name"]]),
                 )
                 new_tbl = Table(new_petl)
                 new_tbl.remove_column(field["name"])

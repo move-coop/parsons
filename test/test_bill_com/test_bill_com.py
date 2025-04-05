@@ -176,19 +176,16 @@ class TestBillCom(unittest.TestCase):
         ]
 
     def test_init(self):
-        self.assertEqual(self.bc.session_id, "FAKE")
+        assert self.bc.session_id == "FAKE"
 
     def test_get_payload(self):
         fake_json = {"fake_key": "fake_data"}
         payload = self.bc._get_payload(fake_json)
-        self.assertEqual(
-            payload,
-            {
-                "devKey": self.bc.dev_key,
-                "sessionId": self.bc.session_id,
-                "data": json.dumps(fake_json),
-            },
-        )
+        assert payload == {
+            "devKey": self.bc.dev_key,
+            "sessionId": self.bc.session_id,
+            "data": json.dumps(fake_json),
+        }
 
     @requests_mock.Mocker()
     def test_post_request(self, m):
@@ -197,10 +194,7 @@ class TestBillCom(unittest.TestCase):
             self.api_url + "Crud/Read/Customer.json",
             text=json.dumps(self.fake_customer_read_json),
         )
-        self.assertEqual(
-            self.bc._post_request(data, "Read", "Customer"),
-            self.fake_customer_read_json,
-        )
+        assert self.bc._post_request(data, "Read", "Customer") == self.fake_customer_read_json
 
     def paginate_callback(self, request, context):
         # Internal method for simulating pagination
@@ -241,9 +235,9 @@ class TestBillCom(unittest.TestCase):
             self.api_url + "Crud/Read/Customer.json",
             text=json.dumps(self.fake_customer_read_json),
         )
-        self.assertEqual(
-            self.bc._get_request_response(data, "Read", "Customer", "response_data"),
-            self.fake_customer_read_json["response_data"],
+        assert (
+            self.bc._get_request_response(data, "Read", "Customer", "response_data")
+            == self.fake_customer_read_json["response_data"]
         )
 
     @requests_mock.Mocker()
@@ -274,9 +268,9 @@ class TestBillCom(unittest.TestCase):
             self.api_url + "Crud/Read/Customer.json",
             text=json.dumps(self.fake_customer_read_json),
         )
-        self.assertEqual(
-            self.bc.read_customer("fake_customer_id"),
-            self.fake_customer_read_json["response_data"],
+        assert (
+            self.bc.read_customer("fake_customer_id")
+            == self.fake_customer_read_json["response_data"]
         )
 
     @requests_mock.Mocker()
@@ -285,29 +279,20 @@ class TestBillCom(unittest.TestCase):
             self.api_url + "Crud/Read/Invoice.json",
             text=json.dumps(self.fake_invoice_read_json),
         )
-        self.assertEqual(
-            self.bc.read_invoice("fake_invoice_id"),
-            self.fake_invoice_read_json["response_data"],
+        assert (
+            self.bc.read_invoice("fake_invoice_id") == self.fake_invoice_read_json["response_data"]
         )
 
     def test_check_customer(self):
-        self.assertTrue(
-            self.bc.check_customer({"id": "fake_customer_id"}, {"id": "fake_customer_id"})
+        assert self.bc.check_customer({"id": "fake_customer_id"}, {"id": "fake_customer_id"})
+        assert self.bc.check_customer(
+            {"email": "fake_email@fake_email.com"},
+            {"id": "fake_customer_id", "email": "fake_email@fake_email.com"},
         )
-        self.assertTrue(
-            self.bc.check_customer(
-                {"email": "fake_email@fake_email.com"},
-                {"id": "fake_customer_id", "email": "fake_email@fake_email.com"},
-            )
-        )
-        self.assertFalse(
-            self.bc.check_customer({"id": "fake_customer_id1"}, {"id": "fake_customer_id2"})
-        )
-        self.assertFalse(
-            self.bc.check_customer(
-                {"email": "fake_email1@fake_email.com"},
-                {"id": "fake_customer_id2", "email": "fake_email2@fake_email.com"},
-            )
+        assert not self.bc.check_customer({"id": "fake_customer_id1"}, {"id": "fake_customer_id2"})
+        assert not self.bc.check_customer(
+            {"email": "fake_email1@fake_email.com"},
+            {"id": "fake_customer_id2", "email": "fake_email2@fake_email.com"},
         )
 
     @requests_mock.Mocker()
@@ -320,9 +305,9 @@ class TestBillCom(unittest.TestCase):
             self.api_url + "Crud/Create/Customer.json",
             text=json.dumps(self.fake_customer_read_json),
         )
-        self.assertEqual(
-            self.bc.get_or_create_customer("fake_customer_name", self.fake_customer_email),
-            self.fake_customer_read_json["response_data"],
+        assert (
+            self.bc.get_or_create_customer("fake_customer_name", self.fake_customer_email)
+            == self.fake_customer_read_json["response_data"]
         )
 
     @requests_mock.Mocker()
@@ -331,15 +316,15 @@ class TestBillCom(unittest.TestCase):
             self.api_url + "Crud/Create/Invoice.json",
             text=json.dumps(self.fake_invoice_read_json),
         )
-        self.assertEqual(
+        assert (
             self.bc.create_invoice(
                 "fake_customer_id",
                 "1",
                 self.fake_date,
                 self.fake_date,
                 self.fake_invoice_line_items,
-            ),
-            self.fake_invoice_read_json["response_data"],
+            )
+            == self.fake_invoice_read_json["response_data"]
         )
 
     @requests_mock.Mocker()
@@ -353,13 +338,13 @@ class TestBillCom(unittest.TestCase):
             self.api_url + "SendInvoice.json",
             text=json.dumps(send_invoice_response_json),
         )
-        self.assertEqual(
+        assert (
             self.bc.send_invoice(
                 "fake_invoice_id",
                 "fake_user_id",
                 "fake_user_email@fake_email.com",
                 "fake_subject",
                 "fake_message_body",
-            ),
-            {},
+            )
+            == {}
         )

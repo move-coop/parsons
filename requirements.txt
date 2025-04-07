@@ -48,7 +48,7 @@ xmltodict==0.14.2
 # Stuff for TMC scripts
 # TODO Remove when we have a TMC-specific Docker image
 jinja2>=3.0.2
-selenium==3.141.0
+selenium==4.31.0
 us==3.2.0
 sshtunnel==0.4.0
 

@@ -221,13 +221,12 @@ class BillCom(object):
             False otherwise
 
         """
-        if "id" in customer1.keys():
-            if customer1["id"] == customer2["id"]:
-                return True
-        if "id" not in customer1.keys() and customer2["email"]:
-            if customer1["email"].lower() == customer2["email"].lower():
-                return True
-        return False
+        if "id" in customer1 and customer1["id"] == customer2["id"]:
+            return True
+        return bool(
+            ("id" not in customer1 and customer2["email"])
+            and customer1["email"].lower() == customer2["email"].lower()
+        )
 
     def get_or_create_customer(self, customer_name, customer_email, **kwargs):
         """

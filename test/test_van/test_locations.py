@@ -60,7 +60,7 @@ expected_loc = [
 
 class TestLocations(unittest.TestCase):
     def setUp(self):
-        self.van = VAN(os.environ["VAN_API_KEY"], db="EveryAction", raise_for_status=False)
+        self.van = VAN(os.environ["VAN_API_KEY"], db="EveryAction")
 
     def tearDown(self):
         pass

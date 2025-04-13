@@ -70,11 +70,11 @@ class ETL(object):
         return self
 
     def remove_column(self, *columns):
-        """
+        r"""
         Remove a column from your table
 
         `Args:`
-            \*columns: str
+            *columns: str
                 Column names
         `Returns:`
             `Parsons Table` and also updates self
@@ -434,14 +434,14 @@ class ETL(object):
         return [{"name": col, "type": self.get_column_types(col)} for col in self.table.columns()]
 
     def convert_table(self, *args):
-        """
+        r"""
         Transform all cells in a table via arbitrary functions, method invocations or dictionary
         translations. This method is useful for cleaning fields and data hygiene functions such
         as regex. This method leverages the petl ``convert()`` method. Example usage can be
         found `here` <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
 
         `Args:`
-            \*args: str, method or variable
+            *args: str, method or variable
                 The update function, method, or variable to process the update. Can also
         `Returns:`
             `Parsons Table` and also updates self
@@ -769,11 +769,11 @@ class ETL(object):
         return lt
 
     def cut(self, *columns):
-        """
+        r"""
         Return a table of selection of columns
 
         `Args:`
-            \*columns: str
+            *columns: str
                 Columns in the parsons table
         `Returns:`
             A new parsons table containing the selected columnns
@@ -784,7 +784,7 @@ class ETL(object):
         return Table(petl.cut(self.table, *columns))
 
     def select_rows(self, *filters):
-        """
+        r"""
         Select specific rows from a Parsons table based on the passed
         filters.
 
@@ -810,7 +810,7 @@ class ETL(object):
             >>> {'foo': 'a', 'bar': 2, 'baz': 88.1}
 
         `Args:`
-            \*filters: function or str
+            *filters: function or str
         `Returns:`
             A new parsons table containing the selected rows
         """
@@ -896,7 +896,7 @@ class ETL(object):
 
         self.table = petl.cat(self.table, *petl_tables, missing=missing)
 
-    def chunk(self, rows):
+    def chunk(self, rows: int):
         """
         Divides a Parsons table into smaller tables of a specified row count. If the table
         cannot be divided evenly, then the final table will only include the remainder.

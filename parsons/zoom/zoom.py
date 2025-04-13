@@ -1,5 +1,7 @@
+import datetime
 import logging
 import uuid
+from typing import Dict, Literal, Optional
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -13,20 +15,22 @@ ZOOM_AUTH_CALLBACK = "https://zoom.us/oauth/token"
 ##########
 
 
-class Zoom:
-    """
-    Instantiate the Zoom class.
-
-    `Args:`
-        api_key: str
-            A valid Zoom api key. Not required if ``ZOOM_API_KEY`` env
-            variable set.
-        api_secret: str
-            A valid Zoom api secret. Not required if ``ZOOM_API_SECRET`` env
-            variable set.
-    """
-
+class ZoomV1:
     def __init__(self, account_id=None, client_id=None, client_secret=None):
+        """
+        Instantiate the Zoom class.
+
+        `Args:`
+            account_id: str
+                A valid Zoom account id. Not required if ``ZOOM_ACCOUNT_ID`` env
+                variable set.
+            client_id: str
+                A valid Zoom client id. Not required if ``ZOOM_CLIENT_ID`` env
+                variable set.
+            client_secret: str
+                A valid Zoom client secret. Not required if `ZOOM_CLIENT_SECRET` env
+                variable set.
+        """
         self.account_id = check_env.check("ZOOM_ACCOUNT_ID", account_id)
         self.client_id = check_env.check("ZOOM_CLIENT_ID", client_id)
         self.__client_secret = check_env.check("ZOOM_CLIENT_SECRET", client_secret)
@@ -57,6 +61,12 @@ class Zoom:
         `Returns`:
             Parsons Table of API responses
         """
+
+        logger.warning("This version of the Zoom connector uses a deprecated pagination method.")
+        logger.info("Consider switching to V2!")
+        logger.info(
+            "See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html"
+        )
 
         r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
@@ -160,11 +170,19 @@ class Zoom:
 
         params = {"status": status, "role_id": role_id}
 
-        tbl = self._get_request("users", "users", params=params)
+        tbl = self._get_request(endpoint="users", data_key="users", params=params)
         logger.info(f"Retrieved {tbl.num_rows} users.")
         return tbl
 
-    def get_meetings(self, user_id, meeting_type="scheduled"):
+    def get_meetings(
+        self,
+        user_id,
+        meeting_type: Literal[
+            "scheduled", "live", "upcoming", "upcoming_meetings", "previous_meetings"
+        ] = "scheduled",
+        from_date: Optional[datetime.date] = None,
+        to_date: Optional[datetime.date] = None,
+    ):
         """
         Get meetings scheduled by a user.
 
@@ -188,12 +206,21 @@ class Zoom:
                       - All the ongoing meetings.
                     * - ``upcoming``
                       - All upcoming meetings including live meetings.
+            from_date: datetime.date or None
+                Optional start date for the range of meetings to retrieve.
+            to_date: datetime.date or None
+                Optional end date for the range of meetings to retrieve.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
+        params: Dict[str, str] = {"type": meeting_type}
+        if from_date:
+            params["from"] = from_date.isoformat()
+        if to_date:
+            params["to"] = to_date.isoformat()
 
-        tbl = self._get_request(f"users/{user_id}/meetings", "meetings")
+        tbl = self._get_request(f"users/{user_id}/meetings", "meetings", params=params)
         logger.info(f"Retrieved {tbl.num_rows} meetings.")
         return tbl
 
@@ -275,7 +302,7 @@ class Zoom:
 
         dic = self._get_request(endpoint=f"report/webinars/{webinar_id}", data_key=None)
         if dic:
-            logger.info(f"Retrieved webinar report for webinar: {webinar_id}.")
+            logger.info(f"Retrieved webinar_report for webinar: {webinar_id}.")
         return dic
 
     def get_past_webinar_participants(self, webinar_id):
@@ -510,3 +537,356 @@ class Zoom:
         logger.info(f"Retrieved {tbl.num_rows} reults for webinar ID {webinar_id}")
 
         return self.__process_poll_results(tbl=tbl)
+
+
+class ZoomV2(ZoomV1):
+    """
+    Version 2 implementation of a Parsons connector. Designed to involve minimal
+    transformation logic and clearer naming conventions.
+
+    Inherits the following methods from version 1:
+    - get_users
+    - get_meetings
+    - get_past_meeting
+    - get_meeting_registrants
+    - get_past_webinar_report
+    - get_webinar_registrants
+
+    Overwrites the following methods from version 1:
+    - get_past_meeting_participants
+    - get_past_webinar_participants
+
+    Renames/refactors the following methods (and raises error if original function called):
+    - get_user_webinars
+    - get_meeting_poll_metadata
+    - get_meeting_all_polls_metadata
+    - get_past_meeting_poll_metadata
+    - get_webinar_poll_metadata
+    - get_webinar_all_polls_metadata
+    - get_past_webinar_poll_metadata
+    - get_meeting_poll_results
+    - get_webinar_poll_results
+
+    Args:
+        ZoomV1 (cls): version 1 Zoom connector class
+    """
+
+    def __init__(self, account_id=None, client_id=None, client_secret=None):
+        super().__init__(account_id, client_id, client_secret)
+
+    def _get_request(self, endpoint: str, data_key: str, params: dict = {}, **kwargs):
+        """
+        `Args`:
+            endpoint: str
+                API endpoint to send GET request
+            data_key: str
+                Unique value to use to parse through nested data
+                (akin to a primary key in response JSON)
+            params: dict
+                Additional request parameters, defaults to None
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        if not params:
+            params = {"page_size": 300}
+
+        self.client.data_key = data_key
+        next_page_token = ""
+        has_more_pages = True
+        data = []
+
+        while has_more_pages:
+            if next_page_token:
+                params["next_page_token"] = next_page_token
+
+            r = self.client.get_request(endpoint, params=params, **kwargs)
+            parsed_resp = self.client.data_parse(r)
+            if isinstance(parsed_resp, dict):
+                parsed_resp = [parsed_resp]
+            data.extend(parsed_resp)
+
+            next_page_token = r.get("next_page_token")
+            has_more_pages = bool(next_page_token)
+
+        return Table(data)
+
+    def get_webinars(self, user_id: int):
+        """
+        Get webinars scheduled by or on behalf of a webinar host.
+
+        `Args:`
+            user_id: str
+                The user id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f"users/{user_id}/webinars", "webinars")
+        logger.info(f"Retrieved {tbl.num_rows} webinars.")
+        return tbl
+
+    def get_user_webinars(self, user_id):
+        return AttributeError(
+            "Method get_user_webinars has been deprecated in favor of get_webinars"
+        )
+
+    def get_past_meeting_participants(self, meeting_id: int):
+        """
+        Get past meeting participants.
+
+        `Args:`
+            meeting_id: int
+                The meeting id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f"past_meetings/{meeting_id}/participants", "participants")
+        logger.info(f"Retrieved {tbl.num_rows} participants.")
+        return tbl
+
+    def get_past_webinar_participants(self, webinar_id: int):
+        """
+        Get past webinar participants.
+
+        `Args:`
+            webinar_id: int
+                The webinar id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f"past_webinars/{webinar_id}/participants", "participants")
+        logger.info(f"Retrieved {tbl.num_rows} participants.")
+        return tbl
+
+    def get_meeting_poll(self, meeting_id: int, poll_id: str):
+        """
+        Get information about a single poll for a given meeting ID.
+        The returned data is identical to get_meeting_polls.
+
+        `Args`:
+            meeting_id: int
+                Unique identifier for Zoom meeting
+            poll_id: str
+                Unique identifier for Zoom poll
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
+        tbl = self._get_request(endpoint=endpoint, data_key=None)
+        logger.info(f"Retrieved {tbl.num_rows} for [poll {poll_id}, meeting {meeting_id}]")
+        return tbl
+
+    def get_meeting_poll_metadata(self, meeting_id, poll_id, version=1):
+        raise AttributeError(
+            "Method get_meeting_poll_metadata is deprecated in favor of get_meeting_poll"
+        )
+
+    def get_meeting_polls(self, meeting_id: int):
+        """
+        Get information about all polls for a given meeting ID.
+        The returned data is identical to get_meeting_poll but for
+        all polls in the meeting.
+
+        `Args`:
+            meeting_id: int
+                Unique identifier for Zoom meeting
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        endpoint = f"meetings/{meeting_id}/polls"
+        tbl = self._get_request(endpoint=endpoint, data_key="polls")
+        logger.info(f"Retrieved {tbl.num_rows} meeting polls for meeting {meeting_id}")
+        return tbl
+
+    def get_meeting_all_polls_metadata(self, meeting_id, version=1):
+        raise AttributeError(
+            "Method get_meeting_all_polls_metadata is deprecated in favor of get_meeting_polls"
+        )
+
+    def get_past_meeting_poll_results(self, meeting_id: int):
+        """
+        Get results for all polls for a given past meeting ID
+
+        `Args`:
+            meeting_id: int
+                Unique identifier for Zoom meeting
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        endpoint = f"past_meetings/{meeting_id}/polls"
+        tbl = self._get_request(endpoint=endpoint, data_key=None)
+        logger.info(f"Retrieved {tbl.num_rows} meeting poll results")
+        return tbl
+
+    def get_past_meeting_poll_metadata(self, meeting_id, version=1):
+        raise AttributeError(
+            "Method get_past_meeting_poll_metadata is deprecated in favor of get_past_meeting_poll_results"
+        )
+
+    def get_webinar_poll(self, webinar_id: int, poll_id: str):
+        """
+        Get information about a single poll for a given webinar ID.
+        The returned data is identical to get_webinar_polls.
+
+        `Args`:
+            webinar_id: int
+                Unique identifier for Zoom webinar
+            poll_id: str
+                Unique identifier for Zoom poll
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
+        tbl = self._get_request(endpoint=endpoint, data_key=None)
+        logger.info(f"Retrieved {tbl.num_rows} for [poll {poll_id}, webinar {webinar_id}]")
+        return tbl
+
+    def get_webinar_poll_metadata(self, webinar_id, poll_id, version=1):
+        raise AttributeError(
+            "Method get_webinar_poll_metadata is deprecated in favor of get_webinar_poll"
+        )
+
+    def get_webinar_polls(self, webinar_id: int):
+        """
+        Get information for all polls for a given webinar ID
+        The returned data is identical to get_webinar_poll but includes
+        all polls in the webinar
+
+        `Args`:
+            webinar_id: str
+                Unique identifier for Zoom webinar
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        endpoint = f"webinars/{webinar_id}/polls"
+        tbl = self._get_request(endpoint=endpoint, data_key="polls")
+        logger.info(f"Retrieved {tbl.num_rows} polls for webinar ID {webinar_id}")
+        return tbl
+
+    def get_webinar_all_polls_metadata(self, webinar_id, version=1):
+        raise AttributeError(
+            "Method get_webinar_all_polls_metadata is deprecated in favor of get_webinar_polls"
+        )
+
+    def get_past_webinar_poll_results(self, webinar_id: int):
+        """
+        Get results for all polls for a given past webinar ID
+
+        `Args`:
+            webinar_id: str
+                Unique identifier for Zoom webinar
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        endpoint = f"past_webinars/{webinar_id}/polls"
+        tbl = self._get_request(endpoint=endpoint, data_key=None)
+        logger.info(f"Retrieved {tbl.num_rows} poll results for webinar ID {webinar_id}")
+        return tbl
+
+    def get_past_webinar_poll_metadata(self, webinar_id, version=1):
+        raise AttributeError(
+            "Method get_past_webinar_poll_metadata is deprecated in favor of get_past_webinar_poll_results"
+        )
+
+    def get_meeting_poll_reports(self, meeting_id: int):
+        """
+        Get polls reports for a given past meeting ID
+
+        `Args`:
+            meeting_id: str
+                Unique identifier for Zoom meeting
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        endpoint = f"report/meetings/{meeting_id}/polls"
+        tbl = self._get_request(endpoint=endpoint, data_key=None)
+        logger.info(f"Retrieved {tbl.num_rows} poll reports for meeting ID {meeting_id}")
+        return tbl
+
+    def get_meeting_poll_results(self, meeting_id):
+        raise AttributeError(
+            "Method get_meeting_poll_results is deprecated in favor of get_meeting_poll_reports"
+        )
+
+    def get_webinar_poll_reports(self, webinar_id: int):
+        """
+        Get results for all polls for a given past webinar ID
+
+        `Args`:
+            webinar_id: str
+                Unique identifier for Zoom webinar
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        endpoint = f"report/webinars/{webinar_id}/polls"
+        tbl = self._get_request(endpoint=endpoint, data_key=None)
+        logger.info(f"Retrieved {tbl.num_rows} poll reports for webinar ID {webinar_id}")
+        return tbl
+
+    def get_webinar_poll_results(self, webinar_id):
+        raise AttributeError(
+            "Method get_webinar_poll_results is deprecated in favor of get_webinar_poll_reports"
+        )
+
+
+class Zoom:
+    def __new__(cls, account_id=None, client_id=None, client_secret=None, parsons_version="v1"):
+        """
+        Create and return Zoom instance base on chosen version (1 or 2)
+
+        API Documentation: https://developers.zoom.us/docs/api/
+
+        Args:
+            account_id: str
+                A valid Zoom account id. Not required if ``ZOOM_ACCOUNT_ID`` env
+                variable set.
+            client_id: str
+                A valid Zoom client id. Not required if ``ZOOM_CLIENT_ID`` env
+                variable set.
+            client_secret: str
+                A valid Zoom client secret. Not required if `ZOOM_CLIENT_SECRET` env
+                variable set.
+            parsons_version (str, optional): Parsons version of the Zoom connector. Defaults to v1.
+        """
+        parsons_version = check_env.check("ZOOM_PARSONS_VERSION", parsons_version)
+        if parsons_version == "v1":
+            logger.info("Consider upgrading to version 2 of the Zoom connector!")
+            logger.info(
+                "See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html"
+            )
+            return ZoomV1(account_id=account_id, client_id=client_id, client_secret=client_secret)
+        if parsons_version == "v2":
+            return ZoomV2(account_id=account_id, client_id=client_id, client_secret=client_secret)
+        raise ValueError(f"{parsons_version} not supported")

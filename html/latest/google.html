@@ -342,7 +342,7 @@ Google Cloud projects.</p>
 <span class="c1"># at https://console.cloud.google.com/storage/create-bucket. May be</span>
 <span class="c1"># omitted if the name of the bucket is specified in environment</span>
 <span class="c1"># variable GCS_TEMP_BUCKET.</span>
-<span class="n">gcs_temp_bucket</span> <span class="o">=</span> <span class="s1">&#39;parsons_bucket&#39;</span>
+<span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="s1">&#39;parsons_bucket&#39;</span>
 
 <span class="c1"># Create dataset if it doesn&#39;t already exist</span>
 <span class="n">bigquery</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span> <span class="n">exists_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -356,7 +356,7 @@ Google Cloud projects.</p>
 <span class="n">bigquery</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
    <span class="n">table_obj</span><span class="o">=</span><span class="n">parsons_table</span><span class="p">,</span>
    <span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span>
-   <span class="n">tmp_gcs_bucket</span><span class="o">=</span><span class="n">gcs_temp_bucket</span>
+   <span class="n">tmp_gcs_bucket</span><span class="o">=</span><span class="n">tmp_gcs_bucket</span>
 <span class="p">)</span>
 
 <span class="c1"># Select from project.dataset.table</span>

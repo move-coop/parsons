@@ -514,7 +514,7 @@
         <span class="k">if</span> <span class="n">base</span><span class="p">:</span>
             <span class="n">kwargs_dict</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_as_table</span><span class="p">(</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_table</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_repo</span><span class="p">(</span><span class="n">repo_name</span><span class="p">)</span><span class="o">.</span><span class="n">get_pulls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs_dict</span><span class="p">),</span>
             <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">,</span>
             <span class="n">page_size</span><span class="o">=</span><span class="n">page_size</span><span class="p">,</span>

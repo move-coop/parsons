@@ -926,7 +926,7 @@ class ActionNetwork(object):
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/messages
         """
-        return self.api.put_request(f"messages/{message_id}", payload)
+        return self.api.put_request(f"messages/{message_id}", json=payload)
 
     def schedule_message(self, message_id, scheduled_start_date):
         """

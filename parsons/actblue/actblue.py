@@ -32,7 +32,13 @@ class ActBlue(object):
         visit https://secure.actblue.com/docs/csv_api#authentication.
     """
 
-    def __init__(self, actblue_client_uuid=None, actblue_client_secret=None, actblue_uri=None):
+    def __init__(
+        self,
+        actblue_client_uuid=None,
+        actblue_client_secret=None,
+        actblue_uri=None,
+        max_retries=None,
+    ):
         self.actblue_client_uuid = check_env.check("ACTBLUE_CLIENT_UUID", actblue_client_uuid)
         self.actblue_client_secret = check_env.check("ACTBLUE_CLIENT_SECRET", actblue_client_secret)
         self.uri = (
@@ -46,6 +52,9 @@ class ActBlue(object):
             auth=(self.actblue_client_uuid, self.actblue_client_secret),
             headers=self.headers,
         )
+        self.max_retries = int(
+            check_env.check("ACTBLUE_MAX_RETRIES", max_retries, optional=True)
+        ) or float("inf")
 
     def post_request(self, csv_type=None, date_range_start=None, date_range_end=None):
         """
@@ -97,6 +106,8 @@ class ActBlue(object):
             the download_url.
         """
         response = self.client.get_request(url=f"csvs/{csv_id}")
+        if response.get("download_url") is None and response.get("status") != "in_progress":
+            raise ValueError("CSV generation failed: %s", response)
 
         return response["download_url"]
 
@@ -117,9 +128,14 @@ class ActBlue(object):
 
         logger.info("Request received. Please wait while ActBlue generates this data.")
         download_url = None
-        while download_url is None:
+        tries = 0
+        while download_url is None and tries < self.max_retries:
             download_url = self.get_download_url(csv_id)
             time.sleep(POLLING_DELAY)
+            tries += 1
+
+        if download_url is None:
+            raise TimeoutError("CSV generation timed out. Increase retries and try again.")
 
         logger.info("Completed data generation.")
         logger.info("Beginning conversion to Parsons Table.")

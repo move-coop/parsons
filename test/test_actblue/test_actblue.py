@@ -1,10 +1,10 @@
 import unittest
+from test.test_actblue import test_columns_data
 from unittest.mock import MagicMock
 
 import requests_mock
 
 from parsons import ActBlue, Table
-from test.test_actblue import test_columns_data
 
 TEST_CLIENT_UUID = "someuuid"
 TEST_CLIENT_SECRET = "somesecret"
@@ -76,3 +76,16 @@ class TestActBlue(unittest.TestCase):
 
         table = self.ab.get_contributions(TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END)
         assert test_columns_data.expected_table_columns == table.columns
+
+    @requests_mock.Mocker()
+    def test_error_on_complete_without_download_url(self, m):
+        mocked_get_response_no_url = {
+            "id": TEST_ID,
+            "download_url": None,
+            "status": "complete",
+        }
+
+        m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
+
+        with self.assertRaises(ValueError):
+            self.ab.get_download_url(csv_id=TEST_ID)

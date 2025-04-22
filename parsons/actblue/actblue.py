@@ -52,9 +52,8 @@ class ActBlue(object):
             auth=(self.actblue_client_uuid, self.actblue_client_secret),
             headers=self.headers,
         )
-        self.max_retries = int(
-            check_env.check("ACTBLUE_MAX_RETRIES", max_retries, optional=True)
-        ) or float("inf")
+        self.max_retries = check_env.check("ACTBLUE_MAX_RETRIES", max_retries, optional=True)
+        self.max_retries = int(self.max_retries) if self.max_retries else None
 
     def post_request(self, csv_type=None, date_range_start=None, date_range_end=None):
         """
@@ -129,7 +128,7 @@ class ActBlue(object):
         logger.info("Request received. Please wait while ActBlue generates this data.")
         download_url = None
         tries = 0
-        while download_url is None and tries < self.max_retries:
+        while download_url is None and (self.max_retries is None or tries < self.max_retries):
             download_url = self.get_download_url(csv_id)
             time.sleep(POLLING_DELAY)
             tries += 1

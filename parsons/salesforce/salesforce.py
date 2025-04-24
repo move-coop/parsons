@@ -12,33 +12,72 @@ class Salesforce:
     """
     Instantiate the Salesforce class
 
+    Supports the passwor and client_credentials authentication_methods
+
     `Args:`
         username: str
             The Salesforce username (usually an email address). Not required if
-            ``SALESFORCE_USERNAME`` env variable is passed.
+            ``SALESFORCE_USERNAME`` env variable is passed. Used in the 'password' auth method.
         password: str
             The Salesforce password. Not required if ``SALESFORCE_PASSWORD`` env variable is
-            passed.
+            passed. Used in the 'password' auth method.
         security_token: str
             The Salesforce security token that can be acquired or reset in
             Settings > My Personal Information > Reset My Security Token.
-            Not required if ``SALESFORCE_SECURITY_TOKEN`` env variable is passed.
+            Not required if ``SALESFORCE_SECURITY_TOKEN`` env variable is passed. Used in the 'password' auth method.
         test_environment: bool
             If ``True`` the client will connect to a Salesforce sandbox instance. Not required if
             ``SALESFORCE_DOMAIN`` env variable is passed.
+        consumer_key: str
+            consumer key for a connected app. Used in the 'client_credentials' auth method.
+        consumer_secret: str
+            consumer secret for a connected app. Used in the 'client_credentials' auth method.
+        domain: str
+            url for the salesforce instance. Used in the 'client_credentials' auth method
+        authentication_method: str
+            the method to use for authentication. defaults to "password". Not required if ``SALESFORCE_AUTHENTICATION_METHOD`` env variable is passed.
+
     `Returns:`
         Salesforce class
     """
 
-    def __init__(self, username=None, password=None, security_token=None, test_environment=False):
-        self.username = check_env.check("SALESFORCE_USERNAME", username)
-        self.password = check_env.check("SALESFORCE_PASSWORD", password)
-        self.security_token = check_env.check("SALESFORCE_SECURITY_TOKEN", security_token)
+    def __init__(
+        self,
+        username=None,
+        password=None,
+        security_token=None,
+        test_environment=False,
+        consumer_key=None,
+        consumer_secret=None,
+        domain=None,
+        authentication_method="password",
+    ):
+        try:
+            self.authentication_method = check_env.check("SALESFORCE_AUTHENTICATION_METHOD", None)
+        except KeyError:
+            if authentication_method is not None:
+                self.authentication_method = authentication_method
+            else:
+                raise
 
-        if test_environment:
-            self.domain = check_env.check("SALESFORCE_DOMAIN", "test")
+        if self.authentication_method == "password":
+            self.username = check_env.check("SALESFORCE_USERNAME", username)
+            self.password = check_env.check("SALESFORCE_PASSWORD", password)
+            self.security_token = check_env.check("SALESFORCE_SECURITY_TOKEN", security_token)
+            if test_environment:
+                self.domain = check_env.check("SALESFORCE_DOMAIN", "test")
+            else:
+                self.domain = None
+
+        elif self.authentication_method == "client_credentials":
+            self.consumer_key = check_env.check("SALESFORCE_CONSUMER_KEY", consumer_key)
+            self.consumer_secret = check_env.check("SALESFORCE_CONSUMER_SECRET", consumer_key)
+            self.domain = check_env.check("SALESFORCE_DOMAIN", domain)
+
         else:
-            self.domain = None
+            raise ValueError(
+                f"{self.authentication_method} is not a supported method. Parsons currently supports 'password' and 'client_credentials'"
+            )
 
         self._client = None
 
@@ -208,11 +247,20 @@ class Salesforce:
         """
         if not self._client:
             # Create a Salesforce client to use to make bulk calls
-            self._client = _Salesforce(
-                username=self.username,
-                password=self.password,
-                security_token=self.security_token,
-                domain=self.domain,
-            )
+            if self.authentication_method == "password":
+                self._client = _Salesforce(
+                    username=self.username,
+                    password=self.password,
+                    security_token=self.security_token,
+                    domain=self.domain,
+                )
+            elif self.authentication_method == "client_credentials":
+                self._client = _Salesforce(
+                    consumer_key=self.consumer_key,
+                    consumer_secret=self.consumer_secret,
+                    domain=self.domain,
+                )
+            else:
+                raise Exception("Shoudl not be possible to reach this code")
 
         return self._client

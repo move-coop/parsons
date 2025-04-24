@@ -12,7 +12,7 @@ class Salesforce:
     """
     Instantiate the Salesforce class
 
-    Supports the passwor and client_credentials authentication_methods
+    Supports the password and client_credentials authentication_methods
 
     `Args:`
         username: str
@@ -261,6 +261,6 @@ class Salesforce:
                     domain=self.domain,
                 )
             else:
-                raise Exception("Shoudl not be possible to reach this code")
+                raise Exception("Should not be possible to reach this code")
 
         return self._client

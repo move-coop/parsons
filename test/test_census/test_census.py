@@ -8,7 +8,7 @@ from test.utils import mark_live_test
 class TestCensus(unittest.TestCase):
     def setUp(self):
         self.census = Census()
-
+  
     def tearDown(self):
         pass
 

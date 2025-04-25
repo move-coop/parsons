@@ -106,7 +106,7 @@ We can now upload/query data.
    # at https://console.cloud.google.com/storage/create-bucket. May be
    # omitted if the name of the bucket is specified in environment
    # variable GCS_TEMP_BUCKET.
-   gcs_temp_bucket = 'parsons_bucket'
+   tmp_gcs_bucket = 'parsons_bucket'
 
    # Create dataset if it doesn't already exist
    bigquery.client.create_dataset(dataset=dataset, exists_ok=True)
@@ -120,7 +120,7 @@ We can now upload/query data.
    bigquery.copy(
       table_obj=parsons_table,
       table_name=table_name,
-      tmp_gcs_bucket=gcs_temp_bucket
+      tmp_gcs_bucket=tmp_gcs_bucket
    )
 
    # Select from project.dataset.table

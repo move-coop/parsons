@@ -340,7 +340,7 @@ class GitHub(object):
         if base:
             kwargs_dict["base"] = base
 
-        self._as_table(
+        return self._as_table(
             self.client.get_repo(repo_name).get_pulls(**kwargs_dict),
             page=page,
             page_size=page_size,

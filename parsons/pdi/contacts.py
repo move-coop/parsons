@@ -209,7 +209,7 @@ class Contacts:
             "phoneNumber": phone_number,
             "phoneType": phone_type,
             "isPrimary": primary,
-            "extension": extension
+            "extension": extension,
         }
 
         response = self._request(

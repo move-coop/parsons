@@ -55,7 +55,7 @@ class SFTP(object):
         if not self.username:
             raise ValueError("Missing the SFTP username")
 
-        if not (password or rsa_private_key_file):
+        if not (password or rsa_private_key_file or paramiko_pkey):
             raise ValueError("Missing password or SSH authentication key")
 
         self.password = password

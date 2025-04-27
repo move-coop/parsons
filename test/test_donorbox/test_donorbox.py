@@ -42,7 +42,6 @@ class TestDonorbox(unittest.TestCase):
         ]
         assert len(result.columns) == len(columns)
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_campaigns_live_test(self):
         result = self.donorbox.get_campaigns()
@@ -74,7 +73,6 @@ class TestDonorbox(unittest.TestCase):
         assert result.to_dicts()[0]["id"] == 366590
         assert result.to_dicts()[0]["name"] == "Membership Campaign"
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_campaigns_with_id_filter_live_test(self):
         result = self.donorbox.get_campaigns(id=366590)
@@ -95,7 +93,6 @@ class TestDonorbox(unittest.TestCase):
         assert result.to_dicts()[0]["id"] == 366590
         assert result.to_dicts()[0]["name"] == "Membership Campaign"
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_campaigns_with_name_filter_live_test(self):
         result = self.donorbox.get_campaigns(name="Membership Campaign")
@@ -120,7 +117,6 @@ class TestDonorbox(unittest.TestCase):
         result = self.donorbox.get_campaigns(order="asc")
         assert result["id"] == [366172, 366590]
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_campaigns_with_order_filter_live_test(self):
         # check order of the ids without looking at IDs. or maybe look at updated/created date
@@ -182,7 +178,6 @@ class TestDonorbox(unittest.TestCase):
         ]
         assert len(result.columns) == len(columns)
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_donations_live_test(self):
         result = self.donorbox.get_donations()
@@ -228,7 +223,6 @@ class TestDonorbox(unittest.TestCase):
         assert result.columns == columns
         assert result.num_rows == 3
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_donations_with_date_from_filter_live_test(self):
         # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter
@@ -243,7 +237,6 @@ class TestDonorbox(unittest.TestCase):
         with pytest.raises(ValueError):  # noqa: PT011
             self.donorbox.get_donations(date_from="10 20 2022")
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_donations_with_date_to_filter_live_test(self):
         # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter
@@ -279,7 +272,6 @@ class TestDonorbox(unittest.TestCase):
         result = self.donorbox.get_donations(amount_min="5")
         assert result.num_rows == 0
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_donations_with_amount_min_filter_live_test(self):
         result = self.donorbox.get_donations(amount_min="3")
@@ -310,7 +302,6 @@ class TestDonorbox(unittest.TestCase):
         result = self.donorbox.get_donations(amount_max="2")
         assert result.num_rows == 0
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_donations_with_amount_max_filter_live_test(self):
         result = self.donorbox.get_donations(amount_max="3")
@@ -349,7 +340,6 @@ class TestDonorbox(unittest.TestCase):
         ]
         assert len(result.columns) == len(columns)
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_donors_live_test(self):
         result = self.donorbox.get_donors()
@@ -429,7 +419,6 @@ class TestDonorbox(unittest.TestCase):
         assert result.columns == columns
         assert result.num_rows == 3
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_plans_live_test(self):
         result = self.donorbox.get_plans()
@@ -450,7 +439,6 @@ class TestDonorbox(unittest.TestCase):
         assert result.columns == columns
         assert result.num_rows == 3
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_plans_with_date_from_filter_live_test(self):
         # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter
@@ -465,7 +453,6 @@ class TestDonorbox(unittest.TestCase):
         with pytest.raises(ValueError):  # noqa: PT011
             result = self.donorbox.get_plans(date_from="10 20 2022")
 
-    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_plans_with_date_to_filter_live_test(self):
         # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter

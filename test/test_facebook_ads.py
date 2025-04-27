@@ -1,9 +1,9 @@
-import os
 import unittest
 
 import pytest
 
 from parsons import FacebookAds, Table
+from test.utils import mark_live_test
 
 users_table = Table(
     [
@@ -27,7 +27,7 @@ users_table = Table(
 )
 
 
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestFacebookAdsIntegration(unittest.TestCase):
     def setUp(self):
         self.fb_ads = FacebookAds()

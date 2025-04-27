@@ -1,13 +1,12 @@
-import os
 import unittest
 
 from parsons import MySQL, Table
 from parsons.databases.mysql.create_table import MySQLCreateTable
-from test.utils import assert_matching_tables
+from test.utils import assert_matching_tables, mark_live_test
 
 
 # These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestMySQLLive(unittest.TestCase):
     def setUp(self):
         self.mysql = MySQL()
@@ -41,7 +40,7 @@ class TestMySQLLive(unittest.TestCase):
 
 
 # These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestMySQL(unittest.TestCase):
     def setUp(self):
         self.mysql = MySQL()

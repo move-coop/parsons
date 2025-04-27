@@ -8,13 +8,13 @@ import pytest
 import pytz
 
 from parsons import S3, Table
-from test.utils import assert_matching_tables
+from test.utils import assert_matching_tables, mark_live_test
 
 # Requires a s3 credentials stored in aws config or env variable
 # to run properly.
 
 
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestS3(unittest.TestCase):
     def setUp(self):
         self.s3 = S3()

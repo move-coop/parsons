@@ -1,10 +1,10 @@
 import unittest
-from test.test_actblue import test_columns_data
 from unittest.mock import MagicMock
 
 import requests_mock
 
 from parsons import ActBlue, Table
+from test.test_actblue import test_columns_data
 
 TEST_CLIENT_UUID = "someuuid"
 TEST_CLIENT_SECRET = "somesecret"
@@ -89,3 +89,28 @@ class TestActBlue(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             self.ab.get_download_url(csv_id=TEST_ID)
+
+    @requests_mock.Mocker()
+    def test_error_on_unexpected_status(self, m):
+        mocked_get_response_no_url = {
+            "id": TEST_ID,
+            "download_url": None,
+            "status": "error",
+        }
+
+        m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
+
+        with self.assertRaises(ValueError):
+            self.ab.get_download_url(csv_id=TEST_ID)
+
+    @requests_mock.Mocker()
+    def test_no_error_on_expected_status(self, m):
+        mocked_get_response_no_url = {
+            "id": TEST_ID,
+            "download_url": "www.actblue.com",
+            "status": "complete",
+        }
+
+        m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
+
+        self.ab.get_download_url(csv_id=TEST_ID)

@@ -113,4 +113,4 @@ class TestActBlue(unittest.TestCase):
 
         m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
 
-        self.ab.get_download_url(csv_id=TEST_ID)
+        assert self.ab.get_download_url(csv_id=TEST_ID) == "www.actblue.com"

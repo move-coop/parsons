@@ -7,6 +7,7 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
+from dateutil.parser import ParserError
 
 from parsons import Table
 from parsons.utilities import check_env, files, json_format, sql_helpers
@@ -14,18 +15,36 @@ from parsons.utilities.datetime import date_to_timestamp, parse_date
 
 
 @pytest.mark.parametrize(
-    ["date", "exp_ts"],
+    ("date", "exp_ts"),
     [
         pytest.param("2018-12-13", 1544659200),
         pytest.param("2018-12-13T00:00:00-08:00", 1544688000),
+        pytest.param("2023/04/26 14-00-00", 1682517600),
+        pytest.param("March 3, 2023", 1677801600),
+        pytest.param("01/04/2023", 1672790400),
         pytest.param("", None),
-        pytest.param(
-            "2018-12-13 PST", None, marks=[pytest.mark.xfail(raises=ValueError, strict=True)]
-        ),
     ],
 )
 def test_date_to_timestamp(date, exp_ts):
     assert date_to_timestamp(date) == exp_ts
+
+
+def test_date_to_timestamp_out_of_range():
+    invalid_date = "1682470412"
+    with pytest.raises(ParserError, match=f"year {invalid_date} is out of range"):
+        date_to_timestamp(invalid_date)
+
+
+@pytest.mark.parametrize(
+    "date",
+    [
+        pytest.param("2018-12-13 PST"),
+        pytest.param("2023-04-26 14:30 PM"),
+    ],
+)
+def test_date_to_timestamp_invalid(date):
+    with pytest.raises(ValueError, match="Unknown string format"):
+        date_to_timestamp(date)
 
 
 def test_parse_date():
@@ -151,21 +170,21 @@ class TestCheckEnv(unittest.TestCase):
     def test_environment_field(self):
         """Test check field"""
         result = check_env.check("PARAM", "param")
-        self.assertEqual(result, "param")
+        assert result == "param"
 
     @mock.patch.dict(os.environ, {"PARAM": "env_param"})
     def test_environment_env(self):
         """Test check env"""
         result = check_env.check("PARAM", None)
-        self.assertEqual(result, "env_param")
+        assert result == "env_param"
 
     @mock.patch.dict(os.environ, {"PARAM": "env_param"})
     def test_environment_field_env(self):
         """Test check field with env and field"""
         result = check_env.check("PARAM", "param")
-        self.assertEqual(result, "param")
+        assert result == "param"
 
     def test_envrionment_error(self):
         """Test check env raises error"""
-        with self.assertRaises(KeyError) as _:
+        with pytest.raises(KeyError):
             check_env.check("PARAM", None)

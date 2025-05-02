@@ -399,6 +399,6 @@ class Box(object):
         # recursion, just pass it on up.
         except ValueError as e:
             if base_folder_id == DEFAULT_FOLDER_ID:
-                raise ValueError(f'{e}: "{path}"')
+                raise ValueError(f'{e}: "{path}"') from e
             else:
                 raise

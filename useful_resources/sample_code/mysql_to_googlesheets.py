@@ -49,7 +49,7 @@ def try_overwrite(table, request_count, sheet_id, tab_index):
     except APIError as e:
         print(f"trying to overwrite {tab_index} for the {request_count}th time")
         if request_count > 60:
-            raise APIError(e)
+            raise APIError from e
         time.sleep(80)
         request_count += 1
         try_overwrite(table, request_count, sheet_id, tab_index)
@@ -60,7 +60,7 @@ def main():
 
     try:
         new_sheet = gsheets.create_spreadsheet(title=TITLE, editor_email=None, folder_id=FOLDER_ID)
-        # If successful new_sheet will be the spreadsheet's ID in a string
+        # If successful new_sheet will be the sprkeadsheet's ID in a string
         if isinstance(new_sheet, str):
             logger.info(f"Successfully created sheet {TITLE}!")
         # If we do not get a string back from the create_spreadsheet call

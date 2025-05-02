@@ -41,10 +41,10 @@ def wrap_github_404(func):
     def _wrapped_func(*args, **kwargs):
         try:
             return (func)(*args, **kwargs)
-        except UnknownObjectException:
+        except UnknownObjectException as e:
             raise ParsonsGitHubError(
                 "Couldn't find the object you referenced, maybe you need to log in?"
-            )
+            ) from e
 
     return _wrapped_func
 
@@ -223,7 +223,7 @@ class GitHub(object):
         assignee=None,
         creator=None,
         mentioned=None,
-        labels=[],
+        labels=None,
         sort="created",
         direction="desc",
         since=None,
@@ -262,6 +262,8 @@ class GitHub(object):
                 Table with page of repo issues
         """
 
+        if labels is None:
+            labels = []
         logger.info(f"Listing page {page} of issues for repo {repo_name}")
 
         kwargs_dict = {"state": state, "sort": sort, "direction": direction}

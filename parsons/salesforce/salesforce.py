@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 
 from simple_salesforce import Salesforce as _Salesforce
 
@@ -12,7 +13,7 @@ class Salesforce:
     """
     Instantiate the Salesforce class
 
-    Supports the password and client_credentials authentication_methods
+    Supports the password and `client_credentials <https://help.salesforce.com/s/articleView?id=xcloud.connected_app_client_credentials_setup.htm&type=5>`_ authentication methods.
 
     `Args:`
         username: str
@@ -50,15 +51,14 @@ class Salesforce:
         consumer_key=None,
         consumer_secret=None,
         domain=None,
-        authentication_method="password",
+        authentication_method=None,
     ):
-        try:
-            self.authentication_method = check_env.check("SALESFORCE_AUTHENTICATION_METHOD", None)
-        except KeyError:
-            if authentication_method is not None:
-                self.authentication_method = authentication_method
-            else:
-                raise
+        if authentication_method:
+            self.authentication_method = authentication_method
+        elif env_authentication_method := os.environ.get("SALESFORCE_AUTHENTICATION_METHOD"):
+            self.authentication_method = env_authentication_method
+        else:
+            self.authentication_method = "password"
 
         if self.authentication_method == "password":
             self.username = check_env.check("SALESFORCE_USERNAME", username)

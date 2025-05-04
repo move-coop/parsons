@@ -75,7 +75,7 @@ class Salesforce:
             self.domain = check_env.check("SALESFORCE_DOMAIN", domain)
 
         else:
-            raise ValueError(
+            raise NotImplementedError(
                 f"{self.authentication_method} is not a supported method. Parsons currently supports 'password' and 'client_credentials'"
             )
 

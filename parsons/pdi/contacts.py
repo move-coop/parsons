@@ -55,6 +55,7 @@ class Contacts:
         member_status="",
         date_of_birth=None,
         gender=None,
+        email="",
         pdi_id=None,
     ):
         """
@@ -78,6 +79,7 @@ class Contacts:
             dateOfBirth (string, optional): The date of birth.
             Format allowed: yyyy-MM-dd ,
             gender (string, optional): The gender.
+            emailAddress (string, optional): The email.
             Options are: "F", "M", "U"
 
         `Returns:`
@@ -98,6 +100,7 @@ class Contacts:
             "memberStatus": member_status,
             "dateOfBirth": date_of_birth,
             "gender": gender,
+            "emailAddress": email,
             "pdiId": pdi_id,
         }
         return self._request(self.url_contacts, req_type="POST", post_data=payload)
@@ -184,7 +187,7 @@ class Contacts:
         phone_number: str,
         phone_type="Mobile",
         primary=True,
-        extension=None,
+        extension="",
     ):
         """Add a phone number to a contact
         `Args:`
@@ -206,10 +209,8 @@ class Contacts:
             "phoneNumber": phone_number,
             "phoneType": phone_type,
             "isPrimary": primary,
+            "extension": extension,
         }
-
-        if extension:
-            payload["extension"] = extension
 
         response = self._request(
             self.url_contacts + f"/{str(contact_id)}/phones",

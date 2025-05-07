@@ -113,7 +113,7 @@ html_sidebars = {"**": ["versions.html"]}
 try:
     html_context
 except NameError:
-    html_context = dict()
+    html_context = {}
 
 html_context["display_versions_lower_left"] = True
 

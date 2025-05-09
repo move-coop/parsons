@@ -208,7 +208,7 @@ addition to ‘paid_contributions’, the other options for <code class="docutil
 <h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.ActBlue">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">ActBlue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actblue_client_uuid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actblue_client_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actblue_uri</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/actblue/actblue.html#ActBlue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActBlue" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">ActBlue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actblue_client_uuid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actblue_client_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actblue_uri</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/actblue/actblue.html#ActBlue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActBlue" title="Link to this definition"></a></dt>
 <dd><p>Instantiate class.</p>
 <blockquote>
 <div><dl>
@@ -224,6 +224,10 @@ variable set.</p>
 <a class="reference external" href="https://secure.actblue.com/api/v1">https://secure.actblue.com/api/v1</a>. You can set an <code class="docutils literal notranslate"><span class="pre">ACTBLUE_URI</span></code> env variable or
 use this URI parameter if a different endpoint is necessary - for example, when
 running this code in a test environment where you don’t want to hit the actual API.</p>
+</dd>
+<dt>max_retries: int</dt><dd><p>The maximum number of times to poll the API for a download URL. Not required, default
+is None, which means it will poll indefinitely until a download URL is returned.
+<code class="docutils literal notranslate"><span class="pre">`ACTBLUE_MAX_RETRIES`</span></code> env variable can be set, which will override this parameter.</p>
 </dd>
 </dl>
 </div></blockquote>

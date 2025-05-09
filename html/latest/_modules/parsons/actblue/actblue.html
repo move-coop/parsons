@@ -177,12 +177,21 @@
 <span class="sd">                https://secure.actblue.com/api/v1. You can set an ``ACTBLUE_URI`` env variable or</span>
 <span class="sd">                use this URI parameter if a different endpoint is necessary - for example, when</span>
 <span class="sd">                running this code in a test environment where you don&#39;t want to hit the actual API.</span>
-
+<span class="sd">            max_retries: int</span>
+<span class="sd">                The maximum number of times to poll the API for a download URL. Not required, default</span>
+<span class="sd">                is None, which means it will poll indefinitely until a download URL is returned.</span>
+<span class="sd">                ```ACTBLUE_MAX_RETRIES``` env variable can be set, which will override this parameter.</span>
 <span class="sd">        For instructions on how to generate a Client UUID and Client Secret set,</span>
 <span class="sd">        visit https://secure.actblue.com/docs/csv_api#authentication.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actblue_client_uuid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actblue_client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actblue_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">actblue_client_uuid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">actblue_client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">actblue_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_retries</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">actblue_client_uuid</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTBLUE_CLIENT_UUID&quot;</span><span class="p">,</span> <span class="n">actblue_client_uuid</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">actblue_client_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTBLUE_CLIENT_SECRET&quot;</span><span class="p">,</span> <span class="n">actblue_client_secret</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="p">(</span>
@@ -196,6 +205,8 @@
             <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actblue_client_uuid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">actblue_client_secret</span><span class="p">),</span>
             <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTBLUE_MAX_RETRIES&quot;</span><span class="p">,</span> <span class="n">max_retries</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span> <span class="k">else</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="ActBlue.post_request">
 <a class="viewcode-back" href="../../../actblue.html#parsons.ActBlue.post_request">[docs]</a>
@@ -252,6 +263,8 @@
 <span class="sd">            the download_url.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;csvs/</span><span class="si">{</span><span class="n">csv_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;download_url&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;in_progress&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CSV generation failed: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;download_url&quot;</span><span class="p">]</span></div>
 
@@ -275,9 +288,14 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Request received. Please wait while ActBlue generates this data.&quot;</span><span class="p">)</span>
         <span class="n">download_url</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">while</span> <span class="n">download_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tries</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">download_url</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">tries</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span><span class="p">):</span>
             <span class="n">download_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_download_url</span><span class="p">(</span><span class="n">csv_id</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">POLLING_DELAY</span><span class="p">)</span>
+            <span class="n">tries</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">download_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="s2">&quot;CSV generation timed out. Increase max_retries and try again.&quot;</span><span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Completed data generation.&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Beginning conversion to Parsons Table.&quot;</span><span class="p">)</span>

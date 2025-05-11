@@ -1,6 +1,5 @@
 # Testing Requirements
 bandit[toml]==1.8.3
-cibuildwheel==2.23.0
 coverage==7.8.0
 pre-commit==4.2.0
 pytest-cov==6.0.0
@@ -11,6 +10,9 @@ pytest==8.3.5
 requests-mock==1.12.1
 ruff==0.11.7
 testfixtures==8.3.0
+
+# Build and publish requirements
+cibuildwheel==2.23.0
 twine==6.1.0
 wheel==0.45.1
 

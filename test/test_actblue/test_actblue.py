@@ -79,3 +79,41 @@ class TestActBlue(unittest.TestCase):
 
         table = self.ab.get_contributions(TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END)
         assert test_columns_data.expected_table_columns == table.columns
+
+    @requests_mock.Mocker()
+    def test_error_on_complete_without_download_url(self, m):
+        mocked_get_response_no_url = {
+            "id": TEST_ID,
+            "download_url": None,
+            "status": "complete",
+        }
+
+        m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
+
+        with self.assertRaises(ValueError):
+            self.ab.get_download_url(csv_id=TEST_ID)
+
+    @requests_mock.Mocker()
+    def test_error_on_unexpected_status(self, m):
+        mocked_get_response_no_url = {
+            "id": TEST_ID,
+            "download_url": None,
+            "status": "error",
+        }
+
+        m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
+
+        with self.assertRaises(ValueError):
+            self.ab.get_download_url(csv_id=TEST_ID)
+
+    @requests_mock.Mocker()
+    def test_no_error_on_expected_status(self, m):
+        mocked_get_response_no_url = {
+            "id": TEST_ID,
+            "download_url": "www.actblue.com",
+            "status": "complete",
+        }
+
+        m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
+
+        assert self.ab.get_download_url(csv_id=TEST_ID) == "www.actblue.com"

@@ -1,6 +1,7 @@
 import json
 import unittest
 
+import pytest
 import requests_mock
 
 from parsons import ActionBuilder, Table
@@ -218,6 +219,16 @@ class TestActionBuilder(unittest.TestCase):
         }
 
     @requests_mock.Mocker()
+    def test_get_page_max_cap(self, m):
+        m.get(
+            f"{self.api_url}/tags?page=2&per_page=25",
+            text=json.dumps(self.fake_tags_list_2),
+        )
+        assert self.bldr._get_page(self.campaign, "tags", 2, per_page=25) == self.bldr._get_page(
+            self.campaign, "tags", 2, per_page=26
+        )
+
+    @requests_mock.Mocker()
     def test_get_page(self, m):
         m.get(
             f"{self.api_url}/tags?page=2&per_page=2",
@@ -242,6 +253,26 @@ class TestActionBuilder(unittest.TestCase):
         assert_matching_tables(
             self.bldr._get_all_records(self.campaign, "tags"),
             Table(self.fake_tags_list),
+        )
+
+    @requests_mock.Mocker()
+    def test_get_all_records_limit(self, m):
+        m.get(
+            f"{self.api_url}/tags?page=1&per_page=25",
+            text=json.dumps(self.fake_tags_list_1),
+        )
+        m.get(
+            f"{self.api_url}/tags?page=2&per_page=25",
+            text=json.dumps(self.fake_tags_list_2),
+        )
+        m.get(
+            f"{self.api_url}/tags?page=3&per_page=25",
+            text=json.dumps({"_embedded": {"osdi:tags": []}}),
+        )
+        limit_count = 2
+        assert_matching_tables(
+            self.bldr._get_all_records(self.campaign, "tags", limit=limit_count),
+            Table(self.fake_tags_list[0:limit_count]),
         )
 
     @requests_mock.Mocker()
@@ -384,6 +415,26 @@ class TestActionBuilder(unittest.TestCase):
         )
         assert remove_tag_resp == self.fake_remove_tag_resp
 
+    @requests_mock.Mocker()
+    def test_remove_tagging_missing_tag(self, m):
+        m.delete(
+            f"{self.api_url}/tags/{self.fake_tag_id}/taggings/{self.fake_tagging_id}",
+            json=self.fake_remove_tag_resp,
+        )
+        with pytest.raises(ValueError, match="Please supply a tag_name or tag_id"):
+            self.bldr.remove_tagging(tag_id=None, tag_name=None, tagging_id=self.fake_tagging_id)
+
+    @requests_mock.Mocker()
+    def test_remove_tagging_missing_identifiers(self, m):
+        m.delete(
+            f"{self.api_url}/tags/{self.fake_tag_id}/taggings/{self.fake_tagging_id}",
+            json=self.fake_remove_tag_resp,
+        )
+        with pytest.raises(
+            ValueError, match="Please supply an entity or connection identifier, or a tagging id"
+        ):
+            self.bldr.remove_tagging(tag_id=self.fake_tag_id, tagging_id=None, identifier=None)
+
     def connect_callback(self, request, context):
         # Internal method for returning constructed connection data to test
 
@@ -411,6 +462,46 @@ class TestActionBuilder(unittest.TestCase):
             **{k: v for k, v in self.fake_connection.items() if k != "identifiers"},
             **{"inactive": False},
         }
+
+    @requests_mock.Mocker()
+    def test_upsert_connection_missing_identifiers(self, m):
+        m.post(
+            f"{self.api_url}/people/{self.fake_entity_id}/connections",
+            json=self.connect_callback,
+        )
+        with pytest.raises(ValueError, match="Must provide identifiers as a list"):
+            self.bldr.upsert_connection(self.fake_entity_id)
+        with pytest.raises(ValueError, match="Must provide exactly two identifiers"):
+            self.bldr.upsert_connection([self.fake_entity_id])
+            self.bldr.upsert_connection(
+                [self.fake_entity_id, "fake-entity-id-2", "fake-entity-id-3"]
+            )
+
+    @requests_mock.Mocker()
+    def test_upsert_connection_tag_data(self, m):
+        m.post(
+            f"{self.api_url}/people/{self.fake_entity_id}/connections",
+            json=self.connect_callback,
+        )
+        with pytest.raises(ValueError, match="Must provide tag_data as a dict or list of dicts"):
+            self.bldr.upsert_connection(
+                [self.fake_entity_id, "fake-entity-id-2"], tag_data=["string", "yarn"]
+            )
+
+    @requests_mock.Mocker()
+    def test_upsert_connection_reactivate(self, m):
+        m.post(
+            f"{self.api_url}/people/{self.fake_entity_id}/connections",
+            json=self.connect_callback,
+        )
+        connect_response = self.bldr.upsert_connection(
+            [self.fake_entity_id, "fake-entity-id-2"], reactivate=True
+        )
+        assert not connect_response["inactive"]
+        connect_response = self.bldr.upsert_connection(
+            [self.fake_entity_id, "fake-entity-id-2"], reactivate=False
+        )
+        assert "inactive" not in connect_response.keys()
 
     @requests_mock.Mocker()
     def test_deactivate_connection_post(self, m):
@@ -441,3 +532,14 @@ class TestActionBuilder(unittest.TestCase):
             **{k: v for k, v in self.fake_connection.items() if k != "person_id"},
             **{"inactive": True},
         }
+
+    @requests_mock.Mocker()
+    def test_deactivate_connection_missing_identifiers(self, m):
+        m.post(
+            f"{self.api_url}/people/{self.fake_entity_id}/connections",
+            json=self.connect_callback,
+        )
+        with pytest.raises(
+            ValueError, match="Must provide a connection ID or an ID for the second entity"
+        ):
+            self.bldr.deactivate_connection(self.fake_entity_id, to_identifier=None)

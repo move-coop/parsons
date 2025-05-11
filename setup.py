@@ -3,6 +3,7 @@ from pathlib import Path
 
 from setuptools import setup
 
+
 def main():
     limited_deps = os.environ.get("PARSONS_LIMITED_DEPENDENCIES", "")
     if limited_deps.strip().upper() in ("1", "YES", "TRUE", "ON"):

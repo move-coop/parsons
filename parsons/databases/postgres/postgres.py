@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 from typing import Optional
 
 from parsons.databases.alchemy import Alchemy
@@ -90,8 +91,8 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
 
             sql = f"""COPY "{table_name}" ("{'","'.join(tbl.columns)}") FROM STDIN CSV HEADER;"""
 
-            with self.cursor(connection) as cursor:
-                cursor.copy_expert(sql, open(tbl.to_csv(), "r"))
+            with self.cursor(connection) as cursor, Path(tbl.to_csv()).open() as f:
+                cursor.copy_expert(sql, f)
                 logger.info(f"{tbl.num_rows} rows copied to {table_name}.")
 
     def table(self, table_name):

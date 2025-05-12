@@ -31,10 +31,13 @@ dynamic = [
 ]
 
 [project.urls]
-"Home Page" = "https://www.parsonsproject.org/"
-DOCUMENTATION = "https://move-coop.github.io/parsons/html/stable/index.html"
-Repository = "https://github.com/move-coop/parsons.git"
-GitHub = "https://github.com/move-coop/parsons"
+homepage = "https://www.parsonsproject.org/"
+documentation = "https://move-coop.github.io/parsons/html/stable/index.html"
+releasenotes = "https://github.com/move-coop/parsons/releases"
+funding = "https://secure.actblue.com/donate/parsonsproject?refcode=parsonswebsite"
+issues = "https://github.com/move-coop/parsons/issues"
+github = "https://github.com/move-coop/parsons"
+repository = "https://github.com/move-coop/parsons.git"
 
 [tool.setuptools]
 packages = ["parsons"]

@@ -27,7 +27,17 @@ class ContactNotes(object):
         logger.info(f"Found {tbl.num_rows} custom fields.")
         return tbl
 
-    def create_contact_note(self, van_id, text, is_view_restricted, note_category_id=None):
+    def create_contact_note(
+        self,
+        van_id,
+        text,
+        is_view_restricted,
+        note_category_id=None,
+        contactTypeId=82,
+        inputTypeId=11,
+        dateCanvassed=None,
+        resultCodeId=205,
+    ):
         """
         Create a contact note
 
@@ -49,7 +59,12 @@ class ContactNotes(object):
         note = {"text": text, "isViewRestricted": is_view_restricted}
         if note_category_id is not None:
             note["category"] = {"noteCategoryId": note_category_id}
-
+        note["history"] = {
+            "contactTypeId": contactTypeId,
+            "inputTypeId": inputTypeId,
+            "dateCanvassed": dateCanvassed,
+            "resultCodeId": resultCodeId,
+        }
         r = self.connection.post_request(f"people/{van_id}/notes", json=note)
         logger.info(f"Contact note {r} created.")
         return r

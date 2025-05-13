@@ -27,7 +27,17 @@ class ContactNotes(object):
         logger.info(f"Found {tbl.num_rows} custom fields.")
         return tbl
 
-    def create_contact_note(self, van_id, text, is_view_restricted, note_category_id=None):
+    def create_contact_note(
+        self,
+        van_id,
+        text,
+        is_view_restricted,
+        note_category_id=None,
+        contactTypeId=None,
+        inputTypeId=None,
+        dateCanvassed=None,
+        resultCodeId=None,
+    ):
         """
         Create a contact note
 
@@ -42,6 +52,13 @@ class ContactNotes(object):
                 in the current context.
             note_category_id: int
                 Optional; if set, the note category for this note.
+            contactHistory: dict
+                Optional; applied if at least 1 of
+                - contactTypeId (str, defaults to 82)
+                - inputTypeId (str, defaults to 11)
+                - dateCanvassed (date, defaults to 2020-01-09T15:24:18Z)
+                - resultCodeId (str, defaults to 205)
+                is set.
         `Returns:`
             int
               The note ID.
@@ -49,6 +66,20 @@ class ContactNotes(object):
         note = {"text": text, "isViewRestricted": is_view_restricted}
         if note_category_id is not None:
             note["category"] = {"noteCategoryId": note_category_id}
+
+        contact_history = {}
+
+        if contactTypeId is not None:
+            contact_history["contactTypeId"] = str(contactTypeId)
+        if inputTypeId is not None:
+            contact_history["inputTypeId"] = str(inputTypeId)
+        if dateCanvassed is not None:
+            contact_history["dateCanvassed"] = dateCanvassed
+        if resultCodeId is not None:
+            contact_history["resultCodeId"] = str(resultCodeId)
+
+        if contact_history:
+            note["contactHistory"] = contact_history
 
         r = self.connection.post_request(f"people/{van_id}/notes", json=note)
         logger.info(f"Contact note {r} created.")

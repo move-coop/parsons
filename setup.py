@@ -28,7 +28,7 @@ def main():
             "dbt-postgres": ["dbt-postgres>=1.5.0"],
             "dbt-snowflake": ["dbt-snowflake>=1.5.0"],
             "facebook": ["joblib", "facebook-business"],
-            "geocode": ["censusgeocode", "urllib3==1.26.19"],
+            "geocode": ["censusgeocode", "urllib3>=1.26.10,<2"],
             "github": ["PyGitHub"],
             "google": [
                 "apiclient",
@@ -43,7 +43,7 @@ def main():
             ],
             "mysql": [
                 "mysql-connector-python",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+                "sqlalchemy>=1.4.22,!=1.4.33,<3.0.0",
             ],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
@@ -51,13 +51,13 @@ def main():
             "postgres": [
                 "psycopg2-binary<=2.9.9;python_version<'3.13'",
                 "psycopg2-binary>=2.9.10;python_version>='3.13'",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+                "sqlalchemy>=1.4.22,!=1.4.33,<3.0.0",
             ],
             "redshift": [
                 "boto3",
                 "psycopg2-binary<=2.9.9;python_version<'3.13'",
                 "psycopg2-binary>=2.9.10;python_version>='3.13'",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+                "sqlalchemy>=1.4.22,!=1.4.33,<3.0.0",
             ],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
@@ -71,7 +71,7 @@ def main():
                 "sshtunnel",
                 "psycopg2-binary<=2.9.9;python_version<'3.13'",
                 "psycopg2-binary>=2.9.10;python_version>='3.13'",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+                "sqlalchemy>=1.4.22,!=1.4.33,<3.0.0",
             ],
         }
         extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})

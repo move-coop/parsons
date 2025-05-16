@@ -8,15 +8,15 @@ from parsons import Census, Table
 from test.utils import mark_live_test
 
 
-@patch.dict(os.environ, {"CENSUS_API_KEY": "mock_api_key"})
 class TestCensus(unittest.TestCase):
     def setUp(self):
-        self.census = Census()
+        pass
 
     def tearDown(self):
         pass
 
     @mark_live_test
+    @patch.dict(os.environ, {"CENSUS_API_KEY": "mock_api_key"})
     def test_get_census_live_test(self):
         year = "2019"
         dataset_acronym = "/acs/acs1"
@@ -27,8 +27,10 @@ class TestCensus(unittest.TestCase):
         self.assertEqual(table[0]["NAME"], "Illinois")
         self.assertIsInstance(table, Table)
 
+    @patch.dict(os.environ, {"CENSUS_API_KEY": "mock_api_key"})
     @requests_mock.Mocker()
     def test_get_census_mock_test(self, m):
+        census = Census()
         year = "2019"
         dataset_acronym = "/acs/acs1"
         variables = "NAME,B01001_001E"

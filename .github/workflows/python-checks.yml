@@ -10,7 +10,7 @@ permissions:
     contents: read
 
 jobs:
-    test:
+    pytest:
         strategy:
             fail-fast: false
             matrix:
@@ -168,7 +168,7 @@ jobs:
 
     coverage:
         runs-on: ubuntu-latest
-        needs: test
+        needs: pytest
 
         permissions:
             pull-requests: write

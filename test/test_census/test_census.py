@@ -15,7 +15,7 @@ class TestCensus(unittest.TestCase):
     def tearDown(self):
         pass
 
-    @mark_live_test 
+    @mark_live_test
     @patch.dict(os.environ, {"CENSUS_API_KEY": "mock_api_key"})
     def test_get_census_live_test(self):
         self.census = Census()

@@ -16,7 +16,7 @@ jobs:
             matrix:
                 os: ["ubuntu-latest", "windows-latest", "macos-latest"]
                 python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
-                limited-dependencies: ["", "TRUE"]
+                resolution: ["highest", "limited-dependencies"]
 
         runs-on: ${{ matrix.os }}
 
@@ -35,8 +35,15 @@ jobs:
               uses: install-pinned/uv@1fd41179ee60eee2496694a1226cece304efa071  # 0.4.12
 
             - name: Install dependencies
+              if: matrix.resolution != 'limited-dependencies'
+              run: |
+                uv pip install --system --resolution ${{ matrix.resolution }} -e .[all]
+                uv pip install --system --resolution ${{ matrix.resolution }} -r requirements-dev.txt
+
+            - name: Install with limited dependencies
+              if: matrix.resolution == 'limited-dependencies'
               env:
-                  PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
+                  PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
               run: |
                 uv pip install --system -e .[all]
                 uv pip install --system -r requirements-dev.txt
@@ -45,13 +52,13 @@ jobs:
               run: |
                 pytest
               env:
-                  COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}${{ matrix.limited-dependencies }}"
+                  COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}${{ matrix.resolution }}"
 
             - name: Store coverage file
               uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
               with:
-                  name: coverage-${{ matrix.os }}${{ matrix.python-version }}${{ matrix.limited-dependencies }}
-                  path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}${{ matrix.limited-dependencies }}
+                  name: coverage-${{ matrix.os }}${{ matrix.python-version }}${{ matrix.resolution }}
+                  path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}${{ matrix.resolution }}
                   include-hidden-files: true
 
     ruff-format:

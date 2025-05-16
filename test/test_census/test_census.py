@@ -35,7 +35,7 @@ class TestCensus(unittest.TestCase):
         year = "2019"
         dataset_acronym = "/acs/acs1"
         variables = "NAME,B01001_001E"
-        location = "for=us:1"
+        location = "us:1"
 
         # This must match what get_census() will call under the hood
         expected_url = (
@@ -44,10 +44,9 @@ class TestCensus(unittest.TestCase):
         )
 
         # Mock the actual HTTP response
-        m.get(expected_url, json=[
-            ["NAME", "B01001_001E", "us"],
-            ["United States", "328239523", "1"]
-        ])
+        m.get(
+            expected_url, json=[["NAME", "B01001_001E", "us"], ["United States", "328239523", "1"]]
+        )
 
         table = census.get_census(year, dataset_acronym, variables, location)
 

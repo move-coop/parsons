@@ -18,6 +18,7 @@ class TestCensus(unittest.TestCase):
     @mark_live_test
     @patch.dict(os.environ, {"CENSUS_API_KEY": "mock_api_key"})
     def test_get_census_live_test(self):
+        self.census = Census()
         year = "2019"
         dataset_acronym = "/acs/acs1"
         variables = "NAME,B01001_001E"
@@ -30,7 +31,7 @@ class TestCensus(unittest.TestCase):
     @patch.dict(os.environ, {"CENSUS_API_KEY": "mock_api_key"})
     @requests_mock.Mocker()
     def test_get_census_mock_test(self, m):
-        census = Census()
+        m.census = Census()
         year = "2019"
         dataset_acronym = "/acs/acs1"
         variables = "NAME,B01001_001E"

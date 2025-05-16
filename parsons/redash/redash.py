@@ -18,6 +18,11 @@ class RedashQueryFailed(Exception):
     pass
 
 
+def _catch_runtime_error(res):
+    if res.status_code != 200:
+        raise RuntimeError(f"Error. Status code: {res.status_code}. Reason: {res.reason}")
+
+
 class Redash(object):
     """
     Instantiate Redash Class
@@ -52,10 +57,6 @@ class Redash(object):
         self.session = requests.Session()
         if user_api_key:
             self.session.headers.update({"Authorization": f"Key {user_api_key}"})
-
-    def _catch_runtime_error(self, res):
-        if res.status_code != 200:
-            raise RuntimeError(f"Error. Status code: {res.status_code}. Reason: {res.reason}")
 
     def _poll_job(self, session, job, query_id):
         start_secs = time.time()
@@ -94,7 +95,7 @@ class Redash(object):
             Data source json object
         """
         res = self.session.get(f"{self.base_url}/api/data_sources/{data_source_id}")
-        self._catch_runtime_error(res)
+        _catch_runtime_error(res)
         return res.json()
 
     def update_data_source(self, data_source_id, name, type, dbName, host, password, port, user):
@@ -121,7 +122,7 @@ class Redash(object):
         `Returns:`
             ``None``
         """
-        self._catch_runtime_error(
+        _catch_runtime_error(
             self.session.post(
                 f"{self.base_url}/api/data_sources/{data_source_id}",
                 json={

@@ -83,6 +83,7 @@ class Redash(object):
             return job["query_result_id"]
         elif job["status"] == 4:  # 3 = ERROR
             raise RedashQueryFailed("Redash Query {} failed: {}".format(query_id, job["error"]))
+        return None
 
     def get_data_source(self, data_source_id):
         """

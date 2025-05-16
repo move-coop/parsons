@@ -36,7 +36,6 @@ class TestCensus(unittest.TestCase):
         dataset_acronym = "/acs/acs1"
         variables = "NAME,B01001_001E"
         location = "for=us:1"
-        test_json = {"NAME": "United States", "B01001_001E": "328239523", "us": "1"}
-        table = m.census.get_census(year, dataset_acronym, variables, location, json=test_json)
+        table = m.census.get_census(year, dataset_acronym, variables, location)
         self.assertEqual(table[0]["B01001_001E"], "328239523")
         self.assertEqual(table[0]["NAME"], "United States")

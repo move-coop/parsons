@@ -45,8 +45,8 @@ class Redash(object):
     ):
         self.base_url = check("REDASH_BASE_URL", base_url)
         self.user_api_key = check("REDASH_USER_API_KEY", user_api_key, optional=True)
-        self.pause = int(check("REDASH_PAUSE_TIME", pause_time, optional=True))
-        self.timeout = int(check("REDASH_TIMEOUT", timeout, optional=True))
+        self.pause = int(check("REDASH_PAUSE_TIME", str(pause_time), optional=True))
+        self.timeout = int(check("REDASH_TIMEOUT", str(timeout), optional=True))
 
         self.verify = verify  # for https requests
         self.session = requests.Session()

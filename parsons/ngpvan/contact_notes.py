@@ -33,10 +33,10 @@ class ContactNotes(object):
         text,
         is_view_restricted,
         note_category_id=None,
-        contactTypeId=None,
-        inputTypeId=None,
-        dateCanvassed=None,
-        resultCodeId=None,
+        contact_type_id=None,
+        input_type_id=None,
+        date_canvassed=None,
+        result_code_id=None,
     ):
         """
         Create a contact note
@@ -52,13 +52,14 @@ class ContactNotes(object):
                 in the current context.
             note_category_id: int
                 Optional; if set, the note category for this note.
-            contactHistory: dict
-                Optional; applied if at least 1 of
-                - contactTypeId (str, defaults to 82)
-                - inputTypeId (str, defaults to 11)
-                - dateCanvassed (date, defaults to 2020-01-09T15:24:18Z)
-                - resultCodeId (str, defaults to 205)
-                is set.
+            contact_type_id: str
+                Defaults to 82 if no value is set
+            input_type_id: str
+                Defaults to 11 if no value is set
+            date_canvassed: date
+                Defaults to 2020-01-09T15:24:18Z if no value is set
+            result_code_id: str
+                Defaults to 205 if no value is set.
         `Returns:`
             int
               The note ID.
@@ -69,14 +70,14 @@ class ContactNotes(object):
 
         contact_history = {}
 
-        if contactTypeId is not None:
-            contact_history["contactTypeId"] = str(contactTypeId)
-        if inputTypeId is not None:
-            contact_history["inputTypeId"] = str(inputTypeId)
-        if dateCanvassed is not None:
-            contact_history["dateCanvassed"] = dateCanvassed
-        if resultCodeId is not None:
-            contact_history["resultCodeId"] = str(resultCodeId)
+        if contact_type_id is not None:
+            contact_history["contact_type_id"] = str(contact_type_id)
+        if input_type_id is not None:
+            contact_history["input_type_id"] = str(input_type_id)
+        if date_canvassed is not None:
+            contact_history["date_canvassed"] = date_canvassed
+        if result_code_id is not None:
+            contact_history["result_code_id"] = str(result_code_id)
 
         if contact_history:
             note["contactHistory"] = contact_history

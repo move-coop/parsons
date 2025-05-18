@@ -57,7 +57,7 @@ class ContactNotes(object):
             input_type_id: str
                 Defaults to 11 if no value is set
             date_canvassed: date
-                Defaults to 2020-01-09T15:24:18Z if no value is set
+                Defaults to current date if no value is set
             result_code_id: str
                 Defaults to 205 if no value is set.
         `Returns:`

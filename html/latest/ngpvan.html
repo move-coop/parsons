@@ -1912,7 +1912,7 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.ContactNotes.create_contact_note">
-<span class="sig-name descname"><span class="pre">create_contact_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_view_restricted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note_category_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/contact_notes.html#ContactNotes.create_contact_note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.ContactNotes.create_contact_note" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_contact_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_view_restricted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note_category_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contact_type_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_canvassed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_code_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/contact_notes.html#ContactNotes.create_contact_note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.ContactNotes.create_contact_note" title="Link to this definition"></a></dt>
 <dd><p>Create a contact note</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -1925,6 +1925,15 @@ the current context; set to false if the note may be viewed by any user
 in the current context.</p>
 </dd>
 <dt>note_category_id: int</dt><dd><p>Optional; if set, the note category for this note.</p>
+</dd>
+<dt>contact_type_id: str</dt><dd><p>Defaults to 82 if no value is set. This value results in a null contact type in EA.</p>
+</dd>
+<dt>input_type_id: str</dt><dd><p>Defaults to 11 if no value is set. If the value is 11,
+the input type in EA will be listed as “API”</p>
+</dd>
+<dt>date_canvassed: date</dt><dd><p>Defaults to current date if no value is set. Dates should be formatted in ISO8601 standard.</p>
+</dd>
+<dt>result_code_id: str</dt><dd><p>Defaults to 205 if no value is set. This value results in a “Contacted” result in EA.</p>
 </dd>
 </dl>
 </dd>

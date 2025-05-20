@@ -182,7 +182,17 @@
 
 <div class="viewcode-block" id="ContactNotes.create_contact_note">
 <a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ContactNotes.create_contact_note">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_contact_note</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_id</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">is_view_restricted</span><span class="p">,</span> <span class="n">note_category_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_contact_note</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">van_id</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">,</span>
+        <span class="n">is_view_restricted</span><span class="p">,</span>
+        <span class="n">note_category_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">date_canvassed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">result_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a contact note</span>
 
@@ -197,6 +207,15 @@
 <span class="sd">                in the current context.</span>
 <span class="sd">            note_category_id: int</span>
 <span class="sd">                Optional; if set, the note category for this note.</span>
+<span class="sd">            contact_type_id: str</span>
+<span class="sd">                Defaults to 82 if no value is set. This value results in a null contact type in EA.</span>
+<span class="sd">            input_type_id: str</span>
+<span class="sd">                Defaults to 11 if no value is set. If the value is 11,</span>
+<span class="sd">                the input type in EA will be listed as &quot;API&quot;</span>
+<span class="sd">            date_canvassed: date</span>
+<span class="sd">                Defaults to current date if no value is set. Dates should be formatted in ISO8601 standard.</span>
+<span class="sd">            result_code_id: str</span>
+<span class="sd">                Defaults to 205 if no value is set. This value results in a &quot;Contacted&quot; result in EA.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            int</span>
 <span class="sd">              The note ID.</span>
@@ -204,6 +223,20 @@
         <span class="n">note</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s2">&quot;isViewRestricted&quot;</span><span class="p">:</span> <span class="n">is_view_restricted</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">note_category_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">note</span><span class="p">[</span><span class="s2">&quot;category&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;noteCategoryId&quot;</span><span class="p">:</span> <span class="n">note_category_id</span><span class="p">}</span>
+
+        <span class="n">contact_history</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">contact_type_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">contact_history</span><span class="p">[</span><span class="s2">&quot;contact_type_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">contact_type_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">input_type_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">contact_history</span><span class="p">[</span><span class="s2">&quot;input_type_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">input_type_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">date_canvassed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">contact_history</span><span class="p">[</span><span class="s2">&quot;date_canvassed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">date_canvassed</span>
+        <span class="k">if</span> <span class="n">result_code_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">contact_history</span><span class="p">[</span><span class="s2">&quot;result_code_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result_code_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">contact_history</span><span class="p">:</span>
+            <span class="n">note</span><span class="p">[</span><span class="s2">&quot;contactHistory&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">contact_history</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">van_id</span><span class="si">}</span><span class="s2">/notes&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">note</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Contact note </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2"> created.&quot;</span><span class="p">)</span>

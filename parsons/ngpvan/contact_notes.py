@@ -53,13 +53,14 @@ class ContactNotes(object):
             note_category_id: int
                 Optional; if set, the note category for this note.
             contact_type_id: str
-                Defaults to 82 if no value is set
+                Defaults to 82 if no value is set. This value results in a null contact type in EA.
             input_type_id: str
-                Defaults to 11 if no value is set
+                Defaults to 11 if no value is set. If the value is 11,
+                the input type in EA will be listed as "API"
             date_canvassed: date
-                Defaults to current date if no value is set
+                Defaults to current date if no value is set. Dates should be formatted in ISO8601 standard.
             result_code_id: str
-                Defaults to 205 if no value is set.
+                Defaults to 205 if no value is set. This value results in a "Contacted" result in EA.
         `Returns:`
             int
               The note ID.

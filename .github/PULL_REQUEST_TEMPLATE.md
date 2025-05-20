@@ -5,5 +5,5 @@
 ## Considerations for discussion
 - (List out any significant design decisions that were made and why.)
 
-## How to test the changes
+## How to test the changes (if needed)
 - (How should a reviewer test this functionality)

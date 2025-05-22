@@ -95,6 +95,11 @@ html_theme_options = {
     "display_version": True,
 }
 
+# Adding Google Analytics
+html_theme_options["analytics"] = {
+    "google_analytics_id": "G-XXXXXXXXXX",
+}
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".

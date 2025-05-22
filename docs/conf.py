@@ -97,7 +97,7 @@ html_theme_options = {
 
 # Adding Google Analytics
 html_theme_options["analytics"] = {
-    "google_analytics_id": "G-XXXXXXXXXX",
+    "google_analytics_id": "G-L2YB7WHTRG",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

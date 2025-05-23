@@ -47,6 +47,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "myst_parser",
     "sphinx_multiversion",
+    "sphinxcontrib.googleanalytics",
 ]
 
 # Sorting of attributes
@@ -93,10 +94,6 @@ html_theme = "sphinx_rtd_theme"
 #
 html_theme_options = {
     "display_version": True,
-}
-
-html_theme_options["analytics"] = {
-    "google_analytics_id": "G-L2YB7WHTRG",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -195,3 +192,6 @@ smv_branch_whitelist = r"^stable|latest$"  # creates version for latest master/m
 
 # Get tags to whitelist from DOCUMENTED_VERSIONS const
 smv_tag_whitelist = "|".join(["^" + version + "$" for version in DOCUMENTED_VERSIONS])
+
+# Adds Google Analytics tracking code to the HTML output
+googleanalytics_id = "G-L2YB7WHTRG"

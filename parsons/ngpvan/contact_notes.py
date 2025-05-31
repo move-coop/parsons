@@ -76,7 +76,7 @@ class ContactNotes(object):
         if input_type_id is not None:
             contact_history["input_type_id"] = str(input_type_id)
         if date_canvassed is not None:
-            contact_history["date_canvassed"] = date_canvassed
+            contact_history["dateCanvassed"] = date_canvassed
         if result_code_id is not None:
             contact_history["result_code_id"] = str(result_code_id)
 

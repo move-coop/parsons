@@ -120,7 +120,7 @@ class dbtLoggerMarkdown(dbtLogger):
 
         # Skips
         if manifest.skips:
-            skips = set([i.node.name for i in manifest.skips])
+            skips = {i.node.name for i in manifest.skips}
             log_message += "\nSkipped:\n```{}```".format(", ".join(skips))
 
         return log_message
@@ -130,7 +130,7 @@ class dbtLoggerMarkdown(dbtLogger):
         full_log_message = ""
 
         # Header
-        if any([command.errors for command in self.commands]):
+        if any(command.errors for command in self.commands):
             status = "failed"
             full_log_message += "\U0001f534"
         else:

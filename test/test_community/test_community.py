@@ -38,4 +38,4 @@ class TestCommunity(unittest.TestCase):
         table = self.com.get_data_export(
             TEST_FILENAME,
         )
-        assert TEST_EXPECTED_COLUMNS == table.columns
+        assert table.columns == TEST_EXPECTED_COLUMNS

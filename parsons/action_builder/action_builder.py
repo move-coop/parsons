@@ -84,10 +84,9 @@ class ActionBuilder(object):
             # Assuming there's data, add it to the running response list
             return_list.extend(response_list)
             count = count + len(response_list)
-            if limit:
-                if count >= limit:
-                    # Limit reached or exceeded, so return just the requested limit amount
-                    return Table(return_list[0:limit])
+            if limit and count >= limit:
+                # Limit reached or exceeded, so return just the requested limit amount
+                return Table(return_list[0:limit])
 
     def get_campaign_tags(self, campaign=None, limit=None, per_page=25, filter=None):
         """

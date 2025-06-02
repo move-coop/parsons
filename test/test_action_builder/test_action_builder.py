@@ -501,7 +501,7 @@ class TestActionBuilder(unittest.TestCase):
         connect_response = self.bldr.upsert_connection(
             [self.fake_entity_id, "fake-entity-id-2"], reactivate=False
         )
-        assert "inactive" not in connect_response.keys()
+        assert "inactive" not in connect_response
 
     @requests_mock.Mocker()
     def test_deactivate_connection_post(self, m):

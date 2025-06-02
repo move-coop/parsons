@@ -21,13 +21,13 @@ class TestBulkImport(unittest.TestCase):
 
         m.get(self.van.connection.uri + "bulkImportJobs/resources", json=json)
 
-        self.assertEqual(self.van.get_bulk_import_resources(), json)
+        assert self.van.get_bulk_import_resources() == json
 
     @requests_mock.Mocker()
     def test_get_bulk_import_job(self, m):
         m.get(self.van.connection.uri + "bulkImportJobs/53407", json=bulk_import_job)
 
-        self.assertEqual(self.van.get_bulk_import_job(53407), bulk_import_job)
+        assert self.van.get_bulk_import_job(53407) == bulk_import_job
 
     @requests_mock.Mocker()
     def test_get_bulk_import_job_results(self, m):
@@ -75,7 +75,7 @@ class TestBulkImport(unittest.TestCase):
             json=mapping_type,
         )
 
-        self.assertEqual(self.van.get_bulk_import_mapping_type("ActivistCode"), mapping_type)
+        assert self.van.get_bulk_import_mapping_type("ActivistCode") == mapping_type
 
     @requests_mock.Mocker()
     def get_bulk_import_mapping_type_fields(self, m):
@@ -90,7 +90,7 @@ class TestBulkImport(unittest.TestCase):
         )
 
         r = self.van.get_bulk_import_mapping_type_fields("Email", "EmailSubscriptionStatusId")
-        self.assertEqual(json, r)
+        assert json == r
 
     @requests_mock.Mocker()
     def test_post_bulk_import(self, m):
@@ -111,7 +111,7 @@ class TestBulkImport(unittest.TestCase):
             bucket="my-bucket",
         )
 
-        self.assertEqual(r, 54679)
+        assert r == 54679
 
     @requests_mock.Mocker()
     def test_bulk_apply_activist_codes(self, m):
@@ -125,7 +125,7 @@ class TestBulkImport(unittest.TestCase):
 
         job_id = self.van.bulk_apply_activist_codes(tbl, url_type="S3", bucket="my-bucket")
 
-        self.assertEqual(job_id, 54679)
+        assert job_id == 54679
 
     @requests_mock.Mocker()
     def test_bulk_apply_suppressions(self, m):
@@ -139,7 +139,7 @@ class TestBulkImport(unittest.TestCase):
 
         job_id = self.van.bulk_apply_suppressions(tbl, url_type="S3", bucket="my-bucket")
 
-        self.assertEqual(job_id, 54679)
+        assert job_id == 54679
 
     @requests_mock.Mocker()
     def test_bulk_upsert_contacts(self, m):
@@ -153,7 +153,7 @@ class TestBulkImport(unittest.TestCase):
 
         job_id = self.van.bulk_upsert_contacts(tbl, url_type="S3", bucket="my-bucket")
 
-        self.assertEqual(job_id, 54679)
+        assert job_id == 54679
 
     @requests_mock.Mocker()
     def test_bulk_apply_canvass_results(self, m):
@@ -172,7 +172,7 @@ class TestBulkImport(unittest.TestCase):
 
         job_id = self.van.bulk_apply_canvass_results(tbl, url_type="S3", bucket="my-bucket")
 
-        self.assertEqual(job_id, 54679)
+        assert job_id == 54679
 
     @requests_mock.Mocker()
     def test_bulk_apply_contact_custom_fields(self, m):
@@ -190,7 +190,7 @@ class TestBulkImport(unittest.TestCase):
             custom_field_group_id, tbl, url_type="S3", bucket="my-bucket"
         )
 
-        self.assertEqual(job_id, 54679)
+        assert job_id == 54679
 
 
 mapping_type = {

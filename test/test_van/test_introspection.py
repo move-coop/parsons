@@ -42,9 +42,9 @@ class TestNGPVAN(unittest.TestCase):
         response = self.van.get_apikeyprofiles()
 
         # Assert that the response is a dictionary (JSON object)
-        self.assertIsInstance(response, dict)
+        assert isinstance(response, dict)
 
         # Assert that the response matches the expected JSON
         # I have to access a part of the json because the response is a list of dictionaries
         # and the VAN Connector handles the pagination and unpacks the list of dictionaries
-        self.assertEqual(response, json["items"][0])
+        assert response == json["items"][0]

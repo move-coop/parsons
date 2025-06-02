@@ -2,6 +2,7 @@ import copy
 import os
 import unittest
 
+import pytest
 import requests_mock
 
 from parsons import CapitolCanary
@@ -128,8 +129,8 @@ class TestP2A(unittest.TestCase):
         os.environ["PHONE2ACTION_APP_KEY"] = "key"
 
         cc_envs = CapitolCanary()
-        self.assertEqual(cc_envs.app_id, "id")
-        self.assertEqual(cc_envs.app_key, "key")
+        assert cc_envs.app_id == "id"
+        assert cc_envs.app_key == "key"
 
     def test_init_envs(self):
         # Test initializing class with envs
@@ -138,8 +139,8 @@ class TestP2A(unittest.TestCase):
         os.environ["CAPITOLCANARY_APP_KEY"] = "key"
 
         cc_envs = CapitolCanary()
-        self.assertEqual(cc_envs.app_id, "id")
-        self.assertEqual(cc_envs.app_key, "key")
+        assert cc_envs.app_id == "id"
+        assert cc_envs.app_key == "key"
 
     @requests_mock.Mocker()
     def test_get_advocates(self, m):
@@ -172,19 +173,19 @@ class TestP2A(unittest.TestCase):
             "districts_stateSenate",
         ]
 
-        self.assertTrue(validate_list(adv_exp, self.cc.get_advocates()["advocates"]))
+        assert validate_list(adv_exp, self.cc.get_advocates()["advocates"])
         ids_exp = ["advocate_id", "ids"]
 
-        self.assertTrue(validate_list(ids_exp, self.cc.get_advocates()["ids"]))
+        assert validate_list(ids_exp, self.cc.get_advocates()["ids"])
 
         phone_exp = ["advocate_id", "phones_address", "phones_id", "phones_subscribed"]
-        self.assertTrue(validate_list(phone_exp, self.cc.get_advocates()["phones"]))
+        assert validate_list(phone_exp, self.cc.get_advocates()["phones"])
 
         tags_exp = ["advocate_id", "tags"]
-        self.assertTrue(validate_list(tags_exp, self.cc.get_advocates()["tags"]))
+        assert validate_list(tags_exp, self.cc.get_advocates()["tags"])
 
         email_exp = ["advocate_id", "emails_address", "emails_id", "emails_subscribed"]
-        self.assertTrue(validate_list(email_exp, self.cc.get_advocates()["emails"]))
+        assert validate_list(email_exp, self.cc.get_advocates()["emails"])
 
         member_exp = [
             "advocate_id",
@@ -194,10 +195,10 @@ class TestP2A(unittest.TestCase):
             "memberships_name",
             "memberships_source",
         ]
-        self.assertTrue(validate_list(member_exp, self.cc.get_advocates()["memberships"]))
+        assert validate_list(member_exp, self.cc.get_advocates()["memberships"])
 
         fields_exp = ["advocate_id", "fields"]
-        self.assertTrue(validate_list(fields_exp, self.cc.get_advocates()["fields"]))
+        assert validate_list(fields_exp, self.cc.get_advocates()["fields"])
 
     @requests_mock.Mocker()
     def test_get_advocates__by_page(self, m):
@@ -212,7 +213,7 @@ class TestP2A(unittest.TestCase):
         )
 
         results = self.cc.get_advocates(page=1)
-        self.assertTrue(results["advocates"].num_rows, 1)
+        assert results["advocates"].num_rows, 1
 
     @requests_mock.Mocker()
     def test_get_advocates__empty(self, m):
@@ -224,7 +225,7 @@ class TestP2A(unittest.TestCase):
         m.get(self.cc.client.uri + "advocates", json=adv_json)
 
         results = self.cc.get_advocates()
-        self.assertTrue(results["advocates"].num_rows, 0)
+        assert results["advocates"].num_rows, 0
 
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):
@@ -250,56 +251,64 @@ class TestP2A(unittest.TestCase):
 
         m.get(self.cc.client.uri + "campaigns", json=camp_json)
 
-        self.assertTrue(validate_list(camp_exp, self.cc.get_campaigns()))
+        assert validate_list(camp_exp, self.cc.get_campaigns())
 
     @requests_mock.Mocker()
     def test_create_advocate(self, m):
         m.post(self.cc.client.uri + "advocates", json={"advocateid": 1})
 
         # Test arg validation - create requires a phone or an email
-        self.assertRaises(
+        with pytest.raises(
             ValueError,
-            lambda: self.cc.create_advocate(campaigns=[1], firstname="Foo", lastname="bar"),
-        )
+            match="When creating an advocate, you must provide an email address or a phone number",
+        ):
+            self.cc.create_advocate(campaigns=[1], firstname="Foo", lastname="bar")
+
         # Test arg validation - sms opt in requires a phone
-        self.assertRaises(
+        with pytest.raises(
             ValueError,
-            lambda: self.cc.create_advocate(campaigns=[1], email="foo@bar.com", sms_optin=True),
-        )
+            match="When opting an advocate in or out of SMS messages, you must specify a valid phone and one or more campaigns",
+        ):
+            self.cc.create_advocate(campaigns=[1], email="foo@bar.com", sms_optin=True)
 
         # Test arg validation - email opt in requires a email
-        self.assertRaises(
+        with pytest.raises(
             ValueError,
-            lambda: self.cc.create_advocate(campaigns=[1], phone="1234567890", email_optin=True),
-        )
+            match="When opting an advocate in or out of email messages, you must specify a valid email address and one or more campaigns",
+        ):
+            self.cc.create_advocate(campaigns=[1], phone="1234567890", email_optin=True)
 
         # Test a successful call
         advocateid = self.cc.create_advocate(
             campaigns=[1], email="foo@bar.com", email_optin=True, firstname="Test"
         )
-        self.assertTrue(m.called)
-        self.assertEqual(advocateid, 1)
+        assert m.called
+        assert advocateid == 1
 
         # Check that the properties were mapped
         data = parse_request_body(m.last_request.text)
-        self.assertEqual(data["firstname"], "Test")
-        self.assertNotIn("lastname", data)
-        self.assertEqual(data["emailOptin"], "1")
-        self.assertEqual(data["email"], "foo%40bar.com")
+        assert data["firstname"] == "Test"
+        assert "lastname" not in data
+        assert data["emailOptin"] == "1"
+        assert data["email"] == "foo%40bar.com"
 
     @requests_mock.Mocker()
     def test_update_advocate(self, m):
         m.post(self.cc.client.uri + "advocates")
 
         # Test arg validation - sms opt in requires a phone
-        self.assertRaises(
-            ValueError, lambda: self.cc.update_advocate(advocate_id=1, sms_optin=True)
-        )
+        with pytest.raises(
+            ValueError,
+            match="When opting an advocate in or out of SMS messages, you must specify a valid phone and one or more campaigns",
+        ):
+            self.cc.update_advocate(advocate_id=1, sms_optin=True)
 
         # Test arg validation - email opt in requires a email
-        self.assertRaises(
-            ValueError, lambda: self.cc.update_advocate(advocate_id=1, email_optin=True)
-        )
+        with pytest.raises(
+            ValueError,
+            match="When opting an advocate in or out of email messages, you must specify a valid email address and one or more campaigns",
+        ):
+            self.cc.update_advocate(advocate_id=1, email_optin=True)
 
         # Test a successful call
         self.cc.update_advocate(
@@ -309,11 +318,11 @@ class TestP2A(unittest.TestCase):
             email_optin=True,
             firstname="Test",
         )
-        self.assertTrue(m.called)
+        assert m.called
 
         # Check that the properties were mapped
         data = parse_request_body(m.last_request.text)
-        self.assertEqual(data["firstname"], "Test")
-        self.assertNotIn("lastname", data)
-        self.assertEqual(data["emailOptin"], "1")
-        self.assertEqual(data["email"], "foo%40bar.com")
+        assert data["firstname"] == "Test"
+        assert "lastname" not in data
+        assert data["emailOptin"] == "1"
+        assert data["email"] == "foo%40bar.com"

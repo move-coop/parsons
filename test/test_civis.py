@@ -1,12 +1,12 @@
-import os
 import unittest
 
 from parsons import CivisClient, Table
+from test.utils import mark_live_test
 
 # from . import scratch_creds
 
 
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestCivisClient(unittest.TestCase):
     def setUp(self):
         self.civis = CivisClient()
@@ -38,7 +38,7 @@ class TestCivisClient(unittest.TestCase):
         # Test that queries match
         self.civis.table_import(self.tbl, "test_parsons.test_table")
         tbl = self.civis.query("SELECT COUNT(*) FROM test_parsons.test_table")
-        self.assertEqual(tbl[0]["count"], "1")
+        assert tbl[0]["count"] == "1"
 
     def test_to_civis(self):
         # Test that the to_civis() method works too

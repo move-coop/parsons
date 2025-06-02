@@ -49,7 +49,7 @@ def try_overwrite(table, request_count, sheet_id, tab_index):
     except APIError as e:
         print(f"trying to overwrite {tab_index} for the {request_count}th time")
         if request_count > 60:
-            raise APIError(e)
+            raise APIError from e
         time.sleep(80)
         request_count += 1
         try_overwrite(table, request_count, sheet_id, tab_index)

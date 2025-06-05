@@ -17,9 +17,9 @@ Response = requests.models.Response
 
 
 class APIConnector:
-    def __init__(self, *, session, **kwargs):
+    def __init__(self, *, session, URI, **kwargs):
         self.session = session
-        self.URI
+        self.URI = URI
 
     def get_request(self, endpoint: Union[str, bytes, Text], **kwargs) -> Response:
         r"""Sends a GET request. Returns :class:`Response` object."""

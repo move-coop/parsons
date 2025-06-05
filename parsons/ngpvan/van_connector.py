@@ -6,10 +6,6 @@ logger = logging.getLogger(__name__)
 
 
 class VanConnector(APIConnector):
-    def __init__(self, *, session, api_key, auth_name, db_code):
-        self.session = session
-        self.URI = "https://api.securevan.com/v4/"
-
     def items(self, endpoint, **kwargs):
         response = self.get_request(endpoint, **kwargs)
 

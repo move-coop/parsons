@@ -81,7 +81,7 @@ class VAN(
         session = Scraper()
         session.auth = ("default", api_key + "|" + str(db_code))
 
-        self.connection = VANConnector(session)
+        self.connection = VANConnector(session=session, URI="https://api.securevan.com/v4/")
 
         # The size of each page to return. Currently set to maximum.
         self.page_size = 200

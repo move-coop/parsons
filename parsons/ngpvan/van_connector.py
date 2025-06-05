@@ -29,7 +29,7 @@ class VanConnector(APIConnector):
         Returns the API key profile with includes permissions and other metadata.
         """
 
-        return self.get("apiKeyProfiles")[0]
+        return self.get_request("apiKeyProfiles")[0]
 
     @property
     def soap_client(self):

@@ -58,10 +58,10 @@ class APIConnector:
     def patch_request(self, endpoint: Union[str, bytes, Text], data=None, **kwargs):
         r"""Sends a PATCH request. Returns :class:`Response` object."""
         url = self.URI + endpoint
-        return self.sessions.patch(url, data=data, **kwargs)
+        return self.session.patch(url, data=data, **kwargs)
 
     def delete_request(self, endpoint: Union[str, bytes, Text], **kwargs) -> Response:
         r"""Sends a DELETE request. Returns :class:`Response` object."""
 
         url = self.URI + endpoint
-        return self.delete("DELETE", url, **kwargs)
+        return self.session.delete("DELETE", url, **kwargs)

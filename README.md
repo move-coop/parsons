@@ -188,7 +188,7 @@
 | parsons/twilio/twilio.py                                  |       51 |        3 |       18 |        3 |     91% |35, 129, 134 |
 | parsons/utilities/\_\_init\_\_.py                         |        0 |        0 |        0 |        0 |    100% |           |
 | parsons/utilities/api\_connector.py                       |       89 |        5 |       40 |        9 |     89% |109, 139->exit, 166->exit, 193->exit, 224->exit, 226, 242, 298, 317 |
-| parsons/utilities/check\_env.py                           |       10 |        0 |        4 |        0 |    100% |           |
+| parsons/utilities/check\_env.py                           |       11 |        0 |        4 |        0 |    100% |           |
 | parsons/utilities/cloud\_storage.py                       |       10 |        7 |        6 |        0 |     19% |     35-48 |
 | parsons/utilities/datetime.py                             |       26 |        4 |       14 |        2 |     85% |24, 35-37, 66 |
 | parsons/utilities/dbt/\_\_init\_\_.py                     |        3 |        3 |        0 |        0 |      0% |     46-54 |
@@ -204,7 +204,7 @@
 | parsons/utilities/zip\_archive.py                         |       18 |        2 |        4 |        2 |     82% |    25, 30 |
 | parsons/zoom/\_\_init\_\_.py                              |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/zoom/zoom.py                                      |      266 |      107 |       54 |       16 |     57% |82->exit, 88-90, 109-112, 130, 169, 217-225, 239-241, 304->306, 360-361, 371, 391-392, 416-417, 446-447, 473-474, 498-499, 516-517, 534-535, 575, 593-614, 628-630, 633, 649-651, 665-667, 685-688, 691, 710-713, 716, 733-736, 739, 759-762, 765, 784-787, 790, 807-810, 813, 830-833, 836, 853-856, 859, 890-892 |
-|                                                 **TOTAL** | **10467** | **3119** | **2934** |  **541** | **66%** |           |
+|                                                 **TOTAL** | **10468** | **3119** | **2934** |  **541** | **66%** |           |
 
 
 ## Setup coverage badge

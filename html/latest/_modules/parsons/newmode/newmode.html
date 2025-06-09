@@ -584,11 +584,11 @@
             <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
             <span class="n">override_api_version</span><span class="o">=</span><span class="n">override_api_version</span><span class="p">,</span>
         <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">convert_to_table</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">response</span>
+        <span class="k">if</span> <span class="n">response</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">convert_to_table</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">response</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

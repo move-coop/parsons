@@ -17,4 +17,3 @@ def check(env: str, field: Optional[str], optional: Optional[bool] = False) -> O
             raise KeyError(
                 f"No {env} found. Store as environment variable or pass as an argument."
             ) from e
-        return None

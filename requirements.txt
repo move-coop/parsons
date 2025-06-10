@@ -31,7 +31,7 @@ psycopg2-binary==2.9.9;python_version<"3.13"
 psycopg2-binary==2.9.10;python_version>="3.13"
 PyGitHub==2.6.0
 python-dateutil==2.9.0.post0
-requests==2.32.3
+requests==2.32.4
 requests_oauthlib==2.0.0
 setuptools==80.9.0
 simple-salesforce==1.12.6

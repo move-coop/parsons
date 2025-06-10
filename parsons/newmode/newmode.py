@@ -424,11 +424,11 @@ class NewmodeV2:
             client=client,
             override_api_version=override_api_version,
         )
-
-        if convert_to_table:
-            return client.convert_to_table(data=response)
-        else:
-            return response
+        if response:
+            if convert_to_table:
+                return client.convert_to_table(data=response)
+            else:
+                return response
 
     def get_campaign(self, campaign_id, params={}):
         """

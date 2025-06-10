@@ -108,10 +108,7 @@ class Scores(object):
             )
 
         else:
-            if status == "pending approval":
-                status = "PendingApproval"
-            else:
-                status = status.capitalize()
+            status = "PendingApproval" if status == "pending approval" else status.capitalize()
 
         json = {"loadStatus": status}
 

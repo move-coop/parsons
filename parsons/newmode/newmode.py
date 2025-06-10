@@ -46,10 +46,7 @@ class NewmodeV1:
     def convert_to_table(self, data):
         # Internal method to create a Parsons table from a data element.
         table = None
-        if isinstance(data, list):
-            table = Table(data)
-        else:
-            table = Table([data])
+        table = Table(data) if isinstance(data, list) else Table([data])
 
         return table
 

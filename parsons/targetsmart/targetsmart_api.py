@@ -200,7 +200,7 @@ class Person:
         }
 
         r = self.connection.request(url, args=args, raw=True)
-        return Table([itm for itm in r["output"]]).unpack_dict("data_fields", prepend=False)
+        return Table(list(r["output"])).unpack_dict("data_fields", prepend=False)
 
     def phone(self, table):
         """

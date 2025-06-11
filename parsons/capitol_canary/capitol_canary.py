@@ -294,7 +294,7 @@ class CapitolCanary(object):
 
         # Turn into a list of items so we can append multiple campaigns
         campaign_keys = [("campaigns[]", val) for val in campaigns]
-        data = [(key, value) for key, value in payload.items()] + campaign_keys
+        data = list(payload.items()) + campaign_keys
 
         # Call into the CapitolCanary API
         response = self.client.post_request("advocates", data=data)
@@ -387,7 +387,7 @@ class CapitolCanary(object):
         # Turn into a list of items so we can append multiple campaigns
         campaigns = campaigns or []
         campaign_keys = [("campaigns[]", val) for val in campaigns]
-        data = [(key, value) for key, value in payload.items()] + campaign_keys
+        data = list(payload.items()) + campaign_keys
 
         # Call into the CapitolCanary API
         self.client.post_request("advocates", data=data)

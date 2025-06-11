@@ -303,7 +303,7 @@ class Airtable(object):
         # is provided then map the ids into the expected list of id strings.
 
         if any(isinstance(row, dict) for row in table):
-            table = list(map(lambda row: row["id"], table))
+            table = [row["id"] for row in table]
 
         resp = self.client.batch_delete(table)
         logger.info(f"{len(table)} records deleted.")

@@ -1,4 +1,5 @@
 import unittest
+from pathlib import Path
 from unittest.mock import MagicMock
 
 import requests_mock
@@ -32,7 +33,9 @@ class TestActBlue(unittest.TestCase):
     def setUp(self, m):
         self.ab = ActBlue(TEST_CLIENT_UUID, TEST_CLIENT_SECRET, TEST_URI)
         self.from_csv = Table.from_csv
-        test_csv_data = Table.from_csv_string(open("test/test_actblue/test_csv_data.csv").read())
+        test_csv_data = Table.from_csv_string(
+            Path("test/test_actblue/test_csv_data.csv").read_text()
+        )
         Table.from_csv = MagicMock(name="mocked from_csv", return_value=test_csv_data)
 
     def tearDown(self):

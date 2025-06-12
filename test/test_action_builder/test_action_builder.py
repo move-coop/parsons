@@ -473,6 +473,7 @@ class TestActionBuilder(unittest.TestCase):
             self.bldr.upsert_connection(self.fake_entity_id)
         with pytest.raises(ValueError, match="Must provide exactly two identifiers"):
             self.bldr.upsert_connection([self.fake_entity_id])
+        with pytest.raises(ValueError, match="Must provide exactly two identifiers"):
             self.bldr.upsert_connection(
                 [self.fake_entity_id, "fake-entity-id-2", "fake-entity-id-3"]
             )

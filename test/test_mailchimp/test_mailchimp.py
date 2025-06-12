@@ -18,7 +18,7 @@ class TestMailchimp(unittest.TestCase):
         m.get(self.mc.uri + "campaigns", json=expected_json.test_campaigns)
         tbl = self.mc.get_campaigns()
 
-        self.assertEqual(tbl.num_rows, 2)
+        assert tbl.num_rows == 2
 
     @requests_mock.Mocker()
     def test_get_lists(self, m):
@@ -26,7 +26,7 @@ class TestMailchimp(unittest.TestCase):
         m.get(self.mc.uri + "lists", json=expected_json.test_lists)
         tbl = self.mc.get_lists()
 
-        self.assertEqual(tbl.num_rows, 2)
+        assert tbl.num_rows == 2
 
     @requests_mock.Mocker()
     def test_get_members(self, m):
@@ -34,7 +34,7 @@ class TestMailchimp(unittest.TestCase):
         m.get(self.mc.uri + "lists/zyx/members", json=expected_json.test_members)
         tbl = self.mc.get_members(list_id="zyx")
 
-        self.assertEqual(tbl.num_rows, 2)
+        assert tbl.num_rows == 2
 
     @requests_mock.Mocker()
     def test_get_unsubscribes(self, m):
@@ -45,4 +45,4 @@ class TestMailchimp(unittest.TestCase):
         )
         tbl = self.mc.get_unsubscribes(campaign_id="abc")
 
-        self.assertEqual(tbl.num_rows, 1)
+        assert tbl.num_rows == 1

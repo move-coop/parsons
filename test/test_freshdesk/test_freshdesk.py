@@ -56,7 +56,7 @@ class TestFreshdesk(unittest.TestCase):
         )
 
         # Assertions to check if the function behaves as expected
-        self.assertEqual(response, test_create_ticket_response)
+        assert response == test_create_ticket_response
 
     @requests_mock.Mocker()
     def test_create_ticket_with_custom_fields(self, m):
@@ -78,4 +78,4 @@ class TestFreshdesk(unittest.TestCase):
         )
 
         # Assertions to check if the function behaves as expected
-        self.assertEqual(response, test_create_ticket_with_custom_fields_response)
+        assert response == test_create_ticket_with_custom_fields_response

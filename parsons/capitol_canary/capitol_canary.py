@@ -259,14 +259,12 @@ class CapitolCanary(object):
 
         if (sms_optin or sms_optout) and not phone:
             raise ValueError(
-                "When opting an advocate in or out of SMS messages, you must specify a valid "
-                "phone and one or more campaigns"
+                "When opting an advocate in or out of SMS messages, you must specify a valid phone and one or more campaigns"
             )
 
         if (email_optin or email_optout) and not email:
             raise ValueError(
-                "When opting an advocate in or out of email messages, you must specify a valid "
-                "email address and one or more campaigns"
+                "When opting an advocate in or out of email messages, you must specify a valid email address and one or more campaigns"
             )
 
         # Align our arguments with the expected parameters for the API
@@ -353,14 +351,12 @@ class CapitolCanary(object):
         # Validate the passed in arguments
         if (sms_optin or sms_optout) and not (phone and campaigns):
             raise ValueError(
-                "When opting an advocate in or out of SMS messages, you must specify a valid "
-                "phone and one or more campaigns"
+                "When opting an advocate in or out of SMS messages, you must specify a valid phone and one or more campaigns"
             )
 
         if (email_optin or email_optout) and not (email and campaigns):
             raise ValueError(
-                "When opting an advocate in or out of email messages, you must specify a valid "
-                "email address and one or more campaigns"
+                "When opting an advocate in or out of email messages, you must specify a valid email address and one or more campaigns"
             )
 
         # Align our arguments with the expected parameters for the API

@@ -1,13 +1,14 @@
 # Testing Requirements
 bandit[toml]==1.8.3
-coverage==7.6.12
-pytest-cov==6.0.0
+coverage==7.8.0
+pre-commit==4.2.0
+pytest-cov==6.1.1
 pytest-datadir==1.6.1
 pytest-mock==3.14.0
 pytest-xdist==3.6.1
 pytest==8.3.5
 requests-mock==1.12.1
-ruff==0.9.10
+ruff==0.11.7
 testfixtures==8.3.0
 
 # Docs Requirements
@@ -17,3 +18,4 @@ sphinx-rtd-theme==3.0.2
 myst-parser==4.0.1;python_version>='3.10'
 myst-parser==3.0.1;python_version<'3.10'
 sphinx-multiversion
+sphinxcontrib-googleanalytics

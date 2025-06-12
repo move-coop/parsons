@@ -47,6 +47,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "myst_parser",
     "sphinx_multiversion",
+    "sphinxcontrib.googleanalytics",
 ]
 
 # Sorting of attributes
@@ -68,7 +69,7 @@ master_doc = "index"
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = 'en'
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -191,3 +192,6 @@ smv_branch_whitelist = r"^stable|latest$"  # creates version for latest master/m
 
 # Get tags to whitelist from DOCUMENTED_VERSIONS const
 smv_tag_whitelist = "|".join(["^" + version + "$" for version in DOCUMENTED_VERSIONS])
+
+# Adds Google Analytics tracking code to the HTML output
+googleanalytics_id = "G-L2YB7WHTRG"

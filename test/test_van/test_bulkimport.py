@@ -13,7 +13,7 @@ os.environ["VAN_API_KEY"] = "SOME_KEY"
 
 class TestBulkImport(unittest.TestCase):
     def setUp(self):
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
+        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
 
     @requests_mock.Mocker()
     def test_get_bulk_import_resources(self, m):

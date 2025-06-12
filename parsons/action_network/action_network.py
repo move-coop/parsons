@@ -906,7 +906,7 @@ class ActionNetwork(object):
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/messages
         """
-        return self.api.post_request("messages", payload)
+        return self.api.post_request("messages", json=payload)
 
     def update_message(self, message_id, payload):
         """
@@ -926,7 +926,7 @@ class ActionNetwork(object):
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/messages
         """
-        return self.api.put_request(f"messages/{message_id}", payload)
+        return self.api.put_request(f"messages/{message_id}", json=payload)
 
     def schedule_message(self, message_id, scheduled_start_date):
         """
@@ -1220,7 +1220,7 @@ class ActionNetwork(object):
                 status of the phone in ActionNetwork. If not included, won't update the status.
                 None by default, causes no updates to mobile number status. New numbers are set
                 to "unsubscribed" by default.
-            background_request: bool
+            background_processing: bool
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
@@ -1881,7 +1881,7 @@ class ActionNetwork(object):
         """
         return self.api.get_request(f"tags/{tag_id}/taggings/{tagging_id}")
 
-    def create_tagging(self, tag_id, payload):
+    def create_tagging(self, tag_id, payload, background_processing=False):
         """
         `Args:`
             tag_id:
@@ -1893,26 +1893,42 @@ class ActionNetwork(object):
                         "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
                     }
                 }
+            background_processing: bool
+                If set `true`, utilize ActionNetwork's "background processing". This will return
+                an immediate success, with an empty JSON body, and send your request to the
+                background queue for eventual processing.
+                https://actionnetwork.org/docs/v2/#background-processing
         `Returns:`
             A JSON response after creating the tagging
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/taggings
         """
-        return self.api.post_request(f"tags/{tag_id}/taggings", data=json.dumps(payload))
+        url = f"tags/{tag_id}/taggings"
+        if background_processing:
+            url = f"{url}?background_processing=true"
+        return self.api.post_request(url, data=json.dumps(payload))
 
-    def delete_tagging(self, tag_id, tagging_id):
+    def delete_tagging(self, tag_id, tagging_id, background_processing=False):
         """
         `Args:`
             tag_id:
                 The unique id of the tag
             tagging_id:
                 The unique id of the tagging to be deleted
+            background_processing: bool
+                If set `true`, utilize ActionNetwork's "background processing". This will return
+                an immediate success, with an empty JSON body, and send your request to the
+                background queue for eventual processing.
+                https://actionnetwork.org/docs/v2/#background-processing
         `Returns:`
             A JSON response after deleting the tagging
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/taggings
         """
-        return self.api.delete_request(f"tags/{tag_id}/taggings/{tagging_id}")
+        url = f"tags/{tag_id}/taggings/{tagging_id}"
+        if background_processing:
+            url = f"{url}?background_processing=true"
+        return self.api.delete_request(url)
 
     # Wrappers
     def get_wrappers(self, limit=None, per_page=25, page=None, filter=None):

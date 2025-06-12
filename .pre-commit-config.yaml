@@ -8,5 +8,5 @@ repos:
     rev: 1.8.3
     hooks:
       - id: bandit
-        args: ['--confidence-level=high', '--severity-level=high', '-c', 'pyproject.toml']
-        additional_dependencies: ['bandit[toml]']
+        args: ['--confidence-level', 'medium', '--severity-level', 'medium']
+        files: '^parsons'

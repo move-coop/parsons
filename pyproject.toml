@@ -105,12 +105,6 @@ filterwarnings = [
     "ignore:Argument login_or_token is deprecated:DeprecationWarning",
 ]
 
-[tool.bandit]
-exclude_dirs = [
-    ".venv/",
-    "test"
-]
-
 [tool.isort]
 profile = "hug"
 src_paths = [

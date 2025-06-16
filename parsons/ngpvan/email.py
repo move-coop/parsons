@@ -74,6 +74,10 @@ class Email(object):
         """
         Get stats for all emails, aggregating any A/B tests.
 
+        Note: Pending emails will have a dateScheduled of "0001-01-01T00:00:00Z"
+        and a subject line of "None". This is a limitation of the NGPVAN API.
+        Also note that any information on opens, clicks, etcetera will default to 0.
+
         `Args:`
             aggregate_ab : bool
                 If A/B test results for emails should get aggregated.

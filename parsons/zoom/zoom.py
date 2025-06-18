@@ -2,6 +2,7 @@ import datetime
 import logging
 import uuid
 from typing import Dict, Literal, Optional
+
 from oauthlib.oauth2.rfc6749.errors import InvalidClientError
 
 from parsons import Table
@@ -35,7 +36,10 @@ class ZoomV1:
         self.account_id = check_env.check("ZOOM_ACCOUNT_ID", account_id)
         self.client_id = check_env.check("ZOOM_CLIENT_ID", client_id)
         self.__client_secret = check_env.check("ZOOM_CLIENT_SECRET", client_secret)
-        self.client = OAuth2APIConnector(
+        self.client = self.get_oauth_client()
+
+    def get_oauth_client(self) -> OAuth2APIConnector:
+        return OAuth2APIConnector(
             uri=ZOOM_URI,
             client_id=self.client_id,
             client_secret=self.__client_secret,
@@ -62,9 +66,7 @@ class ZoomV1:
             Parsons Table of API responses
         """
 
-        logger.warning(
-            "This version of the Zoom connector uses a deprecated pagination method."
-        )
+        logger.warning("This version of the Zoom connector uses a deprecated pagination method.")
         logger.info("Consider switching to V2!")
         logger.info(
             "See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html"
@@ -92,9 +94,7 @@ class ZoomV1:
                 data.extend(self.client.data_parse(r))
             return Table(data)
 
-    def __handle_nested_json(
-        self, table: Table, column: str, version: int = 1
-    ) -> Table:
+    def __handle_nested_json(self, table: Table, column: str, version: int = 1) -> Table:
         """
         This function unpacks JSON values from Zoom's API, which are often
         objects nested in lists
@@ -146,9 +146,7 @@ class ZoomV1:
         tbl.remove_column("question_details")
 
         # Unpack question values
-        tbl = tbl.unpack_dict(
-            "question_details_value", include_original=True, prepend=False
-        )
+        tbl = tbl.unpack_dict("question_details_value", include_original=True, prepend=False)
 
         # Remove column from API response
         tbl.remove_column("question_details_value")
@@ -258,9 +256,7 @@ class ZoomV1:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(
-            f"report/meetings/{meeting_id}/participants", "participants"
-        )
+        tbl = self._get_request(f"report/meetings/{meeting_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
@@ -325,9 +321,7 @@ class ZoomV1:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(
-            f"report/webinars/{webinar_id}/participants", "participants"
-        )
+        tbl = self._get_request(f"report/webinars/{webinar_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} webinar participants.")
         return tbl
 
@@ -375,12 +369,8 @@ class ZoomV1:
         )
 
         if "prompts" in tbl.columns:
-            logger.info(
-                f"Unnesting columns 'prompts' from existing table columns: {tbl.columns}"
-            )
-            return self.__handle_nested_json(
-                table=tbl, column="prompts", version=version
-            )
+            logger.info(f"Unnesting columns 'prompts' from existing table columns: {tbl.columns}")
+            return self.__handle_nested_json(table=tbl, column="prompts", version=version)
         else:
             return tbl
 
@@ -435,9 +425,7 @@ class ZoomV1:
             f"Unnesting columns 'question_details' from existing table columns: {tbl.columns}"
         )
 
-        return self.__handle_nested_json(
-            table=tbl, column="question_details", version=version
-        )
+        return self.__handle_nested_json(table=tbl, column="question_details", version=version)
 
     def get_webinar_poll_metadata(self, webinar_id, poll_id, version: int = 1) -> Table:
         """
@@ -516,9 +504,7 @@ class ZoomV1:
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
 
-        return self.__handle_nested_json(
-            table=tbl, column="question_details", version=version
-        )
+        return self.__handle_nested_json(table=tbl, column="question_details", version=version)
 
     def get_meeting_poll_results(self, meeting_id) -> Table:
         """
@@ -623,15 +609,7 @@ class ZoomV2(ZoomV1):
             try:
                 r = self.client.get_request(endpoint, params=params, **kwargs)
             except InvalidClientError:
-                self.client = OAuth2APIConnector(
-                    uri=ZOOM_URI,
-                    client_id=self.client_id,
-                    client_secret=self._ZoomV1__client_secret,
-                    token_url=ZOOM_AUTH_CALLBACK,
-                    auto_refresh_url=ZOOM_AUTH_CALLBACK,
-                    grant_type="account_credentials",
-                    authorization_kwargs={"account_id": self.account_id},
-                )
+                self.client = self.get_oauth_client()
                 r = self.client.get_request(endpoint, params=params, **kwargs)
             parsed_resp = self.client.data_parse(r)
             if isinstance(parsed_resp, dict):
@@ -676,9 +654,7 @@ class ZoomV2(ZoomV1):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(
-            f"past_meetings/{meeting_id}/participants", "participants"
-        )
+        tbl = self._get_request(f"past_meetings/{meeting_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
@@ -694,9 +670,7 @@ class ZoomV2(ZoomV1):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(
-            f"past_webinars/{webinar_id}/participants", "participants"
-        )
+        tbl = self._get_request(f"past_webinars/{webinar_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
@@ -718,9 +692,7 @@ class ZoomV2(ZoomV1):
 
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(
-            f"Retrieved {tbl.num_rows} for [poll {poll_id}, meeting {meeting_id}]"
-        )
+        logger.info(f"Retrieved {tbl.num_rows} for [poll {poll_id}, meeting {meeting_id}]")
         return tbl
 
     def get_meeting_poll_metadata(self, meeting_id, poll_id, version=1):
@@ -794,9 +766,7 @@ class ZoomV2(ZoomV1):
 
         endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(
-            f"Retrieved {tbl.num_rows} for [poll {poll_id}, webinar {webinar_id}]"
-        )
+        logger.info(f"Retrieved {tbl.num_rows} for [poll {poll_id}, webinar {webinar_id}]")
         return tbl
 
     def get_webinar_poll_metadata(self, webinar_id, poll_id, version=1):
@@ -844,9 +814,7 @@ class ZoomV2(ZoomV1):
 
         endpoint = f"past_webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(
-            f"Retrieved {tbl.num_rows} poll results for webinar ID {webinar_id}"
-        )
+        logger.info(f"Retrieved {tbl.num_rows} poll results for webinar ID {webinar_id}")
         return tbl
 
     def get_past_webinar_poll_metadata(self, webinar_id, version=1):
@@ -869,9 +837,7 @@ class ZoomV2(ZoomV1):
 
         endpoint = f"report/meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(
-            f"Retrieved {tbl.num_rows} poll reports for meeting ID {meeting_id}"
-        )
+        logger.info(f"Retrieved {tbl.num_rows} poll reports for meeting ID {meeting_id}")
         return tbl
 
     def get_meeting_poll_results(self, meeting_id):
@@ -894,9 +860,7 @@ class ZoomV2(ZoomV1):
 
         endpoint = f"report/webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
-        logger.info(
-            f"Retrieved {tbl.num_rows} poll reports for webinar ID {webinar_id}"
-        )
+        logger.info(f"Retrieved {tbl.num_rows} poll reports for webinar ID {webinar_id}")
         return tbl
 
     def get_webinar_poll_results(self, webinar_id):
@@ -906,9 +870,7 @@ class ZoomV2(ZoomV1):
 
 
 class Zoom:
-    def __new__(
-        cls, account_id=None, client_id=None, client_secret=None, parsons_version="v1"
-    ):
+    def __new__(cls, account_id=None, client_id=None, client_secret=None, parsons_version="v1"):
         """
         Create and return Zoom instance base on chosen version (1 or 2)
 
@@ -932,11 +894,7 @@ class Zoom:
             logger.info(
                 "See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html"
             )
-            return ZoomV1(
-                account_id=account_id, client_id=client_id, client_secret=client_secret
-            )
+            return ZoomV1(account_id=account_id, client_id=client_id, client_secret=client_secret)
         if parsons_version == "v2":
-            return ZoomV2(
-                account_id=account_id, client_id=client_id, client_secret=client_secret
-            )
+            return ZoomV2(account_id=account_id, client_id=client_id, client_secret=client_secret)
         raise ValueError(f"{parsons_version} not supported")

@@ -5,7 +5,7 @@ from parsons.utilities.api_connector_next import APIConnector
 logger = logging.getLogger(__name__)
 
 
-class VanConnector(APIConnector):
+class VANConnector(APIConnector):
     def items(self, endpoint, **kwargs):
         response = self.get_request(endpoint, **kwargs)
 

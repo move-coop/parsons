@@ -1,7 +1,7 @@
 import logging
 from typing import Literal, Optional
 
-from scraplib import Scraper
+from scrapelib import Scraper
 
 from parsons.ngpvan.activist_codes import ActivistCodes
 from parsons.ngpvan.bulk_import import BulkImport
@@ -81,7 +81,7 @@ class VAN(
         session = Scraper()
         session.auth = ("default", api_key + "|" + str(db_code))
 
-        self.connection = VANConnector(session=session, URI="https://api.securevan.com/v4/")
+        self.connection = VANConnector(session=session, uri="https://api.securevan.com/v4/")
 
         # The size of each page to return. Currently set to maximum.
         self.page_size = 200

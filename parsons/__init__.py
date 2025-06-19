@@ -100,4 +100,5 @@ for module_path, connector_name in (
         globals()[connector_name] = getattr(importlib.import_module(module_path), connector_name)
         __all__.append(connector_name)
     except ImportError:
+        raise
         logger.debug(f"Could not import {module_path}.{connector_name}; skipping")

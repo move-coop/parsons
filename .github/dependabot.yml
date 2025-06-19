@@ -11,11 +11,9 @@ updates:
       interval: weekly
 
   - package-ecosystem: pip
-    directory: /docs
-    schedule:
-      interval: weekly
-
-  - package-ecosystem: pip
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      - dependency-name: ruff
+      - dependency-name: bandit

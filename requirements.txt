@@ -14,7 +14,7 @@ facebook-business==22.0.2
 google-api-core==2.24.2
 google-api-python-client==2.163.0
 google-auth==2.38.0
-google-cloud-bigquery==3.31.0
+google-cloud-bigquery==3.34.0
 google-cloud-storage-transfer==1.16.0
 google-cloud-storage==3.1.0
 grpcio==1.68.1

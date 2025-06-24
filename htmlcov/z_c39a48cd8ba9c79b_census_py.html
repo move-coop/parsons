@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Coverage for parsons/census/census.py: 44%</title>
+    <title>Coverage for parsons/census/census.py: 100%</title>
     <link rel="icon" sizes="32x32" href="favicon_32_cb_58284776.png">
-    <link rel="stylesheet" href="style_cb_8e611ae1.css" type="text/css">
+    <link rel="stylesheet" href="style_cb_81f8c14c.css" type="text/css">
     <script src="coverage_html_cb_6fb7b396.js" defer></script>
 </head>
 <body class="pyfile">
@@ -12,7 +12,7 @@
     <div class="content">
         <h1>
             <span class="text">Coverage for </span><b>parsons/census/census.py</b>:
-            <span class="pc_cov">44%</span>
+            <span class="pc_cov">100%</span>
         </h1>
         <aside id="help_panel_wrapper">
             <input id="help_panel_state" type="checkbox">
@@ -56,8 +56,8 @@
         </aside>
         <h2>
             <span class="text">18 statements &nbsp;</span>
-            <button type="button" class="run button_toggle_run" value="run" data-shortcut="r" title="Toggle lines run">8<span class="text"> run</span></button>
-            <button type="button" class="mis show_mis button_toggle_mis" value="mis" data-shortcut="m" title="Toggle lines missing">10<span class="text"> missing</span></button>
+            <button type="button" class="run button_toggle_run" value="run" data-shortcut="r" title="Toggle lines run">18<span class="text"> run</span></button>
+            <button type="button" class="mis show_mis button_toggle_mis" value="mis" data-shortcut="m" title="Toggle lines missing">0<span class="text"> missing</span></button>
             <button type="button" class="exc show_exc button_toggle_exc" value="exc" data-shortcut="x" title="Toggle lines excluded">0<span class="text"> excluded</span></button>
             <button type="button" class="par run show_par button_toggle_par" value="par" data-shortcut="p" title="Toggle lines partially run">0<span class="text"> partial</span></button>
         </h2>
@@ -66,8 +66,8 @@
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a id="nextFileLink" class="nav" href="z_db72dd78aaf90dea___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.8.2">coverage.py v7.8.2</a>,
-            created at 2025-06-09 19:05 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.9.1">coverage.py v7.9.1</a>,
+            created at 2025-06-24 16:40 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -104,8 +104,8 @@
     <p class="pln"><span class="n"><a id="t20" href="#t20">20</a></span><span class="t"><span class="str">                api_key: string, key for Census API access</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t21" href="#t21">21</a></span><span class="t"><span class="str">                 (optional, can also be pulled from environment variable CENSUS_API_KEY)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t22" href="#t22">22</a></span><span class="t"><span class="str">        """</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t23" href="#t23">23</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">api_key</span> <span class="op">=</span> <span class="nam">check_env</span><span class="op">.</span><span class="nam">check</span><span class="op">(</span><span class="str">"CENSUS_API_KEY"</span><span class="op">,</span> <span class="nam">api_key</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t24" href="#t24">24</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">host</span> <span class="op">=</span> <span class="str">"https://api.census.gov/data"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t23" href="#t23">23</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">api_key</span> <span class="op">=</span> <span class="nam">check_env</span><span class="op">.</span><span class="nam">check</span><span class="op">(</span><span class="str">"CENSUS_API_KEY"</span><span class="op">,</span> <span class="nam">api_key</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t24" href="#t24">24</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">host</span> <span class="op">=</span> <span class="str">"https://api.census.gov/data"</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t">    <span class="key">def</span> <span class="nam">get_census</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">year</span><span class="op">=</span><span class="key">None</span><span class="op">,</span> <span class="nam">dataset_acronym</span><span class="op">=</span><span class="key">None</span><span class="op">,</span> <span class="nam">variables</span><span class="op">=</span><span class="key">None</span><span class="op">,</span> <span class="nam">location</span><span class="op">=</span><span class="key">None</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t">        <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
@@ -129,20 +129,20 @@
     <p class="pln"><span class="n"><a id="t45" href="#t45">45</a></span><span class="t"><span class="str">                Parsons table with data</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t46" href="#t46">46</a></span><span class="t"><span class="str">        """</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t47" href="#t47">47</a></span><span class="t">        <span class="com"># set up the URL</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t48" href="#t48">48</a></span><span class="t">        <span class="nam">g</span> <span class="op">=</span> <span class="str">"?get="</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t49" href="#t49">49</a></span><span class="t">        <span class="nam">usr_key</span> <span class="op">=</span> <span class="fst">f"</span><span class="fst">&amp;key=</span><span class="op">{</span><span class="nam">self</span><span class="op">.</span><span class="nam">api_key</span><span class="op">}</span><span class="fst">"</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t50" href="#t50">50</a></span><span class="t">        <span class="nam">year</span> <span class="op">=</span> <span class="nam">str</span><span class="op">(</span><span class="nam">year</span><span class="op">)</span>  <span class="com"># in case someone passes int</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t51" href="#t51">51</a></span><span class="t">        <span class="nam">location</span> <span class="op">=</span> <span class="str">"&amp;for="</span> <span class="op">+</span> <span class="nam">location</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t52" href="#t52">52</a></span><span class="t">        <span class="nam">query_url</span> <span class="op">=</span> <span class="fst">f"</span><span class="op">{</span><span class="nam">self</span><span class="op">.</span><span class="nam">host</span><span class="op">}</span><span class="fst">/</span><span class="op">{</span><span class="nam">year</span><span class="op">}</span><span class="op">{</span><span class="nam">dataset_acronym</span><span class="op">}</span><span class="op">{</span><span class="nam">g</span><span class="op">}</span><span class="op">{</span><span class="nam">variables</span><span class="op">}</span><span class="op">{</span><span class="nam">location</span><span class="op">}</span><span class="op">{</span><span class="nam">usr_key</span><span class="op">}</span><span class="fst">"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t48" href="#t48">48</a></span><span class="t">        <span class="nam">g</span> <span class="op">=</span> <span class="str">"?get="</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t49" href="#t49">49</a></span><span class="t">        <span class="nam">usr_key</span> <span class="op">=</span> <span class="fst">f"</span><span class="fst">&amp;key=</span><span class="op">{</span><span class="nam">self</span><span class="op">.</span><span class="nam">api_key</span><span class="op">}</span><span class="fst">"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t50" href="#t50">50</a></span><span class="t">        <span class="nam">year</span> <span class="op">=</span> <span class="nam">str</span><span class="op">(</span><span class="nam">year</span><span class="op">)</span>  <span class="com"># in case someone passes int</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t51" href="#t51">51</a></span><span class="t">        <span class="nam">location</span> <span class="op">=</span> <span class="str">"&amp;for="</span> <span class="op">+</span> <span class="nam">location</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t52" href="#t52">52</a></span><span class="t">        <span class="nam">query_url</span> <span class="op">=</span> <span class="fst">f"</span><span class="op">{</span><span class="nam">self</span><span class="op">.</span><span class="nam">host</span><span class="op">}</span><span class="fst">/</span><span class="op">{</span><span class="nam">year</span><span class="op">}</span><span class="op">{</span><span class="nam">dataset_acronym</span><span class="op">}</span><span class="op">{</span><span class="nam">g</span><span class="op">}</span><span class="op">{</span><span class="nam">variables</span><span class="op">}</span><span class="op">{</span><span class="nam">location</span><span class="op">}</span><span class="op">{</span><span class="nam">usr_key</span><span class="op">}</span><span class="fst">"</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t53" href="#t53">53</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t54" href="#t54">54</a></span><span class="t">        <span class="com"># create connector</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t55" href="#t55">55</a></span><span class="t">        <span class="nam">connector</span> <span class="op">=</span> <span class="nam">APIConnector</span><span class="op">(</span><span class="nam">uri</span><span class="op">=</span><span class="nam">self</span><span class="op">.</span><span class="nam">host</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t55" href="#t55">55</a></span><span class="t">        <span class="nam">connector</span> <span class="op">=</span> <span class="nam">APIConnector</span><span class="op">(</span><span class="nam">uri</span><span class="op">=</span><span class="nam">self</span><span class="op">.</span><span class="nam">host</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t56" href="#t56">56</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t57" href="#t57">57</a></span><span class="t">        <span class="com"># pull data</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t58" href="#t58">58</a></span><span class="t">        <span class="nam">response</span> <span class="op">=</span> <span class="nam">connector</span><span class="op">.</span><span class="nam">get_request</span><span class="op">(</span><span class="nam">url</span><span class="op">=</span><span class="nam">query_url</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t58" href="#t58">58</a></span><span class="t">        <span class="nam">response</span> <span class="op">=</span> <span class="nam">connector</span><span class="op">.</span><span class="nam">get_request</span><span class="op">(</span><span class="nam">url</span><span class="op">=</span><span class="nam">query_url</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t59" href="#t59">59</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t60" href="#t60">60</a></span><span class="t">        <span class="com"># turn into Parsons table and return it</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t61" href="#t61">61</a></span><span class="t">        <span class="key">return</span> <span class="nam">Table</span><span class="op">(</span><span class="nam">response</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t61" href="#t61">61</a></span><span class="t">        <span class="key">return</span> <span class="nam">Table</span><span class="op">(</span><span class="nam">response</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
 </main>
 <footer>
     <div class="content">
@@ -151,8 +151,8 @@
             <a class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a class="nav" href="z_db72dd78aaf90dea___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.8.2">coverage.py v7.8.2</a>,
-            created at 2025-06-09 19:05 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.9.1">coverage.py v7.9.1</a>,
+            created at 2025-06-24 16:40 +0000
         </p>
     </div>
 </footer>

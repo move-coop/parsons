@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_c680341292d402ad___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.9.1">coverage.py v7.9.1</a>,
-            created at 2025-06-26 20:22 +0000
+            created at 2025-06-26 20:35 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -378,7 +378,7 @@
     <p class="pln"><span class="n"><a id="t294" href="#t294">294</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t295" href="#t295">295</a></span><span class="t">        <span class="com"># Turn into a list of items so we can append multiple campaigns</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t296" href="#t296">296</a></span><span class="t">        <span class="nam">campaign_keys</span> <span class="op">=</span> <span class="op">[</span><span class="op">(</span><span class="str">"campaigns[]"</span><span class="op">,</span> <span class="nam">val</span><span class="op">)</span> <span class="key">for</span> <span class="nam">val</span> <span class="key">in</span> <span class="nam">campaigns</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t297" href="#t297">297</a></span><span class="t">        <span class="nam">data</span> <span class="op">=</span> <span class="op">[</span><span class="op">(</span><span class="nam">key</span><span class="op">,</span> <span class="nam">value</span><span class="op">)</span> <span class="key">for</span> <span class="nam">key</span><span class="op">,</span> <span class="nam">value</span> <span class="key">in</span> <span class="nam">payload</span><span class="op">.</span><span class="nam">items</span><span class="op">(</span><span class="op">)</span><span class="op">]</span> <span class="op">+</span> <span class="nam">campaign_keys</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t297" href="#t297">297</a></span><span class="t">        <span class="nam">data</span> <span class="op">=</span> <span class="nam">list</span><span class="op">(</span><span class="nam">payload</span><span class="op">.</span><span class="nam">items</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="nam">campaign_keys</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t298" href="#t298">298</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t299" href="#t299">299</a></span><span class="t">        <span class="com"># Call into the CapitolCanary API</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t300" href="#t300">300</a></span><span class="t">        <span class="nam">response</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">client</span><span class="op">.</span><span class="nam">post_request</span><span class="op">(</span><span class="str">"advocates"</span><span class="op">,</span> <span class="nam">data</span><span class="op">=</span><span class="nam">data</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -471,7 +471,7 @@
     <p class="pln"><span class="n"><a id="t387" href="#t387">387</a></span><span class="t">        <span class="com"># Turn into a list of items so we can append multiple campaigns</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t388" href="#t388">388</a></span><span class="t">        <span class="nam">campaigns</span> <span class="op">=</span> <span class="nam">campaigns</span> <span class="key">or</span> <span class="op">[</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t389" href="#t389">389</a></span><span class="t">        <span class="nam">campaign_keys</span> <span class="op">=</span> <span class="op">[</span><span class="op">(</span><span class="str">"campaigns[]"</span><span class="op">,</span> <span class="nam">val</span><span class="op">)</span> <span class="key">for</span> <span class="nam">val</span> <span class="key">in</span> <span class="nam">campaigns</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t390" href="#t390">390</a></span><span class="t">        <span class="nam">data</span> <span class="op">=</span> <span class="op">[</span><span class="op">(</span><span class="nam">key</span><span class="op">,</span> <span class="nam">value</span><span class="op">)</span> <span class="key">for</span> <span class="nam">key</span><span class="op">,</span> <span class="nam">value</span> <span class="key">in</span> <span class="nam">payload</span><span class="op">.</span><span class="nam">items</span><span class="op">(</span><span class="op">)</span><span class="op">]</span> <span class="op">+</span> <span class="nam">campaign_keys</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t390" href="#t390">390</a></span><span class="t">        <span class="nam">data</span> <span class="op">=</span> <span class="nam">list</span><span class="op">(</span><span class="nam">payload</span><span class="op">.</span><span class="nam">items</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="nam">campaign_keys</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t391" href="#t391">391</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t392" href="#t392">392</a></span><span class="t">        <span class="com"># Call into the CapitolCanary API</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t393" href="#t393">393</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">client</span><span class="op">.</span><span class="nam">post_request</span><span class="op">(</span><span class="str">"advocates"</span><span class="op">,</span> <span class="nam">data</span><span class="op">=</span><span class="nam">data</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -484,7 +484,7 @@
             <a class="nav" href="z_c680341292d402ad___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.9.1">coverage.py v7.9.1</a>,
-            created at 2025-06-26 20:22 +0000
+            created at 2025-06-26 20:35 +0000
         </p>
     </div>
 </footer>

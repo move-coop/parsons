@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_31e94072baeeedf2___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.9.1">coverage.py v7.9.1</a>,
-            created at 2025-06-26 20:22 +0000
+            created at 2025-06-26 20:35 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -241,7 +241,7 @@
     <p class="pln"><span class="n"><a id="t157" href="#t157">157</a></span><span class="t"><span class="str">        """</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t158" href="#t158">158</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t159" href="#t159">159</a></span><span class="t">        <span class="nam">container_client</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">get_container</span><span class="op">(</span><span class="nam">container_name</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t160" href="#t160">160</a></span><span class="t">        <span class="nam">blobs</span> <span class="op">=</span> <span class="op">[</span><span class="nam">blob</span> <span class="key">for</span> <span class="nam">blob</span> <span class="key">in</span> <span class="nam">container_client</span><span class="op">.</span><span class="nam">list_blobs</span><span class="op">(</span><span class="nam">name_starts_with</span><span class="op">=</span><span class="nam">name_starts_with</span><span class="op">)</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t160" href="#t160">160</a></span><span class="t">        <span class="nam">blobs</span> <span class="op">=</span> <span class="nam">list</span><span class="op">(</span><span class="nam">container_client</span><span class="op">.</span><span class="nam">list_blobs</span><span class="op">(</span><span class="nam">name_starts_with</span><span class="op">=</span><span class="nam">name_starts_with</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t161" href="#t161">161</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f"</span><span class="fst">Found </span><span class="op">{</span><span class="nam">len</span><span class="op">(</span><span class="nam">blobs</span><span class="op">)</span><span class="op">}</span><span class="fst"> blobs in </span><span class="op">{</span><span class="nam">container_name</span><span class="op">}</span><span class="fst"> container.</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t162" href="#t162">162</a></span><span class="t">        <span class="key">return</span> <span class="nam">blobs</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t163" href="#t163">163</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -495,7 +495,7 @@
             <a class="nav" href="z_31e94072baeeedf2___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.9.1">coverage.py v7.9.1</a>,
-            created at 2025-06-26 20:22 +0000
+            created at 2025-06-26 20:35 +0000
         </p>
     </div>
 </footer>

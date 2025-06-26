@@ -29,10 +29,10 @@ class TestAirmeet(unittest.TestCase):
     def test_from_environ(self, m):
         m.post("https://env_api_endpoint/auth", json={"token": "test_token"})
         airmeet = Airmeet()
-        self.assertEqual(airmeet.uri, "https://env_api_endpoint")
-        self.assertEqual(airmeet.airmeet_client_key, "env_access_key")
-        self.assertEqual(airmeet.airmeet_client_secret, "env_secret_key")
-        self.assertEqual(airmeet.token, "test_token")
+        assert airmeet.uri == "https://env_api_endpoint"
+        assert airmeet.airmeet_client_key == "env_access_key"
+        assert airmeet.airmeet_client_secret == "env_secret_key"
+        assert airmeet.token == "test_token"
 
     def test_get_all_pages_single_page(self):
         # Simulate API response for a single page without further cursors.
@@ -275,12 +275,14 @@ class TestAirmeet(unittest.TestCase):
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "statusCode": 202,
-                "statusMessage": "Preparing your results. Try after 5 minutes"
-                "to get the updated results",
+                "statusMessage": "Preparing your results. Try after 5 minutes to get the updated results",
             }
         )
 
-        with pytest.raises(Exception):  # noqa: B017
+        with pytest.raises(
+            Exception,
+            match="{'statusCode': 202, 'statusMessage': 'Preparing your results. Try after 5 minutes to get the updated results'}",
+        ):
             self.airmeet.fetch_session_attendance("test_session_id")
 
     def test_fetch_session_attendance_exception_400(self):
@@ -294,7 +296,10 @@ class TestAirmeet(unittest.TestCase):
             }
         )
 
-        with pytest.raises(Exception):  # noqa: B017
+        with pytest.raises(
+            Exception,
+            match="{'data': {}, 'statusCode': 400, 'statusMessage': 'Session status is not valid'}",
+        ):
             self.airmeet.fetch_session_attendance("test_session_id")
 
     def test_fetch_airmeet_booths(self):
@@ -506,5 +511,8 @@ class TestAirmeet(unittest.TestCase):
             }
         )
 
-        with pytest.raises(Exception):  # noqa: B017
+        with pytest.raises(
+            Exception,
+            match="{'data': {}, 'statusCode': 400, 'statusMessage': 'Airmeet status is not valid'}",
+        ):
             self.airmeet.fetch_event_replay_attendance("test_airmeet_id")

@@ -54,7 +54,7 @@ class TestTargets(unittest.TestCase):
         ]
 
         # Assert response is expected structure
-        self.assertTrue(validate_list(expected, self.van.get_targets()))
+        assert validate_list(expected, self.van.get_targets())
 
         # To Do: Test what happens when it doesn't find any targets
 
@@ -83,7 +83,7 @@ class TestTargets(unittest.TestCase):
 
         m.get(self.van.connection.uri + "targets/15723", json=json)
 
-        self.assertEqual(json, self.van.get_target(15723))
+        assert json == self.van.get_target(15723)
 
     @requests_mock.Mocker()
     def test_create_target_export(self, m):
@@ -99,7 +99,7 @@ class TestTargets(unittest.TestCase):
         # Test that it doesn't throw and error
         r = self.van.create_target_export(target_id, webhook_url=None)
 
-        self.assertEqual(r, export_job_id)
+        assert r == export_job_id
 
     @unittest.mock.patch.object(petl, "fromcsv", autospec=True)
     @requests_mock.Mocker()
@@ -162,4 +162,4 @@ class TestTargets(unittest.TestCase):
         )
 
         assert_matching_tables(self.van.get_target_export(export_job_id), expected_result)
-        self.assertEqual(fromcsv.call_args, unittest.mock.call(download_url, encoding="utf-8-sig"))
+        assert fromcsv.call_args == unittest.mock.call(download_url, encoding="utf-8-sig")

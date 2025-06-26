@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_990c76490a3bac87___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.9.1">coverage.py v7.9.1</a>,
-            created at 2025-06-26 18:10 +0000
+            created at 2025-06-26 20:22 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -368,8 +368,8 @@
     <p class="run"><span class="n"><a id="t284" href="#t284">284</a></span><span class="t">            <span class="key">for</span> <span class="nam">column</span> <span class="key">in</span> <span class="nam">list_cols</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t285" href="#t285">285</a></span><span class="t">                <span class="com"># Check for nested data</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t286" href="#t286">286</a></span><span class="t">                <span class="nam">list_rows</span> <span class="op">=</span> <span class="nam">obj_table</span><span class="op">.</span><span class="nam">select_rows</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t287" href="#t287">287</a></span><span class="t">                    <span class="key">lambda</span> <span class="nam">row</span><span class="op">:</span> <span class="nam">isinstance</span><span class="op">(</span><span class="nam">row</span><span class="op">[</span><span class="nam">column</span><span class="op">]</span><span class="op">,</span> <span class="nam">list</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t288" href="#t288">288</a></span><span class="t">                    <span class="key">and</span> <span class="nam">any</span><span class="op">(</span><span class="nam">isinstance</span><span class="op">(</span><span class="nam">x</span><span class="op">,</span> <span class="nam">dict</span><span class="op">)</span> <span class="key">for</span> <span class="nam">x</span> <span class="key">in</span> <span class="nam">row</span><span class="op">[</span><span class="nam">column</span><span class="op">]</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t287" href="#t287">287</a></span><span class="t">                    <span class="key">lambda</span> <span class="nam">row</span><span class="op">:</span> <span class="nam">isinstance</span><span class="op">(</span><span class="nam">row</span><span class="op">[</span><span class="nam">column</span><span class="op">]</span><span class="op">,</span> <span class="nam">list</span><span class="op">)</span>  <span class="com"># noqa: B023</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t288" href="#t288">288</a></span><span class="t">                    <span class="key">and</span> <span class="nam">any</span><span class="op">(</span><span class="nam">isinstance</span><span class="op">(</span><span class="nam">x</span><span class="op">,</span> <span class="nam">dict</span><span class="op">)</span> <span class="key">for</span> <span class="nam">x</span> <span class="key">in</span> <span class="nam">row</span><span class="op">[</span><span class="nam">column</span><span class="op">]</span><span class="op">)</span>  <span class="com"># noqa: B023</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t289" href="#t289">289</a></span><span class="t">                <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t290" href="#t290">290</a></span><span class="t">                <span class="com"># Add separate long table for each column with nested data</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t291" href="#t291">291</a></span><span class="t">                <span class="key">if</span> <span class="nam">list_rows</span><span class="op">.</span><span class="nam">num_rows</span> <span class="op">></span> <span class="num">0</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
@@ -441,7 +441,7 @@
             <a class="nav" href="z_990c76490a3bac87___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.9.1">coverage.py v7.9.1</a>,
-            created at 2025-06-26 18:10 +0000
+            created at 2025-06-26 20:22 +0000
         </p>
     </div>
 </footer>

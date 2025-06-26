@@ -32,7 +32,7 @@ jobs:
                   python-version: ${{ matrix.python-version }}
 
             - name: Install uv
-              uses: install-pinned/uv@75877ff4b6e7f7b75e572e664476f9a202dcc9f9  # 0.4.12
+              uses: install-pinned/uv@dd7eb57b95be797bfab39ebae25c58901440f957  # 0.4.12
 
             - name: Install dependencies
               env:
@@ -66,7 +66,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@75877ff4b6e7f7b75e572e664476f9a202dcc9f9  # 0.4.12
+              uses: install-pinned/uv@dd7eb57b95be797bfab39ebae25c58901440f957  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -88,7 +88,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@75877ff4b6e7f7b75e572e664476f9a202dcc9f9  # 0.4.12
+              uses: install-pinned/uv@dd7eb57b95be797bfab39ebae25c58901440f957  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -110,7 +110,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@75877ff4b6e7f7b75e572e664476f9a202dcc9f9  # 0.4.12
+              uses: install-pinned/uv@dd7eb57b95be797bfab39ebae25c58901440f957  # 0.4.12
 
             - name: Install bandit
               run: |
@@ -132,7 +132,7 @@ jobs:
 
         steps:
             - name: Harden Runner
-              uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0  # v2.12.0
+              uses: step-security/harden-runner@002fdce3c6a235733a90a27c80493a3241e56863  # v2.12.1
               with:
                   egress-policy: audit
 
@@ -145,7 +145,7 @@ jobs:
                   cache: pip
 
             - name: Install uv
-              uses: install-pinned/uv@75877ff4b6e7f7b75e572e664476f9a202dcc9f9  # 0.4.12
+              uses: install-pinned/uv@dd7eb57b95be797bfab39ebae25c58901440f957  # 0.4.12
 
             - name: Install module and dependencies
               run: |
@@ -185,7 +185,7 @@ jobs:
 
             - name: Coverage comment
               id: coverage_comment
-              uses: py-cov-action/python-coverage-comment-action@fb02115d6115e7b3325dc3295fe1dcfb1919248a  # v3.32
+              uses: py-cov-action/python-coverage-comment-action@970a227e0c16ef4589a99a9970ab0ceb8c53059a  # v3.34
               with:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   MERGE_COVERAGE_FILES: true
@@ -209,7 +209,7 @@ jobs:
 
         steps:
             - name: Harden Runner
-              uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+              uses: step-security/harden-runner@002fdce3c6a235733a90a27c80493a3241e56863 # v2.12.1
               with:
                   egress-policy: audit
 

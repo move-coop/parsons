@@ -138,6 +138,18 @@ sample_content_single = [
     }
 ]
 
+sample_content_pending_email = [
+    {
+        "name": "I'm a pending email",
+        "senderDisplayName": None,
+        "senderEmailAddress": None,
+        "subject": None,
+        "createdBy": "Random Intern",
+        "dateCreated": "2023-05-17T15:04:00Z",
+        "emailMessageContentDistributions": None,
+    }
+]
+
 mock_response = [
     {
         "foreignMessageId": "oK2ahdAcEe6F-QAiSCI3lA2",
@@ -195,7 +207,7 @@ mock_response_enriched = deepcopy(mock_response)
 mock_response_enriched[0]["emailMessageContent"] = sample_content_single
 mock_response_enriched[1]["emailMessageContent"] = sample_content_single
 mock_response_enriched[2]["emailMessageContent"] = sample_content_single
-mock_response_enriched[3]["emailMessageContent"] = sample_content_single
+mock_response_enriched[3]["emailMessageContent"] = sample_content_pending_email
 mock_response_enriched[4]["emailMessageContent"] = sample_content_full
 
 

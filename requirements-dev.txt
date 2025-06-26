@@ -6,7 +6,7 @@ pytest-cov==6.1.1
 pytest-datadir==1.6.1
 pytest-mock==3.14.0
 pytest-xdist==3.6.1
-pytest==8.3.5
+pytest==8.4.0
 requests-mock==1.12.1
 ruff==0.11.7
 testfixtures==8.3.0

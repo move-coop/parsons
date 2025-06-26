@@ -3,6 +3,8 @@ import logging
 import uuid
 from typing import Dict, Literal, Optional
 
+from oauthlib.oauth2.rfc6749.errors import InvalidClientError
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
@@ -34,8 +36,10 @@ class ZoomV1:
         self.account_id = check_env.check("ZOOM_ACCOUNT_ID", account_id)
         self.client_id = check_env.check("ZOOM_CLIENT_ID", client_id)
         self.__client_secret = check_env.check("ZOOM_CLIENT_SECRET", client_secret)
+        self.client = self.get_oauth_client()
 
-        self.client = OAuth2APIConnector(
+    def get_oauth_client(self) -> OAuth2APIConnector:
+        return OAuth2APIConnector(
             uri=ZOOM_URI,
             client_id=self.client_id,
             client_secret=self.__client_secret,
@@ -574,7 +578,7 @@ class ZoomV2(ZoomV1):
     def __init__(self, account_id=None, client_id=None, client_secret=None):
         super().__init__(account_id, client_id, client_secret)
 
-    def _get_request(self, endpoint: str, data_key: str, params: dict = {}, **kwargs):
+    def _get_request(self, endpoint: str, data_key: str, params: dict = None, **kwargs):
         """
         `Args`:
             endpoint: str
@@ -590,6 +594,8 @@ class ZoomV2(ZoomV1):
                 See :ref:`parsons-table` for output options.
         """
 
+        if params is None:
+            params = {}
         if not params:
             params = {"page_size": 300}
 
@@ -602,7 +608,11 @@ class ZoomV2(ZoomV1):
             if next_page_token:
                 params["next_page_token"] = next_page_token
 
-            r = self.client.get_request(endpoint, params=params, **kwargs)
+            try:
+                r = self.client.get_request(endpoint, params=params, **kwargs)
+            except InvalidClientError:
+                self.client = self.get_oauth_client()
+                r = self.client.get_request(endpoint, params=params, **kwargs)
             parsed_resp = self.client.data_parse(r)
             if isinstance(parsed_resp, dict):
                 parsed_resp = [parsed_resp]

@@ -485,12 +485,12 @@ class TestActionKit(unittest.TestCase):
         first_mock.status_code = 201
         first_mock.json = lambda: {
             "meta": {"next": "/rest/v1/user/abc"},
-            "objects": list(map(lambda x: {"value": x}, [*range(100)])),
+            "objects": [{"value": x} for x in [*range(100)]],
         }
         second_mock.status_code = 201
         second_mock.json = lambda: {
             "meta": {"next": "/rest/v1/user/def"},
-            "objects": list(map(lambda x: {"value": x}, [*range(100, 200)])),
+            "objects": [{"value": x} for x in [*range(100, 200)]],
         }
         resp_mock.get.side_effect = [first_mock, second_mock]
         self.actionkit.conn = resp_mock
@@ -513,12 +513,12 @@ class TestActionKit(unittest.TestCase):
         first_mock.status_code = 201
         first_mock.json = lambda: {
             "meta": {"next": "/rest/v1/user/abc"},
-            "objects": list(map(lambda x: {"value": x}, [*range(100)])),
+            "objects": [{"value": x} for x in [*range(100)]],
         }
         second_mock.status_code = 201
         second_mock.json = lambda: {
             "meta": {"next": "/rest/v1/user/def"},
-            "objects": list(map(lambda x: {"value": x}, [*range(100, 200)])),
+            "objects": [{"value": x} for x in [*range(100, 200)]],
         }
         resp_mock.get.side_effect = [first_mock, second_mock]
         self.actionkit.conn = resp_mock

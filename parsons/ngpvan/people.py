@@ -403,27 +403,7 @@ class People(object):
         self,
         id,
         id_type="vanid",
-        expand_fields=[
-            "contribution_history",
-            "addresses",
-            "phones",
-            "emails",
-            "codes",
-            "custom_fields",
-            "external_ids",
-            "preferences",
-            "recorded_addresses",
-            "reported_demographics",
-            "suppressions",
-            "cases",
-            "custom_properties",
-            "districts",
-            "election_records",
-            "membership_statuses",
-            "notes",
-            "organization_roles",
-            "disclosure_field_values",
-        ],
+        expand_fields=None,
     ):
         """
         Returns a single person record using their VANID or external id.
@@ -447,6 +427,28 @@ class People(object):
         """
 
         # Change end point based on id type
+        if expand_fields is None:
+            expand_fields = [
+                "contribution_history",
+                "addresses",
+                "phones",
+                "emails",
+                "codes",
+                "custom_fields",
+                "external_ids",
+                "preferences",
+                "recorded_addresses",
+                "reported_demographics",
+                "suppressions",
+                "cases",
+                "custom_properties",
+                "districts",
+                "election_records",
+                "membership_statuses",
+                "notes",
+                "organization_roles",
+                "disclosure_field_values",
+            ]
         url = "people/"
 
         id_type = "" if id_type in ("vanid", None) else f"{id_type}:"

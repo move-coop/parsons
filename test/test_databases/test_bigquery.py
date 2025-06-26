@@ -83,7 +83,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         # Because Table() == Table() fails for some reason
         assert isinstance(result, Table)
         assert not len(result)
-        assert tuple(result.columns) == tuple([])
+        assert tuple(result.columns) == ()
 
     @mock.patch("parsons.utilities.files.create_temp_file")
     def test_query__no_return(self, create_temp_file_mock):

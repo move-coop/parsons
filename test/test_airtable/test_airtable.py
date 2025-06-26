@@ -217,4 +217,4 @@ class TestAirtable(unittest.TestCase):
         resp = self.at.delete_records(tbl)
 
         assert len(delete_responses["records"]) == len(resp)
-        assert all([r["deleted"] for r in resp])
+        assert all(r["deleted"] for r in resp)

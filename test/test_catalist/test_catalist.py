@@ -94,7 +94,7 @@ class TestCatalist:
         requested_base_url = mock_requests._adapter.request_history[1]._url_parts.netloc
 
         assert requested_base_url == "api.catalist.us"
-        assert set(requested_queries.keys()) == set(["token"])
+        assert set(requested_queries.keys()) == {"token"}
         assert requested_queries["token"] == ["tokenexample"]
         assert requested_endpoint.startswith("/mapi/upload/template/48827/action/publish/url/")
 
@@ -112,7 +112,7 @@ class TestCatalist:
 
         requested_queries = mock_requests._adapter.request_history[1].qs
 
-        assert set(requested_queries.keys()) == set(["token", "copytosandbox", "phone"])
+        assert set(requested_queries.keys()) == {"token", "copytosandbox", "phone"}
         assert requested_queries["copytosandbox"] == ["true"]
         assert requested_queries["phone"] == ["123456789"]
 
@@ -128,7 +128,7 @@ class TestCatalist:
         requested_base_url = mock_requests._adapter.request_history[1]._url_parts.netloc
 
         assert requested_base_url == "api.catalist.us"
-        assert set(requested_queries.keys()) == set(["token"])
+        assert set(requested_queries.keys()) == {"token"}
         assert requested_queries["token"] == ["tokenexample"]
         assert requested_endpoint == "/mapi/status/id/12345"
 
@@ -147,7 +147,7 @@ class TestCatalist:
         first_called_method = str(first_mocked_call).split("(")[0].split(".")[1]
 
         assert first_called_method == "list_directory"
-        assert set(first_mocked_call.args) == set(["/myDownloads/"])
+        assert set(first_mocked_call.args) == {"/myDownloads/"}
 
         second_mocked_call = match.sftp.mock_calls[1]
         second_called_method = str(second_mocked_call).split("(")[0].split(".")[1]

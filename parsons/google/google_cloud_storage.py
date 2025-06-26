@@ -201,10 +201,7 @@ class GoogleCloudStorage(object):
             bucket_name, max_results=max_results, prefix=prefix, match_glob=match_glob
         )
 
-        if include_file_details:
-            lst = list(blobs)
-        else:
-            lst = [b.name for b in blobs]
+        lst = list(blobs) if include_file_details else [b.name for b in blobs]
 
         logger.info(f"Found {len(lst)} in {bucket_name} bucket.")
 

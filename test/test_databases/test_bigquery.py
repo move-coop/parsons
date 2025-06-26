@@ -120,7 +120,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         # Check that queries and transaction keywords are included in sql
         assert all(
-            [text in keyword_args["sql"] for text in queries + ["BEGIN TRANSACTION", "COMMIT"]]
+            text in keyword_args["sql"] for text in queries + ["BEGIN TRANSACTION", "COMMIT"]
         )
         assert keyword_args["parameters"] == parameters
         assert not keyword_args["return_values"]

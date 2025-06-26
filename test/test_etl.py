@@ -887,7 +887,7 @@ class TestParsonsTable(unittest.TestCase):
     def test_use_petl(self):
         # confirm that this method doesn't exist for parsons.Table
         with pytest.raises(AttributeError):
-            getattr(Table, "skipcomments")
+            Table.skipcomments  # noqa: B018
 
         tbl = Table(
             [

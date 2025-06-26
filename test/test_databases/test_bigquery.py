@@ -82,7 +82,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         # Because Table() == Table() fails for some reason
         assert isinstance(result, Table)
         assert not len(result)
-        assert tuple(result.columns) == tuple([])
+        assert tuple(result.columns) == ()
 
     @mock.patch("parsons.utilities.files.create_temp_file")
     def test_query__no_return(self, create_temp_file_mock):
@@ -119,7 +119,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         # Check that queries and transaction keywords are included in sql
         self.assertTrue(
-            all([text in keyword_args["sql"] for text in queries + ["BEGIN TRANSACTION", "COMMIT"]])
+            all(text in keyword_args["sql"] for text in queries + ["BEGIN TRANSACTION", "COMMIT"])
         )
         self.assertEqual(keyword_args["parameters"], parameters)
         self.assertFalse(keyword_args["return_values"])

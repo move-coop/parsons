@@ -127,7 +127,7 @@ class Email(object):
         if aggregate_ab:
             for email in email_list:  # One row per foreignMessageId
                 outer = {field: email[field] for field in outer_fields}
-                inner = {field: 0 for field in inner_fields}
+                inner = dict.fromkeys(inner_fields, 0)
                 for i in email["emailMessageContent"]:
                     # Pending emails don't have emailMessageContentDistributions, just have defaults
                     if not i["emailMessageContentDistributions"]:
@@ -149,7 +149,7 @@ class Email(object):
                 for i in email["emailMessageContent"]:
                     # One row per foreignMessageId / emailMessageContent entry
                     outer = {field: email[field] for field in outer_fields}
-                    inner = {field: 0 for field in inner_fields}
+                    inner = dict.fromkeys(inner_fields, 0)
                     if not i["emailMessageContentDistributions"]:
                         logger.info(
                             f"No emailMessageContentDistributions for email {i['name']}, defaulting values to 0"

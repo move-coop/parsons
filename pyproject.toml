@@ -48,6 +48,7 @@ select = [
     "B", # flake8-bugbear (B)
     "E", # pycodestyle errors (E)
     "W", # pycodestyle warnings (W)
+    "C4", # flake8-comprehensions (C4)
     "F", # Pyflakes (F)
     "I", # isort (I)
     "TID", # flake8-tidy-imports (TID)

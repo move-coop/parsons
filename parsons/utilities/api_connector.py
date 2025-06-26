@@ -108,9 +108,7 @@ class APIConnector(object):
         else:
             raise RuntimeError(f"{return_format} is not a valid format, change to json or content")
 
-    def post_request(
-        self, url, params=None, data=None, json=None, success_codes=[200, 201, 202, 204]
-    ):
+    def post_request(self, url, params=None, data=None, json=None, success_codes=None):
         """
         Make a POST request.
 
@@ -123,12 +121,14 @@ class APIConnector(object):
                 A data object to post
             json: dict
                 A JSON object to post
-            success_code: int
-                The expected success code to be returned
+            success_codes: int
+                The expected success code to be returned. If not provided, accepts 200, 201, 202, and 204.
         `Returns:`
             A requests response object
         """
 
+        if success_codes is None:
+            success_codes = [200, 201, 202, 204]
         r = self.request(url, "POST", params=params, data=data, json=json)
 
         # Validate the response and lift up an errors.
@@ -142,7 +142,7 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def delete_request(self, url, params=None, success_codes=[200, 201, 204]):
+    def delete_request(self, url, params=None, success_codes=None):
         """
         Make a DELETE request.
 
@@ -152,11 +152,13 @@ class APIConnector(object):
             params: dict
                 The request parameters
             success_codes: int
-                The expected success codes to be returned
+                The expected success codes to be returned. If not provided, accepts 200, 201, 204.
         Returns:
                 A requests response object or status code
         """
 
+        if success_codes is None:
+            success_codes = [200, 201, 204]
         r = self.request(url, "DELETE", params=params)
 
         self.validate_response(r)
@@ -169,23 +171,27 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def put_request(self, url, data=None, json=None, params=None, success_codes=[200, 201, 204]):
+    def put_request(self, url, data=None, json=None, params=None, success_codes=None):
         """
         Make a PUT request.
 
         Args:
             url: str
                 A complete and valid url for the api request
-            params: dict
-                The request parameters
             data: str or file
                 A data object to post
             json: dict
                 A JSON object to post
+            params: dict
+                The request parameters
+            success_codes: int
+                The expected success codes to be returned. If not provided, accepts 200, 201, 204.
         Returns:
                 A requests response object
         """
 
+        if success_codes is None:
+            success_codes = [200, 201, 204]
         r = self.request(url, "PUT", params=params, data=data, json=json)
 
         self.validate_response(r)
@@ -196,7 +202,7 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def patch_request(self, url, params=None, data=None, json=None, success_codes=[200, 201, 204]):
+    def patch_request(self, url, params=None, data=None, json=None, success_codes=None):
         """
         Make a PATCH request.
 
@@ -210,11 +216,13 @@ class APIConnector(object):
             json: dict
                 A JSON object to post
             success_codes: int
-                The expected success codes to be returned
+                The expected success codes to be returned. If not provided, accepts 200, 201, and 204.
         `Returns:`
             A requests response object
         """
 
+        if success_codes is None:
+            success_codes = [200, 201, 204]
         r = self.request(url, "PATCH", params=params, data=data, json=json)
 
         self.validate_response(r)

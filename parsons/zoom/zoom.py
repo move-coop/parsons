@@ -578,7 +578,7 @@ class ZoomV2(ZoomV1):
     def __init__(self, account_id=None, client_id=None, client_secret=None):
         super().__init__(account_id, client_id, client_secret)
 
-    def _get_request(self, endpoint: str, data_key: str, params: dict = {}, **kwargs):
+    def _get_request(self, endpoint: str, data_key: str, params: dict = None, **kwargs):
         """
         `Args`:
             endpoint: str
@@ -594,6 +594,8 @@ class ZoomV2(ZoomV1):
                 See :ref:`parsons-table` for output options.
         """
 
+        if params is None:
+            params = {}
         if not params:
             params = {"page_size": 300}
 

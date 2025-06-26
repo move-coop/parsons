@@ -35,7 +35,7 @@ class TestSqlite(unittest.TestCase):
             # This line should raise a ValueError
             self.sqlite.copy(self.tbl, "tbl1", if_exists="fail")
             # so this line should not be executed
-            assert False, "should have failed"
+            raise AssertionError("should have failed")
         except ValueError:
             pass
 

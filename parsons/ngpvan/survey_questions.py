@@ -12,7 +12,7 @@ class SurveyQuestions(object):
         self.connection = van_connection
 
     def get_survey_questions(
-        self, statuses=["Active"], name=None, sq_type=None, question=None, cycle=None
+        self, statuses=None, name=None, sq_type=None, question=None, cycle=None
     ):
         """
         Get survey questions.
@@ -34,6 +34,8 @@ class SurveyQuestions(object):
                 See :ref:`parsons-table` for output options.
         """
 
+        if statuses is None:
+            statuses = ["Active"]
         params = {
             "statuses": statuses,
             "$top": self.page_size,

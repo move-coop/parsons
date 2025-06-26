@@ -236,7 +236,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq.table_exists.return_value = True
 
         # call the method being tested
-        with self.assertRaises(Exception):
+        with self.assertRaises(Exception):  # noqa: B017
             bq.copy_from_gcs(
                 self.default_table,
                 "dataset.table",

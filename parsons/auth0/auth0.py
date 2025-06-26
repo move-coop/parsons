@@ -82,8 +82,8 @@ class Auth0(object):
         username=None,
         given_name=None,
         family_name=None,
-        app_metadata={},
-        user_metadata={},
+        app_metadata=None,
+        user_metadata=None,
         connection="Username-Password-Authentication",
     ):
         """
@@ -106,6 +106,10 @@ class Auth0(object):
             Requests Response object
         """
 
+        if user_metadata is None:
+            user_metadata = {}
+        if app_metadata is None:
+            app_metadata = {}
         obj = {
             "email": email.lower(),
             "username": username,

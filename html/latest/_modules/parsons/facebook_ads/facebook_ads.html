@@ -362,7 +362,7 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_match_schema_and_data</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
         <span class="c1"># Grab the raw data as a list of tuples</span>
-        <span class="n">data_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
+        <span class="n">data_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">data_list</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>

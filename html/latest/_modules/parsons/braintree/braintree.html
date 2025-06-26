@@ -396,7 +396,7 @@
             <span class="n">query_list</span><span class="o">=</span><span class="n">query_list</span><span class="p">,</span>
             <span class="n">query_dict</span><span class="o">=</span><span class="n">query_dict</span><span class="p">,</span>
             <span class="n">default_query</span><span class="o">=</span><span class="p">(</span>
-                <span class="p">{</span><span class="s2">&quot;effective_date&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">between</span><span class="o">=</span><span class="p">[</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">])}</span>
+                <span class="p">{</span><span class="s2">&quot;effective_date&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;between&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">]}}</span>
                 <span class="k">if</span> <span class="n">start_date</span> <span class="ow">and</span> <span class="n">end_date</span>
                 <span class="k">else</span> <span class="kc">None</span>
             <span class="p">),</span>
@@ -474,7 +474,7 @@
             <span class="n">query_list</span><span class="o">=</span><span class="n">query_list</span><span class="p">,</span>
             <span class="n">query_dict</span><span class="o">=</span><span class="n">query_dict</span><span class="p">,</span>
             <span class="n">default_query</span><span class="o">=</span><span class="p">(</span>
-                <span class="p">{</span><span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">between</span><span class="o">=</span><span class="p">[</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">])}</span>
+                <span class="p">{</span><span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;between&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">]}}</span>
                 <span class="k">if</span> <span class="n">start_date</span> <span class="ow">and</span> <span class="n">end_date</span>
                 <span class="k">else</span> <span class="kc">None</span>
             <span class="p">),</span>
@@ -556,11 +556,7 @@
             <span class="n">query_list</span><span class="o">=</span><span class="n">query_list</span><span class="p">,</span>
             <span class="n">query_dict</span><span class="o">=</span><span class="n">query_dict</span><span class="p">,</span>
             <span class="n">default_query</span><span class="o">=</span><span class="p">(</span>
-                <span class="p">{</span>
-                    <span class="s2">&quot;disbursement_date&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-                        <span class="n">between</span><span class="o">=</span><span class="p">[</span><span class="n">disbursement_start_date</span><span class="p">,</span> <span class="n">disbursement_end_date</span><span class="p">]</span>
-                    <span class="p">)</span>
-                <span class="p">}</span>
+                <span class="p">{</span><span class="s2">&quot;disbursement_date&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;between&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">disbursement_start_date</span><span class="p">,</span> <span class="n">disbursement_end_date</span><span class="p">]}}</span>
                 <span class="k">if</span> <span class="n">disbursement_start_date</span> <span class="ow">and</span> <span class="n">disbursement_end_date</span>
                 <span class="k">else</span> <span class="kc">None</span>
             <span class="p">),</span>

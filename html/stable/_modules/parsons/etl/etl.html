@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
@@ -239,15 +240,15 @@
 <div class="viewcode-block" id="ETL.remove_column">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.remove_column">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove a column from your table</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            \*columns: str</span>
+<span class="sd">            *columns: str</span>
 <span class="sd">                Column names</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">cutout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">)</span>
 
@@ -394,7 +395,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform values under one or more fields via arbitrary functions, method</span>
 <span class="sd">        invocations or dictionary translations. This leverages the petl ``convert()``</span>
-<span class="sd">        method. Example usage can be found `here &lt;https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert&gt;`_.</span>
+<span class="sd">        method. Example usage can be found `here &lt;https://petl.readthedocs.io/latest/transform.html#petl.transform.conversions.convert&gt;`_.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            *column: str</span>
@@ -403,7 +404,7 @@
 <span class="sd">                The update function, method, or variable to process the update</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">column</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -645,18 +646,18 @@
 <div class="viewcode-block" id="ETL.convert_table">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.convert_table">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">convert_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform all cells in a table via arbitrary functions, method invocations or dictionary</span>
 <span class="sd">        translations. This method is useful for cleaning fields and data hygiene functions such</span>
 <span class="sd">        as regex. This method leverages the petl ``convert()`` method. Example usage can be</span>
 <span class="sd">        found `here` &lt;https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert&gt;`_.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            \*args: str, method or variable</span>
+<span class="sd">            *args: str, method or variable</span>
 <span class="sd">                The update function, method, or variable to process the update. Can also</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">convert_column</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
@@ -747,7 +748,7 @@
 
 <span class="sd">          tbl.unpack_list(&#39;phones&#39;, replace=True)</span>
 <span class="sd">          print (tbl)</span>
-<span class="sd">          &gt;&gt;&gt; {&#39;id&#39;: &#39;5421&#39;, &#39;name&#39;: &#39;Jane Green&#39;, &#39;phones_0&#39;: &#39;512-699-3334&#39;, &#39;phones_1&#39;: &#39;512-222-5478&#39;} # noqa: E501</span>
+<span class="sd">          &gt;&gt;&gt; {&#39;id&#39;: &#39;5421&#39;, &#39;name&#39;: &#39;Jane Green&#39;, &#39;phones_0&#39;: &#39;512-699-3334&#39;, &#39;phones_1&#39;: &#39;512-222-5478&#39;}</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            column: str</span>
@@ -935,8 +936,8 @@
 <span class="sd">                  ]</span>
 <span class="sd">           tbl = Table(json)</span>
 <span class="sd">           print (tbl)</span>
-<span class="sd">           &gt;&gt;&gt; {&#39;id&#39;: &#39;5421&#39;, &#39;name&#39;: &#39;Jane Green&#39;, &#39;emails&#39;: [{&#39;home&#39;: &#39;jane@gmail.com&#39;}, {&#39;work&#39;: &#39;jane@mywork.com&#39;}]} # noqa: E501</span>
-<span class="sd">           &gt;&gt;&gt; {&#39;id&#39;: &#39;5421&#39;, &#39;name&#39;: &#39;Jane Green&#39;, &#39;emails&#39;: [{&#39;home&#39;: &#39;jane@gmail.com&#39;}, {&#39;work&#39;: &#39;jane@mywork.com&#39;}]} # noqa: E501</span>
+<span class="sd">           &gt;&gt;&gt; {&#39;id&#39;: &#39;5421&#39;, &#39;name&#39;: &#39;Jane Green&#39;, &#39;emails&#39;: [{&#39;home&#39;: &#39;jane@gmail.com&#39;}, {&#39;work&#39;: &#39;jane@mywork.com&#39;}]}</span>
+<span class="sd">           &gt;&gt;&gt; {&#39;id&#39;: &#39;5421&#39;, &#39;name&#39;: &#39;Jane Green&#39;, &#39;emails&#39;: [{&#39;home&#39;: &#39;jane@gmail.com&#39;}, {&#39;work&#39;: &#39;jane@mywork.com&#39;}]}</span>
 
 <span class="sd">           # Create skinny table of just the nested dicts</span>
 <span class="sd">           email_skinny = tbl.long_table([&#39;id&#39;], &#39;emails&#39;)</span>
@@ -995,15 +996,15 @@
 <div class="viewcode-block" id="ETL.cut">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.cut">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cut</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a table of selection of columns</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            \*columns: str</span>
+<span class="sd">            *columns: str</span>
 <span class="sd">                Columns in the parsons table</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A new parsons table containing the selected columnns</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
@@ -1013,7 +1014,7 @@
 <div class="viewcode-block" id="ETL.select_rows">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.select_rows">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">select_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Select specific rows from a Parsons table based on the passed</span>
 <span class="sd">        filters.</span>
 
@@ -1039,10 +1040,10 @@
 <span class="sd">            &gt;&gt;&gt; {&#39;foo&#39;: &#39;a&#39;, &#39;bar&#39;: 2, &#39;baz&#39;: 88.1}</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            \*filters: function or str</span>
+<span class="sd">            *filters: function or str</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A new parsons table containing the selected rows</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
@@ -1137,7 +1138,7 @@
 
 <div class="viewcode-block" id="ETL.chunk">
 <a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.chunk">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Divides a Parsons table into smaller tables of a specified row count. If the table</span>
 <span class="sd">        cannot be divided evenly, then the final table will only include the remainder.</span>
@@ -1242,7 +1243,7 @@
                 <span class="k">elif</span> <span class="n">if_missing_columns</span> <span class="o">!=</span> <span class="s2">&quot;ignore&quot;</span><span class="p">:</span>
                     <span class="c1"># If it&#39;s not ignore, add, or fail, then it&#39;s not a valid strategy</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_missing_columns</span><span class="si">}</span><span class="s2"> for &quot;</span> <span class="s2">&quot;argument `if_missing_columns`&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_missing_columns</span><span class="si">}</span><span class="s2"> for argument `if_missing_columns`&quot;</span>
                     <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># We have found this in our current columns, so take it out of our list to search</span>
@@ -1266,7 +1267,7 @@
             <span class="k">elif</span> <span class="n">if_extra_columns</span> <span class="o">!=</span> <span class="s2">&quot;remove&quot;</span><span class="p">:</span>
                 <span class="c1"># If it&#39;s not ignore, add, or fail, then it&#39;s not a valid strategy</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_extra_columns</span><span class="si">}</span><span class="s2"> for &quot;</span> <span class="s2">&quot;argument `if_extra_columns`&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_extra_columns</span><span class="si">}</span><span class="s2"> for argument `if_extra_columns`&quot;</span>
                 <span class="p">)</span>
 
         <span class="c1"># Add any columns we need to add</span>
@@ -1350,7 +1351,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">rowreduce</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span>
@@ -1451,7 +1452,7 @@
 <span class="sd">                The keyword arguements to pass to the petl function.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `parsons.Table` or `petl` table</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">update_table</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;update_table&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">to_petl</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;to_petl&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 

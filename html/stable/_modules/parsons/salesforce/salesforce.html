@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
@@ -154,10 +155,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.salesforce.salesforce</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">simple_salesforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">Salesforce</span> <span class="k">as</span> <span class="n">_Salesforce</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">simple_salesforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">Salesforce</span> <span class="k">as</span> <span class="n">_Salesforce</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -168,33 +172,71 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Salesforce class</span>
 
+<span class="sd">    Supports the password and `client_credentials &lt;https://help.salesforce.com/s/articleView?id=xcloud.connected_app_client_credentials_setup.htm&amp;type=5&gt;`_ authentication methods.</span>
+
 <span class="sd">    `Args:`</span>
 <span class="sd">        username: str</span>
 <span class="sd">            The Salesforce username (usually an email address). Not required if</span>
-<span class="sd">            ``SALESFORCE_USERNAME`` env variable is passed.</span>
+<span class="sd">            ``SALESFORCE_USERNAME`` env variable is passed. Used in the &#39;password&#39; auth method.</span>
 <span class="sd">        password: str</span>
 <span class="sd">            The Salesforce password. Not required if ``SALESFORCE_PASSWORD`` env variable is</span>
-<span class="sd">            passed.</span>
+<span class="sd">            passed. Used in the &#39;password&#39; auth method.</span>
 <span class="sd">        security_token: str</span>
 <span class="sd">            The Salesforce security token that can be acquired or reset in</span>
 <span class="sd">            Settings &gt; My Personal Information &gt; Reset My Security Token.</span>
-<span class="sd">            Not required if ``SALESFORCE_SECURITY_TOKEN`` env variable is passed.</span>
+<span class="sd">            Not required if ``SALESFORCE_SECURITY_TOKEN`` env variable is passed. Used in the &#39;password&#39; auth method.</span>
 <span class="sd">        test_environment: bool</span>
 <span class="sd">            If ``True`` the client will connect to a Salesforce sandbox instance. Not required if</span>
 <span class="sd">            ``SALESFORCE_DOMAIN`` env variable is passed.</span>
+<span class="sd">        consumer_key: str</span>
+<span class="sd">            consumer key for a connected app. Used in the &#39;client_credentials&#39; auth method.</span>
+<span class="sd">        consumer_secret: str</span>
+<span class="sd">            consumer secret for a connected app. Used in the &#39;client_credentials&#39; auth method.</span>
+<span class="sd">        domain: str</span>
+<span class="sd">            url for the salesforce instance. Used in the &#39;client_credentials&#39; auth method</span>
+<span class="sd">        authentication_method: str</span>
+<span class="sd">            the method to use for authentication. defaults to &quot;password&quot;. Not required if ``SALESFORCE_AUTHENTICATION_METHOD`` env variable is passed.</span>
+
 <span class="sd">    `Returns:`</span>
 <span class="sd">        Salesforce class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">security_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_environment</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_USERNAME&quot;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_PASSWORD&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">security_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_SECURITY_TOKEN&quot;</span><span class="p">,</span> <span class="n">security_token</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">test_environment</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_DOMAIN&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">security_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">test_environment</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">consumer_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">consumer_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">authentication_method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">authentication_method</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">authentication_method</span> <span class="o">=</span> <span class="n">authentication_method</span>
+        <span class="k">elif</span> <span class="n">env_authentication_method</span> <span class="o">:=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_AUTHENTICATION_METHOD&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">authentication_method</span> <span class="o">=</span> <span class="n">env_authentication_method</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">authentication_method</span> <span class="o">=</span> <span class="s2">&quot;password&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authentication_method</span> <span class="o">==</span> <span class="s2">&quot;password&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_USERNAME&quot;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_PASSWORD&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">security_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_SECURITY_TOKEN&quot;</span><span class="p">,</span> <span class="n">security_token</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">test_environment</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_DOMAIN&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">authentication_method</span> <span class="o">==</span> <span class="s2">&quot;client_credentials&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">consumer_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="n">consumer_key</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">consumer_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_CONSUMER_SECRET&quot;</span><span class="p">,</span> <span class="n">consumer_key</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SALESFORCE_DOMAIN&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">authentication_method</span><span class="si">}</span><span class="s2"> is not a supported method. Parsons currently supports &#39;password&#39; and &#39;client_credentials&#39;&quot;</span>
+            <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -238,7 +280,7 @@
 <span class="sd">                For reference, see the `Salesforce SOQL documentation &lt;https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm&gt;`_.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            list of dicts with Salesforce data</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">query_all</span><span class="p">(</span><span class="n">soql</span><span class="p">)</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
@@ -385,12 +427,21 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">:</span>
             <span class="c1"># Create a Salesforce client to use to make bulk calls</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">_Salesforce</span><span class="p">(</span>
-                <span class="n">username</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
-                <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
-                <span class="n">security_token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">security_token</span><span class="p">,</span>
-                <span class="n">domain</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authentication_method</span> <span class="o">==</span> <span class="s2">&quot;password&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">_Salesforce</span><span class="p">(</span>
+                    <span class="n">username</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                    <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+                    <span class="n">security_token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">security_token</span><span class="p">,</span>
+                    <span class="n">domain</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">authentication_method</span> <span class="o">==</span> <span class="s2">&quot;client_credentials&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">_Salesforce</span><span class="p">(</span>
+                    <span class="n">consumer_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">consumer_key</span><span class="p">,</span>
+                    <span class="n">consumer_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">consumer_secret</span><span class="p">,</span>
+                    <span class="n">domain</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Should not be possible to reach this code&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span></div>
 

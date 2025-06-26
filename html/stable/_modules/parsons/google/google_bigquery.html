@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
@@ -155,8 +156,8 @@
              
   <h1>Source code for parsons.google.google_bigquery</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
@@ -165,9 +166,10 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">google</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">bigquery</span><span class="p">,</span> <span class="n">exceptions</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud.bigquery</span><span class="w"> </span><span class="kn">import</span> <span class="n">dbapi</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud.bigquery.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadJobConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.api_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">exceptions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">bigquery</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud.bigquery</span><span class="w"> </span><span class="kn">import</span> <span class="n">dbapi</span><span class="p">,</span> <span class="n">job</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud.bigquery.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExtractJobConfig</span><span class="p">,</span> <span class="n">LoadJobConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">google.oauth2.credentials</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.database_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseConnector</span>
@@ -516,6 +518,26 @@
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="o">=</span><span class="n">queries_wrapped</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">return_values</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
+<div class="viewcode-block" id="GoogleBigQuery.get_job">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.get_job">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_job</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">job_kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">job</span><span class="o">.</span><span class="n">LoadJob</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">CopyJob</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">ExtractJob</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">QueryJob</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">UnknownJob</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetch a job</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            job_id: str</span>
+<span class="sd">                ID of job to fetch</span>
+<span class="sd">            location: str</span>
+<span class="sd">                Location where the job was run</span>
+<span class="sd">            **job_kwargs: kwargs</span>
+<span class="sd">                Other arguments to pass to the underlying get_job</span>
+<span class="sd">                call on the BigQuery client.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_job</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="n">job_id</span><span class="p">,</span> <span class="o">**</span><span class="n">job_kwargs</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="GoogleBigQuery.copy_from_gcs">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy_from_gcs">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">copy_from_gcs</span><span class="p">(</span>
@@ -537,6 +559,7 @@
         <span class="n">compression_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span>
         <span class="n">new_file_extension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
         <span class="n">template_table</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">21600</span><span class="p">,</span>
         <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -597,6 +620,8 @@
 <span class="sd">            template_table: str</span>
 <span class="sd">                Table name to be used as the load schema. Load operation wil use the same</span>
 <span class="sd">                columns and data types as the template table.</span>
+<span class="sd">            max_timeout: int</span>
+<span class="sd">                The maximum number of seconds to wait for a request before the job fails.</span>
 <span class="sd">            **load_kwargs: kwargs</span>
 <span class="sd">                Other arguments to pass to the underlying load_table_from_uri</span>
 <span class="sd">                call on the BigQuery client.</span>
@@ -639,12 +664,14 @@
                     <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
                     <span class="n">compression_type</span><span class="o">=</span><span class="n">compression_type</span><span class="p">,</span>
                     <span class="n">new_file_extension</span><span class="o">=</span><span class="n">new_file_extension</span><span class="p">,</span>
+                    <span class="n">max_timeout</span><span class="o">=</span><span class="n">max_timeout</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_table_from_uri</span><span class="p">(</span>
                     <span class="n">source_uris</span><span class="o">=</span><span class="n">gcs_blob_uri</span><span class="p">,</span>
                     <span class="n">destination</span><span class="o">=</span><span class="n">table_ref</span><span class="p">,</span>
                     <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
+                    <span class="n">max_timeout</span><span class="o">=</span><span class="n">max_timeout</span><span class="p">,</span>
                     <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
                 <span class="p">)</span>
         <span class="k">except</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">BadRequest</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -669,13 +696,18 @@
                     <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
                     <span class="n">compression_type</span><span class="o">=</span><span class="n">compression_type</span><span class="p">,</span>
                     <span class="n">new_file_extension</span><span class="o">=</span><span class="n">new_file_extension</span><span class="p">,</span>
+                    <span class="n">max_timeout</span><span class="o">=</span><span class="n">max_timeout</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="s2">&quot;Schema has no field&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gcs_blob_uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> is empty, skipping file&quot;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="s2">&quot;Empty file&quot;</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">e</span></div>
+                <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="k">except</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">DeadlineExceeded</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max timeout exceeded for </span><span class="si">{</span><span class="n">gcs_blob_uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span></div>
 
 
 <div class="viewcode-block" id="GoogleBigQuery.copy_large_compressed_file_from_gcs">
@@ -698,6 +730,7 @@
         <span class="n">compression_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span>
         <span class="n">new_file_extension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
         <span class="n">template_table</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">21600</span><span class="p">,</span>
         <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -756,6 +789,8 @@
 <span class="sd">            template_table: str</span>
 <span class="sd">                Table name to be used as the load schema. Load operation wil use the same</span>
 <span class="sd">                columns and data types as the template table.</span>
+<span class="sd">            max_timeout: int</span>
+<span class="sd">                The maximum number of seconds to wait for a request before the job fails.</span>
 <span class="sd">            **load_kwargs: kwargs</span>
 <span class="sd">                Other arguments to pass to the underlying load_table_from_uri call on the BigQuery</span>
 <span class="sd">                client.</span>
@@ -800,6 +835,7 @@
                 <span class="n">source_uris</span><span class="o">=</span><span class="n">uncompressed_gcs_uri</span><span class="p">,</span>
                 <span class="n">destination</span><span class="o">=</span><span class="n">table_ref</span><span class="p">,</span>
                 <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
+                <span class="n">max_timeout</span><span class="o">=</span><span class="n">max_timeout</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
             <span class="p">)</span>
 
@@ -829,6 +865,7 @@
         <span class="n">tmp_gcs_bucket</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">template_table</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">job_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadJobConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">21600</span><span class="p">,</span>
         <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -875,6 +912,8 @@
 <span class="sd">                on the BigQuery client. The function will create its own if not provided. Note</span>
 <span class="sd">                if there are any conflicts between the job_config and other parameters, the</span>
 <span class="sd">                job_config values are preferred.</span>
+<span class="sd">            max_timeout: int</span>
+<span class="sd">                The maximum number of seconds to wait for a request before the job fails.</span>
 
 <span class="sd">        `Returns`</span>
 <span class="sd">            Parsons Table or ``None``</span>
@@ -911,10 +950,104 @@
                 <span class="n">nullas</span><span class="o">=</span><span class="n">nullas</span><span class="p">,</span>
                 <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
                 <span class="n">template_table</span><span class="o">=</span><span class="n">template_table</span><span class="p">,</span>
+                <span class="n">max_timeout</span><span class="o">=</span><span class="n">max_timeout</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">gcs_client</span><span class="o">.</span><span class="n">delete_blob</span><span class="p">(</span><span class="n">tmp_gcs_bucket</span><span class="p">,</span> <span class="n">temp_blob_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GoogleBigQuery.copy_direct">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy_direct">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy_direct</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tbl</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span>
+        <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">if_exists</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;fail&quot;</span><span class="p">,</span>
+        <span class="n">max_errors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">job_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadJobConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">template_table</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ignoreheader</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">nullas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">allow_quoted_newlines</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">allow_jagged_rows</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">quote</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">21600</span><span class="p">,</span>
+        <span class="n">convert_dict_list_columns_to_json</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Copy a :ref:`parsons-table` into Google BigQuery</span>
+<span class="sd">        directly. This will work well for smaller data. For larger</span>
+<span class="sd">        data, use the :meth:`copy` method which stages the upload through CloudStorage.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            tbl: obj</span>
+<span class="sd">                The Parsons Table to copy into BigQuery.</span>
+<span class="sd">            table_name: str</span>
+<span class="sd">                The table name to load the data into. Will be used to generate load schema</span>
+<span class="sd">                if no custom schema or template table are supplied and if_exists is</span>
+<span class="sd">                set to &quot;truncate&quot; or &quot;append&quot;.</span>
+<span class="sd">            if_exists: str</span>
+<span class="sd">                If the table already exists, either ``fail``, ``append``, ``drop``</span>
+<span class="sd">                or ``truncate`` the table.</span>
+<span class="sd">            max_errors: int</span>
+<span class="sd">                The maximum number of rows that can error and be skipped before</span>
+<span class="sd">                the job fails.</span>
+<span class="sd">            job_config: object</span>
+<span class="sd">                A LoadJobConfig object to provide to the underlying call to load_table_from_uri</span>
+<span class="sd">                on the BigQuery client. The function will create its own if not provided.</span>
+<span class="sd">            template_table: str</span>
+<span class="sd">                Table name to be used as the load schema. Load operation wil use the same</span>
+<span class="sd">                columns and data types as the template table.</span>
+<span class="sd">            max_timeout: int</span>
+<span class="sd">                The maximum number of seconds to wait for a request before the job fails.</span>
+<span class="sd">            convert_dict_list_columns_to_json: bool</span>
+<span class="sd">                If set to True, will convert any dict or list columns (which cannot by default be successfully loaded to BigQuery to JSON strings)</span>
+<span class="sd">            **load_kwargs: kwargs</span>
+<span class="sd">                Arguments to pass to the underlying load_table_from_uri call on the BigQuery</span>
+<span class="sd">                client.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">convert_dict_list_columns_to_json</span><span class="p">:</span>
+            <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stringify_records</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+
+        <span class="n">job_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_local_upload_job</span><span class="p">(</span>
+            <span class="n">tbl</span><span class="p">,</span>
+            <span class="n">table_name</span><span class="p">,</span>
+            <span class="n">if_exists</span><span class="p">,</span>
+            <span class="n">max_errors</span><span class="p">,</span>
+            <span class="n">job_config</span><span class="p">,</span>
+            <span class="n">template_table</span><span class="p">,</span>
+            <span class="n">ignoreheader</span><span class="p">,</span>
+            <span class="n">nullas</span><span class="p">,</span>
+            <span class="n">allow_quoted_newlines</span><span class="p">,</span>
+            <span class="n">allow_jagged_rows</span><span class="p">,</span>
+            <span class="n">quote</span><span class="p">,</span>
+            <span class="n">schema</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">tmpfile_path</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">to_csv</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpfile_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmpfile</span><span class="p">:</span>
+            <span class="n">load_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">load_table_from_file</span><span class="p">(</span>
+                <span class="n">tmpfile</span><span class="p">,</span>
+                <span class="n">destination</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_table_ref</span><span class="p">(</span><span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">),</span>
+                <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">load_job</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">max_timeout</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">load_job</span>
+            <span class="k">except</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">BadRequest</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">error_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">load_job</span><span class="o">.</span><span class="n">errors</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;* Load job failed. Enumerating errors collection below:&quot;</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;** Error collection - index </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error_</span><span class="p">)</span>
+
+                <span class="k">raise</span> <span class="n">e</span></div>
 
 
 <div class="viewcode-block" id="GoogleBigQuery.copy">
@@ -935,7 +1068,8 @@
         <span class="n">allow_jagged_rows</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">quote</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">convert_dict_columns_to_json</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">max_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">21600</span><span class="p">,</span>
+        <span class="n">convert_dict_list_columns_to_json</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -966,8 +1100,10 @@
 <span class="sd">            template_table: str</span>
 <span class="sd">                Table name to be used as the load schema. Load operation wil use the same</span>
 <span class="sd">                columns and data types as the template table.</span>
-<span class="sd">            convert_dict_columns_to_json: bool</span>
-<span class="sd">                If set to True, will convert any dict columns (which cannot by default be successfully loaded to BigQuery to JSON strings)</span>
+<span class="sd">            max_timeout: int</span>
+<span class="sd">                The maximum number of seconds to wait for a request before the job fails.</span>
+<span class="sd">            convert_dict_list_columns_to_json: bool</span>
+<span class="sd">                If set to True, will convert any dict or list columns (which cannot by default be successfully loaded to BigQuery to JSON strings)</span>
 <span class="sd">            **load_kwargs: kwargs</span>
 <span class="sd">                Arguments to pass to the underlying load_table_from_uri call on the BigQuery</span>
 <span class="sd">                client.</span>
@@ -980,8 +1116,76 @@
         <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">tmp_gcs_bucket</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Must set GCS_TEMP_BUCKET environment variable or pass in tmp_gcs_bucket parameter&quot;</span>
+                <span class="s2">&quot;Must set GCS_TEMP_BUCKET environment variable or pass in tmp_gcs_bucket parameter. If you have smaller data, you can use the `copy_direct` method to upload the data without needing to use CloudStorage. This alternate method will not work well with larger data.&quot;</span>
             <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">convert_dict_list_columns_to_json</span><span class="p">:</span>
+            <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stringify_records</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+
+        <span class="n">job_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_local_upload_job</span><span class="p">(</span>
+            <span class="n">tbl</span><span class="p">,</span>
+            <span class="n">table_name</span><span class="p">,</span>
+            <span class="n">if_exists</span><span class="p">,</span>
+            <span class="n">max_errors</span><span class="p">,</span>
+            <span class="n">job_config</span><span class="p">,</span>
+            <span class="n">template_table</span><span class="p">,</span>
+            <span class="n">ignoreheader</span><span class="p">,</span>
+            <span class="n">nullas</span><span class="p">,</span>
+            <span class="n">allow_quoted_newlines</span><span class="p">,</span>
+            <span class="n">allow_jagged_rows</span><span class="p">,</span>
+            <span class="n">quote</span><span class="p">,</span>
+            <span class="n">schema</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">gcs_client</span> <span class="o">=</span> <span class="n">gcs_client</span> <span class="ow">or</span> <span class="n">GoogleCloudStorage</span><span class="p">(</span><span class="n">app_creds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">app_creds</span><span class="p">)</span>
+        <span class="n">temp_blob_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">temp_blob_uri</span> <span class="o">=</span> <span class="n">gcs_client</span><span class="o">.</span><span class="n">upload_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">,</span> <span class="n">temp_blob_name</span><span class="p">)</span>
+
+        <span class="c1"># load CSV from Cloud Storage into BigQuery</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load_table_from_uri</span><span class="p">(</span>
+                <span class="n">source_uris</span><span class="o">=</span><span class="n">temp_blob_uri</span><span class="p">,</span>
+                <span class="n">destination</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_table_ref</span><span class="p">(</span><span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">),</span>
+                <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
+                <span class="n">max_timeout</span><span class="o">=</span><span class="n">max_timeout</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">gcs_client</span><span class="o">.</span><span class="n">delete_blob</span><span class="p">(</span><span class="n">tmp_gcs_bucket</span><span class="p">,</span> <span class="n">temp_blob_name</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_stringify_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">):</span>
+        <span class="c1"># Convert dict columns to JSON strings</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">get_columns_type_stats</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s2">&quot;dict&quot;</span> <span class="ow">in</span> <span class="n">field</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">&quot;list&quot;</span> <span class="ow">in</span> <span class="n">field</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]:</span>
+                <span class="n">new_petl</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">addfield</span><span class="p">(</span>
+                    <span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_replace&quot;</span><span class="p">,</span>
+                    <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]),</span>
+                <span class="p">)</span>
+                <span class="n">new_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">new_petl</span><span class="p">)</span>
+                <span class="n">new_tbl</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+                <span class="n">new_tbl</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_replace&quot;</span><span class="p">,</span> <span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+                <span class="n">new_tbl</span><span class="o">.</span><span class="n">materialize</span><span class="p">()</span>
+                <span class="n">tbl</span> <span class="o">=</span> <span class="n">new_tbl</span>
+
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_prepare_local_upload_job</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tbl</span><span class="p">,</span>
+        <span class="n">table_name</span><span class="p">,</span>
+        <span class="n">if_exists</span><span class="p">,</span>
+        <span class="n">max_errors</span><span class="p">,</span>
+        <span class="n">job_config</span><span class="p">,</span>
+        <span class="n">template_table</span><span class="p">,</span>
+        <span class="n">ignoreheader</span><span class="p">,</span>
+        <span class="n">nullas</span><span class="p">,</span>
+        <span class="n">allow_quoted_newlines</span><span class="p">,</span>
+        <span class="n">allow_jagged_rows</span><span class="p">,</span>
+        <span class="n">quote</span><span class="p">,</span>
+        <span class="n">schema</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;csv&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_copy_inputs</span><span class="p">(</span><span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
 
@@ -993,19 +1197,6 @@
             <span class="n">csv_delimiter</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">csvargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;delimiter&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">csv_delimiter</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span>
-
-        <span class="k">if</span> <span class="n">convert_dict_columns_to_json</span><span class="p">:</span>
-            <span class="c1"># Convert dict columns to JSON strings</span>
-            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">get_columns_type_stats</span><span class="p">():</span>
-                <span class="k">if</span> <span class="s2">&quot;dict&quot;</span> <span class="ow">in</span> <span class="n">field</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]:</span>
-                    <span class="n">new_petl</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">addfield</span><span class="p">(</span>
-                        <span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_replace&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]])</span>
-                    <span class="p">)</span>
-                    <span class="n">new_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">new_petl</span><span class="p">)</span>
-                    <span class="n">new_tbl</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
-                    <span class="n">new_tbl</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_replace&quot;</span><span class="p">,</span> <span class="n">field</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
-                    <span class="n">new_tbl</span><span class="o">.</span><span class="n">materialize</span><span class="p">()</span>
-                    <span class="n">tbl</span> <span class="o">=</span> <span class="n">new_tbl</span>
 
         <span class="n">job_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_job_config</span><span class="p">(</span>
             <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
@@ -1034,21 +1225,7 @@
             <span class="n">schema</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">schema_row</span><span class="p">)</span>
         <span class="n">job_config</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span>
 
-        <span class="n">gcs_client</span> <span class="o">=</span> <span class="n">gcs_client</span> <span class="ow">or</span> <span class="n">GoogleCloudStorage</span><span class="p">(</span><span class="n">app_creds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">app_creds</span><span class="p">)</span>
-        <span class="n">temp_blob_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="n">temp_blob_uri</span> <span class="o">=</span> <span class="n">gcs_client</span><span class="o">.</span><span class="n">upload_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">,</span> <span class="n">temp_blob_name</span><span class="p">)</span>
-
-        <span class="c1"># load CSV from Cloud Storage into BigQuery</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_load_table_from_uri</span><span class="p">(</span>
-                <span class="n">source_uris</span><span class="o">=</span><span class="n">temp_blob_uri</span><span class="p">,</span>
-                <span class="n">destination</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_table_ref</span><span class="p">(</span><span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">),</span>
-                <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
-                <span class="o">**</span><span class="n">load_kwargs</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="n">gcs_client</span><span class="o">.</span><span class="n">delete_blob</span><span class="p">(</span><span class="n">tmp_gcs_bucket</span><span class="p">,</span> <span class="n">temp_blob_name</span><span class="p">)</span></div>
-
+        <span class="k">return</span> <span class="n">job_config</span>
 
 <div class="viewcode-block" id="GoogleBigQuery.duplicate_table">
 <a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.duplicate_table">[docs]</a>
@@ -1104,7 +1281,7 @@
         <span class="n">from_s3</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">copy_args</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Preform an upsert on an existing table. An upsert is a function in which rows</span>
 <span class="sd">        in a table are updated and inserted at the same time.</span>
 
@@ -1123,9 +1300,9 @@
 <span class="sd">                Instead of specifying a table_obj (set the first argument to None),</span>
 <span class="sd">                set this to True and include :func:`~parsons.databases.bigquery.Bigquery.copy_s3`</span>
 <span class="sd">                arguments to upsert a pre-existing s3 file into the target_table</span>
-<span class="sd">            \**copy_args: kwargs</span>
+<span class="sd">            **copy_args: kwargs</span>
 <span class="sd">                See :func:`~parsons.databases.bigquery.BigQuery.copy` for options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_exists</span><span class="p">(</span><span class="n">target_table</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="s2">&quot;Target table does not exist. Copying into newly </span><span class="se">\</span>
@@ -1355,9 +1532,9 @@
 <span class="sd">            A list of column names</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">first_row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT * FROM </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> LIMIT 1;&quot;</span><span class="p">)</span>
+        <span class="n">table_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_table</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">first_row</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">schema_ref</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">schema_ref</span> <span class="ow">in</span> <span class="n">table_ref</span><span class="o">.</span><span class="n">schema</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="GoogleBigQuery.get_row_count">
@@ -1442,6 +1619,8 @@
             <span class="n">not_none_petl_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">petl_types</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="s2">&quot;NoneType&quot;</span><span class="p">]</span>
             <span class="k">if</span> <span class="s2">&quot;str&quot;</span> <span class="ow">in</span> <span class="n">petl_types</span><span class="p">:</span>
                 <span class="n">best_type</span> <span class="o">=</span> <span class="s2">&quot;str&quot;</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="s2">&quot;int&quot;</span> <span class="ow">in</span> <span class="n">petl_types</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;float&quot;</span> <span class="ow">in</span> <span class="n">petl_types</span><span class="p">):</span>
+                <span class="n">best_type</span> <span class="o">=</span> <span class="s2">&quot;float&quot;</span>
             <span class="k">elif</span> <span class="n">not_none_petl_types</span><span class="p">:</span>
                 <span class="n">best_type</span> <span class="o">=</span> <span class="n">not_none_petl_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
@@ -1588,7 +1767,9 @@
         <span class="k">if</span> <span class="n">data_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="s2">&quot;json&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Only supports csv or json files [data_type = </span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_load_table_from_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_uris</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">job_config</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_table_from_uri</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">source_uris</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">job_config</span><span class="p">,</span> <span class="n">max_timeout</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span>
+    <span class="p">):</span>
         <span class="n">load_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">load_table_from_uri</span><span class="p">(</span>
             <span class="n">source_uris</span><span class="o">=</span><span class="n">source_uris</span><span class="p">,</span>
             <span class="n">destination</span><span class="o">=</span><span class="n">destination</span><span class="p">,</span>
@@ -1597,7 +1778,7 @@
         <span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">load_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="n">load_job</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">max_timeout</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">load_job</span>
         <span class="k">except</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">BadRequest</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">error_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">load_job</span><span class="o">.</span><span class="n">errors</span><span class="p">):</span>
@@ -1627,6 +1808,13 @@
         <span class="n">gcs_blob_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">project</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">gzip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;US&quot;</span><span class="p">,</span>
+        <span class="n">destination_file_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;CSV&quot;</span><span class="p">,</span>
+        <span class="n">field_delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span>
+        <span class="n">compression</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">job_config</span><span class="p">:</span> <span class="n">ExtractJobConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">wait_for_job_to_complete</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">export_kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Extracts a BigQuery table to a Google Cloud Storage bucket.</span>
@@ -1643,21 +1831,129 @@
 <span class="sd">            gzip (bool): If True, the exported file will be compressed</span>
 <span class="sd">              using GZIP. Defaults to False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">dataset_ref</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">DatasetReference</span><span class="p">(</span><span class="n">project</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">project</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
-        <span class="n">table_ref</span> <span class="o">=</span> <span class="n">dataset_ref</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">job_config</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using default job config as none was provided...&quot;</span><span class="p">)</span>
+            <span class="n">job_config</span> <span class="o">=</span> <span class="n">ExtractJobConfig</span><span class="p">(</span>
+                <span class="n">destination_format</span><span class="o">=</span><span class="n">destination_file_format</span><span class="p">,</span>
+                <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">,</span>
+                <span class="n">field_delimiter</span><span class="o">=</span><span class="n">field_delimiter</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">gs_destination</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;gs://</span><span class="si">{</span><span class="n">gcs_bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">gcs_blob_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;GZIP&quot;</span> <span class="k">if</span> <span class="n">gzip</span> <span class="k">else</span> <span class="n">compression</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Project (parsons): </span><span class="si">{</span><span class="n">project</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">extract_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">extract_table</span><span class="p">(</span>
+            <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
+            <span class="n">destination_uris</span><span class="o">=</span><span class="n">gs_destination</span><span class="p">,</span>
+            <span class="n">location</span><span class="o">=</span><span class="n">location</span><span class="p">,</span>
+            <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
+            <span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">export_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">wait_for_job_to_complete</span><span class="p">:</span>
+            <span class="n">extract_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished exporting query result to </span><span class="si">{</span><span class="n">gs_destination</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">gzip</span><span class="p">:</span>
-            <span class="n">job_config</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">ExtractJobConfig</span><span class="p">()</span>
-            <span class="n">job_config</span><span class="o">.</span><span class="n">compression</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Compression</span><span class="o">.</span><span class="n">GZIP</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">job_config</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">extract_job</span></div>
 
-        <span class="n">extract_job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">extract_table</span><span class="p">(</span><span class="n">table_ref</span><span class="p">,</span> <span class="n">gs_destination</span><span class="p">,</span> <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">)</span>
-        <span class="n">extract_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># Waits for job to complete.</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished exporting query result to </span><span class="si">{</span><span class="n">gs_destination</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+<div class="viewcode-block" id="GoogleBigQuery.copy_between_projects">
+<a class="viewcode-back" href="../../../google.html#parsons.google.google_bigquery.GoogleBigQuery.copy_between_projects">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy_between_projects</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">source_project</span><span class="p">,</span>
+        <span class="n">source_dataset</span><span class="p">,</span>
+        <span class="n">source_table</span><span class="p">,</span>
+        <span class="n">destination_project</span><span class="p">,</span>
+        <span class="n">destination_dataset</span><span class="p">,</span>
+        <span class="n">destination_table</span><span class="p">,</span>
+        <span class="n">if_dataset_not_exists</span><span class="o">=</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span>
+        <span class="n">if_table_exists</span><span class="o">=</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Copy a table from one project to another. Fails if the source or target project</span>
+<span class="sd">            does not exist.</span>
+<span class="sd">        If the target dataset does not exist, fhe flag if_dataset_not_exists controls behavior.</span>
+<span class="sd">            It defaults to &#39;fail&#39;; set it to &#39;create&#39; if it&#39;s ok to create it.</span>
+<span class="sd">        If the target table exists, the flag if_table_exists controls behavior.</span>
+<span class="sd">            It defaults to &#39;fail&#39;; set it to &#39;overwrite&#39; if it&#39;s ok to overwrite an existing table.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            source_project: str</span>
+<span class="sd">                Name of source project</span>
+<span class="sd">            source_dataset: str</span>
+<span class="sd">                Name of source dataset</span>
+<span class="sd">            source_table: str</span>
+<span class="sd">                Name of source table</span>
+<span class="sd">            destination_project: str</span>
+<span class="sd">                Name of destination project</span>
+<span class="sd">            destination_dataset: str</span>
+<span class="sd">                Name of destination dataset</span>
+<span class="sd">            destination_table: str</span>
+<span class="sd">                Name of destination table</span>
+<span class="sd">            if_dataset_not_exists: str</span>
+<span class="sd">                Action if dataset doesn&#39;t exist {&#39;fail&#39;,&#39;create&#39;}</span>
+<span class="sd">            if_table_exists: str</span>
+<span class="sd">                Action if table exists {&#39;fail&#39;, &#39;overwrite&#39;}</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">bigquery</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">google.cloud.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">NotFound</span>
+
+        <span class="n">destination_table_id</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">destination_project</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">destination_dataset</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">destination_table</span>
+        <span class="p">)</span>
+        <span class="n">source_table_id</span> <span class="o">=</span> <span class="n">source_project</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">source_dataset</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">source_table</span>
+        <span class="n">dataset_id</span> <span class="o">=</span> <span class="n">destination_project</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">destination_dataset</span>
+
+        <span class="c1"># check if destination dataset exists</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">)</span>  <span class="c1"># Make an API request.</span>
+            <span class="c1"># if it exists: continue; if not, check to see if it&#39;s ok to create it</span>
+        <span class="k">except</span> <span class="n">NotFound</span><span class="p">:</span>
+            <span class="c1"># if it doesn&#39;t exist: check if it&#39;s ok to create it</span>
+            <span class="k">if</span> <span class="n">if_dataset_not_exists</span> <span class="o">==</span> <span class="s2">&quot;create&quot;</span><span class="p">:</span>  <span class="c1"># create a new dataset in the destination</span>
+                <span class="n">dataset</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">)</span>
+                <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># if it doesn&#39;t exist and it&#39;s not ok to create it, fail</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;BigQuery copy failed&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">destination_dataset</span><span class="si">}</span><span class="s2"> does not exist and if_dataset_not_exists set to </span><span class="si">{</span><span class="n">if_dataset_not_exists</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+        <span class="n">job_config</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">CopyJobConfig</span><span class="p">()</span>
+
+        <span class="c1"># check if destination table exists</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_table</span><span class="p">(</span><span class="n">destination_table_id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">if_table_exists</span> <span class="o">==</span> <span class="s2">&quot;overwrite&quot;</span><span class="p">:</span>  <span class="c1"># if it exists</span>
+                <span class="n">job_config</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">CopyJobConfig</span><span class="p">()</span>
+                <span class="n">job_config</span><span class="o">.</span><span class="n">write_disposition</span> <span class="o">=</span> <span class="s2">&quot;WRITE_TRUNCATE&quot;</span>
+                <span class="n">job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">copy_table</span><span class="p">(</span>
+                    <span class="n">source_table_id</span><span class="p">,</span>
+                    <span class="n">destination_table_id</span><span class="p">,</span>
+                    <span class="n">location</span><span class="o">=</span><span class="s2">&quot;US&quot;</span><span class="p">,</span>
+                    <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;BigQuery copy failed, Table </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2"> exists and if_table_exists set to </span><span class="si">{</span><span class="n">if_table_exists</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">except</span> <span class="n">NotFound</span><span class="p">:</span>
+            <span class="c1"># destination table doesn&#39;t exist, so we can create one</span>
+            <span class="n">job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">copy_table</span><span class="p">(</span>
+                <span class="n">source_table_id</span><span class="p">,</span>
+                <span class="n">destination_table_id</span><span class="p">,</span>
+                <span class="n">location</span><span class="o">=</span><span class="s2">&quot;US&quot;</span><span class="p">,</span>
+                <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 </div>
 
 

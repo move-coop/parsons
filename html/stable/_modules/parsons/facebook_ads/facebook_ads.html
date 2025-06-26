@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
@@ -154,14 +155,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.facebook_ads.facebook_ads</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">joblib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">facebook_business.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">FacebookAdsApi</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">facebook_business.adobjects.adaccount</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdAccount</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">facebook_business.adobjects.customaudience</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomAudience</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">facebook_business.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">FacebookAdsApi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">joblib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -240,7 +243,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ad_account_id</span> <span class="o">=</span> <span class="n">ad_account_id</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;FB_AD_ACCOUNT_ID&quot;</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;FB Marketing API credentials missing. Must be specified as env vars &quot;</span> <span class="s2">&quot;or kwargs&quot;</span>
+                <span class="s2">&quot;FB Marketing API credentials missing. Must be specified as env vars or kwargs&quot;</span>
             <span class="p">)</span>
             <span class="k">raise</span> <span class="n">error</span>
 
@@ -515,10 +518,10 @@
 <span class="sd">            users_table: obj</span>
 <span class="sd">                Parsons table</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Adding custom audience users from provided table with &quot;</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">users_table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Adding custom audience users from provided table with </span><span class="si">{</span><span class="n">users_table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows&quot;</span>
         <span class="p">)</span>
 
         <span class="n">match_table</span> <span class="o">=</span> <span class="n">FacebookAds</span><span class="o">.</span><span class="n">get_match_table_for_users_table</span><span class="p">(</span><span class="n">users_table</span><span class="p">)</span>

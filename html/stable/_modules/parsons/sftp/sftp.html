@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
@@ -182,11 +183,13 @@
 <span class="sd">            The user name</span>
 <span class="sd">        password: str</span>
 <span class="sd">            The password</span>
-<span class="sd">        rsa_private_key_file str</span>
-<span class="sd">            Absolute path to a private RSA key used</span>
-<span class="sd">            to authenticate stfp connection</span>
 <span class="sd">        port: int</span>
 <span class="sd">            Specify if different than the standard port 22</span>
+<span class="sd">        rsa_private_key_file: str or None</span>
+<span class="sd">            Optional absolute path to a private RSA key used</span>
+<span class="sd">            to authenticate stfp connection</span>
+<span class="sd">        paramiko_pkey: paramiko.rsakey.RSAKey or None</span>
+<span class="sd">            Optionally pass a paramiko RSAKey object directly</span>
 <span class="sd">        timeout: int</span>
 <span class="sd">            Timeout argument for use when getting files through SFTP.</span>
 <span class="sd">    `Returns:`</span>
@@ -195,11 +198,12 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">host</span><span class="p">,</span>
-        <span class="n">username</span><span class="p">,</span>
-        <span class="n">password</span><span class="p">,</span>
-        <span class="n">port</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>
-        <span class="n">rsa_private_key_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">22</span><span class="p">,</span>
+        <span class="n">rsa_private_key_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">paramiko_pkey</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">paramiko</span><span class="o">.</span><span class="n">rsakey</span><span class="o">.</span><span class="n">RSAKey</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">host</span>
@@ -210,10 +214,11 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Missing the SFTP username&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">password</span> <span class="ow">or</span> <span class="n">rsa_private_key_file</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">password</span> <span class="ow">or</span> <span class="n">rsa_private_key_file</span> <span class="ow">or</span> <span class="n">paramiko_pkey</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Missing password or SSH authentication key&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paramiko_pkey</span> <span class="o">=</span> <span class="n">paramiko_pkey</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rsa_private_key_file</span> <span class="o">=</span> <span class="n">rsa_private_key_file</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
@@ -230,7 +235,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">transport</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">Transport</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">))</span>
-        <span class="n">pkey</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">pkey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paramiko_pkey</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rsa_private_key_file</span><span class="p">:</span>
             <span class="c1"># we need to read it in</span>
             <span class="n">pkey</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">RSAKey</span><span class="o">.</span><span class="n">from_private_key_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsa_private_key_file</span><span class="p">)</span>
@@ -312,19 +317,31 @@
 
 <div class="viewcode-block" id="SFTP.get_file">
 <a class="viewcode-back" href="../../../sftp.html#parsons.SFTP.get_file">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_file</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">remote_path</span><span class="p">,</span>
+        <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">connection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">export_chunk_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Download a file from the SFTP server</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            remote_path: str</span>
 <span class="sd">                The remote path of the file to download</span>
+
 <span class="sd">            local_path: str</span>
 <span class="sd">                The local path where the file will be downloaded. If not specified, a temporary</span>
 <span class="sd">                file will be created and returned, and that file will be removed automatically</span>
 <span class="sd">                when the script is done running.</span>
+
 <span class="sd">            connection: obj</span>
 <span class="sd">                An SFTP connection object</span>
+
+<span class="sd">            export_chunk_size: int</span>
+<span class="sd">                Optional. Size in bytes to iteratively export from the remote server.</span>
+
 <span class="sd">        `Returns:`</span>
 <span class="sd">            str</span>
 <span class="sd">                The path of the local file</span>
@@ -334,13 +351,71 @@
             <span class="n">local_path</span> <span class="o">=</span> <span class="n">file_utilities</span><span class="o">.</span><span class="n">create_temp_file_for_path</span><span class="p">(</span><span class="n">remote_path</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">connection</span><span class="p">:</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">export_chunk_size</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__get_file_in_chunks</span><span class="p">(</span>
+                    <span class="n">remote_path</span><span class="o">=</span><span class="n">remote_path</span><span class="p">,</span>
+                    <span class="n">local_path</span><span class="o">=</span><span class="n">local_path</span><span class="p">,</span>
+                    <span class="n">connection</span><span class="o">=</span><span class="n">connection</span><span class="p">,</span>
+                    <span class="n">export_chunk_size</span><span class="o">=</span><span class="n">export_chunk_size</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">connection</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
+
         <span class="k">else</span><span class="p">:</span>
             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
-                <span class="n">connection</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">export_chunk_size</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__get_file_in_chunks</span><span class="p">(</span>
+                        <span class="n">remote_path</span><span class="o">=</span><span class="n">remote_path</span><span class="p">,</span>
+                        <span class="n">local_path</span><span class="o">=</span><span class="n">local_path</span><span class="p">,</span>
+                        <span class="n">connection</span><span class="o">=</span><span class="n">connection</span><span class="p">,</span>
+                        <span class="n">export_chunk_size</span><span class="o">=</span><span class="n">export_chunk_size</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">connection</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">local_path</span></div>
 
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__get_file_in_chunks</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">local_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">export_chunk_size</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Download a file in chunked-increments from the remote host to the local path</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            remote_path: str</span>
+<span class="sd">                The remote path of the file to download</span>
+
+<span class="sd">            local_path: str</span>
+<span class="sd">                The local path where the file will be downloaded. If not specified, a temporary</span>
+<span class="sd">                file will be created and returned, and that file will be removed automatically</span>
+<span class="sd">                when the script is done running.</span>
+
+<span class="sd">            connection: obj</span>
+<span class="sd">                An SFTP connection object</span>
+
+<span class="sd">            export_chunk_size: int</span>
+<span class="sd">                Optional. Size in bytes to iteratively export from the remote server.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reading from </span><span class="si">{</span><span class="n">remote_path</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">export_chunk_size</span><span class="si">}</span><span class="s2">B chunks&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_remote_file</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_local_file</span><span class="p">:</span>
+                <span class="c1"># This disables paramiko&#39;s prefetching behavior</span>
+                <span class="n">_remote_file</span><span class="o">.</span><span class="n">set_pipelined</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="c1"># Read in desired number of rows from the server</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">_remote_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">export_chunk_size</span><span class="p">)</span>
+
+                    <span class="c1"># Break the loop if there are no records to read</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+                        <span class="k">break</span>
+
+                    <span class="c1"># Write to the destination file</span>
+                    <span class="n">_local_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Successfully read </span><span class="si">{</span><span class="n">export_chunk_size</span><span class="si">}</span><span class="s2"> rows to </span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SFTP.get_files">
 <a class="viewcode-back" href="../../../sftp.html#parsons.SFTP.get_files">[docs]</a>

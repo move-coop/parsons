@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
@@ -165,7 +166,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">urllib</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">zipfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZipFile</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
@@ -173,6 +174,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.oauth_api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">OAuth2APIConnector</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># Default byte size to export under the hood via Paramiko</span>
+<span class="n">DEFAULT_EXPORT_CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">50</span>
 
 
 <div class="viewcode-block" id="CatalistMatch">
@@ -279,6 +283,7 @@
         <span class="n">input_subfolder</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">copy_to_sandbox</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">static_values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">wait</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load table to the Catalist Match API, returns matched table.</span>
 
@@ -304,6 +309,8 @@
 <span class="sd">                  Defaults to False.</span>
 <span class="sd">             static_values: dict</span>
 <span class="sd">                  Optional. Any included values are mapped to every row of the input table.</span>
+<span class="sd">             wait: int</span>
+<span class="sd">                  Seconds to poll, defaults to 30.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span>
             <span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span>
@@ -314,7 +321,7 @@
             <span class="n">copy_to_sandbox</span><span class="o">=</span><span class="n">copy_to_sandbox</span><span class="p">,</span>
             <span class="n">static_values</span><span class="o">=</span><span class="n">static_values</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">await_completion</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">await_completion</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">wait</span><span class="o">=</span><span class="n">wait</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
 
@@ -480,15 +487,22 @@
 
 <div class="viewcode-block" id="CatalistMatch.await_completion">
 <a class="viewcode-back" href="../../../catalist.html#parsons.CatalistMatch.await_completion">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">await_completion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">wait</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Await completion of a match job. Return matches when ready.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">await_completion</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">wait</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Await completion of a match job. Return matches when ready.</span>
 
 <span class="sd">        This method will poll the status of a match job on a timer until the job is</span>
 <span class="sd">        complete. By default, polls once every 30 seconds.</span>
 
 <span class="sd">        Note that match job completion can take from 10 minutes up to 6 hours or more</span>
 <span class="sd">        depending on concurrent traffic. Consider your strategy for polling for</span>
-<span class="sd">        completion.&quot;&quot;&quot;</span>
+<span class="sd">        completion.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
             <span class="n">status</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;process&quot;</span><span class="p">][</span><span class="s2">&quot;processState&quot;</span><span class="p">]</span>
@@ -499,7 +513,7 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Job </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2"> has status </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">, awaiting completion.&quot;</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait</span><span class="p">)</span>
 
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_matches</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_matches</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
 
@@ -536,7 +550,9 @@
         <span class="n">remote_filepaths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">list_directory</span><span class="p">(</span><span class="s2">&quot;/myDownloads/&quot;</span><span class="p">)</span>
         <span class="n">remote_filename</span> <span class="o">=</span> <span class="p">[</span><span class="n">filename</span> <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">remote_filepaths</span> <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">remote_filepath</span> <span class="o">=</span> <span class="s2">&quot;/myDownloads/&quot;</span> <span class="o">+</span> <span class="n">remote_filename</span>
-        <span class="n">temp_file_zip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">remote_filepath</span><span class="p">)</span>
+        <span class="n">temp_file_zip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span>
+            <span class="n">remote_path</span><span class="o">=</span><span class="n">remote_filepath</span><span class="p">,</span> <span class="n">export_chunk_size</span><span class="o">=</span><span class="n">DEFAULT_EXPORT_CHUNK_SIZE</span>
+        <span class="p">)</span>
         <span class="n">temp_dir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
 
         <span class="k">with</span> <span class="n">ZipFile</span><span class="p">(</span><span class="n">temp_file_zip</span><span class="p">)</span> <span class="k">as</span> <span class="n">zf</span><span class="p">:</span>

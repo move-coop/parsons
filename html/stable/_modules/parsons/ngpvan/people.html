@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
@@ -154,9 +155,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.ngpvan.people</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">json_format</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">json_format</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -639,7 +641,7 @@
 
         <span class="n">expand_fields</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">json_format</span><span class="o">.</span><span class="n">arg_format</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">expand_fields</span><span class="p">])</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Getting person with </span><span class="si">{</span><span class="n">id_type</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s2">&quot;vanid&quot;</span><span class="si">}</span><span class="s1"> of </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s1"> at url </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Getting person with </span><span class="si">{</span><span class="n">id_type</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;vanid&#39;</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2"> at url </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;$expand&quot;</span><span class="p">:</span> <span class="n">expand_fields</span><span class="p">})</span></div>
 
 
@@ -830,7 +832,7 @@
 <span class="sd">                         &quot;type&quot;: &quot;SurveyResponse&quot;}</span>
 <span class="sd">                        ]</span>
 <span class="sd">            van.apply_response(5222, response)</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Set url based on id_type</span>
         <span class="k">if</span> <span class="n">id_type</span> <span class="o">==</span> <span class="s2">&quot;vanid&quot;</span><span class="p">:</span>
@@ -849,22 +851,6 @@
             <span class="p">},</span>
             <span class="s2">&quot;resultCodeId&quot;</span><span class="p">:</span> <span class="n">result_code_id</span><span class="p">,</span>
         <span class="p">}</span>
-
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">1</span>  <span class="c1"># Phone</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">19</span>  <span class="c1"># Auto Dial</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">37</span>  <span class="c1"># SMS Text</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">67</span>  <span class="c1"># Phone Bank</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">68</span>  <span class="c1"># Consumer Phone</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">72</span>  <span class="c1"># Leader Phone</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">112</span>  <span class="c1"># Personal Phone</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">132</span>  <span class="c1"># Relational Text</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">143</span>  <span class="c1"># Distributed Text</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">147</span>  <span class="c1"># Bulk Text</span>
-            <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">149</span>  <span class="c1"># Paid SMS</span>
-        <span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">phone</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;A phone number must be provided if canvassed via phone or SMS&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">phone</span><span class="p">:</span>
             <span class="n">json</span><span class="p">[</span><span class="s2">&quot;canvassContext&quot;</span><span class="p">][</span><span class="s2">&quot;phone&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>

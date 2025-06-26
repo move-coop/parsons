@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../salesforce.html">Salesforce</a></li>
@@ -154,26 +155,28 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.databases.redshift.redshift</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift.rs_copy_table</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedshiftCopyTable</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift.rs_create_table</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedshiftCreateTable</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift.rs_table_utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedshiftTableUtilities</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift.rs_schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedshiftSchema</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseTable</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.alchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Alchemy</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span><span class="p">,</span> <span class="n">sql_helpers</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.database_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseConnector</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">psycopg2</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">psycopg2.extras</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.alchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Alchemy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.database_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift.rs_copy_table</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedshiftCopyTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift.rs_create_table</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedshiftCreateTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift.rs_schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedshiftSchema</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.redshift.rs_table_utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedshiftTableUtilities</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.databases.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span><span class="p">,</span> <span class="n">sql_helpers</span>
 
 <span class="c1"># Max number of rows that we query at a time, so we can avoid loading huge</span>
 <span class="c1"># data sets into memory.</span>
@@ -253,7 +256,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;REDSHIFT_DB&quot;</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;REDSHIFT_PORT&quot;</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Connection info missing. Most include as kwarg or &quot;</span> <span class="s2">&quot;env variable.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Connection info missing. Most include as kwarg or env variable.&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">error</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
@@ -348,7 +351,7 @@
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
@@ -772,7 +775,7 @@
 <span class="sd">        `Returns`</span>
 <span class="sd">            Parsons Table or ``None``</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Specify the columns for a copy statement.</span>
         <span class="k">if</span> <span class="n">specifycols</span> <span class="ow">or</span> <span class="p">(</span><span class="n">specifycols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">template_table</span><span class="p">):</span>
@@ -869,10 +872,11 @@
         <span class="n">max_file_size</span><span class="o">=</span><span class="s2">&quot;6.2 GB&quot;</span><span class="p">,</span>
         <span class="n">extension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">aws_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Unload Redshift data to S3 Bucket. This is a more efficient method than running a query</span>
 <span class="sd">        to export data as it can export in parallel and directly into an S3 bucket. Consider</span>
 <span class="sd">        using this for exports of 10MM or more rows.</span>
@@ -919,13 +923,15 @@
 <span class="sd">            The AWS Region where the target Amazon S3 bucket is located. REGION is required for</span>
 <span class="sd">            UNLOAD to an Amazon S3 bucket that is not in the same AWS Region as the Amazon Redshift</span>
 <span class="sd">            cluster.</span>
+<span class="sd">        format: str</span>
+<span class="sd">            The format of the unload file (CSV, PARQUET, JSON) - Optional.</span>
 <span class="sd">        aws_access_key_id:</span>
 <span class="sd">            An AWS access key granted to the bucket where the file is located. Not required</span>
 <span class="sd">            if keys are stored as environmental variables.</span>
 <span class="sd">        aws_secret_access_key:</span>
 <span class="sd">            An AWS secret access key granted to the bucket where the file is located. Not</span>
 <span class="sd">            required if keys are stored as environmental variables.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># NOQA W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># The sql query is provided between single quotes, therefore single</span>
         <span class="c1"># quotes within the actual query must be escaped.</span>
@@ -938,26 +944,34 @@
 <span class="s2">                     PARALLEL </span><span class="si">{</span><span class="n">parallel</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span>
 <span class="s2">                     MAXFILESIZE </span><span class="si">{</span><span class="n">max_file_size</span><span class="si">}</span>
 <span class="s2">                     &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">manifest</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;MANIFEST </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">header</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;HEADER </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">delimiter</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;DELIMITER as &#39;</span><span class="si">{</span><span class="n">delimiter</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">compression</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compression</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">add_quotes</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ADDQUOTES </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">null_as</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;NULL </span><span class="si">{</span><span class="n">null_as</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">escape</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ESCAPE </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">allow_overwrite</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ALLOWOVERWRITE </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">extension</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;EXTENSION &#39;</span><span class="si">{</span><span class="n">extension</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">aws_region</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;REGION </span><span class="si">{</span><span class="n">aws_region</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ALLOWOVERWRITE </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">allow_overwrite</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;REGION </span><span class="si">{</span><span class="n">aws_region</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">aws_region</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;MANIFEST </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">manifest</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;EXTENSION &#39;</span><span class="si">{</span><span class="n">extension</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">extension</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># Format-specific parameters</span>
+        <span class="k">if</span> <span class="nb">format</span><span class="p">:</span>
+            <span class="nb">format</span> <span class="o">=</span> <span class="nb">format</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;DELIMITER AS &#39;</span><span class="si">{</span><span class="n">delimiter</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">delimiter</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;NULL AS &#39;</span><span class="si">{</span><span class="n">null_as</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">null_as</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;HEADER </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">header</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ESCAPE </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">escape</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;FORMAT AS CSV </span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compression</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">compression</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;parquet&quot;</span><span class="p">:</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;FORMAT AS PARQUET </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;FORMAT AS JSON </span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compression</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">compression</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Default text file settings</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;DELIMITER AS &#39;</span><span class="si">{</span><span class="n">delimiter</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">delimiter</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ADDQUOTES </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">add_quotes</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;NULL AS &#39;</span><span class="si">{</span><span class="n">null_as</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">null_as</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ESCAPE </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">escape</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;HEADER </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">header</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compression</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">compression</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unloading data to s3://</span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">key_prefix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="c1"># Censor sensitive data</span>
@@ -1005,7 +1019,6 @@
 <span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">query_end</span> <span class="o">=</span> <span class="s2">&quot;cascade&quot;</span> <span class="k">if</span> <span class="n">cascade</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">unload</span><span class="p">(</span>
             <span class="n">sql</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;select * from </span><span class="si">{</span><span class="n">rs_table</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span>
@@ -1120,7 +1133,7 @@
         <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">copy_args</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Preform an upsert on an existing table. An upsert is a function in which rows</span>
 <span class="sd">        in a table are updated and inserted at the same time.</span>
 
@@ -1152,9 +1165,9 @@
 <span class="sd">                The column name of the distkey. If not provided, will default to ``primary_key``.</span>
 <span class="sd">            sortkey: str or list</span>
 <span class="sd">                The column name(s) of the sortkey. If not provided, will default to ``primary_key``.</span>
-<span class="sd">            \**copy_args: kwargs</span>
+<span class="sd">            **copy_args: kwargs</span>
 <span class="sd">                See :func:`~parsons.databases.Redshift.copy` for options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">primary_key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">primary_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">primary_key</span><span class="p">]</span>
@@ -1338,7 +1351,7 @@
         <span class="c1"># Determine the max width of the varchar columns in the Redshift table</span>
         <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_full_table_name</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_columns</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
-        <span class="n">rc</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;max_length&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cols</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;data_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;character varying&quot;</span><span class="p">}</span>  <span class="c1"># noqa: E501, E261</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;max_length&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cols</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;data_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;character varying&quot;</span><span class="p">}</span>
 
         <span class="c1"># Figure out if any of the destination table varchar columns are smaller than the</span>
         <span class="c1"># associated Parsons table columns. If they are, then alter column types to expand</span>

@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
@@ -156,9 +157,10 @@
   <h1>Source code for parsons.action_kit.action_kit</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
@@ -1613,7 +1615,7 @@
 <span class="sd">        `Returns`:</span>
 <span class="sd">            dict</span>
 <span class="sd">                The response json</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">email</span> <span class="ow">or</span> <span class="n">ak_id</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;One of email or ak_id is required.&quot;</span><span class="p">)</span>
@@ -1690,7 +1692,7 @@
 <span class="sd">                success: whether upload was successful</span>
 <span class="sd">                progress_url: an API URL to get progress on upload processing</span>
 <span class="sd">                res: requests http response object</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># self.conn defaults to JSON, but this has to be form/multi-part....</span>
         <span class="n">upload_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">({</span><span class="s2">&quot;accepts&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">})</span>
@@ -1762,7 +1764,7 @@
 <span class="sd">                success: bool -- whether upload was successful (individual rows may not have been)</span>
 <span class="sd">                results: [dict] -- This is a list of the full results.</span>
 <span class="sd">                         progress_url and res for any results</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">import_page</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTION_KIT_IMPORTPAGE&quot;</span><span class="p">,</span> <span class="n">import_page</span><span class="p">)</span>
         <span class="n">upload_tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_tables_no_empties</span><span class="p">(</span>

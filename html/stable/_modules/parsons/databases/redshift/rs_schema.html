@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../salesforce.html">Salesforce</a></li>
@@ -178,7 +179,7 @@
 <span class="sd">                The type of permissions to grant. Supports `select`, `all`, etc. (For</span>
 <span class="sd">                full list, see the</span>
 <span class="sd">                `Redshift GRANT docs &lt;https://docs.aws.amazon.com/redshift/latest/dg/r_GRANT.html&gt;`_)</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema_exists</span><span class="p">(</span><span class="n">schema</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;create schema </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -200,7 +201,7 @@
 <span class="sd">                The type of permissions to grant. Supports `select`, `all`, etc. (For</span>
 <span class="sd">                full list, see the</span>
 <span class="sd">                `Redshift GRANT docs &lt;https://docs.aws.amazon.com/redshift/latest/dg/r_GRANT.html&gt;`_)</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">            grant usage on schema </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2"> to group </span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">;</span>

@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
@@ -155,10 +156,11 @@
              
   <h1>Source code for parsons.action_builder.action_builder</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIConnector</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -351,7 +353,7 @@
 <span class="sd">                retrieved or edited. Not necessary if supplied when instantiating the class.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Dict containing Action Builder entity data.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">name_keys</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;action_builder:name&quot;</span><span class="p">,</span> <span class="s2">&quot;given_name&quot;</span><span class="p">)</span>
         <span class="n">error</span> <span class="o">=</span> <span class="s2">&quot;Must provide data with name or given_name when inserting new record&quot;</span>
@@ -396,7 +398,7 @@
 <span class="sd">                retrieved or edited. Not necessary if supplied when instantiating the class.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Dict containing Action Builder entity data.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">campaign</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_campaign_check</span><span class="p">(</span><span class="n">campaign</span><span class="p">)</span>
 
@@ -585,7 +587,7 @@
 <span class="sd">                if the Connection exists and has `inactive` set to True. True by default.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Dict containing Action Builder connection data.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Check that there are exactly two identifiers and that campaign is provided first</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">identifiers</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>

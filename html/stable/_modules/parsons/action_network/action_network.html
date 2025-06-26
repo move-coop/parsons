@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
@@ -158,7 +159,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Literal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIConnector</span>
@@ -1188,7 +1190,7 @@
 <span class="sd">        `Documentation Reference`:</span>
 <span class="sd">            https://actionnetwork.org/docs/v2/messages</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ActionNetwork.update_message">
@@ -1211,7 +1213,47 @@
 <span class="sd">        `Documentation Reference`:</span>
 <span class="sd">            https://actionnetwork.org/docs/v2/messages</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;messages/</span><span class="si">{</span><span class="n">message_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;messages/</span><span class="si">{</span><span class="n">message_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ActionNetwork.schedule_message">
+<a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.schedule_message">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">schedule_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_id</span><span class="p">,</span> <span class="n">scheduled_start_date</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Schedule a message in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            message_id:</span>
+<span class="sd">               The unique id of the message</span>
+<span class="sd">            scheduled_start_date:</span>
+<span class="sd">                The UTC timestamp to schedule the message at in ISO8601 format.</span>
+<span class="sd">                e.g. &quot;2015-03-14T12:00:00Z&quot;</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the scheduling</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/schedule_helper</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;messages/</span><span class="si">{</span><span class="n">message_id</span><span class="si">}</span><span class="s2">/schedule/&quot;</span><span class="p">,</span>
+            <span class="p">{</span><span class="s2">&quot;scheduled_start_date&quot;</span><span class="p">:</span> <span class="n">scheduled_start_date</span><span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ActionNetwork.send_message">
+<a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.send_message">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send a message in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            message_id:</span>
+<span class="sd">               The unique id of the message</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A JSON response confirming the message was sent</span>
+<span class="sd">        `Documentation Reference`:</span>
+<span class="sd">            https://actionnetwork.org/docs/v2/send_helper</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;messages/</span><span class="si">{</span><span class="n">message_id</span><span class="si">}</span><span class="s2">/send/&quot;</span><span class="p">,</span> <span class="p">{})</span></div>
 
 
     <span class="c1"># Metadata</span>
@@ -1501,7 +1543,7 @@
 <span class="sd">                status of the phone in ActionNetwork. If not included, won&#39;t update the status.</span>
 <span class="sd">                None by default, causes no updates to mobile number status. New numbers are set</span>
 <span class="sd">                to &quot;unsubscribed&quot; by default.</span>
-<span class="sd">            background_request: bool</span>
+<span class="sd">            background_processing: bool</span>
 <span class="sd">                If set `true`, utilize ActionNetwork&#39;s &quot;background processing&quot;. This will return</span>
 <span class="sd">                an immediate success, with an empty JSON body, and send your request to the</span>
 <span class="sd">                background queue for eventual processing.</span>
@@ -2240,7 +2282,7 @@
 
 <div class="viewcode-block" id="ActionNetwork.create_tagging">
 <a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_tagging">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_tagging</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_tagging</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">background_processing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            tag_id:</span>
@@ -2252,29 +2294,45 @@
 <span class="sd">                        &quot;osdi:person&quot; : { &quot;href&quot; : &quot;https://actionnetwork.org/api/v2/people/id&quot; }</span>
 <span class="sd">                    }</span>
 <span class="sd">                }</span>
+<span class="sd">            background_processing: bool</span>
+<span class="sd">                If set `true`, utilize ActionNetwork&#39;s &quot;background processing&quot;. This will return</span>
+<span class="sd">                an immediate success, with an empty JSON body, and send your request to the</span>
+<span class="sd">                background queue for eventual processing.</span>
+<span class="sd">                https://actionnetwork.org/docs/v2/#background-processing</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A JSON response after creating the tagging</span>
 <span class="sd">        `Documentation Reference`:</span>
 <span class="sd">            https://actionnetwork.org/docs/v2/taggings</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">/taggings&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span></div>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">/taggings&quot;</span>
+        <span class="k">if</span> <span class="n">background_processing</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">?background_processing=true&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="ActionNetwork.delete_tagging">
 <a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.delete_tagging">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">delete_tagging</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">,</span> <span class="n">tagging_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_tagging</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">,</span> <span class="n">tagging_id</span><span class="p">,</span> <span class="n">background_processing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            tag_id:</span>
 <span class="sd">                The unique id of the tag</span>
 <span class="sd">            tagging_id:</span>
 <span class="sd">                The unique id of the tagging to be deleted</span>
+<span class="sd">            background_processing: bool</span>
+<span class="sd">                If set `true`, utilize ActionNetwork&#39;s &quot;background processing&quot;. This will return</span>
+<span class="sd">                an immediate success, with an empty JSON body, and send your request to the</span>
+<span class="sd">                background queue for eventual processing.</span>
+<span class="sd">                https://actionnetwork.org/docs/v2/#background-processing</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A JSON response after deleting the tagging</span>
 <span class="sd">        `Documentation Reference`:</span>
 <span class="sd">            https://actionnetwork.org/docs/v2/taggings</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">/taggings/</span><span class="si">{</span><span class="n">tagging_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">/taggings/</span><span class="si">{</span><span class="n">tagging_id</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">background_processing</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">?background_processing=true&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="n">url</span><span class="p">)</span></div>
 
 
     <span class="c1"># Wrappers</span>

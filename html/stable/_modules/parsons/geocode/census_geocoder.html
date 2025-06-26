@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
@@ -154,10 +155,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.geocode.census_geocoder</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">censusgeocode</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">petl</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -180,7 +183,7 @@
 <span class="sd">        vintage: str</span>
 <span class="sd">            The US Census vintage file to utilize. By default the current vintage is used, but</span>
 <span class="sd">            other options can be found `here &lt;https://geocoding.geo.census.gov/geocoder/vintages?form&gt;`_.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchmark</span><span class="o">=</span><span class="s2">&quot;Public_AR_Current&quot;</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="s2">&quot;Current_Current&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cg</span> <span class="o">=</span> <span class="n">censusgeocode</span><span class="o">.</span><span class="n">CensusGeocode</span><span class="p">(</span><span class="n">benchmark</span><span class="o">=</span><span class="n">benchmark</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="n">vintage</span><span class="p">)</span>
@@ -273,7 +276,7 @@
         <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;street&quot;</span><span class="p">,</span> <span class="s2">&quot;city&quot;</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;zip&quot;</span><span class="p">}:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">&quot;Table must ONLY include `[&#39;id&#39;, &#39;street&#39;, &#39;city&#39;, &#39;state&#39;, &#39;zip&#39;]` as&quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;columns. Tip: try using `table.cut()`&quot;</span>
+                <span class="s2">&quot;columns. Tip: try using `table.cut()`&quot;</span>
             <span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 

@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickbooks.html">Quickbooks Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Salesforce</a><ul>
@@ -226,22 +227,31 @@ and <code class="docutils literal notranslate"><span class="pre">SALESFORCE_SECU
 <h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.Salesforce">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Salesforce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">security_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_environment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Salesforce" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Salesforce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">security_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_environment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consumer_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consumer_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authentication_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Salesforce" title="Link to this definition"></a></dt>
 <dd><p>Instantiate the Salesforce class</p>
+<p>Supports the password and <a class="reference external" href="https://help.salesforce.com/s/articleView?id=xcloud.connected_app_client_credentials_setup.htm&amp;type=5">client_credentials</a> authentication methods.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>username: str</dt><dd><p>The Salesforce username (usually an email address). Not required if
-<code class="docutils literal notranslate"><span class="pre">SALESFORCE_USERNAME</span></code> env variable is passed.</p>
+<code class="docutils literal notranslate"><span class="pre">SALESFORCE_USERNAME</span></code> env variable is passed. Used in the ‘password’ auth method.</p>
 </dd>
 <dt>password: str</dt><dd><p>The Salesforce password. Not required if <code class="docutils literal notranslate"><span class="pre">SALESFORCE_PASSWORD</span></code> env variable is
-passed.</p>
+passed. Used in the ‘password’ auth method.</p>
 </dd>
 <dt>security_token: str</dt><dd><p>The Salesforce security token that can be acquired or reset in
 Settings &gt; My Personal Information &gt; Reset My Security Token.
-Not required if <code class="docutils literal notranslate"><span class="pre">SALESFORCE_SECURITY_TOKEN</span></code> env variable is passed.</p>
+Not required if <code class="docutils literal notranslate"><span class="pre">SALESFORCE_SECURITY_TOKEN</span></code> env variable is passed. Used in the ‘password’ auth method.</p>
 </dd>
 <dt>test_environment: bool</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code> the client will connect to a Salesforce sandbox instance. Not required if
 <code class="docutils literal notranslate"><span class="pre">SALESFORCE_DOMAIN</span></code> env variable is passed.</p>
+</dd>
+<dt>consumer_key: str</dt><dd><p>consumer key for a connected app. Used in the ‘client_credentials’ auth method.</p>
+</dd>
+<dt>consumer_secret: str</dt><dd><p>consumer secret for a connected app. Used in the ‘client_credentials’ auth method.</p>
+</dd>
+<dt>domain: str</dt><dd><p>url for the salesforce instance. Used in the ‘client_credentials’ auth method</p>
+</dd>
+<dt>authentication_method: str</dt><dd><p>the method to use for authentication. defaults to “password”. Not required if <code class="docutils literal notranslate"><span class="pre">SALESFORCE_AUTHENTICATION_METHOD</span></code> env variable is passed.</p>
 </dd>
 </dl>
 </dd>

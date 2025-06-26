@@ -121,8 +121,8 @@ class APIConnector(object):
                 A data object to post
             json: dict
                 A JSON object to post
-            success_code: int
-                The expected success code to be returned
+            success_codes: int
+                The expected success code to be returned. If not provided, accepts 200, 201, 202, and 204.
         `Returns:`
             A requests response object
         """
@@ -152,7 +152,7 @@ class APIConnector(object):
             params: dict
                 The request parameters
             success_codes: int
-                The expected success codes to be returned
+                The expected success codes to be returned. If not provided, accepts 200, 201, 202, and 204.
         Returns:
                 A requests response object or status code
         """
@@ -214,7 +214,7 @@ class APIConnector(object):
             json: dict
                 A JSON object to post
             success_codes: int
-                The expected success codes to be returned
+                The expected success codes to be returned. If not provided, accepts 200, 201, 202, and 204.
         `Returns:`
             A requests response object
         """

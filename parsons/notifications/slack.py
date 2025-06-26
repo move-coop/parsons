@@ -17,18 +17,18 @@ class Slack(object):
             try:
                 self.api_key = os.environ["SLACK_API_TOKEN"]
 
-            except KeyError:
+            except KeyError as e:
                 raise KeyError(
                     "Missing api_key. It must be passed as an "
                     "argument or stored as environmental variable"
-                )
+                ) from e
 
         else:
             self.api_key = api_key
 
         self.client = SlackClient(self.api_key)
 
-    def channels(self, fields=["id", "name"], exclude_archived=False, types=["public_channel"]):
+    def channels(self, fields=None, exclude_archived=False, types=None):
         """
         Return a list of all channels in a Slack team.
 
@@ -49,6 +49,10 @@ class Slack(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
+        if types is None:
+            types = ["public_channel"]
+        if fields is None:
+            fields = ["id", "name"]
         tbl = self._paginate_request(
             "conversations.list",
             "channels",
@@ -66,13 +70,7 @@ class Slack(object):
 
     def users(
         self,
-        fields=[
-            "id",
-            "name",
-            "deleted",
-            "profile_real_name_normalized",
-            "profile_email",
-        ],
+        fields=None,
     ):
         """
         Return a list of all users in a Slack team.
@@ -88,6 +86,8 @@ class Slack(object):
                 See :ref:`parsons-table` for output options.
         """
 
+        if fields is None:
+            fields = ["id", "name", "deleted", "profile_real_name_normalized", "profile_email"]
         tbl = self._paginate_request("users.list", "members", include_locale=True)
 
         tbl.unpack_dict("profile", include_original=False, prepend=True, prepend_value="profile")

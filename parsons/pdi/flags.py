@@ -29,8 +29,8 @@ class Flags:
         try:
             start_date = parse(start_date).date().isoformat()
             end_date = parse(end_date).date().isoformat()
-        except ValueError:
-            raise ValueError("Invalid date format.")
+        except ValueError as e:
+            raise ValueError("Invalid date format.") from e
 
         params = {
             "startDate": start_date,
@@ -61,8 +61,8 @@ class Flags:
                 flag["flagEntryDate"] = str(
                     datetime.strptime(flag["flagEntryDate"], "%Y-%m-%d").isoformat()
                 )
-            except ValueError:
-                raise ValueError("Invalid date format.")
+            except ValueError as e:
+                raise ValueError("Invalid date format.") from e
         print(flag_list)
         return self._request(self.url_flags, post_data=flag_list, req_type="POST")
 

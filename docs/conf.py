@@ -112,9 +112,9 @@ html_static_path = ["_static"]
 html_sidebars = {"**": ["versions.html"]}
 
 try:
-    html_context
+    html_context  # noqa: B018
 except NameError:
-    html_context = dict()
+    html_context = {}
 
 html_context["display_versions_lower_left"] = True
 

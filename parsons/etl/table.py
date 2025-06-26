@@ -104,7 +104,7 @@ class Table(ETL, ToFrom):
 
         elif isinstance(index, slice):
             tblslice = petl.rowslice(self.table, index.start, index.stop, index.step)
-            return [row for row in tblslice]
+            return list(tblslice)
 
         else:
             raise TypeError("You must pass a string or an index as a value.")
@@ -267,7 +267,7 @@ class Table(ETL, ToFrom):
             return False
 
         try:
-            self.columns
+            self.columns  # noqa: B018
         except StopIteration:
             return False
 

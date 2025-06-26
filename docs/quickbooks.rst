@@ -30,7 +30,7 @@ as an environment variable "QB_AUTH_TOKEN" or pass it in as a parameter called t
   qb = QuickBooksTime(token="your_token") 
 
   #Timesheets Table
-  timesheets_tbl = qb.get_timesheets()
+  timesheets_tbl = qb.get_timesheets(start_date="2024-01-01")
 
 This example shows how to get timesheets for a given date range.
 
@@ -38,5 +38,5 @@ This example shows how to get timesheets for a given date range.
 API
 ***
 
-.. autoclass :: parsons.YourConnector
+.. autoclass :: parsons.QuickBooksTime
    :inherited-members:

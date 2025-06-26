@@ -249,8 +249,8 @@
         <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">given_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">family_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">app_metadata</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">user_metadata</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">app_metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">user_metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">connection</span><span class="o">=</span><span class="s2">&quot;Username-Password-Authentication&quot;</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -273,6 +273,10 @@
 <span class="sd">            Requests Response object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="n">user_metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">user_metadata</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">app_metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">app_metadata</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
             <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>

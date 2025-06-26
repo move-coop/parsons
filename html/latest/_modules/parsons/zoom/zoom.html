@@ -735,7 +735,7 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args`:</span>
 <span class="sd">            endpoint: str</span>
@@ -751,6 +751,8 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">params</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;page_size&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">}</span>
 

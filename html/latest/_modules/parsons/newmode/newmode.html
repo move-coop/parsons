@@ -210,7 +210,7 @@
 
         <span class="k">return</span> <span class="n">table</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing tools.</span>
 <span class="sd">        Args:</span>
@@ -219,6 +219,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Tools information as table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getTools</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">tools</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">tools</span><span class="p">)</span>
@@ -226,7 +228,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty tools returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific tool.</span>
 <span class="sd">        Args:</span>
@@ -237,6 +239,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Tool information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">tool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getTool</span><span class="p">(</span><span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">tool</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">tool</span>
@@ -244,7 +248,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty tool returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">lookup_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lookup_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lookup targets for a given tool</span>
 <span class="sd">        Args:</span>
@@ -262,6 +266,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Targets information as table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">lookupTargets</span><span class="p">(</span><span class="n">tool_id</span><span class="p">,</span> <span class="n">search</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">targets</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
@@ -273,7 +279,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty targets returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the action information for a given tool.</span>
 <span class="sd">        Args:</span>
@@ -284,6 +290,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Tool action information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getAction</span><span class="p">(</span><span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">action</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">action</span>
@@ -291,7 +299,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty action returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">run_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run specific action with given payload.</span>
 <span class="sd">        Args:</span>
@@ -305,6 +313,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Action link (if otl) or sid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">tool_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">action</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;link&quot;</span> <span class="ow">in</span> <span class="n">action</span><span class="p">:</span>
@@ -315,7 +325,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Error in response&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific target.</span>
 <span class="sd">        Args:</span>
@@ -326,6 +336,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Target information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getTarget</span><span class="p">(</span><span class="n">target_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">target</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">target</span>
@@ -333,7 +345,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty target returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all targets</span>
 
@@ -345,6 +357,8 @@
 <span class="sd">            Target information</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getTargets</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">targets</span><span class="p">:</span>
@@ -354,7 +368,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No targets returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaigns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaigns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing campaigns.</span>
 <span class="sd">        Args:</span>
@@ -363,6 +377,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Campaigns information as table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">campaigns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getCampaigns</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">campaigns</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">campaigns</span><span class="p">)</span>
@@ -370,7 +386,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty campaigns returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific campaign.</span>
 <span class="sd">        Args:</span>
@@ -381,6 +397,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Campaign information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">campaign</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getCampaign</span><span class="p">(</span><span class="n">campaign_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">campaign</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">campaign</span>
@@ -388,7 +406,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty campaign returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_organizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_organizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing organizations.</span>
 <span class="sd">        Args:</span>
@@ -397,6 +415,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Organizations information as table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">organizations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getOrganizations</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">organizations</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">organizations</span><span class="p">)</span>
@@ -404,7 +424,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty organizations returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_organization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_organization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific organization.</span>
 <span class="sd">        Args:</span>
@@ -415,6 +435,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Organization information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">organization</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getOrganization</span><span class="p">(</span><span class="n">organization_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">organization</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">organization</span>
@@ -422,7 +444,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty organization returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing services.</span>
 <span class="sd">        Args:</span>
@@ -431,6 +453,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Services information as table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">services</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getServices</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">services</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">services</span><span class="p">)</span>
@@ -438,7 +462,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty services returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific service.</span>
 <span class="sd">        Args:</span>
@@ -449,6 +473,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Service information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getService</span><span class="p">(</span><span class="n">service_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">service</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">service</span>
@@ -456,7 +482,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty service returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_outreaches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_outreaches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing outreaches for a given tool.</span>
 <span class="sd">        Args:</span>
@@ -467,6 +493,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Outreaches information as table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">outreaches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getOutreaches</span><span class="p">(</span><span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">outreaches</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">outreaches</span><span class="p">)</span>
@@ -474,7 +502,7 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty outreaches returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_outreach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outreach_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_outreach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outreach_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific outreach.</span>
 <span class="sd">        Args:</span>
@@ -485,6 +513,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Outreach information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">outreach</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getOutreach</span><span class="p">(</span><span class="n">outreach_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">outreach</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">outreach</span>
@@ -538,7 +568,7 @@
         <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">json</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">data_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">params</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">supports_version</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">override_api_version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
@@ -546,6 +576,8 @@
 <span class="sd">        Internal method to instantiate OAuth2APIConnector class,</span>
 <span class="sd">        make a call to Newmode API, and validate the response.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">api_version</span> <span class="o">=</span> <span class="n">override_api_version</span> <span class="k">if</span> <span class="n">override_api_version</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_version</span>
         <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">api_version</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">supports_version</span> <span class="k">else</span> <span class="n">endpoint</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
@@ -564,7 +596,7 @@
         <span class="n">supports_version</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">json</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">params</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">convert_to_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">data_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -572,6 +604,8 @@
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal method to make a call to the Newmode API and convert the result to a Parsons table.&quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">client</span> <span class="o">=</span> <span class="n">client</span> <span class="k">if</span> <span class="n">client</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_client</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
@@ -590,7 +624,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">response</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve a specific campaign by ID.</span>
 
@@ -603,6 +637,8 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table containing campaign data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/campaign/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">/form&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converted_request</span><span class="p">(</span>
             <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span>
@@ -611,7 +647,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaign_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaign_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve all campaigns</span>
 <span class="sd">        In v2, a campaign is equivalent to Tools or Actions in V1.</span>
@@ -623,6 +659,8 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            List containing all campaign ids.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;node/action&quot;</span>
         <span class="n">campaigns_client</span> <span class="o">=</span> <span class="n">OAuth2APIConnector</span><span class="p">(</span>
             <span class="n">uri</span><span class="o">=</span><span class="n">V2_API_CAMPAIGNS_URL</span><span class="p">,</span>
@@ -651,7 +689,7 @@
         <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">postal_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">params</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve a specific recipient by ID</span>
@@ -671,6 +709,8 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table containing recipient data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">address_params</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;street_address&quot;</span><span class="p">:</span> <span class="n">street_address</span><span class="p">,</span>
             <span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="n">city</span><span class="p">,</span>
@@ -691,7 +731,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">run_submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pass a submission from a supporter to a campaign</span>
 <span class="sd">        that ultimately fills in a petition,</span>
@@ -707,6 +747,8 @@
 <span class="sd">            Parsons Table containing submit data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converted_request</span><span class="p">(</span>
             <span class="n">endpoint</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;campaign/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">/submit&quot;</span><span class="p">,</span>
             <span class="n">method</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
@@ -717,7 +759,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_submissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_submissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve and sort submissions and contact data</span>
 <span class="sd">        for a specified campaign using a range of filters</span>
@@ -729,6 +771,8 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table containing submit data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="n">campaign_id</span><span class="p">}</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converted_request</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;submission&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span>

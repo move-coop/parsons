@@ -175,11 +175,11 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SLACK_API_TOKEN&quot;</span><span class="p">]</span>
 
-            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
                     <span class="s2">&quot;Missing api_key. It must be passed as an &quot;</span>
                     <span class="s2">&quot;argument or stored as environmental variable&quot;</span>
-                <span class="p">)</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
@@ -188,7 +188,7 @@
 
 <div class="viewcode-block" id="Slack.channels">
 <a class="viewcode-back" href="../../../notifications.html#parsons.Slack.channels">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">channels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">exclude_archived</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;public_channel&quot;</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">channels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_archived</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a list of all channels in a Slack team.</span>
 
@@ -209,6 +209,10 @@
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">types</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;public_channel&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">fields</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">]</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate_request</span><span class="p">(</span>
             <span class="s2">&quot;conversations.list&quot;</span><span class="p">,</span>
             <span class="s2">&quot;channels&quot;</span><span class="p">,</span>
@@ -229,13 +233,7 @@
 <a class="viewcode-back" href="../../../notifications.html#parsons.Slack.users">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">users</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">fields</span><span class="o">=</span><span class="p">[</span>
-            <span class="s2">&quot;id&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;deleted&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;profile_real_name_normalized&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;profile_email&quot;</span><span class="p">,</span>
-        <span class="p">],</span>
+        <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a list of all users in a Slack team.</span>
@@ -251,6 +249,8 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="n">fields</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;deleted&quot;</span><span class="p">,</span> <span class="s2">&quot;profile_real_name_normalized&quot;</span><span class="p">,</span> <span class="s2">&quot;profile_email&quot;</span><span class="p">]</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate_request</span><span class="p">(</span><span class="s2">&quot;users.list&quot;</span><span class="p">,</span> <span class="s2">&quot;members&quot;</span><span class="p">,</span> <span class="n">include_locale</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s2">&quot;profile&quot;</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prepend_value</span><span class="o">=</span><span class="s2">&quot;profile&quot;</span><span class="p">)</span>

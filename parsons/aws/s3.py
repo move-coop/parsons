@@ -155,7 +155,7 @@ class S3(object):
                 'Size', and 'Owner'.
         """
 
-        keys_dict = dict()
+        keys_dict = {}
         logger.debug(f"Fetching keys in {bucket} bucket")
 
         continuation_token = None

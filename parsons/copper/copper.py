@@ -284,8 +284,8 @@ class Copper(object):
             for column in list_cols:
                 # Check for nested data
                 list_rows = obj_table.select_rows(
-                    lambda row: isinstance(row[column], list)
-                    and any(isinstance(x, dict) for x in row[column])
+                    lambda row: isinstance(row[column], list)  # noqa: B023
+                    and any(isinstance(x, dict) for x in row[column])  # noqa: B023
                 )
                 # Add separate long table for each column with nested data
                 if list_rows.num_rows > 0:

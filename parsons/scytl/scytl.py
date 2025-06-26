@@ -91,7 +91,7 @@ class Scytl:
         self.previous_details_version_num = None
         self.previous_county_details_version_num = None
         self.previous_county_details_list = None
-        self.previously_fetched_counties = set([])
+        self.previously_fetched_counties = set()
 
     def _parse_date_to_utc(self, input_dt: str) -> datetime:
         """

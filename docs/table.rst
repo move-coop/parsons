@@ -24,6 +24,9 @@ From Parsons Table
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_csv`
       - CSV File
       - Write a table to a local csv file
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_avro`
+      - Avro File
+      - Write a table to a local avro file
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_s3_csv`
       - AWS s3 Bucket
       - Write a table to a csv stored in S3
@@ -57,6 +60,9 @@ From Parsons Table
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.append_csv`
       - CSV file
       - Appends table to an existing CSV
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.append_avro`
+      - Avro file
+      - Appends table to an existing Avro file
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_zip_csv`
       - ZIP file
       - Writes a table to a CSV in a zip archive
@@ -83,6 +89,9 @@ Create Parsons Table object using the following methods.
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_csv`
       - File like object, local path, url, ftp.
       - Loads a csv object into a Table
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_avro`
+      - Avro File
+      - Load a table from a local avro file
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_json`
       - File like object, local path, url, ftp.
       - Loads a json object into a Table

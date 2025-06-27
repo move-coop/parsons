@@ -102,15 +102,15 @@ class TestTargetSmartAPI(unittest.TestCase):
         self.assertTrue(validate_list(expected, self.ts.data_enhance("IL-12568678")))
 
         # Assert exception on missing state
-        with self.assertRaises(Exception):
+        with self.assertRaises(Exception):  # noqa: B017
             self.ts.data_enhance("vb0001", search_id_type="votebuilder")
 
         # Assert exception on missing state
-        with self.assertRaises(Exception):
+        with self.assertRaises(Exception):  # noqa: B017
             self.ts.data_enhance("vb0001", search_id_type="smartvan")
 
         # Assert exception on missing state
-        with self.assertRaises(Exception):
+        with self.assertRaises(Exception):  # noqa: B017
             self.ts.data_enhance("vb0001", search_id_type="voter")
 
         # Assert works with state provided

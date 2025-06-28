@@ -14,6 +14,7 @@ def main():
             "requests",
             "requests_oauthlib",
             "simplejson",
+            "scrapelib",
         ]
         extras_require = {
             "airtable": ["pyairtable"],

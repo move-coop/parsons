@@ -29,7 +29,7 @@ paramiko==3.5.1
 petl==1.7.16
 psycopg2-binary==2.9.9;python_version<"3.13"
 psycopg2-binary==2.9.10;python_version>="3.13"
-PyGitHub==2.6.0
+PyGitHub==2.6.1
 python-dateutil==2.9.0.post0
 requests==2.32.4
 requests_oauthlib==2.0.0

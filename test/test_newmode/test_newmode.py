@@ -4,6 +4,7 @@ import unittest.mock as mock
 from unittest.mock import call, patch
 
 import requests_mock
+from requests.exceptions import HTTPError
 
 from parsons import Newmode, Table
 from test.test_newmode import test_newmode_data
@@ -247,7 +248,7 @@ class TestNewmodeV2(unittest.TestCase):
             status_code=500,
         )
 
-        with self.assertRaises(Exception):
+        with self.assertRaises(HTTPError):
             self.nm.base_request(
                 method="GET",
                 endpoint="test-endpoint",

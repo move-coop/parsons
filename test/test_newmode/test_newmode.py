@@ -1,13 +1,13 @@
 import os
 import unittest
 import unittest.mock as mock
-from test.test_newmode import test_newmode_data
-from test.utils import assert_matching_tables
 from unittest.mock import call, patch
 
 import requests_mock
 
 from parsons import Newmode, Table
+from test.test_newmode import test_newmode_data
+from test.utils import assert_matching_tables
 
 CLIENT_ID = "fakeClientID"
 CLIENT_SECRET = "fakeClientSecret"

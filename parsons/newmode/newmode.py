@@ -1,6 +1,7 @@
 import logging
 
 from Newmode import Client
+
 from parsons.etl import Table
 from parsons.utilities import check_env
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector

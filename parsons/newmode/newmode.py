@@ -1,7 +1,6 @@
 import logging
 
 from Newmode import Client
-
 from parsons.etl import Table
 from parsons.utilities import check_env
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
@@ -414,6 +413,7 @@ class NewmodeV2:
         params=None,
         supports_version=True,
         override_api_version=None,
+        retries=2,
     ):
         """
         Internal method to instantiate OAuth2APIConnector class,
@@ -423,14 +423,25 @@ class NewmodeV2:
             params = {}
         api_version = override_api_version if override_api_version else self.api_version
         url = f"{api_version}/{endpoint}" if supports_version else endpoint
-        response = client.request(url=url, req_type=method, json=json, data=data, params=params)
-        response.raise_for_status()
-        success_codes = [200, 201, 202, 204]
-        client.validate_response(response)
-        if response.status_code in success_codes:
-            response_json = response.json() if client.json_check(response) else None
-            return response_json[data_key] if data_key and response_json else response_json
-        raise Exception(f"API request encountered an error. Response: {response}")
+
+        for attempt in range(retries + 1):
+            try:
+                response = client.request(
+                    url=url, req_type=method, json=json, data=data, params=params
+                )
+                response.raise_for_status()
+                success_codes = [200, 201, 202, 204]
+                client.validate_response(response)
+                if response.status_code in success_codes:
+                    response_json = response.json() if client.json_check(response) else None
+                    return response_json[data_key] if data_key and response_json else response_json
+            except Exception as e:
+                if attempt < retries:
+                    logger.warning(f"Request failed (attempt {attempt + 1}/{retries}). Retrying...")
+                else:
+                    logger.error(f"Request failed after {retries} retries.")
+                    raise e
+        raise Exception(f"Failed to retrieve data from {endpoint} after {retries} attempts.")
 
     def converted_request(
         self,

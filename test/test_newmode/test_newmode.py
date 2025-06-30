@@ -1,12 +1,13 @@
 import os
 import unittest
 import unittest.mock as mock
+from test.test_newmode import test_newmode_data
+from test.utils import assert_matching_tables
+from unittest.mock import call, patch
 
 import requests_mock
 
 from parsons import Newmode, Table
-from test.test_newmode import test_newmode_data
-from test.utils import assert_matching_tables
 
 CLIENT_ID = "fakeClientID"
 CLIENT_SECRET = "fakeClientSecret"
@@ -236,3 +237,31 @@ class TestNewmodeV2(unittest.TestCase):
             self.nm.run_submit(campaign_id=self.campaign_id, json=json_input),
             json_response,
         )
+
+    @requests_mock.Mocker()
+    @patch("parsons.newmode.newmode.logger")
+    def test_base_request_retries(self, m, mock_logger):
+        m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
+        m.get(
+            f"{V2_API_URL}v2.1/test-endpoint",
+            status_code=500,
+        )
+
+        with self.assertRaises(Exception):
+            self.nm.base_request(
+                method="GET",
+                endpoint="test-endpoint",
+                client=self.nm.default_client,
+                retries=2,
+            )
+
+        # Verify that the logger warned about retries
+        self.assertEqual(mock_logger.warning.call_count, 2)
+        mock_logger.warning.assert_has_calls(
+            [
+                call("Request failed (attempt 1/2). Retrying..."),
+                call("Request failed (attempt 2/2). Retrying..."),
+            ]
+        )
+        # Verify that the logger logged an error after retries failed
+        mock_logger.error.assert_called_once_with("Request failed after 2 retries.")

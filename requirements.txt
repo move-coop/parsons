@@ -13,7 +13,7 @@ defusedxml>=0.7.1, <=0.8.0
 facebook-business==22.0.2
 google-api-core==2.24.2
 google-api-python-client==2.173.0
-google-auth==2.38.0
+google-auth==2.40.3
 google-cloud-bigquery==3.34.0
 google-cloud-storage-transfer==1.16.0
 google-cloud-storage==3.1.0

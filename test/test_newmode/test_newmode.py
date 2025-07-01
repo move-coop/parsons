@@ -174,6 +174,36 @@ class TestNewmodeV1(unittest.TestCase):
         self.nm.client.getOutreach.assert_called_with(id, params={})
         self.assertEqual(response["name"], "Outreach 1")
 
+    def test_get_tools_empty_response(self):
+        self.nm.client.getTools.return_value = []
+        args = {}
+        response = self.nm.get_tools(args)
+        self.nm.client.getTools.assert_called_with(params=args)
+        self.assertEqual(response.num_rows, 0)
+
+    def test_get_tool_invalid_id(self):
+        self.nm.client.getTool.side_effect = HTTPError("Invalid ID")
+        with self.assertRaises(HTTPError):
+            self.nm.get_tool(-1)
+
+    def test_get_campaigns_pagination(self):
+        self.nm.client.getCampaigns.side_effect = [
+            [{"id": 1, "title": "Campaign 1"}],
+            [{"id": 2, "title": "Campaign 2"}],
+            [],
+        ]
+        args = {"page": 1}
+        all_campaigns = []
+        while True:
+            response = self.nm.get_campaigns(args)
+            all_campaigns.extend(response)
+            if not response:
+                break
+            args["page"] += 1
+        self.assertEqual(len(all_campaigns), 2)
+        self.assertEqual(all_campaigns[0]["title"], "Campaign 1")
+        self.assertEqual(all_campaigns[1]["title"], "Campaign 2")
+
 
 class TestNewmodeV2(unittest.TestCase):
     @requests_mock.Mocker()
@@ -251,7 +281,7 @@ class TestNewmodeV2(unittest.TestCase):
         with self.assertRaises(HTTPError):
             self.nm.base_request(
                 method="GET",
-                endpoint="test-endpoint",
+                url=f"{V2_API_URL}v2.1/test-endpoint",
                 client=self.nm.default_client,
                 retries=2,
             )
@@ -266,3 +296,10 @@ class TestNewmodeV2(unittest.TestCase):
         )
         # Verify that the logger logged an error after retries failed
         mock_logger.error.assert_called_once_with("Request failed after 2 retries.")
+
+    @requests_mock.Mocker()
+    def test_get_campaign_empty_response(self, m):
+        m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
+        m.get(f"{self.base_url}/campaign/{self.campaign_id}/form", json=[])
+        response = self.nm.get_campaign(campaign_id=self.campaign_id)
+        self.assertEqual(response.num_rows, 0)

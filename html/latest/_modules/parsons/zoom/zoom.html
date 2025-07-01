@@ -175,7 +175,12 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ZoomV1</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">account_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_secret</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Instantiate the Zoom class.</span>
 
@@ -206,7 +211,13 @@
             <span class="n">authorization_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;account_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">account_id</span><span class="p">},</span>
         <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">data_key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_request</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">data_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        TODO: Consider increasing default page size.</span>
 
@@ -311,7 +322,7 @@
 
         <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;active&quot;</span><span class="p">,</span> <span class="n">role_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;active&quot;</span><span class="p">,</span> <span class="n">role_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get users.</span>
 
@@ -337,13 +348,13 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_meetings</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">user_id</span><span class="p">,</span>
+        <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">meeting_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span>
             <span class="s2">&quot;scheduled&quot;</span><span class="p">,</span> <span class="s2">&quot;live&quot;</span><span class="p">,</span> <span class="s2">&quot;upcoming&quot;</span><span class="p">,</span> <span class="s2">&quot;upcoming_meetings&quot;</span><span class="p">,</span> <span class="s2">&quot;previous_meetings&quot;</span>
         <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;scheduled&quot;</span><span class="p">,</span>
         <span class="n">from_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">to_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get meetings scheduled by a user.</span>
 
@@ -385,7 +396,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> meetings.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_uuid</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_uuid</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata regarding a past meeting.</span>
 
@@ -401,7 +412,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved meeting </span><span class="si">{</span><span class="n">meeting_uuid</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants.</span>
 
@@ -417,7 +428,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> participants.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_registrants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_registrants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get meeting registrants.</span>
 
@@ -433,7 +444,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> registrants.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_user_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get meeting registrants.</span>
 
@@ -449,7 +460,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinars.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants</span>
 
@@ -466,7 +477,7 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved webinar_report for webinar: </span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dic</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants</span>
 
@@ -482,7 +493,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinar participants.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_registrants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_registrants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants</span>
 
@@ -498,7 +509,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinar registrants.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata about a specific poll for a given meeting ID</span>
 
@@ -531,7 +542,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata for all polls for a given meeting ID</span>
 
@@ -556,7 +567,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List poll metadata of a past meeting.</span>
 
@@ -584,7 +595,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;question_details&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata for a specific poll for a given webinar ID</span>
 
@@ -613,7 +624,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;prompts&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_all_polls_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get metadata for all polls for a given webinar ID</span>
 
@@ -638,7 +649,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_poll_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the metadata for Webinar Polls of a specific Webinar</span>
 
@@ -663,7 +674,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__handle_nested_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">tbl</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;question_details&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a report of poll results for a past meeting</span>
 
@@ -681,7 +692,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__process_poll_results</span><span class="p">(</span><span class="n">tbl</span><span class="o">=</span><span class="n">tbl</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a report of poll results for a past webinar</span>
 
@@ -732,10 +743,21 @@
 <span class="sd">        ZoomV1 (cls): version 1 Zoom connector class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">account_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_secret</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_request</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">data_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args`:</span>
 <span class="sd">            endpoint: str</span>
@@ -780,7 +802,7 @@
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get webinars scheduled by or on behalf of a webinar host.</span>
 
@@ -796,12 +818,27 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinars.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_user_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_occurrences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get webinar occurrences for a given webinar ID.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            webinar_id: int</span>
+<span class="sd">                The webinar id</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="s2">&quot;occurrences&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinar occurrences.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="ne">AttributeError</span><span class="p">:</span>
         <span class="k">return</span> <span class="ne">AttributeError</span><span class="p">(</span>
             <span class="s2">&quot;Method get_user_webinars has been deprecated in favor of get_webinars&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past meeting participants.</span>
 
@@ -817,7 +854,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> participants.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get past webinar participants.</span>
 
@@ -833,7 +870,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> participants.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get information about a single poll for a given meeting ID.</span>
 <span class="sd">        The returned data is identical to get_meeting_polls.</span>
@@ -859,7 +896,7 @@
             <span class="s2">&quot;Method get_meeting_poll_metadata is deprecated in favor of get_meeting_poll&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_polls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_polls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get information about all polls for a given meeting ID.</span>
 <span class="sd">        The returned data is identical to get_meeting_poll but for</span>
@@ -884,7 +921,7 @@
             <span class="s2">&quot;Method get_meeting_all_polls_metadata is deprecated in favor of get_meeting_polls&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get results for all polls for a given past meeting ID</span>
 
@@ -907,7 +944,7 @@
             <span class="s2">&quot;Method get_past_meeting_poll_metadata is deprecated in favor of get_past_meeting_poll_results&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get information about a single poll for a given webinar ID.</span>
 <span class="sd">        The returned data is identical to get_webinar_polls.</span>
@@ -933,7 +970,7 @@
             <span class="s2">&quot;Method get_webinar_poll_metadata is deprecated in favor of get_webinar_poll&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_polls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_polls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get information for all polls for a given webinar ID</span>
 <span class="sd">        The returned data is identical to get_webinar_poll but includes</span>
@@ -958,7 +995,7 @@
             <span class="s2">&quot;Method get_webinar_all_polls_metadata is deprecated in favor of get_webinar_polls&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_poll_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get results for all polls for a given past webinar ID</span>
 
@@ -981,7 +1018,7 @@
             <span class="s2">&quot;Method get_past_webinar_poll_metadata is deprecated in favor of get_past_webinar_poll_results&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_reports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll_reports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get polls reports for a given past meeting ID</span>
 
@@ -1004,7 +1041,7 @@
             <span class="s2">&quot;Method get_meeting_poll_results is deprecated in favor of get_meeting_poll_reports&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_reports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webinar_poll_reports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get results for all polls for a given past webinar ID</span>
 
@@ -1031,7 +1068,13 @@
 <div class="viewcode-block" id="Zoom">
 <a class="viewcode-back" href="../../../zoom.html#parsons.Zoom">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Zoom</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parsons_version</span><span class="o">=</span><span class="s2">&quot;v1&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">account_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_secret</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">parsons_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ZoomV1</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create and return Zoom instance base on chosen version (1 or 2)</span>
 

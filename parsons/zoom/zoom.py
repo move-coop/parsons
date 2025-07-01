@@ -639,6 +639,21 @@ class ZoomV2(ZoomV1):
         logger.info(f"Retrieved {tbl.num_rows} webinars.")
         return tbl
 
+    def get_webinar_occurrences(self, webinar_id: int):
+        """
+        Get webinar occurrences for a given webinar ID.
+
+        `Args:`
+            webinar_id: int
+                The webinar id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+        tbl = self._get_request(f"webinars/{webinar_id}/", "occurrences")
+        logger.info(f"Retrieved {tbl.num_rows} webinar occurrences.")
+        return tbl
+
     def get_user_webinars(self, user_id):
         return AttributeError(
             "Method get_user_webinars has been deprecated in favor of get_webinars"

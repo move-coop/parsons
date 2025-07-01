@@ -446,7 +446,12 @@ class NewmodeV2:
         success_codes = [200, 201, 202, 204]
         client.validate_response(response)
         if response.status_code in success_codes:
-            return response.json() if client.json_check(response) else None
+            try:
+                if client.json_check(response):
+                    return response.json()
+            except Exception:
+                logger.error("Response is not in JSON format.")
+        raise ValueError(f"API request encountered an error. Response: {response}")
 
     def base_request(
         self,

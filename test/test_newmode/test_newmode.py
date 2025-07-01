@@ -303,3 +303,37 @@ class TestNewmodeV2(unittest.TestCase):
         m.get(f"{self.base_url}/campaign/{self.campaign_id}/form", json=[])
         response = self.nm.get_campaign(campaign_id=self.campaign_id)
         self.assertEqual(response.num_rows, 0)
+
+    @requests_mock.Mocker()
+    def test_checked_response_success(self, m):
+        m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
+        response_data = {"key": "value"}
+        m.get(f"{V2_API_URL}v2.1/test-endpoint", json=response_data, status_code=200)
+
+        response = self.nm.default_client.request(
+            url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET"
+        )
+        result = self.nm.checked_response(response, self.nm.default_client)
+        self.assertEqual(result, response_data)
+
+    @requests_mock.Mocker()
+    def test_checked_response_invalid_json(self, m):
+        m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
+        m.get(f"{V2_API_URL}v2.1/test-endpoint", text="Invalid JSON", status_code=200)
+
+        response = self.nm.default_client.request(
+            url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET"
+        )
+        with self.assertRaises(ValueError):
+            self.nm.checked_response(response, self.nm.default_client)
+
+    @requests_mock.Mocker()
+    def test_checked_response_http_error(self, m):
+        m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
+        m.get(f"{V2_API_URL}v2.1/test-endpoint", status_code=404)
+
+        response = self.nm.default_client.request(
+            url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET"
+        )
+        with self.assertRaises(HTTPError):
+            self.nm.checked_response(response, self.nm.default_client)

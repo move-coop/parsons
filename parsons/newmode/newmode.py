@@ -2,6 +2,7 @@ from typing import Optional, Dict, Any, List, Union
 import logging
 
 from Newmode import Client
+
 from parsons.etl import Table
 from parsons.utilities import check_env
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
@@ -62,7 +63,7 @@ class NewmodeV1:
 
         return table
 
-    def get_tools(self, params: Dict[str, Any] = {}) -> Table:
+    def get_tools(self, params: Dict[str, Any] = None) -> Table:
         """
         Get existing tools.
         Args:
@@ -71,6 +72,8 @@ class NewmodeV1:
         Returns:
             Tools information as table.
         """
+        if params is None:
+            params = {}
         tools = self.client.getTools(params=params)
         if tools:
             return self.convert_to_table(tools)

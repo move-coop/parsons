@@ -1,5 +1,6 @@
 import logging
 from typing import Any, Dict, List, Optional, Union
+from oauthlib.oauth2 import TokenExpiredError
 
 from Newmode import Client
 
@@ -429,7 +430,10 @@ class NewmodeV2:
         self.client_id: str = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
         self.client_secret: str = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
         self.headers: Dict[str, str] = {"content-type": "application/json"}
-        self.default_client: OAuth2APIConnector = OAuth2APIConnector(
+        self.default_client: OAuth2APIConnector = self.get_default_oauth_client()
+
+    def get_default_oauth_client(self) -> OAuth2APIConnector:
+        return OAuth2APIConnector(
             uri=self.base_url,
             auto_refresh_url=V2_API_AUTH_URL,
             client_id=self.client_id,
@@ -472,10 +476,14 @@ class NewmodeV2:
 
         for attempt in range(retries + 1):
             try:
-                response = client.request(
-                    url=url, req_type=method, json=json, data=data, params=params
-                )
-                return self.checked_response(response, client)
+                try:
+                    response = client.request(
+                        url=url, req_type=method, json=json, data=data, params=params
+                    )
+                    return self.checked_response(response, client)
+                except TokenExpiredError as e:
+                    logger.warning(f"Token expired: {e}. Refreshing it...")
+                    self.default_client = self.get_default_oauth_client()
             except Exception as e:
                 if attempt < retries:
                     logger.warning(f"Request failed (attempt {attempt + 1}/{retries}). Retrying...")

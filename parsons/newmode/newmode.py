@@ -1,6 +1,6 @@
 import logging
-from typing import Any, Dict, List, Optional, Union
 from oauthlib.oauth2 import TokenExpiredError
+from typing import Any, Dict, List, Optional, Union
 
 from Newmode import Client
 

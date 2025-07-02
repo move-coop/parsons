@@ -3,9 +3,9 @@ import unittest
 import unittest.mock as mock
 from unittest.mock import call, patch
 
+from oauthlib.oauth2 import TokenExpiredError
 import requests_mock
 from requests.exceptions import HTTPError
-from oauthlib.oauth2 import TokenExpiredError
 
 from parsons import Newmode, Table
 from test.test_newmode import test_newmode_data

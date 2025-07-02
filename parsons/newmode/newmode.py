@@ -1,8 +1,8 @@
 import logging
-from oauthlib.oauth2 import TokenExpiredError
 from typing import Any, Dict, List, Optional, Union
 
 from Newmode import Client
+from oauthlib.oauth2 import TokenExpiredError
 
 from parsons.etl import Table
 from parsons.utilities import check_env

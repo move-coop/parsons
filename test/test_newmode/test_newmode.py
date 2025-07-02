@@ -5,6 +5,7 @@ from unittest.mock import call, patch
 
 import requests_mock
 from requests.exceptions import HTTPError
+from oauthlib.oauth2 import TokenExpiredError
 
 from parsons import Newmode, Table
 from test.test_newmode import test_newmode_data
@@ -337,3 +338,38 @@ class TestNewmodeV2(unittest.TestCase):
         )
         with self.assertRaises(HTTPError):
             self.nm.checked_response(response, self.nm.default_client)
+
+    @requests_mock.Mocker()
+    @patch("parsons.newmode.newmode.NewmodeV2.get_default_oauth_client")
+    def test_token_refresh_on_expired_token(self, m, mock_get_default_oauth_client):
+        m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
+        m.get(f"{V2_API_URL}v2.1/test-endpoint", status_code=401)
+
+        mock_new_client = mock.MagicMock()
+        mock_get_default_oauth_client.return_value = mock_new_client
+        self.nm.default_client.request = mock.MagicMock()
+
+        mock_response = mock.MagicMock()
+        mock_response.raise_for_status = mock.MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {"data": "success"}
+
+        # Simulate token expiration and successful response
+        def oauth_side_effect(*args, **kwargs):
+            if not hasattr(self, "call_count"):
+                self.call_count = 0
+            if self.call_count == 0:
+                self.call_count += 1
+                raise TokenExpiredError()
+            return mock_response
+
+        self.nm.default_client.request.side_effect = oauth_side_effect
+
+        response = self.nm.base_request(
+            method="GET",
+            url=f"{V2_API_URL}v2.1/test-endpoint",
+            client=self.nm.default_client,
+        )
+
+        mock_get_default_oauth_client.assert_called_once()
+        self.assertEqual(response, {"data": "success"})

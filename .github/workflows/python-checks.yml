@@ -32,7 +32,7 @@ jobs:
                   python-version: ${{ matrix.python-version }}
 
             - name: Install uv
-              uses: install-pinned/uv@dd7eb57b95be797bfab39ebae25c58901440f957  # 0.4.12
+              uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b  # 0.4.12
 
             - name: Install dependencies
               env:
@@ -66,7 +66,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@dd7eb57b95be797bfab39ebae25c58901440f957  # 0.4.12
+              uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -88,7 +88,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@dd7eb57b95be797bfab39ebae25c58901440f957  # 0.4.12
+              uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -110,7 +110,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@dd7eb57b95be797bfab39ebae25c58901440f957  # 0.4.12
+              uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b  # 0.4.12
 
             - name: Install bandit
               run: |
@@ -132,7 +132,7 @@ jobs:
 
         steps:
             - name: Harden Runner
-              uses: step-security/harden-runner@002fdce3c6a235733a90a27c80493a3241e56863  # v2.12.1
+              uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49  # v2.12.2
               with:
                   egress-policy: audit
 
@@ -145,7 +145,7 @@ jobs:
                   cache: pip
 
             - name: Install uv
-              uses: install-pinned/uv@dd7eb57b95be797bfab39ebae25c58901440f957  # 0.4.12
+              uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b  # 0.4.12
 
             - name: Install module and dependencies
               run: |
@@ -209,7 +209,7 @@ jobs:
 
         steps:
             - name: Harden Runner
-              uses: step-security/harden-runner@002fdce3c6a235733a90a27c80493a3241e56863 # v2.12.1
+              uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
               with:
                   egress-policy: audit
 

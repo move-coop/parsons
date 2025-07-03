@@ -2,53 +2,45 @@ name: Build & Publish Wheels + Source
 
 on:
   release:
-    types: [published]
+    types:
+      - published
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Set up Python 3.13
-        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
         with:
-            python-version: "3.13"
-            cache: "pip"
+          python-version: "3.13"
+          cache: pip
 
-      - name: Install uv
-        uses: install-pinned/uv@b9511b633710c8bbe8ba48376771dba624746799  # 0.4.12
+      - uses: install-pinned/uv@b9511b633710c8bbe8ba48376771dba624746799
 
-      - name: Install dependencies
-        run: |
-            uv pip install --system -r requirements-dev.txt
-            uv pip install --system -e .[all]
+      - run: |
+          uv pip install --system -r requirements-dev.txt
+          uv pip install --system -e .[all]
 
-      - name: Check setup.py
-        run: |
+      - run: |
           python setup.py check
 
-      - name: Build src dist
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+      - if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           python -m build --sdist --outdir wheels parsons
 
-      - name: Build wheels
-        run: git pull && python -m cibuildwheel parsons/ --output-dir wheels
+      - run: git pull && python -m cibuildwheel parsons/ --output-dir wheels
 
-       # Save wheels as artifacts
-      - name: Upload built wheels
-        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
+      - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         with:
           name: wheels-${{ matrix.os }}
           path: wheels
@@ -65,18 +57,15 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Download wheels
-        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
+      - uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806
         with:
           pattern: wheels-*
           path: wheels
           merge-multiple: true
 
-      # Publish
-      - name: Publish
-        uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc # v1.12.4
+      - uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc
         with:
           verify-metadata: true
           skip-existing: true

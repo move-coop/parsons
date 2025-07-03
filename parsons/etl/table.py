@@ -1,6 +1,7 @@
 import logging
 import pickle
 from enum import Enum
+from pathlib import Path
 from typing import Union
 
 import petl
@@ -244,7 +245,7 @@ class Table(ETL, ToFrom):
 
         file_path = file_path or files.create_temp_file()
 
-        with open(file_path, "wb") as handle:
+        with Path(file_path).open(mode="wb") as handle:
             for row in self.table:
                 pickle.dump(list(row), handle)
 

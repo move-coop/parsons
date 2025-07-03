@@ -1432,7 +1432,7 @@ class ActionKit(object):
         results = []
         for tbl in upload_tables:
             user_fields_only = int(
-                not any([h for h in tbl.columns if h != "email" and not h.startswith("user_")])
+                not any(h for h in tbl.columns if h != "email" and not h.startswith("user_"))
             )
             results.append(
                 self.bulk_upload_csv(
@@ -1442,7 +1442,7 @@ class ActionKit(object):
                     user_fields_only=user_fields_only,
                 )
             )
-        return {"success": all([r["success"] for r in results]), "results": results}
+        return {"success": all(r["success"] for r in results), "results": results}
 
     def _split_tables_no_empties(self, table, no_overwrite_on_empty, set_only_columns):
         table_groups = {}
@@ -1463,7 +1463,7 @@ class ActionKit(object):
                 subset_table.table = subset_table.table.cutout(*blanks)
             logger.debug(f"Column Upload Blanks: {blanks}")
             logger.debug(f"Column Upload Columns: {subset_table.columns}")
-            if not set(["user_id", "email"]).intersection(subset_table.columns):
+            if not {"user_id", "email"}.intersection(subset_table.columns):
                 logger.warning(
                     f"Upload will fail without user_id or email. "
                     f"Rows: {subset_table.num_rows}, Columns: {subset_table.columns}"

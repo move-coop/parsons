@@ -6,7 +6,7 @@ pytest-cov==6.1.1
 pytest-datadir==1.6.1
 pytest-mock==3.14.0
 pytest-xdist==3.6.1
-pytest==8.3.5
+pytest==8.4.1
 requests-mock==1.12.1
 ruff==0.11.7
 testfixtures==8.3.0
@@ -19,11 +19,17 @@ rich>=13
 # Additional minimum versions for compatibility
 nodeenv>=1.4  # pre-commit depends on nodeenv>=0.11.1, but nodeenv requires pipes until 1.4
 
+# Build and publish requirements
+build==1.2.2.post1
+cibuildwheel==2.23.0
+twine==6.1.0
+wheel==0.45.1
+
 # Docs Requirements
-Sphinx==8.1.3;python_version>='3.10'
-Sphinx==7.4.7;python_version<'3.10'
-sphinx-rtd-theme==3.0.2
-myst-parser==4.0.1;python_version>='3.10'
 myst-parser==3.0.1;python_version<'3.10'
+myst-parser==4.0.1;python_version>='3.10'
 sphinx-multiversion
+sphinx-rtd-theme==3.0.2
 sphinxcontrib-googleanalytics
+Sphinx==7.4.7;python_version<'3.10'
+Sphinx==8.1.3;python_version>='3.10'

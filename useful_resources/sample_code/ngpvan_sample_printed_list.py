@@ -102,7 +102,7 @@ def to_pdf(saved_printed_merged):
     pdf = FPDF()
     pdf.set_font("Arial", size=14)
 
-    for index, row in saved_printed_merged.iterrows():
+    for _index, row in saved_printed_merged.iterrows():
         pdf.add_page()
 
         precinct_txt = f"Turf Name: {row[0]}"

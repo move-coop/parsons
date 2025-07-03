@@ -36,7 +36,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0
+      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
         with:
           disable-sudo: true
           egress-policy: audit
@@ -48,7 +48,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@1fd41179ee60eee2496694a1226cece304efa071
+      - uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b
 
       - if: matrix.resolution != 'limited-dependencies'
         run: |
@@ -82,7 +82,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0
+      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
         with:
           disable-sudo: true
           egress-policy: block
@@ -98,7 +98,7 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@1fd41179ee60eee2496694a1226cece304efa071
+      - uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -118,7 +118,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0
+      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
         with:
           disable-sudo: true
           egress-policy: block
@@ -135,7 +135,7 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@1fd41179ee60eee2496694a1226cece304efa071
+      - uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -166,7 +166,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0
+      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
         with:
           disable-sudo: true
           egress-policy: block
@@ -183,7 +183,7 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@1fd41179ee60eee2496694a1226cece304efa071
+      - uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -210,7 +210,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0
+      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
         with:
           disable-sudo: true
           egress-policy: block
@@ -249,7 +249,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0
+      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
         with:
           disable-sudo: true
           egress-policy: block
@@ -266,7 +266,7 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@1fd41179ee60eee2496694a1226cece304efa071
+      - uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -303,7 +303,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0
+      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
         with:
           disable-sudo: true
           egress-policy: audit

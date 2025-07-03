@@ -18,6 +18,12 @@ class TestZoom(unittest.TestCase):
     def setUp(self, m):
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         self.zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
+        self.zoomv2 = Zoom(
+            ACCOUNT_ID,
+            CLIENT_ID,
+            CLIENT_SECRET,
+            parsons_version="v2",
+        )
 
     @requests_mock.Mocker()
     def test_get_users(self, m):
@@ -1002,3 +1008,43 @@ class TestZoom(unittest.TestCase):
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "report/webinars/123/polls", json=poll)
         assert_matching_tables(self.zoom.get_webinar_poll_results(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_get_webinar_occurrences(self, m):
+        occurrences = {
+            "occurrences": [
+                {
+                    "occurrence_id": "123456789",
+                    "start_time": "2023-01-01T10:00:00Z",
+                    "duration": 60,
+                    "status": "available",
+                },
+                {
+                    "occurrence_id": "987654321",
+                    "start_time": "2023-01-02T14:00:00Z",
+                    "duration": 90,
+                    "status": "available",
+                },
+            ]
+        }
+
+        tbl = Table(
+            [
+                {
+                    "occurrence_id": "123456789",
+                    "start_time": "2023-01-01T10:00:00Z",
+                    "duration": 60,
+                    "status": "available",
+                },
+                {
+                    "occurrence_id": "987654321",
+                    "start_time": "2023-01-02T14:00:00Z",
+                    "duration": 90,
+                    "status": "available",
+                },
+            ]
+        )
+
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "webinars/123/", json=occurrences)
+        assert_matching_tables(self.zoomv2.get_webinar_occurrences(123), tbl)

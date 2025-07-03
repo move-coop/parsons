@@ -12,8 +12,8 @@ dbt_core>=1.5.0
 defusedxml>=0.7.1, <=0.8.0
 facebook-business==22.0.2
 google-api-core==2.24.2
-google-api-python-client==2.173.0
-google-auth==2.38.0
+google-api-python-client==2.174.0
+google-auth==2.40.3
 google-cloud-bigquery==3.34.0
 google-cloud-storage-transfer==1.16.0
 google-cloud-storage==3.1.0
@@ -29,7 +29,7 @@ paramiko==3.5.1
 petl==1.7.16
 psycopg2-binary==2.9.9;python_version<"3.13"
 psycopg2-binary==2.9.10;python_version>="3.13"
-PyGitHub==2.6.0
+PyGitHub==2.6.1
 python-dateutil==2.9.0.post0
 requests==2.32.4
 requests_oauthlib==2.0.0

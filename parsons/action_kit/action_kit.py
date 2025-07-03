@@ -57,7 +57,7 @@ class ActionKit(object):
         # Make a general get request to ActionKit
 
         resp = self.conn.get(self._base_endpoint(endpoint, entity_id), params=params)
-        if exception_message and resp.status_code == 404:
+        if exception_message:
             raise Exception(self.parse_error(resp, exception_message))
         return resp.json()
 

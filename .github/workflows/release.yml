@@ -6,16 +6,18 @@ on:
 
 permissions:
     contents: read
+    
 
 jobs:
-  build_wheels:
-    name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+  build_source:
+    if: github.repository_owner == 'move-coop'
+    environment: release
+        
+    runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    permissions:
+      # IMPORTANT: this permission is mandatory for trusted publishing
+      id-token: write
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -41,38 +43,7 @@ jobs:
       - name: Build src dist
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          python -m build --sdist --outdir wheels parsons
-
-      - name: Build wheels
-        run: git pull && python -m cibuildwheel parsons/ --output-dir wheels
-
-       # Save wheels as artifacts
-      - name: Upload built wheels
-        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
-        with:
-          name: wheels-${{ matrix.os }}
-          path: wheels
-
-  publish_wheels:
-    if: github.repository_owner == 'move-coop'
-    needs: build_wheels
-
-    runs-on: ubuntu-latest
-    environment: release
-
-    permissions:
-      # IMPORTANT: this permission is mandatory for trusted publishing
-      id-token: write
-
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-
-      - name: Download wheels
-        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
-        with:
-          pattern: wheels-*
-          path: wheels
-          merge-multiple: true
+          python -m build --sdist --outdir dist
 
       # Publish
       - name: Publish
@@ -80,5 +51,5 @@ jobs:
         with:
           verify-metadata: true
           skip-existing: true
-          packages-dir: wheels
+          packages-dir: dist
           verbose: true

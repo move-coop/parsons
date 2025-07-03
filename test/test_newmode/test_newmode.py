@@ -374,4 +374,4 @@ class TestNewmodeV2(unittest.TestCase):
         )
 
         mock_get_default_oauth_client.assert_called_once()
-        self.assertEqual(response, {"data": "success"})
+        assert response == {"data": "success"}

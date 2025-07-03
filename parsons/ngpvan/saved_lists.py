@@ -230,12 +230,10 @@ class SavedLists(object):
         if folder_id not in [x["folderId"] for x in self.get_folders()]:
             raise ValueError("Folder does not exist or is not shared with API user.")
 
-        if not replace:
-            if list_name in [x["name"] for x in self.get_saved_lists(folder_id)]:
-                raise ValueError(
-                    "Saved list already exists. Set to replace argument to True or "
-                    "change list name."
-                )
+        if not replace and (list_name in [x["name"] for x in self.get_saved_lists(folder_id)]):
+            raise ValueError(
+                "Saved list already exists. Set to replace argument to True or change list name."
+            )
 
         # i think we dont need this if we have the warning in the funciton description,
         # perhapse a style/standanrds decision

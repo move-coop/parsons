@@ -108,10 +108,7 @@ class FakeTable:
         if order_by:
             data.sort(order_by)
 
-        if chunk_size:
-            subset = data[offset : chunk_size + offset]
-        else:
-            subset = data[offset:]
+        subset = data[offset : chunk_size + offset] if chunk_size else data[offset:]
 
         return Table(subset)
 

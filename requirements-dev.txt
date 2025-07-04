@@ -11,7 +11,16 @@ requests-mock==1.12.1
 ruff==0.11.7
 testfixtures==8.3.0
 
+# Unpinned transient dependencies
+future>=0.18
+iniconfig>=2
+rich>=13
+
+# Additional minimum versions for compatibility
+nodeenv>=1.4  # pre-commit depends on nodeenv>=0.11.1, but nodeenv requires pipes until 1.4
+
 # Build and publish requirements
+build==1.2.2.post1
 cibuildwheel==2.23.0
 twine==6.1.0
 wheel==0.45.1

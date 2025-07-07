@@ -96,7 +96,20 @@
 <li class="toctree-l3"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.QuickBooksTime"><code class="docutils literal notranslate"><span class="pre">QuickBooksTime</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.QuickBooksTime.qb_get_request"><code class="docutils literal notranslate"><span class="pre">QuickBooksTime.qb_get_request()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.QuickBooksTime.get_groups"><code class="docutils literal notranslate"><span class="pre">QuickBooksTime.get_groups()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.QuickBooksTime.get_jobcodes"><code class="docutils literal notranslate"><span class="pre">QuickBooksTime.get_jobcodes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.QuickBooksTime.get_timesheets"><code class="docutils literal notranslate"><span class="pre">QuickBooksTime.get_timesheets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.QuickBooksTime.get_users"><code class="docutils literal notranslate"><span class="pre">QuickBooksTime.get_users()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.QuickBooksTime.get_schedule_calendars_list"><code class="docutils literal notranslate"><span class="pre">QuickBooksTime.get_schedule_calendars_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.QuickBooksTime.get_schedule_events"><code class="docutils literal notranslate"><span class="pre">QuickBooksTime.get_schedule_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.QuickBooksTime.get_geolocations"><code class="docutils literal notranslate"><span class="pre">QuickBooksTime.get_geolocations()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
@@ -189,7 +202,7 @@ as an environment variable “QB_AUTH_TOKEN” or pass it in as a parameter call
 <span class="n">qb</span> <span class="o">=</span> <span class="n">QuickBooksTime</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="s2">&quot;your_token&quot;</span><span class="p">)</span>
 
 <span class="c1">#Timesheets Table</span>
-<span class="n">timesheets_tbl</span> <span class="o">=</span> <span class="n">qb</span><span class="o">.</span><span class="n">get_timesheets</span><span class="p">()</span>
+<span class="n">timesheets_tbl</span> <span class="o">=</span> <span class="n">qb</span><span class="o">.</span><span class="n">get_timesheets</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;2024-01-01&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This example shows how to get timesheets for a given date range.</p>
@@ -197,6 +210,386 @@ as an environment variable “QB_AUTH_TOKEN” or pass it in as a parameter call
 </section>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.QuickBooksTime">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">QuickBooksTime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbooks/quickbookstime.html#QuickBooksTime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.QuickBooksTime" title="Link to this definition"></a></dt>
+<dd><p>Instantiate the QuickBooksTime class.</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>token: str</dt><dd><p>A valid QuickBooksTime Auth Token. Not required if <code class="docutils literal notranslate"><span class="pre">QB_AUTH_TOKEN</span></code> env
+variable set.
+[Find instructions to create yours here](<a class="reference external" href="https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0">https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0</a>) # noqa: E501</p>
+<p>[QuickBooksTime API Documentation](<a class="reference external" href="https://tsheetsteam.github.io/api_docs/#introduction">https://tsheetsteam.github.io/api_docs/#introduction</a>)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.QuickBooksTime.qb_get_request">
+<span class="sig-name descname"><span class="pre">qb_get_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">end_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">querystring</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbooks/quickbookstime.html#QuickBooksTime.qb_get_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.QuickBooksTime.qb_get_request" title="Link to this definition"></a></dt>
+<dd><p>This function handles the pagination of the request</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.QuickBooksTime.get_groups">
+<span class="sig-name descname"><span class="pre">get_groups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manager_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supplemental_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbooks/quickbookstime.html#QuickBooksTime.get_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.QuickBooksTime.get_groups" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>This function allows you to call the /groups endpoint of the QuickBooksTime Time API.
+All Args are optional.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>ids: Int</dt><dd><p>Comma separated list of one or more group ids you’d like to filter on.</p>
+</dd>
+<dt>active: String</dt><dd><p>‘yes’, ‘no’, or ‘both’. Default is ‘yes’.</p>
+</dd>
+<dt>manager_ids: Int</dt><dd><p>Comma separated list of one or more manager ids you’d like to filter on.</p>
+</dd>
+<dt>name: String</dt><dd><p>Comma separated list of one or more group names you’d like to filter on.</p>
+</dd>
+<dt>modified_before: String</dt><dd><p>Only groups modified before this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)</p>
+</dd>
+<dt>modified_since: String</dt><dd><p>Only groups modified since this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)</p>
+</dd>
+<dt>supplemental_data: String</dt><dd><p>‘yes’ or ‘no’. Default is ‘yes’.
+Indicates whether supplemental data should be returned.</p>
+</dd>
+<dt>limit: Int</dt><dd><p>Represents how many results you’d like to retrieve per request (page).
+Default is 200. Max is 200.</p>
+</dd>
+<dt>page: Int</dt><dd><p>Represents the page of results you’d like to retrieve.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt><cite>Returns:</cite></dt><dd><p>Parsons Table</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.QuickBooksTime.get_jobcodes">
+<span class="sig-name descname"><span class="pre">get_jobcodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customfields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supplemental_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbooks/quickbookstime.html#QuickBooksTime.get_jobcodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.QuickBooksTime.get_jobcodes" title="Link to this definition"></a></dt>
+<dd><p>This function allows you to call the /jobcodes endpoint of the QuickBooksTime Time API.</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>ids: Int</dt><dd><p>Comma separated list of one or more jobcode ids you’d like to filter on.
+Only jobcodes with an id set to one of these values will be returned.
+If omitted, all jobcodes matching other specified filters are returned.</p>
+</dd>
+<dt>parent_ids: Int</dt><dd><p>Default is -1 (meaning all jobcodes will be returned regardless of parent_id).
+Comma separated list of one or more jobcode parent_ids you’d like to filter on.
+Only jobcodes with a parent_id set to one of these values will be returned.
+Additionally you can use 0 to get only the top-level jobcodes.</p>
+<p>Then get the id of any results with has_children=yes
+and feed that in as the value of parent_ids
+for your next request to get the 2nd level of jobcodes,
+and so on, to traverse an entire tree of jobcodes.
+Use -1 to return all jobcodes regardless of parent_id.
+This is especially useful when combined with the modified_since filter.
+When parent_ids is -1, you’ll have the jobcode records needed to trace each result
+back to it’s top level parent in the supplemental_data section of the response.</p>
+</dd>
+<dt>name: String</dt><dd><ul class="simple">
+<li><p>will be interpreted as a wild card.</p></li>
+</ul>
+<p>Starts matching from the beginning of the string.</p>
+</dd>
+<dt>type: String</dt><dd><p>Indicates jobcode type. One of ‘regular’, ‘pto’, ‘paid_break’, ‘unpaid_break’,
+or ‘all’. Default is ‘regular’.</p>
+</dd>
+<dt>active: String</dt><dd><p>‘yes’, ‘no’, or ‘both’. Default is ‘yes’. If a jobcode is active,
+it is available for selection during time entry.</p>
+</dd>
+<dt>customfields: Boolean</dt><dd><p>true or false. If true, custom fields for this jobcode will be returned.
+If false, the customfields object will be omitted.</p>
+</dd>
+<dt>modified_before: String</dt><dd><p>Only jobcodes modified before this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</p>
+</dd>
+<dt>modified_since: String</dt><dd><p>Only jobcodes modified since this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</p>
+</dd>
+<dt>supplemental_data: String</dt><dd><p>‘yes’ or ‘no’. Default is ‘yes’.
+Indicates whether supplemental data should be returned.</p>
+</dd>
+<dt>limit: Int</dt><dd><p>Represents how many results you’d like to retrieve per request (page).
+Default is 200. Max is 200.</p>
+</dd>
+<dt>page: Int</dt><dd><p>Represents the page of results you’d like to retrieve. Default is 1.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Parsons Table</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.QuickBooksTime.get_timesheets">
+<span class="sig-name descname"><span class="pre">get_timesheets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jobcode_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payroll_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_the_clock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jobcode_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supplemental_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1900-01-01'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbooks/quickbookstime.html#QuickBooksTime.get_timesheets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.QuickBooksTime.get_timesheets" title="Link to this definition"></a></dt>
+<dd><p>This function allows you to call the /timesheets endpoint of the QuickBooksTime Time API.</p>
+<dl class="simple">
+<dt>Params:</dt><dd><dl class="simple">
+<dt>ids: Int</dt><dd><p>required (unless modified_before, modified_since, or start_date are set)
+Comma separated list of one or more timesheet ids you’d like to filter on.
+Only timesheets with an id set to one of these values will be returned.
+If omitted, all timesheets matching other specified filters are returned.</p>
+</dd>
+<dt>start_date: String</dt><dd><p>required (unless modified_before, modified_since, or ids is set)
+YYYY-MM-DD formatted date.
+Any timesheets with a date falling on or after this date will be returned.</p>
+</dd>
+<dt>end_date: String</dt><dd><p>YYYY-MM-DD formatted date.
+Any timesheets with a date falling on or before this date will be returned.</p>
+</dd>
+<dt>jobcode_ids: Int</dt><dd><p>A comma-separated string of jobcode ids.
+Only time recorded against these jobcodes or one of their children will be returned.</p>
+</dd>
+<dt>payroll_ids: Int</dt><dd><p>A comma-separated string of payroll ids.
+Only time recorded against users with these payroll ids will be returned.</p>
+</dd>
+<dt>user_ids: Int</dt><dd><p>A comma-separated list of user ids.
+Only timesheets linked to these users will be returned.</p>
+</dd>
+<dt>group_ids: Int</dt><dd><p>A comma-separated list of group ids.
+Only timesheets linked to users from these groups will be returned.</p>
+</dd>
+<dt>on_the_clock: String</dt><dd><p>‘yes’, ‘no’, or ‘both’. Default is ‘no’.
+If a timesheet is on_the_clock, it means the user is currently working
+(has not clocked out yet).</p>
+</dd>
+<dt>jobcode_type: String</dt><dd><p>‘regular’, ‘pto’, ‘paid_break’, ‘unpaid_break’, or ‘all’. Default is ‘all’.
+Only timesheets linked to a jobcode of the given type are returned.</p>
+</dd>
+<dt>modified_before: String</dt><dd><p>required (unless modified_since, ids, or start_date are set)
+Only timesheets modified before this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</p>
+</dd>
+<dt>modified_since: String</dt><dd><p>required (unless modified_before, ids, or start_date are set)
+Only timesheets modified since this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</p>
+</dd>
+<dt>supplemental_data: String</dt><dd><p>‘yes’ or ‘no’. Default is ‘yes’.
+Indicates whether supplemental data should be returned.</p>
+</dd>
+<dt>limit: Int</dt><dd><p>Represents how many results you’d like to retrieve per request (page).
+Default is 200. Max is 200.</p>
+</dd>
+<dt>page: Int</dt><dd><p>Represents the page of results you’d like to retrieve. Default is 1.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Parsons Table</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.QuickBooksTime.get_users">
+<span class="sig-name descname"><span class="pre">get_users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">not_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">employee_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usernames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">not_group_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payroll_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supplemental_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbooks/quickbookstime.html#QuickBooksTime.get_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.QuickBooksTime.get_users" title="Link to this definition"></a></dt>
+<dd><p>This function allows you to call the /users endpoint of the QuickBooksTime Time API.</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>ids: Int</dt><dd><p>Comma separated list of one or more user ids you’d like to filter on.</p>
+</dd>
+<dt>not_ids: Int</dt><dd><p>Comma separated list of one or more user ids you’d like to filter on.
+Specifically, the user ids you’d like to exclude.</p>
+</dd>
+<dt>employee_numbers: Int</dt><dd><p>Comma separated list of one or more employee numbers you’d like to filter on.</p>
+</dd>
+<dt>usernames: Str</dt><dd><p>Comma separated list of one or more usernames you’d like to filter on.</p>
+</dd>
+<dt>group_ids: Int</dt><dd><p>Comma separated list of one or more group ids you’d like to filter on.</p>
+</dd>
+<dt>not_group_ids: Int</dt><dd><p>Comma separated list of one or more group ids you’d like to filter on.
+Specifically, the group ids you’d like to exclude.</p>
+</dd>
+<dt>payroll_ids: String</dt><dd><p>A comma-separated string of payroll ids.
+Only users with these payroll ids will be returned.</p>
+</dd>
+<dt>active: String</dt><dd><p>‘yes’, ‘no’, or ‘both’. Default is ‘yes’.</p>
+</dd>
+<dt>first_name: String</dt><dd><ul class="simple">
+<li><p>will be interpreted as a wild card.</p></li>
+</ul>
+<p>Starts matching from the beginning of the string.</p>
+</dd>
+<dt>last_name: String</dt><dd><ul class="simple">
+<li><p>will be interpreted as a wild card.</p></li>
+</ul>
+<p>Starts matching from the beginning of the string.</p>
+</dd>
+<dt>modified_before: String</dt><dd><p>Only users modified before this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</p>
+</dd>
+<dt>modified_since: String</dt><dd><p>Only users modified since this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</p>
+</dd>
+<dt>supplemental_data: String</dt><dd><p>‘yes’ or ‘no’. Default is ‘yes’.
+Indicates whether supplemental data should be returned.</p>
+</dd>
+<dt>limit: Int</dt><dd><p>Represents how many results you’d like to retrieve per request (page).
+Default is 200. Max is 200.</p>
+</dd>
+<dt>page: Int</dt><dd><p>Represents the page of results you’d like to retrieve. Default is 1.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Parsons Table
+See Parsons Table for output options.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.QuickBooksTime.get_schedule_calendars_list">
+<span class="sig-name descname"><span class="pre">get_schedule_calendars_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supplemental_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbooks/quickbookstime.html#QuickBooksTime.get_schedule_calendars_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.QuickBooksTime.get_schedule_calendars_list" title="Link to this definition"></a></dt>
+<dd><p>This function allows you to call the /schedule_calendars endpoint
+of the QuickBooksTime Time API.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>ids: Int</dt><dd><p>Comma separated list of one or more schedule calendar ids you’d like to filter on.
+Only schedule calendars with an id set to one of these values will be returned.</p>
+</dd>
+<dt>modified_before: String</dt><dd><p>Only schedule calendars modified before this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</p>
+</dd>
+<dt>modified_since: String</dt><dd><p>required (unless ids, modified_before, or start are set)
+Only schedule calendars modified since this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</p>
+</dd>
+<dt>supplemental_data: String</dt><dd><p>‘yes’ or ‘no’. Default is ‘yes’.
+Indicates whether supplemental data should be returned.</p>
+</dd>
+<dt>limit: Int</dt><dd><p>Represents how many results you’d like to retrieve per request (page).
+Default is 200. Max is 200.</p>
+</dd>
+<dt>page: Int</dt><dd><p>Represents the page of results you’d like to retrieve. Default is 1.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>List of integers of schedules calendar ids.
+Needed for calling the /schedule_events endpoint</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.QuickBooksTime.get_schedule_events">
+<span class="sig-name descname"><span class="pre">get_schedule_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">users_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schedule_calendar_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jobcode_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1970-01-01T00:00:00+00:00'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_users</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">draft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supplemental_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbooks/quickbookstime.html#QuickBooksTime.get_schedule_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.QuickBooksTime.get_schedule_events" title="Link to this definition"></a></dt>
+<dd><p>This function allows you to call the /schedule_events endpoint
+of the QuickBooksTime Time API.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>ids: Int</dt><dd><p>required (unless modified_before, modified_since, or start are set)
+Comma separated list of one or more schedule event ids you’d like to filter on.
+Only schedule events with an id set to one of these values will be returned.</p>
+</dd>
+<dt>users_ids: Int</dt><dd><p>Comma-separated list of one or more user ids to retrieve schedule events for.</p>
+</dd>
+<dt>schedule_calendar_ids: Int</dt><dd><p>Required.
+Comma separated list of one or more schedule calendar ids you’d like to filter on.
+Only schedule events with a schedule calendar id
+set to one of these values will be returned.</p>
+</dd>
+<dt>jobcode_ids: Int</dt><dd><p>A comma-separated string of jobcode ids.
+Only schedule events with these jobcodes will be returned.</p>
+</dd>
+<dt>start: String</dt><dd><p>required (unless ids, modified_before, or modified_since are set)
+Only schedule events starting on or after this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</p>
+</dd>
+<dt>end: String</dt><dd><p>Only schedule events ending on or before this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</p>
+</dd>
+<dt>active: String</dt><dd><p>‘yes’, ‘no’ or ‘both’. Default is ‘both’.
+Only schedule events whose active state match the requested filter will be returned.</p>
+</dd>
+<dt>active_users: Int</dt><dd><p>‘0’, ‘-1’ or ‘1’ . Default is ‘1’.
+Only schedule events whose users are active will be returned by default.
+0 will return events for inactive users.
+-1 will return events for active and inactive users.</p>
+</dd>
+<dt>draft: String</dt><dd><p>‘yes’, ‘no’ or ‘both’. Default is ‘no’.
+Only schedule events whose draft state match the requested filter will be returned.</p>
+</dd>
+<dt>team_events: String</dt><dd><p>‘base’ or ‘instance’. Default is ‘instance’.
+If ‘instance’ is specified,
+events that are assigned to multiple users will be returned
+as individual single events for each assigned user. If ‘base’ is specified,
+events that are assigned to multiple users will be returned as one combined event
+for all assignees.</p>
+</dd>
+<dt>modified_before: String</dt><dd><p>required (unless ids, modified_since, or start are set)
+Only schedule events modified before this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</p>
+</dd>
+<dt>modified_since: String</dt><dd><p>required (unless ids, modified_before, or start are set)
+Only schedule events modified since this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</p>
+</dd>
+<dt>supplemental_data: String</dt><dd><p>‘yes’ or ‘no’. Default is ‘yes’.
+Indicates whether supplemental data should be returned.</p>
+</dd>
+<dt>limit: Int</dt><dd><p>Represents how many results you’d like to retrieve per request (page).
+Default is 200. Max is 200.</p>
+</dd>
+<dt>page: Int</dt><dd><p>Represents the page of results you’d like to retrieve. Default is 1.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Parsons Table
+See Parsons Table for output options.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.QuickBooksTime.get_geolocations">
+<span class="sig-name descname"><span class="pre">get_geolocations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supplemental_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbooks/quickbookstime.html#QuickBooksTime.get_geolocations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.QuickBooksTime.get_geolocations" title="Link to this definition"></a></dt>
+<dd><p>This function allows you to call the /geolocations endpoint of the QuickBooksTime Time API.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>ids: Int</dt><dd><p>Comma separated list of one or more geolocation ids you’d like to filter on.
+Only geolocations with an id set to one of these values will be returned.
+Required (unless modified_before, modified_since is set)</p>
+</dd>
+<dt>modified_before: String</dt><dd><p>Only geolocations modified before this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+Required (unless ids or modified_since is set)</p>
+</dd>
+<dt>modified_since: String</dt><dd><p>Only geolocations modified since this date/time will be returned,
+in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+Required (unless ids or modified_before is set)</p>
+</dd>
+<dt>user_ids: Int</dt><dd><p>Comma separated list of one or more user ids you’d like to filter on.
+Only geolocations with a user id set to one of these values will be returned.</p>
+</dd>
+<dt>group_ids: Int</dt><dd><p>Comma separated list of one or more group ids you’d like to filter on.
+Only geolocations with a group id set to one of these values will be returned.</p>
+</dd>
+<dt>suplemental_data: String</dt><dd><p>‘yes’ or ‘no’. Default is ‘yes’.
+Indicates whether supplemental data should be returned.</p>
+</dd>
+<dt>limit: Int</dt><dd><p>Represents how many results you’d like to retrieve per request (page).
+Default is 200. Max is 200.</p>
+</dd>
+<dt>page: Int</dt><dd><p>Represents the page of results you’d like to retrieve. Default is 1.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Parsons Table
+See Parsons Table for output options.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 

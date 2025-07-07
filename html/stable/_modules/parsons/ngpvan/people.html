@@ -584,27 +584,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">id</span><span class="p">,</span>
         <span class="n">id_type</span><span class="o">=</span><span class="s2">&quot;vanid&quot;</span><span class="p">,</span>
-        <span class="n">expand_fields</span><span class="o">=</span><span class="p">[</span>
-            <span class="s2">&quot;contribution_history&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;addresses&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;phones&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;emails&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;codes&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;custom_fields&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;external_ids&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;preferences&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;recorded_addresses&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;reported_demographics&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;suppressions&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;cases&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;custom_properties&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;districts&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;election_records&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;membership_statuses&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;notes&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;organization_roles&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;disclosure_field_values&quot;</span><span class="p">,</span>
-        <span class="p">],</span>
+        <span class="n">expand_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a single person record using their VANID or external id.</span>
@@ -628,6 +608,28 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Change end point based on id type</span>
+        <span class="k">if</span> <span class="n">expand_fields</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">expand_fields</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;contribution_history&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;addresses&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;phones&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;emails&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;codes&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;custom_fields&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;external_ids&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;preferences&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;recorded_addresses&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;reported_demographics&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;suppressions&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;cases&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;custom_properties&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;districts&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;election_records&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;membership_statuses&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;notes&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;organization_roles&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;disclosure_field_values&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;people/&quot;</span>
 
         <span class="n">id_type</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">id_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;vanid&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">id_type</span><span class="si">}</span><span class="s2">:&quot;</span>

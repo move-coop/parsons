@@ -206,8 +206,8 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
     <span class="n">func</span><span class="p">,</span>
-    <span class="n">args</span><span class="o">=</span><span class="p">[],</span>
-    <span class="n">kwargs</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">service</span><span class="o">=</span><span class="s2">&quot;lambda&quot;</span><span class="p">,</span>
     <span class="n">capture_response</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">remote_aws_lambda_function_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -216,6 +216,10 @@
     <span class="n">func_class_init_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">task_kwargs</span><span class="p">,</span>
 <span class="p">):</span>
+    <span class="k">if</span> <span class="n">kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">lambda_function_name</span> <span class="o">=</span> <span class="n">remote_aws_lambda_function_name</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
         <span class="s2">&quot;AWS_LAMBDA_FUNCTION_NAME&quot;</span>
     <span class="p">)</span>

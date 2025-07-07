@@ -1,0 +1,1018 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L2YB7WHTRG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-L2YB7WHTRG');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>parsons.quickbooks.quickbookstime &mdash; Parsons  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../actblue.html">ActBlue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_builder.html">Action Builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airmeet.html">Airmeet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auth0.html">Auth0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../capitolcanary.html">CapitolCanary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../census.html">Census</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../empower.html">Empower</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formstack.html">Formstack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobilecommons.html">MobileCommons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nation_builder.html">NationBuilder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbooks.html">Quickbooks Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../build_a_connector.html">How to Build a Connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/civis_job_status_slack_alert.html">Civis Job Status Slack Alert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/mysql_to_googlesheets.html">MySQL to Google Sheets Export</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../training_guides/getting_set_up.html">Getting Set Up With Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../training_guides/etl_best_practices.html">Introduction to ETL Best Practices</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">parsons.quickbooks.quickbookstime</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for parsons.quickbooks.quickbookstime</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">parsons.utilities.api_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIConnector</span>
+
+<span class="c1"># Set up logger</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">QB_URI</span> <span class="o">=</span> <span class="s2">&quot;https://rest.tsheets.com/api/v1/&quot;</span>
+
+
+<div class="viewcode-block" id="QuickBooksTime">
+<a class="viewcode-back" href="../../../quickbooks.html#parsons.QuickBooksTime">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">QuickBooksTime</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Instantiate the QuickBooksTime class.</span>
+
+<span class="sd">    `Args:`</span>
+<span class="sd">        token: str</span>
+<span class="sd">            A valid QuickBooksTime Auth Token. Not required if ``QB_AUTH_TOKEN`` env</span>
+<span class="sd">            variable set.</span>
+<span class="sd">            [Find instructions to create yours here](https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0) # noqa: E501</span>
+
+<span class="sd">            [QuickBooksTime API Documentation](https://tsheetsteam.github.io/api_docs/#introduction)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;QB_AUTH_TOKEN&quot;</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="s2">&quot;Bearer &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="n">QB_URI</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+
+    <span class="c1"># Helper functions</span>
+
+<div class="viewcode-block" id="QuickBooksTime.qb_get_request">
+<a class="viewcode-back" href="../../../quickbooks.html#parsons.QuickBooksTime.qb_get_request">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">qb_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">end_point</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">querystring</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function handles the pagination of the request</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># If no querystring is provided, initialize it as an empty dictionary</span>
+        <span class="k">if</span> <span class="n">querystring</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">querystring</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">output_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># This list will hold the results</span>
+
+        <span class="c1"># Handle page parameter</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">querystring</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;page&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">more</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># This flag indicates if there are more pages to fetch</span>
+        <span class="k">while</span> <span class="n">more</span><span class="p">:</span>
+            <span class="c1"># After every 10 pages, log the progress</span>
+            <span class="k">if</span> <span class="n">page</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">output_list</span><span class="p">)</span><span class="si">}</span><span class="s2"> records from </span><span class="si">{</span><span class="n">end_point</span><span class="si">}</span><span class="s2"> endpoint.&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Currently on page </span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Add the current page to the querystring</span>
+            <span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">querystring</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">}}</span>
+
+            <span class="c1"># Send the GET request</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">end_point</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+            <span class="c1"># Extract the key of the results</span>
+            <span class="n">endpoint_key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;results&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># Extract the records from the results</span>
+            <span class="n">temp_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;results&quot;</span><span class="p">][</span><span class="n">endpoint_key</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+            <span class="c1"># If the response indicates there are more pages,</span>
+            <span class="c1"># update the flag and increment the page number</span>
+            <span class="n">more</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;more&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="n">page</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Add the records from the current page to the output list</span>
+            <span class="n">output_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">temp_list</span><span class="p">)</span>
+
+        <span class="c1"># Log the total number of records retrieved</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">output_list</span><span class="p">)</span><span class="si">}</span><span class="s2"> records from </span><span class="si">{</span><span class="n">end_point</span><span class="si">}</span><span class="s2"> endpoint.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Return the results as a Table</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">output_list</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QuickBooksTime.get_groups">
+<a class="viewcode-back" href="../../../quickbooks.html#parsons.QuickBooksTime.get_groups">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_groups</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">active</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">manager_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">supplemental_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This function allows you to call the /groups endpoint of the QuickBooksTime Time API.</span>
+<span class="sd">            All Args are optional.</span>
+
+<span class="sd">            `Args:`</span>
+<span class="sd">                ids: Int</span>
+<span class="sd">                    Comma separated list of one or more group ids you&#39;d like to filter on.</span>
+
+<span class="sd">                active: String</span>
+<span class="sd">                    &#39;yes&#39;, &#39;no&#39;, or &#39;both&#39;. Default is &#39;yes&#39;.</span>
+
+<span class="sd">                manager_ids: Int</span>
+<span class="sd">                    Comma separated list of one or more manager ids you&#39;d like to filter on.</span>
+
+<span class="sd">                name: String</span>
+<span class="sd">                    Comma separated list of one or more group names you&#39;d like to filter on.</span>
+
+<span class="sd">                modified_before: String</span>
+<span class="sd">                    Only groups modified before this date/time will be returned,</span>
+<span class="sd">                    in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)</span>
+
+<span class="sd">                modified_since: String</span>
+<span class="sd">                    Only groups modified since this date/time will be returned,</span>
+<span class="sd">                    in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)</span>
+
+<span class="sd">                supplemental_data: String</span>
+<span class="sd">                    &#39;yes&#39; or &#39;no&#39;. Default is &#39;yes&#39;.</span>
+<span class="sd">                    Indicates whether supplemental data should be returned.</span>
+
+<span class="sd">                limit: Int</span>
+<span class="sd">                    Represents how many results you&#39;d like to retrieve per request (page).</span>
+<span class="sd">                    Default is 200. Max is 200.</span>
+
+<span class="sd">                page: Int</span>
+<span class="sd">                    Represents the page of results you&#39;d like to retrieve.</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="n">ids</span><span class="p">,</span>
+            <span class="s2">&quot;active&quot;</span><span class="p">:</span> <span class="n">active</span><span class="p">,</span>
+            <span class="s2">&quot;manager_ids&quot;</span><span class="p">:</span> <span class="n">manager_ids</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;modified_before&quot;</span><span class="p">:</span> <span class="n">modified_before</span><span class="p">,</span>
+            <span class="s2">&quot;modified_since&quot;</span><span class="p">:</span> <span class="n">modified_since</span><span class="p">,</span>
+            <span class="s2">&quot;supplemental_data&quot;</span><span class="p">:</span> <span class="n">supplemental_data</span><span class="p">,</span>
+            <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="n">limit</span><span class="p">,</span>
+            <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving groups.&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qb_get_request</span><span class="p">(</span><span class="n">end_point</span><span class="o">=</span><span class="s2">&quot;groups&quot;</span><span class="p">,</span> <span class="n">querystring</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> groups.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tbl</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="QuickBooksTime.get_jobcodes">
+<a class="viewcode-back" href="../../../quickbooks.html#parsons.QuickBooksTime.get_jobcodes">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_jobcodes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">parent_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">active</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">customfields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">supplemental_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function allows you to call the /jobcodes endpoint of the QuickBooksTime Time API.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            ids: Int</span>
+<span class="sd">                Comma separated list of one or more jobcode ids you&#39;d like to filter on.</span>
+<span class="sd">                Only jobcodes with an id set to one of these values will be returned.</span>
+<span class="sd">                If omitted, all jobcodes matching other specified filters are returned.</span>
+
+<span class="sd">            parent_ids: Int</span>
+<span class="sd">                Default is -1 (meaning all jobcodes will be returned regardless of parent_id).</span>
+<span class="sd">                Comma separated list of one or more jobcode parent_ids you&#39;d like to filter on.</span>
+<span class="sd">                Only jobcodes with a parent_id set to one of these values will be returned.</span>
+<span class="sd">                Additionally you can use 0 to get only the top-level jobcodes.</span>
+
+<span class="sd">                Then get the id of any results with has_children=yes</span>
+<span class="sd">                and feed that in as the value of parent_ids</span>
+<span class="sd">                for your next request to get the 2nd level of jobcodes,</span>
+<span class="sd">                and so on, to traverse an entire tree of jobcodes.</span>
+<span class="sd">                Use -1 to return all jobcodes regardless of parent_id.</span>
+<span class="sd">                This is especially useful when combined with the modified_since filter.</span>
+<span class="sd">                When parent_ids is -1, you&#39;ll have the jobcode records needed to trace each result</span>
+<span class="sd">                back to it&#39;s top level parent in the supplemental_data section of the response.</span>
+
+<span class="sd">            name: String</span>
+<span class="sd">                * will be interpreted as a wild card.</span>
+<span class="sd">                Starts matching from the beginning of the string.</span>
+
+<span class="sd">            type: String</span>
+<span class="sd">                Indicates jobcode type. One of &#39;regular&#39;, &#39;pto&#39;, &#39;paid_break&#39;, &#39;unpaid_break&#39;,</span>
+<span class="sd">                or &#39;all&#39;. Default is &#39;regular&#39;.</span>
+
+<span class="sd">            active: String</span>
+<span class="sd">                &#39;yes&#39;, &#39;no&#39;, or &#39;both&#39;. Default is &#39;yes&#39;. If a jobcode is active,</span>
+<span class="sd">                it is available for selection during time entry.</span>
+
+<span class="sd">            customfields: Boolean</span>
+<span class="sd">                true or false. If true, custom fields for this jobcode will be returned.</span>
+<span class="sd">                If false, the customfields object will be omitted.</span>
+
+<span class="sd">            modified_before: String</span>
+<span class="sd">                Only jobcodes modified before this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+
+<span class="sd">            modified_since: String</span>
+<span class="sd">                Only jobcodes modified since this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+
+<span class="sd">            supplemental_data: String</span>
+<span class="sd">                &#39;yes&#39; or &#39;no&#39;. Default is &#39;yes&#39;.</span>
+<span class="sd">                Indicates whether supplemental data should be returned.</span>
+
+<span class="sd">            limit: Int</span>
+<span class="sd">                Represents how many results you&#39;d like to retrieve per request (page).</span>
+<span class="sd">                Default is 200. Max is 200.</span>
+
+<span class="sd">            page: Int</span>
+<span class="sd">                Represents the page of results you&#39;d like to retrieve. Default is 1.</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="n">ids</span><span class="p">,</span>
+            <span class="s2">&quot;parent_ids&quot;</span><span class="p">:</span> <span class="n">parent_ids</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;customfields&quot;</span><span class="p">:</span> <span class="n">customfields</span><span class="p">,</span>
+            <span class="s2">&quot;active&quot;</span><span class="p">:</span> <span class="n">active</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
+            <span class="s2">&quot;modified_before&quot;</span><span class="p">:</span> <span class="n">modified_before</span><span class="p">,</span>
+            <span class="s2">&quot;modified_since&quot;</span><span class="p">:</span> <span class="n">modified_since</span><span class="p">,</span>
+            <span class="s2">&quot;supplemental_data&quot;</span><span class="p">:</span> <span class="n">supplemental_data</span><span class="p">,</span>
+            <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="n">limit</span><span class="p">,</span>
+            <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving jobcodes.&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qb_get_request</span><span class="p">(</span><span class="n">end_point</span><span class="o">=</span><span class="s2">&quot;jobcodes&quot;</span><span class="p">,</span> <span class="n">querystring</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> jobs.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tbl</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="QuickBooksTime.get_timesheets">
+<a class="viewcode-back" href="../../../quickbooks.html#parsons.QuickBooksTime.get_timesheets">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_timesheets</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">jobcode_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">payroll_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">user_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">on_the_clock</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">jobcode_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">supplemental_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;1900-01-01&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function allows you to call the /timesheets endpoint of the QuickBooksTime Time API.</span>
+
+<span class="sd">        Params:</span>
+<span class="sd">            ids: Int</span>
+<span class="sd">                required (unless modified_before, modified_since, or start_date are set)</span>
+<span class="sd">                Comma separated list of one or more timesheet ids you&#39;d like to filter on.</span>
+<span class="sd">                Only timesheets with an id set to one of these values will be returned.</span>
+<span class="sd">                If omitted, all timesheets matching other specified filters are returned.</span>
+
+<span class="sd">            start_date: String</span>
+<span class="sd">                required (unless modified_before, modified_since, or ids is set)</span>
+<span class="sd">                YYYY-MM-DD formatted date.</span>
+<span class="sd">                Any timesheets with a date falling on or after this date will be returned.</span>
+
+<span class="sd">            end_date: String</span>
+<span class="sd">                YYYY-MM-DD formatted date.</span>
+<span class="sd">                Any timesheets with a date falling on or before this date will be returned.</span>
+
+<span class="sd">            jobcode_ids: Int</span>
+<span class="sd">                A comma-separated string of jobcode ids.</span>
+<span class="sd">                Only time recorded against these jobcodes or one of their children will be returned.</span>
+
+<span class="sd">            payroll_ids: Int</span>
+<span class="sd">                A comma-separated string of payroll ids.</span>
+<span class="sd">                Only time recorded against users with these payroll ids will be returned.</span>
+
+<span class="sd">            user_ids: Int</span>
+<span class="sd">                A comma-separated list of user ids.</span>
+<span class="sd">                Only timesheets linked to these users will be returned.</span>
+
+<span class="sd">            group_ids: Int</span>
+<span class="sd">                A comma-separated list of group ids.</span>
+<span class="sd">                Only timesheets linked to users from these groups will be returned.</span>
+
+<span class="sd">            on_the_clock: String</span>
+<span class="sd">                &#39;yes&#39;, &#39;no&#39;, or &#39;both&#39;. Default is &#39;no&#39;.</span>
+<span class="sd">                If a timesheet is on_the_clock, it means the user is currently working</span>
+<span class="sd">                (has not clocked out yet).</span>
+
+<span class="sd">            jobcode_type: String</span>
+<span class="sd">                &#39;regular&#39;, &#39;pto&#39;, &#39;paid_break&#39;, &#39;unpaid_break&#39;, or &#39;all&#39;. Default is &#39;all&#39;.</span>
+<span class="sd">                Only timesheets linked to a jobcode of the given type are returned.</span>
+
+<span class="sd">            modified_before: String</span>
+<span class="sd">                required (unless modified_since, ids, or start_date are set)</span>
+<span class="sd">                Only timesheets modified before this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+
+<span class="sd">            modified_since: String</span>
+<span class="sd">                required (unless modified_before, ids, or start_date are set)</span>
+<span class="sd">                Only timesheets modified since this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+
+<span class="sd">            supplemental_data: String</span>
+<span class="sd">                &#39;yes&#39; or &#39;no&#39;. Default is &#39;yes&#39;.</span>
+<span class="sd">                Indicates whether supplemental data should be returned.</span>
+
+<span class="sd">            limit: Int</span>
+<span class="sd">                Represents how many results you&#39;d like to retrieve per request (page).</span>
+<span class="sd">                Default is 200. Max is 200.</span>
+
+<span class="sd">            page: Int</span>
+<span class="sd">                Represents the page of results you&#39;d like to retrieve. Default is 1.</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="n">ids</span><span class="p">,</span>
+            <span class="s2">&quot;jobcode_ids&quot;</span><span class="p">:</span> <span class="n">jobcode_ids</span><span class="p">,</span>
+            <span class="s2">&quot;payroll_ids&quot;</span><span class="p">:</span> <span class="n">payroll_ids</span><span class="p">,</span>
+            <span class="s2">&quot;user_ids&quot;</span><span class="p">:</span> <span class="n">user_ids</span><span class="p">,</span>
+            <span class="s2">&quot;group_ids&quot;</span><span class="p">:</span> <span class="n">group_ids</span><span class="p">,</span>
+            <span class="s2">&quot;end_date&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
+            <span class="s2">&quot;on_the_clock&quot;</span><span class="p">:</span> <span class="n">on_the_clock</span><span class="p">,</span>
+            <span class="s2">&quot;jobcode_type&quot;</span><span class="p">:</span> <span class="n">jobcode_type</span><span class="p">,</span>
+            <span class="s2">&quot;modified_before&quot;</span><span class="p">:</span> <span class="n">modified_before</span><span class="p">,</span>
+            <span class="s2">&quot;modified_since&quot;</span><span class="p">:</span> <span class="n">modified_since</span><span class="p">,</span>
+            <span class="s2">&quot;supplemental_data&quot;</span><span class="p">:</span> <span class="n">supplemental_data</span><span class="p">,</span>
+            <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="n">limit</span><span class="p">,</span>
+            <span class="s2">&quot;start_date&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
+            <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving timesheets.&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qb_get_request</span><span class="p">(</span><span class="n">end_point</span><span class="o">=</span><span class="s2">&quot;timesheets&quot;</span><span class="p">,</span> <span class="n">querystring</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> timesheets.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tbl</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="QuickBooksTime.get_users">
+<a class="viewcode-back" href="../../../quickbooks.html#parsons.QuickBooksTime.get_users">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_users</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">not_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">employee_numbers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">usernames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">not_group_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">payroll_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">active</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">supplemental_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function allows you to call the /users endpoint of the QuickBooksTime Time API.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            ids: Int</span>
+<span class="sd">                Comma separated list of one or more user ids you&#39;d like to filter on.</span>
+
+<span class="sd">            not_ids: Int</span>
+<span class="sd">                Comma separated list of one or more user ids you&#39;d like to filter on.</span>
+<span class="sd">                Specifically, the user ids you&#39;d like to exclude.</span>
+
+<span class="sd">            employee_numbers: Int</span>
+<span class="sd">                Comma separated list of one or more employee numbers you&#39;d like to filter on.</span>
+
+<span class="sd">            usernames: Str</span>
+<span class="sd">                Comma separated list of one or more usernames you&#39;d like to filter on.</span>
+
+<span class="sd">            group_ids: Int</span>
+<span class="sd">                Comma separated list of one or more group ids you&#39;d like to filter on.</span>
+
+<span class="sd">            not_group_ids: Int</span>
+<span class="sd">                Comma separated list of one or more group ids you&#39;d like to filter on.</span>
+<span class="sd">                Specifically, the group ids you&#39;d like to exclude.</span>
+
+<span class="sd">            payroll_ids: String</span>
+<span class="sd">                A comma-separated string of payroll ids.</span>
+<span class="sd">                Only users with these payroll ids will be returned.</span>
+
+<span class="sd">            active: String</span>
+<span class="sd">                &#39;yes&#39;, &#39;no&#39;, or &#39;both&#39;. Default is &#39;yes&#39;.</span>
+
+<span class="sd">            first_name: String</span>
+<span class="sd">                * will be interpreted as a wild card.</span>
+<span class="sd">                Starts matching from the beginning of the string.</span>
+
+<span class="sd">            last_name: String</span>
+<span class="sd">                * will be interpreted as a wild card.</span>
+<span class="sd">                Starts matching from the beginning of the string.</span>
+
+<span class="sd">            modified_before: String</span>
+<span class="sd">                Only users modified before this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+
+<span class="sd">            modified_since: String</span>
+<span class="sd">                Only users modified since this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+
+<span class="sd">            supplemental_data: String</span>
+<span class="sd">                &#39;yes&#39; or &#39;no&#39;. Default is &#39;yes&#39;.</span>
+<span class="sd">                Indicates whether supplemental data should be returned.</span>
+
+<span class="sd">            limit: Int</span>
+<span class="sd">                Represents how many results you&#39;d like to retrieve per request (page).</span>
+<span class="sd">                Default is 200. Max is 200.</span>
+
+<span class="sd">            page: Int</span>
+<span class="sd">                Represents the page of results you&#39;d like to retrieve. Default is 1.</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">            See Parsons Table for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="n">ids</span><span class="p">,</span>
+            <span class="s2">&quot;not_ids&quot;</span><span class="p">:</span> <span class="n">not_ids</span><span class="p">,</span>
+            <span class="s2">&quot;employee_numbers&quot;</span><span class="p">:</span> <span class="n">employee_numbers</span><span class="p">,</span>
+            <span class="s2">&quot;usernames&quot;</span><span class="p">:</span> <span class="n">usernames</span><span class="p">,</span>
+            <span class="s2">&quot;group_ids&quot;</span><span class="p">:</span> <span class="n">group_ids</span><span class="p">,</span>
+            <span class="s2">&quot;not_group_ids&quot;</span><span class="p">:</span> <span class="n">not_group_ids</span><span class="p">,</span>
+            <span class="s2">&quot;payroll_ids&quot;</span><span class="p">:</span> <span class="n">payroll_ids</span><span class="p">,</span>
+            <span class="s2">&quot;active&quot;</span><span class="p">:</span> <span class="n">active</span><span class="p">,</span>
+            <span class="s2">&quot;first_name&quot;</span><span class="p">:</span> <span class="n">first_name</span><span class="p">,</span>
+            <span class="s2">&quot;last_name&quot;</span><span class="p">:</span> <span class="n">last_name</span><span class="p">,</span>
+            <span class="s2">&quot;modified_before&quot;</span><span class="p">:</span> <span class="n">modified_before</span><span class="p">,</span>
+            <span class="s2">&quot;modified_since&quot;</span><span class="p">:</span> <span class="n">modified_since</span><span class="p">,</span>
+            <span class="s2">&quot;supplemental_data&quot;</span><span class="p">:</span> <span class="n">supplemental_data</span><span class="p">,</span>
+            <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="n">limit</span><span class="p">,</span>
+            <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving users.&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qb_get_request</span><span class="p">(</span><span class="n">end_point</span><span class="o">=</span><span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="n">querystring</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> users.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tbl</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="QuickBooksTime.get_schedule_calendars_list">
+<a class="viewcode-back" href="../../../quickbooks.html#parsons.QuickBooksTime.get_schedule_calendars_list">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_schedule_calendars_list</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">supplemental_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function allows you to call the /schedule_calendars endpoint</span>
+<span class="sd">        of the QuickBooksTime Time API.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            ids: Int</span>
+<span class="sd">                Comma separated list of one or more schedule calendar ids you&#39;d like to filter on.</span>
+<span class="sd">                Only schedule calendars with an id set to one of these values will be returned.</span>
+
+<span class="sd">            modified_before: String</span>
+<span class="sd">                Only schedule calendars modified before this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+
+<span class="sd">            modified_since: String</span>
+<span class="sd">                required (unless ids, modified_before, or start are set)</span>
+<span class="sd">                Only schedule calendars modified since this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+
+<span class="sd">            supplemental_data: String</span>
+<span class="sd">                &#39;yes&#39; or &#39;no&#39;. Default is &#39;yes&#39;.</span>
+<span class="sd">                Indicates whether supplemental data should be returned.</span>
+
+<span class="sd">            limit: Int</span>
+<span class="sd">                Represents how many results you&#39;d like to retrieve per request (page).</span>
+<span class="sd">                Default is 200. Max is 200.</span>
+
+<span class="sd">            page: Int</span>
+<span class="sd">                Represents the page of results you&#39;d like to retrieve. Default is 1.</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            List of integers of schedules calendar ids.</span>
+<span class="sd">            Needed for calling the /schedule_events endpoint</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;schedule_calendars&quot;</span>
+
+        <span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="n">ids</span><span class="p">,</span>
+            <span class="s2">&quot;modified_before&quot;</span><span class="p">:</span> <span class="n">modified_before</span><span class="p">,</span>
+            <span class="s2">&quot;modified_since&quot;</span><span class="p">:</span> <span class="n">modified_since</span><span class="p">,</span>
+            <span class="s2">&quot;supplemental_data&quot;</span><span class="p">:</span> <span class="n">supplemental_data</span><span class="p">,</span>
+            <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="n">limit</span><span class="p">,</span>
+            <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving schedule calendars.&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qb_get_request</span><span class="p">(</span><span class="n">end_point</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">querystring</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+        <span class="n">schedule_calendar_ids_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">tbl</span>
+        <span class="p">]</span>  <span class="c1"># Creates list of integers of the schedule_calendar_ids</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> schedule calendars.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">schedule_calendar_ids_list</span></div>
+
+
+<div class="viewcode-block" id="QuickBooksTime.get_schedule_events">
+<a class="viewcode-back" href="../../../quickbooks.html#parsons.QuickBooksTime.get_schedule_events">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_schedule_events</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">users_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">schedule_calendar_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">jobcode_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">start</span><span class="o">=</span><span class="s2">&quot;1970-01-01T00:00:00+00:00&quot;</span><span class="p">,</span>
+        <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">active_users</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">active</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">draft</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">team_events</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">supplemental_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function allows you to call the /schedule_events endpoint</span>
+<span class="sd">        of the QuickBooksTime Time API.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            ids: Int</span>
+<span class="sd">                required (unless modified_before, modified_since, or start are set)</span>
+<span class="sd">                Comma separated list of one or more schedule event ids you&#39;d like to filter on.</span>
+<span class="sd">                Only schedule events with an id set to one of these values will be returned.</span>
+
+<span class="sd">            users_ids: Int</span>
+<span class="sd">                Comma-separated list of one or more user ids to retrieve schedule events for.</span>
+
+<span class="sd">            schedule_calendar_ids: Int</span>
+<span class="sd">                Required.</span>
+<span class="sd">                Comma separated list of one or more schedule calendar ids you&#39;d like to filter on.</span>
+<span class="sd">                Only schedule events with a schedule calendar id</span>
+<span class="sd">                set to one of these values will be returned.</span>
+
+<span class="sd">            jobcode_ids: Int</span>
+<span class="sd">                A comma-separated string of jobcode ids.</span>
+<span class="sd">                Only schedule events with these jobcodes will be returned.</span>
+
+<span class="sd">            start: String</span>
+<span class="sd">                required (unless ids, modified_before, or modified_since are set)</span>
+<span class="sd">                Only schedule events starting on or after this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+
+<span class="sd">            end: String</span>
+<span class="sd">                Only schedule events ending on or before this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+
+<span class="sd">            active: String</span>
+<span class="sd">                &#39;yes&#39;, &#39;no&#39; or &#39;both&#39;. Default is &#39;both&#39;.</span>
+<span class="sd">                Only schedule events whose active state match the requested filter will be returned.</span>
+
+<span class="sd">            active_users: Int</span>
+<span class="sd">                &#39;0&#39;, &#39;-1&#39; or &#39;1&#39; . Default is &#39;1&#39;.</span>
+<span class="sd">                Only schedule events whose users are active will be returned by default.</span>
+<span class="sd">                0 will return events for inactive users.</span>
+<span class="sd">                -1 will return events for active and inactive users.</span>
+
+<span class="sd">            draft: String</span>
+<span class="sd">                &#39;yes&#39;, &#39;no&#39; or &#39;both&#39;. Default is &#39;no&#39;.</span>
+<span class="sd">                Only schedule events whose draft state match the requested filter will be returned.</span>
+
+<span class="sd">            team_events: String</span>
+<span class="sd">                &#39;base&#39; or &#39;instance&#39;. Default is &#39;instance&#39;.</span>
+<span class="sd">                If &#39;instance&#39; is specified,</span>
+<span class="sd">                events that are assigned to multiple users will be returned</span>
+<span class="sd">                as individual single events for each assigned user. If &#39;base&#39; is specified,</span>
+<span class="sd">                events that are assigned to multiple users will be returned as one combined event</span>
+<span class="sd">                for all assignees.</span>
+
+<span class="sd">            modified_before: String</span>
+<span class="sd">                required (unless ids, modified_since, or start are set)</span>
+<span class="sd">                Only schedule events modified before this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+
+<span class="sd">            modified_since: String</span>
+<span class="sd">                required (unless ids, modified_before, or start are set)</span>
+<span class="sd">                Only schedule events modified since this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+
+<span class="sd">            supplemental_data: String</span>
+<span class="sd">                &#39;yes&#39; or &#39;no&#39;. Default is &#39;yes&#39;.</span>
+<span class="sd">                Indicates whether supplemental data should be returned.</span>
+
+<span class="sd">            limit: Int</span>
+<span class="sd">                Represents how many results you&#39;d like to retrieve per request (page).</span>
+<span class="sd">                Default is 200. Max is 200.</span>
+
+<span class="sd">            page: Int</span>
+<span class="sd">                Represents the page of results you&#39;d like to retrieve. Default is 1.</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">            See Parsons Table for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">schedule_calendar_ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">schedule_calendar_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_schedule_calendars_list</span><span class="p">()</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;schedule_events&quot;</span>
+
+        <span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="n">ids</span><span class="p">,</span>
+            <span class="s2">&quot;users_ids&quot;</span><span class="p">:</span> <span class="n">users_ids</span><span class="p">,</span>
+            <span class="s2">&quot;schedule_calendar_ids&quot;</span><span class="p">:</span> <span class="n">schedule_calendar_ids</span><span class="p">,</span>
+            <span class="s2">&quot;jobcode_ids&quot;</span><span class="p">:</span> <span class="n">jobcode_ids</span><span class="p">,</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">end</span><span class="p">,</span>
+            <span class="s2">&quot;active&quot;</span><span class="p">:</span> <span class="n">active</span><span class="p">,</span>
+            <span class="s2">&quot;active_users&quot;</span><span class="p">:</span> <span class="n">active_users</span><span class="p">,</span>
+            <span class="s2">&quot;draft&quot;</span><span class="p">:</span> <span class="n">draft</span><span class="p">,</span>
+            <span class="s2">&quot;team_events&quot;</span><span class="p">:</span> <span class="n">team_events</span><span class="p">,</span>
+            <span class="s2">&quot;modified_before&quot;</span><span class="p">:</span> <span class="n">modified_before</span><span class="p">,</span>
+            <span class="s2">&quot;modified_since&quot;</span><span class="p">:</span> <span class="n">modified_since</span><span class="p">,</span>
+            <span class="s2">&quot;supplemental_data&quot;</span><span class="p">:</span> <span class="n">supplemental_data</span><span class="p">,</span>
+            <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="n">limit</span><span class="p">,</span>
+            <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving schedule events.&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qb_get_request</span><span class="p">(</span><span class="n">end_point</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">querystring</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> schedules.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tbl</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="QuickBooksTime.get_geolocations">
+<a class="viewcode-back" href="../../../quickbooks.html#parsons.QuickBooksTime.get_geolocations">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_geolocations</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">modified_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">user_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">supplemental_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function allows you to call the /geolocations endpoint of the QuickBooksTime Time API.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            ids: Int</span>
+<span class="sd">                Comma separated list of one or more geolocation ids you&#39;d like to filter on.</span>
+<span class="sd">                Only geolocations with an id set to one of these values will be returned.</span>
+<span class="sd">                Required (unless modified_before, modified_since is set)</span>
+<span class="sd">            modified_before: String</span>
+<span class="sd">                Only geolocations modified before this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+<span class="sd">                Required (unless ids or modified_since is set)</span>
+<span class="sd">            modified_since: String</span>
+<span class="sd">                Only geolocations modified since this date/time will be returned,</span>
+<span class="sd">                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).</span>
+<span class="sd">                Required (unless ids or modified_before is set)</span>
+<span class="sd">            user_ids: Int</span>
+<span class="sd">                Comma separated list of one or more user ids you&#39;d like to filter on.</span>
+<span class="sd">                Only geolocations with a user id set to one of these values will be returned.</span>
+<span class="sd">            group_ids: Int</span>
+<span class="sd">                Comma separated list of one or more group ids you&#39;d like to filter on.</span>
+<span class="sd">                Only geolocations with a group id set to one of these values will be returned.</span>
+<span class="sd">            suplemental_data: String</span>
+<span class="sd">                &#39;yes&#39; or &#39;no&#39;. Default is &#39;yes&#39;.</span>
+<span class="sd">                Indicates whether supplemental data should be returned.</span>
+<span class="sd">            limit: Int</span>
+<span class="sd">                Represents how many results you&#39;d like to retrieve per request (page).</span>
+<span class="sd">                Default is 200. Max is 200.</span>
+<span class="sd">            page: Int</span>
+<span class="sd">                Represents the page of results you&#39;d like to retrieve. Default is 1.</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">            See Parsons Table for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;geolocations&quot;</span>
+
+        <span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ids&quot;</span><span class="p">:</span> <span class="n">ids</span><span class="p">,</span>
+            <span class="s2">&quot;modified_before&quot;</span><span class="p">:</span> <span class="n">modified_before</span><span class="p">,</span>
+            <span class="s2">&quot;modified_since&quot;</span><span class="p">:</span> <span class="n">modified_since</span><span class="p">,</span>
+            <span class="s2">&quot;user_ids&quot;</span><span class="p">:</span> <span class="n">user_ids</span><span class="p">,</span>
+            <span class="s2">&quot;group_ids&quot;</span><span class="p">:</span> <span class="n">group_ids</span><span class="p">,</span>
+            <span class="s2">&quot;supplemental_data&quot;</span><span class="p">:</span> <span class="n">supplemental_data</span><span class="p">,</span>
+            <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="n">limit</span><span class="p">,</span>
+            <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving geolocations.&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qb_get_request</span><span class="p">(</span><span class="n">end_point</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">querystring</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> geolocations.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tbl</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">()</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      stable
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../../../../latest/index.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="quickbookstime.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../../../../v0.14.0/index.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.15.0/index.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.16.0/index.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.17.0/index.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.18.0/index.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.18.1/index.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

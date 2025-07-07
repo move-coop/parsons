@@ -198,10 +198,10 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_wrapped_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">func</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">UnknownObjectException</span><span class="p">:</span>
+        <span class="k">except</span> <span class="n">UnknownObjectException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ParsonsGitHubError</span><span class="p">(</span>
                 <span class="s2">&quot;Couldn&#39;t find the object you referenced, maybe you need to log in?&quot;</span>
-            <span class="p">)</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">_wrapped_func</span>
 
@@ -402,7 +402,7 @@
         <span class="n">assignee</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">creator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mentioned</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">labels</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">sort</span><span class="o">=</span><span class="s2">&quot;created&quot;</span><span class="p">,</span>
         <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;desc&quot;</span><span class="p">,</span>
         <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -441,6 +441,8 @@
 <span class="sd">                Table with page of repo issues</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Listing page </span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2"> of issues for repo </span><span class="si">{</span><span class="n">repo_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="n">kwargs_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span> <span class="s2">&quot;sort&quot;</span><span class="p">:</span> <span class="n">sort</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="n">direction</span><span class="p">}</span>

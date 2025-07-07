@@ -43,7 +43,7 @@ jobs:
           python setup.py check
 
       - name: Build src dist
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: runner.os == 'ubuntu-latest'
         run: |
           python -m build --sdist --outdir dist
 

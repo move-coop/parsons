@@ -435,6 +435,7 @@ class NewmodeV2:
     def get_default_oauth_client(self) -> OAuth2APIConnector:
         return OAuth2APIConnector(
             uri=self.base_url,
+            auto_refresh_url=None,
             client_id=self.client_id,
             client_secret=self.client_secret,
             headers=self.headers,
@@ -608,6 +609,7 @@ class NewmodeV2:
         endpoint = "node/action"
         campaigns_client = OAuth2APIConnector(
             uri=V2_API_CAMPAIGNS_URL,
+            auto_refresh_url=None,
             client_id=self.client_id,
             client_secret=self.client_secret,
             headers=V2_API_CAMPAIGNS_HEADERS,

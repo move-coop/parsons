@@ -12,7 +12,7 @@ ruff==0.11.7
 testfixtures==8.3.0
 
 # Build and publish requirements
-cibuildwheel==2.23.0
+cibuildwheel==2.23.3
 twine==6.1.0
 wheel==0.45.1
 

@@ -20,10 +20,9 @@ rich>=13
 nodeenv>=1.4  # pre-commit depends on nodeenv>=0.11.1, but nodeenv requires pipes until 1.4
 
 # Build and publish requirements
-build==1.2.2.post1
-cibuildwheel==2.23.0
 twine==6.1.0
-wheel==0.45.1
+build
+
 
 # Docs Requirements
 myst-parser==3.0.1;python_version<'3.10'

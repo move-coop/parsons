@@ -484,6 +484,7 @@ class NewmodeV2:
                 except TokenExpiredError as e:
                     logger.warning(f"Token expired: {e}. Refreshing it...")
                     self.default_client = self.get_default_oauth_client()
+                    client = self.default_client
             except Exception as e:
                 if attempt < retries:
                     logger.warning(f"Request failed (attempt {attempt + 1}/{retries}). Retrying...")

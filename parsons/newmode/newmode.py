@@ -498,7 +498,10 @@ class NewmodeV2:
                 except TokenExpiredError as e:
                     logger.warning(f"Token expired: {e}. Refreshing it...")
                     self.default_client = self.get_default_oauth_client()
-                    client = self.default_client
+                    self.campaigns_client = self.get_campaigns_oauth_client()
+                    client = (
+                        self.default_client if not use_campaigns_client else self.campaigns_client
+                    )
             except Exception as e:
                 if attempt < retries:
                     logger.warning(f"Request failed (attempt {attempt + 1}/{retries}). Retrying...")

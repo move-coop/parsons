@@ -343,17 +343,17 @@ class TestNewmodeV2(unittest.TestCase):
     def test_token_refresh_on_expired_token(self, m, mock_get_default_oauth_client):
         m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
 
-        # Mock the new client returned by get_default_oauth_client
         mock_new_client = mock.MagicMock()
         mock_get_default_oauth_client.return_value = mock_new_client
 
-        # Configure the mock response for the request
         mock_response = mock.MagicMock()
         mock_response.raise_for_status = mock.MagicMock()
         mock_response.status_code = 200
         mock_response.json.return_value = {"data": "success"}
+        mock_new_client.request.return_value = mock_response
 
-        # Simulate token expiration and successful response
+        mock_new_client.json_check.return_value = True
+
         def oauth_side_effect(*args, **kwargs):
             if not hasattr(self, "call_count"):
                 self.call_count = 0

@@ -471,6 +471,7 @@ class NewmodeV2:
         Internal method to instantiate OAuth2APIConnector class,
         make a single call to Newmode API, and validate the response.
         """
+        client = client if client else self.default_client
         if params is None:
             params = {}
 
@@ -552,7 +553,6 @@ class NewmodeV2:
 
         if params is None:
             params = {}
-        client = client if client else self.default_client
         response = self.paginate_request(
             method=method,
             json=json,

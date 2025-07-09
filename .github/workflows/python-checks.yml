@@ -42,12 +42,14 @@ jobs:
                 uv pip install --system -r requirements-dev.txt
 
             - name: Test with pytest
+              continue-on-error: ${{ contains(matrix.python-version, '3.14.0-') }}
               run: |
                 pytest
               env:
                   COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}${{ matrix.limited-dependencies }}"
 
             - name: Store coverage file
+              continue-on-error: ${{ contains(matrix.python-version, '3.14.0-') }}
               uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
               with:
                   name: coverage-${{ matrix.os }}${{ matrix.python-version }}${{ matrix.limited-dependencies }}

@@ -549,7 +549,12 @@ class NewmodeV2:
             else:
                 results.append(response)
             # Check for pagination
-            url = response.get(RESPONSE_LINKS_KEY, {}).get(PAGINATION_NEXT) if response else None
+            url = None
+            if response:
+                url = response.get(RESPONSE_LINKS_KEY, {}).get(PAGINATION_NEXT, {})
+                if isinstance(url, dict):
+                    url = url.get("href")
+
         return results
 
     def converted_request(
@@ -734,7 +739,10 @@ class NewmodeV2:
             params = {}
         params = {"action": campaign_id}
         response = self.converted_request(
-            endpoint="submission", method="GET", params=params, data_key=RESPONSE_DATA_KEY
+            endpoint="submission",
+            method="GET",
+            params=params,
+            data_key=RESPONSE_DATA_KEY,
         )
         return response
 
@@ -773,7 +781,9 @@ class Newmode:
         api_version = check_env.check("NEWMODE_API_VERSION", api_version)
         if api_version.startswith("v2"):
             return NewmodeV2(
-                client_id=client_id, client_secret=client_secret, api_version=api_version
+                client_id=client_id,
+                client_secret=client_secret,
+                api_version=api_version,
             )
         if api_version.startswith("v1"):
             return NewmodeV1(api_user=api_user, api_password=api_password, api_version=api_version)

@@ -536,7 +536,6 @@ class NewmodeV2:
             url = None
             if response:
                 url = response.get(RESPONSE_LINKS_KEY, {}).get(PAGINATION_NEXT, {})
-                logger.info(f"Right after getting it, the url is: {url} of type {type(url)}")
                 if isinstance(url, dict):
                     url = url.get("href")
 

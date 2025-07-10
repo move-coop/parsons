@@ -283,7 +283,6 @@ class TestNewmodeV2(unittest.TestCase):
             self.nm.base_request(
                 method="GET",
                 url=f"{V2_API_URL}v2.1/test-endpoint",
-                client=self.nm.default_client,
                 retries=2,
             )
 
@@ -343,18 +342,18 @@ class TestNewmodeV2(unittest.TestCase):
     @patch("parsons.newmode.newmode.NewmodeV2.get_default_oauth_client")
     def test_token_refresh_on_expired_token(self, m, mock_get_default_oauth_client):
         m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
-        m.get(f"{V2_API_URL}v2.1/test-endpoint", status_code=401)
 
         mock_new_client = mock.MagicMock()
         mock_get_default_oauth_client.return_value = mock_new_client
-        self.nm.default_client.request = mock.MagicMock()
 
         mock_response = mock.MagicMock()
         mock_response.raise_for_status = mock.MagicMock()
         mock_response.status_code = 200
         mock_response.json.return_value = {"data": "success"}
+        mock_new_client.request.return_value = mock_response
 
-        # Simulate token expiration and successful response
+        mock_new_client.json_check.return_value = True
+
         def oauth_side_effect(*args, **kwargs):
             if not hasattr(self, "call_count"):
                 self.call_count = 0
@@ -363,13 +362,12 @@ class TestNewmodeV2(unittest.TestCase):
                 raise TokenExpiredError()
             return mock_response
 
-        self.nm.default_client.request.side_effect = oauth_side_effect
-
-        response = self.nm.base_request(
-            method="GET",
-            url=f"{V2_API_URL}v2.1/test-endpoint",
-            client=self.nm.default_client,
-        )
+        with patch.object(self.nm.default_client, "request", side_effect=oauth_side_effect):
+            m.get(f"{V2_API_URL}v2.1/test-endpoint", json={"data": "success"}, status_code=200)
+            response = self.nm.base_request(method="GET", url=f"{V2_API_URL}v2.1/test-endpoint")
 
         mock_get_default_oauth_client.assert_called_once()
         self.assertEqual(response, {"data": "success"})
+        mock_new_client.request.assert_called_with(
+            url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET", json=None, data=None, params={}
+        )

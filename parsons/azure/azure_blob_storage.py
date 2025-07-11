@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 from urllib.parse import urlparse
 
 from azure.core.exceptions import ResourceNotFoundError
@@ -310,11 +311,8 @@ class AzureBlobStorage(object):
         # Move all content_settings keys into a ContentSettings object
         content_settings, kwargs_dict = self._get_content_settings_from_dict(kwargs)
 
-        with open(local_path, "rb") as f:
-            data = f.read()
-
-        blob_client = blob_client.upload_blob(
-            data,
+        blob_client.upload_blob(
+            Path(local_path).read_bytes(),
             overwrite=True,
             content_settings=content_settings,
             **kwargs_dict,
@@ -348,7 +346,7 @@ class AzureBlobStorage(object):
         blob_client = self.get_blob(container_name, blob_name)
 
         logger.info(f"Downloading {blob_name} blob from {container_name} container.")
-        with open(local_path, "wb") as f:
+        with Path(local_path).open(mode="wb") as f:
             blob_client.download_blob().readinto(f)
         logger.info(f"{blob_name} blob saved to {local_path}.")
 

@@ -136,7 +136,7 @@ class PDI(
         if "data" not in res_json:
             return res_json
 
-        total_count = 0 if "totalCount" not in res_json else res_json["totalCount"]
+        total_count = res_json.get("totalCount", 0)
         data = res_json["data"]
 
         if not limit:

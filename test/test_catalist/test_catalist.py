@@ -51,7 +51,7 @@ class TestCatalist:
         # first_name and last_name are required
         # We expect an exception raised if last_name is missing
         table_to_fail = table_for_test(include_last_name=False)
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Input table does not have the right structure"):
             match.validate_table(table_to_fail)
 
     def test_load_table_to_sftp(self) -> None:

@@ -94,16 +94,13 @@ class TestSignups(unittest.TestCase):
         m.get(self.van.connection.uri + "signups/statuses", json=signup_status)
 
         # Test events lookup
-        self.assertTrue(
-            validate_list(["statusId", "name"], self.van.get_signups_statuses(event_id=750000849))
+        assert validate_list(
+            ["statusId", "name"], self.van.get_signups_statuses(event_id=750000849)
         )
 
         # Test event type lookup
-        self.assertTrue(
-            validate_list(
-                ["statusId", "name"],
-                self.van.get_signups_statuses(event_type_id=750000849),
-            )
+        assert validate_list(
+            ["statusId", "name"], self.van.get_signups_statuses(event_type_id=750000849)
         )
 
     @requests_mock.Mocker()
@@ -112,13 +109,9 @@ class TestSignups(unittest.TestCase):
 
         m.get(self.van.connection.uri + "signups", json=json)
 
-        self.assertTrue(
-            validate_list(signup_expected, self.van.get_event_signups(event_id=750001004))
-        )
+        assert validate_list(signup_expected, self.van.get_event_signups(event_id=750001004))
 
-        self.assertTrue(
-            validate_list(signup_expected, self.van.get_person_signups(vanid=750000849))
-        )
+        assert validate_list(signup_expected, self.van.get_person_signups(vanid=750000849))
 
     @requests_mock.Mocker()
     def test_get_signup(self, m):
@@ -126,13 +119,13 @@ class TestSignups(unittest.TestCase):
 
         m.get(self.van.connection.uri + f"signups/{event_signup_id}".format(), json=signup)
 
-        self.assertEqual(signup, self.van.get_signup(event_signup_id))
+        assert signup == self.van.get_signup(event_signup_id)
 
     @requests_mock.Mocker()
     def test_create_signup(self, m):
         m.post(self.van.connection.uri + "signups", json=14285, status_code=201)
 
-        self.assertEqual(self.van.create_signup(100349920, 750001004, 19076, 263920, 11, 3), 14285)
+        assert self.van.create_signup(100349920, 750001004, 19076, 263920, 11, 3) == 14285
 
     @requests_mock.Mocker()
     def test_update_signup(self, m):

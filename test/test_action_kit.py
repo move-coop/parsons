@@ -26,20 +26,20 @@ class TestActionKit(unittest.TestCase):
     @mock.patch.dict(os.environ, ENV_PARAMETERS)
     def test_from_environ(self):
         actionkit = ActionKit()
-        self.assertEqual(actionkit.domain, "env_domain")
-        self.assertEqual(actionkit.username, "env_username")
-        self.assertEqual(actionkit.password, "env_password")
+        assert actionkit.domain == "env_domain"
+        assert actionkit.username == "env_username"
+        assert actionkit.password == "env_password"
 
     def test_base_endpoint(self):
         # Test the endpoint
         url = self.actionkit._base_endpoint("user")
-        self.assertEqual(url, "https://domain.actionkit.com/rest/v1/user/")
+        assert url == "https://domain.actionkit.com/rest/v1/user/"
 
         url = self.actionkit._base_endpoint("user", 1234)
-        self.assertEqual(url, "https://domain.actionkit.com/rest/v1/user/1234/")
+        assert url == "https://domain.actionkit.com/rest/v1/user/1234/"
 
         url = self.actionkit._base_endpoint("user", "1234")
-        self.assertEqual(url, "https://domain.actionkit.com/rest/v1/user/1234/")
+        assert url == "https://domain.actionkit.com/rest/v1/user/1234/"
 
     def test_delete_actionfield(self):
         # Test delete actionfield
@@ -495,7 +495,7 @@ class TestActionKit(unittest.TestCase):
         resp_mock.get.side_effect = [first_mock, second_mock]
         self.actionkit.conn = resp_mock
         results = self.actionkit.paginated_get("user", 150, order_by="created_at")
-        self.assertEqual(results.num_rows, 150)
+        assert results.num_rows == 150
         calls = [
             unittest.mock.call(
                 "https://domain.actionkit.com/rest/v1/user/",
@@ -523,9 +523,9 @@ class TestActionKit(unittest.TestCase):
         resp_mock.get.side_effect = [first_mock, second_mock]
         self.actionkit.conn = resp_mock
         results = self.actionkit.paginated_get_custom_limit("user", 150, "value", 102)
-        self.assertEqual(results.num_rows, 102)
-        self.assertEqual(results.column_data("value")[0], 0)
-        self.assertEqual(results.column_data("value")[-1], 101)
+        assert results.num_rows == 102
+        assert results.column_data("value")[0] == 0
+        assert results.column_data("value")[-1] == 101
         calls = [
             unittest.mock.call(
                 "https://domain.actionkit.com/rest/v1/user/",
@@ -785,16 +785,16 @@ class TestActionKit(unittest.TestCase):
             ),
             "fake_page",
         )
-        self.assertEqual(resp_mock.post.call_count, 2)
+        assert resp_mock.post.call_count == 2
         name, args, kwargs = resp_mock.method_calls[1]
-        self.assertEqual(
-            kwargs["data"],
-            {"page": "fake_page", "autocreate_user_fields": 0, "user_fields_only": 0},
-        )
+        assert kwargs["data"] == {
+            "page": "fake_page",
+            "autocreate_user_fields": 0,
+            "user_fields_only": 0,
+        }
         upload_data = kwargs["files"]["upload"].read()
-        self.assertEqual(
-            upload_data.decode(),
-            "user_id,user_customfield1,action_foo\r\n5,yes,123 Main St\r\n",
+        assert (
+            upload_data.decode() == "user_id,user_customfield1,action_foo\r\n5,yes,123 Main St\r\n"
         )
 
     def test_bulk_upload_table_userfields(self):
@@ -804,32 +804,30 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.bulk_upload_table(
             Table([("user_id", "user_customfield1"), (5, "yes")]), "fake_page"
         )
-        self.assertEqual(resp_mock.post.call_count, 2)
+        assert resp_mock.post.call_count == 2
         name, args, kwargs = resp_mock.method_calls[1]
-        self.assertEqual(
-            kwargs["data"],
-            {"page": "fake_page", "autocreate_user_fields": 0, "user_fields_only": 1},
-        )
-        self.assertEqual(
-            kwargs["files"]["upload"].read().decode(),
-            "user_id,user_customfield1\r\n5,yes\r\n",
-        )
+        assert kwargs["data"] == {
+            "page": "fake_page",
+            "autocreate_user_fields": 0,
+            "user_fields_only": 1,
+        }
+        assert kwargs["files"]["upload"].read().decode() == "user_id,user_customfield1\r\n5,yes\r\n"
 
     def test_table_split(self):
         test1 = Table([("x", "y", "z"), ("a", "b", ""), ("1", "", "3"), ("4", "", "6")])
         tables = self.actionkit._split_tables_no_empties(test1, True, [])
-        self.assertEqual(len(tables), 2)
+        assert len(tables) == 2
         assert_matching_tables(tables[0], Table([("x", "y"), ("a", "b")]))
         assert_matching_tables(tables[1], Table([("x", "z"), ("1", "3"), ("4", "6")]))
 
         test2 = Table([("x", "y", "z"), ("a", "b", "c"), ("1", "2", "3"), ("4", "5", "6")])
         tables2 = self.actionkit._split_tables_no_empties(test2, True, [])
-        self.assertEqual(len(tables2), 1)
+        assert len(tables2) == 1
         assert_matching_tables(tables2[0], test2)
 
         test3 = Table([("x", "y", "z"), ("a", "b", ""), ("1", "2", "3"), ("4", "5", "6")])
         tables3 = self.actionkit._split_tables_no_empties(test3, False, ["z"])
-        self.assertEqual(len(tables3), 2)
+        assert len(tables3) == 2
         assert_matching_tables(tables3[0], Table([("x", "y"), ("a", "b")]))
         assert_matching_tables(
             tables3[1], Table([("x", "y", "z"), ("1", "2", "3"), ("4", "5", "6")])

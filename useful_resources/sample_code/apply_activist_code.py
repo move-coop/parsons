@@ -44,7 +44,7 @@ myv_states = {x.split(",")[0]: x.split(",")[1] for x in os.environ["VAN_PASSWORD
 myv_keys = {k: VAN(api_key=v, db=os.environ["VAN_DB_NAME"]) for k, v in myv_states.items()}
 
 # Create simple set of states for insertion into SQL
-states = "','".join([s for s in myv_keys])
+states = "','".join(list(myv_keys))
 
 # SQL to pull those needing Activist Code
 sql = f"""
@@ -62,10 +62,10 @@ logger.info(f"Applying Activist Codes to {str(records.num_rows)} records...")
 
 # Apply codes segmented by state (different API Keys)
 for state, key in myv_keys.items():
-    state_set = records.select_rows(lambda row: row.vb_vf_source_state == state)
+    state_set = records.select_rows(lambda row: row.vb_vf_source_state == state)  # noqa: B023
     if len(state_set) > 0:
         logger.info(f"Applying {str(len(state_set))} Activist Codes in {state}...")
-        for vanid in state_set:
+        for _vanid in state_set:
             # TODO: row undefined, select row form record?
             row = None
             key.toggle_activist_code(row["vb_smartvan_id"], row["activist_code_id"], "apply")

@@ -157,7 +157,7 @@ class AzureBlobStorage(object):
         """
 
         container_client = self.get_container(container_name)
-        blobs = [blob for blob in container_client.list_blobs(name_starts_with=name_starts_with)]
+        blobs = list(container_client.list_blobs(name_starts_with=name_starts_with))
         logger.info(f"Found {len(blobs)} blobs in {container_name} container.")
         return blobs
 

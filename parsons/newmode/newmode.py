@@ -431,11 +431,23 @@ class NewmodeV2:
         self.client_secret: str = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
         self.headers: dict[str, str] = {"content-type": "application/json"}
         self.default_client: OAuth2APIConnector = self.get_default_oauth_client()
+        self.campaigns_client: OAuth2APIConnector = self.get_campaigns_oauth_client()
+
+    def get_campaigns_oauth_client(self) -> OAuth2APIConnector:
+        return OAuth2APIConnector(
+            uri=V2_API_CAMPAIGNS_URL,
+            auto_refresh_url=None,
+            client_id=self.client_id,
+            client_secret=self.client_secret,
+            headers=V2_API_CAMPAIGNS_HEADERS,
+            token_url=V2_API_AUTH_URL,
+            grant_type="client_credentials",
+        )
 
     def get_default_oauth_client(self) -> OAuth2APIConnector:
         return OAuth2APIConnector(
             uri=self.base_url,
-            auto_refresh_url=V2_API_AUTH_URL,
+            auto_refresh_url=None,
             client_id=self.client_id,
             client_secret=self.client_secret,
             headers=self.headers,
@@ -461,7 +473,7 @@ class NewmodeV2:
         self,
         method: str,
         url: str,
-        client: OAuth2APIConnector,
+        use_campaigns_client: bool = False,
         data: Optional[dict[str, Any]] = None,
         json: Optional[dict[str, Any]] = None,
         params: Optional[dict[str, Any]] = None,
@@ -474,6 +486,8 @@ class NewmodeV2:
         if params is None:
             params = {}
 
+        client = self.default_client if not use_campaigns_client else self.campaigns_client
+
         for attempt in range(retries + 1):
             try:
                 try:
@@ -484,6 +498,10 @@ class NewmodeV2:
                 except TokenExpiredError as e:
                     logger.warning(f"Token expired: {e}. Refreshing it...")
                     self.default_client = self.get_default_oauth_client()
+                    self.campaigns_client = self.get_campaigns_oauth_client()
+                    client = (
+                        self.default_client if not use_campaigns_client else self.campaigns_client
+                    )
             except Exception as e:
                 if attempt < retries:
                     logger.warning(f"Request failed (attempt {attempt + 1}/{retries}). Retrying...")
@@ -496,7 +514,7 @@ class NewmodeV2:
         self,
         method: str,
         endpoint: str,
-        client: OAuth2APIConnector,
+        use_campaigns_client: bool = False,
         data_key: str = RESPONSE_DATA_KEY,
         data: Optional[dict[str, Any]] = None,
         json: Optional[dict[str, Any]] = None,
@@ -517,7 +535,7 @@ class NewmodeV2:
             response = self.base_request(
                 method=method,
                 url=url,
-                client=client,
+                use_campaigns_client=use_campaigns_client,
                 data=data,
                 json=json,
                 params=params,
@@ -531,7 +549,12 @@ class NewmodeV2:
             else:
                 results.append(response)
             # Check for pagination
-            url = response.get(RESPONSE_LINKS_KEY, {}).get(PAGINATION_NEXT) if response else None
+            url = None
+            if response:
+                url = response.get(RESPONSE_LINKS_KEY, {}).get(PAGINATION_NEXT, {})
+                if isinstance(url, dict):
+                    url = url.get("href")
+
         return results
 
     def converted_request(
@@ -544,14 +567,13 @@ class NewmodeV2:
         params: Optional[dict[str, Any]] = None,
         convert_to_table: bool = True,
         data_key: Optional[str] = None,
-        client: Optional[OAuth2APIConnector] = None,
+        use_campaigns_client: bool = False,
         override_api_version: Optional[str] = None,
     ) -> Union[Table, dict[str, Any]]:
         """Internal method to make a call to the Newmode API and convert the result to a Parsons table."""
 
         if params is None:
             params = {}
-        client = client if client else self.default_client
         response = self.paginate_request(
             method=method,
             json=json,
@@ -560,12 +582,12 @@ class NewmodeV2:
             data_key=data_key,
             supports_version=supports_version,
             endpoint=endpoint,
-            client=client,
+            use_campaigns_client=use_campaigns_client,
             override_api_version=override_api_version,
         )
         if response:
             if convert_to_table:
-                return client.convert_to_table(data=response)
+                return self.default_client.convert_to_table(data=response)
             else:
                 return response
 
@@ -607,22 +629,13 @@ class NewmodeV2:
         if params is None:
             params = {}
         endpoint = "node/action"
-        campaigns_client = OAuth2APIConnector(
-            uri=V2_API_CAMPAIGNS_URL,
-            auto_refresh_url=V2_API_AUTH_URL,
-            client_id=self.client_id,
-            client_secret=self.client_secret,
-            headers=V2_API_CAMPAIGNS_HEADERS,
-            token_url=V2_API_AUTH_URL,
-            grant_type="client_credentials",
-        )
 
         data = self.converted_request(
             endpoint=endpoint,
             method="GET",
             params=params,
             data_key=RESPONSE_DATA_KEY,
-            client=campaigns_client,
+            use_campaigns_client=True,
             override_api_version=V2_API_CAMPAIGNS_VERSION,
         )
         return data["id"]
@@ -726,7 +739,10 @@ class NewmodeV2:
             params = {}
         params = {"action": campaign_id}
         response = self.converted_request(
-            endpoint="submission", method="GET", params=params, data_key=RESPONSE_DATA_KEY
+            endpoint="submission",
+            method="GET",
+            params=params,
+            data_key=RESPONSE_DATA_KEY,
         )
         return response
 
@@ -765,7 +781,9 @@ class Newmode:
         api_version = check_env.check("NEWMODE_API_VERSION", api_version)
         if api_version.startswith("v2"):
             return NewmodeV2(
-                client_id=client_id, client_secret=client_secret, api_version=api_version
+                client_id=client_id,
+                client_secret=client_secret,
+                api_version=api_version,
             )
         if api_version.startswith("v1"):
             return NewmodeV1(api_user=api_user, api_password=api_password, api_version=api_version)

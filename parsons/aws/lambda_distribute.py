@@ -54,7 +54,7 @@ class S3Storage:
         # so e.g. while python returns 2 bytes for data[2:4]
         # Range: bytes=2-4 will return 3!! So we subtract 1
         response = self.s3.client.get_object(
-            Bucket=bucket, Key=key, Range="bytes={}-{}".format(rangestart, rangeend - 1)
+            Bucket=bucket, Key=key, Range=f"bytes={rangestart}-{rangeend - 1}"
         )
         return response["Body"].read()
 

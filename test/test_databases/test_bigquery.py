@@ -417,8 +417,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         actual = os.environ[bq.env_credential_path]
 
-        with open(actual, "r") as factual:
-            with open(self.cred_path, "r") as fexpected:
+        with open(actual) as factual:
+            with open(self.cred_path) as fexpected:
                 actual_str = factual.read()
                 self.assertEqual(actual_str, fexpected.read())
                 self.assertEqual(self.cred_contents, json.loads(actual_str))
@@ -445,8 +445,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         actual = os.environ[bq.env_credential_path]
 
-        with open(actual, "r") as factual:
-            with open(self.cred_path, "r") as fexpected:
+        with open(actual) as factual:
+            with open(self.cred_path) as fexpected:
                 actual_str = factual.read()
                 self.assertEqual(actual_str, fexpected.read())
                 self.assertEqual(self.cred_contents, json.loads(actual_str))
@@ -471,8 +471,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         actual = os.environ[bq.env_credential_path]
 
-        with open(actual, "r") as factual:
-            with open(self.cred_path, "r") as fexpected:
+        with open(actual) as factual:
+            with open(self.cred_path) as fexpected:
                 actual_str = factual.read()
                 self.assertEqual(actual_str, fexpected.read())
                 self.assertEqual(self.cred_contents, json.loads(actual_str))
@@ -689,9 +689,7 @@ class TestGoogleBigQueryCopyBetweenProjects(TestCase):
         # create and set up logger
         logger = logging.getLogger()
         logger.error(
-            "Dataset {0} does not exist and if_dataset_not_exists set to {1}".format(
-                self.destination_dataset, self.if_dataset_not_exists
-            )
+            f"Dataset {self.destination_dataset} does not exist and if_dataset_not_exists set to {self.if_dataset_not_exists}"
         )
 
         # call the method to generate log message
@@ -711,9 +709,7 @@ class TestGoogleBigQueryCopyBetweenProjects(TestCase):
             (
                 "root",
                 "ERROR",
-                "Dataset {0} does not exist and if_dataset_not_exists set to {1}".format(
-                    self.destination_dataset, self.if_dataset_not_exists
-                ),
+                f"Dataset {self.destination_dataset} does not exist and if_dataset_not_exists set to {self.if_dataset_not_exists}",
             )
         )
 
@@ -724,9 +720,7 @@ class TestGoogleBigQueryCopyBetweenProjects(TestCase):
 
         ## now test with table copy error
         logger.error(
-            "BigQuery copy failed, Table {0} exists and if_table_exists set to {1}".format(
-                self.destination_table, self.if_table_exists
-            )
+            f"BigQuery copy failed, Table {self.destination_table} exists and if_table_exists set to {self.if_table_exists}"
         )
 
         # call the method to generate log message
@@ -746,8 +740,6 @@ class TestGoogleBigQueryCopyBetweenProjects(TestCase):
             (
                 "root",
                 "ERROR",
-                "BigQuery copy failed, Table {0} exists and if_table_exists set to {1}".format(
-                    self.destination_table, self.if_table_exists
-                ),
+                f"BigQuery copy failed, Table {self.destination_table} exists and if_table_exists set to {self.if_table_exists}",
             )
         )

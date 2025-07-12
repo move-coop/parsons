@@ -35,6 +35,7 @@ jobs:
               uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b  # 0.4.12
 
             - name: Install dependencies
+              continue-on-error: ${{ contains(matrix.python-version, '3.14.0-') }}
               env:
                   PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
               run: |
@@ -49,7 +50,7 @@ jobs:
                   COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}${{ matrix.limited-dependencies }}"
 
             - name: Store coverage file
-              continue-on-error: ${{ contains(matrix.python-version, '3.14.0-') }}
+              if: ${{ !contains(matrix.python-version, '3.14.0-') }}
               uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
               with:
                   name: coverage-${{ matrix.os }}${{ matrix.python-version }}${{ matrix.limited-dependencies }}

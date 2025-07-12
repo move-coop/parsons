@@ -225,6 +225,7 @@ jobs:
                   cache: pip
 
             - name: Install dependencies
+              continue-on-error: ${{ contains(matrix.python-version, '3.14.0-') }}
               env:
                   PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
               run: |

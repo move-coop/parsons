@@ -105,7 +105,7 @@ def main():
             "Programming Language :: Python :: 3.13",
             "Programming Language :: Python :: 3.14",
         ],
-        python_requires=">=3.9,<3.15",
+        python_requires=">=3.9,<3.14",
         long_description=long_description,
         long_description_content_type="text/markdown",
     )

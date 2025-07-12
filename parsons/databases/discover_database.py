@@ -63,9 +63,7 @@ def discover_database(
             for connector in default_connector:
                 if connector.__name__ in detected:
                     return connector()
-            raise OSError(
-                f"None of the default connectors {default_connector} were detected."
-            )
+            raise OSError(f"None of the default connectors {default_connector} were detected.")
         elif default_connector.__name__ in detected:
             return default_connector()
         else:

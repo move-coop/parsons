@@ -112,7 +112,7 @@ class NationBuilder:
                 logging.error(f"error requesting data from Nation Builder: {error}")
 
                 wait_time = 30
-                logging.info("waiting %s seconds before retrying" , wait_time)
+                logging.info("waiting %s seconds before retrying", wait_time)
                 time.sleep(wait_time)
 
         return Table(data)

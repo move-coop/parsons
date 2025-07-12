@@ -146,10 +146,7 @@ class RedshiftCopyTable:
     ):
         if not self.s3_temp_bucket:
             raise KeyError(
-
-                    "Missing S3_TEMP_BUCKET, needed for transferring data to Redshift. "
-                    "Must be specified as env vars or kwargs"
-
+                "Missing S3_TEMP_BUCKET, needed for transferring data to Redshift. Must be specified as env vars or kwargs"
             )
 
         # Coalesce S3 Key arguments

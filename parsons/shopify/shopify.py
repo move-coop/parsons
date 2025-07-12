@@ -160,7 +160,9 @@ class Shopify:
             # Specific date if provided
             query_date = datetime.strptime(query_date, "%Y-%m-%d")
             max_date = query_date + timedelta(days=1)
-            filters += f"&created_at_min={query_date.isoformat()}&created_at_max={max_date.isoformat()}"
+            filters += (
+                f"&created_at_min={query_date.isoformat()}&created_at_max={max_date.isoformat()}"
+            )
         elif since_id:
             # Since ID if provided
             filters += f"&since_id={since_id}"

@@ -60,7 +60,7 @@ class TestTurboVote(unittest.TestCase):
             "sms subscribed",
         ]
 
-        with open(f"{_dir}/users.txt", "r") as users_text:
+        with open(f"{_dir}/users.txt") as users_text:
             # Mock endpoints
             m.post(self.tv.uri + "login", json=fake_token)
             m.get(

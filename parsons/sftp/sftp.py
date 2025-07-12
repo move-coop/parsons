@@ -13,7 +13,7 @@ from parsons.utilities import files as file_utilities
 logger = logging.getLogger(__name__)
 
 
-class SFTP(object):
+class SFTP:
     """
     Instantiate SFTP Class
 
@@ -513,9 +513,9 @@ class SFTP(object):
 
         if max_depth > 3:
             logger.warning(
-                "Calling `walk_tree` with `max_depth` {}.  "
+                f"Calling `walk_tree` with `max_depth` {max_depth}.  "
                 "Recursively walking a remote directory will be much slower than a "
-                "similar operation on a local file system.".format(max_depth)
+                "similar operation on a local file system."
             )
 
         to_return = self._walk_tree(

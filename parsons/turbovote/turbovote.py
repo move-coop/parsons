@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 TURBOVOTE_URI = "https://turbovote-admin-http-api.prod.democracy.works/"
 
 
-class TurboVote(object):
+class TurboVote:
     """
     Instantiate the TurboVote class
 

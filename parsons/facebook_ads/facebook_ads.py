@@ -18,7 +18,7 @@ FBKeySchema = CustomAudience.Schema.MultiKeySchema
 MAX_FB_AUDIENCE_API_USERS = 10000
 
 
-class FacebookAds(object):
+class FacebookAds:
     """
     Instantiate the FacebookAds class
 
@@ -89,7 +89,7 @@ class FacebookAds(object):
             raise error
 
         FacebookAdsApi.init(self.app_id, self.app_secret, self.access_token)
-        self.ad_account = AdAccount("act_%s" % self.ad_account_id)
+        self.ad_account = AdAccount(f"act_{self.ad_account_id}")
 
     @staticmethod
     def _get_match_key_for_column(column):

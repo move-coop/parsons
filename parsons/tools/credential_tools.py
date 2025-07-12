@@ -74,7 +74,7 @@ def encode_from_json_file(credential_file):
         str
             The encoded credential.
     """
-    with open(credential_file, "r") as f:
+    with open(credential_file) as f:
         data = json.load(f)
 
     json_str = json.dumps(data)

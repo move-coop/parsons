@@ -149,7 +149,7 @@ class TestParsonsTable(unittest.TestCase):
             "</tbody>\n"
             "</table>\n"
         )
-        with open(html_file, "r") as f:
+        with open(html_file) as f:
             self.assertEqual(f.read(), html)
 
     def test_to_temp_html(self):
@@ -173,7 +173,7 @@ class TestParsonsTable(unittest.TestCase):
             "</tbody>\n"
             "</table>\n"
         )
-        with open(path, "r") as f:
+        with open(path) as f:
             self.assertEqual(f.read(), html)
 
     def _assert_expected_csv(self, path, orig_tbl):
@@ -203,7 +203,7 @@ class TestParsonsTable(unittest.TestCase):
     def test_from_csv_string(self):
         path = self.tbl.to_csv()
         # Pull the file into a string
-        with open(path, "r") as f:
+        with open(path) as f:
             csv_string = f.read()
 
         result_tbl = Table.from_csv_string(csv_string)

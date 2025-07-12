@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 S3_TEMP_KEY_PREFIX = "Parsons_RedshiftCopyTable"
 
 
-class RedshiftCopyTable(object):
+class RedshiftCopyTable:
     aws_access_key_id = None
     aws_secret_access_key = None
     iam_role = None
@@ -135,9 +135,7 @@ class RedshiftCopyTable(object):
             aws_access_key_id = creds.access_key
             aws_secret_access_key = creds.secret_key
 
-        return "credentials 'aws_access_key_id={};aws_secret_access_key={}'\n".format(
-            aws_access_key_id, aws_secret_access_key
-        )
+        return f"credentials 'aws_access_key_id={aws_access_key_id};aws_secret_access_key={aws_secret_access_key}'\n"
 
     def temp_s3_copy(
         self,
@@ -148,10 +146,10 @@ class RedshiftCopyTable(object):
     ):
         if not self.s3_temp_bucket:
             raise KeyError(
-                (
+
                     "Missing S3_TEMP_BUCKET, needed for transferring data to Redshift. "
                     "Must be specified as env vars or kwargs"
-                )
+
             )
 
         # Coalesce S3 Key arguments

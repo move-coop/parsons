@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 RETRY_RATE = 10
 
 
-class ChangedEntities(object):
+class ChangedEntities:
     def __init__(self):
         pass
 

@@ -13,9 +13,7 @@ class TestActionBuilder(unittest.TestCase):
     def setUp(self, m):
         self.subdomain = "fake_subdomain"
         self.campaign = "fake-campaign"
-        self.api_url = "https://{}.actionbuilder.org/api/rest/v1/campaigns/{}".format(
-            self.subdomain, self.campaign
-        )
+        self.api_url = f"https://{self.subdomain}.actionbuilder.org/api/rest/v1/campaigns/{self.campaign}"
         self.api_key = "fake_key"
 
         self.bldr = ActionBuilder(

@@ -11,7 +11,7 @@ from parsons.utilities import cloud_storage
 logger = logging.getLogger(__name__)
 
 
-class SavedLists(object):
+class SavedLists:
     def __init__(self, van_connection):
         self.connection = van_connection
 
@@ -275,7 +275,7 @@ class SavedLists(object):
         return r
 
 
-class Folders(object):
+class Folders:
     def __init__(self, van_connection):
         # Some sort of test if the van_connection is not present.
 
@@ -311,7 +311,7 @@ class Folders(object):
         return r
 
 
-class ExportJobs(object):
+class ExportJobs:
     def __init__(self, van_connection):
         self.connection = van_connection
 

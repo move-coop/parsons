@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime, timedelta
-from typing import Dict, NoReturn, Optional, Union
+from typing import NoReturn, Optional, Union
 
 from requests import Response, request
 
@@ -14,7 +14,7 @@ HUSTLE_URI = "https://api.hustle.com/v1/"
 PAGE_LIMIT = 1000
 
 
-class Hustle(object):
+class Hustle:
     """
     Instantiate Hustle Class
 
@@ -73,10 +73,10 @@ class Hustle(object):
         self,
         endpoint: str,
         req_type: str = "GET",
-        args: Optional[Dict] = None,
-        payload: Optional[Dict] = None,
+        args: Optional[dict] = None,
+        payload: Optional[dict] = None,
         raise_on_error: bool = True,
-    ) -> Union[Dict, list]:
+    ) -> Union[dict, list]:
         url = self.uri + endpoint
         self._refresh_token()
 
@@ -142,7 +142,7 @@ class Hustle(object):
         logger.info(f"Got {tbl.num_rows} agents from {group_id} group.")
         return tbl
 
-    def get_agent(self, agent_id: str) -> Dict:
+    def get_agent(self, agent_id: str) -> dict:
         """
         Get a single agent.
 
@@ -165,7 +165,7 @@ class Hustle(object):
         phone_number: str,
         send_invite: bool = False,
         email: Optional[str] = None,
-    ) -> Dict:
+    ) -> dict:
         """
         Create an agent.
 
@@ -207,7 +207,7 @@ class Hustle(object):
         name: Optional[str] = None,
         full_name: Optional[str] = None,
         send_invite: bool = False,
-    ) -> Dict:
+    ) -> dict:
         """
         Update an agent.
 
@@ -248,7 +248,7 @@ class Hustle(object):
         logger.info(f"Got {tbl.num_rows} organizations.")
         return tbl
 
-    def get_organization(self, organization_id: str) -> Dict:
+    def get_organization(self, organization_id: str) -> dict:
         """
         Get a single organization.
 
@@ -278,7 +278,7 @@ class Hustle(object):
         logger.info(f"Got {tbl.num_rows} groups.")
         return tbl
 
-    def get_group(self, group_id: str) -> Dict:
+    def get_group(self, group_id: str) -> dict:
         """
         Get a single group.
 
@@ -291,7 +291,7 @@ class Hustle(object):
         logger.info(f"Got {group_id} group.")
         return resp  # type: ignore
 
-    def create_group_membership(self, group_id: str, lead_id: str) -> Dict:
+    def create_group_membership(self, group_id: str, lead_id: str) -> dict:
         """
         Add a lead to a group.
 
@@ -309,7 +309,7 @@ class Hustle(object):
         )
         return resp  # type: ignore
 
-    def get_lead(self, lead_id: str) -> Dict:
+    def get_lead(self, lead_id: str) -> dict:
         """
         Get a single lead.
 
@@ -367,9 +367,9 @@ class Hustle(object):
         email: Optional[str] = None,
         notes: Optional[str] = None,
         follow_up: Optional[str] = None,
-        custom_fields: Optional[Dict] = None,
+        custom_fields: Optional[dict] = None,
         tag_ids: Optional[list] = None,
-    ) -> Dict:
+    ) -> dict:
         """
 
         Create a lead.
@@ -463,7 +463,7 @@ class Hustle(object):
         created_leads = []
 
         for row in table:
-            lead: Dict[str, Optional[Union[str, Dict]]] = {"group_id": group_id}
+            lead: dict[str, Optional[Union[str, dict]]] = {"group_id": group_id}
             custom_fields = {}
 
             # Check for column names that map to arguments, if not assign
@@ -497,7 +497,7 @@ class Hustle(object):
         notes: Optional[str] = None,
         follow_up: Optional[str] = None,
         tag_ids: Optional[list] = None,
-    ) -> Dict:
+    ) -> dict:
         """
         Update a lead.
 
@@ -556,7 +556,7 @@ class Hustle(object):
         logger.info(f"Got {tbl.num_rows} tags for {organization_id} organization.")
         return tbl
 
-    def get_tag(self, tag_id: str) -> Dict:
+    def get_tag(self, tag_id: str) -> dict:
         """
         Get a single tag.
 
@@ -588,7 +588,7 @@ class Hustle(object):
 
     def create_custom_field(
         self, organization_id: str, name: str, agent_visible: Optional[bool] = None
-    ) -> Dict:
+    ) -> dict:
         """Create a custom field.
 
         `Args:`
@@ -603,7 +603,7 @@ class Hustle(object):
                 The newly created custom field
         """
 
-        custom_field: Dict[str, Union[str, bool]] = {"name": name}
+        custom_field: dict[str, Union[str, bool]] = {"name": name}
         if agent_visible is not None:
             custom_field["agentVisible"] = agent_visible
 

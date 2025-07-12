@@ -87,7 +87,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
                     mapping["type_list"][i] = columntypes[col]
 
         # Enclose in quotes
-        mapping["headers"] = ['"{}"'.format(h) for h in mapping["headers"]]
+        mapping["headers"] = [f'"{h}"' for h in mapping["headers"]]
 
         return self.create_sql(table_name, mapping, distkey=distkey, sortkey=sortkey)
 
@@ -163,7 +163,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
     def create_sql(self, table_name, mapping, distkey=None, sortkey=None):
         # Generate the sql to create the table
 
-        statement = "create table {} (".format(table_name)
+        statement = f"create table {table_name} ("
 
         for i in range(len(mapping["headers"])):
             if mapping["type_list"][i] == "varchar":
@@ -178,14 +178,14 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         statement = statement[:-1] + ") "
 
         if distkey:
-            statement += "\ndistkey({}) ".format(distkey)
+            statement += f"\ndistkey({distkey}) "
 
         if sortkey and isinstance(sortkey, list):
             statement += "\ncompound sortkey("
             statement += ", ".join(sortkey)
             statement += ")"
         elif sortkey:
-            statement += "\nsortkey({})".format(sortkey)
+            statement += f"\nsortkey({sortkey})"
 
         statement += ";"
 
@@ -217,8 +217,8 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         ]
         warning = "".join(
             [
-                "You didn't provide a {} key to method `parsons.redshift.Redshift.{}`.\n"
-                "You can learn about best practices here:\n{}.\n".format(keyname, method, keyinfo)
+                f"You didn't provide a {keyname} key to method `parsons.redshift.Redshift.{method}`.\n"
+                f"You can learn about best practices here:\n{keyinfo}.\n"
                 for key, keyname, keyinfo in keys
                 if not key
             ]

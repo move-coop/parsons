@@ -102,7 +102,7 @@ class TestNGPVAN(unittest.TestCase):
             "description": "This is a sample",
         }
 
-        m.get(self.van.connection.uri + "events/{}".format(event_id), json=json)
+        m.get(self.van.connection.uri + f"events/{event_id}", json=json)
 
         self.assertEqual(json, self.van.get_event(event_id))
 

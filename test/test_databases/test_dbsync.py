@@ -2,7 +2,7 @@ import os
 import tempfile
 import unittest
 from abc import ABC
-from typing import Optional, Type
+from typing import Optional
 
 from parsons import DBSync, Postgres, Redshift, Table
 from parsons.databases.database_connector import DatabaseConnector
@@ -19,15 +19,15 @@ class TestDBSync(ABC, unittest.TestCase):
     setup_sql: Optional[str] = None
     teardown_sql: Optional[str] = None
     temp_schema: Optional[str] = TEMP_SCHEMA
-    db: Type[DatabaseConnector]
+    db: type[DatabaseConnector]
 
     @classmethod
     def setUpClass(cls):
         # Skip tests on this abstract base class
         if cls is TestDBSync:
-            raise unittest.SkipTest("%s is an abstract base class" % cls.__name__)
+            raise unittest.SkipTest(f"{cls.__name__} is an abstract base class")
         else:
-            super(TestDBSync, cls).setUpClass()
+            super().setUpClass()
 
     def setUp(self):
         self.initialize_db_connections()

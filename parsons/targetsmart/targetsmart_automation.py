@@ -42,7 +42,7 @@ logger = logging.getLogger(__name__)
 
 # Automation matching documentation can be found here:
 # https://docs.targetsmart.com/my_tsmart/automation/developer.html.
-class TargetSmartAutomation(object):
+class TargetSmartAutomation:
     """
     * `Automation overview <https://docs.targetsmart.com/my_tsmart/automation/overview.html>`_
     * `Automation integration doc <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`_

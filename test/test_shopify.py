@@ -142,7 +142,7 @@ class TestShopify(unittest.TestCase):
     @requests_mock.Mocker()
     def test_graphql(self, m):
         m.post(
-            "https://{0}.myshopify.com/admin/api/{1}/graphql.json".format(SUBDOMAIN, API_VERSION),
+            f"https://{SUBDOMAIN}.myshopify.com/admin/api/{API_VERSION}/graphql.json",
             json=self.mock_graphql,
         )
         self.assertEqual(

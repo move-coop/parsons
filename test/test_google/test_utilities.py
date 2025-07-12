@@ -40,7 +40,7 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
         util.setup_google_application_credentials(self.cred_contents, self.TEST_ENV_NAME)
         actual = os.environ[self.TEST_ENV_NAME]
         self.assertTrue(os.path.exists(actual))
-        with open(actual, "r") as f:
+        with open(actual) as f:
             self.assertEqual(json.load(f), self.cred_contents)
 
     def test_accepts_string(self):
@@ -48,14 +48,14 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
         util.setup_google_application_credentials(cred_str, self.TEST_ENV_NAME)
         actual = os.environ[self.TEST_ENV_NAME]
         self.assertTrue(os.path.exists(actual))
-        with open(actual, "r") as f:
+        with open(actual) as f:
             self.assertEqual(json.load(f), self.cred_contents)
 
     def test_accepts_file_path(self):
         util.setup_google_application_credentials(self.cred_path, self.TEST_ENV_NAME)
         actual = os.environ[self.TEST_ENV_NAME]
         self.assertTrue(os.path.exists(actual))
-        with open(actual, "r") as f:
+        with open(actual) as f:
             self.assertEqual(json.load(f), self.cred_contents)
 
     def test_credentials_are_valid_after_double_call(self):
@@ -67,8 +67,8 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
         util.setup_google_application_credentials(None, self.TEST_ENV_NAME)
         snd = os.environ[self.TEST_ENV_NAME]
 
-        with open(fst, "r") as ffst:
-            with open(snd, "r") as fsnd:
+        with open(fst) as ffst:
+            with open(snd) as fsnd:
                 actual = fsnd.read()
                 self.assertEqual(self.cred_contents, json.loads(actual))
                 self.assertEqual(ffst.read(), actual)

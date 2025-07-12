@@ -119,7 +119,7 @@ class TestAzureBlobStorage(unittest.TestCase):
     def test_download_blob(self):
         # Download blob and ensure that it has the expected file contents
         download_blob_path = self.azure_blob.download_blob(TEST_CONTAINER_NAME, TEST_FILE_NAME)
-        with open(download_blob_path, "r") as f:
+        with open(download_blob_path) as f:
             self.assertEqual(f.read(), TEST_FILE_CONTENTS)
 
     def test_delete_blob(self):

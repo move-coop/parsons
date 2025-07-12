@@ -1,5 +1,5 @@
 import os
-from typing import List, Optional, Type, Union
+from typing import Optional, Union
 
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.mysql import MySQL
@@ -10,7 +10,7 @@ from parsons.google.google_bigquery import GoogleBigQuery as BigQuery
 
 def discover_database(
     default_connector: Optional[
-        Union[Type[DatabaseConnector], List[Type[DatabaseConnector]]]
+        Union[type[DatabaseConnector], list[type[DatabaseConnector]]]
     ] = None,
 ) -> DatabaseConnector:
     """Create an appropriate ``DatabaseConnector`` based on environmental variables.
@@ -54,7 +54,7 @@ def discover_database(
 
     if len(detected) > 1:
         if default_connector is None:
-            raise EnvironmentError(
+            raise OSError(
                 f"Multiple database configurations detected: {detected}."
                 " Please specify a default connector."
             )
@@ -63,17 +63,17 @@ def discover_database(
             for connector in default_connector:
                 if connector.__name__ in detected:
                     return connector()
-            raise EnvironmentError(
+            raise OSError(
                 f"None of the default connectors {default_connector} were detected."
             )
         elif default_connector.__name__ in detected:
             return default_connector()
         else:
-            raise EnvironmentError(
+            raise OSError(
                 f"Default connector {default_connector} not detected. Detected: {detected}."
             )
 
     elif detected:
         return connectors[detected[0]]()
     else:
-        raise EnvironmentError("Could not find any database configuration.")
+        raise OSError("Could not find any database configuration.")

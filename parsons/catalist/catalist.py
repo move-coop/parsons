@@ -9,7 +9,7 @@ import os
 import tempfile
 import time
 import urllib
-from typing import Dict, List, Optional, Union
+from typing import Optional, Union
 from zipfile import ZipFile
 
 from parsons.etl import Table
@@ -118,7 +118,7 @@ class CatalistMatch:
         export_filename_suffix: Optional[str] = None,
         input_subfolder: Optional[str] = None,
         copy_to_sandbox: bool = False,
-        static_values: Optional[Dict[str, Union[str, int]]] = None,
+        static_values: Optional[dict[str, Union[str, int]]] = None,
         wait: int = 30,
     ) -> Table:
         """Load table to the Catalist Match API, returns matched table.
@@ -169,7 +169,7 @@ class CatalistMatch:
         export_filename_suffix: Optional[str] = None,
         input_subfolder: Optional[str] = None,
         copy_to_sandbox: bool = False,
-        static_values: Optional[Dict[str, Union[str, int]]] = None,
+        static_values: Optional[dict[str, Union[str, int]]] = None,
     ) -> dict:
         """Load table to the Catalist Match API, returns response with job metadata.
 
@@ -225,7 +225,7 @@ class CatalistMatch:
         endpoint = "/".join(endpoint_params)
 
         # Assemble query parameters
-        query_params: Dict[str, Union[str, int]] = {"token": self.connection.token["access_token"]}
+        query_params: dict[str, Union[str, int]] = {"token": self.connection.token["access_token"]}
         if copy_to_sandbox:
             query_params["copyToSandbox"] = "true"
         if static_values:
@@ -245,12 +245,12 @@ class CatalistMatch:
 
     def action(
         self,
-        file_ids: Union[str, List[str]],
+        file_ids: Union[str, list[str]],
         match: bool = False,
         export: bool = False,
         export_filename_suffix: Optional[str] = None,
         copy_to_sandbox: bool = False,
-    ) -> List[dict]:
+    ) -> list[dict]:
         """Perform actions on existing files.
 
         All files must be in Finished status (if the action requested is publish), and
@@ -258,7 +258,7 @@ class CatalistMatch:
         action has been queued.
 
         `Args:`
-             file_ids: str or List[str]
+             file_ids: str or list[str]
                  one or more file_ids (found in the `id` key of responses from the
                  upload() or status() methods)
              match: bool
@@ -408,7 +408,7 @@ class CatalistMatch:
             "matchbackid",
         ]
 
-        required_columns: List[str] = ["first_name", "last_name"]
+        required_columns: list[str] = ["first_name", "last_name"]
         actual_table_columns = table.columns
 
         unexpected_columns = [

@@ -14,7 +14,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14.0-beta.4"]
+                python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14-dev"] # uv ignores upper python version so we can test 3.14 here
                 os: ["ubuntu-latest", "windows-latest", "macos-latest"]
                 limited-dependencies: ["", "TRUE"]
 
@@ -35,7 +35,7 @@ jobs:
               uses: install-pinned/uv@05389e8b8c79922b1376aee8c2d598b3219da230  # 0.4.12
 
             - name: Install dependencies
-              continue-on-error: ${{ contains(matrix.python-version, '3.14.0-') }}
+              continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
               env:
                   PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
               run: |
@@ -43,14 +43,14 @@ jobs:
                 uv pip install --system -r requirements-dev.txt
 
             - name: Test with pytest
-              continue-on-error: ${{ contains(matrix.python-version, '3.14.0-') }}
+              continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
               run: |
                 pytest
               env:
                   COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}${{ matrix.limited-dependencies }}"
 
             - name: Store coverage file
-              if: ${{ !contains(matrix.python-version, '3.14.0-') }}
+              if: ${{ !contains(matrix.python-version, '3.14') }}
               uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
               with:
                   name: coverage-${{ matrix.os }}${{ matrix.python-version }}${{ matrix.limited-dependencies }}
@@ -204,7 +204,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14.0-beta.4"]
+                python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14-dev"]
                 os: ["ubuntu-latest", "windows-latest", "macos-latest"]
                 limited-dependencies: ["", "TRUE"]
 
@@ -225,7 +225,7 @@ jobs:
                   cache: pip
 
             - name: Install dependencies
-              continue-on-error: ${{ contains(matrix.python-version, '3.14.0-') }}
+              continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
               env:
                   PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
               run: |

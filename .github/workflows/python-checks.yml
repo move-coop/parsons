@@ -39,7 +39,7 @@ jobs:
               env:
                   PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
               run: |
-                uv pip install --system -e .[all]
+                uv pip install --system -e .[all] --ignore-requires-python
                 uv pip install --system -r requirements-dev.txt
 
             - name: Test with pytest

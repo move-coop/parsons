@@ -162,7 +162,7 @@ class BulkImport(object):
             result_fields = [{"name": c} for c in result_fields]
             json["actions"][0]["columnsToIncludeInResultsFile"] = result_fields
 
-        r = self.connection.post_request("bulkImportJobs", json=json)
+        r = self.connection.post_request("bulkImportJobs", json=json).json()
         logger.info(f"Bulk upload {r['jobId']} created.")
         return r["jobId"]
 

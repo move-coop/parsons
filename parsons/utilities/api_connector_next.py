@@ -45,7 +45,7 @@ class APIConnector:
     ) -> Response:
         r"""Sends a POST request. Returns :class:`Response` object."""
         url = self.uri + endpoint
-        return self.post(url, data=data, json=json, **kwargs)
+        return self.session.post(url, data=data, json=json, **kwargs)
 
     def put_request(
         self, endpoint: Union[str, bytes, Text], data: Data = None, **kwargs

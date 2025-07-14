@@ -1,3 +1,4 @@
+import itertools
 import logging
 import pickle
 from enum import Enum
@@ -58,34 +59,42 @@ class Table(ETL, ToFrom):
         if lst is _EMPTYDEFAULT:
             self.table = petl.fromdicts([])
 
-        elif isinstance(lst, list) or isinstance(lst, tuple):
-            # Check for empty list
-            if not len(lst):
-                self.table = petl.fromdicts([])
-            else:
-                row_type = type(lst[0])
-                # Check for list of dicts
-                if row_type is dict:
-                    self.table = petl.fromdicts(lst)
-                # Check for list of lists
-                elif row_type in [list, tuple]:
-                    self.table = petl.wrap(lst)
-
         elif isinstance(lst, petl.util.base.Table):
             # Create from a petl table
             self.table = lst
 
         else:
-            raise ValueError(
-                f"Could not initialize table from input type. "
-                f"Got {type(lst)}, expected list, tuple, or petl Table"
-            )
+            try:
+                iterable_data = iter(lst)
+            except TypeError:
+                raise ValueError(
+                    f"Could not initialize table from input type. "
+                    f"Got {type(lst)}, expected list, tuple, or petl Table"
+                )
+
+            try:
+                peek = next(iterable_data)
+            except StopIteration:
+                self.table = petl.fromdicts([])
+            else:
+                # petl can handle generators but does an explicit
+                # inspect.generator check instead of duck typing, so we have to make
+                # sure that this is a generator
+                iterable_data = (each for each in itertools.chain([peek], iterable_data))
+
+                row_type = type(peek)
+                # Check for list of dicts
+                if row_type is dict:
+                    self.table = petl.fromdicts(iterable_data)
+                    # Check for list of lists
+                elif row_type in [list, tuple]:
+                    self.table = petl.wrap(iterable_data)
 
         if not self.is_valid_table():
             raise ValueError("Could not create Table")
 
-        # Count how many times someone is indexing directly into this table, so we can warn
-        # against inefficient usage.
+        # Count how many times someone is indexing directly into this
+        # table, so we can warn against inefficient usage.
         self._index_count = 0
 
     def __repr__(self):

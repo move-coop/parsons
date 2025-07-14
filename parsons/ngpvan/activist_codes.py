@@ -21,7 +21,7 @@ class ActivistCodes(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("activistCodes"))
+        tbl = Table(self.connection.items("activistCodes"))
         logger.info(f"Found {tbl.num_rows} activist codes.")
         return tbl
 
@@ -39,7 +39,7 @@ class ActivistCodes(object):
 
         r = self.connection.get_request(f"activistCodes/{activist_code_id}")
         logger.info(f"Found activist code {activist_code_id}.")
-        return r
+        return r.json()
 
     def toggle_activist_code(
         self, id, activist_code_id, action, id_type="vanid", omit_contact=True
@@ -60,7 +60,7 @@ class ActivistCodes(object):
             f"{id_type.upper()} {id} {action.capitalize()} " + f"activist code {activist_code_id}"
         )
 
-        return r
+        return r.status_code
 
     def apply_activist_code(self, id, activist_code_id, id_type="vanid", omit_contact=True):
         """

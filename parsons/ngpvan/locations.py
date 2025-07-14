@@ -23,7 +23,7 @@ class Locations(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("locations", params={"name": name}))
+        tbl = Table(self.connection.items("locations", params={"name": name}))
         logger.info(f"Found {tbl.num_rows} locations.")
         return self._unpack_loc(tbl)
 
@@ -38,7 +38,7 @@ class Locations(object):
             dict
         """
 
-        r = self.connection.get_request(f"locations/{location_id}")
+        r = self.connection.data(f"locations/{location_id}")
         logger.info(f"Found location {location_id}.")
         return r
 
@@ -83,7 +83,7 @@ class Locations(object):
             },
         }
 
-        r = self.connection.post_request("locations/findOrCreate", json=location)
+        r = self.connection.post_request("locations/findOrCreate", json=location).json()
         logger.info(f"Location {r} created.")
         return r
 

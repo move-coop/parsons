@@ -64,4 +64,4 @@ class APIConnector:
         r"""Sends a DELETE request. Returns :class:`Response` object."""
 
         url = self.uri + endpoint
-        return self.session.delete("DELETE", url, **kwargs)
+        return self.session.delete(url, **kwargs)

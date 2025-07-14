@@ -1,4 +1,5 @@
 import logging
+import typing
 
 from parsons.utilities.api_connector_next import APIConnector
 
@@ -6,10 +7,10 @@ logger = logging.getLogger(__name__)
 
 
 class VANConnector(APIConnector):
-    def items(self, endpoint, **kwargs):
-        response = self.get_request(endpoint, **kwargs)
+    def items(self, endpoint: str, **kwargs) -> typing.Generator[dict, None, None]:
+        "Returns all the items for A GET endpoint, handling pagination"
+        data = self.data(endpoint, **kwargs)
 
-        data = response.json()
         next_page_url = data["nextPageLink"]
         items = data["items"]
 
@@ -22,6 +23,10 @@ class VANConnector(APIConnector):
             items = data["items"]
 
             yield from items
+
+    def data(self, endpoint: str, **kwargs) -> dict:
+        "Returns the json result of GET endpoint"
+        return self.get_request(endpoint, **kwargs).json()
 
     @property
     def api_key_profile(self):

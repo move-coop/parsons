@@ -69,9 +69,9 @@ class VAN(
         db: Optional[Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"]] = None,
     ):
         if db == "MyVoters":
-            db_code = 0
+            self.db_code = 0
         elif db in ["MyMembers", "MyCampaign", "EveryAction"]:
-            db_code = 1
+            self.db_code = 1
         else:
             raise KeyError(
                 "Invalid database type specified. Pick one of:"
@@ -79,7 +79,7 @@ class VAN(
             )
 
         session = Scraper()
-        session.auth = ("default", api_key + "|" + str(db_code))
+        session.auth = ("default", api_key + "|" + str(self.db_code))
 
         self.connection = VANConnector(session=session, uri="https://api.securevan.com/v4/")
 

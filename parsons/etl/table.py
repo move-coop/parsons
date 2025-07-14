@@ -88,7 +88,10 @@ class Table(ETL, ToFrom):
                     self.table = petl.fromdicts(iterable_data)
                     # Check for list of lists
                 elif row_type in [list, tuple]:
-                    self.table = petl.wrap(iterable_data)
+                    # the wrap method does not support generators (or
+                    # more precisely only allows us to read a table
+                    # created from generator once
+                    self.table = petl.wrap(list(iterable_data))
 
         if not self.is_valid_table():
             raise ValueError("Could not create Table")

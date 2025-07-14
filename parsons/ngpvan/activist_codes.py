@@ -37,9 +37,9 @@ class ActivistCodes(object):
                 The activist code
         """
 
-        r = self.connection.get_request(f"activistCodes/{activist_code_id}")
+        r = self.connection.data(f"activistCodes/{activist_code_id}")
         logger.info(f"Found activist code {activist_code_id}.")
-        return r.json()
+        return r
 
     def toggle_activist_code(
         self, id, activist_code_id, action, id_type="vanid", omit_contact=True

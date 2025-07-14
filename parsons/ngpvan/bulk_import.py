@@ -25,7 +25,7 @@ class BulkImport(object):
                 A list of resources.
         """
 
-        r = self.connection.get_request("bulkImportJobs/resources")
+        r = self.connection.data("bulkImportJobs/resources")
         logger.info(f"Found {len(r)} bulk import resources.")
         return r
 
@@ -41,7 +41,7 @@ class BulkImport(object):
                 The bulk import job
         """
 
-        r = self.connection.get_request(f"bulkImportJobs/{job_id}")
+        r = self.connection.data(f"bulkImportJobs/{job_id}")
         logger.info(f"Found bulk import job {job_id}.")
         return r
 
@@ -77,7 +77,7 @@ class BulkImport(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("bulkImportMappingTypes"))
+        tbl = Table(self.connection.data("bulkImportMappingTypes"))
         logger.info(f"Found {tbl.num_rows} bulk import mapping types.")
         return tbl
 
@@ -92,7 +92,7 @@ class BulkImport(object):
                 A mapping type json
         """
 
-        r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}")
+        r = self.connection.data(f"bulkImportMappingTypes/{type_name}")
         logger.info(f"Found {type_name} bulk import mapping type.")
         return r
 
@@ -110,7 +110,7 @@ class BulkImport(object):
                 A mapping type fields json
         """
 
-        r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}/{field_name}/values")
+        r = self.connection.data(f"bulkImportMappingTypes/{type_name}/{field_name}/values")
         logger.info(f"Found {type_name} bulk import mapping type field values.")
         return r
 

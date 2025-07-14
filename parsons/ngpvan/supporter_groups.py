@@ -20,7 +20,7 @@ class SupporterGroups(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("supporterGroups"))
+        tbl = Table(self.connection.items("supporterGroups"))
         logger.info(f"Found {tbl.num_rows} supporter groups.")
         return tbl
 
@@ -35,7 +35,7 @@ class SupporterGroups(object):
             dict
         """
 
-        r = self.connection.get_request(f"supporterGroups/{supporter_group_id}")
+        r = self.connection.data(f"supporterGroups/{supporter_group_id}")
         logger.info(f"Found supporter group {supporter_group_id}.")
         return r
 

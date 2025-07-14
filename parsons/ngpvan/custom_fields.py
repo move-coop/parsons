@@ -24,7 +24,7 @@ class CustomFields:
 
         params = {"customFieldsGroupType": field_type.capitalize()}
 
-        tbl = Table(self.connection.get_request("customFields", params=params))
+        tbl = Table(self.connection.data("customFields", params=params))
         logger.info(f"Found {tbl.num_rows} custom fields.")
         return tbl
 
@@ -73,6 +73,6 @@ class CustomFields:
             A json.
         """
 
-        r = self.connection.get_request(f"customFields/{custom_field_id}")
+        r = self.connection.data(f"customFields/{custom_field_id}")
         logger.info(f"Found custom field {custom_field_id}.")
         return r

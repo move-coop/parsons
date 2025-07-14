@@ -70,7 +70,7 @@ class Table(ETL, ToFrom):
                 raise ValueError(
                     f"Could not initialize table from input type. "
                     f"Got {type(lst)}, expected list, tuple, or petl Table"
-                )
+                ) from None
 
             try:
                 peek = next(iterable_data)

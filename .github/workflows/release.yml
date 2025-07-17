@@ -10,10 +10,7 @@ permissions:
     contents: read-all
 
 jobs:
-  build_source:
-    if: github.repository_owner == 'move-coop'
-    environment: release
-        
+  build:
     runs-on: ubuntu-latest
 
     permissions:

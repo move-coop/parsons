@@ -44,10 +44,30 @@ jobs:
           name: parsons-dist
           path: dist/
 
+  test:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Download package
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806
+        with:
+          name: parsons-dist
+          path: dist
+
+      - name: Install dependencies
+        run: |
+            pip install | find ./dist 'parsons-*.tar.gz'
+
   publish:
     if: github.repository_owner == 'move-coop'
     needs:
-      - build
+      - test
 
     runs-on: ubuntu-latest
     environment: release

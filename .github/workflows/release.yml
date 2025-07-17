@@ -1,10 +1,10 @@
 name: Build & Publish Wheels + Source
 
 on:
+  workflow_dispatch:
   release:
     types:
       - published
-  workflow_dispatch:    
 
 permissions:
     contents: read

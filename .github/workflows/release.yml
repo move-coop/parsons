@@ -61,7 +61,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-            pip install | find ./dist 'parsons-*.tar.gz'
+            pip install | find ./dist -name 'parsons-*.tar.gz'
 
   publish:
     if: github.repository_owner == 'move-coop'

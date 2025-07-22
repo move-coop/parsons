@@ -1,37 +1,28 @@
 name: Build & Publish Wheels + Source
 
 on:
+  workflow_dispatch:
   release:
     types:
       - published
-  workflow_dispatch:    
 
-permissions:
-    contents: read
-    
+permissions: read-all
 
 jobs:
-  build_source:
-    if: github.repository_owner == 'move-coop'
-    environment: release
-        
+  build:
     runs-on: ubuntu-latest
 
-    permissions:
-      # IMPORTANT: this permission is mandatory for trusted publishing
-      id-token: write
-
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Set up Python 3.13
-        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
         with:
             python-version: "3.13"
-            cache: "pip"
+            cache: pip
 
       - name: Install uv
-        uses: install-pinned/uv@05389e8b8c79922b1376aee8c2d598b3219da230  # 0.4.12
+        uses: install-pinned/uv@05389e8b8c79922b1376aee8c2d598b3219da230
 
       - name: Install dependencies
         run: |
@@ -46,9 +37,57 @@ jobs:
         run: |
           python -m build --sdist --outdir dist
 
+      - name: Upload dist directory
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
+        with:
+          name: parsons-dist
+          path: dist/
+
+  test:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Download package
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806
+        with:
+          name: parsons-dist
+          path: dist
+
+      - name: Install package using pip
+        run: |
+          file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
+          pip install "$file"
+        shell: bash
+
+  publish:
+    if: github.repository_owner == 'move-coop'
+    needs:
+      - test
+
+    runs-on: ubuntu-latest
+    environment: release
+
+    permissions:
+      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Download package
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806
+        with:
+          name: parsons-dist
+          path: dist
+
       # Publish
       - name: Publish
-        uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc # v1.12.4
+        uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc
         with:
           verify-metadata: true
           skip-existing: true

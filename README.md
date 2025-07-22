@@ -124,7 +124,7 @@
 | parsons/ngpvan/codes.py                                   |       52 |        5 |       12 |        5 |     84% |12, 122->134, 187, 188->190, 191, 194-202 |
 | parsons/ngpvan/contact\_notes.py                          |       28 |        7 |       12 |        6 |     68% |12, 70, 75, 77, 79, 81, 84 |
 | parsons/ngpvan/custom\_fields.py                          |       22 |        3 |        2 |        1 |     83% | 10, 49-50 |
-| parsons/ngpvan/email.py                                   |       58 |        7 |       24 |        2 |     89% |17, 32->36, 37, 143-145, 162-163 |
+| parsons/ngpvan/email.py                                   |       58 |        7 |       24 |        2 |     89% |17, 35->39, 40, 151-153, 170-171 |
 | parsons/ngpvan/events.py                                  |       48 |       11 |       14 |        7 |     71% |12, 50->61, 61->64, 100->111, 111->114, 195, 221, 224, 241-243, 263-267 |
 | parsons/ngpvan/introspection.py                           |        9 |        1 |        0 |        0 |     89% |         8 |
 | parsons/ngpvan/locations.py                               |       31 |        2 |        6 |        3 |     86% |12, 109, 111->114, 114->117 |

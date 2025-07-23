@@ -38,7 +38,7 @@ class Signups(object):
         if event_type_id:
             params = {"eventTypeId": event_type_id}
 
-        tbl = Table(self.connection.get_request("signups/statuses", params=params))
+        tbl = Table(self.connection.data("signups/statuses", params=params))
         logger.info(f"Found {tbl.num_rows} signups.")
         return tbl
 
@@ -54,7 +54,7 @@ class Signups(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("signups", params={"vanID": vanid}))
+        tbl = Table(self.connection.items("signups", params={"vanID": vanid}))
         logger.info(f"Found {tbl.num_rows} signups for {vanid}.")
         return self._unpack_signups(tbl)
 
@@ -70,7 +70,7 @@ class Signups(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("signups", params={"eventId": event_id}))
+        tbl = Table(self.connection.items("signups", params={"eventId": event_id}))
         logger.info(f"Found {tbl.num_rows} signups for event {event_id}.")
         return self._unpack_signups(tbl)
 
@@ -86,7 +86,7 @@ class Signups(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        r = self.connection.get_request(f"signups/{event_signup_id}")
+        r = self.connection.data(f"signups/{event_signup_id}")
         logger.info(f"Found sign up {event_signup_id}.")
         return r
 
@@ -121,7 +121,7 @@ class Signups(object):
             "location": {"locationId": location_id},
         }
 
-        r = self.connection.post_request("signups", json=signup)
+        r = self.connection.post_request("signups", json=signup).json()
         logger.info(f"Signup {r} created.")
         return r
 
@@ -153,7 +153,7 @@ class Signups(object):
         """
 
         #  Get the signup object
-        signup = self.connection.get_request(f"signups/{event_signup_id}")
+        signup = self.connection.data(f"signups/{event_signup_id}")
 
         # Update the signup object
         if shift_id:

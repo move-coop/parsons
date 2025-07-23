@@ -29,7 +29,7 @@ class Targets(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("targets"))
+        tbl = Table(self.connection.items("targets"))
         logger.info(f"Found {tbl.num_rows} targets.")
         return tbl
 
@@ -45,7 +45,7 @@ class Targets(object):
                 The target
         """
 
-        r = self.connection.get_request(f"targets/{target_id}")
+        r = self.connection.data(f"targets/{target_id}")
         logger.info(f"Found target {target_id}.")
         return r
 
@@ -58,7 +58,7 @@ class Targets(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        response = self.connection.get_request(f"targetExportJobs/{export_job_id}")
+        response = self.connection.data(f"targetExportJobs/{export_job_id}")
         job_status = response.get("jobStatus")
         if job_status == "Complete":
             url = response["file"]["downloadUrl"]
@@ -81,6 +81,6 @@ class Targets(object):
         """
         target_export = {"targetId": target_id}
 
-        r = self.connection.post_request("targetExportJobs", json=target_export)
+        r = self.connection.post_request("targetExportJobs", json=target_export).json()
         logger.info(f"Created new target export job for {target_id}.")
         return r

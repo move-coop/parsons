@@ -365,7 +365,7 @@ class People(object):
                 json_flat = json_format.flatten_json(json)
                 self._valid_search(**json_flat)
 
-        return self.connection.post_request(url, json=json)
+        return self.connection.post_request(url, json=json).json()
 
     def _valid_search(
         self,
@@ -459,13 +459,13 @@ class People(object):
         # Removing the fields that are not returned in MyVoters
         NOT_IN_MYVOTERS = ["codes", "contribution_history", "organization_roles"]
 
-        if self.connection.db_code == 0:
+        if self.db_code == 0:
             expand_fields = [v for v in expand_fields if v not in NOT_IN_MYVOTERS]
 
         expand_fields = ",".join([json_format.arg_format(f) for f in expand_fields])
 
         logger.info(f"Getting person with {id_type or 'vanid'} of {id} at url {url}")
-        return self.connection.get_request(url, params={"$expand": expand_fields})
+        return self.connection.data(url, params={"$expand": expand_fields})
 
     def delete_person(self, vanid):
         """
@@ -478,7 +478,7 @@ class People(object):
             Success or error.
         """
         url = f"people/{vanid}"
-        r = self.connection.delete_request(url)
+        r = self.connection.delete_request(url).json()
         logger.info(f"Van ID {vanid} suppressed.")
         return r
 
@@ -752,5 +752,5 @@ class People(object):
         url = f"people/{source_vanid}/mergeInto"
         json = {"vanId": primary_vanid}
 
-        r = self.connection.put_request(url, json=json)
+        r = self.connection.put_request(url, json=json).json()
         return r

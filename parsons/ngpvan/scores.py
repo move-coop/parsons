@@ -24,7 +24,7 @@ class Scores(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("scores"))
+        tbl = Table(self.connection.items("scores"))
         logger.info(f"Found {tbl.num_rows} scores.")
         return tbl
 
@@ -39,7 +39,7 @@ class Scores(object):
             dict
         """
 
-        r = self.connection.get_request(f"scores/{score_id}")
+        r = self.connection.data(f"scores/{score_id}")
         logger.info(f"Found score {score_id}.")
         return r
 
@@ -65,7 +65,7 @@ class Scores(object):
             "scoreId": score_id,
         }
 
-        tbl = Table(self.connection.get_request("scoreUpdates", params=params))
+        tbl = Table(self.connection.items("scoreUpdates", params=params))
         if tbl.num_rows:
             tbl.unpack_dict("updateStatistics", prepend=False)
             tbl.unpack_dict("score", prepend=False)
@@ -83,7 +83,7 @@ class Scores(object):
                 dict
         """
 
-        r = self.connection.get_request(f"scoreUpdates/{score_update_id}")
+        r = self.connection.data(f"scoreUpdates/{score_update_id}")
         logger.info(f"Returning score update {score_update_id}.")
         return r
 
@@ -223,7 +223,7 @@ class Scores(object):
             json["listeners"] = [{"type": "EMAIL", "value": email}]
 
         # Upload scores
-        r = self.connection.post_request("fileLoadingJobs", json=json)
+        r = self.connection.post_request("fileLoadingJobs", json=json).json()
         logger.info(f"Scores job {r['jobId']} created.")
         return r["jobId"]
 
@@ -324,7 +324,7 @@ class FileLoadingJobs(object):
                 "tolerance": auto_tolerance,
             }
 
-        r = self.connection.post_request("fileLoadingJobs", json=json)["jobId"]
+        r = self.connection.post_request("fileLoadingJobs", json=json).json()["jobId"]
         logger.info(f"Score loading job {r} created.")
         return r
 

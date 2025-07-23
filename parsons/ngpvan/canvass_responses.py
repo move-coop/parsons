@@ -20,7 +20,7 @@ class CanvassResponses(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("canvassResponses/contactTypes"))
+        tbl = Table(self.connection.data("canvassResponses/contactTypes"))
         logger.info(f"Found {tbl.num_rows} canvass response contact types.")
         return tbl
 
@@ -33,7 +33,7 @@ class CanvassResponses(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("canvassResponses/inputTypes"))
+        tbl = Table(self.connection.data("canvassResponses/inputTypes"))
         logger.info(f"Found {tbl.num_rows} canvass response input types.")
         return tbl
 
@@ -46,6 +46,6 @@ class CanvassResponses(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("canvassResponses/resultCodes"))
+        tbl = Table(self.connection.data("canvassResponses/resultCodes"))
         logger.info(f"Found {tbl.num_rows} canvass response result codes.")
         return tbl

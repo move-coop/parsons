@@ -7,6 +7,8 @@ from requests.exceptions import HTTPError
 from parsons import VAN, Table
 from test.utils import assert_matching_tables, validate_list
 
+os.environ["VAN_API_KEY"] = "SOME_KEY"
+
 
 class TestNGPVAN(unittest.TestCase):
     def setUp(self):

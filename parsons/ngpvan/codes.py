@@ -37,7 +37,7 @@ class Codes(object):
             "$top": 200,
         }
 
-        tbl = Table(self.connection.get_request("codes", params=params))
+        tbl = Table(self.connection.items("codes", params=params))
         logger.info(f"Found {tbl.num_rows} codes.")
         return tbl
 
@@ -53,7 +53,7 @@ class Codes(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        c = self.connection.get_request(f"codes/{code_id}")
+        c = self.connection.data(f"codes/{code_id}")
         logger.debug(c)
         logger.info(f"Found code {code_id}.")
         return c
@@ -67,7 +67,7 @@ class Codes(object):
                 A list of code types.
         """
 
-        lst = self.connection.get_request("codeTypes")
+        lst = self.connection.data("codeTypes")
         logger.info(f"Found {len(lst)} code types.")
         return lst
 
@@ -131,7 +131,7 @@ class Codes(object):
 
             json["supportedEntities"] = se
 
-        r = self.connection.post_request("codes", json=json)
+        r = self.connection.post_request("codes", json=json).json()
         logger.info(f"Code {r} created.")
         return r
 
@@ -229,6 +229,6 @@ class Codes(object):
                 A list of code supported entities.
         """
 
-        lst = self.connection.get_request("codes/supportedEntities")
+        lst = self.connection.data("codes/supportedEntities")
         logger.info(f"Found {len(lst)} code supported entities.")
         return lst

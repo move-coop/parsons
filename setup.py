@@ -7,6 +7,7 @@ from setuptools import find_packages
 
 def main():
     limited_deps = os.environ.get("PARSONS_LIMITED_DEPENDENCIES", "")
+    install_requires = []
     if limited_deps.strip().upper() in ("1", "YES", "TRUE", "ON"):
         install_requires = [
             "petl",
@@ -86,7 +87,7 @@ def main():
 
     setup(
         name="parsons",
-        version="5.1.0",  # ensure this version number is in format of n.n.n, not n or n.n
+        version="5.2.0",  # ensure this version number is in format of n.n.n, not n or n.n
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url="https://github.com/move-coop/parsons",

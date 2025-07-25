@@ -27,7 +27,10 @@ class Email(object):
 
         `Returns:`
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                Data from the email/messages endpoint. List of columns:
+
+                foreignMessageId, name, createdBy, dateCreated, dateScheduled, campaignID,
+                dateModified, emailMessageContent
         """
         if ascending:
             params = {
@@ -84,7 +87,12 @@ class Email(object):
 
         `Returns:`
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                All statistics returned from the get_email added to get_emails. Columns:
+
+                name, createdBy, dateCreated, dateModified, dateScheduled, foreignMessageId,
+                recipientCount, bounceCount, contributionCount, contributionTotal,
+                formSubmissionCount, linksClickedCount, machineOpenCount, openCount,
+                unsubscribeCount, subject
         """
 
         email_list = []

@@ -24,9 +24,9 @@ class TestCensus(unittest.TestCase):
         variables = "NAME,B01001_001E"
         location = "for=state:*"
         table = self.census.get_census(year, dataset_acronym, variables, location)
-        self.assertEqual(len(table), 52)
-        self.assertEqual(table[0]["NAME"], "Illinois")
-        self.assertIsInstance(table, Table)
+        assert len(table) == 52
+        assert table[0]["NAME"] == "Illinois"
+        assert isinstance(table, Table)
 
     @patch.dict(os.environ, {"CENSUS_API_KEY": "mock_api_key"})
     @requests_mock.Mocker()
@@ -50,5 +50,5 @@ class TestCensus(unittest.TestCase):
 
         table = census.get_census(year, dataset_acronym, variables, location)
 
-        self.assertEqual(table[0]["B01001_001E"], "328239523")
-        self.assertEqual(table[0]["NAME"], "United States")
+        assert table[0]["B01001_001E"] == "328239523"
+        assert table[0]["NAME"] == "United States"

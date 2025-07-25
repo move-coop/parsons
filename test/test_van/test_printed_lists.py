@@ -17,7 +17,7 @@ class TestSavedLists(unittest.TestCase):
 
         result = self.van.get_printed_lists(folder_name="Covington Canvass Turfs")
 
-        self.assertEqual(result.num_rows, 14)
+        assert result.num_rows == 14
 
     @requests_mock.Mocker()
     def test_get_printed_list(self, m):
@@ -25,4 +25,4 @@ class TestSavedLists(unittest.TestCase):
 
         result = self.van.get_printed_list(printed_list_number="43-0000")
 
-        self.assertEqual(result["number"], "43-0000")
+        assert result["number"] == "43-0000"

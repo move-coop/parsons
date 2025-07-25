@@ -1,7 +1,7 @@
 import json
 import logging
 import time
-from typing import Any, Dict, Optional, Tuple, cast
+from typing import Any, Optional, cast
 from urllib.parse import parse_qs, urlparse
 
 from parsons import Table
@@ -48,7 +48,7 @@ class NationBuilder:
         return f"https://{slug}.nationbuilder.com/api/v1"
 
     @classmethod
-    def get_auth_headers(cls, access_token: Optional[str]) -> Dict[str, str]:
+    def get_auth_headers(cls, access_token: Optional[str]) -> dict[str, str]:
         if access_token is None:
             raise ValueError("access_token can't None")
 
@@ -61,7 +61,7 @@ class NationBuilder:
         return {"authorization": f"Bearer {access_token}"}
 
     @classmethod
-    def parse_next_params(cls, next_value: str) -> Tuple[str, str]:
+    def parse_next_params(cls, next_value: str) -> tuple[str, str]:
         next_params = parse_qs(urlparse(next_value).query)
 
         if "__nonce" not in next_params:
@@ -91,7 +91,7 @@ class NationBuilder:
 
         while True:
             try:
-                logging.debug("sending request %s" % url)
+                logging.debug(f"sending request {url}")
                 response = self.client.get_request(url)
 
                 res = response.get("results", None)
@@ -99,7 +99,7 @@ class NationBuilder:
                 if res is None:
                     break
 
-                logging.debug("response got %s records" % len(res))
+                logging.debug(f"response got {len(res)} records")
 
                 data.extend(res)
 
@@ -109,15 +109,15 @@ class NationBuilder:
                 else:
                     break
             except Exception as error:
-                logging.error("error requesting data from Nation Builder: %s" % error)
+                logging.error(f"error requesting data from Nation Builder: {error}")
 
                 wait_time = 30
-                logging.info("waiting %d seconds before retrying" % wait_time)
+                logging.info("waiting %s seconds before retrying", wait_time)
                 time.sleep(wait_time)
 
         return Table(data)
 
-    def update_person(self, person_id: str, person: Dict[str, Any]) -> Dict[str, Any]:
+    def update_person(self, person_id: str, person: dict[str, Any]) -> dict[str, Any]:
         """
         This method updates a person with the provided id to have the provided data. It returns a
         full representation of the updated person.
@@ -146,11 +146,11 @@ class NationBuilder:
 
         url = f"people/{person_id}"
         response = self.client.put_request(url, data=json.dumps({"person": person}))
-        response = cast("Dict[str, Any]", response)
+        response = cast("dict[str, Any]", response)
 
         return response
 
-    def upsert_person(self, person: Dict[str, Any]) -> Tuple[bool, Optional[Dict[str, Any]]]:
+    def upsert_person(self, person: dict[str, Any]) -> tuple[bool, Optional[dict[str, Any]]]:
         """
         Updates a matched person or creates a new one if the person doesn't exist.
 

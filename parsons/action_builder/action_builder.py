@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 API_URL = "https://{subdomain}.actionbuilder.org/api/rest/v1"
 
 
-class ActionBuilder(object):
+class ActionBuilder:
     """
     `Args:`
         api_token: str

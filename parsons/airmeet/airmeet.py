@@ -5,7 +5,7 @@ from parsons.utilities.api_connector import APIConnector
 AIRMEET_DEFAULT_URI = "https://api-gateway.airmeet.com/prod/"
 
 
-class Airmeet(object):
+class Airmeet:
     """
     Instantiate class.
 

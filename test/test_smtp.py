@@ -6,7 +6,7 @@ import unittest
 from parsons import SMTP
 
 
-class FakeConnection(object):
+class FakeConnection:
     def __init__(self, result_obj):
         self.result_obj = result_obj
 

@@ -13,7 +13,7 @@ URI = "https://api.bloomerang.co/v2/"
 URI_AUTH = "https://crm.bloomerang.co/authorize/"
 
 
-class Bloomerang(object):
+class Bloomerang:
     """
     Instantiate Bloomerang class
 

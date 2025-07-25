@@ -6,6 +6,7 @@ from setuptools import setup
 
 def main():
     limited_deps = os.environ.get("PARSONS_LIMITED_DEPENDENCIES", "")
+    install_requires = []
     if limited_deps.strip().upper() in ("1", "YES", "TRUE", "ON"):
         install_requires = [
             "petl",

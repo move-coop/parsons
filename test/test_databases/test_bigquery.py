@@ -417,11 +417,10 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         actual = os.environ[bq.env_credential_path]
 
-        with open(actual, "r") as factual:
-            with open(self.cred_path, "r") as fexpected:
-                actual_str = factual.read()
-                self.assertEqual(actual_str, fexpected.read())
-                self.assertEqual(self.cred_contents, json.loads(actual_str))
+        with open(actual, "r") as factual, open(self.cred_path, "r") as fexpected:
+            actual_str = factual.read()
+            self.assertEqual(actual_str, fexpected.read())
+            self.assertEqual(self.cred_contents, json.loads(actual_str))
 
     @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
@@ -445,11 +444,10 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         actual = os.environ[bq.env_credential_path]
 
-        with open(actual, "r") as factual:
-            with open(self.cred_path, "r") as fexpected:
-                actual_str = factual.read()
-                self.assertEqual(actual_str, fexpected.read())
-                self.assertEqual(self.cred_contents, json.loads(actual_str))
+        with open(actual, "r") as factual, open(self.cred_path, "r") as fexpected:
+            actual_str = factual.read()
+            self.assertEqual(actual_str, fexpected.read())
+            self.assertEqual(self.cred_contents, json.loads(actual_str))
 
     @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
@@ -471,11 +469,10 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         actual = os.environ[bq.env_credential_path]
 
-        with open(actual, "r") as factual:
-            with open(self.cred_path, "r") as fexpected:
-                actual_str = factual.read()
-                self.assertEqual(actual_str, fexpected.read())
-                self.assertEqual(self.cred_contents, json.loads(actual_str))
+        with open(actual, "r") as factual, open(self.cred_path, "r") as fexpected:
+            actual_str = factual.read()
+            self.assertEqual(actual_str, fexpected.read())
+            self.assertEqual(self.cred_contents, json.loads(actual_str))
 
     def test_copy__if_exists_passed_through(self):
         # setup dependencies / inputs

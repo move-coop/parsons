@@ -55,11 +55,10 @@ def test_create_temp_file_for_path():
 
 def test_create_temp_directory():
     temp_directory = files.create_temp_directory()
-    test_file1 = f"{temp_directory}/test.txt"
-    test_file2 = f"{temp_directory}/test2.txt"
-    with open(test_file1, "w") as fh1, open(test_file2, "w") as fh2:
-        fh1.write("TEST")
-        fh2.write("TEST")
+    test_file1 = Path(temp_directory) / "test.txt"
+    test_file2 = Path(temp_directory) / "test2.txt"
+    test_file1.write_text("TEST")
+    test_file2.write_text("TEST")
 
     assert files.has_data(test_file1)
     assert files.has_data(test_file2)
@@ -68,7 +67,7 @@ def test_create_temp_directory():
 
     # Verify the temp file no longer exists
     with pytest.raises(FileNotFoundError):
-        open(test_file1, "r")
+        test_file1.open(mode="r")
 
 
 def test_close_temp_file():
@@ -77,7 +76,7 @@ def test_close_temp_file():
 
     # Verify the temp file no longer exists
     with pytest.raises(FileNotFoundError):
-        open(temp, "r")
+        Path(temp).open(mode="r")
 
 
 def test_is_gzip_path():
@@ -101,13 +100,12 @@ def test_compression_type_for_path():
 def test_empty_file():
     # Create fake files.
     tmp_folder = tempfile.mkdtemp()
-    with open(Path(tmp_folder) / "empty.csv", "w+") as _:
-        pass
+    (Path(tmp_folder) / "empty.csv").open(mode="w+").close()
 
     Table([["1"], ["a"]]).to_csv(str(Path(tmp_folder) / "full.csv"))
 
-    assert not files.has_data(str(Path(tmp_folder) / "empty.csv"))
-    assert files.has_data(str(Path(tmp_folder) / "full.csv"))
+    assert not files.has_data(Path(tmp_folder) / "empty.csv")
+    assert files.has_data(Path(tmp_folder) / "full.csv")
 
     # Remove fake files and dir
     shutil.rmtree(tmp_folder)
@@ -133,10 +131,10 @@ def test_remove_empty_keys():
 
 def test_redact_credentials():
     # Test with quotes, escape characters, and line breaks
-    test_str = """COPY schema.tablename
+    test_str = r"""COPY schema.tablename
     FROM 's3://bucket/path/to/file.csv'
-    credentials  'aws_access_key_id=string-\\'escaped-quote;
-    aws_secret_access_key='string-escape-char\\\\'
+    credentials  'aws_access_key_id=string-\'escaped-quote;
+    aws_secret_access_key='string-escape-char\\'
     MANIFEST"""
 
     test_result = """COPY schema.tablename

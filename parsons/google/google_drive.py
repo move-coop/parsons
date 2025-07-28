@@ -32,9 +32,7 @@ class GoogleDrive:
             setup_google_application_credentials(
                 app_creds, target_env_var_name=env_credentials_path
             )
-            credentials = load_google_application_credentials(
-                env_credentials_path, scopes=scopes
-            )
+            credentials = load_google_application_credentials(env_credentials_path, scopes=scopes)
 
         self.client = build(
             "drive",
@@ -43,9 +41,7 @@ class GoogleDrive:
             cache_discovery=False,
         )
 
-    def create_folder(
-        self, name: str, parents: Union[list[str], str, None] = None
-    ) -> str:
+    def create_folder(self, name: str, parents: Union[list[str], str, None] = None) -> str:
         if isinstance(parents, str):
             parents = [parents]
         elif parents is None:
@@ -64,9 +60,7 @@ class GoogleDrive:
         )
         return response.get("id")
 
-    def find_subfolder(
-        self, subfolder_name: str, parent_folder_id: str
-    ) -> Optional[str]:
+    def find_subfolder(self, subfolder_name: str, parent_folder_id: str) -> Optional[str]:
         response = (
             self.client.files()
             .list(
@@ -145,9 +139,7 @@ class GoogleDrive:
         done = False
 
         with open(filepath, "wb") as file:
-            downloader = MediaIoBaseDownload(
-                file, self.client.files().get_media(fileId=file_id)
-            )
+            downloader = MediaIoBaseDownload(file, self.client.files().get_media(fileId=file_id))
             while not done:
                 status, done = downloader.next_chunk()
         return filepath
@@ -159,20 +151,14 @@ class GoogleDrive:
         }
         media = MediaFileUpload(file_path)
         response = (
-            self.client.files()
-            .create(body=file_metadata, media_body=media, fields="id")
-            .execute()
+            self.client.files().create(body=file_metadata, media_body=media, fields="id").execute()
         )
         return response.get("id")
 
     def replace_file(self, file_path: str, file_id: str) -> str:
         """Replace file in drive."""
         media = MediaFileUpload(file_path)
-        resp = (
-            self.client.files()
-            .update(fileId=file_id, media_body=media, fields="id")
-            .execute()
-        )
+        resp = self.client.files().update(fileId=file_id, media_body=media, fields="id").execute()
         return resp.get("id")
 
     def upsert_file(self, file_path: str, parent_folder_id: str) -> str:

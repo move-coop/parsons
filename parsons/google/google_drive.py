@@ -1,3 +1,5 @@
+import logging
+import os
 import tempfile
 import uuid
 from typing import Optional, Union
@@ -10,10 +12,6 @@ from parsons.google.utilities import (
     load_google_application_credentials,
     setup_google_application_credentials,
 )
-
-import os
-import logging
-
 
 logger = logging.getLogger(__name__)
 

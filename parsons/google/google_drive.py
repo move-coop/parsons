@@ -192,7 +192,7 @@ class GoogleDrive:
             result = self.upload_file(file_path, parent_folder_id)
         return result
 
-    def get_permissions(self, file_id):
+    def get_permissions(self, file_id: str) -> dict:
         """
         `Args:`
             file_id: str
@@ -205,13 +205,19 @@ class GoogleDrive:
 
         return p
 
-    def _share_object(self, file_id, permission_dict):
+    def _share_object(self, file_id: str, permission_dict: dict) -> dict:
         # Send the request to share the file
         p = self.client.permissions().create(fileId=file_id, body=permission_dict).execute()
 
         return p
 
-    def share_object(self, file_id, email_addresses=None, role="reader", type="user"):
+    def share_object(
+        self,
+        file_id: str,
+        email_addresses: Optional[list[str]] = None,
+        role: str = "reader",
+        type: str = "user",
+    ) -> list[dict]:
         """
         `Args:`
             file_id: str
@@ -263,7 +269,7 @@ class GoogleDrive:
 
         return new_permissions
 
-    def transfer_ownership(self, file_id, new_owner_email):
+    def transfer_ownership(self, file_id: str, new_owner_email: str) -> None:
         """
         `Args:`
             file_id: str
@@ -295,5 +301,3 @@ class GoogleDrive:
             logger.info(f"Ownership transferred successfully to {new_owner_email}.")
         else:
             logger.info("File does not have a current owner.")
-
-        return None

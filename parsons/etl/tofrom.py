@@ -122,7 +122,7 @@ class ToFrom(object):
                 overwritten.
             schema: dict
                 defines the rows field structure of the file.
-                Check fastavro `documentation`_ and Avro schema `reference`_ for details.
+                Check fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) and Avro schema [reference](https://avro.apache.org/docs/1.8.2/spec.html#schemas) for details.
             sample: int, optional
                 defines how many rows are inspected
                 for discovering the field types and building a schema for the avro file
@@ -204,7 +204,7 @@ class ToFrom(object):
                 the file path for creating the avro file.
             schema: dict
                 defines the rows field structure of the file.
-                Check fastavro `documentation`_ and Avro schema `reference`_ for details.
+                Check fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) and Avro schema [reference](https://avro.apache.org/docs/1.8.2/spec.html#schemas) for details.
             sample: int, optional
                 defines how many rows are inspected
                 for discovering the field types and building a schema for the avro file
@@ -212,7 +212,7 @@ class ToFrom(object):
             avro_args: kwargs
                 Additionally there are support for passing extra options in the
                 argument `**avro_args` that are fowarded directly to fastavro. Check the
-                fastavro `documentation`_ for reference.
+                fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
         """
 
         return petl.appendavro(self.table, target, schema=schema, sample=sample, **avro_args)

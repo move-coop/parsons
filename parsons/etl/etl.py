@@ -207,7 +207,7 @@ class ETL(object):
         """
         Transform values under one or more fields via arbitrary functions, method
         invocations or dictionary translations. This leverages the petl ``convert()``
-        method. Example usage can be found `here <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
+        method. Example usage can be found `here <https://petl.readthedocs.io/latest/transform.html#petl.transform.conversions.convert>`_.
 
         `Args:`
             *column: str
@@ -896,7 +896,7 @@ class ETL(object):
 
         self.table = petl.cat(self.table, *petl_tables, missing=missing)
 
-    def chunk(self, rows):
+    def chunk(self, rows: int):
         """
         Divides a Parsons table into smaller tables of a specified row count. If the table
         cannot be divided evenly, then the final table will only include the remainder.

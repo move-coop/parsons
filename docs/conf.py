@@ -47,6 +47,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "myst_parser",
     "sphinx_multiversion",
+    "sphinxcontrib.googleanalytics",
 ]
 
 # Sorting of attributes
@@ -111,9 +112,9 @@ html_static_path = ["_static"]
 html_sidebars = {"**": ["versions.html"]}
 
 try:
-    html_context
+    html_context  # noqa: B018
 except NameError:
-    html_context = dict()
+    html_context = {}
 
 html_context["display_versions_lower_left"] = True
 
@@ -191,3 +192,6 @@ smv_branch_whitelist = r"^stable|latest$"  # creates version for latest master/m
 
 # Get tags to whitelist from DOCUMENTED_VERSIONS const
 smv_tag_whitelist = "|".join(["^" + version + "$" for version in DOCUMENTED_VERSIONS])
+
+# Adds Google Analytics tracking code to the HTML output
+googleanalytics_id = "G-L2YB7WHTRG"

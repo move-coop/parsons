@@ -27,7 +27,10 @@ class Email(object):
 
         `Returns:`
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                Data from the email/messages endpoint. List of columns:
+
+                foreignMessageId, name, createdBy, dateCreated, dateScheduled, campaignID,
+                dateModified, emailMessageContent
         """
         if ascending:
             params = {
@@ -74,13 +77,22 @@ class Email(object):
         """
         Get stats for all emails, aggregating any A/B tests.
 
+        Note: Pending emails will have a dateScheduled of "0001-01-01T00:00:00Z"
+        and a subject line of "None". This is a limitation of the NGPVAN API.
+        Also note that any information on opens, clicks, etcetera will default to 0.
+
         `Args:`
             aggregate_ab : bool
                 If A/B test results for emails should get aggregated.
 
         `Returns:`
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                All statistics returned from the get_email added to get_emails. Columns:
+
+                name, createdBy, dateCreated, dateModified, dateScheduled, foreignMessageId,
+                recipientCount, bounceCount, contributionCount, contributionTotal,
+                formSubmissionCount, linksClickedCount, machineOpenCount, openCount,
+                unsubscribeCount, subject
         """
 
         email_list = []
@@ -123,29 +135,40 @@ class Email(object):
         if aggregate_ab:
             for email in email_list:  # One row per foreignMessageId
                 outer = {field: email[field] for field in outer_fields}
-                inner = {field: 0 for field in inner_fields}
+                inner = dict.fromkeys(inner_fields, 0)
                 for i in email["emailMessageContent"]:
-                    try:
-                        for field in inner_fields:  # Aggregation of all inner values
-                            inner[field] += i["emailMessageContentDistributions"][field]
-                        # Just replacing subject to get the last one
-                        inner["subject"] = i["subject"]
-                    except KeyError as e:
-                        logger.info(str(e))
-                        pass
+                    # Pending emails don't have emailMessageContentDistributions, just have defaults
+                    if not i["emailMessageContentDistributions"]:
+                        logger.info(
+                            f"No emailMessageContentDistributions for email {i['name']}, defaulting values to 0"
+                        )
+                    else:
+                        try:
+                            for field in inner_fields:  # Aggregation of all inner values
+                                inner[field] += i["emailMessageContentDistributions"][field]
+                            # Just replacing subject to get the last one
+                            inner["subject"] = i["subject"]
+                        except KeyError as e:
+                            logger.info(str(e))
+                            pass
                 final_email_list.append({**outer, **inner})
         else:
             for email in email_list:
                 for i in email["emailMessageContent"]:
                     # One row per foreignMessageId / emailMessageContent entry
                     outer = {field: email[field] for field in outer_fields}
-                    inner = {field: 0 for field in inner_fields}
-                    try:
-                        for field in inner_fields:
-                            inner[field] = i["emailMessageContentDistributions"][field]
-                        inner["subject"] = i["subject"]
-                    except KeyError as e:
-                        logger.info(str(e))
+                    inner = dict.fromkeys(inner_fields, 0)
+                    if not i["emailMessageContentDistributions"]:
+                        logger.info(
+                            f"No emailMessageContentDistributions for email {i['name']}, defaulting values to 0"
+                        )
+                    else:
+                        try:
+                            for field in inner_fields:
+                                inner[field] = i["emailMessageContentDistributions"][field]
+                            inner["subject"] = i["subject"]
+                        except KeyError as e:
+                            logger.info(str(e))
                     final_email_list.append({**outer, **inner})
 
         return Table(final_email_list)

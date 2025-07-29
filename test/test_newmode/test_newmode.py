@@ -1,8 +1,11 @@
 import os
 import unittest
 import unittest.mock as mock
+from unittest.mock import call, patch
 
 import requests_mock
+from oauthlib.oauth2 import TokenExpiredError
+from requests.exceptions import HTTPError
 
 from parsons import Newmode, Table
 from test.test_newmode import test_newmode_data
@@ -172,6 +175,36 @@ class TestNewmodeV1(unittest.TestCase):
         self.nm.client.getOutreach.assert_called_with(id, params={})
         self.assertEqual(response["name"], "Outreach 1")
 
+    def test_get_tools_empty_response(self):
+        self.nm.client.getTools.return_value = []
+        args = {}
+        response = self.nm.get_tools(args)
+        self.nm.client.getTools.assert_called_with(params=args)
+        self.assertEqual(response.num_rows, 0)
+
+    def test_get_tool_invalid_id(self):
+        self.nm.client.getTool.side_effect = HTTPError("Invalid ID")
+        with self.assertRaises(HTTPError):
+            self.nm.get_tool(-1)
+
+    def test_get_campaigns_pagination(self):
+        self.nm.client.getCampaigns.side_effect = [
+            [{"id": 1, "title": "Campaign 1"}],
+            [{"id": 2, "title": "Campaign 2"}],
+            [],
+        ]
+        args = {"page": 1}
+        all_campaigns = []
+        while True:
+            response = self.nm.get_campaigns(args)
+            all_campaigns.extend(response)
+            if not response:
+                break
+            args["page"] += 1
+        self.assertEqual(len(all_campaigns), 2)
+        self.assertEqual(all_campaigns[0]["title"], "Campaign 1")
+        self.assertEqual(all_campaigns[1]["title"], "Campaign 2")
+
 
 class TestNewmodeV2(unittest.TestCase):
     @requests_mock.Mocker()
@@ -235,4 +268,106 @@ class TestNewmodeV2(unittest.TestCase):
         assert_matching_tables(
             self.nm.run_submit(campaign_id=self.campaign_id, json=json_input),
             json_response,
+        )
+
+    @requests_mock.Mocker()
+    @patch("parsons.newmode.newmode.logger")
+    def test_base_request_retries(self, m, mock_logger):
+        m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
+        m.get(
+            f"{V2_API_URL}v2.1/test-endpoint",
+            status_code=500,
+        )
+
+        with self.assertRaises(HTTPError):
+            self.nm.base_request(
+                method="GET",
+                url=f"{V2_API_URL}v2.1/test-endpoint",
+                retries=2,
+            )
+
+        # Verify that the logger warned about retries
+        self.assertEqual(mock_logger.warning.call_count, 2)
+        mock_logger.warning.assert_has_calls(
+            [
+                call("Request failed (attempt 1/2). Retrying..."),
+                call("Request failed (attempt 2/2). Retrying..."),
+            ]
+        )
+        # Verify that the logger logged an error after retries failed
+        mock_logger.error.assert_called_once_with("Request failed after 2 retries.")
+
+    @requests_mock.Mocker()
+    def test_get_campaign_empty_response(self, m):
+        m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
+        m.get(f"{self.base_url}/campaign/{self.campaign_id}/form", json=[])
+        response = self.nm.get_campaign(campaign_id=self.campaign_id)
+        self.assertEqual(response.num_rows, 0)
+
+    @requests_mock.Mocker()
+    def test_checked_response_success(self, m):
+        m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
+        response_data = {"key": "value"}
+        m.get(f"{V2_API_URL}v2.1/test-endpoint", json=response_data, status_code=200)
+
+        response = self.nm.default_client.request(
+            url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET"
+        )
+        result = self.nm.checked_response(response, self.nm.default_client)
+        self.assertEqual(result, response_data)
+
+    @requests_mock.Mocker()
+    def test_checked_response_invalid_json(self, m):
+        m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
+        m.get(f"{V2_API_URL}v2.1/test-endpoint", text="Invalid JSON", status_code=200)
+
+        response = self.nm.default_client.request(
+            url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET"
+        )
+        with self.assertRaises(ValueError):
+            self.nm.checked_response(response, self.nm.default_client)
+
+    @requests_mock.Mocker()
+    def test_checked_response_http_error(self, m):
+        m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
+        m.get(f"{V2_API_URL}v2.1/test-endpoint", status_code=404)
+
+        response = self.nm.default_client.request(
+            url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET"
+        )
+        with self.assertRaises(HTTPError):
+            self.nm.checked_response(response, self.nm.default_client)
+
+    @requests_mock.Mocker()
+    @patch("parsons.newmode.newmode.NewmodeV2.get_default_oauth_client")
+    def test_token_refresh_on_expired_token(self, m, mock_get_default_oauth_client):
+        m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
+
+        mock_new_client = mock.MagicMock()
+        mock_get_default_oauth_client.return_value = mock_new_client
+
+        mock_response = mock.MagicMock()
+        mock_response.raise_for_status = mock.MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {"data": "success"}
+        mock_new_client.request.return_value = mock_response
+
+        mock_new_client.json_check.return_value = True
+
+        def oauth_side_effect(*args, **kwargs):
+            if not hasattr(self, "call_count"):
+                self.call_count = 0
+            if self.call_count == 0:
+                self.call_count += 1
+                raise TokenExpiredError()
+            return mock_response
+
+        with patch.object(self.nm.default_client, "request", side_effect=oauth_side_effect):
+            m.get(f"{V2_API_URL}v2.1/test-endpoint", json={"data": "success"}, status_code=200)
+            response = self.nm.base_request(method="GET", url=f"{V2_API_URL}v2.1/test-endpoint")
+
+        mock_get_default_oauth_client.assert_called_once()
+        self.assertEqual(response, {"data": "success"})
+        mock_new_client.request.assert_called_with(
+            url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET", json=None, data=None, params={}
         )

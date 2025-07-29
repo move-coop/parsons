@@ -155,15 +155,17 @@ class GoogleBigQuery(DatabaseConnector):
         app_creds: Optional[Union[str, dict, Credentials]] = None,
         project=None,
         location=None,
-        client_options: dict = {
-            "scopes": [
-                "https://www.googleapis.com/auth/drive",
-                "https://www.googleapis.com/auth/bigquery",
-                "https://www.googleapis.com/auth/cloud-platform",
-            ]
-        },
+        client_options: dict = None,
         tmp_gcs_bucket: Optional[str] = None,
     ):
+        if client_options is None:
+            client_options = {
+                "scopes": [
+                    "https://www.googleapis.com/auth/drive",
+                    "https://www.googleapis.com/auth/bigquery",
+                    "https://www.googleapis.com/auth/cloud-platform",
+                ]
+            }
         self.app_creds = app_creds
 
         if isinstance(app_creds, Credentials):
@@ -777,6 +779,96 @@ class GoogleBigQuery(DatabaseConnector):
         finally:
             gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
 
+    def copy_direct(
+        self,
+        tbl: Table,
+        table_name: str,
+        if_exists: str = "fail",
+        max_errors: int = 0,
+        job_config: Optional[LoadJobConfig] = None,
+        template_table: Optional[str] = None,
+        ignoreheader: int = 1,
+        nullas: Optional[str] = None,
+        allow_quoted_newlines: bool = True,
+        allow_jagged_rows: bool = True,
+        quote: Optional[str] = None,
+        schema: Optional[List[dict]] = None,
+        max_timeout: int = 21600,
+        convert_dict_list_columns_to_json: bool = True,
+        **load_kwargs,
+    ):
+        """
+        Copy a :ref:`parsons-table` into Google BigQuery
+        directly. This will work well for smaller data. For larger
+        data, use the :meth:`copy` method which stages the upload through CloudStorage.
+
+        `Args:`
+            tbl: obj
+                The Parsons Table to copy into BigQuery.
+            table_name: str
+                The table name to load the data into. Will be used to generate load schema
+                if no custom schema or template table are supplied and if_exists is
+                set to "truncate" or "append".
+            if_exists: str
+                If the table already exists, either ``fail``, ``append``, ``drop``
+                or ``truncate`` the table.
+            max_errors: int
+                The maximum number of rows that can error and be skipped before
+                the job fails.
+            job_config: object
+                A LoadJobConfig object to provide to the underlying call to load_table_from_uri
+                on the BigQuery client. The function will create its own if not provided.
+            template_table: str
+                Table name to be used as the load schema. Load operation wil use the same
+                columns and data types as the template table.
+            max_timeout: int
+                The maximum number of seconds to wait for a request before the job fails.
+            convert_dict_list_columns_to_json: bool
+                If set to True, will convert any dict or list columns (which cannot by default be successfully loaded to BigQuery to JSON strings)
+            **load_kwargs: kwargs
+                Arguments to pass to the underlying load_table_from_uri call on the BigQuery
+                client.
+
+        """
+
+        if convert_dict_list_columns_to_json:
+            tbl = self._stringify_records(tbl)
+
+        job_config = self._prepare_local_upload_job(
+            tbl,
+            table_name,
+            if_exists,
+            max_errors,
+            job_config,
+            template_table,
+            ignoreheader,
+            nullas,
+            allow_quoted_newlines,
+            allow_jagged_rows,
+            quote,
+            schema,
+        )
+
+        tmpfile_path = tbl.to_csv()
+        with open(tmpfile_path, mode="rb") as tmpfile:
+            load_job = self.client.load_table_from_file(
+                tmpfile,
+                destination=self.get_table_ref(table_name=table_name),
+                job_config=job_config,
+            )
+
+            try:
+                load_job.result(timeout=max_timeout)
+                return load_job
+            except exceptions.BadRequest as e:
+                for idx, error_ in enumerate(load_job.errors):
+                    if idx == 0:
+                        logger.error("* Load job failed. Enumerating errors collection below:")
+                    logger.error(f"** Error collection - index {idx}:")
+                    logger.error(error_)
+
+                raise e
+
     def copy(
         self,
         tbl: Table,
@@ -841,8 +933,75 @@ class GoogleBigQuery(DatabaseConnector):
         )
         if not tmp_gcs_bucket:
             raise ValueError(
-                "Must set GCS_TEMP_BUCKET environment variable or pass in tmp_gcs_bucket parameter"
+                "Must set GCS_TEMP_BUCKET environment variable or pass in tmp_gcs_bucket parameter. If you have smaller data, you can use the `copy_direct` method to upload the data without needing to use CloudStorage. This alternate method will not work well with larger data."
             )
+
+        if convert_dict_list_columns_to_json:
+            tbl = self._stringify_records(tbl)
+
+        job_config = self._prepare_local_upload_job(
+            tbl,
+            table_name,
+            if_exists,
+            max_errors,
+            job_config,
+            template_table,
+            ignoreheader,
+            nullas,
+            allow_quoted_newlines,
+            allow_jagged_rows,
+            quote,
+            schema,
+        )
+
+        gcs_client = gcs_client or GoogleCloudStorage(app_creds=self.app_creds)
+        temp_blob_name = f"{uuid.uuid4()}.{data_type}"
+        temp_blob_uri = gcs_client.upload_table(tbl, tmp_gcs_bucket, temp_blob_name)
+
+        # load CSV from Cloud Storage into BigQuery
+        try:
+            self._load_table_from_uri(
+                source_uris=temp_blob_uri,
+                destination=self.get_table_ref(table_name=table_name),
+                job_config=job_config,
+                max_timeout=max_timeout,
+                **load_kwargs,
+            )
+        finally:
+            gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
+
+    def _stringify_records(self, tbl):
+        # Convert dict columns to JSON strings
+        for field in tbl.get_columns_type_stats():
+            if "dict" in field["type"] or "list" in field["type"]:
+                new_petl = tbl.table.addfield(
+                    field["name"] + "_replace",
+                    lambda row, field=field: json.dumps(row[field["name"]]),
+                )
+                new_tbl = Table(new_petl)
+                new_tbl.remove_column(field["name"])
+                new_tbl.rename_column(field["name"] + "_replace", field["name"])
+                new_tbl.materialize()
+                tbl = new_tbl
+
+        return tbl
+
+    def _prepare_local_upload_job(
+        self,
+        tbl,
+        table_name,
+        if_exists,
+        max_errors,
+        job_config,
+        template_table,
+        ignoreheader,
+        nullas,
+        allow_quoted_newlines,
+        allow_jagged_rows,
+        quote,
+        schema,
+    ):
+        data_type = "csv"
 
         self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
 
@@ -854,20 +1013,6 @@ class GoogleBigQuery(DatabaseConnector):
             csv_delimiter = tbl.table.csvargs.get("delimiter", ",")
         else:
             csv_delimiter = ","
-
-        if convert_dict_list_columns_to_json:
-            # Convert dict columns to JSON strings
-            for field in tbl.get_columns_type_stats():
-                if "dict" in field["type"] or "list" in field["type"]:
-                    new_petl = tbl.table.addfield(
-                        field["name"] + "_replace",
-                        lambda row: json.dumps(row[field["name"]]),
-                    )
-                    new_tbl = Table(new_petl)
-                    new_tbl.remove_column(field["name"])
-                    new_tbl.rename_column(field["name"] + "_replace", field["name"])
-                    new_tbl.materialize()
-                    tbl = new_tbl
 
         job_config = self._process_job_config(
             job_config=job_config,
@@ -891,26 +1036,14 @@ class GoogleBigQuery(DatabaseConnector):
         for column in tbl.columns:
             try:
                 schema_row = [i for i in job_config.schema if i.name.lower() == column.lower()][0]
-            except IndexError:
-                raise IndexError(f"Column found in Table that was not found in schema: {column}")
+            except IndexError as e:
+                raise IndexError(
+                    f"Column found in Table that was not found in schema: {column}"
+                ) from e
             schema.append(schema_row)
         job_config.schema = schema
 
-        gcs_client = gcs_client or GoogleCloudStorage(app_creds=self.app_creds)
-        temp_blob_name = f"{uuid.uuid4()}.{data_type}"
-        temp_blob_uri = gcs_client.upload_table(tbl, tmp_gcs_bucket, temp_blob_name)
-
-        # load CSV from Cloud Storage into BigQuery
-        try:
-            self._load_table_from_uri(
-                source_uris=temp_blob_uri,
-                destination=self.get_table_ref(table_name=table_name),
-                job_config=job_config,
-                max_timeout=max_timeout,
-                **load_kwargs,
-            )
-        finally:
-            gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
+        return job_config
 
     def duplicate_table(
         self,

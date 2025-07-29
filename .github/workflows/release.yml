@@ -1,0 +1,95 @@
+name: Build & Publish Wheels + Source
+
+on:
+  workflow_dispatch:
+  release:
+    types:
+      - published
+
+permissions: read-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
+        with:
+            python-version: "3.13"
+            cache: pip
+
+      - name: Install uv
+        uses: install-pinned/uv@3aec1379ab70bb5b1be041748d52f765e3a3dc74
+
+      - name: Install dependencies
+        run: |
+            uv pip install --system -r requirements-dev.txt
+            uv pip install --system -e .[all]
+
+      - name: Check setup.py
+        run: |
+          python setup.py check
+
+      - name: Build src dist
+        run: |
+          python -m build --sdist --outdir dist
+
+      - name: Upload dist directory
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
+        with:
+          name: parsons-dist
+          path: dist/
+
+  test:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Download package
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806
+        with:
+          name: parsons-dist
+          path: dist
+
+      - name: Install package using pip
+        run: |
+          file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
+          pip install "$file"
+        shell: bash
+
+  publish:
+    if: github.repository_owner == 'move-coop'
+    needs:
+      - test
+
+    runs-on: ubuntu-latest
+    environment: release
+
+    permissions:
+      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Download package
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806
+        with:
+          name: parsons-dist
+          path: dist
+
+      # Publish
+      - name: Publish
+        uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc
+        with:
+          verify-metadata: true
+          skip-existing: true
+          packages-dir: dist
+          verbose: true

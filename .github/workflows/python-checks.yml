@@ -27,12 +27,12 @@ jobs:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
             - name: Set up Python ${{ matrix.python-version }}
-              uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+              uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
               with:
                   python-version: ${{ matrix.python-version }}
 
             - name: Install uv
-              uses: install-pinned/uv@cdd7153ace885f698b54dcd2ae4ce134afa2ac05  # 0.4.12
+              uses: install-pinned/uv@3aec1379ab70bb5b1be041748d52f765e3a3dc74  # 0.4.12
 
             - name: Install dependencies
               env:
@@ -61,12 +61,12 @@ jobs:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
             - name: Set up Python 3.13
-              uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+              uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
               with:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@cdd7153ace885f698b54dcd2ae4ce134afa2ac05  # 0.4.12
+              uses: install-pinned/uv@3aec1379ab70bb5b1be041748d52f765e3a3dc74  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -83,12 +83,12 @@ jobs:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
             - name: Set up Python 3.13
-              uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+              uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
               with:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@cdd7153ace885f698b54dcd2ae4ce134afa2ac05  # 0.4.12
+              uses: install-pinned/uv@3aec1379ab70bb5b1be041748d52f765e3a3dc74  # 0.4.12
 
             - name: Install dependencies
               run: |
@@ -105,12 +105,12 @@ jobs:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
             - name: Set up Python 3.13
-              uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+              uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
               with:
                   python-version: "3.13"
 
             - name: Install uv
-              uses: install-pinned/uv@cdd7153ace885f698b54dcd2ae4ce134afa2ac05  # 0.4.12
+              uses: install-pinned/uv@3aec1379ab70bb5b1be041748d52f765e3a3dc74  # 0.4.12
 
             - name: Install bandit
               run: |
@@ -132,20 +132,20 @@ jobs:
 
         steps:
             - name: Harden Runner
-              uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481  # v2.11.0
+              uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911  # v2.13.0
               with:
                   egress-policy: audit
 
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
             - name: Set up Python 3.13
-              uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38  # v5.4.0
+              uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55  # v5.5.0
               with:
                   python-version: 3.13
                   cache: pip
 
             - name: Install uv
-              uses: install-pinned/uv@cdd7153ace885f698b54dcd2ae4ce134afa2ac05  # 0.4.12
+              uses: install-pinned/uv@3aec1379ab70bb5b1be041748d52f765e3a3dc74  # 0.4.12
 
             - name: Install module and dependencies
               run: |
@@ -177,7 +177,7 @@ jobs:
         steps:
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-            - uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
+            - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
               id: download
               with:
                   pattern: coverage-*
@@ -185,7 +185,7 @@ jobs:
 
             - name: Coverage comment
               id: coverage_comment
-              uses: py-cov-action/python-coverage-comment-action@d1ff8fbb5ff80feedb3faa0f6d7b424f417ad0e1  # v3.30
+              uses: py-cov-action/python-coverage-comment-action@91910686861e4e1d8282a267a896eb39d46240fb  # v3.35
               with:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   MERGE_COVERAGE_FILES: true
@@ -209,14 +209,14 @@ jobs:
 
         steps:
             - name: Harden Runner
-              uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481 # v2.11.0
+              uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
               with:
                   egress-policy: audit
 
             - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
             - name: Set up Python ${{ matrix.python-version }}
-              uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+              uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
               with:
                   python-version: ${{ matrix.python-version }}
                   cache: pip

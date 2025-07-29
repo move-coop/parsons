@@ -210,7 +210,7 @@ def test_table_to_sftp_csv(live_sftp, simple_table, compression):  # noqa F811
 def assert_results_match_expected(expected, results):
     assert len(results) == len(expected)
     for e in expected:
-        assert any([e in r for r in results])
+        assert any(e in r for r in results)
 
 
 def assert_has_call(mock, args):
@@ -218,7 +218,7 @@ def assert_has_call(mock, args):
 
 
 def assert_has_calls(mock, calls):
-    return all([assert_has_call(mock, c) for c in calls])
+    return all(assert_has_call(mock, c) for c in calls)
 
 
 @mark_live_test

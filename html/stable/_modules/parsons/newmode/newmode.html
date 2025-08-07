@@ -588,11 +588,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;NEWMODE_API_CLIENT_SECRET&quot;</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;content-type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default_client</span><span class="p">:</span> <span class="n">OAuth2APIConnector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_default_oauth_client</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">campaigns_client</span><span class="p">:</span> <span class="n">OAuth2APIConnector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_campaigns_oauth_client</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_campaigns_oauth_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OAuth2APIConnector</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">OAuth2APIConnector</span><span class="p">(</span>
+            <span class="n">uri</span><span class="o">=</span><span class="n">V2_API_CAMPAIGNS_URL</span><span class="p">,</span>
+            <span class="n">auto_refresh_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+            <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">V2_API_CAMPAIGNS_HEADERS</span><span class="p">,</span>
+            <span class="n">token_url</span><span class="o">=</span><span class="n">V2_API_AUTH_URL</span><span class="p">,</span>
+            <span class="n">grant_type</span><span class="o">=</span><span class="s2">&quot;client_credentials&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_default_oauth_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OAuth2APIConnector</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">OAuth2APIConnector</span><span class="p">(</span>
             <span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span>
-            <span class="n">auto_refresh_url</span><span class="o">=</span><span class="n">V2_API_AUTH_URL</span><span class="p">,</span>
+            <span class="n">auto_refresh_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
             <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
             <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
@@ -618,7 +630,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">client</span><span class="p">:</span> <span class="n">OAuth2APIConnector</span><span class="p">,</span>
+        <span class="n">use_campaigns_client</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">json</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -631,6 +643,8 @@
         <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
 
+        <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_client</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">use_campaigns_client</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">campaigns_client</span>
+
         <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">retries</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
@@ -641,6 +655,10 @@
                 <span class="k">except</span> <span class="n">TokenExpiredError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Token expired: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. Refreshing it...&quot;</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">default_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_default_oauth_client</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">campaigns_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_campaigns_oauth_client</span><span class="p">()</span>
+                    <span class="n">client</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">default_client</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">use_campaigns_client</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">campaigns_client</span>
+                    <span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">attempt</span> <span class="o">&lt;</span> <span class="n">retries</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request failed (attempt </span><span class="si">{</span><span class="n">attempt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">retries</span><span class="si">}</span><span class="s2">). Retrying...&quot;</span><span class="p">)</span>
@@ -653,7 +671,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">client</span><span class="p">:</span> <span class="n">OAuth2APIConnector</span><span class="p">,</span>
+        <span class="n">use_campaigns_client</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">data_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">RESPONSE_DATA_KEY</span><span class="p">,</span>
         <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">json</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -674,7 +692,7 @@
             <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span>
                 <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
                 <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
-                <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+                <span class="n">use_campaigns_client</span><span class="o">=</span><span class="n">use_campaigns_client</span><span class="p">,</span>
                 <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
@@ -688,7 +706,12 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
             <span class="c1"># Check for pagination</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">RESPONSE_LINKS_KEY</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">PAGINATION_NEXT</span><span class="p">)</span> <span class="k">if</span> <span class="n">response</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">response</span><span class="p">:</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">RESPONSE_LINKS_KEY</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">PAGINATION_NEXT</span><span class="p">,</span> <span class="p">{})</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">results</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">converted_request</span><span class="p">(</span>
@@ -701,14 +724,13 @@
         <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">convert_to_table</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">data_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">OAuth2APIConnector</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_campaigns_client</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">override_api_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal method to make a call to the Newmode API and convert the result to a Parsons table.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">client</span> <span class="o">=</span> <span class="n">client</span> <span class="k">if</span> <span class="n">client</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_client</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
             <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">,</span>
@@ -717,12 +739,12 @@
             <span class="n">data_key</span><span class="o">=</span><span class="n">data_key</span><span class="p">,</span>
             <span class="n">supports_version</span><span class="o">=</span><span class="n">supports_version</span><span class="p">,</span>
             <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+            <span class="n">use_campaigns_client</span><span class="o">=</span><span class="n">use_campaigns_client</span><span class="p">,</span>
             <span class="n">override_api_version</span><span class="o">=</span><span class="n">override_api_version</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">response</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">convert_to_table</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_client</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">response</span>
 
@@ -764,22 +786,13 @@
         <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;node/action&quot;</span>
-        <span class="n">campaigns_client</span> <span class="o">=</span> <span class="n">OAuth2APIConnector</span><span class="p">(</span>
-            <span class="n">uri</span><span class="o">=</span><span class="n">V2_API_CAMPAIGNS_URL</span><span class="p">,</span>
-            <span class="n">auto_refresh_url</span><span class="o">=</span><span class="n">V2_API_AUTH_URL</span><span class="p">,</span>
-            <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
-            <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
-            <span class="n">headers</span><span class="o">=</span><span class="n">V2_API_CAMPAIGNS_HEADERS</span><span class="p">,</span>
-            <span class="n">token_url</span><span class="o">=</span><span class="n">V2_API_AUTH_URL</span><span class="p">,</span>
-            <span class="n">grant_type</span><span class="o">=</span><span class="s2">&quot;client_credentials&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converted_request</span><span class="p">(</span>
             <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span>
             <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
             <span class="n">data_key</span><span class="o">=</span><span class="n">RESPONSE_DATA_KEY</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">=</span><span class="n">campaigns_client</span><span class="p">,</span>
+            <span class="n">use_campaigns_client</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">override_api_version</span><span class="o">=</span><span class="n">V2_API_CAMPAIGNS_VERSION</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
@@ -883,7 +896,10 @@
             <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="n">campaign_id</span><span class="p">}</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converted_request</span><span class="p">(</span>
-            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;submission&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="n">RESPONSE_DATA_KEY</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;submission&quot;</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">data_key</span><span class="o">=</span><span class="n">RESPONSE_DATA_KEY</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span>
 
@@ -924,7 +940,9 @@
         <span class="n">api_version</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;NEWMODE_API_VERSION&quot;</span><span class="p">,</span> <span class="n">api_version</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">api_version</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;v2&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">NewmodeV2</span><span class="p">(</span>
-                <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">client_secret</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="n">api_version</span>
+                <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span>
+                <span class="n">client_secret</span><span class="o">=</span><span class="n">client_secret</span><span class="p">,</span>
+                <span class="n">api_version</span><span class="o">=</span><span class="n">api_version</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">api_version</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;v1&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">NewmodeV1</span><span class="p">(</span><span class="n">api_user</span><span class="o">=</span><span class="n">api_user</span><span class="p">,</span> <span class="n">api_password</span><span class="o">=</span><span class="n">api_password</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="n">api_version</span><span class="p">)</span>

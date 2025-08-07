@@ -339,7 +339,32 @@
 <span class="sd">                Any additional arguments will be passed to Table.from_csv as keyword arguments.</span>
 
 <span class="sd">        `Returns:`</span>
-<span class="sd">            Contents of the generated contribution CSV as a Parsons table.</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                Contents of the generated contribution CSV. List of columns:</span>
+
+<span class="sd">                Receipt ID, Date, Amount, Recurring Total Months, Recurrence Number, Recipient,</span>
+<span class="sd">                Fundraising Page, Fundraising Partner, Reference Code 2, Reference Code,</span>
+<span class="sd">                Donor First Name, Donor Last Name, Donor Addr1, Donor Addr2, Donor City,</span>
+<span class="sd">                Donor State, Donor ZIP, Donor Country, Donor Occupation, Donor Employer,</span>
+<span class="sd">                Donor Email, Donor Phone, New Express Signup, Comments, Check Number, Check Date,</span>
+<span class="sd">                Employer Addr1, Employer Addr2, Employer City, Employer State, Employer ZIP,</span>
+<span class="sd">                Employer Country, Donor ID, Fundraiser ID, Fundraiser Recipient ID,</span>
+<span class="sd">                Fundraiser Contact Email, Fundraiser Contact First Name,</span>
+<span class="sd">                Fundraiser Contact Last Name, Partner ID, Partner Contact Email,</span>
+<span class="sd">                Partner Contact First Name, Partner Contact Last Name, Reserved, Lineitem ID,</span>
+<span class="sd">                AB Test Name, AB Variation, Recipient Committee, Recipient ID, Recipient Gov ID,</span>
+<span class="sd">                Recipient Election, Reserved, Payment ID, Payment Date, Disbursement ID,</span>
+<span class="sd">                Disbursement Date, Recovery ID, Recovery Date, Refund ID, Refund Date,</span>
+<span class="sd">                Fee, Recur Weekly, ActBlue Express Lane, Reserved, Card Type, Reserved, Reserved,</span>
+<span class="sd">                Reserved, Reserved, Mobile, Recurring Upsell Shown, Recurring Upsell Succeeded,</span>
+<span class="sd">                Double Down, Smart Recurring, Monthly Recurring Amount, Apple Pay,</span>
+<span class="sd">                Card Replaced by Account Updater, ActBlue Express Donor, Custom Field 1 Label,</span>
+<span class="sd">                Custom Field 1 Value, Donor US Passport Number, Text Message Opt In,</span>
+<span class="sd">                Gift Identifier, Gift Declined, Shipping Addr1, Shipping City, Shipping State,</span>
+<span class="sd">                Shipping Zip, Shipping Country, Weekly Recurring Amount, Smart Boost Amount,</span>
+<span class="sd">                Smart Boost Shown, Bump Recurring Seen, Bump Recurring Succeeded,</span>
+<span class="sd">                Weekly to Monthly Rollover Date, Weekly Recurring Sunset, Recurring Type,</span>
+<span class="sd">                Recurring Pledged, Paypal, Kind, Managed Entity Name, Managed Entity Committee Name</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">post_request_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">csv_type</span><span class="p">,</span> <span class="n">date_range_start</span><span class="p">,</span> <span class="n">date_range_end</span><span class="p">)</span>

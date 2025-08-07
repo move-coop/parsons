@@ -188,7 +188,10 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
-<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">                Data from the email/messages endpoint. List of columns:</span>
+
+<span class="sd">                foreignMessageId, name, createdBy, dateCreated, dateScheduled, campaignID,</span>
+<span class="sd">                dateModified, emailMessageContent</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">ascending</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
@@ -251,7 +254,12 @@
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
-<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">                All statistics returned from the get_email added to get_emails. Columns:</span>
+
+<span class="sd">                name, createdBy, dateCreated, dateModified, dateScheduled, foreignMessageId,</span>
+<span class="sd">                recipientCount, bounceCount, contributionCount, contributionTotal,</span>
+<span class="sd">                formSubmissionCount, linksClickedCount, machineOpenCount, openCount,</span>
+<span class="sd">                unsubscribeCount, subject</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">email_list</span> <span class="o">=</span> <span class="p">[]</span>

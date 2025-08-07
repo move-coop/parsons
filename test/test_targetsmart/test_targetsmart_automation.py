@@ -27,9 +27,9 @@ class TestTargetSmartAutomation(unittest.TestCase):
         job_xml = self.ts.create_job_xml(
             "job_type", "match_job", ["test@gmail.com", "test2@gmail.com"]
         )
-        with open(self.test_xml, "r") as xml:
+        with open(self.test_xml) as xml:
             test_xml = xml.read()
-        with open(job_xml, "r") as xml:
+        with open(job_xml) as xml:
             real_xml = xml.read()
         self.assertEqual(test_xml, real_xml)
 

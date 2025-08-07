@@ -10,7 +10,7 @@ from parsons.utilities import cloud_storage
 logger = logging.getLogger(__name__)
 
 
-class BulkImport(object):
+class BulkImport:
     def __init__(self):
         pass
 

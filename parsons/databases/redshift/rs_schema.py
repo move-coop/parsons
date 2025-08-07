@@ -1,4 +1,4 @@
-class RedshiftSchema(object):
+class RedshiftSchema:
     def schema_exists(self, schema):
         sql = f"select * from pg_namespace where nspname = '{schema}'"
         res = self.query(sql)

@@ -8,7 +8,7 @@ from parsons.utilities import check_env
 logger = logging.getLogger(__name__)
 
 
-class Airtable(object):
+class Airtable:
     """
     `Args:`
         base_key: str

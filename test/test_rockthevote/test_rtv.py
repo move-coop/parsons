@@ -75,7 +75,7 @@ class TestRockTheVote(unittest.TestCase):
         partner_id = "1"
         partner_api_key = "abcd"
 
-        with open(f"{_dir}/sample.json", "r") as j:
+        with open(f"{_dir}/sample.json") as j:
             expected_json = json.load(j)
 
         mocker.get(

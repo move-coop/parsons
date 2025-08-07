@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 URI = "https://app.periscopedata.com/api/v1/"
 
 
-class Sisense(object):
+class Sisense:
     """
     Instantiate the Sisense class.
 

@@ -11,7 +11,7 @@ from parsons.utilities import check_env
 logger = logging.getLogger(__name__)
 
 
-class Auth0(object):
+class Auth0:
     """
     Instantiate the Auth0 class
 

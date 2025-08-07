@@ -11,7 +11,7 @@ from parsons.utilities import check_env
 logger = logging.getLogger(__name__)
 
 
-class ActionKit(object):
+class ActionKit:
     """
     Instantiate the ActionKit class
 

@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 BATCH_SIZE = 999
 
 
-class CensusGeocoder(object):
+class CensusGeocoder:
     """
     Instantiate the CensusGecoder Class
 

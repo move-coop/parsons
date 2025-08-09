@@ -24,6 +24,7 @@ jobs:
           - '3.11'
           - '3.12'
           - '3.13'
+          - '3.13-dev'
         os:
           - ubuntu-latest
           - windows-latest
@@ -51,11 +52,13 @@ jobs:
       - uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b
 
       - if: matrix.resolution != 'limited-dependencies'
+        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
         run: |
           uv pip install --system --resolution ${{ matrix.resolution }} -e .[all]
           uv pip install --system --resolution ${{ matrix.resolution }} -r requirements-dev.txt
 
       - if: matrix.resolution == 'limited-dependencies'
+        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
         env:
             PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: |
@@ -69,10 +72,12 @@ jobs:
           key: pytest-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.resolution }}-${{ hashFiles('pyproject.toml') }}
 
       - run: pytest
+        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
         env:
           COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}"
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ !contains(matrix.python-version, '3.14') }}
         with:
           name: coverage-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}
           path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}
@@ -292,6 +297,7 @@ jobs:
           - '3.11'
           - '3.12'
           - '3.13'
+          - '3.14-dev'
         os:
           - ubuntu-latest
           - windows-latest
@@ -315,8 +321,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - run: |
-          pip install -r requirements-dev.txt
-          pip install -e .[all]
+      - continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
         env:
           PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
+        run: |
+          pip install -r requirements-dev.txt
+          pip install -e .[all]

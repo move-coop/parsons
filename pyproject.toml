@@ -1,3 +1,47 @@
+[build-system]
+requires = [ "setuptools" ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "parsons"
+version = "5.2.0"
+description = "A python library of connectors for the progressive community."
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.9"
+license-files = [ "LICENSE.md" ]
+authors = [
+    { name = "The Movement Cooperative", email = "info@movementcooperative.org" },
+]
+maintainers = [
+    { name = "Shauna Gordon-McKeon" },
+]
+keywords = [ "PROGRESSIVE", "API", "ETL" ]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dynamic = [
+    "dependencies",
+    "optional-dependencies",
+]
+
+[project.urls]
+homepage = "https://www.parsonsproject.org/"
+documentation = "https://move-coop.github.io/parsons/html/stable/index.html"
+releasenotes = "https://github.com/move-coop/parsons/releases"
+funding = "https://secure.actblue.com/donate/parsonsproject?refcode=parsonswebsite"
+issues = "https://github.com/move-coop/parsons/issues"
+github = "https://github.com/move-coop/parsons"
+repository = "https://github.com/move-coop/parsons.git"
+
+[tool.setuptools]
+packages = ["parsons"]
+
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 include = [

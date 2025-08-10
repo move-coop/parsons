@@ -1,3 +1,4 @@
+import inspect
 import logging
 import pickle
 from enum import Enum
@@ -49,6 +50,10 @@ class Table(ETL, ToFrom):
         lst: Union[list, tuple, petl.util.base.Table, _EmptyDefault] = _EMPTYDEFAULT,
     ):
         self.table = None
+
+        #
+        if inspect.isgenerator(lst):
+            lst = tuple(lst)
 
         # Normally we would use None as the default argument here
         # Instead of using None, we use a sentinal

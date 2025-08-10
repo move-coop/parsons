@@ -41,7 +41,7 @@ class Email(object):
                 "$orderby": "dateModified desc",
             }
 
-        tbl = Table(self.connection.get_request("email/messages", params=params))
+        tbl = Table(self.connection.data("email/messages", params=params))
         logger.debug(f"Found {tbl.num_rows} emails.")
         return tbl
 
@@ -69,7 +69,7 @@ class Email(object):
             ),
         }
 
-        r = self.connection.get_request(f"email/message/{email_id}", params=params)
+        r = self.connection.data(f"email/message/{email_id}", params=params)
         logger.debug(f"Found email {email_id}.")
         return r
 

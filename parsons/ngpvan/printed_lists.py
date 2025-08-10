@@ -41,7 +41,7 @@ class PrintedLists(object):
 
         params = {key: value for key, value in params.items() if value is not None}
 
-        tbl = Table(self.connection.get_request("printedLists", params=params))
+        tbl = Table(self.connection.data("printedLists", params=params))
 
         logger.info(f"Found {tbl.num_rows} printed lists.")
         return tbl
@@ -57,6 +57,6 @@ class PrintedLists(object):
             dict
         """
 
-        r = self.connection.get_request(f"printedLists/{printed_list_number}")
+        r = self.connection.data(f"printedLists/{printed_list_number}")
         logger.info(f"Found printed list {printed_list_number}.")
         return r

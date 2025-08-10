@@ -28,7 +28,7 @@ class SavedLists(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("savedLists", params={"folderId": folder_id}))
+        tbl = Table(self.connection.items("savedLists", params={"folderId": folder_id}))
         logger.info(f"Found {tbl.num_rows} saved lists.")
         return tbl
 
@@ -43,7 +43,7 @@ class SavedLists(object):
             dict
         """
 
-        r = self.connection.get_request(f"savedLists/{saved_list_id}")
+        r = self.connection.data(f"savedLists/{saved_list_id}")
         logger.info(f"Found saved list {saved_list_id}.")
         return r
 
@@ -290,7 +290,7 @@ class Folders(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("folders"))
+        tbl = Table(self.connection.items("folders"))
         logger.info(f"Found {tbl.num_rows} folders.")
         return tbl
 
@@ -306,7 +306,7 @@ class Folders(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        r = self.connection.get_request(f"folders/{folder_id}")
+        r = self.connection.data(f"folders/{folder_id}")
         logger.info(f"Found folder {folder_id}.")
         return r
 
@@ -324,7 +324,7 @@ class ExportJobs(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("exportJobTypes"))
+        tbl = Table(self.connection.items("exportJobTypes"))
         logger.info(f"Found {tbl.num_rows} export job types.")
         return tbl
 
@@ -354,7 +354,7 @@ class ExportJobs(object):
             "webhookUrl": webhookUrl,
         }
 
-        r = self.connection.post_request("exportJobs", json=json)
+        r = self.connection.post_request("exportJobs", json=json).json()
         logger.info("Retrieved export job.")
         return r
 
@@ -370,6 +370,6 @@ class ExportJobs(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        r = self.connection.get_request(f"exportJobs/{export_job_id}")
+        r = self.connection.data(f"exportJobs/{export_job_id}")
         logger.info(f"Found export job {export_job_id}.")
         return r

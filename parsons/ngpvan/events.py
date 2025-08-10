@@ -72,7 +72,7 @@ class Events(object):
             "$expand": expand_fields,
         }
 
-        tbl = Table(self.connection.get_request("events", params=params))
+        tbl = Table(self.connection.items("events", params=params))
         logger.info(f"Found {tbl.num_rows} events.")
         return tbl
 
@@ -111,7 +111,7 @@ class Events(object):
         if expand_fields:
             expand_fields = ",".join(expand_fields)
 
-        r = self.connection.get_request(f"events/{event_id}", params={"$expand": expand_fields})
+        r = self.connection.data(f"events/{event_id}", params={"$expand": expand_fields})
         logger.info(f"Found event {event_id}.")
         return r
 
@@ -223,7 +223,7 @@ class Events(object):
         if code_ids:
             event["codes"] = [{"codeID": c} for c in code_ids]
 
-        r = self.connection.post_request("events", json=event)
+        r = self.connection.post_request("events", json=event).json()
         logger.info(f"Event {r} created.")
         return r
 
@@ -275,6 +275,6 @@ class Events(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request("events/types"))
+        tbl = Table(self.connection.data("events/types"))
         logger.info(f"Found {tbl.num_rows} events.")
         return tbl

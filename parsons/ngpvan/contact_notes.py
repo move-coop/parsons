@@ -23,7 +23,7 @@ class ContactNotes(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request(f"people/{van_id}/notes"))
+        tbl = Table(self.connection.data(f"people/{van_id}/notes"))
         logger.info(f"Found {tbl.num_rows} custom fields.")
         return tbl
 

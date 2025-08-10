@@ -45,7 +45,7 @@ class SurveyQuestions(object):
             "cycle": cycle,
         }
 
-        tbl = Table(self.connection.get_request("surveyQuestions", params=params))
+        tbl = Table(self.connection.items("surveyQuestions", params=params))
         logger.info(f"Found {tbl.num_rows} survey questions.")
         return tbl
 
@@ -61,7 +61,7 @@ class SurveyQuestions(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        r = self.connection.get_request(f"surveyQuestions/{survey_question_id}")
+        r = self.connection.item(f"surveyQuestions/{survey_question_id}")
         logger.info(f"Found survey question {survey_question_id}.")
         return r
 

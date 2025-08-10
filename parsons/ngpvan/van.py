@@ -1,6 +1,8 @@
 import logging
 from typing import Literal, Optional
 
+from scrapelib import Scraper
+
 from parsons.ngpvan.activist_codes import ActivistCodes
 from parsons.ngpvan.bulk_import import BulkImport
 from parsons.ngpvan.canvass_responses import CanvassResponses
@@ -66,9 +68,20 @@ class VAN(
         api_key: Optional[str] = None,
         db: Optional[Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"]] = None,
     ):
-        self.connection = VANConnector(api_key=api_key, db=db)
-        self.api_key = api_key
-        self.db = db
+        if db == "MyVoters":
+            self.db_code = 0
+        elif db in ["MyMembers", "MyCampaign", "EveryAction"]:
+            self.db_code = 1
+        else:
+            raise KeyError(
+                "Invalid database type specified. Pick one of:"
+                " MyVoters, MyCampaign, MyMembers, EveryAction."
+            )
+
+        session = Scraper()
+        session.auth = ("default", api_key + "|" + str(self.db_code))
+
+        self.connection = VANConnector(session=session, uri="https://api.securevan.com/v4/")
 
         # The size of each page to return. Currently set to maximum.
         self.page_size = 200

@@ -389,6 +389,7 @@ class GoogleBigQuery(DatabaseConnector):
         new_file_extension: str = "csv",
         template_table: Optional[str] = None,
         max_timeout: int = 21600,
+        source_column_match: Optional[str] = None,
         **load_kwargs,
     ):
         """
@@ -471,6 +472,8 @@ class GoogleBigQuery(DatabaseConnector):
             quote=quote,
             custom_schema=schema,
             template_table=template_table,
+            source_column_match=source_column_match,
+
         )
 
         # load CSV from Cloud Storage into BigQuery
@@ -1452,6 +1455,7 @@ class GoogleBigQuery(DatabaseConnector):
         custom_schema: Optional[list] = None,
         template_table: Optional[str] = None,
         parsons_table: Optional[Table] = None,
+        source_column_match: Optional[str] = None,
     ) -> LoadJobConfig:
         """
         Internal function to neatly process a user-supplied job configuration object.
@@ -1490,12 +1494,21 @@ class GoogleBigQuery(DatabaseConnector):
             job_config.skip_leading_rows = ignoreheader
 
         if not job_config.source_format:
+            data_type_mappings = {
+                "csv": bigquery.SourceFormat.CSV,
+                "parquet": bigquery.SourceFormat.PARQUET,
+                "datastore_backup": bigquery.SourceFormat.DATASTORE_BACKUP,
+                "newline_delimited_json": bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
+                "avro": bigquery.SourceFormat.AVRO,
+                "orc": bigquery.SourceFormat.ORC,
+            }
             job_config.source_format = (
-                bigquery.SourceFormat.CSV
-                if data_type == "csv"
-                else bigquery.SourceFormat.NEWLINE_DELIMITED_JSON
+                data_type_mappings[data_type]
             )
-
+        
+        if not job_config.source_column_match:
+            job_config.source_column_match = source_column_match
+            
         if not job_config.field_delimiter:
             if data_type == "csv":
                 job_config.field_delimiter = csv_delimiter

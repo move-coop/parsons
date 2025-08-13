@@ -1505,10 +1505,10 @@ class GoogleBigQuery(DatabaseConnector):
             job_config.source_format = (
                 data_type_mappings[data_type]
             )
-        
+
         if not job_config.source_column_match:
             job_config.source_column_match = source_column_match
-            
+
         if not job_config.field_delimiter:
             if data_type == "csv":
                 job_config.field_delimiter = csv_delimiter

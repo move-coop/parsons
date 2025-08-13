@@ -1495,15 +1495,18 @@ class GoogleBigQuery(DatabaseConnector):
 
         if not job_config.source_format:
             data_type_mappings = {
+
                 "csv": bigquery.SourceFormat.CSV,
                 "parquet": bigquery.SourceFormat.PARQUET,
                 "datastore_backup": bigquery.SourceFormat.DATASTORE_BACKUP,
                 "newline_delimited_json": bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
                 "avro": bigquery.SourceFormat.AVRO,
                 "orc": bigquery.SourceFormat.ORC,
+
             }
             job_config.source_format = (
                 data_type_mappings[data_type]
+
             )
 
         if not job_config.source_column_match:

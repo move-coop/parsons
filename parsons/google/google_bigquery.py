@@ -456,7 +456,9 @@ class GoogleBigQuery(DatabaseConnector):
                 Other arguments to pass to the underlying load_table_from_uri
                 call on the BigQuery client.
         """
-        self._validate_copy_inputs(if_exists=if_exists, data_type=data_type, override_data_type_check=True)
+        self._validate_copy_inputs(
+            if_exists=if_exists, data_type=data_type, override_data_type_check=True
+        )
 
         job_config = self._process_job_config(
             job_config=job_config,
@@ -1559,7 +1561,9 @@ class GoogleBigQuery(DatabaseConnector):
         ptable = petl.frompickle(temp_filename)
         return Table(ptable)
 
-    def _validate_copy_inputs(self, if_exists: str, data_type: str, override_data_type_check: bool = False):
+    def _validate_copy_inputs(
+        self, if_exists: str, data_type: str, override_data_type_check: bool = False
+    ):
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError(
                 f"Unexpected value for if_exists: {if_exists}, must be one of "

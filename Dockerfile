@@ -9,7 +9,6 @@ FROM --platform=linux/amd64 python:3.11
 # Much of this was pulled from examples at https://github.com/joyzoursky/docker-python-chromedriver
 
 # install google chrome
-# RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN   wget -qO- https://dl.google.com/linux/linux_signing_key.pub \
     | gpg --dearmor -o /etc/apt/keyrings/google.gpg; \
   chmod 0644 /etc/apt/keyrings/google.gpg; \

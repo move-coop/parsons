@@ -629,7 +629,19 @@
 <span class="sd">                Other arguments to pass to the underlying load_table_from_uri</span>
 <span class="sd">                call on the BigQuery client.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_copy_inputs</span><span class="p">(</span><span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_copy_inputs</span><span class="p">(</span>
+            <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span>
+            <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span>
+            <span class="n">accepted_data_types</span><span class="o">=</span><span class="p">[</span>
+                <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;parquet&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;datastore_backup&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;newline_delimited_json&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;avro&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;orc&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
 
         <span class="n">job_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_job_config</span><span class="p">(</span>
             <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
@@ -800,7 +812,11 @@
 <span class="sd">                client.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_copy_inputs</span><span class="p">(</span><span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_copy_inputs</span><span class="p">(</span>
+            <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span>
+            <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span>
+            <span class="n">accepted_data_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="s2">&quot;newline_delimited_json&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
 
         <span class="n">job_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_job_config</span><span class="p">(</span>
             <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
@@ -1191,7 +1207,9 @@
     <span class="p">):</span>
         <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;csv&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_copy_inputs</span><span class="p">(</span><span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_copy_inputs</span><span class="p">(</span>
+            <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">accepted_data_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;csv&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
 
         <span class="c1"># If our source table is loaded from CSV with no transformations</span>
         <span class="c1"># The original source file will be directly loaded to GCS</span>
@@ -1772,14 +1790,15 @@
         <span class="n">ptable</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">frompickle</span><span class="p">(</span><span class="n">temp_filename</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">ptable</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_copy_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_copy_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">accepted_data_types</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
         <span class="k">if</span> <span class="n">if_exists</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span> <span class="s2">&quot;truncate&quot;</span><span class="p">,</span> <span class="s2">&quot;append&quot;</span><span class="p">,</span> <span class="s2">&quot;drop&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Unexpected value for if_exists: </span><span class="si">{</span><span class="n">if_exists</span><span class="si">}</span><span class="s2">, must be one of &quot;</span>
                 <span class="s1">&#39;&quot;append&quot;, &quot;drop&quot;, &quot;truncate&quot;, or &quot;fail&quot;&#39;</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">data_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="s2">&quot;json&quot;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Only supports csv or json files [data_type = </span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">accepted_data_types</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Only supports </span><span class="si">{</span><span class="n">accepted_data_types</span><span class="si">}</span><span class="s2"> files [data_type = </span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_table_from_uri</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">source_uris</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">job_config</span><span class="p">,</span> <span class="n">max_timeout</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span>

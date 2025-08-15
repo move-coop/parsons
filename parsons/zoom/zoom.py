@@ -687,7 +687,7 @@ class ZoomV2(ZoomV1):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-        tbl = self._get_request(f"past_webinar/{webinar_id}/", "instances")
+        tbl = self._get_request(f"past_webinars/{webinar_id}/instances", "webinars")
         logger.info(f"Retrieved {tbl.num_rows} webinar occurrences.")
         return tbl
 

@@ -2,7 +2,7 @@
 bandit[sarif]==1.8.6
 coverage==7.10.3
 pre-commit==4.3.0
-pytest-cov==6.1.1
+pytest-cov==6.2.1
 pytest-datadir==1.7.2
 pytest-mock==3.14.1
 pytest-xdist==3.8.0

@@ -23,5 +23,5 @@ myst-parser==4.0.1;python_version>='3.10'
 sphinxcontrib-googleanalytics==0.5
 sphinx-multiversion==0.2.4
 sphinx-rtd-theme==3.0.2
-Sphinx==7.4.7;python_version<'3.10'
-Sphinx==8.2.3;python_version>='3.10'
+Sphinx==7.4.7;python_version<'3.11'
+Sphinx==8.2.3;python_version>='3.11'

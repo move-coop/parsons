@@ -1,5 +1,5 @@
 # Testing Requirements
-bandit[sarif]==1.8.3
+bandit[sarif]==1.8.6
 coverage==7.9.2
 pre-commit==4.2.0
 pytest-cov==6.1.1

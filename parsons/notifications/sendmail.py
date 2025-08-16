@@ -193,10 +193,7 @@ class SendMail(ABC):
         self.log.debug(f"Validating email {str}...")
         realname, email_addr = parseaddr(str)
 
-        if not email_addr:
-            raise ValueError("Invalid email address.")
-
-        if not validate_email(email_addr):
+        if not email_addr or not validate_email(email_addr):
             raise ValueError("Invalid email address.")
 
         return True

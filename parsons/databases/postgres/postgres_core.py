@@ -1,6 +1,7 @@
 import logging
 import pickle
 from contextlib import contextmanager
+from pathlib import Path
 from typing import Optional
 
 import petl
@@ -146,7 +147,7 @@ class PostgresCore(PostgresCreateStatement):
 
                 temp_file = files.create_temp_file()
 
-                with open(temp_file, "wb") as f:
+                with Path(temp_file).open(mode="wb") as f:
                     # Grab the header
                     header = [i[0] for i in cursor.description]
                     pickle.dump(header, f)

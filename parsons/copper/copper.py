@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 COPPER_URI = "https://api.prosperworks.com/developer_api/v1"
 
 
-class Copper(object):
+class Copper:
     """
     Instantiate Copper Class
 

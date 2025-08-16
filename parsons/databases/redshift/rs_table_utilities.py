@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class RedshiftTableUtilities(object):
+class RedshiftTableUtilities:
     def __init__(self):
         pass
 
@@ -31,8 +31,8 @@ class RedshiftTableUtilities(object):
         table_name = [x.strip() for x in table_name]
 
         # Check in pg tables for the table
-        sql = """select count(*) from pg_tables where schemaname='{}' and
-                 tablename='{}';""".format(table_name[0], table_name[1])
+        sql = f"""select count(*) from pg_tables where schemaname='{table_name[0]}' and
+                 tablename='{table_name[1]}';"""
 
         # TODO maybe convert these queries to use self.query_with_connection
 
@@ -42,8 +42,8 @@ class RedshiftTableUtilities(object):
 
             # Check in the pg_views for the table
             if view:
-                sql = """select count(*) from pg_views where schemaname='{}' and
-                         viewname='{}';""".format(table_name[0], table_name[1])
+                sql = f"""select count(*) from pg_views where schemaname='{table_name[0]}' and
+                         viewname='{table_name[1]}';"""
 
             cursor.execute(sql)
             result += cursor.fetchone()[0]

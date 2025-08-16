@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 CAPITOL_CANARY_URI = "https://api.phone2action.com/2.0/"
 
 
-class CapitolCanary(object):
+class CapitolCanary:
     """
     Instantiate CapitolCanary Class
 

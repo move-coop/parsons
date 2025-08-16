@@ -5,7 +5,7 @@ import pickle
 import random
 import uuid
 from contextlib import contextmanager
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 import google
 import petl
@@ -382,7 +382,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
-        schema: Optional[List[dict]] = None,
+        schema: Optional[list[dict]] = None,
         job_config: Optional[LoadJobConfig] = None,
         force_unzip_blobs: bool = False,
         compression_type: str = "gzip",
@@ -565,7 +565,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
-        schema: Optional[List[dict]] = None,
+        schema: Optional[list[dict]] = None,
         job_config: Optional[LoadJobConfig] = None,
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
@@ -810,7 +810,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
-        schema: Optional[List[dict]] = None,
+        schema: Optional[list[dict]] = None,
         max_timeout: int = 21600,
         convert_dict_list_columns_to_json: bool = True,
         **load_kwargs,
@@ -902,7 +902,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
-        schema: Optional[List[dict]] = None,
+        schema: Optional[list[dict]] = None,
         max_timeout: int = 21600,
         convert_dict_list_columns_to_json: bool = True,
         **load_kwargs,
@@ -1388,7 +1388,7 @@ class GoogleBigQuery(DatabaseConnector):
         parsons_table: Optional[Table] = None,
         custom_schema: Optional[list] = None,
         template_table: Optional[str] = None,
-    ) -> Optional[List[bigquery.SchemaField]]:
+    ) -> Optional[list[bigquery.SchemaField]]:
         # if job.schema already set in job_config, do nothing
         if job_config.schema:
             return job_config.schema

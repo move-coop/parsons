@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 URI = "https://donorbox.org/api/v1"
 
 
-class Donorbox(object):
+class Donorbox:
     """
     Instantiate Donorbox class.
 

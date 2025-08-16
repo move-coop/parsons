@@ -389,6 +389,7 @@ class GoogleBigQuery(DatabaseConnector):
         new_file_extension: str = "csv",
         template_table: Optional[str] = None,
         max_timeout: int = 21600,
+        source_column_match: Optional[str] = None,
         **load_kwargs,
     ):
         """
@@ -455,7 +456,19 @@ class GoogleBigQuery(DatabaseConnector):
                 Other arguments to pass to the underlying load_table_from_uri
                 call on the BigQuery client.
         """
-        self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
+        self._validate_copy_inputs(
+            if_exists=if_exists,
+            data_type=data_type,
+            accepted_data_types=[
+                "csv",
+                "json",
+                "parquet",
+                "datastore_backup",
+                "newline_delimited_json",
+                "avro",
+                "orc",
+            ],
+        )
 
         job_config = self._process_job_config(
             job_config=job_config,
@@ -471,6 +484,7 @@ class GoogleBigQuery(DatabaseConnector):
             quote=quote,
             custom_schema=schema,
             template_table=template_table,
+            source_column_match=source_column_match,
         )
 
         # load CSV from Cloud Storage into BigQuery
@@ -622,7 +636,11 @@ class GoogleBigQuery(DatabaseConnector):
                 client.
         """
 
-        self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
+        self._validate_copy_inputs(
+            if_exists=if_exists,
+            data_type=data_type,
+            accepted_data_types=["csv", "newline_delimited_json"],
+        )
 
         job_config = self._process_job_config(
             job_config=job_config,
@@ -1003,7 +1021,9 @@ class GoogleBigQuery(DatabaseConnector):
     ):
         data_type = "csv"
 
-        self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
+        self._validate_copy_inputs(
+            if_exists=if_exists, data_type=data_type, accepted_data_types=["csv"]
+        )
 
         # If our source table is loaded from CSV with no transformations
         # The original source file will be directly loaded to GCS
@@ -1452,6 +1472,7 @@ class GoogleBigQuery(DatabaseConnector):
         custom_schema: Optional[list] = None,
         template_table: Optional[str] = None,
         parsons_table: Optional[Table] = None,
+        source_column_match: Optional[str] = None,
     ) -> LoadJobConfig:
         """
         Internal function to neatly process a user-supplied job configuration object.
@@ -1490,11 +1511,18 @@ class GoogleBigQuery(DatabaseConnector):
             job_config.skip_leading_rows = ignoreheader
 
         if not job_config.source_format:
-            job_config.source_format = (
-                bigquery.SourceFormat.CSV
-                if data_type == "csv"
-                else bigquery.SourceFormat.NEWLINE_DELIMITED_JSON
-            )
+            data_type_mappings = {
+                "csv": bigquery.SourceFormat.CSV,
+                "parquet": bigquery.SourceFormat.PARQUET,
+                "datastore_backup": bigquery.SourceFormat.DATASTORE_BACKUP,
+                "newline_delimited_json": bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
+                "avro": bigquery.SourceFormat.AVRO,
+                "orc": bigquery.SourceFormat.ORC,
+            }
+            job_config.source_format = data_type_mappings[data_type]
+
+        if not job_config.source_column_match:
+            job_config.source_column_match = source_column_match
 
         if not job_config.field_delimiter:
             if data_type == "csv":
@@ -1549,14 +1577,15 @@ class GoogleBigQuery(DatabaseConnector):
         ptable = petl.frompickle(temp_filename)
         return Table(ptable)
 
-    def _validate_copy_inputs(self, if_exists: str, data_type: str):
+    def _validate_copy_inputs(self, if_exists: str, data_type: str, accepted_data_types: list[str]):
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError(
                 f"Unexpected value for if_exists: {if_exists}, must be one of "
                 '"append", "drop", "truncate", or "fail"'
             )
-        if data_type not in ["csv", "json"]:
-            raise ValueError(f"Only supports csv or json files [data_type = {data_type}]")
+
+        if data_type not in accepted_data_types:
+            raise ValueError(f"Only supports {accepted_data_types} files [data_type = {data_type}]")
 
     def _load_table_from_uri(
         self, source_uris, destination, job_config, max_timeout, **load_kwargs

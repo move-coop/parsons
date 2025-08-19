@@ -1515,7 +1515,7 @@ class GoogleBigQuery(DatabaseConnector):
                 "csv": bigquery.SourceFormat.CSV,
                 "parquet": bigquery.SourceFormat.PARQUET,
                 "datastore_backup": bigquery.SourceFormat.DATASTORE_BACKUP,
-                "newline_delimited_json": bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
+                "json": bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
                 "avro": bigquery.SourceFormat.AVRO,
                 "orc": bigquery.SourceFormat.ORC,
             }

@@ -833,6 +833,22 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinar occurrences.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_webinar_occurrences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get past webinar occurrences for a given webinar ID.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            webinar_id: int</span>
+<span class="sd">                The webinar id</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;past_webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s2">/instances&quot;</span><span class="p">,</span> <span class="s2">&quot;webinars&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s2">&quot;webinar_id&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">webinar_id</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinar occurrences.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">get_user_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="ne">AttributeError</span><span class="p">:</span>
         <span class="k">return</span> <span class="ne">AttributeError</span><span class="p">(</span>
             <span class="s2">&quot;Method get_user_webinars has been deprecated in favor of get_webinars&quot;</span>

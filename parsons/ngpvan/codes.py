@@ -7,7 +7,7 @@ from parsons.etl.table import Table
 logger = logging.getLogger(__name__)
 
 
-class Codes(object):
+class Codes:
     def __init__(self, van_connection):
         self.connection = van_connection
 

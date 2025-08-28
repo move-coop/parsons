@@ -5,7 +5,7 @@ import petl
 logger = logging.getLogger(__name__)
 
 
-class ETL(object):
+class ETL:
     def __init__(self):
         pass
 

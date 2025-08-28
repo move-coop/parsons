@@ -83,7 +83,7 @@ class TestGoogleStorageBuckets(unittest.TestCase):
     def test_download_blob(self):
         # Download blob and ensure that it is the expected file
         path = self.cloud.download_blob(TEMP_BUCKET_NAME, TEMP_FILE_NAME)
-        with open(path, "r") as f:
+        with open(path) as f:
             self.assertEqual(f.read(), "A little string")
 
     def test_delete_blob(self):

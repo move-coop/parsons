@@ -20,7 +20,7 @@ from parsons.utilities import files
 logger = logging.getLogger(__name__)
 
 
-class GoogleCloudStorage(object):
+class GoogleCloudStorage:
     """Google Cloud Storage connector utility
 
     This class requires application credentials in the form of a

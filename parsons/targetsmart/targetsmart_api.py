@@ -58,7 +58,7 @@ class Person:
         """
 
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
-            raise KeyError("Search ID type '{}' requires state kwarg".format(search_id_type))
+            raise KeyError(f"Search ID type '{search_id_type}' requires state kwarg")
 
         if search_id_type not in (
             "voterbase",
@@ -308,7 +308,7 @@ class Service:
         return Table([self.connection.request(url, args=args, raw=True)["match_data"]])
 
 
-class Voter(object):
+class Voter:
     def __init__(self, connection):
         self.connection = connection
 

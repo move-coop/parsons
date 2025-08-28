@@ -10,7 +10,7 @@ from parsons.utilities import check_env, files
 logger = logging.getLogger(__name__)
 
 
-class AzureBlobStorage(object):
+class AzureBlobStorage:
     """
     Instantiate AzureBlobStorage Class for a given Azure storage account.
 
@@ -261,7 +261,7 @@ class AzureBlobStorage(object):
             kwargs_dict: dict
                 A dict which should be processed and may have keys for ``ContentSettings``
         `Returns:`
-            Tuple[Optional[ContentSettings], dict]
+            tuple[Optional[ContentSettings], dict]
                 Any created settings or ``None`` and the dict with settings keys remvoed
         """
 

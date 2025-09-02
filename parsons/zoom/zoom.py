@@ -729,6 +729,22 @@ class ZoomV2(ZoomV1):
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
+    def get_past_meeting_occurrences(self, meeting_id: int) -> Table:
+        """
+        Get past meeting occurrences for a given meeting ID.
+
+        `Args:`
+            meeting_id: int
+                The meeting id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+        tbl = self._get_request(f"past_meetings/{meeting_id}/instances", "meetings")
+        tbl.add_column(column="meeting_id", value=meeting_id)
+        logger.info(f"Retrieved {tbl.num_rows} webinar occurrences.")
+        return tbl
+    
     def get_meeting_poll(self, meeting_id: int, poll_id: str) -> Table:
         """
         Get information about a single poll for a given meeting ID.

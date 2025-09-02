@@ -1077,7 +1077,7 @@ class TestZoom(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_past_meeting_occurrences(self, m):
         meetings = {
-            "meetingss": [
+            "meetings": [
                 {
                     "start_time": "2022-03-26T06:44:14Z",
                     "uuid": "Bznyg8KZTdCVbQxvS/oZ7w==",

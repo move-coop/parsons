@@ -886,6 +886,22 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> participants.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_past_meeting_occurrences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get past meeting occurrences for a given meeting ID.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            meeting_id: int</span>
+<span class="sd">                The meeting id</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;past_meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s2">/instances&quot;</span><span class="p">,</span> <span class="s2">&quot;meetings&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s2">&quot;meeting_id&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">meeting_id</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> webinar occurrences.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">get_meeting_poll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get information about a single poll for a given meeting ID.</span>

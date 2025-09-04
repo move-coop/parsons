@@ -66,24 +66,24 @@ class GoogleCloudStorage(object):
 
     def __init__(self, app_creds: Optional[Union[str, dict, Credentials]] = None, project=None):
         if isinstance(app_creds, Credentials):
-            self.credentials = app_creds
+            credentials = app_creds
         else:
             env_credentials_path = str(uuid.uuid4())
             setup_google_application_credentials(
                 app_creds, target_env_var_name=env_credentials_path
             )
-            self.credentials = load_google_application_credentials(env_credentials_path)
+            credentials = load_google_application_credentials(env_credentials_path)
 
         self.project = project
 
         # Throws an error if you pass project=None, so adding if/else statement.
         if not self.project:
-            self.client = storage.Client(credentials=self.credentials)
+            self.client = storage.Client(credentials=credentials)
             """
             Access all methods of `google.cloud` package
             """
         else:
-            self.client = storage.Client(credentials=self.credentials, project=self.project)
+            self.client = storage.Client(credentials=credentials, project=self.project)
 
     def list_buckets(self):
         """

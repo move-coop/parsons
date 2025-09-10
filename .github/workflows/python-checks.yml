@@ -37,19 +37,19 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911
         with:
           disable-sudo: true
           egress-policy: audit
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b
+      - uses: install-pinned/uv@89fe7057a134838242c21f99e99ee3a8dd8f09a3
 
       - if: matrix.resolution != 'limited-dependencies'
         continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
@@ -66,7 +66,7 @@ jobs:
           uv pip install --system -r requirements-dev.txt
 
       - id: cache-pytest
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
         with:
           path: .pytest_cache
           key: pytest-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.resolution }}-${{ hashFiles('pyproject.toml') }}
@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911
         with:
           disable-sudo: true
           egress-policy: block
@@ -96,19 +96,19 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b
+      - uses: install-pinned/uv@89fe7057a134838242c21f99e99ee3a8dd8f09a3
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: cache-ruff
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -123,7 +123,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911
         with:
           disable-sudo: true
           egress-policy: block
@@ -133,19 +133,19 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b
+      - uses: install-pinned/uv@89fe7057a134838242c21f99e99ee3a8dd8f09a3
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: cache-ruff
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -171,7 +171,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911
         with:
           disable-sudo: true
           egress-policy: block
@@ -181,14 +181,14 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b
+      - uses: install-pinned/uv@89fe7057a134838242c21f99e99ee3a8dd8f09a3
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -215,7 +215,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911
         with:
           disable-sudo: true
           egress-policy: block
@@ -224,7 +224,7 @@ jobs:
             github.com:443
             img.shields.io:443
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
@@ -254,7 +254,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911
         with:
           disable-sudo: true
           egress-policy: block
@@ -264,19 +264,19 @@ jobs:
             proxy.golang.org:443
             pypi.org:443
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@51bb057ca8857db7531f188d414ba32b7bb16d2b
+      - uses: install-pinned/uv@89fe7057a134838242c21f99e99ee3a8dd8f09a3
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: cache-pre-commit
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
         with:
           path: .pre-commit-cache
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-${{ hashFiles('pyproject.toml') }}
@@ -309,14 +309,14 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911
         with:
           disable-sudo: true
           egress-policy: audit
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip

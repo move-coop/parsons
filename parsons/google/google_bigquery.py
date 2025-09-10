@@ -13,7 +13,7 @@ import petl
 from google.api_core import exceptions
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi, job
-from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig
+from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig, QueryJobConfig
 from google.oauth2.credentials import Credentials
 
 from parsons.databases.database_connector import DatabaseConnector
@@ -250,6 +250,7 @@ class GoogleBigQuery(DatabaseConnector):
         sql: str,
         parameters: Optional[Union[list, dict]] = None,
         return_values: bool = True,
+        job_config: Optional[QueryJobConfig] = None,
     ) -> Optional[Table]:
         """
         Run a BigQuery query and return the results as a Parsons table.
@@ -278,6 +279,8 @@ class GoogleBigQuery(DatabaseConnector):
                 A valid BigTable statement
             parameters: dict
                 A dictionary of query parameters for BigQuery.
+            job_config: QueryJobConfig or None
+                An optional QueryJobConfig object for custom behavior. See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         `Returns:`
             Parsons Table
@@ -286,11 +289,21 @@ class GoogleBigQuery(DatabaseConnector):
 
         with self.connection() as connection:
             return self.query_with_connection(
-                sql, connection, parameters=parameters, return_values=return_values
+                sql,
+                connection,
+                parameters=parameters,
+                return_values=return_values,
+                job_config=job_config,
             )
 
     def query_with_connection(
-        self, sql, connection, parameters=None, commit=True, return_values: bool = True
+        self,
+        sql,
+        connection,
+        parameters=None,
+        commit=True,
+        return_values: bool = True,
+        job_config: Optional[QueryJobConfig] = None,
     ):
         """
         Execute a query against the BigQuery database, with an existing connection.
@@ -306,6 +319,8 @@ class GoogleBigQuery(DatabaseConnector):
                 A list of python variables to be converted into SQL values in your query
             commit: boolean
                 Must be true. BigQuery
+            job_config: QueryJobConfig or None
+                An optional QueryJobConfig object for custom behavior. See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         `Returns:`
             Parsons Table
@@ -326,7 +341,7 @@ class GoogleBigQuery(DatabaseConnector):
         # get our connection and cursor
         with self.cursor(connection) as cursor:
             # Run the query
-            cursor.execute(sql, parameters)
+            cursor.execute(sql, parameters, job_config=job_config)
 
             if not return_values:
                 return None
@@ -1516,7 +1531,7 @@ class GoogleBigQuery(DatabaseConnector):
                 "csv": bigquery.SourceFormat.CSV,
                 "parquet": bigquery.SourceFormat.PARQUET,
                 "datastore_backup": bigquery.SourceFormat.DATASTORE_BACKUP,
-                "newline_delimited_json": bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
+                "json": bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
                 "avro": bigquery.SourceFormat.AVRO,
                 "orc": bigquery.SourceFormat.ORC,
             }

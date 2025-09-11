@@ -5,33 +5,33 @@ boto3~=1.34
 boxsdk~=3.14
 braintree~=4.37
 censusgeocode~=0.5
-civis>=1.16,<2;python_version<"3.10"  # later Civis versions do not support Python 3.9
-civis>=2;python_version>="3.10"
+civis~=1.16;python_version<"3.10"  # later Civis versions do not support Python 3.9
+civis~=2.7;python_version>="3.10"
 curlify~=3.0
 dbt_core~=1.5
 defusedxml~=0.7
 facebook-business~=22.0
-google-api-core~=2.24
+google-api-core~=2.25
 google-api-python-client~=2.174
 google-auth~=2.40
-google-cloud-bigquery~=3.34
+google-cloud-bigquery~=3.35
 google-cloud-storage-transfer~=1.16
-google-cloud-storage~=3.1
+google-cloud-storage~=3.2
 grpcio~=1.68
 gspread~=6.2
 httplib2~=0.22
 jellyfish~=1.1.1
-joblib~=1.2
+joblib~=1.2;python_version<"3.10"  # Civis 1.16.1, which runs on Python 3.9, requires an older joblib version
+joblib~=1.4;python_version>="3.10"
 mysql-connector-python~=9.3
 newmode~=0.1.6
 oauth2client~=4.1
-paramiko~=3.5
-petl~=1.7.10,<1.7.15;python_version<"3.11"
-petl~=1.7.15,<2;python_version>="3.11"
-psycopg2-binary~=2.9.7,<2.9.10;python_version<"3.12"
-psycopg2-binary~=2.9.10,<3;python_version>="3.12"
-pyairtable~=3.0
-PyGitHub~=2.6
+paramiko~=4.0
+petl~=1.7
+psycopg2-binary~=2.9.9;python_version<"3.13"
+psycopg2-binary~=2.9;python_version>="3.13"
+pyairtable~=3.2
+PyGitHub~=2.7
 python-dateutil~=2.9
 requests~=2.32
 requests-oauthlib~=2.0

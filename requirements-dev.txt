@@ -8,7 +8,7 @@ pytest-mock==3.14.1
 pytest-xdist==3.8.0
 pytest==8.4.1
 requests-mock==1.12.1
-ruff==0.12.9
+ruff==0.13.0
 testfixtures==8.3.0;python_version<'3.11'
 testfixtures==9.1.0;python_version>='3.11'
 

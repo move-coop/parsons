@@ -5,6 +5,7 @@ import pickle
 import random
 import uuid
 from contextlib import contextmanager
+from pathlib import Path
 from typing import List, Optional, Union
 
 import google
@@ -883,7 +884,7 @@ class GoogleBigQuery(DatabaseConnector):
         )
 
         tmpfile_path = tbl.to_csv()
-        with open(tmpfile_path, mode="rb") as tmpfile:
+        with Path(tmpfile_path).open(mode="rb") as tmpfile:
             load_job = self.client.load_table_from_file(
                 tmpfile,
                 destination=self.get_table_ref(table_name=table_name),
@@ -1573,7 +1574,7 @@ class GoogleBigQuery(DatabaseConnector):
         # the proper data types (e.g. integer).
         temp_filename = create_temp_file()
 
-        with open(temp_filename, "wb") as temp_file:
+        with Path(temp_filename).open(mode="wb") as temp_file:
             header = [i[0] for i in cursor.description]
             pickle.dump(header, temp_file)
 

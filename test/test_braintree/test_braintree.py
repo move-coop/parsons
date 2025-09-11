@@ -1,6 +1,5 @@
 import datetime
 import decimal
-import os
 import unittest
 from pathlib import Path
 
@@ -9,7 +8,7 @@ import requests_mock
 from parsons import Braintree, Table
 from test.utils import assert_matching_tables
 
-_dir = os.path.dirname(__file__)
+_dir = Path(__file__).parent
 
 
 class TestBraintree(unittest.TestCase):

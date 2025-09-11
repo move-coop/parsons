@@ -2,7 +2,6 @@
 import io
 import logging
 import mimetypes
-import os
 from abc import ABC, abstractmethod
 from email.encoders import encode_base64
 from email.mime.application import MIMEApplication
@@ -149,7 +148,7 @@ class SendMail(ABC):
             elif isinstance(f, io.BytesIO):
                 file_bytes = f.getvalue()
             else:
-                filename = os.path.basename(f)
+                filename = Path(f).name
                 file_bytes = Path(f).read_bytes()
 
             content_type, encoding = mimetypes.guess_type(filename)

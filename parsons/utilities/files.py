@@ -14,6 +14,7 @@ __all__ = [
     "string_to_temp_file",
 ]
 
+from pathlib import Path
 
 # Maximum number of times to try to open a new temp file before giving up.
 TMP_MAX = 1000
@@ -215,12 +216,11 @@ def string_to_temp_file(string, suffix=None):
     that require credentials to be stored as a file.
     """
 
-    temp_file_path = create_temp_file(suffix=suffix)
+    temp_file = Path(create_temp_file(suffix=suffix))
 
-    with open(temp_file_path, "w") as f:
-        f.write(string)
+    temp_file.write_text(string)
 
-    return temp_file_path
+    return str(temp_file)
 
 
 def zip_check(file_path, compression_type):
@@ -267,7 +267,7 @@ def has_data(file_path):
             ``True`` if data in the file and ``False`` if not.
     """
 
-    return os.stat(file_path).st_size != 0
+    return Path(file_path).stat().st_size != 0
 
 
 def generate_tempfile(suffix=None, create=False):
@@ -293,24 +293,24 @@ def generate_tempfile(suffix=None, create=False):
         name = next(names)
         if suffix:
             name = f"{name}{suffix}"
-        path = os.path.join(temp_dir, name)
+        path = Path(temp_dir) / name
 
         # Check to see if the path already exists.
-        if os.path.exists(path):
+        if path.is_file():
             continue
 
         # If we aren't creating it here, then just return the name
         if not create:
-            return path
+            return str(path)
 
         try:
             # "Touch" the file to ensure that there is a file there, so that if our user tries
             # open it in read mode later, they won't get an error about the file not existing.
             # Also, use mode='x' (exclusive create) to make sure we get an error if the file already
             # exists
-            with open(path, mode="x") as _:
+            with path.open(mode="x") as _:
                 pass
-            return path
+            return str(path)
         # PermissionError can be Windows' way of saying the file exists
         except (FileExistsError, PermissionError):
             continue  # try again with another filename if we got an error

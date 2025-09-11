@@ -4,6 +4,7 @@ import logging
 import time
 import uuid
 import zipfile
+from pathlib import Path
 from typing import Optional, Union
 
 import google
@@ -263,7 +264,7 @@ class GoogleCloudStorage(object):
         bucket = self.get_bucket(bucket_name)
         blob = storage.Blob(blob_name, bucket)
 
-        with open(local_path, "rb") as f:
+        with Path(local_path).open(mode="rb") as f:
             blob.upload_from_file(f, **kwargs)
 
         logger.info(f"{blob_name} put in {bucket_name} bucket.")
@@ -293,7 +294,7 @@ class GoogleCloudStorage(object):
         blob = storage.Blob(blob_name, bucket)
 
         logger.debug(f"Downloading {blob_name} from {bucket_name} bucket.")
-        with open(local_path, "wb") as f:
+        with Path(local_path).open(mode="wb") as f:
             blob.download_to_file(f, client=self.client)
         logger.debug(f"{blob_name} saved to {local_path}.")
 

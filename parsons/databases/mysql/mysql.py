@@ -2,6 +2,7 @@ import logging
 import os
 import pickle
 from contextlib import contextmanager
+from pathlib import Path
 
 import mysql.connector as mysql
 import petl
@@ -174,7 +175,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 # all the type information for each field.)
                 temp_file = files.create_temp_file()
 
-                with open(temp_file, "wb") as f:
+                with Path(temp_file).open(mode="wb") as f:
                     # Grab the header
                     pickle.dump(cursor.column_names, f)
 

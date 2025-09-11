@@ -43,7 +43,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
 
         # Check if there is a pgpass file. Psycopg2 will search for this file first when
         # creating a connection.
-        pgpass = os.path.isfile(os.path.expanduser("~/.pgpass"))
+        pgpass = Path("~/.pgpass").expanduser().is_file()
 
         if not any([self.username, self.password, self.host, self.db]) and not pgpass:
             raise ValueError(

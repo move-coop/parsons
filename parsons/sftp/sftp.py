@@ -1,6 +1,7 @@
 import logging
 import re
 from contextlib import contextmanager
+from pathlib import Path
 from stat import S_ISDIR, S_ISREG
 from typing import Optional
 

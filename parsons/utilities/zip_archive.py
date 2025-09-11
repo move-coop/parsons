@@ -1,5 +1,5 @@
-import os
 import zipfile
+from pathlib import Path
 
 from parsons.utilities.files import create_temp_directory
 
@@ -50,4 +50,4 @@ def unzip_archive(archive_path, destination=None):
     with zipfile.ZipFile(archive_path, "r") as z:
         file_name = z.namelist()[0]
         z.extractall(path=destination)
-        return os.path.join(destination, file_name)
+        return str(Path(destination) / file_name)

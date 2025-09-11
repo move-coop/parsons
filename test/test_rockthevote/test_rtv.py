@@ -1,5 +1,4 @@
 import json
-import os
 import unittest
 from pathlib import Path
 
@@ -7,7 +6,7 @@ import requests_mock
 
 from parsons import RockTheVote
 
-_dir = os.path.dirname(__file__)
+_dir = Path(__file__).parent
 
 
 class TestRockTheVote(unittest.TestCase):
@@ -76,7 +75,7 @@ class TestRockTheVote(unittest.TestCase):
         partner_id = "1"
         partner_api_key = "abcd"
 
-        with open(f"{_dir}/sample.json", "r") as j:
+        with (_dir / "sample.json").open(mode="r") as j:
             expected_json = json.load(j)
 
         mocker.get(

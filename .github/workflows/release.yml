@@ -16,13 +16,13 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Set up Python 3.13
-        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
             python-version: "3.13"
             cache: pip
 
       - name: Install uv
-        uses: install-pinned/uv@89fe7057a134838242c21f99e99ee3a8dd8f09a3
+        uses: install-pinned/uv@e29cd923c49146a4fcc66eb0c8bea117e33ed9ce
 
       - name: Install dependencies
         run: |

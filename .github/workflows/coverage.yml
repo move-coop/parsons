@@ -36,7 +36,7 @@ jobs:
                 disable-sudo: false
                 egress-policy: audit
 
-            - uses: py-cov-action/python-coverage-comment-action@91910686861e4e1d8282a267a896eb39d46240fb  # v3.35
+            - uses: py-cov-action/python-coverage-comment-action@0544a9c648672334d94ec5dd1add7410b4470ddc  # v3.35
               with:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   GITHUB_PR_RUN_ID: ${{ github.event.workflow_run.id }}

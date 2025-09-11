@@ -18,7 +18,7 @@ google-cloud-storage-transfer==1.16.0
 google-cloud-storage==3.2.0
 grpcio==1.68.1
 gspread==6.2.1
-httplib2==0.22.0
+httplib2==0.30.0
 joblib==1.2.0;python_version<"3.10"  # Civis 1.16.1, which runs on Python 3.9, requires an older joblib version
 joblib==1.4.2;python_version>="3.10"
 mysql-connector-python==9.3.0
@@ -44,7 +44,7 @@ surveygizmo==1.2.3
 twilio==9.6.0
 urllib3==1.26.19
 validate-email==1.3
-xmltodict==0.14.2
+xmltodict==0.15.0
 
 # Stuff for TMC scripts
 # TODO Remove when we have a TMC-specific Docker image

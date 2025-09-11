@@ -73,13 +73,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Controlshift</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#controlshift-class">Controlshift Class</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.Controlshift"><code class="docutils literal notranslate"><span class="pre">Controlshift</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Controlshift.get_petitions"><code class="docutils literal notranslate"><span class="pre">Controlshift.get_petitions()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#controlshift-class">Controlshift Class</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
@@ -201,42 +195,6 @@ variables (<code class="docutils literal notranslate"><span class="pre">CONTROLS
 </section>
 <section id="controlshift-class">
 <h2>Controlshift Class<a class="headerlink" href="#controlshift-class" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.Controlshift">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Controlshift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hostname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/controlshift/controlshift.html#Controlshift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Controlshift" title="Link to this definition"></a></dt>
-<dd><p>Instantiate the Controlshift class. Requires an API Application integration.
-For more info on setup, see:
-<a class="reference external" href="https://developers.controlshiftlabs.com/#authenticated-rest-api-quickstart-guide">https://developers.controlshiftlabs.com/#authenticated-rest-api-quickstart-guide</a></p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>hostname: str</dt><dd><p>The URL for the homepage/login page of the organization’s Controlshift
-instance (e.g. <a class="reference external" href="https://demo.controlshift.app">https://demo.controlshift.app</a>). Not required if
-<code class="docutils literal notranslate"><span class="pre">CONTROLSHIFT_HOSTNAME</span></code> env variable is set.</p>
-</dd>
-<dt>client_id: str</dt><dd><p>The Client ID for your REST API Application. Not required if
-<code class="docutils literal notranslate"><span class="pre">CONTROLSHIFT_CLIENT_ID</span></code> env variable is set.</p>
-</dd>
-<dt>client_secret: str</dt><dd><p>The Client Secret for your REST API Application. Not required if
-<code class="docutils literal notranslate"><span class="pre">CONTROLSHIFT_CLIENT_SECRET</span></code> env variable is set.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Controlshift Class</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Controlshift.get_petitions">
-<span class="sig-name descname"><span class="pre">get_petitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/controlshift/controlshift.html#Controlshift.get_petitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Controlshift.get_petitions" title="Link to this definition"></a></dt>
-<dd><p>Get a full list of all petitions, including ones that are unlaunched or otherwise not
-visible to the public.</p>
-<dl class="simple">
-<dt><cite>Return:</cite></dt><dd><p>Table Class</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 

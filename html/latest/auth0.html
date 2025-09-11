@@ -63,18 +63,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Auth0</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.Auth0"><code class="docutils literal notranslate"><span class="pre">Auth0</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Auth0.delete_user"><code class="docutils literal notranslate"><span class="pre">Auth0.delete_user()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Auth0.get_users_by_email"><code class="docutils literal notranslate"><span class="pre">Auth0.get_users_by_email()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Auth0.upsert_user"><code class="docutils literal notranslate"><span class="pre">Auth0.upsert_user()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Auth0.block_user"><code class="docutils literal notranslate"><span class="pre">Auth0.block_user()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Auth0.retrieve_all_users"><code class="docutils literal notranslate"><span class="pre">Auth0.retrieve_all_users()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Auth0.get_connection_id"><code class="docutils literal notranslate"><span class="pre">Auth0.get_connection_id()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
@@ -199,127 +188,6 @@
 </section>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.Auth0">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Auth0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/auth0/auth0.html#Auth0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Auth0" title="Link to this definition"></a></dt>
-<dd><p>Instantiate the Auth0 class</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>client_id: str</dt><dd><p>The Auth0 client ID. Not required if <code class="docutils literal notranslate"><span class="pre">AUTH0_CLIENT_ID</span></code> env variable set.</p>
-</dd>
-<dt>client_secret: str</dt><dd><p>The Auth0 client secret. Not required if <code class="docutils literal notranslate"><span class="pre">AUTH0_CLIENT_SECRET</span></code> env variable set.</p>
-</dd>
-<dt>domain: str</dt><dd><p>The Auth0 domain. Not required if <code class="docutils literal notranslate"><span class="pre">AUTH0_DOMAIN</span></code> env variable set.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Auth0 Class</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Auth0.delete_user">
-<span class="sig-name descname"><span class="pre">delete_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/auth0/auth0.html#Auth0.delete_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Auth0.delete_user" title="Link to this definition"></a></dt>
-<dd><p>Delete Auth0 user.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>id: str</dt><dd><p>The user ID of the record to delete.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Auth0.get_users_by_email">
-<span class="sig-name descname"><span class="pre">get_users_by_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/auth0/auth0.html#Auth0.get_users_by_email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Auth0.get_users_by_email" title="Link to this definition"></a></dt>
-<dd><p>Get Auth0 users by email.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>email: str</dt><dd><p>The user email of the record to get.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Table Class</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Auth0.upsert_user">
-<span class="sig-name descname"><span class="pre">upsert_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">family_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Username-Password-Authentication'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/auth0/auth0.html#Auth0.upsert_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Auth0.upsert_user" title="Link to this definition"></a></dt>
-<dd><p>Upsert Auth0 users by email.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>email: str</dt><dd><p>The user email of the record to get.</p>
-</dd>
-<dt>username: optional str</dt><dd><p>Username to set for user</p>
-</dd>
-<dt>given_name: optional str</dt><dd><p>Given to set for user</p>
-</dd>
-<dt>family_name: optional str</dt><dd><p>Family name to set for user</p>
-</dd>
-<dt>app_metadata: optional dict</dt><dd><p>App metadata to set for user</p>
-</dd>
-<dt>user_metadata: optional dict</dt><dd><p>User metadata to set for user</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Requests Response object</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Auth0.block_user">
-<span class="sig-name descname"><span class="pre">block_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Username-Password-Authentication'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/auth0/auth0.html#Auth0.block_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Auth0.block_user" title="Link to this definition"></a></dt>
-<dd><p>Blocks Auth0 users by email - setting the “blocked” attribute on Auth0’s API.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>user_id: str</dt><dd><p>Auth0 user id</p>
-</dd>
-<dt>connection: optional str</dt><dd><p>Name of auth0 connection (default to Username-Password-Authentication)</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Requests Response object</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Auth0.retrieve_all_users">
-<span class="sig-name descname"><span class="pre">retrieve_all_users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Username-Password-Authentication'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/auth0/auth0.html#Auth0.retrieve_all_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Auth0.retrieve_all_users" title="Link to this definition"></a></dt>
-<dd><p>Retrieves all Auth0 users using the batch jobs endpoint.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>connection: optional str</dt><dd><p>Name of auth0 connection (default to Username-Password-Authentication)</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Requests Response object</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Auth0.get_connection_id">
-<span class="sig-name descname"><span class="pre">get_connection_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/auth0/auth0.html#Auth0.get_connection_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Auth0.get_connection_id" title="Link to this definition"></a></dt>
-<dd><p>Retrieves an Auth0 connection_id corresponding to a specific connection name</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>connection_name: str</dt><dd><p>Name of auth0 connection</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Connection ID string</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 

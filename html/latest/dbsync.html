@@ -112,16 +112,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Database Sync</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.DBSync"><code class="docutils literal notranslate"><span class="pre">DBSync</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.DBSync.table_sync_full"><code class="docutils literal notranslate"><span class="pre">DBSync.table_sync_full()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.DBSync.table_sync_incremental"><code class="docutils literal notranslate"><span class="pre">DBSync.table_sync_incremental()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.DBSync.copy_rows"><code class="docutils literal notranslate"><span class="pre">DBSync.copy_rows()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.DBSync.create_table"><code class="docutils literal notranslate"><span class="pre">DBSync.create_table()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
@@ -178,7 +169,7 @@ database types are:</p>
 <li><p><a class="reference internal" href="google.html#gbq"><span class="std std-ref">Google Big Query</span></a></p></li>
 <li><p><a class="reference internal" href="databases.html#my-sql"><span class="std std-ref">MySQL</span></a></p></li>
 <li><p><a class="reference internal" href="databases.html#postgres"><span class="std std-ref">Postgres</span></a></p></li>
-<li><p><a class="reference internal" href="aws.html#id7"><span class="std std-ref">Redshift</span></a></p></li>
+<li><p><a class="reference internal" href="aws.html#id6"><span class="std std-ref">Redshift</span></a></p></li>
 </ul>
 <p>The <code class="docutils literal notranslate"><span class="pre">DBSync</span></code> class is not a connector, but rather a class that joins in database classes and moves data seamlessly between them.</p>
 <section id="quick-start">
@@ -209,123 +200,6 @@ distinct primary keys.</p>
 </section>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.DBSync">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">DBSync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync" title="Link to this definition"></a></dt>
-<dd><p>Sync tables between databases. Works with <code class="docutils literal notranslate"><span class="pre">Postgres</span></code>, <code class="docutils literal notranslate"><span class="pre">Redshift</span></code>, <code class="docutils literal notranslate"><span class="pre">MySQL</span></code>
-databases.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>source_db: Database connection object</dt><dd><p>A database object.</p>
-</dd>
-<dt>destination_db: Database connection object</dt><dd><p>A database object.</p>
-</dd>
-<dt>read_chunk_size: int</dt><dd><p>The number of rows to read from the source at a time when syncing a table. The
-default value is 100,000 rows.</p>
-</dd>
-<dt>write_chunk_size: int</dt><dd><p>The number of rows to batch up before writing out to the destination. This value
-defaults to whatever the read_chunk_size is.</p>
-</dd>
-<dt>retries: int</dt><dd><p>The number of times to retry if there is an error processing a
-chunk of data. The default value is 0.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>A DBSync object.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.DBSync.table_sync_full">
-<span class="sig-name descname"><span class="pre">table_sync_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'drop'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verify_row_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.table_sync_full"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync.table_sync_full" title="Link to this definition"></a></dt>
-<dd><p>Full sync of table from a source database to a destination database. This will
-wipe all data from the destination table.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>source_table: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
-</dd>
-<dt>destination_table: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
-</dd>
-<dt>if_exists: str</dt><dd><p>If destination table exists either <code class="docutils literal notranslate"><span class="pre">drop</span></code>, <code class="docutils literal notranslate"><span class="pre">truncate</span></code>, or <code class="docutils literal notranslate"><span class="pre">drop_if_needed</span></code>.
-Truncate is useful when there are dependent views associated with the table.
-Drop if needed defaults to <code class="docutils literal notranslate"><span class="pre">truncate</span></code>, but if an error occurs (because a data
-type or length has changed), it will instead <code class="docutils literal notranslate"><span class="pre">drop</span></code>.</p>
-</dd>
-<dt>order_by: str</dt><dd><p>Name of the column to order rows by to ensure stable sorting of results across
-chunks.</p>
-</dd>
-<dt>verify_row_count: bool</dt><dd><p>Whether or not to verify the count of rows in the source and destination table
-are the same at the end of the sync.</p>
-</dd>
-<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: args</dt><dd><p>Optional copy arguments for destination database.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.DBSync.table_sync_incremental">
-<span class="sig-name descname"><span class="pre">table_sync_incremental</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verify_row_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.table_sync_incremental"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync.table_sync_incremental" title="Link to this definition"></a></dt>
-<dd><p>Incremental sync of table from a source database to a destination database
-using an incremental primary key.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>source_table: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
-</dd>
-<dt>destination_table: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
-</dd>
-<dt>primary_key: str</dt><dd><p>The name of the primary key. This must be the same for the source and
-destination table.</p>
-</dd>
-<dt>distinct_check: bool</dt><dd><p>Check that the source table primary key is distinct prior to running the
-sync. If it is not, an error will be raised.</p>
-</dd>
-<dt>verify_row_count: bool</dt><dd><p>Whether or not to verify the count of rows in the source and destination table
-are the same at the end of the sync.</p>
-</dd>
-<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: args</dt><dd><p>Optional copy arguments for destination database.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.DBSync.copy_rows">
-<span class="sig-name descname"><span class="pre">copy_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_by</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.copy_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync.copy_rows" title="Link to this definition"></a></dt>
-<dd><p>Copy the rows from the source to the destination.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>source_table_name: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
-</dd>
-<dt>destination_table_name: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
-</dd>
-<dt>cutoff:</dt><dd><p>Start value to use as a minimum for incremental updates.</p>
-</dd>
-<dt>order_by:</dt><dd><p>Column to use to order the data to ensure a stable sort.</p>
-</dd>
-<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: args</dt><dd><p>Optional copy arguments for destination database.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.DBSync.create_table">
-<span class="sig-name descname"><span class="pre">create_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.create_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync.create_table" title="Link to this definition"></a></dt>
-<dd><p>Create the empty table in the destination database based on the source
-database schema structure. This method utilizes the Alchemy subclass.</p>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 

@@ -80,17 +80,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Formstack</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.formstack.Formstack"><code class="docutils literal notranslate"><span class="pre">Formstack</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.formstack.Formstack.get_folders"><code class="docutils literal notranslate"><span class="pre">Formstack.get_folders()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.formstack.Formstack.get_forms"><code class="docutils literal notranslate"><span class="pre">Formstack.get_forms()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.formstack.Formstack.get_submission"><code class="docutils literal notranslate"><span class="pre">Formstack.get_submission()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.formstack.Formstack.get_form_submissions"><code class="docutils literal notranslate"><span class="pre">Formstack.get_form_submissions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.formstack.Formstack.get_form_fields"><code class="docutils literal notranslate"><span class="pre">Formstack.get_form_fields()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
@@ -222,115 +212,6 @@ environment variable or pass it in as an argument.</p>
 </section>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.formstack.Formstack">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.formstack.</span></span><span class="sig-name descname"><span class="pre">Formstack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack" title="Link to this definition"></a></dt>
-<dd><p>Instantiate Formstack class.</p>
-<blockquote>
-<div><dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>api_token:</dt><dd><p>API token to access the Formstack API. Not required if the
-<code class="docutils literal notranslate"><span class="pre">FORMSTACK_API_TOKEN</span></code> env variable is set.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</div></blockquote>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.formstack.Formstack.get_folders">
-<span class="sig-name descname"><span class="pre">get_folders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_folders" title="Link to this definition"></a></dt>
-<dd><p>Get all folders on your account and their subfolders.</p>
-<dl class="simple">
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Table Class</dt><dd><p>A Table with the folders data.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.formstack.Formstack.get_forms">
-<span class="sig-name descname"><span class="pre">get_forms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_forms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_forms" title="Link to this definition"></a></dt>
-<dd><p>Get all forms on your account.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>form_name: string, optional</dt><dd><p>Search by form name.</p>
-</dd>
-<dt>folder_id: int, optional</dt><dd><p>Return forms in the specified folder.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Table Class</dt><dd><p>A table with the forms data.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.formstack.Formstack.get_submission">
-<span class="sig-name descname"><span class="pre">get_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_submission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_submission" title="Link to this definition"></a></dt>
-<dd><p>Get the details of the specified submission.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>id: int</dt><dd><p>ID for the submission to retrieve.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Dictionary</dt><dd><p>Submission data.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.formstack.Formstack.get_form_submissions">
-<span class="sig-name descname"><span class="pre">get_form_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_params</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_form_submissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_form_submissions" title="Link to this definition"></a></dt>
-<dd><p>Get all submissions for the specified form.</p>
-<p>Note this only returns the meta-data about the submissions, not the answer data,
-by default. To get the responses pass <cite>data=True</cite> as a query param.</p>
-<p>For more useful options, such as how to filter the responses by date,
-check the Formstack documentation.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>form_id: int</dt><dd><p>The form ID for the form of the submissions.</p>
-</dd>
-<dt>query_params: kwargs</dt><dd><p>Query arguments to pass to the form/submissions endpoint.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Table Class</dt><dd><p>A Table with the submission data for the form.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.formstack.Formstack.get_form_fields">
-<span class="sig-name descname"><span class="pre">get_form_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/formstack/formstack.html#Formstack.get_form_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.formstack.Formstack.get_form_fields" title="Link to this definition"></a></dt>
-<dd><p>Get all fields for the specified form.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>form_id: int</dt><dd><p>The form ID for the form of the submissions.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Table Class</dt><dd><p>A Table with the fields on the form.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 

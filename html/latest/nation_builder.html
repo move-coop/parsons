@@ -90,15 +90,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.NationBuilder"><code class="docutils literal notranslate"><span class="pre">NationBuilder</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.NationBuilder.get_people"><code class="docutils literal notranslate"><span class="pre">NationBuilder.get_people()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.NationBuilder.update_person"><code class="docutils literal notranslate"><span class="pre">NationBuilder.update_person()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.NationBuilder.upsert_person"><code class="docutils literal notranslate"><span class="pre">NationBuilder.upsert_person()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
@@ -214,88 +206,6 @@ variables or pass them in as arguments:</p>
 </section>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.NationBuilder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">NationBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/nation_builder/nation_builder.html#NationBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.NationBuilder" title="Link to this definition"></a></dt>
-<dd><p>Instantiate the NationBuilder class</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>slug: str</dt><dd><p>The Nation Builder slug Not required if <code class="docutils literal notranslate"><span class="pre">NB_SLUG</span></code> env variable set. The slug is the
-nation slug of the nation from which your application is requesting approval to retrieve
-data via the NationBuilder API. For example, your application’s user could provide this
-slug via a text field in your application.</p>
-</dd>
-<dt>access_token: str</dt><dd><p>The Nation Builder access_token Not required if <code class="docutils literal notranslate"><span class="pre">NB_ACCESS_TOKEN</span></code> env variable set.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.NationBuilder.get_people">
-<span class="sig-name descname"><span class="pre">get_people</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">Table</span></a></span></span><a class="reference internal" href="_modules/parsons/nation_builder/nation_builder.html#NationBuilder.get_people"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.NationBuilder.get_people" title="Link to this definition"></a></dt>
-<dd><dl class="simple">
-<dt><cite>Returns:</cite></dt><dd><p>A Table of all people stored in Nation Builder.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.NationBuilder.update_person">
-<span class="sig-name descname"><span class="pre">update_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">person_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">person</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/parsons/nation_builder/nation_builder.html#NationBuilder.update_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.NationBuilder.update_person" title="Link to this definition"></a></dt>
-<dd><p>This method updates a person with the provided id to have the provided data. It returns a
-full representation of the updated person.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>person_id: str</dt><dd><p>Nation Builder person id.</p>
-</dd>
-<dt>data: dict</dt><dd><p>Nation builder person object.
-For example {“email”: “<a class="reference external" href="mailto:user&#37;&#52;&#48;example&#46;com">user<span>&#64;</span>example<span>&#46;</span>com</a>”, “tags”: [“foo”, “bar”]}
-Docs: <a class="reference external" href="https://nationbuilder.com/people_api">https://nationbuilder.com/people_api</a></p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>A person object with the updated data.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.NationBuilder.upsert_person">
-<span class="sig-name descname"><span class="pre">upsert_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">person</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/parsons/nation_builder/nation_builder.html#NationBuilder.upsert_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.NationBuilder.upsert_person" title="Link to this definition"></a></dt>
-<dd><p>Updates a matched person or creates a new one if the person doesn’t exist.</p>
-<p>This method attempts to match the input person resource to a person already in the
-nation. If a match is found, the matched person is updated. If a match is not found, a new
-person is created. Matches are found by including one of the following IDs in the request:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>civicrm_id</p></li>
-<li><p>county_file_id</p></li>
-<li><p>dw_id</p></li>
-<li><p>external_id</p></li>
-<li><p>email</p></li>
-<li><p>facebook_username</p></li>
-<li><p>ngp_id</p></li>
-<li><p>salesforce_id</p></li>
-<li><p>twitter_login</p></li>
-<li><p>van_id</p></li>
-</ul>
-</div></blockquote>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>data: dict</dt><dd><p>Nation builder person object.
-For example {“email”: “<a class="reference external" href="mailto:user&#37;&#52;&#48;example&#46;com">user<span>&#64;</span>example<span>&#46;</span>com</a>”, “tags”: [“foo”, “bar”]}
-Docs: <a class="reference external" href="https://nationbuilder.com/people_api">https://nationbuilder.com/people_api</a></p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>A tuple of <cite>created</cite> and <cite>person</cite> object with the updated data. If the request fails
-the method will return a tuple of <cite>False</cite> and <cite>None</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 

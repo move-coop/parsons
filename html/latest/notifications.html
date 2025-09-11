@@ -118,32 +118,23 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#quickstart">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Slack"><code class="docutils literal notranslate"><span class="pre">Slack</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#gmail">Gmail</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Overview</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="#id1">Overview</a><ul class="simple">
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Gmail"><code class="docutils literal notranslate"><span class="pre">Gmail</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">QuickStart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">API</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#smtp">SMTP</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Overview</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="#id4">Overview</a><ul class="simple">
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.SMTP"><code class="docutils literal notranslate"><span class="pre">SMTP</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">QuickStart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">API</a></li>
 </ul>
 </li>
 </ul>
@@ -249,155 +240,13 @@ variable <cite>SLACK_API_TOKEN</cite> or pass it in as an argument.</p>
 </section>
 <section id="api">
 <h3>API<a class="headerlink" href="#api" title="Link to this heading"></a></h3>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.Slack">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Slack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack" title="Link to this definition"></a></dt>
-<dd><dl class="py method">
-<dt class="sig sig-object py" id="parsons.Slack.channels">
-<span class="sig-name descname"><span class="pre">channels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_archived</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.channels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.channels" title="Link to this definition"></a></dt>
-<dd><p>Return a list of all channels in a Slack team.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>fields: list</dt><dd><p>A list of the fields to return. By default, only the channel
-<cite>id</cite> and <cite>name</cite> are returned. See
-<a class="reference external" href="https://api.slack.com/methods/conversations.list">https://api.slack.com/methods/conversations.list</a> for a full
-list of available fields. <cite>Notes:</cite> nested fields are unpacked.</p>
-</dd>
-<dt>exclude_archived: bool</dt><dd><p>Set to <cite>True</cite> to exclude archived channels from the list.
-Default is false.</p>
-</dd>
-<dt>types: list</dt><dd><p>Mix and match channel types by providing a list of any
-combination of <cite>public_channel</cite>, <cite>private_channel</cite>,
-<cite>mpim</cite> (aka group messages), or <cite>im</cite> (aka 1-1 messages).</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Slack.users">
-<span class="sig-name descname"><span class="pre">users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.users" title="Link to this definition"></a></dt>
-<dd><p>Return a list of all users in a Slack team.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>fields: list</dt><dd><p>A list of the fields to return. By default, only the user
-<cite>id</cite> and <cite>name</cite> and <cite>deleted</cite> status are returned. See
-<a class="reference external" href="https://api.slack.com/methods/users.list">https://api.slack.com/methods/users.list</a> for a full list of
-available fields. <cite>Notes:</cite> nested fields are unpacked.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Slack.message">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">webhook</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_message_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.message" title="Link to this definition"></a></dt>
-<dd><p>Send a message to a Slack channel with a webhook instead of an api_key.
-You might not have the full-access API key but still want to notify a channel
-<cite>Args:</cite></p>
-<blockquote>
-<div><dl class="simple">
-<dt>channel: str</dt><dd><p>The name or id of a <cite>public_channel</cite>, a <cite>private_channel</cite>, or
-an <cite>im</cite> (aka 1-1 message).</p>
-</dd>
-<dt>text: str</dt><dd><p>Text of the message to send.</p>
-</dd>
-<dt>webhook: str</dt><dd><p>If you have a webhook url instead of an api_key
-Looks like: <a class="reference external" href="https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx">https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx</a></p>
-</dd>
-<dt>parent_message_id: str</dt><dd><p>The <cite>ts</cite> value of the parent message. If used, this will thread the message.</p>
-</dd>
-</dl>
-</div></blockquote>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Slack.message_channel">
-<span class="sig-name descname"><span class="pre">message_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_message_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.message_channel" title="Link to this definition"></a></dt>
-<dd><p>Send a message to a Slack channel</p>
-<dl>
-<dt><cite>Args:</cite></dt><dd><dl>
-<dt>channel: str</dt><dd><p>The name or id of a <cite>public_channel</cite>, a <cite>private_channel</cite>, or
-an <cite>im</cite> (aka 1-1 message).</p>
-</dd>
-<dt>text: str</dt><dd><p>Text of the message to send.</p>
-</dd>
-<dt>parent_message_id: str</dt><dd><p>The <cite>ts</cite> value of the parent message. If used, this will thread the message.</p>
-</dd>
-<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: kwargs</dt><dd><dl class="simple">
-<dt>as_user: str</dt><dd><p>This is a deprecated argument. Use optional username, icon_url, and icon_emoji
-args to customize the attributes of the user posting the message.
-See <a class="reference external" href="https://api.slack.com/methods/chat.postMessage#legacy_authorship">https://api.slack.com/methods/chat.postMessage#legacy_authorship</a> for
-more information about legacy authorship</p>
-</dd>
-</dl>
-<p>Additional arguments for chat.postMessage API call. See documentation
-&lt;<a class="reference external" href="https://api.slack.com/methods/chat.postMessage">https://api.slack.com/methods/chat.postMessage</a>&gt;` for more info.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt><cite>dict</cite>:</dt><dd><p>A response json</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Slack.upload_file">
-<span class="sig-name descname"><span class="pre">upload_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_binary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.upload_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.upload_file" title="Link to this definition"></a></dt>
-<dd><p>Upload a file to Slack channel(s).</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>channels: list</dt><dd><p>The list of channel names or IDs where the file will be shared.</p>
-</dd>
-<dt>filename: str</dt><dd><p>The path to the file to be uploaded.</p>
-</dd>
-<dt>filetype: str</dt><dd><p>A file type identifier. If None, type will be inferred base on
-file extension. This is used to determine what fields are
-available for that object. See <a class="reference external" href="https://api.slack.com/types/file">https://api.slack.com/types/file</a>
-for a list of valid types and for more information about the
-file object.</p>
-</dd>
-<dt>initial_comment: str</dt><dd><p>The text of the message to send along with the file.</p>
-</dd>
-<dt>title: str</dt><dd><p>Title of the file to be uploaded.</p>
-</dd>
-<dt>is_binary: bool</dt><dd><p>If True, open this file in binary mode. This is needed if
-uploading binary files. Defaults to False.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt><cite>dict</cite>:</dt><dd><p>A response json</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 <p></p>
 </section>
 <section id="gmail">
 <h2>Gmail<a class="headerlink" href="#gmail" title="Link to this heading"></a></h2>
-<section id="id3">
-<h3>Overview<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<section id="id1">
+<h3>Overview<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <p>The Gmail module leverages the Gmail API and provides an way to easily send
 notifications through email. It is recommended that you reference the
 <a class="reference external" href="https://developers.google.com/gmail/api/">Gmail API documentation</a> for
@@ -426,8 +275,8 @@ the Google Developer Console (look for the “Gmail API”).</p></li>
 <div class="toctree-wrapper compound">
 </div>
 </section>
-<section id="id4">
-<h3>QuickStart<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<section id="id2">
+<h3>QuickStart<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <p>To call the Gmail class you will need to pass in the path to a
 <cite>credentials.json</cite> and the path to <cite>tokens.json</cite>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Gmail</span>
@@ -459,61 +308,15 @@ attachments.</p>
 <p>Additionally, you can create a raw email messages and send it. See below for
 more details.</p>
 </section>
-<section id="id5">
-<h3>API<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.Gmail">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Gmail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">creds_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'me'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Gmail" title="Link to this definition"></a></dt>
-<dd><p>Create a Gmail object, for sending emails.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>creds_path: str</dt><dd><p>The path to the credentials.json file.</p>
-</dd>
-<dt>token_path: str</dt><dd><p>The path to the token.json file.</p>
-</dd>
-<dt>user_id: str</dt><dd><p>Optional; Sender email address. Defaults to the special value
-“me” which is used to indicate the authenticated user.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Gmail.send_email">
-<span class="sig-name descname"><span class="pre">send_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Gmail.send_email" title="Link to this definition"></a></dt>
-<dd><p>Send an email message.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>sender: str</dt><dd><p>Email address of the sender.</p>
-</dd>
-<dt>to: str or list</dt><dd><p>Email address(es) of the receiver(s). Must be in correct email
-string syntax. For example, <cite>name&#64;email.com</cite> or
-<cite>“Name” &lt;email&#64;email.com&gt;</cite>.</p>
-</dd>
-<dt>subject: str</dt><dd><p>The subject of the email message.</p>
-</dd>
-<dt>message_text: str</dt><dd><p>The text of the email message.</p>
-</dd>
-<dt>message_html: str</dt><dd><p>The html formatted text of the email message. If ommitted, the
-email is sent a text-only body.</p>
-</dd>
-<dt>files: str or list</dt><dd><p>The path to the file(s) to be attached.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<section id="id3">
+<h3>API<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 </section>
 <p>  :inherited-members:</p>
 </section>
 <section id="smtp">
 <h2>SMTP<a class="headerlink" href="#smtp" title="Link to this heading"></a></h2>
-<section id="id6">
-<h3>Overview<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<section id="id4">
+<h3>Overview<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <p>The SMTP module enables the sending of email through a generic SMTP server. If you have an email server other
 than Gmail this is likely the best way to send emails with Parsons.</p>
 <div class="admonition note">
@@ -529,8 +332,8 @@ the SMTP server you are using.</p></li>
 <div class="toctree-wrapper compound">
 </div>
 </section>
-<section id="id7">
-<h3>QuickStart<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<section id="id5">
+<h3>QuickStart<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <p>To initialize the SMTP class you will need to tell it how to connect to the SMTP server:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMTP</span>
 
@@ -576,59 +379,8 @@ attachments.</p>
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h3>API<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.SMTP">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">SMTP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_manually</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/smtp.html#SMTP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SMTP" title="Link to this definition"></a></dt>
-<dd><p>Create a SMTP object, for sending emails.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>host: str</dt><dd><p>The host of the SMTP server</p>
-</dd>
-<dt>port: int</dt><dd><p>The port of the SMTP server (Default is 587 for TLS)</p>
-</dd>
-<dt>username: str</dt><dd><p>The username of the SMTP server login</p>
-</dd>
-<dt>password: str</dt><dd><p>The password of the SMTP server login</p>
-</dd>
-<dt>tls: bool</dt><dd><p>Defaults to True – pass “0” or “False” to SMTP_TLS to disable</p>
-</dd>
-<dt>close_manually: bool</dt><dd><p>When set to True, send_message will not close the connection</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.SMTP.send_email">
-<span class="sig-name descname"><span class="pre">send_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.SMTP.send_email" title="Link to this definition"></a></dt>
-<dd><p>Send an email message.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>sender: str</dt><dd><p>Email address of the sender.</p>
-</dd>
-<dt>to: str or list</dt><dd><p>Email address(es) of the receiver(s). Must be in correct email
-string syntax. For example, <cite>name&#64;email.com</cite> or
-<cite>“Name” &lt;email&#64;email.com&gt;</cite>.</p>
-</dd>
-<dt>subject: str</dt><dd><p>The subject of the email message.</p>
-</dd>
-<dt>message_text: str</dt><dd><p>The text of the email message.</p>
-</dd>
-<dt>message_html: str</dt><dd><p>The html formatted text of the email message. If ommitted, the
-email is sent a text-only body.</p>
-</dd>
-<dt>files: str or list</dt><dd><p>The path to the file(s) to be attached.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<section id="id6">
+<h3>API<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 </section>
 </section>
 </section>

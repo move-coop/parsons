@@ -107,16 +107,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#get-account-usage">Get Account Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.Twilio"><code class="docutils literal notranslate"><span class="pre">Twilio</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Twilio.get_account"><code class="docutils literal notranslate"><span class="pre">Twilio.get_account()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Twilio.get_accounts"><code class="docutils literal notranslate"><span class="pre">Twilio.get_accounts()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Twilio.get_account_usage"><code class="docutils literal notranslate"><span class="pre">Twilio.get_account_usage()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Twilio.get_messages"><code class="docutils literal notranslate"><span class="pre">Twilio.get_messages()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
@@ -226,117 +217,6 @@ and authorization token as environmental variables (<code class="docutils litera
 </section>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.Twilio">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Twilio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_sid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio" title="Link to this definition"></a></dt>
-<dd><p>Instantiate the Twilio class</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>account_sid: str</dt><dd><p>The Twilio account sid. Not required if <code class="docutils literal notranslate"><span class="pre">TWILIO_ACCOUNT_SID</span></code> env variable is
-passed.</p>
-</dd>
-<dt>auth_token: str</dt><dd><p>The Twilio auth token. Not required if <code class="docutils literal notranslate"><span class="pre">TWILIO_AUTH_TOKEN</span></code> env variable is
-passed.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns</cite>:</dt><dd><p>Twilio class</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Twilio.get_account">
-<span class="sig-name descname"><span class="pre">get_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_sid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio.get_account" title="Link to this definition"></a></dt>
-<dd><p>Get Twilio account</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>account_sid: str</dt><dd><p>The Twilio account sid</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Twilio.get_accounts">
-<span class="sig-name descname"><span class="pre">get_accounts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_accounts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio.get_accounts" title="Link to this definition"></a></dt>
-<dd><p>Get Twilio accounts including subaccounts.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>name: str</dt><dd><p>Filter to name of the account</p>
-</dd>
-<dt>status: str</dt><dd><p>Filter to an account status of <code class="docutils literal notranslate"><span class="pre">active</span></code>, <code class="docutils literal notranslate"><span class="pre">closed</span></code> or <code class="docutils literal notranslate"><span class="pre">suspended</span></code>.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Twilio.get_account_usage">
-<span class="sig-name descname"><span class="pre">get_account_usage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_null</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_account_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio.get_account_usage" title="Link to this definition"></a></dt>
-<dd><p>Get Twilio account usage.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>category: str</dt><dd><p>Filter to a specific type of usage category. The list of possibilities can be found
-<a class="reference external" href="https://www.twilio.com/docs/usage/api/usage-record?code-sample=code-last-months-usage-for-all-usage-categories-4&amp;code-language=Python&amp;code-sdk-version=5.x#usage-all-categories">here</a>.</p>
-</dd>
-<dt>start_date: str</dt><dd><p>Filter to usage from a specific start date (ex. <code class="docutils literal notranslate"><span class="pre">2019-01-01</span></code>).</p>
-</dd>
-<dt>end_date: str</dt><dd><p>Filter to usage from a specific end date (ex. <code class="docutils literal notranslate"><span class="pre">2019-01-01</span></code>).</p>
-</dd>
-<dt>time_period: str</dt><dd><p>A convenience method to filter usage. Can be one of <code class="docutils literal notranslate"><span class="pre">today</span></code>, <code class="docutils literal notranslate"><span class="pre">yesterday</span></code>,
-<code class="docutils literal notranslate"><span class="pre">this_month</span></code>, <code class="docutils literal notranslate"><span class="pre">last_month</span></code>.</p>
-</dd>
-<dt>group_by: str</dt><dd><p>The time interval to group usage by. Can be one of <code class="docutils literal notranslate"><span class="pre">daily</span></code>, <code class="docutils literal notranslate"><span class="pre">monthly</span></code> or
-<code class="docutils literal notranslate"><span class="pre">yearly</span></code>.</p>
-</dd>
-<dt>exclude_null: boolean</dt><dd><p>Exclude rows that have no usage.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Twilio.get_messages">
-<span class="sig-name descname"><span class="pre">get_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_sent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_sent_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_sent_after</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_messages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Twilio.get_messages" title="Link to this definition"></a></dt>
-<dd><p>Get Twilio messages.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>to: str</dt><dd><p>Filter to messages only sent to the specified phone number.</p>
-</dd>
-<dt><a href="#id2"><span class="problematic" id="id3">from_</span></a>: str</dt><dd><p>Filter to messages only sent from the specified phone number.</p>
-</dd>
-<dt>date_sent: str</dt><dd><p>Filter to messages only sent on the specified date (ex. <code class="docutils literal notranslate"><span class="pre">2019-01-01</span></code>).</p>
-</dd>
-<dt>date_sent_before: str</dt><dd><p>Filter to messages only sent before the specified date (ex. <code class="docutils literal notranslate"><span class="pre">2019-01-01</span></code>).</p>
-</dd>
-<dt>date_sent_after: str</dt><dd><p>Filter to messages only sent after the specified date (ex. <code class="docutils literal notranslate"><span class="pre">2019-01-01</span></code>).</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><dl class="simple">
-<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 

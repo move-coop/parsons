@@ -227,10 +227,7 @@ class SFTP(object):
 
         logger.info(f"Reading from {remote_path} to {local_path} in {export_chunk_size}B chunks")
 
-        with (
-            connection.open(remote_path, "rb") as _remote_file,
-            open(local_path, "wb") as _local_file,
-        ):
+        with connection.open(remote_path, "rb") as _remote_file:
             # This disables paramiko's prefetching behavior
             _remote_file.set_pipelined(False)
 
@@ -243,7 +240,7 @@ class SFTP(object):
                     break
 
                 # Write to the destination file
-                _local_file.write(response)
+                Path(local_path).write_bytes(response)
                 logger.debug(f"Successfully read {export_chunk_size} rows to {local_path}")
 
     @connect

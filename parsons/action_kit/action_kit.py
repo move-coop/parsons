@@ -1359,8 +1359,9 @@ class ActionKit(object):
 
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({"accepts": "application/json"})
+        # TODO: use context manager or close file when done
         if isinstance(csv_file, str):
-            csv_file = Path(csv_file).open(mode="rb")
+            csv_file = Path(csv_file).open(mode="rb")  # noqa SIM115
 
         url = self._base_endpoint("upload")
         files = {"upload": csv_file}

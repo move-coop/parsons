@@ -95,7 +95,7 @@ docstring-code-format = false
 docstring-code-line-length = "dynamic"
 
 [tool.pytest.ini_options]
-addopts = "-rf --cov=parsons -n auto"
+addopts = "-rf --cov=parsons --no-cov-on-fail -n auto"
 testpaths = [
     "test",
 ]
@@ -106,12 +106,6 @@ filterwarnings = [
     "ignore:Use ProtectionLevel enum instead:DeprecationWarning", # braintree throws these
     "ignore:Use protection_level parameter instead:DeprecationWarning", # braintree throws these
     "ignore:Argument login_or_token is deprecated:DeprecationWarning",
-]
-
-[tool.bandit]
-exclude_dirs = [
-    ".venv/",
-    "test"
 ]
 
 [tool.isort]

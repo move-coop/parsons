@@ -1,6 +1,7 @@
 import gzip
 import io
 import json
+from pathlib import Path
 from typing import Optional
 
 import petl
@@ -901,7 +902,7 @@ class ToFrom:
         s3 = S3(aws_access_key_id, aws_secret_access_key)
 
         if from_manifest:
-            with open(s3.get_file(bucket, key)) as fd:
+            with Path(s3.get_file(bucket, key)).open() as fd:
                 manifest = json.load(fd)
 
             s3_keys = [x["url"] for x in manifest["entries"]]

@@ -2,6 +2,7 @@ import json
 import logging
 import math
 import time
+from pathlib import Path
 
 import requests
 
@@ -1359,7 +1360,7 @@ class ActionKit:
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({"accepts": "application/json"})
         if isinstance(csv_file, str):
-            csv_file = open(csv_file, "rb")
+            csv_file = Path(csv_file).open(mode="rb")
 
         url = self._base_endpoint("upload")
         files = {"upload": csv_file}
@@ -1376,7 +1377,8 @@ class ActionKit:
                 "id": progress_url.split("/")[-2] if progress_url else None,
                 "progress_url": progress_url,
             }
-            return rv
+
+        return rv
 
     def bulk_upload_table(
         self,

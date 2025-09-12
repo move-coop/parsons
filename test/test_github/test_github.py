@@ -1,5 +1,5 @@
-import os
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 import requests_mock
@@ -8,7 +8,7 @@ from github.GithubException import UnknownObjectException
 from parsons import GitHub, Table
 from parsons.github.github import ParsonsGitHubError
 
-_dir = os.path.dirname(__file__)
+_dir = Path(__file__).parent
 
 
 class TestGitHub(unittest.TestCase):
@@ -24,21 +24,21 @@ class TestGitHub(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_repo(self, m):
-        with open(os.path.join(_dir, "test_data", "test_get_repo.json")) as f:
-            m.get(requests_mock.ANY, text=f.read())
+        m.get(requests_mock.ANY, text=(_dir / "test_data" / "test_get_repo.json").read_text())
         repo = self.github.get_repo("octocat/Hello-World")
         self.assertEqual(repo["id"], 1296269)
         self.assertEqual(repo["name"], "Hello-World")
 
     @requests_mock.Mocker()
     def test_list_repo_issues(self, m):
-        with open(os.path.join(_dir, "test_data", "test_get_repo.json")) as f:
-            m.get("https://api.github.com:443/repos/octocat/Hello-World", text=f.read())
-        with open(os.path.join(_dir, "test_data", "test_list_repo_issues.json")) as f:
-            m.get(
-                "https://api.github.com:443/repos/octocat/Hello-World/issues",
-                text=f.read(),
-            )
+        m.get(
+            "https://api.github.com:443/repos/octocat/Hello-World",
+            text=(_dir / "test_data" / "test_get_repo.json").read_text(),
+        )
+        m.get(
+            "https://api.github.com:443/repos/octocat/Hello-World/issues",
+            text=(_dir / "test_data" / "test_list_repo_issues.json").read_text(),
+        )
         issues_table = self.github.list_repo_issues("octocat/Hello-World")
         self.assertIsInstance(issues_table, Table)
         self.assertEqual(len(issues_table.table), 2)
@@ -47,16 +47,16 @@ class TestGitHub(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_download_file(self, m):
-        with open(os.path.join(_dir, "test_data", "test_get_repo.json")) as f:
-            m.get("https://api.github.com:443/repos/octocat/Hello-World", text=f.read())
-        with open(os.path.join(_dir, "test_data", "test_download_file.csv")) as f:
-            m.get(
-                "https://raw.githubusercontent.com/octocat/Hello-World/testing/data.csv",
-                text=f.read(),
-            )
+        m.get(
+            "https://api.github.com:443/repos/octocat/Hello-World",
+            text=(_dir / "test_data" / "test_get_repo.json").read_text(),
+        )
+        m.get(
+            "https://raw.githubusercontent.com/octocat/Hello-World/testing/data.csv",
+            text=(_dir / "test_data" / "test_download_file.csv").read_text(),
+        )
 
         file_path = self.github.download_file("octocat/Hello-World", "data.csv", branch="testing")
-        with open(file_path) as f:
-            file_contents = f.read()
+        file_contents = Path(file_path).read_text()
 
         self.assertEqual(file_contents, "header\ndata\n")

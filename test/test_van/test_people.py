@@ -186,7 +186,7 @@ class TestNGPVAN(unittest.TestCase):
         self.van.apply_canvass_result(2335282, 18, id_type="DWID")
 
         # test canvassing via phone or sms without providing phone number
-        self.assertRaises(Exception, self.van.apply_canvass_result, 2335282, 18, contact_type_id=37)
+        self.assertRaises(HTTPError, self.van.apply_canvass_result, 2335282, 18, contact_type_id=37)
 
         # test canvassing via phone or sms with providing phone number
         m.post(self.van.connection.uri + "people/2335282/canvassResponses", status_code=204)

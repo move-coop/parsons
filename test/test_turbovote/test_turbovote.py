@@ -1,12 +1,12 @@
-import os
 import unittest
+from pathlib import Path
 
 import requests_mock
 
 from parsons import TurboVote
 from test.utils import validate_list
 
-_dir = os.path.dirname(__file__)
+_dir = Path(__file__).parent
 
 fake_token = {"id-token": "FAKE-TOKEN"}
 
@@ -60,7 +60,7 @@ class TestTurboVote(unittest.TestCase):
             "sms subscribed",
         ]
 
-        with open(f"{_dir}/users.txt") as users_text:
+        with (_dir / "users.txt").open(mode="r") as users_text:
             # Mock endpoints
             m.post(self.tv.uri + "login", json=fake_token)
             m.get(

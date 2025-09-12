@@ -19,6 +19,7 @@ https://developer.box.com/guides/applications/custom-apps/oauth2-setup/
 
 import logging
 import tempfile
+from pathlib import Path
 
 import boxsdk
 
@@ -248,7 +249,7 @@ class Box:
         # Create a temp directory in which we will let Parsons create a
         # file. Both will go away automatically when we leave scope.
         with tempfile.TemporaryDirectory() as temp_dir_name:
-            temp_file_path = temp_dir_name + "/table.tmp"
+            temp_file_path = f"{temp_dir_name}/table.tmp"
             if format == "csv":
                 table.to_csv(local_path=temp_file_path)
             elif format == "json":
@@ -286,7 +287,7 @@ class Box:
 
         file_id = self.get_item_id(path)
 
-        with open(local_path, "wb") as output_file:
+        with Path(local_path).open(mode="wb") as output_file:
             self.client.file(file_id).download_to(output_file)
 
         return local_path
@@ -327,7 +328,7 @@ class Box:
         # Temp file will be around as long as enclosing process is running,
         # which we need, because the Table we return will continue to use it.
         output_file_name = create_temp_file()
-        with open(output_file_name, "wb") as output_file:
+        with Path(output_file_name).open(mode="wb") as output_file:
             self.client.file(file_id).download_to(output_file)
 
         if format == "csv":

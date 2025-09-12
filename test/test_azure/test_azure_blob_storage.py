@@ -1,6 +1,7 @@
 import os
 import unittest
 from datetime import datetime
+from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 from azure.storage.blob import BlobClient, ContainerClient
@@ -118,9 +119,8 @@ class TestAzureBlobStorage(unittest.TestCase):
 
     def test_download_blob(self):
         # Download blob and ensure that it has the expected file contents
-        download_blob_path = self.azure_blob.download_blob(TEST_CONTAINER_NAME, TEST_FILE_NAME)
-        with open(download_blob_path) as f:
-            self.assertEqual(f.read(), TEST_FILE_CONTENTS)
+        download_blob = Path(self.azure_blob.download_blob(TEST_CONTAINER_NAME, TEST_FILE_NAME))
+        self.assertEqual(download_blob.read_text(), TEST_FILE_CONTENTS)
 
     def test_delete_blob(self):
         delete_blob_name = "delete_blob.txt"

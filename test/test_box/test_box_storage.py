@@ -4,6 +4,7 @@ import random
 import string
 import unittest
 import warnings
+from pathlib import Path
 
 from boxsdk.exception import BoxAPIException, BoxOAuthException
 
@@ -182,15 +183,14 @@ class TestBoxStorage(unittest.TestCase):
                 ["5126993336", "Obama", "Barack"],
             ]
         )
-        uploaded_file = table.to_csv()
+        uploaded_file = Path(table.to_csv())
 
-        path_filename = f"{self.temp_folder_name}/my_path"
-        box.upload_table(table, path_filename)
+        path_filename = Path(self.temp_folder_name) / "my_path"
+        box.upload_table(table, str(path_filename))
 
-        downloaded_file = box.download_file(path_filename)
+        downloaded_file = Path(box.download_file(str(path_filename)))
 
-        with open(uploaded_file) as uploaded, open(downloaded_file) as downloaded:
-            self.assertEqual(str(uploaded.read()), str(downloaded.read()))
+        self.assertEqual(uploaded_file.read_text(), downloaded_file.read_text())
 
     def test_get_item_id(self) -> None:
         # Count on environment variables being set

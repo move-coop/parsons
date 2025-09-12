@@ -1,14 +1,14 @@
 import datetime
 import decimal
-import os
 import unittest
+from pathlib import Path
 
 import requests_mock
 
 from parsons import Braintree, Table
 from test.utils import assert_matching_tables
 
-_dir = os.path.dirname(__file__)
+_dir = Path(__file__).parent
 
 
 class TestBraintree(unittest.TestCase):
@@ -24,7 +24,7 @@ class TestBraintree(unittest.TestCase):
         m.post(
             "https://api.braintreegateway.com:443"
             "/merchants/abcd1234abcd1234/disputes/advanced_search?page=1",
-            text=open(f"{_dir}/test_data/dispute_example.xml").read(),
+            text=(_dir / "test_data/dispute_example.xml").read_text(),
         )
         table = self.braintree.get_disputes(start_date="2020-01-01", end_date="2020-01-02")
 
@@ -57,7 +57,7 @@ class TestBraintree(unittest.TestCase):
         m.post(
             "https://api.braintreegateway.com:443"
             "/merchants/abcd1234abcd1234/transactions/advanced_search",
-            text=open(f"{_dir}/test_data/transaction_example.xml").read(),
+            text=(_dir / "test_data/transaction_example.xml").read_text(),
         )
         full_table = self.braintree.get_transactions(
             disbursement_start_date="2020-01-01",
@@ -95,7 +95,7 @@ class TestBraintree(unittest.TestCase):
         m.post(
             "https://api.braintreegateway.com:443"
             "/merchants/abcd1234abcd1234/subscriptions/advanced_search",
-            text=open(f"{_dir}/test_data/subscription_example.xml").read(),
+            text=(_dir / "test_data/subscription_example.xml").read_text(),
         )
         full_table = self.braintree.get_subscriptions(
             start_date="2020-01-01",

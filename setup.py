@@ -1,8 +1,7 @@
 import os
-from distutils.core import setup
 from pathlib import Path
 
-from setuptools import find_packages
+from setuptools import setup
 
 
 def main():
@@ -77,37 +76,13 @@ def main():
         }
         extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
     else:
-        THIS_DIR = Path(__file__).parent.absolute()
-        install_requires = (THIS_DIR / "requirements.txt").read_text().strip().split("\n")
-        # No op for forward-compatibility
-        extras_require = {"all": []}
-
-    this_directory = Path(__file__).parent
-    long_description = (this_directory / "README.md").read_text()
+        pyproject_path = Path(__file__).parent / "requirements.txt"
+        install_requires = pyproject_path.read_text().strip().split("\n")
+        extras_require = {"all": []}  # No op for forward-compatibility
 
     setup(
-        name="parsons",
-        version="5.2.0",  # ensure this version number is in format of n.n.n, not n or n.n
-        author="The Movement Cooperative",
-        author_email="info@movementcooperative.org",
-        url="https://github.com/move-coop/parsons",
-        keywords=["PROGRESSIVE", "API", "ETL"],
-        packages=find_packages(),
         install_requires=install_requires,
         extras_require=extras_require,
-        classifiers=[
-            "Development Status :: 3 - Alpha",
-            "Intended Audience :: Developers",
-            "Programming Language :: Python :: 3.9",
-            "Programming Language :: Python :: 3.10",
-            "Programming Language :: Python :: 3.11",
-            "Programming Language :: Python :: 3.12",
-            "Programming Language :: Python :: 3.13",
-            # "Programming Language :: Python :: 3.14",
-        ],
-        python_requires=">=3.9,<3.14",
-        long_description=long_description,
-        long_description_content_type="text/markdown",
     )
 
 

@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_55180de6cf263644_s3_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.10.6">coverage.py v7.10.6</a>,
-            created at 2025-09-12 01:12 +0000
+            created at 2025-09-12 01:23 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -138,7 +138,7 @@
     <p class="pln"><span class="n"><a id="t54" href="#t54">54</a></span><span class="t">        <span class="com"># so e.g. while python returns 2 bytes for data[2:4]</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t55" href="#t55">55</a></span><span class="t">        <span class="com"># Range: bytes=2-4 will return 3!! So we subtract 1</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t56" href="#t56">56</a></span><span class="t">        <span class="nam">response</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">s3</span><span class="op">.</span><span class="nam">client</span><span class="op">.</span><span class="nam">get_object</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis mis2 show_mis"><span class="n"><a id="t57" href="#t57">57</a></span><span class="t">            <span class="nam">Bucket</span><span class="op">=</span><span class="nam">bucket</span><span class="op">,</span> <span class="nam">Key</span><span class="op">=</span><span class="nam">key</span><span class="op">,</span> <span class="nam">Range</span><span class="op">=</span><span class="str">"bytes={}-{}"</span><span class="op">.</span><span class="nam">format</span><span class="op">(</span><span class="nam">rangestart</span><span class="op">,</span> <span class="nam">rangeend</span> <span class="op">-</span> <span class="num">1</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis mis2 show_mis"><span class="n"><a id="t57" href="#t57">57</a></span><span class="t">            <span class="nam">Bucket</span><span class="op">=</span><span class="nam">bucket</span><span class="op">,</span> <span class="nam">Key</span><span class="op">=</span><span class="nam">key</span><span class="op">,</span> <span class="nam">Range</span><span class="op">=</span><span class="fst">f"</span><span class="fst">bytes=</span><span class="op">{</span><span class="nam">rangestart</span><span class="op">}</span><span class="fst">-</span><span class="op">{</span><span class="nam">rangeend</span> <span class="op">-</span> <span class="num">1</span><span class="op">}</span><span class="fst">"</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis mis2 show_mis"><span class="n"><a id="t58" href="#t58">58</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t59" href="#t59">59</a></span><span class="t">        <span class="key">return</span> <span class="nam">response</span><span class="op">[</span><span class="str">"Body"</span><span class="op">]</span><span class="op">.</span><span class="nam">read</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t60" href="#t60">60</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -362,7 +362,7 @@
             <a class="nav" href="z_55180de6cf263644_s3_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.10.6">coverage.py v7.10.6</a>,
-            created at 2025-09-12 01:12 +0000
+            created at 2025-09-12 01:23 +0000
         </p>
     </div>
 </footer>

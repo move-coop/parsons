@@ -720,10 +720,7 @@ class People(object):
         """
 
         # Set url based on id_type
-        if id_type == "vanid":
-            url = f"people/{id}/codes"
-        else:
-            url = f"people/{id_type}:{id}/codes"
+        url = f"people/{id}/codes" if id_type == "vanid" else f"people/{id_type}:{id}/codes"
 
         json = {"codeId": code_id}
 

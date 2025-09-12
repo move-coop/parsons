@@ -206,12 +206,10 @@ class NationBuilder:
 
         self.client.validate_response(response)
 
-        if response.status_code == 200:
-            if self.client.json_check(response):
-                return (False, response.json())
+        if response.status_code == 200 and self.client.json_check(response):
+            return (False, response.json())
 
-        if response.status_code == 201:
-            if self.client.json_check(response):
-                return (True, response.json())
+        if response.status_code == 201 and self.client.json_check(response):
+            return (True, response.json())
 
         return (False, None)

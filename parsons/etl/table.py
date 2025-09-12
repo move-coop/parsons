@@ -59,7 +59,7 @@ class Table(ETL, ToFrom):
         if lst is _EMPTYDEFAULT:
             self.table = petl.fromdicts([])
 
-        elif isinstance(lst, list) or isinstance(lst, tuple):
+        elif isinstance(lst, (list, tuple)):
             # Check for empty list
             if not len(lst):
                 self.table = petl.fromdicts([])
@@ -285,7 +285,4 @@ class Table(ETL, ToFrom):
             bool
         """
 
-        if petl.nrows(petl.selectnotnone(self.table, column)) == 0:
-            return True
-        else:
-            return False
+        return petl.nrows(petl.selectnotnone(self.table, column)) == 0

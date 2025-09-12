@@ -366,10 +366,7 @@ class SFTP(object):
             verbose: bool
                 Log progress every 5MB. Defaults to True.
         """
-        if verbose:
-            callback = self._progress
-        else:
-            callback = None
+        callback = self._progress if verbose else None
         if connection:
             connection.put(local_path, remote_path, callback=callback)
         else:

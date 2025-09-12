@@ -203,10 +203,7 @@ class CatalistMatch:
         sftp_file_path = self.load_table_to_sftp(table, input_subfolder)
         sftp_file_path_encoded = base64.b64encode(sftp_file_path.encode("ascii")).decode("ascii")
 
-        if export:
-            action = "export%2Cpublish"
-        else:
-            action = "publish"
+        action = "export%2Cpublish" if export else "publish"
 
         # Create endpoint using options
         endpoint_params = [
@@ -386,8 +383,8 @@ class CatalistMatch:
 
     def validate_table(self, table: Table, template_id: str = "48827") -> None:
         """Validate table structure and contents."""
-        if not template_id == "48827":
-            logger.warning(f"No validator implemented for template {template_id}.")
+        if template_id != "48827":
+            logger.warn(f"No validator implemented for template {template_id}.")
             return
 
         expected_table_columns = [

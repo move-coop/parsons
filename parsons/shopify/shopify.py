@@ -154,10 +154,7 @@ class Shopify(object):
         """
         filters = "limit=250&status=any"
 
-        if count:
-            table = table_name + "/count.json"
-        else:
-            table = table_name + ".json"
+        table = table_name + "/count.json" if count else table_name + ".json"
 
         if query_date:
             # Specific date if provided

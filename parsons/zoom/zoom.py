@@ -91,7 +91,7 @@ class ZoomV1:
             params = {}
 
         # Return a dict or table if only one item.
-        if "page_number" not in r.keys():
+        if "page_number" not in r:
             if isinstance(data, dict):
                 return data
             if isinstance(data, list):

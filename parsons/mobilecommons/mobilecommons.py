@@ -16,10 +16,7 @@ DATE_FMT = "%Y-%m-%d"
 
 
 def _format_date(user_entered_date):
-    if user_entered_date:
-        formatted_date = parse_date(user_entered_date).strftime(DATE_FMT)
-    else:
-        formatted_date = None
+    formatted_date = parse_date(user_entered_date).strftime(DATE_FMT) if user_entered_date else None
     return formatted_date
 
 

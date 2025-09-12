@@ -58,10 +58,7 @@ class Empower(object):
         Determine if a dict object is empty.
         """
 
-        if len(self.data[obj_name]) == 0:
-            return True
-        else:
-            return False
+        return len(self.data[obj_name]) == 0
 
     def get_profiles(self):
         """

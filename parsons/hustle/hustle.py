@@ -95,7 +95,7 @@ class Hustle(object):
         resp_json = resp.json()
 
         # If a single item return the dict
-        if "items" not in resp_json.keys():
+        if "items" not in resp_json:
             return resp_json
 
         result = resp_json["items"]

@@ -157,10 +157,7 @@ class Box(object):
         `Returns`: Table
             A Parsons table of items in the folder and their attributes.
         """
-        if path:
-            folder_id = self.get_item_id(path)
-        else:
-            folder_id = DEFAULT_FOLDER_ID
+        folder_id = self.get_item_id(path) if path else DEFAULT_FOLDER_ID
         return self.list_items_by_id(folder_id=folder_id, item_type=item_type)
 
     def list_items_by_id(self, folder_id=DEFAULT_FOLDER_ID, item_type=None) -> Table:

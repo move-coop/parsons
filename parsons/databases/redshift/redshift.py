@@ -620,10 +620,7 @@ class Redshift(
         """
 
         # Specify the columns for a copy statement.
-        if specifycols or (specifycols is None and template_table):
-            cols = tbl.columns
-        else:
-            cols = None
+        cols = tbl.columns if specifycols or specifycols is None and template_table else None
 
         with self.connection() as connection:
             # Check to see if the table exists. If it does not or if_exists = drop, then
@@ -1011,10 +1008,7 @@ class Redshift(
                 See :func:`~parsons.databases.Redshift.copy` for options.
         """
 
-        if isinstance(primary_key, str):
-            primary_keys = [primary_key]
-        else:
-            primary_keys = primary_key
+        primary_keys = [primary_key] if isinstance(primary_key, str) else primary_key
 
         # Set distkey and sortkey to argument or primary key. These keys will be used
         # for the staging table and, if it does not already exist, the destination table.

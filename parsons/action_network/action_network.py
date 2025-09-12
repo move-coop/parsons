@@ -57,9 +57,8 @@ class ActionNetwork(object):
                 return Table(return_list)
             return_list.extend(response_list)
             count = count + len(response_list)
-            if limit:
-                if count >= limit:
-                    return Table(return_list[0:limit])
+            if limit and count >= limit:
+                return Table(return_list[0:limit])
 
     # Advocacy Campaigns
     def get_advocacy_campaigns(self, limit=None, per_page=25, page=None, filter=None):

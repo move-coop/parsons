@@ -190,7 +190,7 @@ class TestBoxStorage(unittest.TestCase):
 
         downloaded_file = Path(box.download_file(str(path_filename)))
 
-        self.assertEqual(uploaded_file.read_text(), downloaded_file.read_text())
+        assert uploaded_file.read_text() == downloaded_file.read_text()
 
     def test_get_item_id(self) -> None:
         # Count on environment variables being set

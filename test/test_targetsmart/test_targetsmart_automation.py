@@ -32,7 +32,7 @@ class TestTargetSmartAutomation(unittest.TestCase):
         )
         test_xml = Path(self.test_xml).read_text()
         real_xml = Path(job_xml).read_text()
-        self.assertEqual(test_xml, real_xml)
+        assert test_xml == real_xml
 
     @mark_live_test
     def test_config_status(self):

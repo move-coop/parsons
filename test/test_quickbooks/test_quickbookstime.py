@@ -25,12 +25,8 @@ class TestQuickBooksTime(unittest.TestCase):
         pass
 
     @requests_mock.Mocker()
-    def test_qb_get_request(self, mock_request, end_point=None):
+    def test_qb_get_request(self, mock_request, end_point="groups"):  # noqa PT028
         # Arrange
-
-        # If no end_point is passed, it will default to the groups endpoint
-        if end_point is None:
-            end_point = "groups"
 
         querystring = {"page": 1}
         mock_request.get(requests_mock.ANY, json=mock_groups_data)

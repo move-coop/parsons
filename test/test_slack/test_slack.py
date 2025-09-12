@@ -278,4 +278,6 @@ class TestSlack(unittest.TestCase):
             json={"ok": False, "error": "invalid_auth"},
         )
 
-        self.assertRaises(SlackClientError, self.slack.upload_file, ["D0L4B9P0Q"], str(file_path))
+        assert pytest.raises(
+            SlackClientError, self.slack.upload_file, ["D0L4B9P0Q"], str(file_path)
+        )

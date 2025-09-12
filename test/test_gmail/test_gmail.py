@@ -237,7 +237,7 @@ class TestGmail(unittest.TestCase):
             file = _dir / "assets/loremipsum_b64_txt.txt"
 
         b64_txt = file.read_text()
-        self.assertEqual(parts[2].get_payload(), b64_txt)
+        assert parts[2].get_payload() == b64_txt
 
         assert parts[2].get_content_type() == "text/plain"
 
@@ -288,11 +288,11 @@ class TestGmail(unittest.TestCase):
         assert parts[1].get_payload() == message_html
 
         b64_txt = (_dir / "assets/loremipsum_b64_jpeg.txt").read_text()
-        self.assertEqual(parts[2].get_payload(), b64_txt)
+        assert parts[2].get_payload() == b64_txt
 
         expected_id = f"<{Path(attachments[0]).name}>"
-        self.assertEqual(parts[2].get("Content-ID"), expected_id)
-        self.assertEqual(parts[2].get_content_type(), "image/jpeg")
+        assert parts[2].get("Content-ID") == expected_id
+        assert parts[2].get_content_type() == "image/jpeg"
 
         # Check the number of parts
         expected_parts = 4
@@ -341,7 +341,7 @@ class TestGmail(unittest.TestCase):
         assert parts[1].get_payload() == message_html
 
         b64_txt = (_dir / "assets/loremipsum_b64_m4a.txt").read_text()
-        self.assertEqual(parts[2].get_payload(), b64_txt)
+        assert parts[2].get_payload() == b64_txt
 
         assert parts[2].get_content_maintype() == "audio"
 
@@ -392,7 +392,7 @@ class TestGmail(unittest.TestCase):
         assert parts[1].get_payload() == message_html
 
         b64_txt = (_dir / "assets/loremipsum_b64_mp3.txt").read_text()
-        self.assertEqual(parts[2].get_payload(), b64_txt)
+        assert parts[2].get_payload() == b64_txt
 
         assert parts[2].get_content_type() == "audio/mpeg"
 
@@ -443,7 +443,7 @@ class TestGmail(unittest.TestCase):
         assert parts[1].get_payload() == message_html
 
         b64_txt = (_dir / "assets/loremipsum_b64_mp4.txt").read_text()
-        self.assertEqual(parts[2].get_payload(), b64_txt)
+        assert parts[2].get_payload() == b64_txt
 
         assert parts[2].get_content_type() == "video/mp4"
 
@@ -495,7 +495,7 @@ class TestGmail(unittest.TestCase):
         assert parts[1].get_payload() == message_html
 
         b64_txt = (_dir / "assets/loremipsum_b64_pdf.txt").read_text()
-        self.assertEqual(parts[2].get_payload(), b64_txt)
+        assert parts[2].get_payload() == b64_txt
 
         assert parts[2].get_content_type() == "application/pdf"
 

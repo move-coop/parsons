@@ -422,8 +422,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         actual = Path(os.environ[bq.env_credential_path])
         actual_str = actual.read_text()
-        self.assertEqual(actual_str, Path(self.cred_path).read_text())
-        self.assertEqual(self.cred_contents, json.loads(actual_str))
+        assert actual_str == Path(self.cred_path).read_text()
+        assert self.cred_contents == json.loads(actual_str)
 
     @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
@@ -447,8 +447,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         actual = Path(os.environ[bq.env_credential_path])
         actual_str = actual.read_text()
-        self.assertEqual(actual_str, Path(self.cred_path).read_text())
-        self.assertEqual(self.cred_contents, json.loads(actual_str))
+        assert actual_str == Path(self.cred_path).read_text()
+        assert self.cred_contents == json.loads(actual_str)
 
     @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
@@ -469,8 +469,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         actual = Path(os.environ[bq.env_credential_path])
         actual_str = actual.read_text()
-        self.assertEqual(actual_str, Path(self.cred_path).read_text())
-        self.assertEqual(self.cred_contents, json.loads(actual_str))
+        assert actual_str == Path(self.cred_path).read_text()
+        assert self.cred_contents == json.loads(actual_str)
 
     def test_copy__if_exists_passed_through(self):
         # setup dependencies / inputs

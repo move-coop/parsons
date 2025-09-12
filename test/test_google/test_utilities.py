@@ -42,24 +42,24 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
     def test_accepts_dictionary(self):
         util.setup_google_application_credentials(self.cred_contents, self.TEST_ENV_NAME)
         actual = Path(os.environ[self.TEST_ENV_NAME])
-        self.assertTrue(actual.exists())
+        assert actual.exists()
         with actual.open(mode="r") as f:
-            self.assertEqual(json.load(f), self.cred_contents)
+            assert json.load(f) == self.cred_contents
 
     def test_accepts_string(self):
         cred_str = json.dumps(self.cred_contents)
         util.setup_google_application_credentials(cred_str, self.TEST_ENV_NAME)
         actual = Path(os.environ[self.TEST_ENV_NAME])
-        self.assertTrue(actual.exists())
+        assert actual.exists()
         with actual.open(mode="r") as f:
-            self.assertEqual(json.load(f), self.cred_contents)
+            assert json.load(f) == self.cred_contents
 
     def test_accepts_file_path(self):
         util.setup_google_application_credentials(self.cred_path, self.TEST_ENV_NAME)
         actual = Path(os.environ[self.TEST_ENV_NAME])
-        self.assertTrue(actual.exists())
+        assert actual.exists()
         with actual.open(mode="r") as f:
-            self.assertEqual(json.load(f), self.cred_contents)
+            assert json.load(f) == self.cred_contents
 
     def test_credentials_are_valid_after_double_call(self):
         # write creds to tmp file...
@@ -71,8 +71,8 @@ class TestSetupGoogleApplicationCredentials(FakeCredentialTest):
         snd = os.environ[self.TEST_ENV_NAME]
 
         actual = Path(snd).read_text()
-        self.assertEqual(self.cred_contents, json.loads(actual))
-        self.assertEqual(Path(fst).read_text(), actual)
+        assert self.cred_contents == json.loads(actual)
+        assert Path(fst).read_text() == actual
 
 
 class TestHexavigesimal(unittest.TestCase):

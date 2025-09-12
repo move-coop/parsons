@@ -151,7 +151,7 @@ class TestParsonsTable(unittest.TestCase):
             "</tbody>\n"
             "</table>\n"
         )
-        self.assertEqual(Path(html_file).read_text(), html)
+        assert Path(html_file).read_text() == html
 
     def test_to_temp_html(self):
         # Test write to object
@@ -174,7 +174,7 @@ class TestParsonsTable(unittest.TestCase):
             "</tbody>\n"
             "</table>\n"
         )
-        self.assertEqual(path.read_text(), html)
+        assert path.read_text() == html
 
     def _assert_expected_csv(self, path, orig_tbl):
         result_tbl = Table.from_csv(path)
@@ -224,7 +224,7 @@ class TestParsonsTable(unittest.TestCase):
             path = Path(tempdir) / "empty.csv"
             path.open(mode="a").close()
 
-            self.assertRaises(ValueError, Table.from_csv, str(path))
+            assert pytest.raises(ValueError, Table.from_csv, str(path))
 
     def test_to_csv_zip(self):
         my_zip = "myzip.zip"

@@ -8,7 +8,7 @@ from parsons.ngpvan.utilities import action_parse
 logger = logging.getLogger(__name__)
 
 
-class ActivistCodes(object):
+class ActivistCodes:
     def __init__(self, van_connection):
         self.connection = van_connection
 

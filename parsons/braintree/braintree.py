@@ -12,7 +12,7 @@ class ParsonsBraintreeError(Exception):
     pass
 
 
-class Braintree(object):
+class Braintree:
     """
     Braintree is a payment processor.
     `Args:`

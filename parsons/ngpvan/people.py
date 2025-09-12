@@ -1,12 +1,12 @@
 import logging
-from typing import Dict, List, Union
+from typing import Union
 
 from parsons.utilities import json_format
 
 logger = logging.getLogger(__name__)
 
 
-class People(object):
+class People:
     def __init__(self, van_connection):
         self.connection = van_connection
 
@@ -197,7 +197,7 @@ class People(object):
         first_name=None,
         last_name=None,
         date_of_birth=None,
-        email: Union[str, List[Dict[str, Union[str, bool]]], None] = None,
+        email: Union[str, list[dict[str, Union[str, bool]]], None] = None,
         phone=None,
         phone_type=None,
         street_number=None,
@@ -227,7 +227,7 @@ class People(object):
                 The person's last name
             dob: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
-            email: Union[str, List[Dict[str, Union[str, bool]]], None]
+            email: Union[str, list[dict[str, Union[str, bool]]], None]
                 The person's email address or a list of email dicts.
                 e.g. [{'email': 'abcd@gmail.com', 'isSubscribed': False}]
                 See https://docs.everyaction.com/reference/people-common-models#email
@@ -300,7 +300,7 @@ class People(object):
         first_name=None,
         last_name=None,
         date_of_birth=None,
-        email: Union[str, List[Dict[str, Union[str, bool]]], None] = None,
+        email: Union[str, list[dict[str, Union[str, bool]]], None] = None,
         phone=None,
         phone_type="H",
         street_number=None,

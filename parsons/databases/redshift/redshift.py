@@ -6,7 +6,7 @@ import pickle
 import random
 from contextlib import contextmanager
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
 import petl
 import psycopg2
@@ -486,7 +486,7 @@ class Redshift(
         acceptinvchars: bool = True,
         dateformat: str = "auto",
         timeformat: str = "auto",
-        varchar_max: Optional[List[str]] = None,
+        varchar_max: Optional[list[str]] = None,
         truncatecolumns: bool = False,
         columntypes: Optional[dict] = None,
         specifycols: Optional[bool] = None,
@@ -1032,7 +1032,7 @@ class Redshift(
         noise = f"{random.randrange(0, 10000):04}"[:4]
         date_stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
         # Generate a temp table like "table_tmp_20200210_1230_14212"
-        staging_tbl = "{}_stg_{}_{}".format(target_table, date_stamp, noise)
+        staging_tbl = f"{target_table}_stg_{date_stamp}_{noise}"
 
         if distinct_check:
             primary_keys_statement = ", ".join(primary_keys)

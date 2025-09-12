@@ -64,7 +64,7 @@ class TestScores(unittest.TestCase):
             "description": None,
         }
 
-        m.get(self.van.connection.uri + "scores/{}".format(score_id), json=json)
+        m.get(self.van.connection.uri + f"scores/{score_id}", json=json)
         self.assertEqual(json, self.van.get_score(score_id))
 
     @requests_mock.Mocker()
@@ -186,7 +186,7 @@ class TestScores(unittest.TestCase):
         score_update_id = 27892
 
         m.patch(
-            self.van.connection.uri + "scoreUpdates/{}".format(score_update_id),
+            self.van.connection.uri + f"scoreUpdates/{score_update_id}",
             status_code=204,
         )
 

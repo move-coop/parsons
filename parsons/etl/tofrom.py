@@ -9,7 +9,7 @@ import petl
 from parsons.utilities import files, zip_archive
 
 
-class ToFrom(object):
+class ToFrom:
     def to_dataframe(self, index=None, exclude=None, columns=None, coerce_float=False):
         """
         Outputs table as a Pandas Dataframe

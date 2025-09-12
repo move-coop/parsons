@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 EMPOWER_API_ENDPOINT = "https://api.getempower.com/v1/export"
 
 
-class Empower(object):
+class Empower:
     """
     Instantiate class.
 

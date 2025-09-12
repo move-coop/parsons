@@ -11,7 +11,7 @@ from parsons.etl.table import Table
 from parsons.utilities.check_env import check
 
 
-class Slack(object):
+class Slack:
     def __init__(self, api_key=None):
         if api_key is None:
             try:

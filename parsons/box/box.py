@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_FOLDER_ID = "0"
 
 
-class Box(object):
+class Box:
     """Box is a file storage provider.
 
     `Args:`

@@ -10,7 +10,7 @@ from parsons import Table
 logger = logging.getLogger(__name__)
 
 
-class APIConnector(object):
+class APIConnector:
     """
     The API Connector is a low level class for API requests that other connectors
     can utilize. It is understood that there are many standards for REST APIs and it will be

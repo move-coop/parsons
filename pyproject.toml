@@ -50,6 +50,7 @@ select = [
     "W", # pycodestyle warnings (W)
     "C4", # flake8-comprehensions (C4)
     "F", # Pyflakes (F)
+    "UP", # pyupgrade (UP)
     "I", # isort (I)
     "TID", # flake8-tidy-imports (TID)
     "ICN", # flake8-import-conventions (ICN)

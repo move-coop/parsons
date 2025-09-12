@@ -10,7 +10,7 @@ from parsons.utilities import files
 logger = logging.getLogger(__name__)
 
 
-class AWSConnection(object):
+class AWSConnection:
     def __init__(
         self,
         aws_access_key_id=None,
@@ -43,7 +43,7 @@ class AWSConnection(object):
             self.session = boto3.Session()
 
 
-class S3(object):
+class S3:
     """
     Instantiate the S3 class.
 

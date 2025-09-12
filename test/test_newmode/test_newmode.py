@@ -3,6 +3,7 @@ import unittest
 import unittest.mock as mock
 from unittest.mock import call, patch
 
+import pytest
 import requests_mock
 from oauthlib.oauth2 import TokenExpiredError
 from requests.exceptions import HTTPError
@@ -89,25 +90,25 @@ class TestNewmodeV1(unittest.TestCase):
         args = {}
         response = self.nm.get_tools(args)
         self.nm.client.getTools.assert_called_with(params=args)
-        self.assertEqual(response[0]["title"], "Tool 1")
+        assert response[0]["title"] == "Tool 1"
 
     def test_get_tool(self):
         id = 1
         response = self.nm.get_tool(id)
         self.nm.client.getTool.assert_called_with(id, params={})
-        self.assertEqual(response["name"], "Tool 1")
+        assert response["name"] == "Tool 1"
 
     def test_lookup_targets(self):
         id = 1
         response = self.nm.lookup_targets(id)
         self.nm.client.lookupTargets.assert_called_with(id, None, params={})
-        self.assertEqual(response[0]["full_name"], "John Doe")
+        assert response[0]["full_name"] == "John Doe"
 
     def test_get_action(self):
         id = 1
         response = self.nm.get_action(id)
         self.nm.client.getAction.assert_called_with(id, params={})
-        self.assertEqual(response["required_fields"][0]["key"], "first_name")
+        assert response["required_fields"][0]["key"] == "first_name"
 
     def test_run_action(self):
         id = 1
@@ -117,74 +118,75 @@ class TestNewmodeV1(unittest.TestCase):
         }
         response = self.nm.run_action(id, payload)
         self.nm.client.runAction.assert_called_with(id, payload, params={})
-        self.assertEqual(response, 1)
+        assert response == 1
 
     def test_get_target(self):
         id = "TESTMODE-aasfff"
         response = self.nm.get_target(id)
         self.nm.client.getTarget.assert_called_with(id, params={})
-        self.assertEqual(response["id"], 1)
-        self.assertEqual(response["full_name"], "John Doe")
+        assert response["id"] == 1
+        assert response["full_name"] == "John Doe"
 
     def test_get_campaigns(self):
         args = {}
         response = self.nm.get_campaigns(args)
         self.nm.client.getCampaigns.assert_called_with(params=args)
-        self.assertEqual(response[0]["title"], "Campaign 1")
+        assert response[0]["title"] == "Campaign 1"
 
     def test_get_campaign(self):
         id = 1
         response = self.nm.get_campaign(id)
         self.nm.client.getCampaign.assert_called_with(id, params={})
-        self.assertEqual(response["name"], "Campaign 1")
+        assert response["name"] == "Campaign 1"
 
     def test_get_organizations(self):
         args = {}
         response = self.nm.get_organizations(args)
         self.nm.client.getOrganizations.assert_called_with(params=args)
-        self.assertEqual(response[0]["title"], "Organization 1")
+        assert response[0]["title"] == "Organization 1"
 
     def test_get_organization(self):
         id = 1
         response = self.nm.get_organization(id)
         self.nm.client.getOrganization.assert_called_with(id, params={})
-        self.assertEqual(response["name"], "Organization 1")
+        assert response["name"] == "Organization 1"
 
     def test_get_services(self):
         args = {}
         response = self.nm.get_services(args)
         self.nm.client.getServices.assert_called_with(params=args)
-        self.assertEqual(response[0]["title"], "Service 1")
+        assert response[0]["title"] == "Service 1"
 
     def test_get_service(self):
         id = 1
         response = self.nm.get_service(id)
         self.nm.client.getService.assert_called_with(id, params={})
-        self.assertEqual(response["name"], "Service 1")
+        assert response["name"] == "Service 1"
 
     def test_get_outreaches(self):
         id = 1
         args = {}
         response = self.nm.get_outreaches(id, args)
         self.nm.client.getOutreaches.assert_called_with(id, params=args)
-        self.assertEqual(response[0]["title"], "Outreach 1")
+        assert response[0]["title"] == "Outreach 1"
 
     def test_get_outreach(self):
         id = 1
         response = self.nm.get_outreach(id)
         self.nm.client.getOutreach.assert_called_with(id, params={})
-        self.assertEqual(response["name"], "Outreach 1")
+        assert response["name"] == "Outreach 1"
 
     def test_get_tools_empty_response(self):
         self.nm.client.getTools.return_value = []
         args = {}
         response = self.nm.get_tools(args)
         self.nm.client.getTools.assert_called_with(params=args)
-        self.assertEqual(response.num_rows, 0)
+        assert response.num_rows == 0
 
     def test_get_tool_invalid_id(self):
-        self.nm.client.getTool.side_effect = HTTPError("Invalid ID")
-        with self.assertRaises(HTTPError):
+        err = "Invalid ID"
+        self.nm.client.getTool.side_effect = HTTPError(err)
+        with pytest.raises(HTTPError, match=err):
             self.nm.get_tool(-1)
 
     def test_get_campaigns_pagination(self):
@@ -201,9 +203,9 @@ class TestNewmodeV1(unittest.TestCase):
             if not response:
                 break
             args["page"] += 1
-        self.assertEqual(len(all_campaigns), 2)
-        self.assertEqual(all_campaigns[0]["title"], "Campaign 1")
-        self.assertEqual(all_campaigns[1]["title"], "Campaign 2")
+        assert len(all_campaigns) == 2
+        assert all_campaigns[0]["title"] == "Campaign 1"
+        assert all_campaigns[1]["title"] == "Campaign 2"
 
 
 class TestNewmodeV2(unittest.TestCase):
@@ -279,7 +281,7 @@ class TestNewmodeV2(unittest.TestCase):
             status_code=500,
         )
 
-        with self.assertRaises(HTTPError):
+        with pytest.raises(HTTPError, match="500 Server Error: None for url"):
             self.nm.base_request(
                 method="GET",
                 url=f"{V2_API_URL}v2.1/test-endpoint",
@@ -287,7 +289,7 @@ class TestNewmodeV2(unittest.TestCase):
             )
 
         # Verify that the logger warned about retries
-        self.assertEqual(mock_logger.warning.call_count, 2)
+        assert mock_logger.warning.call_count == 2
         mock_logger.warning.assert_has_calls(
             [
                 call("Request failed (attempt 1/2). Retrying..."),
@@ -302,7 +304,7 @@ class TestNewmodeV2(unittest.TestCase):
         m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
         m.get(f"{self.base_url}/campaign/{self.campaign_id}/form", json=[])
         response = self.nm.get_campaign(campaign_id=self.campaign_id)
-        self.assertEqual(response.num_rows, 0)
+        assert response.num_rows == 0
 
     @requests_mock.Mocker()
     def test_checked_response_success(self, m):
@@ -314,7 +316,7 @@ class TestNewmodeV2(unittest.TestCase):
             url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET"
         )
         result = self.nm.checked_response(response, self.nm.default_client)
-        self.assertEqual(result, response_data)
+        assert result == response_data
 
     @requests_mock.Mocker()
     def test_checked_response_invalid_json(self, m):
@@ -324,7 +326,7 @@ class TestNewmodeV2(unittest.TestCase):
         response = self.nm.default_client.request(
             url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET"
         )
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError, match="API request encountered an error"):
             self.nm.checked_response(response, self.nm.default_client)
 
     @requests_mock.Mocker()
@@ -335,7 +337,7 @@ class TestNewmodeV2(unittest.TestCase):
         response = self.nm.default_client.request(
             url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET"
         )
-        with self.assertRaises(HTTPError):
+        with pytest.raises(HTTPError, match="404 Client Error: None for url"):
             self.nm.checked_response(response, self.nm.default_client)
 
     @requests_mock.Mocker()
@@ -367,7 +369,7 @@ class TestNewmodeV2(unittest.TestCase):
             response = self.nm.base_request(method="GET", url=f"{V2_API_URL}v2.1/test-endpoint")
 
         mock_get_default_oauth_client.assert_called_once()
-        self.assertEqual(response, {"data": "success"})
+        assert response == {"data": "success"}
         mock_new_client.request.assert_called_with(
             url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET", json=None, data=None, params={}
         )

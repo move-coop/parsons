@@ -38,20 +38,20 @@ class TestScytl(unittest.TestCase):
                 )
                 expectedResultRow["total_counties"] = expectedResultRow["total_counties"] or None
 
-                self.assertDictEqual(row, expectedResultRow)
+                assert row == expectedResultRow
 
     def test_get_summary_results_skips_if_no_version_update(self):
         result = self.scy.get_summary_results()
 
-        self.assertIsNotNone(result)
+        assert result is not None
 
         result = self.scy.get_summary_results()
 
-        self.assertIsNone(result)
+        assert result is None
 
         result = self.scy.get_summary_results(True)
 
-        self.assertIsNotNone(result)
+        assert result is not None
 
     def test_get_detailed_results_succeeds(self):
         result = self.scy.get_detailed_results()
@@ -67,20 +67,20 @@ class TestScytl(unittest.TestCase):
                     expectedResultRow["timestamp_last_updated"]
                 )
 
-                self.assertDictEqual(result[i], expectedResultRow)
+                assert result[i] == expectedResultRow
 
     def test_get_detailed_results_skips_if_no_version_update(self):
         result = self.scy.get_detailed_results()
 
-        self.assertIsNotNone(result)
+        assert result is not None
 
         result = self.scy.get_detailed_results()
 
-        self.assertIsNone(result)
+        assert result is None
 
         result = self.scy.get_detailed_results(True)
 
-        self.assertIsNotNone(result)
+        assert result is not None
 
     def test_get_detailed_results_for_participating_counties_succeeds(self):
         _, result = self.scy.get_detailed_results_for_participating_counties()
@@ -96,7 +96,7 @@ class TestScytl(unittest.TestCase):
                     expectedResultRow["timestamp_last_updated"]
                 )
 
-                self.assertDictEqual(result[i], expectedResultRow)
+                assert result[i] == expectedResultRow
 
     def test_get_detailed_results_for_participating_counties_succeeds_for_two_counties(
         self,
@@ -120,7 +120,7 @@ class TestScytl(unittest.TestCase):
                     expectedResultRow["timestamp_last_updated"]
                 )
 
-                self.assertDictEqual(row, expectedResultRow)
+                assert row == expectedResultRow
 
     def test_get_detailed_results_for_participating_counties_missing_counties_update(
         self,
@@ -129,57 +129,57 @@ class TestScytl(unittest.TestCase):
 
         _, result = self.scy.get_detailed_results_for_participating_counties(county_names=counties)
 
-        self.assertNotEqual(result, [])
+        assert result != []
 
         self.scy.previous_county_details_version_num = None
 
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        self.assertNotEqual(result, [])
+        assert result != []
 
-        self.assertTrue(all(x["county_name"] not in counties for x in result))
+        assert all(x["county_name"] not in counties for x in result)
 
     def test_get_detailed_results_for_participating_counties_skips_if_no_version_update(
         self,
     ):
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        self.assertNotEqual(result, [])
+        assert result != []
 
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        self.assertEqual(result, [])
+        assert result == []
 
         _, result = self.scy.get_detailed_results_for_participating_counties(force_update=True)
 
-        self.assertNotEqual(result, [])
+        assert result != []
 
     def test_get_detailed_results_for_participating_counties_skips_if_no_county_version_update(
         self,
     ):
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        self.assertNotEqual(result, [])
+        assert result != []
 
         self.scy.previous_county_details_version_num = None
 
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        self.assertEqual(result, [])
+        assert result == []
 
     def test_get_detailed_results_for_participating_counties_repeats_failed_counties(
         self,
     ):
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        self.assertNotEqual(result, [])
+        assert result != []
 
         self.scy.previous_county_details_version_num = None
         self.scy.previously_fetched_counties.remove("Barrow")
 
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        self.assertNotEqual(result, [])
+        assert result != []
 
     def _mock_responses(self, m: requests_mock.Mocker):
         mock_current_version_url = scytl.CURRENT_VERSION_URL_TEMPLATE.format(

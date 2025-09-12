@@ -2,6 +2,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import MagicMock
 
+import pytest
 import requests_mock
 
 from parsons import ActBlue, Table
@@ -90,7 +91,7 @@ class TestActBlue(unittest.TestCase):
 
         m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError, match="CSV generation failed"):
             self.ab.get_download_url(csv_id=TEST_ID)
 
     @requests_mock.Mocker()
@@ -103,7 +104,7 @@ class TestActBlue(unittest.TestCase):
 
         m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError, match="CSV generation failed"):
             self.ab.get_download_url(csv_id=TEST_ID)
 
     @requests_mock.Mocker()

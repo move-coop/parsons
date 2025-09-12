@@ -7,6 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import pytest
 import requests_mock
 
 from parsons import Gmail
@@ -95,14 +96,14 @@ class TestGmail(unittest.TestCase):
         ]
 
         # Check the metadata
-        self.assertListEqual(decoded.items(), expected_items)
+        assert decoded.items() == expected_items
 
         # Check the message
-        self.assertEqual(decoded.get_payload(), message_text)
+        assert decoded.get_payload() == message_text
 
         # Check the number of parts
         expected_parts = 1
-        self.assertEqual(sum([1 for i in decoded.walk()]), expected_parts)
+        assert sum([1 for i in decoded.walk()]) == expected_parts
 
     def test_create_message_html(self):
         sender = "Sender <sender@email.com>"
@@ -134,18 +135,18 @@ class TestGmail(unittest.TestCase):
                 updated_items.append((i[0], i[1]))
 
         # Check the metadata
-        self.assertListEqual(updated_items, expected_items)
+        assert updated_items == expected_items
 
         # Check the message
         # The first part is just a container for the text and html parts
         parts = decoded.get_payload()
 
-        self.assertEqual(parts[0].get_payload(), message_text)
-        self.assertEqual(parts[1].get_payload(), message_html)
+        assert parts[0].get_payload() == message_text
+        assert parts[1].get_payload() == message_html
 
         # Check the number of parts
         expected_parts = 3
-        self.assertEqual(sum([1 for i in decoded.walk()]), expected_parts)
+        assert sum([1 for i in decoded.walk()]) == expected_parts
 
     def test_create_message_html_no_text(self):
         sender = "Sender <sender@email.com>"
@@ -176,17 +177,17 @@ class TestGmail(unittest.TestCase):
                 updated_items.append((i[0], i[1]))
 
         # Check the metadata
-        self.assertListEqual(updated_items, expected_items)
+        assert updated_items == expected_items
 
         # Check the message
         # The first part is just a container for the text and html parts
         parts = decoded.get_payload()
 
-        self.assertEqual(parts[0].get_payload(), message_html)
+        assert parts[0].get_payload() == message_html
 
         # Check the number of parts
         expected_parts = 2
-        self.assertEqual(sum([1 for i in decoded.walk()]), expected_parts)
+        assert sum([1 for i in decoded.walk()]) == expected_parts
 
     def test_create_message_attachments(self):
         sender = "Sender <sender@email.com>"
@@ -221,14 +222,14 @@ class TestGmail(unittest.TestCase):
                 updated_items.append((i[0], i[1]))
 
         # Check the metadata
-        self.assertListEqual(updated_items, expected_items)
+        assert updated_items == expected_items
 
         # Check the message
         # The first part is just a container for the text and html parts
         parts = decoded.get_payload()
 
-        self.assertEqual(parts[0].get_payload(), message_text)
-        self.assertEqual(parts[1].get_payload(), message_html)
+        assert parts[0].get_payload() == message_text
+        assert parts[1].get_payload() == message_html
 
         if os.linesep == "\r\n":
             file = _dir / "assets/loremipsum_b64_win_txt.txt"
@@ -236,13 +237,13 @@ class TestGmail(unittest.TestCase):
             file = _dir / "assets/loremipsum_b64_txt.txt"
 
         b64_txt = file.read_text()
-        self.assertEqual(parts[2].get_payload(), b64_txt)
+        assert parts[2].get_payload() == b64_txt
 
-        self.assertEqual(parts[2].get_content_type(), "text/plain")
+        assert parts[2].get_content_type() == "text/plain"
 
         # Check the number of parts
         expected_parts = 4
-        self.assertEqual(sum([1 for i in decoded.walk()]), expected_parts)
+        assert sum([1 for i in decoded.walk()]) == expected_parts
 
     def test_create_message_attachments_jpeg(self):
         sender = "Sender <sender@email.com>"
@@ -277,25 +278,25 @@ class TestGmail(unittest.TestCase):
                 updated_items.append((i[0], i[1]))
 
         # Check the metadata
-        self.assertListEqual(updated_items, expected_items)
+        assert updated_items == expected_items
 
         # Check the message
         # The first part is just a container for the text and html parts
         parts = decoded.get_payload()
 
-        self.assertEqual(parts[0].get_payload(), message_text)
-        self.assertEqual(parts[1].get_payload(), message_html)
+        assert parts[0].get_payload() == message_text
+        assert parts[1].get_payload() == message_html
 
         b64_txt = (_dir / "assets/loremipsum_b64_jpeg.txt").read_text()
-        self.assertEqual(parts[2].get_payload(), b64_txt)
+        assert parts[2].get_payload() == b64_txt
 
         expected_id = f"<{Path(attachments[0]).name}>"
-        self.assertEqual(parts[2].get("Content-ID"), expected_id)
-        self.assertEqual(parts[2].get_content_type(), "image/jpeg")
+        assert parts[2].get("Content-ID") == expected_id
+        assert parts[2].get_content_type() == "image/jpeg"
 
         # Check the number of parts
         expected_parts = 4
-        self.assertEqual(sum([1 for i in decoded.walk()]), expected_parts)
+        assert sum([1 for i in decoded.walk()]) == expected_parts
 
     def test_create_message_attachments_m4a(self):
         sender = "Sender <sender@email.com>"
@@ -330,23 +331,23 @@ class TestGmail(unittest.TestCase):
                 updated_items.append((i[0], i[1]))
 
         # Check the metadata
-        self.assertListEqual(updated_items, expected_items)
+        assert updated_items == expected_items
 
         # Check the message
         # The first part is just a container for the text and html parts
         parts = decoded.get_payload()
 
-        self.assertEqual(parts[0].get_payload(), message_text)
-        self.assertEqual(parts[1].get_payload(), message_html)
+        assert parts[0].get_payload() == message_text
+        assert parts[1].get_payload() == message_html
 
         b64_txt = (_dir / "assets/loremipsum_b64_m4a.txt").read_text()
-        self.assertEqual(parts[2].get_payload(), b64_txt)
+        assert parts[2].get_payload() == b64_txt
 
-        self.assertEqual(parts[2].get_content_maintype(), "audio")
+        assert parts[2].get_content_maintype() == "audio"
 
         # Check the number of parts
         expected_parts = 4
-        self.assertEqual(sum([1 for i in decoded.walk()]), expected_parts)
+        assert sum([1 for i in decoded.walk()]) == expected_parts
 
     def test_create_message_attachments_mp3(self):
         sender = "Sender <sender@email.com>"
@@ -381,23 +382,23 @@ class TestGmail(unittest.TestCase):
                 updated_items.append((i[0], i[1]))
 
         # Check the metadata
-        self.assertListEqual(updated_items, expected_items)
+        assert updated_items == expected_items
 
         # Check the message
         # The first part is just a container for the text and html parts
         parts = decoded.get_payload()
 
-        self.assertEqual(parts[0].get_payload(), message_text)
-        self.assertEqual(parts[1].get_payload(), message_html)
+        assert parts[0].get_payload() == message_text
+        assert parts[1].get_payload() == message_html
 
         b64_txt = (_dir / "assets/loremipsum_b64_mp3.txt").read_text()
-        self.assertEqual(parts[2].get_payload(), b64_txt)
+        assert parts[2].get_payload() == b64_txt
 
-        self.assertEqual(parts[2].get_content_type(), "audio/mpeg")
+        assert parts[2].get_content_type() == "audio/mpeg"
 
         # Check the number of parts
         expected_parts = 4
-        self.assertEqual(sum([1 for i in decoded.walk()]), expected_parts)
+        assert sum([1 for i in decoded.walk()]) == expected_parts
 
     def test_create_message_attachments_mp4(self):
         sender = "Sender <sender@email.com>"
@@ -432,23 +433,23 @@ class TestGmail(unittest.TestCase):
                 updated_items.append((i[0], i[1]))
 
         # Check the metadata
-        self.assertListEqual(updated_items, expected_items)
+        assert updated_items == expected_items
 
         # Check the message
         # The first part is just a container for the text and html parts
         parts = decoded.get_payload()
 
-        self.assertEqual(parts[0].get_payload(), message_text)
-        self.assertEqual(parts[1].get_payload(), message_html)
+        assert parts[0].get_payload() == message_text
+        assert parts[1].get_payload() == message_html
 
         b64_txt = (_dir / "assets/loremipsum_b64_mp4.txt").read_text()
-        self.assertEqual(parts[2].get_payload(), b64_txt)
+        assert parts[2].get_payload() == b64_txt
 
-        self.assertEqual(parts[2].get_content_type(), "video/mp4")
+        assert parts[2].get_content_type() == "video/mp4"
 
         # Check the number of parts
         expected_parts = 4
-        self.assertEqual(sum([1 for i in decoded.walk()]), expected_parts)
+        assert sum([1 for i in decoded.walk()]) == expected_parts
 
     def test_create_message_attachments_pdf(self):
         sender = "Sender <sender@email.com>"
@@ -484,23 +485,23 @@ class TestGmail(unittest.TestCase):
                 updated_items.append((i[0], i[1]))
 
         # Check the metadata
-        self.assertListEqual(updated_items, expected_items)
+        assert updated_items == expected_items
 
         # Check the message
         # The first part is just a container for the text and html parts
         parts = decoded.get_payload()
 
-        self.assertEqual(parts[0].get_payload(), message_text)
-        self.assertEqual(parts[1].get_payload(), message_html)
+        assert parts[0].get_payload() == message_text
+        assert parts[1].get_payload() == message_html
 
         b64_txt = (_dir / "assets/loremipsum_b64_pdf.txt").read_text()
-        self.assertEqual(parts[2].get_payload(), b64_txt)
+        assert parts[2].get_payload() == b64_txt
 
-        self.assertEqual(parts[2].get_content_type(), "application/pdf")
+        assert parts[2].get_content_type() == "application/pdf"
 
         # Check the number of parts
         expected_parts = 4
-        self.assertEqual(sum([1 for i in decoded.walk()]), expected_parts)
+        assert sum([1 for i in decoded.walk()]) == expected_parts
 
     def test__validate_email_string(self):
         emails = [
@@ -532,9 +533,10 @@ class TestGmail(unittest.TestCase):
 
         for e in emails:
             if e["expected"]:
-                self.assertTrue(self.gmail._validate_email_string(e["email"]))
+                assert self.gmail._validate_email_string(e["email"])
             else:
-                self.assertRaises(ValueError, self.gmail._validate_email_string, e["email"])
+                with pytest.raises(ValueError, match="Invalid email address"):
+                    self.gmail._validate_email_string(e["email"])
 
     # TODO test sending emails
 

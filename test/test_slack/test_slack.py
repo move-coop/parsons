@@ -1,6 +1,7 @@
 import json
 import os
 import unittest
+from pathlib import Path
 
 import pytest
 import requests_mock
@@ -8,8 +9,7 @@ from slackclient.exceptions import SlackClientError
 
 from parsons import Slack, Table
 
-_dir = os.path.dirname(__file__)
-responses_dir = f"{_dir}/responses"
+responses_dir = Path(__file__).parent / "responses"
 
 
 class TestSlack(unittest.TestCase):
@@ -35,7 +35,7 @@ class TestSlack(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_channels(self, m):
-        with open(f"{responses_dir}/channels.json", "r") as f:
+        with (responses_dir / "channels.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
         m.post("https://slack.com/api/conversations.list", json=slack_resp)
@@ -49,7 +49,7 @@ class TestSlack(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_channels_all_fields(self, m):
-        with open(f"{responses_dir}/channels.json", "r") as f:
+        with (responses_dir / "channels.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
         m.post("https://slack.com/api/conversations.list", json=slack_resp)
@@ -112,7 +112,7 @@ class TestSlack(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_users(self, m):
-        with open(f"{responses_dir}/users.json", "r") as f:
+        with (responses_dir / "users.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
         m.post("https://slack.com/api/users.list", json=slack_resp)
@@ -133,7 +133,7 @@ class TestSlack(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_users_all_fields(self, m):
-        with open(f"{responses_dir}/users.json", "r") as f:
+        with (responses_dir / "users.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
         m.post("https://slack.com/api/users.list", json=slack_resp)
@@ -231,7 +231,7 @@ class TestSlack(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_message_channel(self, m):
-        with open(f"{responses_dir}/message_channel.json", "r") as f:
+        with (responses_dir / "message_channel.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
         m.post("https://slack.com/api/chat.postMessage", json=slack_resp)
@@ -262,13 +262,13 @@ class TestSlack(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_file_upload(self, m):
-        file_path = f"{responses_dir}/file_upload.json"
-        with open(file_path, "r") as f:
+        file_path = responses_dir / "file_upload.json"
+        with file_path.open(mode="r") as f:
             slack_resp = json.load(f)
 
         m.post("https://slack.com/api/files.upload", json=slack_resp)
 
-        dct = self.slack.upload_file(["D0L4B9P0Q"], file_path)
+        dct = self.slack.upload_file(["D0L4B9P0Q"], str(file_path))
 
         assert isinstance(dct, dict)
         assert sorted(dct) == sorted(slack_resp)
@@ -278,5 +278,4 @@ class TestSlack(unittest.TestCase):
             json={"ok": False, "error": "invalid_auth"},
         )
 
-        with pytest.raises(SlackClientError):
-            self.slack.upload_file(["D0L4B9P0Q"], file_path)
+        self.assertRaises(SlackClientError, self.slack.upload_file, ["D0L4B9P0Q"], str(file_path))

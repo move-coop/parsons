@@ -1,6 +1,7 @@
 import os
 import time
 import warnings
+from pathlib import Path
 
 import requests
 from slackclient import SlackClient
@@ -220,7 +221,7 @@ class Slack(object):
             filetype = filename.split(".")[-1]
 
         mode = "rb" if is_binary else "r"
-        with open(filename, mode) as file_content:
+        with Path(filename).open(mode=mode) as file_content:
             resp = self.client.api_call(
                 "files.upload",
                 channels=channels,

@@ -1,5 +1,6 @@
 import os
 import unittest
+from pathlib import Path
 
 import pytest
 
@@ -29,11 +30,9 @@ class TestTargetSmartAutomation(unittest.TestCase):
         job_xml = self.ts.create_job_xml(
             "job_type", "match_job", ["test@gmail.com", "test2@gmail.com"]
         )
-        with open(self.test_xml, "r") as xml:
-            test_xml = xml.read()
-        with open(job_xml, "r") as xml:
-            real_xml = xml.read()
-        assert test_xml == real_xml
+        test_xml = Path(self.test_xml).read_text()
+        real_xml = Path(job_xml).read_text()
+        self.assertEqual(test_xml, real_xml)
 
     @mark_live_test
     def test_config_status(self):

@@ -3,6 +3,7 @@ import os
 import shutil
 import tempfile
 import unittest
+from pathlib import Path
 
 import pytest
 
@@ -17,7 +18,7 @@ class TestCredentialTool(unittest.TestCase):
         self.tmp_folder = tempfile.mkdtemp()
         self.json_file = "credentials.json"
 
-        with open(f"{self.tmp_folder}/{self.json_file}", "w") as f:
+        with (Path(self.tmp_folder) / self.json_file).open(mode="w") as f:
             f.write(json.dumps({"json": "file"}))
 
     def tearDown(self):
@@ -61,14 +62,14 @@ class TestCredentialTool(unittest.TestCase):
 
         expected = {"ENC_VAR1": "encoded-variable-1", "ENC_VAR2": "enc-var-2"}
 
-        file_path = f"{self.tmp_folder}/saved_credentials.json"
-        assert not os.path.isfile(file_path)
+        file_path = Path(self.tmp_folder) / "saved_credentials.json"
+        self.assertFalse(file_path.is_file())
 
-        ct.decode_credential(encoded_cred, export=False, save_path=file_path)
+        ct.decode_credential(encoded_cred, export=False, save_path=str(file_path))
 
-        assert os.path.isfile(file_path)
+        self.assertTrue(file_path.is_file())
 
-        with open(file_path, "r") as f:
+        with file_path.open(mode="r") as f:
             cred = json.load(f)
 
         assert cred == expected

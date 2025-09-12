@@ -5,13 +5,14 @@ import os
 import shutil
 import tempfile
 import unittest
+from pathlib import Path
 
 import pytest
 import requests_mock
 
 from parsons import Gmail
 
-_dir = os.path.dirname(__file__)
+_dir = Path(__file__).parent
 
 
 class TestGmail(unittest.TestCase):
@@ -21,54 +22,52 @@ class TestGmail(unittest.TestCase):
         self.credentials_file = f"{self.tmp_folder}/credentials.json"
         self.token_file = f"{self.tmp_folder}/token.json"
 
-        with open(self.credentials_file, "w") as f:
-            f.write(
-                json.dumps(
-                    {
-                        "installed": {
-                            "client_id": "someclientid.apps.googleusercontent.com",
-                            "project_id": "some-project-id-12345",
-                            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                            "token_uri": "https://www.googleapis.com/oauth2/v3/token",
-                            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-                            "client_secret": "someclientsecret",
-                            "redirect_uris": [
-                                "urn:ietf:wg:oauth:2.0:oob",
-                                "http://localhost",
-                            ],
-                        }
-                    }
-                )
-            )
-
-        with open(self.token_file, "w") as f:
-            f.write(
-                json.dumps(
-                    {
-                        "access_token": "someaccesstoken",
-                        "client_id": "some-client-id.apps.googleusercontent.com",
-                        "client_secret": "someclientsecret",
-                        "refresh_token": "1/refreshrate",
-                        "token_expiry": "2030-02-20T23:28:09Z",
+        Path(self.credentials_file).write_text(
+            json.dumps(
+                {
+                    "installed": {
+                        "client_id": "someclientid.apps.googleusercontent.com",
+                        "project_id": "some-project-id-12345",
+                        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                         "token_uri": "https://www.googleapis.com/oauth2/v3/token",
-                        "user_agent": None,
-                        "revoke_uri": "https://oauth2.googleapis.com/revoke",
-                        "id_token": None,
-                        "id_token_jwt": None,
-                        "token_response": {
-                            "access_token": "someaccesstoken",
-                            "expires_in": 3600000,
-                            "scope": "https://www.googleapis.com/auth/gmail.send",
-                            "token_type": "Bearer",
-                        },
-                        "scopes": ["https://www.googleapis.com/auth/gmail.send"],
-                        "token_info_uri": "https://oauth2.googleapis.com/tokeninfo",
-                        "invalid": False,
-                        "_class": "OAuth2Credentials",
-                        "_module": "oauth2client.client",
+                        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                        "client_secret": "someclientsecret",
+                        "redirect_uris": [
+                            "urn:ietf:wg:oauth:2.0:oob",
+                            "http://localhost",
+                        ],
                     }
-                )
+                }
             )
+        )
+
+        Path(self.token_file).write_text(
+            json.dumps(
+                {
+                    "access_token": "someaccesstoken",
+                    "client_id": "some-client-id.apps.googleusercontent.com",
+                    "client_secret": "someclientsecret",
+                    "refresh_token": "1/refreshrate",
+                    "token_expiry": "2030-02-20T23:28:09Z",
+                    "token_uri": "https://www.googleapis.com/oauth2/v3/token",
+                    "user_agent": None,
+                    "revoke_uri": "https://oauth2.googleapis.com/revoke",
+                    "id_token": None,
+                    "id_token_jwt": None,
+                    "token_response": {
+                        "access_token": "someaccesstoken",
+                        "expires_in": 3600000,
+                        "scope": "https://www.googleapis.com/auth/gmail.send",
+                        "token_type": "Bearer",
+                    },
+                    "scopes": ["https://www.googleapis.com/auth/gmail.send"],
+                    "token_info_uri": "https://oauth2.googleapis.com/tokeninfo",
+                    "invalid": False,
+                    "_class": "OAuth2Credentials",
+                    "_module": "oauth2client.client",
+                }
+            )
+        )
 
         self.gmail = Gmail(self.credentials_file, self.token_file)
 
@@ -196,7 +195,7 @@ class TestGmail(unittest.TestCase):
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
         message_html = "<p>This is the html message part of the email with attachments</p>"
-        attachments = [f"{_dir}/assets/loremipsum.txt"]
+        attachments = [str(_dir / "assets/loremipsum.txt")]
 
         msg = self.gmail._create_message_attachments(
             sender, to, subject, message_text, attachments, message_html=message_html
@@ -233,13 +232,12 @@ class TestGmail(unittest.TestCase):
         assert parts[1].get_payload() == message_html
 
         if os.linesep == "\r\n":
-            file = f"{_dir}/assets/loremipsum_b64_win_txt.txt"
+            file = _dir / "assets/loremipsum_b64_win_txt.txt"
         else:
-            file = f"{_dir}/assets/loremipsum_b64_txt.txt"
+            file = _dir / "assets/loremipsum_b64_txt.txt"
 
-        with open(file, "r") as f:
-            b64_txt = f.read()
-        assert parts[2].get_payload() == b64_txt
+        b64_txt = file.read_text()
+        self.assertEqual(parts[2].get_payload(), b64_txt)
 
         assert parts[2].get_content_type() == "text/plain"
 
@@ -253,7 +251,7 @@ class TestGmail(unittest.TestCase):
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
         message_html = "<p>This is the html message part of the email with attachments</p>"
-        attachments = [f"{_dir}/assets/loremipsum.jpeg"]
+        attachments = [str(_dir / "assets/loremipsum.jpeg")]
 
         msg = self.gmail._create_message_attachments(
             sender, to, subject, message_text, attachments, message_html=message_html
@@ -289,13 +287,12 @@ class TestGmail(unittest.TestCase):
         assert parts[0].get_payload() == message_text
         assert parts[1].get_payload() == message_html
 
-        with open(f"{_dir}/assets/loremipsum_b64_jpeg.txt", "r") as f:
-            b64_txt = f.read()
-        assert parts[2].get_payload() == b64_txt
+        b64_txt = (_dir / "assets/loremipsum_b64_jpeg.txt").read_text()
+        self.assertEqual(parts[2].get_payload(), b64_txt)
 
-        expected_id = f"<{attachments[0].split('/')[-1]}>"
-        assert parts[2].get("Content-ID") == expected_id
-        assert parts[2].get_content_type() == "image/jpeg"
+        expected_id = f"<{Path(attachments[0]).name}>"
+        self.assertEqual(parts[2].get("Content-ID"), expected_id)
+        self.assertEqual(parts[2].get_content_type(), "image/jpeg")
 
         # Check the number of parts
         expected_parts = 4
@@ -307,7 +304,7 @@ class TestGmail(unittest.TestCase):
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
         message_html = "<p>This is the html message part of the email with attachments</p>"
-        attachments = [f"{_dir}/assets/loremipsum.m4a"]
+        attachments = [str(_dir / "assets/loremipsum.m4a")]
 
         msg = self.gmail._create_message_attachments(
             sender, to, subject, message_text, attachments, message_html=message_html
@@ -343,9 +340,8 @@ class TestGmail(unittest.TestCase):
         assert parts[0].get_payload() == message_text
         assert parts[1].get_payload() == message_html
 
-        with open(f"{_dir}/assets/loremipsum_b64_m4a.txt", "r") as f:
-            b64_txt = f.read()
-        assert parts[2].get_payload() == b64_txt
+        b64_txt = (_dir / "assets/loremipsum_b64_m4a.txt").read_text()
+        self.assertEqual(parts[2].get_payload(), b64_txt)
 
         assert parts[2].get_content_maintype() == "audio"
 
@@ -359,7 +355,7 @@ class TestGmail(unittest.TestCase):
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
         message_html = "<p>This is the html message part of the email with attachments</p>"
-        attachments = [f"{_dir}/assets/loremipsum.mp3"]
+        attachments = [str(_dir / "assets/loremipsum.mp3")]
 
         msg = self.gmail._create_message_attachments(
             sender, to, subject, message_text, attachments, message_html=message_html
@@ -395,9 +391,8 @@ class TestGmail(unittest.TestCase):
         assert parts[0].get_payload() == message_text
         assert parts[1].get_payload() == message_html
 
-        with open(f"{_dir}/assets/loremipsum_b64_mp3.txt", "r") as f:
-            b64_txt = f.read()
-        assert parts[2].get_payload() == b64_txt
+        b64_txt = (_dir / "assets/loremipsum_b64_mp3.txt").read_text()
+        self.assertEqual(parts[2].get_payload(), b64_txt)
 
         assert parts[2].get_content_type() == "audio/mpeg"
 
@@ -411,7 +406,7 @@ class TestGmail(unittest.TestCase):
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
         message_html = "<p>This is the html message part of the email with attachments</p>"
-        attachments = [f"{_dir}/assets/loremipsum.mp4"]
+        attachments = [str(_dir / "assets/loremipsum.mp4")]
 
         msg = self.gmail._create_message_attachments(
             sender, to, subject, message_text, attachments, message_html=message_html
@@ -447,9 +442,8 @@ class TestGmail(unittest.TestCase):
         assert parts[0].get_payload() == message_text
         assert parts[1].get_payload() == message_html
 
-        with open(f"{_dir}/assets/loremipsum_b64_mp4.txt", "r") as f:
-            b64_txt = f.read()
-        assert parts[2].get_payload() == b64_txt
+        b64_txt = (_dir / "assets/loremipsum_b64_mp4.txt").read_text()
+        self.assertEqual(parts[2].get_payload(), b64_txt)
 
         assert parts[2].get_content_type() == "video/mp4"
 
@@ -463,7 +457,7 @@ class TestGmail(unittest.TestCase):
         subject = "This is a test email with attachements"
         message_text = "The is the message text of the email with attachments"
         message_html = "<p>This is the html message part of the email with attachments</p>"
-        attachments = [f"{_dir}/assets/loremipsum.pdf"]
+        attachments = [str(_dir / "assets/loremipsum.pdf")]
 
         msg = self.gmail._create_message_attachments(
             sender, to, subject, message_text, attachments, message_html=message_html
@@ -500,9 +494,8 @@ class TestGmail(unittest.TestCase):
         assert parts[0].get_payload() == message_text
         assert parts[1].get_payload() == message_html
 
-        with open(f"{_dir}/assets/loremipsum_b64_pdf.txt", "r") as f:
-            b64_txt = f.read()
-        assert parts[2].get_payload() == b64_txt
+        b64_txt = (_dir / "assets/loremipsum_b64_pdf.txt").read_text()
+        self.assertEqual(parts[2].get_payload(), b64_txt)
 
         assert parts[2].get_content_type() == "application/pdf"
 

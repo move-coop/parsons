@@ -1,8 +1,8 @@
 import json
 import logging
-import os
 import sys
 import unittest
+from pathlib import Path
 
 import requests_mock
 
@@ -20,7 +20,7 @@ logger.addHandler(strm_hdlr)
 
 logger.setLevel(logging.INFO)
 
-_dir = os.path.dirname(__file__)
+_dir = Path(__file__).parent
 
 fake_search = [{"id": "fake"}]
 
@@ -225,7 +225,7 @@ class TestCopper(unittest.TestCase):
             row_start = page_number * page_size
             row_finish = row_start + page_size
 
-        with open(f"{_dir}/{context.headers['filename']}", "r") as json_file:
+        with (_dir / context.headers["filename"]).open(mode="r") as json_file:
             response = json.load(json_file)
 
         if isinstance(response, list):
@@ -511,7 +511,7 @@ class TestCopper(unittest.TestCase):
     def test_process_custom_fields(self):
         # Using same json file and processed data in testing both process_ and get_ methods
 
-        with open(f"{_dir}/custom_fields_search.json", "r") as json_file:
+        with (_dir / "custom_fields_search.json").open(mode="r") as json_file:
             fake_response = json.load(json_file)
 
         fake_processed = self.cp.process_custom_fields(fake_response)

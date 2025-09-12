@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import unittest.mock as mock
+from pathlib import Path
 from typing import Union
 from unittest import TestCase
 from unittest.mock import Mock
@@ -419,13 +420,10 @@ class TestGoogleBigQuery(FakeCredentialTest):
             gcs_client=FakeGoogleCloudStorage(),
         )
 
-        actual = os.environ[bq.env_credential_path]
-
-        with open(actual, "r") as factual:
-            with open(self.cred_path, "r") as fexpected:
-                actual_str = factual.read()
-                assert actual_str == fexpected.read()
-                assert self.cred_contents == json.loads(actual_str)
+        actual = Path(os.environ[bq.env_credential_path])
+        actual_str = actual.read_text()
+        self.assertEqual(actual_str, Path(self.cred_path).read_text())
+        self.assertEqual(self.cred_contents, json.loads(actual_str))
 
     @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
@@ -447,13 +445,10 @@ class TestGoogleBigQuery(FakeCredentialTest):
             gcs_client=FakeGoogleCloudStorage(),
         )
 
-        actual = os.environ[bq.env_credential_path]
-
-        with open(actual, "r") as factual:
-            with open(self.cred_path, "r") as fexpected:
-                actual_str = factual.read()
-                assert actual_str == fexpected.read()
-                assert self.cred_contents == json.loads(actual_str)
+        actual = Path(os.environ[bq.env_credential_path])
+        actual_str = actual.read_text()
+        self.assertEqual(actual_str, Path(self.cred_path).read_text())
+        self.assertEqual(self.cred_contents, json.loads(actual_str))
 
     @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
@@ -461,8 +456,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self, load_creds_mock, load_creds_mock_2
     ):
         tbl = self.default_table
-        with open(self.cred_path) as file:
-            cred_dict = json.loads(file.read())
+        cred_dict = json.loads(Path(self.cred_path).read_text())
         bq = self._build_mock_client_for_copying(table_exists=False, app_creds=cred_dict)
 
         # Pass in our fake GCS Client.
@@ -473,13 +467,10 @@ class TestGoogleBigQuery(FakeCredentialTest):
             gcs_client=FakeGoogleCloudStorage(),
         )
 
-        actual = os.environ[bq.env_credential_path]
-
-        with open(actual, "r") as factual:
-            with open(self.cred_path, "r") as fexpected:
-                actual_str = factual.read()
-                assert actual_str == fexpected.read()
-                assert self.cred_contents == json.loads(actual_str)
+        actual = Path(os.environ[bq.env_credential_path])
+        actual_str = actual.read_text()
+        self.assertEqual(actual_str, Path(self.cred_path).read_text())
+        self.assertEqual(self.cred_contents, json.loads(actual_str))
 
     def test_copy__if_exists_passed_through(self):
         # setup dependencies / inputs

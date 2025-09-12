@@ -56,6 +56,7 @@ select = [
     "Q", # flake8-quotes (Q)
     "TC", # flake8-type-checking (TC)
     "YTT", # flake8-2020 (YTT)
+    "PTH", # flake8-use-pathlib (PTH)
     "ISC", # flake8-implicit-str-concat (ISC)
     "PT", # flake8-pytest-style (PT)
 ]
@@ -95,7 +96,7 @@ docstring-code-format = false
 docstring-code-line-length = "dynamic"
 
 [tool.pytest.ini_options]
-addopts = "-rf --cov=parsons -n auto"
+addopts = "-rf --cov=parsons --no-cov-on-fail -n auto"
 testpaths = [
     "test",
 ]
@@ -106,12 +107,6 @@ filterwarnings = [
     "ignore:Use ProtectionLevel enum instead:DeprecationWarning", # braintree throws these
     "ignore:Use protection_level parameter instead:DeprecationWarning", # braintree throws these
     "ignore:Argument login_or_token is deprecated:DeprecationWarning",
-]
-
-[tool.bandit]
-exclude_dirs = [
-    ".venv/",
-    "test"
 ]
 
 [tool.isort]

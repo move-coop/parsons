@@ -6,7 +6,7 @@ from parsons.utilities import check_env
 URI = "https://www.googleapis.com/civicinfo/v2/"
 
 
-class GoogleCivic(object):
+class GoogleCivic:
     """
     `Args:`
         api_key : str

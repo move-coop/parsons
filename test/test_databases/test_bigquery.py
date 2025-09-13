@@ -684,9 +684,7 @@ class TestGoogleBigQueryCopyBetweenProjects(TestCase):
         # create and set up logger
         logger = logging.getLogger()
         logger.error(
-            "Dataset {0} does not exist and if_dataset_not_exists set to {1}".format(
-                self.destination_dataset, self.if_dataset_not_exists
-            )
+            f"Dataset {self.destination_dataset} does not exist and if_dataset_not_exists set to {self.if_dataset_not_exists}"
         )
 
         # call the method to generate log message
@@ -706,9 +704,7 @@ class TestGoogleBigQueryCopyBetweenProjects(TestCase):
             (
                 "root",
                 "ERROR",
-                "Dataset {0} does not exist and if_dataset_not_exists set to {1}".format(
-                    self.destination_dataset, self.if_dataset_not_exists
-                ),
+                f"Dataset {self.destination_dataset} does not exist and if_dataset_not_exists set to {self.if_dataset_not_exists}",
             )
         )
 
@@ -719,9 +715,7 @@ class TestGoogleBigQueryCopyBetweenProjects(TestCase):
 
         ## now test with table copy error
         logger.error(
-            "BigQuery copy failed, Table {0} exists and if_table_exists set to {1}".format(
-                self.destination_table, self.if_table_exists
-            )
+            f"BigQuery copy failed, Table {self.destination_table} exists and if_table_exists set to {self.if_table_exists}"
         )
 
         # call the method to generate log message
@@ -741,8 +735,6 @@ class TestGoogleBigQueryCopyBetweenProjects(TestCase):
             (
                 "root",
                 "ERROR",
-                "BigQuery copy failed, Table {0} exists and if_table_exists set to {1}".format(
-                    self.destination_table, self.if_table_exists
-                ),
+                f"BigQuery copy failed, Table {self.destination_table} exists and if_table_exists set to {self.if_table_exists}",
             )
         )

@@ -91,10 +91,10 @@ class dbtLoggerMarkdown(dbtLogger):
         )
         if not log_summary_str:
             log_summary_str = "No models ran."
-        log_message += "\n*Summary*: `{}`".format(log_summary_str)
+        log_message += f"\n*Summary*: `{log_summary_str}`"
 
-        log_message += "\n*GB Processed*: {:.2f}".format(manifest.total_gb_processed)
-        log_message += "\n*Slot hours*: {:.2f}".format(manifest.total_slot_hours)
+        log_message += f"\n*GB Processed*: {manifest.total_gb_processed:.2f}"
+        log_message += f"\n*Slot hours*: {manifest.total_slot_hours:.2f}"
 
         # Errors
         if manifest.errors or manifest.fails:

@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 CAPITOL_CANARY_URI = "https://api.phone2action.com/2.0/"
 
 
-class CapitolCanary(object):
+class CapitolCanary:
     """
     Instantiate CapitolCanary Class
 
@@ -126,7 +126,7 @@ class CapitolCanary(object):
             tbl.unpack_dict(c)
 
         # Unpack all of the arrays
-        child_tables = [child for child in tbls.keys() if child != "advocates"]
+        child_tables = [child for child in tbls if child != "advocates"]
         for c in child_tables:
             tbls[c] = tbl.long_table(["id"], c, key_rename={"id": "advocate_id"})
 

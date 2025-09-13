@@ -13,8 +13,8 @@ class TestActionBuilder(unittest.TestCase):
     def setUp(self, m):
         self.subdomain = "fake_subdomain"
         self.campaign = "fake-campaign"
-        self.api_url = "https://{}.actionbuilder.org/api/rest/v1/campaigns/{}".format(
-            self.subdomain, self.campaign
+        self.api_url = (
+            f"https://{self.subdomain}.actionbuilder.org/api/rest/v1/campaigns/{self.campaign}"
         )
         self.api_key = "fake_key"
 
@@ -502,7 +502,7 @@ class TestActionBuilder(unittest.TestCase):
         connect_response = self.bldr.upsert_connection(
             [self.fake_entity_id, "fake-entity-id-2"], reactivate=False
         )
-        assert "inactive" not in connect_response.keys()
+        assert "inactive" not in connect_response
 
     @requests_mock.Mocker()
     def test_deactivate_connection_post(self, m):

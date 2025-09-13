@@ -55,7 +55,7 @@ class ParsonsGitHubError(Exception):
 
 
 @decorate_methods(wrap_github_404)
-class GitHub(object):
+class GitHub:
     """Creates a GitHub class for accessing the GitHub API.
 
     Uses ``parsons.utilities.check_env`` to load credentials from environment variables if not

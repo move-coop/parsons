@@ -1,7 +1,7 @@
 import datetime
 import logging
 import uuid
-from typing import Dict, Literal, Optional
+from typing import Literal, Optional
 
 from oauthlib.oauth2.rfc6749.errors import InvalidClientError
 
@@ -58,7 +58,7 @@ class ZoomV1:
         self,
         endpoint: str,
         data_key: Optional[str],
-        params: Optional[Dict[str, str]] = None,
+        params: Optional[dict[str, str]] = None,
         **kwargs,
     ) -> Table:
         """
@@ -91,7 +91,7 @@ class ZoomV1:
             params = {}
 
         # Return a dict or table if only one item.
-        if "page_number" not in r.keys():
+        if "page_number" not in r:
             if isinstance(data, dict):
                 return data
             if isinstance(data, list):
@@ -229,7 +229,7 @@ class ZoomV1:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-        params: Dict[str, str] = {"type": meeting_type}
+        params: dict[str, str] = {"type": meeting_type}
         if from_date:
             params["from"] = from_date.isoformat()
         if to_date:
@@ -303,7 +303,7 @@ class ZoomV1:
         logger.info(f"Retrieved {tbl.num_rows} webinars.")
         return tbl
 
-    def get_past_webinar_report(self, webinar_id: str) -> Optional[Dict]:
+    def get_past_webinar_report(self, webinar_id: str) -> Optional[dict]:
         """
         Get past meeting participants
 
@@ -598,7 +598,7 @@ class ZoomV2(ZoomV1):
         self,
         endpoint: str,
         data_key: Optional[str],
-        params: Optional[Dict[str, str]] = None,
+        params: Optional[dict[str, str]] = None,
         **kwargs,
     ) -> Table:
         """

@@ -1,3 +1,4 @@
+import contextlib
 import os
 
 import pytest
@@ -11,10 +12,8 @@ from test.utils import mark_live_test
 #
 def remove_from_env(*env_vars):
     for var in env_vars:
-        try:
+        with contextlib.suppress(KeyError):
             del os.environ[var]
-        except KeyError:
-            pass
 
 
 #

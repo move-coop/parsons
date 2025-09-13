@@ -11,7 +11,7 @@ from parsons.utilities import cloud_storage
 logger = logging.getLogger(__name__)
 
 
-class Scores(object):
+class Scores:
     def __init__(self, van_connection):
         self.connection = van_connection
 
@@ -107,10 +107,7 @@ class Scores(object):
             )
 
         else:
-            if status == "pending approval":
-                status = "PendingApproval"
-            else:
-                status = status.capitalize()
+            status = "PendingApproval" if status == "pending approval" else status.capitalize()
 
         json = {"loadStatus": status}
 
@@ -227,7 +224,7 @@ class Scores(object):
         return r["jobId"]
 
 
-class FileLoadingJobs(object):
+class FileLoadingJobs:
     def __init__(self, van_connection):
         self.connection = van_connection
 

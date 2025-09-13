@@ -21,7 +21,7 @@ def fake_table_process(table, **fakekwargs):
     tableargs = (table, fakekwargs)
 
 
-class FakeRunner(object):
+class FakeRunner:
     def __init__(self, init1=None):
         self.init1 = init1
 

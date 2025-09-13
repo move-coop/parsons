@@ -250,13 +250,13 @@ class TestNGPVAN(unittest.TestCase):
 
         # Bad request
         m.post(
-            self.van.connection.uri + "people/{}/relationships".format(bad_vanid_1),
+            self.van.connection.uri + f"people/{bad_vanid_1}/relationships",
             status_code=404,
         )
 
         # Good request
         m.post(
-            self.van.connection.uri + "people/{}/relationships".format(good_vanid_1),
+            self.van.connection.uri + f"people/{good_vanid_1}/relationships",
             status_code=204,
         )
 

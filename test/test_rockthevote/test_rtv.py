@@ -35,7 +35,7 @@ class TestRockTheVote(unittest.TestCase):
         )
         mocker.get(
             "https://register.rockthevote.com/download/whatever",
-            text=(_dir / "sample.csv").read_text(),
+            text=(Path(_dir) / "sample.csv").read_text(),
         )
 
         rtv = RockTheVote(partner_id=partner_id, partner_api_key=partner_api_key)
@@ -60,7 +60,7 @@ class TestRockTheVote(unittest.TestCase):
         )
         mocker.get(
             "https://register.rockthevote.com/download/whatever",
-            text=(_dir / "sample.csv").read_text(),
+            text=(Path(_dir) / "sample.csv").read_text(),
         )
 
         rtv = RockTheVote(partner_id=partner_id, partner_api_key=partner_api_key)

@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 COPPER_URI = "https://api.prosperworks.com/developer_api/v1"
 
 
-class Copper(object):
+class Copper:
     """
     Instantiate Copper Class
 
@@ -47,9 +47,8 @@ class Copper(object):
         }
 
         payload = {}
-        if filters is not None:
-            if len(filters) > 0 and isinstance(filters, dict):
-                payload.update(filters)
+        if filters is not None and len(filters) > 0 and isinstance(filters, dict):
+            payload.update(filters)
 
         # GET request with non-None data arg is malformed
         if req_type == "GET":

@@ -10,7 +10,7 @@ from parsons import Table
 logger = logging.getLogger(__name__)
 
 
-class APIConnector(object):
+class APIConnector:
     """
     The API Connector is a low level class for API requests that other connectors
     can utilize. It is understood that there are many standards for REST APIs and it will be
@@ -280,7 +280,7 @@ class APIConnector(object):
         if isinstance(resp, list):
             return resp
 
-        if self.data_key and self.data_key in resp.keys():
+        if self.data_key and self.data_key in resp:
             return resp[self.data_key]
         else:
             return resp
@@ -301,7 +301,7 @@ class APIConnector(object):
             boolean
         """
 
-        if self.pagination_key and self.pagination_key in resp.keys():
+        if self.pagination_key and self.pagination_key in resp:
             if resp[self.pagination_key]:
                 return True
         else:
@@ -321,9 +321,6 @@ class APIConnector(object):
     def convert_to_table(self, data):
         """Internal method to create a Parsons table from a data element."""
         table = None
-        if type(data) is list:
-            table = Table(data)
-        else:
-            table = Table([data])
+        table = Table(data) if type(data) is list else Table([data])
 
         return table

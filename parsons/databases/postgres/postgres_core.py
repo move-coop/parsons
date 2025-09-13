@@ -249,7 +249,4 @@ class PostgresCore(PostgresCreateStatement):
                 result += cursor.fetchone()[0]
 
         # If in either, return boolean
-        if result >= 1:
-            return True
-        else:
-            return False
+        return result >= 1

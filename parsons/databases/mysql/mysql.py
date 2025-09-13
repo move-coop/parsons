@@ -317,10 +317,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 ``True`` if the table exists and ``False`` if it does not.
         """
 
-        if self.query(f"SHOW TABLES LIKE '{table_name}'").first == table_name:
-            return True
-        else:
-            return False
+        return self.query(f"SHOW TABLES LIKE '{table_name}'").first == table_name
 
     def table(self, table_name):
         # Return a BaseTable table object

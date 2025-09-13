@@ -6,7 +6,7 @@ from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 
 
-class Shopify(object):
+class Shopify:
     """
     Instantiate the Shopify class
     `Args:`
@@ -43,10 +43,7 @@ class Shopify(object):
         self.password = check_env.check("SHOPIFY_PASSWORD", password, optional=True)
         self.api_key = check_env.check("SHOPIFY_API_KEY", api_key, optional=True)
         self.api_version = check_env.check("SHOPIFY_API_VERSION", api_version)
-        self.base_url = "https://%s.myshopify.com/admin/api/%s/" % (
-            self.subdomain,
-            self.api_version,
-        )
+        self.base_url = f"https://{self.subdomain}.myshopify.com/admin/api/{self.api_version}/"
         if self.access_token is None and (self.password is None or self.api_key is None):
             raise KeyError("Must set either access_token or both api_key and password.")
         if self.access_token is not None:
@@ -154,23 +151,20 @@ class Shopify(object):
         """
         filters = "limit=250&status=any"
 
-        if count:
-            table = table_name + "/count.json"
-        else:
-            table = table_name + ".json"
+        table = table_name + "/count.json" if count else table_name + ".json"
 
         if query_date:
             # Specific date if provided
             query_date = datetime.strptime(query_date, "%Y-%m-%d")
             max_date = query_date + timedelta(days=1)
-            filters += "&created_at_min={}&created_at_max={}".format(
-                query_date.isoformat(), max_date.isoformat()
+            filters += (
+                f"&created_at_min={query_date.isoformat()}&created_at_max={max_date.isoformat()}"
             )
         elif since_id:
             # Since ID if provided
-            filters += "&since_id=%s" % since_id
+            filters += f"&since_id={since_id}"
 
-        return self.base_url + "%s?%s" % (table, filters)
+        return self.base_url + f"{table}?{filters}"
 
     def graphql(self, query):
         """

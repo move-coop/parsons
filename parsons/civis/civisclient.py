@@ -4,7 +4,7 @@ from parsons.etl.table import Table
 from parsons.utilities import check_env
 
 
-class CivisClient(object):
+class CivisClient:
     """
     Instantiate the Civis class.
 

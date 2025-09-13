@@ -67,7 +67,7 @@ def test_create_temp_directory():
 
     # Verify the temp file no longer exists
     with pytest.raises(FileNotFoundError):
-        test_file1.open(mode="r")
+        Path(test_file1).read_bytes()
 
 
 def test_close_temp_file():
@@ -76,7 +76,7 @@ def test_close_temp_file():
 
     # Verify the temp file no longer exists
     with pytest.raises(FileNotFoundError):
-        Path(temp).open(mode="r")
+        Path(temp).read_bytes()
 
 
 def test_is_gzip_path():

@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 COMMUNITY_API_ENDPOINT = "https://dl.community.com/download/v1/files/"
 
 
-class Community(object):
+class Community:
     """
     Instantiate class.
 

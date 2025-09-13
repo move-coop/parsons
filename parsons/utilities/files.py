@@ -1,3 +1,4 @@
+import contextlib
 import errno
 import gzip
 import os
@@ -185,10 +186,7 @@ def compression_type_for_path(path):
 def valid_table_suffix(path):
     # Checks if the suffix is valid for conversions to a Parsons table.
 
-    if is_csv_path(path) or is_gzip_path(path) or is_zip_path(path):
-        return True
-    else:
-        return False
+    return bool(is_csv_path(path) or is_gzip_path(path) or is_zip_path(path))
 
 
 def read_file(path):
@@ -355,10 +353,8 @@ class TempDirectory:
         """
         # Only try to unlink if we have a valid file path and we haven't yet called close.
         if self.name and not self.remove_called:
-            try:
+            with contextlib.suppress(FileNotFoundError):
                 cleanup(self.name)
-            except FileNotFoundError:
-                pass  # if the file isn't found, our work is done
 
         self.remove_called = True
 
@@ -408,9 +404,7 @@ class TempFile:
         """
         # Only try to unlink if we have a valid file path and we haven't yet called close.
         if self.name and not self.remove_called:
-            try:
+            with contextlib.suppress(FileNotFoundError):
                 unlink(self.name)
-            except FileNotFoundError:
-                pass  # if the file isn't found, our work is done
 
         self.remove_called = True

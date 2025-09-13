@@ -36,7 +36,7 @@ class TestGoogleSheets(unittest.TestCase):
 
     def test_read_worksheet(self):
         table = self.google_sheets.get_worksheet(self.spreadsheet_id)
-        assert 2 == table.num_rows
+        assert table.num_rows == 2
         time.sleep(10)
 
     def tearDown(self):
@@ -56,7 +56,7 @@ class TestGoogleSheets(unittest.TestCase):
         # Sheet added as part of setUp
         # Also tests get_sheet_index_with_title
         idx = self.google_sheets.get_worksheet_index(self.spreadsheet_id, self.second_sheet_title)
-        assert 1 == idx
+        assert idx == 1
 
     def test_get_sheet_index_with_bogus_title(self):
         bogus_title = "abc123"

@@ -26,7 +26,7 @@ class TestAlchemErGetSurveys(unittest.TestCase):
 
         actual_surveys = self.alchemer.get_surveys()
 
-        assert 2 == actual_surveys.num_rows
+        assert actual_surveys.num_rows == 2
         for i in range(0, 1):
             assert api_return["data"][i]["title"] == actual_surveys[i]["title"]
 

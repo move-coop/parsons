@@ -33,7 +33,7 @@ class TestAlchemErGetResponses(unittest.TestCase):
 
         actual_responses = self.alchemer.get_survey_responses(self.test_survey_id)
 
-        assert 2 == actual_responses.num_rows
+        assert actual_responses.num_rows == 2
         for i in range(0, 1):
             assert api_return["data"][i]["session_id"] == actual_responses[i]["session_id"]
 

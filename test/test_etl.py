@@ -458,7 +458,7 @@ class TestParsonsTable(unittest.TestCase):
 
         # Test that list at the top level
         test_table.unpack_list("b", replace=True)
-        assert ["a", "b_0", "b_1", "b_2"] == test_table.columns
+        assert test_table.columns == ["a", "b_0", "b_1", "b_2"]
 
     def test_unpack_list_with_mixed_col(self):
         # Test unpacking column with non-list items
@@ -496,7 +496,7 @@ class TestParsonsTable(unittest.TestCase):
         standalone = test_table.unpack_nested_columns_as_rows("nested")
 
         # Check that the columns are as expected
-        assert ["uid", "id", "nested", "value"] == standalone.columns
+        assert standalone.columns == ["uid", "id", "nested", "value"]
 
         # Check that the row count is as expected
         assert standalone.num_rows == 11
@@ -518,7 +518,7 @@ class TestParsonsTable(unittest.TestCase):
         expanded = test_table.unpack_nested_columns_as_rows("nested", expand_original=True)
 
         # Check that the columns are as expected
-        assert ["uid", "id", "extra", "nested", "nested_value"] == expanded.columns
+        assert expanded.columns == ["uid", "id", "extra", "nested", "nested_value"]
 
         # Check that the row count is as expected
         assert expanded.num_rows == 12
@@ -645,10 +645,10 @@ class TestParsonsTable(unittest.TestCase):
 
         # Assert rows of each is 100
         for c in chunks[:3]:
-            assert 100 == c.num_rows
+            assert c.num_rows == 100
 
         # Assert last table is 99
-        assert 99 == chunks[4].num_rows
+        assert chunks[4].num_rows == 99
 
     def test_match_columns(self):
         raw = [

@@ -66,7 +66,7 @@ class TestScores(unittest.TestCase):
         }
 
         m.get(self.van.connection.uri + f"scores/{score_id}", json=json)
-        self.assertEqual(json, self.van.get_score(score_id))
+        assert json == self.van.get_score(score_id)
 
     @requests_mock.Mocker()
     def test_get_score_updates(self, m):

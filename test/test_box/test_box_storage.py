@@ -68,7 +68,7 @@ class TestBoxStorage(unittest.TestCase):
         box.create_folder_by_id(folder_name="temp_folder2", parent_folder_id=subfolder)
 
         file_list = box.list_files_by_id(folder_id=subfolder)
-        assert ["temp1", "temp2"] == file_list["name"]
+        assert file_list["name"] == ["temp1", "temp2"]
 
         # Check that if we delete a file, it's no longer there
         for box_file in file_list:
@@ -76,10 +76,10 @@ class TestBoxStorage(unittest.TestCase):
                 box.delete_file_by_id(box_file["id"])
                 break
         file_list = box.list_files_by_id(folder_id=subfolder)
-        assert ["temp2"] == file_list["name"]
+        assert file_list["name"] == ["temp2"]
 
         folder_list = box.list_folders_by_id(folder_id=subfolder)["name"]
-        assert ["temp_folder1", "temp_folder2"] == folder_list
+        assert folder_list == ["temp_folder1", "temp_folder2"]
 
     def test_list_files_by_path(self) -> None:
         # Count on environment variables being set
@@ -114,7 +114,7 @@ class TestBoxStorage(unittest.TestCase):
         box.create_folder(f"{subfolder_path}/temp_folder2")
 
         file_list = box.list(path=subfolder_path, item_type="file")
-        assert ["temp1", "temp2"] == file_list["name"]
+        assert file_list["name"] == ["temp1", "temp2"]
 
         # Check that if we delete a file, it's no longer there
         for box_file in file_list:
@@ -122,15 +122,15 @@ class TestBoxStorage(unittest.TestCase):
                 box.delete_file(path=f"{subfolder_path}/temp1")
                 break
         file_list = box.list(path=subfolder_path, item_type="file")
-        assert ["temp2"] == file_list["name"]
+        assert file_list["name"] == ["temp2"]
 
         folder_list = box.list(path=subfolder_path, item_type="folder")
-        assert ["temp_folder1", "temp_folder2"] == folder_list["name"]
+        assert folder_list["name"] == ["temp_folder1", "temp_folder2"]
 
         # Make sure we can delete by path
         box.delete_folder(f"{subfolder_path}/temp_folder1")
         folder_list = box.list(path=subfolder_path, item_type="folder")
-        assert ["temp_folder2"] == folder_list["name"]
+        assert folder_list["name"] == ["temp_folder2"]
 
     def test_upload_file(self) -> None:
         # Count on environment variables being set
@@ -264,11 +264,11 @@ class TestBoxStorage(unittest.TestCase):
             box.get_table_by_file_id(file_id=nonexistent_id, format="bad_format")
 
         # Upload to non-existent folder
-        with self.assertLogs(level=logging.WARNING), self.assertRaises(BoxAPIException):
+        with self.assertLogs(level=logging.WARNING), pytest.raises(BoxAPIException):
             box.upload_table_to_folder_id(table, "temp1", folder_id=nonexistent_id)
 
         # Download a non-existent file
-        with self.assertLogs(level=logging.WARNING), self.assertRaises(BoxAPIException):
+        with self.assertLogs(level=logging.WARNING), pytest.raises(BoxAPIException):
             box.get_table_by_file_id(nonexistent_id, format="json")
 
         # Create folder in non-existent parent
@@ -276,10 +276,10 @@ class TestBoxStorage(unittest.TestCase):
             box.create_folder("nonexistent_path/path")
 
         # Create folder in non-existent parent
-        with self.assertLogs(level=logging.WARNING), self.assertRaises(BoxAPIException):
+        with self.assertLogs(level=logging.WARNING), pytest.raises(BoxAPIException):
             box.create_folder_by_id(folder_name="subfolder", parent_folder_id=nonexistent_id)
 
         # Try using bad credentials
         box = Box(access_token="5345345345")
-        with self.assertLogs(level=logging.WARNING), self.assertRaises(BoxOAuthException):
+        with self.assertLogs(level=logging.WARNING), pytest.raises(BoxOAuthException):
             box.list_files_by_id()

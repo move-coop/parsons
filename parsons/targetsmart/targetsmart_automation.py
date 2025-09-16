@@ -213,8 +213,7 @@ class TargetSmartAutomation:
                 logger.info(f"Match job {job_name} configuration error.")
                 #  To Do: Lift up the configuration error.
                 raise ValueError(
-                    "Job configuration failed. If you provided an email"
-                    "address, you will be sent more details."
+                    "Job configuration failed. If you provided an email address, you will be sent more details."
                 )
 
             else:

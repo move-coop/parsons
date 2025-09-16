@@ -16,15 +16,15 @@ class TestTurboVote(unittest.TestCase):
         self.tv = TurboVote("usr", "pwd", "myorg")
 
     def test_init(self):
-        self.assertEqual(self.tv.username, "usr")
-        self.assertEqual(self.tv.password, "pwd")
-        self.assertEqual(self.tv.subdomain, "myorg")
+        assert self.tv.username == "usr"
+        assert self.tv.password == "pwd"
+        assert self.tv.subdomain == "myorg"
 
     @requests_mock.Mocker()
     def test_get_token(self, m):
         # Assert the token is returned
         m.post(self.tv.uri + "login", json=fake_token)
-        self.assertEqual(fake_token["id-token"], self.tv._get_token())
+        assert fake_token["id-token"] == self.tv._get_token()
 
     @requests_mock.Mocker()
     def test_get_users(self, m):
@@ -68,4 +68,4 @@ class TestTurboVote(unittest.TestCase):
                 text=users_text.read(),
             )
 
-        self.assertTrue(validate_list(expected, self.tv.get_users()))
+        assert validate_list(expected, self.tv.get_users())

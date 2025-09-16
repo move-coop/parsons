@@ -73,7 +73,7 @@ class TestNGPVAN(unittest.TestCase):
             "description",
         ]
 
-        self.assertTrue(validate_list(expected, self.van.get_events()))
+        assert validate_list(expected, self.van.get_events())
 
     @requests_mock.Mocker()
     def test_get_event(self, m):
@@ -104,7 +104,7 @@ class TestNGPVAN(unittest.TestCase):
 
         m.get(self.van.connection.uri + f"events/{event_id}", json=json)
 
-        self.assertEqual(json, self.van.get_event(event_id))
+        assert json == self.van.get_event(event_id)
 
     @requests_mock.Mocker()
     def test_create_event(self, m):
@@ -122,7 +122,7 @@ class TestNGPVAN(unittest.TestCase):
             editable=False,
         )
 
-        self.assertEqual(r, 750000984)
+        assert r == 750000984
 
     @requests_mock.Mocker()
     def test_get_event_types(self, m):
@@ -183,4 +183,4 @@ class TestNGPVAN(unittest.TestCase):
             "isOnlineActionsAvailable",
         ]
 
-        self.assertTrue(validate_list(expected, self.van.get_event_types()))
+        assert validate_list(expected, self.van.get_event_types())

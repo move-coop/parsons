@@ -29,7 +29,7 @@ def test_connection():
 
 
 @pytest.mark.parametrize(
-    ["username", "password", "api_token"],
+    ("username", "password", "api_token"),
     [
         (None, None, None),
         (None, "pass", "token"),
@@ -44,7 +44,7 @@ def test_init_error(username, password, api_token):
 
 
 @pytest.mark.parametrize(
-    ["obj", "exp_obj"],
+    ("obj", "exp_obj"),
     [
         ({"a": "a", "b": None, "c": "c"}, {"a": "a", "c": "c"}),
         (

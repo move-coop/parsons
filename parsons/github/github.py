@@ -1,5 +1,6 @@
 import logging
 from functools import partial, wraps
+from pathlib import Path
 
 import petl
 import requests
@@ -54,7 +55,7 @@ class ParsonsGitHubError(Exception):
 
 
 @decorate_methods(wrap_github_404)
-class GitHub(object):
+class GitHub:
     """Creates a GitHub class for accessing the GitHub API.
 
     Uses ``parsons.utilities.check_env`` to load credentials from environment variables if not
@@ -423,8 +424,7 @@ class GitHub(object):
                 f"Error downloading {path} from repo {repo_name}: {res.content}"
             )
 
-        with open(local_path, "wb") as f:
-            f.write(res.content)
+        Path(local_path).write_bytes(res.content)
 
         logger.info(f"Downloaded {path} to {local_path}")
 

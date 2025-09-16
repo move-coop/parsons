@@ -3326,7 +3326,7 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/people?page=2&per_page=2",
             text=json.dumps(self.fake_people_list_2),
         )
-        self.assertEqual(self.an._get_page("people", 2, 2), self.fake_people_list_2)
+        assert self.an._get_page("people", 2, 2) == self.fake_people_list_2
 
     @requests_mock.Mocker()
     def test_get_entry_list(self, m):
@@ -3600,10 +3600,7 @@ class TestActionNetwork(unittest.TestCase):
     def test_create_event_campaign(self, m):
         payload = {"title": "Canvassing Events", "origin_system": "AmyforTexas.com"}
         m.post(f"{self.api_url}/event_campaigns", text=json.dumps(self.fake_event_campaign))
-        self.assertEqual(
-            self.fake_event_campaign,
-            self.an.create_event_campaign(payload),
-        )
+        assert self.fake_event_campaign == self.an.create_event_campaign(payload)
 
     @requests_mock.Mocker()
     def test_create_event_in_event_campaign(self, m):
@@ -3615,9 +3612,9 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/event_campaigns/123/events",
             text=json.dumps(self.fake_event),
         )
-        self.assertEqual(
-            self.fake_event.items(),
-            self.an.create_event_in_event_campaign("123", payload).items(),
+        assert (
+            self.fake_event.items()
+            == self.an.create_event_in_event_campaign("123", payload).items()
         )
 
     @requests_mock.Mocker()
@@ -3627,10 +3624,7 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/event_campaigns/123",
             text=json.dumps(self.fake_event_campaign),
         )
-        self.assertEqual(
-            self.fake_event_campaign,
-            self.an.update_event_campaign("123", payload),
-        )
+        assert self.fake_event_campaign == self.an.update_event_campaign("123", payload)
 
     # Events
     @requests_mock.Mocker()
@@ -3663,11 +3657,11 @@ class TestActionNetwork(unittest.TestCase):
     @requests_mock.Mocker()
     def test_create_event(self, m):
         m.post(f"{self.api_url}/events", text=json.dumps(self.fake_event))
-        self.assertEqual(
-            self.fake_event.items(),
-            self.an.create_event(
+        assert (
+            self.fake_event.items()
+            == self.an.create_event(
                 "fake_title", start_date=self.fake_date, location=self.fake_location
-            ).items(),
+            ).items()
         )
 
     # Forms
@@ -3694,20 +3688,14 @@ class TestActionNetwork(unittest.TestCase):
     def test_create_form(self, m):
         payload = {"title": "My Free Form", "origin_system": "FreeForms.com"}
         m.post(f"{self.api_url}/forms", text=json.dumps(self.fake_form))
-        self.assertEqual(
-            self.fake_form.items(),
-            self.an.create_form(payload).items(),
-        )
+        assert self.fake_form.items() == self.an.create_form(payload).items()
 
     # Update Form
     @requests_mock.Mocker()
     def test_update_form(self, m):
         payload = {"title": "My Free Form", "origin_system": "FreeForms.com"}
         m.put(f"{self.api_url}/forms/123", text=json.dumps(self.fake_form))
-        self.assertEqual(
-            self.fake_form.items(),
-            self.an.update_form("123", payload).items(),
-        )
+        assert self.fake_form.items() == self.an.update_form("123", payload).items()
 
     # Fundraising Pages
     @requests_mock.Mocker()
@@ -3744,9 +3732,8 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/fundraising_pages",
             text=json.dumps(self.fake_fundraising_page),
         )
-        self.assertEqual(
-            self.fake_fundraising_page.items(),
-            self.an.create_fundraising_page(payload).items(),
+        assert (
+            self.fake_fundraising_page.items() == self.an.create_fundraising_page(payload).items()
         )
 
     @requests_mock.Mocker()
@@ -3759,9 +3746,9 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/fundraising_pages/123",
             text=json.dumps(self.fake_fundraising_page),
         )
-        self.assertEqual(
-            self.fake_fundraising_page.items(),
-            self.an.update_fundraising_page("123", payload).items(),
+        assert (
+            self.fake_fundraising_page.items()
+            == self.an.update_fundraising_page("123", payload).items()
         )
 
     # Items
@@ -3988,12 +3975,12 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/people/{self.fake_person_id_1}",
             text=json.dumps(self.fake_person),
         )
-        self.assertEqual(self.an.get_person(self.fake_person_id_1), self.fake_person)
+        assert self.an.get_person(self.fake_person_id_1) == self.fake_person
 
     @requests_mock.Mocker()
     def test_upsert_person(self, m):
         m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upsert_person))
-        self.assertEqual(self.an.upsert_person(**self.fake_upsert_person), self.fake_upsert_person)
+        assert self.an.upsert_person(**self.fake_upsert_person) == self.fake_upsert_person
 
     @requests_mock.Mocker()
     def test_update_person(self, m):
@@ -4001,11 +3988,11 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/people/{self.fake_person_id_1}",
             text=json.dumps(self.updated_fake_person),
         )
-        self.assertEqual(
+        assert (
             self.an.update_person(
                 self.fake_person_id_1, given_name="Flake", family_name="McFlakerson"
-            ),
-            self.updated_fake_person,
+            )
+            == self.updated_fake_person
         )
 
     # Petitions
@@ -4264,7 +4251,7 @@ class TestActionNetwork(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_tag(self, m):
         m.get(f"{self.api_url}/tags/{self.fake_tag_id_1}", text=json.dumps(self.fake_tag))
-        self.assertEqual(self.an.get_tag(self.fake_tag_id_1), self.fake_tag)
+        assert self.an.get_tag(self.fake_tag_id_1) == self.fake_tag
 
     # Taggings
     @requests_mock.Mocker()
@@ -4366,9 +4353,9 @@ class TestActionNetwork(unittest.TestCase):
                 }
             ),
         )
-        self.assertEqual(
-            len(self.fake_unique_id_list["unique_ids"]),
-            self.an.create_unique_id_list(
+        assert (
+            len(self.fake_unique_id_list["unique_ids"])
+            == self.an.create_unique_id_list(
                 self.fake_unique_id_list["name"], self.fake_unique_id_list["unique_ids"]
-            )["count"],
+            )["count"]
         )

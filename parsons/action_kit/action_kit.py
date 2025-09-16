@@ -2,6 +2,7 @@ import json
 import logging
 import math
 import time
+from pathlib import Path
 
 import requests
 
@@ -11,7 +12,7 @@ from parsons.utilities import check_env
 logger = logging.getLogger(__name__)
 
 
-class ActionKit(object):
+class ActionKit:
     """
     Instantiate the ActionKit class
 
@@ -85,7 +86,7 @@ class ActionKit(object):
         # AK provides some pretty robust/helpful error reporting. We should surface them with
         # our exceptions.
 
-        if "errors" in resp.json().keys():
+        if "errors" in resp.json():
             if isinstance(resp.json()["errors"], list):
                 exception_message += "\n" + ",".join(resp.json()["errors"])
             else:
@@ -1358,8 +1359,9 @@ class ActionKit(object):
 
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({"accepts": "application/json"})
+        # TODO: use context manager or close file when done
         if isinstance(csv_file, str):
-            csv_file = open(csv_file, "rb")
+            csv_file = Path(csv_file).open(mode="rb")  # noqa SIM115
 
         url = self._base_endpoint("upload")
         files = {"upload": csv_file}
@@ -1376,7 +1378,8 @@ class ActionKit(object):
                 "id": progress_url.split("/")[-2] if progress_url else None,
                 "progress_url": progress_url,
             }
-            return rv
+
+        return rv
 
     def bulk_upload_table(
         self,

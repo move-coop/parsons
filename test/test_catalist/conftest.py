@@ -1,5 +1,5 @@
 import re
-from typing import Generator
+from collections.abc import Generator
 from unittest.mock import MagicMock
 
 import pytest
@@ -31,7 +31,7 @@ def mock_sftp(mocker) -> Generator[MagicMock, None, None]:
 
     mocker.patch("parsons.catalist.catalist.SFTP", new=magic_mock)
 
-    yield mocker
+    return mocker
 
 
 @pytest.fixture(autouse=True)
@@ -40,7 +40,7 @@ def mock_miscellaneous(mocker) -> Generator[MagicMock, None, None]:
     magic_mock = MagicMock()
 
     mocker.patch("parsons.catalist.catalist.ZipFile", new=magic_mock)
-    mocker.patch("parsons.catalist.catalist.os", new=magic_mock)
+    mocker.patch("parsons.catalist.catalist.Path", new=magic_mock)
     mocker.patch("parsons.catalist.catalist.Table", new=magic_mock)
 
-    yield mocker
+    return mocker

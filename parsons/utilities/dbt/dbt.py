@@ -2,7 +2,7 @@
 
 import logging
 import pathlib
-from typing import List, Optional, Type, Union
+from typing import Optional, Union
 
 from dbt.cli.main import dbtRunner, dbtRunnerResult
 
@@ -15,13 +15,13 @@ logger = logging.getLogger(__name__)
 class dbtRunnerParsons:
     def __init__(
         self,
-        commands: Union[str, List[str]],
+        commands: Union[str, list[str]],
         dbt_project_directory: pathlib.Path,
     ) -> None:
         """Initialize dbtRunner with commands and a working directory.
 
         `Args:`
-            commands: Union[str, List[str]]
+            commands: Union[str, list[str]]
                 A single dbt command string or a list of dbt command
                 strings.
                 e.g. ["seed", "build -s models/staging", "test"]
@@ -67,15 +67,15 @@ class dbtRunnerParsons:
 
 
 def run_dbt_commands(
-    commands: Union[str, List[str]],
+    commands: Union[str, list[str]],
     dbt_project_directory: pathlib.Path,
-    loggers: Optional[list[Union[dbtLogger, Type[dbtLogger]]]] = None,
+    loggers: Optional[list[Union[dbtLogger, type[dbtLogger]]]] = None,
 ) -> list[Manifest]:
     """Executes dbt commands within a directory, optionally logs results.
 
     Parameters:
     -----------
-    commands : Union[str, List[str]]
+    commands : Union[str, list[str]]
         A single dbt command as a string or a list of dbt commands to
         be executed.
 

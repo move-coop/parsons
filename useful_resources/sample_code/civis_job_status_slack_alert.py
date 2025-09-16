@@ -38,12 +38,13 @@ def format_datetime(text):
 
 # Assigns an emoji for each potential run status a Civis job or workflow might have.
 def get_run_state_emoji(run_state):
-    if run_state == "succeeded":
-        return ":white_check_mark:"
-    elif run_state == "failed":
-        return ":x:"
-    elif run_state == "running":
-        return ":runner:"
+    emoji_dict = {
+        "succeeded": ":white_check_mark:",
+        "failed": ":x:",
+        "running": ":runner:",
+    }
+    if run_state in emoji_dict:
+        return emoji_dict[run_state]
     else:
         return ":shrug:"
 

@@ -1,14 +1,15 @@
 import json
 import os
 import unittest
+from pathlib import Path
 
+import pytest
 import requests_mock
 from slackclient.exceptions import SlackClientError
 
 from parsons import Slack, Table
 
-_dir = os.path.dirname(__file__)
-responses_dir = f"{_dir}/responses"
+responses_dir = Path(__file__).parent / "responses"
 
 
 class TestSlack(unittest.TestCase):
@@ -24,31 +25,31 @@ class TestSlack(unittest.TestCase):
         # Delete to test that is raises an error
         del os.environ["SLACK_API_TOKEN"]
 
-        self.assertNotIn("SLACK_API_TOKEN", os.environ)
+        assert "SLACK_API_TOKEN" not in os.environ
 
-        self.assertRaises(KeyError, Slack)
+        with pytest.raises(KeyError):
+            Slack()
 
         os.environ["SLACK_API_TOKEN"] = "SOME_API_TOKEN"
-        self.assertIn("SLACK_API_TOKEN", os.environ)
+        assert "SLACK_API_TOKEN" in os.environ
 
     @requests_mock.Mocker()
     def test_channels(self, m):
-        with open(f"{responses_dir}/channels.json", "r") as f:
+        with (responses_dir / "channels.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
         m.post("https://slack.com/api/conversations.list", json=slack_resp)
 
         tbl = self.slack.channels()
 
-        self.assertIsInstance(tbl, Table)
+        assert isinstance(tbl, Table)
 
-        expected_columns = ["id", "name"]
-        self.assertListEqual(tbl.columns, expected_columns)
-        self.assertEqual(tbl.num_rows, 2)
+        assert tbl.columns == ["id", "name"]
+        assert tbl.num_rows == 2
 
     @requests_mock.Mocker()
     def test_channels_all_fields(self, m):
-        with open(f"{responses_dir}/channels.json", "r") as f:
+        with (responses_dir / "channels.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
         m.post("https://slack.com/api/conversations.list", json=slack_resp)
@@ -79,7 +80,7 @@ class TestSlack(unittest.TestCase):
         ]
         tbl = self.slack.channels(fields=fields_req)
 
-        self.assertIsInstance(tbl, Table)
+        assert isinstance(tbl, Table)
 
         expected_columns = [
             "id",
@@ -106,19 +107,19 @@ class TestSlack(unittest.TestCase):
             "num_members",
         ]
 
-        self.assertListEqual(sorted(tbl.columns), sorted(expected_columns))
-        self.assertEqual(tbl.num_rows, 2)
+        assert sorted(tbl.columns) == sorted(expected_columns)
+        assert tbl.num_rows == 2
 
     @requests_mock.Mocker()
     def test_users(self, m):
-        with open(f"{responses_dir}/users.json", "r") as f:
+        with (responses_dir / "users.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
         m.post("https://slack.com/api/users.list", json=slack_resp)
 
         tbl = self.slack.users()
 
-        self.assertIsInstance(tbl, Table)
+        assert isinstance(tbl, Table)
 
         expected_columns = [
             "id",
@@ -127,12 +128,12 @@ class TestSlack(unittest.TestCase):
             "profile_email",
             "profile_real_name_normalized",
         ]
-        self.assertListEqual(tbl.columns, expected_columns)
-        self.assertEqual(tbl.num_rows, 2)
+        assert tbl.columns == expected_columns
+        assert tbl.num_rows == 2
 
     @requests_mock.Mocker()
     def test_users_all_fields(self, m):
-        with open(f"{responses_dir}/users.json", "r") as f:
+        with (responses_dir / "users.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
         m.post("https://slack.com/api/users.list", json=slack_resp)
@@ -181,7 +182,7 @@ class TestSlack(unittest.TestCase):
         ]
         tbl = self.slack.users(fields=fields_req)
 
-        self.assertIsInstance(tbl, Table)
+        assert isinstance(tbl, Table)
 
         expected_columns = [
             "id",
@@ -225,60 +226,58 @@ class TestSlack(unittest.TestCase):
             "profile_team",
             "profile_title",
         ]
-        self.assertListEqual(sorted(tbl.columns), sorted(expected_columns))
-        self.assertEqual(tbl.num_rows, 2)
+        assert sorted(tbl.columns) == sorted(expected_columns)
+        assert tbl.num_rows == 2
 
     @requests_mock.Mocker()
     def test_message_channel(self, m):
-        with open(f"{responses_dir}/message_channel.json", "r") as f:
+        with (responses_dir / "message_channel.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
         m.post("https://slack.com/api/chat.postMessage", json=slack_resp)
 
         dct = self.slack.message_channel("C1H9RESGL", "Here's a message for you")
 
-        self.assertIsInstance(dct, dict)
-        self.assertListEqual(sorted(dct), sorted(slack_resp))
+        assert isinstance(dct, dict)
+        assert sorted(dct) == sorted(slack_resp)
 
         m.post(
             "https://slack.com/api/chat.postMessage",
             json={"ok": False, "error": "invalid_auth"},
         )
 
-        self.assertRaises(
-            SlackClientError,
-            self.slack.message_channel,
-            "FakeChannel",
-            "Here's a message for you",
-        )
+        with pytest.raises(SlackClientError):
+            self.slack.message_channel(
+                "FakeChannel",
+                "Here's a message for you",
+            )
 
     @requests_mock.Mocker(case_sensitive=True)
     def test_message(self, m):
         webhook = "https://hooks.slack.com/services/T1234/B1234/D12322"
         m.post(webhook, json={"ok": True})
         Slack.message("#foobar", "this is a message", webhook)
-        self.assertEqual(
-            m._adapter.last_request.json(),
-            {"text": "this is a message", "channel": "#foobar"},
-        )
-        self.assertEqual(m._adapter.last_request.path, "/services/T1234/B1234/D12322")
+        assert m._adapter.last_request.json() == {"text": "this is a message", "channel": "#foobar"}
+        assert m._adapter.last_request.path == "/services/T1234/B1234/D12322"
 
     @requests_mock.Mocker()
     def test_file_upload(self, m):
-        file_path = f"{responses_dir}/file_upload.json"
-        with open(file_path, "r") as f:
+        file_path = responses_dir / "file_upload.json"
+        with file_path.open(mode="r") as f:
             slack_resp = json.load(f)
 
         m.post("https://slack.com/api/files.upload", json=slack_resp)
 
-        dct = self.slack.upload_file(["D0L4B9P0Q"], file_path)
+        dct = self.slack.upload_file(["D0L4B9P0Q"], str(file_path))
 
-        self.assertIsInstance(dct, dict)
-        self.assertListEqual(sorted(dct), sorted(slack_resp))
+        assert isinstance(dct, dict)
+        assert sorted(dct) == sorted(slack_resp)
 
         m.post(
             "https://slack.com/api/files.upload",
             json={"ok": False, "error": "invalid_auth"},
         )
 
-        self.assertRaises(SlackClientError, self.slack.upload_file, ["D0L4B9P0Q"], file_path)
+        assert pytest.raises(
+            SlackClientError, self.slack.upload_file, ["D0L4B9P0Q"], str(file_path)
+        )

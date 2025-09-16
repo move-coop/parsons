@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 EMPOWER_API_ENDPOINT = "https://api.getempower.com/v1/export"
 
 
-class Empower(object):
+class Empower:
     """
     Instantiate class.
 
@@ -58,10 +58,7 @@ class Empower(object):
         Determine if a dict object is empty.
         """
 
-        if len(self.data[obj_name]) == 0:
-            return True
-        else:
-            return False
+        return len(self.data[obj_name]) == 0
 
     def get_profiles(self):
         """

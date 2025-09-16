@@ -1,6 +1,7 @@
 import os
 import time
 import warnings
+from pathlib import Path
 
 import requests
 from slackclient import SlackClient
@@ -10,7 +11,7 @@ from parsons.etl.table import Table
 from parsons.utilities.check_env import check
 
 
-class Slack(object):
+class Slack:
     def __init__(self, api_key=None):
         if api_key is None:
             try:
@@ -220,7 +221,7 @@ class Slack(object):
             filetype = filename.split(".")[-1]
 
         mode = "rb" if is_binary else "r"
-        with open(filename, mode) as file_content:
+        with Path(filename).open(mode=mode) as file_content:
             resp = self.client.api_call(
                 "files.upload",
                 channels=channels,

@@ -2,7 +2,7 @@ import json
 import logging
 import re
 import warnings
-from typing import Dict, List, Literal, Union
+from typing import Literal, Union
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 API_URL = "https://actionnetwork.org/api/v2"
 
 
-class ActionNetwork(object):
+class ActionNetwork:
     """
     `Args:`
         api_token: str
@@ -57,9 +57,8 @@ class ActionNetwork(object):
                 return Table(return_list)
             return_list.extend(response_list)
             count = count + len(response_list)
-            if limit:
-                if count >= limit:
-                    return Table(return_list[0:limit])
+            if limit and count >= limit:
+                return Table(return_list[0:limit])
 
     # Advocacy Campaigns
     def get_advocacy_campaigns(self, limit=None, per_page=25, page=None, filter=None):
@@ -1155,7 +1154,7 @@ class ActionNetwork(object):
 
     def upsert_person(
         self,
-        email_address: Union[str, List[str], List[Dict[str, str]]] = None,
+        email_address: Union[str, list[str], list[dict[str, str]]] = None,
         given_name=None,
         family_name=None,
         tags=None,

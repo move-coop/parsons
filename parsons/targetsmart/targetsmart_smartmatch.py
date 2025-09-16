@@ -55,7 +55,7 @@ class SmartMatchError(Exception):
 
 def _smartmatch_upload(url, fname):
     logger.info(f"Uploading {fname} to {url} to begin SmartMatch workflow execution.")
-    with open(fname, "rb") as reader:
+    with Path(fname).open(mode="rb") as reader:
         response_2 = requests.put(url, data=reader, headers={"Content-Type": ""})
 
     response_2.raise_for_status()
@@ -242,7 +242,7 @@ class SmartMatch:
         )
 
         # Write Petl table to CSV and upload for SmartMatch to process
-        tmp = tempfile.NamedTemporaryFile(
+        tmp = tempfile.NamedTemporaryFile(  # noqa: SIM115
             mode="w+",
             encoding="utf8",
             newline="\n",
@@ -269,14 +269,14 @@ class SmartMatch:
 
         # Download SmartMatch .csv.gz results, decompress, and Petl table wrap.
         # The final tmp file cannot be deleted due to Petl tables being lazy.
-        tmp_gz = tempfile.NamedTemporaryFile(
+        tmp_gz = tempfile.NamedTemporaryFile(  # noqa: SIM115
             prefix="smartmatch_output",
             suffix=".csv.gz",
             dir=tmp_location,
             delete=False,
         )
 
-        tmp_csv = tempfile.NamedTemporaryFile(
+        tmp_csv = tempfile.NamedTemporaryFile(  # noqa: SIM115
             prefix="smartmatch_output",
             suffix=".csv",
             dir=tmp_location,

@@ -13,7 +13,7 @@ class TargetsFailed(Exception):
     pass
 
 
-class Targets(object):
+class Targets:
     def __init__(self, van_connection):
         self.connection = van_connection
 

@@ -1,6 +1,7 @@
 import os
 import unittest
 
+import pytest
 import requests_mock
 from requests.exceptions import HTTPError
 
@@ -59,13 +60,13 @@ class TestCodes(unittest.TestCase):
         }
 
         m.get(self.van.connection.uri + "codes/1004916", json=json)
-        self.assertEqual(json, self.van.get_code(1004916))
+        assert json == self.van.get_code(1004916)
 
     @requests_mock.Mocker()
     def test_get_code_types(self, m):
         json = ["Tag", "SourceCode"]
         m.get(self.van.connection.uri + "codeTypes", json=json)
-        self.assertEqual(json, self.van.get_code_types())
+        assert json == self.van.get_code_types()
 
     @requests_mock.Mocker()
     def test_create_code(self, m):
@@ -77,7 +78,7 @@ class TestCodes(unittest.TestCase):
             supported_entities=[{"name": "Events", "is_searchable": True, "is_applicable": True}],
         )
 
-        self.assertEqual(r, 1004960)
+        assert r == 1004960
 
     @requests_mock.Mocker()
     def test_update_code(self, m):
@@ -87,7 +88,8 @@ class TestCodes(unittest.TestCase):
 
         # Test a bad input
         m.put(self.van.connection.uri + "codes/100496Q", status_code=404)
-        self.assertRaises(HTTPError, self.van.update_code, "100496Q")
+        with pytest.raises(HTTPError):
+            self.van.update_code("100496Q")
 
     @requests_mock.Mocker()
     def test_delete_code(self, m):
@@ -97,10 +99,11 @@ class TestCodes(unittest.TestCase):
 
         # Test a bad input
         m.delete(self.van.connection.uri + "codes/100496Q", status_code=404)
-        self.assertRaises(HTTPError, self.van.delete_code, "100496Q")
+        with pytest.raises(HTTPError):
+            self.van.delete_code("100496Q")
 
     @requests_mock.Mocker()
     def test_get_code_supported_entities(self, m):
         json = ["Contacts", "Events", "Locations"]
         m.get(self.van.connection.uri + "codes/supportedEntities", json=json)
-        self.assertEqual(json, self.van.get_code_supported_entities())
+        assert json == self.van.get_code_supported_entities()

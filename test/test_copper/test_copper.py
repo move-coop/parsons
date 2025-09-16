@@ -1,8 +1,8 @@
 import json
 import logging
-import os
 import sys
 import unittest
+from pathlib import Path
 
 import requests_mock
 
@@ -20,7 +20,7 @@ logger.addHandler(strm_hdlr)
 
 logger.setLevel(logging.INFO)
 
-_dir = os.path.dirname(__file__)
+_dir = Path(__file__).parent
 
 fake_search = [{"id": "fake"}]
 
@@ -197,16 +197,15 @@ class TestCopper(unittest.TestCase):
         )
 
     def test_init(self):
-        self.assertEqual(self.cp.user_email, "usr@losr.fake")
-        self.assertEqual(self.cp.api_key, "key")
+        assert self.cp.user_email == "usr@losr.fake"
+        assert self.cp.api_key == "key"
 
     @requests_mock.Mocker()
     def test_base_request(self, m):
         # Assert the fake_search dict is returned
         m.post(self.cp.uri + "/people/search", json=fake_search)
-        self.assertEqual(
-            fake_search,
-            json.loads(self.cp.base_request("/people/search", req_type="POST").text),
+        assert fake_search == json.loads(
+            self.cp.base_request("/people/search", req_type="POST").text
         )
 
     def paginate_callback(self, request, context):
@@ -226,7 +225,7 @@ class TestCopper(unittest.TestCase):
             row_start = page_number * page_size
             row_finish = row_start + page_size
 
-        with open(f"{_dir}/{context.headers['filename']}", "r") as json_file:
+        with (_dir / context.headers["filename"]).open(mode="r") as json_file:
             response = json.load(json_file)
 
         if isinstance(response, list):
@@ -499,7 +498,7 @@ class TestCopper(unittest.TestCase):
         )
 
         fake_processed = self.cp.process_json(fake_response, "fake")
-        self.assertTrue([f["name"] for f in fake_processed] == table_names)
+        assert [f["name"] for f in fake_processed] == table_names
         for tbl in table_names:
             assert_matching_tables(
                 [f["tbl"] for f in fake_processed if f["name"] == tbl][0],
@@ -507,16 +506,16 @@ class TestCopper(unittest.TestCase):
             )
 
         fake_tidy = self.cp.process_json(fake_response, "fake", tidy=0)
-        self.assertTrue(len(fake_tidy) == len(fake_response[0]) - 1)
+        assert len(fake_tidy) == len(fake_response[0]) - 1
 
     def test_process_custom_fields(self):
         # Using same json file and processed data in testing both process_ and get_ methods
 
-        with open(f"{_dir}/custom_fields_search.json", "r") as json_file:
+        with (_dir / "custom_fields_search.json").open(mode="r") as json_file:
             fake_response = json.load(json_file)
 
         fake_processed = self.cp.process_custom_fields(fake_response)
-        self.assertTrue([f["name"] for f in fake_processed] == self.custom_field_table_names)
+        assert [f["name"] for f in fake_processed] == self.custom_field_table_names
         for tbl in self.custom_field_table_names:
             assert_matching_tables(
                 [f["tbl"] for f in fake_processed if f["name"] == tbl][0],
@@ -1073,7 +1072,7 @@ class TestCopper(unittest.TestCase):
         )
 
         processed_blob = self.cp.get_custom_fields()
-        self.assertTrue([f["name"] for f in processed_blob] == self.custom_field_table_names)
+        assert [f["name"] for f in processed_blob] == self.custom_field_table_names
         for tbl in self.custom_field_table_names:
             assert_matching_tables(
                 [f["tbl"] for f in processed_blob if f["name"] == tbl][0],

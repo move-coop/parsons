@@ -24,6 +24,7 @@ solution. See `TargetSmartAPI.smartmatch`.
 import logging
 import time
 import uuid
+from pathlib import Path
 
 import defusedxml.ElementTree as ET
 import xmltodict
@@ -42,7 +43,7 @@ logger = logging.getLogger(__name__)
 
 # Automation matching documentation can be found here:
 # https://docs.targetsmart.com/my_tsmart/automation/developer.html.
-class TargetSmartAutomation(object):
+class TargetSmartAutomation:
     """
     * `Automation overview <https://docs.targetsmart.com/my_tsmart/automation/overview.html>`_
     * `Automation integration doc <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`_
@@ -212,8 +213,7 @@ class TargetSmartAutomation(object):
                 logger.info(f"Match job {job_name} configuration error.")
                 #  To Do: Lift up the configuration error.
                 raise ValueError(
-                    "Job configuration failed. If you provided an email"
-                    "address, you will be sent more details."
+                    "Job configuration failed. If you provided an email address, you will be sent more details."
                 )
 
             else:
@@ -232,7 +232,7 @@ class TargetSmartAutomation(object):
             for file_name in self.sftp.list_directory(remote_path=self.sftp_dir):
                 if file_name == f"{job_name}.finish.xml":
                     xml_file = self.sftp.get_file(f"{self.sftp_dir}/{job_name}.finish.xml")
-                    with open(xml_file, "rb") as x:
+                    with Path(xml_file).open(mode="rb") as x:
                         xml = xmltodict.parse(x, dict_constructor=dict)
 
                     if xml["jobcontext"]["state"] == "error":

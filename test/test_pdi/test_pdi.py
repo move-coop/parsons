@@ -1,3 +1,4 @@
+import contextlib
 import os
 
 import pytest
@@ -11,10 +12,8 @@ from test.utils import mark_live_test
 #
 def remove_from_env(*env_vars):
     for var in env_vars:
-        try:
+        with contextlib.suppress(KeyError):
             del os.environ[var]
-        except KeyError:
-            pass
 
 
 #
@@ -30,7 +29,7 @@ def test_connection():
 
 
 @pytest.mark.parametrize(
-    ["username", "password", "api_token"],
+    ("username", "password", "api_token"),
     [
         (None, None, None),
         (None, "pass", "token"),
@@ -45,7 +44,7 @@ def test_init_error(username, password, api_token):
 
 
 @pytest.mark.parametrize(
-    ["obj", "exp_obj"],
+    ("obj", "exp_obj"),
     [
         ({"a": "a", "b": None, "c": "c"}, {"a": "a", "c": "c"}),
         (

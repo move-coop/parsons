@@ -655,7 +655,7 @@ class NewmodeV2:
         postal_code: Optional[str] = None,
         region: Optional[str] = None,
         params: Optional[dict[str, Any]] = None,
-        retries: int = None,
+        retries: int = 2,
     ) -> Table:
         """
         Retrieve a specific recipient by ID

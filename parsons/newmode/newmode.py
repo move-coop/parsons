@@ -483,6 +483,9 @@ class NewmodeV2:
         if params is None:
             params = {}
 
+        if retries is None:
+            retries = 2
+
         client = self.default_client if not use_campaigns_client else self.campaigns_client
 
         for attempt in range(retries + 1):
@@ -655,7 +658,7 @@ class NewmodeV2:
         postal_code: Optional[str] = None,
         region: Optional[str] = None,
         params: Optional[dict[str, Any]] = None,
-        retries: int = 2,
+        retries: int = None,
     ) -> Table:
         """
         Retrieve a specific recipient by ID

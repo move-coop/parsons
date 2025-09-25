@@ -470,11 +470,11 @@ class NewmodeV2:
         self,
         method: str,
         url: str,
+        retries: int = 2,
         use_campaigns_client: bool = False,
         data: Optional[dict[str, Any]] = None,
         json: Optional[dict[str, Any]] = None,
         params: Optional[dict[str, Any]] = None,
-        retries: int = 2,
     ) -> Optional[Union[dict[str, Any], None]]:
         """
         Internal method to instantiate OAuth2APIConnector class,

@@ -618,7 +618,7 @@ class NewmodeV2:
 
     def get_campaign_ids(
         self,
-        retries: int = None,
+        retries: int = 2,
         params: Optional[dict[str, Any]] = None,
     ) -> list[str]:
         """

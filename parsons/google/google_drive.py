@@ -2,6 +2,7 @@ import logging
 import os
 import tempfile
 import uuid
+from pathlib import Path
 from typing import Optional, Union
 
 from google.oauth2.credentials import Credentials
@@ -81,10 +82,7 @@ class GoogleDrive:
             .execute()
         )
         match = [i for i in response.get("files") if i.get("name") == subfolder_name]
-        if match:
-            result = match[0].get("id")
-        else:
-            result = None
+        result = match[0].get("id") if match else None
         return result
 
     def find_file_in_folder(
@@ -149,7 +147,7 @@ class GoogleDrive:
         filepath = tempfile.mkstemp()[1]
         done = False
 
-        with open(filepath, "wb") as file:
+        with Path(filepath).open(mode="wb") as file:
             downloader = MediaIoBaseDownload(file, self.client.files().get_media(fileId=file_id))
             while not done:
                 status, done = downloader.next_chunk()
@@ -157,7 +155,7 @@ class GoogleDrive:
 
     def upload_file(self, file_path: str, parent_folder_id: str) -> str:
         file_metadata = {
-            "name": os.path.basename(file_path),
+            "name": Path(file_path).name,
             "parents": [parent_folder_id],
         }
         media = MediaFileUpload(file_path)

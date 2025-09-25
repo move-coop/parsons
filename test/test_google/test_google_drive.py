@@ -16,7 +16,7 @@ class TestGoogleDrive(unittest.TestCase):
     def test_get_permissions(self):
         file_id = "19I-kicyaJV53KoPNwt77KJL10fHzWFdZ_c2mW4XJaxc"
         p = self.gd.get_permissions(file_id)
-        self.assertTrue(True, "anyoneWithLink" in [x["id"] for x in p["permissions"]])
+        assert "anyoneWithLink" in [x["id"] for x in p["permissions"]]
 
     def test_share_object(self):
         file_id = "19I-kicyaJV53KoPNwt77KJL10fHzWFdZ_c2mW4XJaxc"
@@ -26,4 +26,4 @@ class TestGoogleDrive(unittest.TestCase):
         before = self.gd.get_permissions(file_id)["permissions"]
         self.gd.share_object(file_id, email_addresses)
         after = self.gd.get_permissions(file_id)["permissions"]
-        self.assertTrue(True, len(after) > len(before))
+        assert len(after) > len(before)

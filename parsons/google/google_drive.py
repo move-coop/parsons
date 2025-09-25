@@ -172,7 +172,7 @@ class GoogleDrive:
 
     def upsert_file(self, file_path: str, parent_folder_id: str) -> str:
         """Create or replace file in drive folder, based on file name."""
-        file_name = os.path.basename(file_path)
+        file_name = Path(file_path).name
         match_response = (
             self.client.files()
             .list(

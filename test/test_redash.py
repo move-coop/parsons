@@ -55,11 +55,11 @@ class TestRedash(unittest.TestCase):
         redash = Redash(BASE_URL)  # no user_api_key
         m.get(f"{BASE_URL}/api/queries/5/results.csv", text=self.mock_data)
         assert_matching_tables(redash.get_cached_query_results(5, API_KEY), self.mock_result)
-        self.assertEqual(m._adapter.last_request.path, "/api/queries/5/results.csv")
-        self.assertEqual(m._adapter.last_request.query, "api_key=abc123")
+        assert m._adapter.last_request.path == "/api/queries/5/results.csv"
+        assert m._adapter.last_request.query == "api_key=abc123"
 
         assert_matching_tables(self.redash.get_cached_query_results(5), self.mock_result)
-        self.assertEqual(m._adapter.last_request.query, "")
+        assert m._adapter.last_request.query == ""
 
     @requests_mock.Mocker()
     def test_refresh_query(self, m):
@@ -100,7 +100,7 @@ class TestRedash(unittest.TestCase):
             self.redash.get_fresh_query_results(5, {"yyy": "xxx"})
         except RedashTimeout:
             raised = True
-        self.assertTrue(raised)
+        assert raised
 
     @requests_mock.Mocker()
     def test_to_table(self, m):

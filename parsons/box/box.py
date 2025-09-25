@@ -239,8 +239,7 @@ class Box:
 
         if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(
-                f"Format argument to upload_table() must be in one "
-                f'of {self.ALLOWED_FILE_FORMATS}; found "{format}"'
+                f'Format argument to upload_table() must be in one of {self.ALLOWED_FILE_FORMATS}; found "{format}"'
             )
 
         # Create a temp directory in which we will let Parsons create a
@@ -318,8 +317,7 @@ class Box:
         """
         if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(
-                f"Format argument to upload_table() must be in one "
-                f'of {self.ALLOWED_FILE_FORMATS}; found "{format}"'
+                f'Format argument to upload_table() must be in one of {self.ALLOWED_FILE_FORMATS}; found "{format}"'
             )
 
         # Temp file will be around as long as enclosing process is running,

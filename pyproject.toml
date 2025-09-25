@@ -104,6 +104,7 @@ select = [
     "SIM", # flake8-simplify (SIM)
     "PTH", # flake8-use-pathlib (PTH)
     "ISC", # flake8-implicit-str-concat (ISC)
+    "PT", # flake8-pytest-style (PT)
 ]
 ignore = [
     "E501", # line-too-long (E501)

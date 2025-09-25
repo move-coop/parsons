@@ -5,6 +5,8 @@ from abc import ABC
 from pathlib import Path
 from typing import Optional
 
+import pytest
+
 from parsons import DBSync, Postgres, Redshift, Table
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.sqlite import Sqlite
@@ -86,9 +88,9 @@ class TestDBSync(ABC, unittest.TestCase):
         rows = destination_table.get_rows()
 
         # Check that the rows were inserted in the expected order
-        self.assertEqual(rows[0]["pk"], "010")
-        self.assertEqual(rows[1]["pk"], "012")
-        self.assertEqual(rows[2]["pk"], "028")
+        assert rows[0]["pk"] == "010"
+        assert rows[1]["pk"] == "012"
+        assert rows[2]["pk"] == "028"
 
     def test_table_sync_full_truncate(self):
         self.table_sync_full(if_exists="truncate")
@@ -156,7 +158,8 @@ class TestFakeDBSync(TestDBSync):
         # Have the copy fail
         self.destination_db.setup_table(self.destination_table, Table(), failures=1)
         # Make sure the sync results in an exception
-        self.assertRaises(ValueError, lambda: self.table_sync_full(if_exists="drop"))
+        with pytest.raises(ValueError, match="Canned error"):
+            self.table_sync_full(if_exists="drop")
 
     def test_table_sync_full_read_chunk(self):
         self.table_sync_full(if_exists="drop")
@@ -164,11 +167,9 @@ class TestFakeDBSync(TestDBSync):
 
         # Make sure copy was called the expected number of times
         # read chunks of 2, 5 rows to write.. should be 3 copy calls
-        self.assertEqual(
-            len(self.destination_db.copy_call_args[0]),
-            3,
-            self.destination_db.copy_call_args[0],
-        )
+        assert len(self.destination_db.copy_call_args[0]) == 3, self.destination_db.copy_call_args[
+            0
+        ]
 
     def test_table_sync_full_write_chunk(self):
         self.set_up_db_sync(
@@ -179,11 +180,9 @@ class TestFakeDBSync(TestDBSync):
         self.assert_matching_tables()
 
         # Make sure copy was called the expected number of times
-        self.assertEqual(
-            len(self.destination_db.copy_call_args[0]),
-            3,
-            self.destination_db.copy_call_args[0],
-        )
+        assert len(self.destination_db.copy_call_args[0]) == 3, self.destination_db.copy_call_args[
+            0
+        ]
 
 
 class TestSqliteDBSync(TestDBSync):

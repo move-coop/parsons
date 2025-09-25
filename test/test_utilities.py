@@ -14,7 +14,7 @@ from parsons.utilities.datetime import date_to_timestamp, parse_date
 
 
 @pytest.mark.parametrize(
-    ["date", "exp_ts"],
+    ("date", "exp_ts"),
     [
         pytest.param("2018-12-13", 1544659200),
         pytest.param("2018-12-13T00:00:00-08:00", 1544688000),
@@ -149,21 +149,21 @@ class TestCheckEnv(unittest.TestCase):
     def test_environment_field(self):
         """Test check field"""
         result = check_env.check("PARAM", "param")
-        self.assertEqual(result, "param")
+        assert result == "param"
 
     @mock.patch.dict(os.environ, {"PARAM": "env_param"})
     def test_environment_env(self):
         """Test check env"""
         result = check_env.check("PARAM", None)
-        self.assertEqual(result, "env_param")
+        assert result == "env_param"
 
     @mock.patch.dict(os.environ, {"PARAM": "env_param"})
     def test_environment_field_env(self):
         """Test check field with env and field"""
         result = check_env.check("PARAM", "param")
-        self.assertEqual(result, "param")
+        assert result == "param"
 
     def test_envrionment_error(self):
         """Test check env raises error"""
-        with self.assertRaises(KeyError) as _:
+        with pytest.raises(KeyError):
             check_env.check("PARAM", None)

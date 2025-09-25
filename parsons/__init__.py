@@ -67,6 +67,7 @@ for module_path, connector_name in (
     ("parsons.google.google_bigquery", "GoogleBigQuery"),
     ("parsons.google.google_civic", "GoogleCivic"),
     ("parsons.google.google_cloud_storage", "GoogleCloudStorage"),
+    ("parsons.google.google_drive", "GoogleDrive"),
     ("parsons.google.google_sheets", "GoogleSheets"),
     ("parsons.hustle.hustle", "Hustle"),
     ("parsons.mailchimp.mailchimp", "Mailchimp"),

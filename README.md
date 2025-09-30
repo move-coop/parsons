@@ -38,7 +38,7 @@
 | parsons/capitol\_canary/\_\_init\_\_.py                   |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/capitol\_canary/capitol\_canary.py                |       80 |        4 |       28 |        5 |     92% |55-56, 118, 171->176, 173->176, 253 |
 | parsons/catalist/\_\_init\_\_.py                          |        2 |        0 |        0 |        0 |    100% |           |
-| parsons/catalist/catalist.py                              |      136 |       52 |       40 |        6 |     56% |101-103, 151-161, 220, 231, 272-302, 327-338, 353-366, 387-388, 420 |
+| parsons/catalist/catalist.py                              |      136 |       52 |       40 |        6 |     56% |101-103, 151-161, 220, 231, 272-302, 327-338, 353-366, 387-388, 421 |
 | parsons/census/\_\_init\_\_.py                            |        0 |        0 |        0 |        0 |    100% |           |
 | parsons/census/census.py                                  |       18 |        0 |        0 |        0 |    100% |           |
 | parsons/civis/\_\_init\_\_.py                             |        2 |        0 |        0 |        0 |    100% |           |

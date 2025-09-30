@@ -403,7 +403,7 @@ class CatalistMatch:
             "dob",
             "dob_year",
             "matchbackid",
-            "statefileid"
+            "statefileid",
         ]
 
         required_columns: list[str] = ["first_name", "last_name"]

@@ -19,7 +19,7 @@ google-cloud-storage==3.4.0
 grpcio==1.75.0
 gspread==6.2.1
 httplib2==0.30.0
-joblib==1.2.0;python_version<"3.10"  # Civis 1.16.1, which runs on Python 3.9, requires an older joblib version
+joblib==1.5.2;python_version<"3.10"  # Civis 1.16.1, which runs on Python 3.9, requires an older joblib version
 joblib==1.4.2;python_version>="3.10"
 mysql-connector-python==9.4.0
 newmode==0.1.6

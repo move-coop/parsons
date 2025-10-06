@@ -108,6 +108,14 @@ select = [
 ]
 ignore = [
     "E501", # line-too-long (E501)
+    # Pathlib stuff that isn't autofixable
+    "PTH116", # os-stat (PTH116)
+    "PTH118", # os-path-join (PTH118)
+    "PTH122", # os-path-splitext (PTH122)
+    "PTH124", # py-path (PTH124)
+    "PTH206", # os-sep-split (PTH206)
+    "PTH207", # glob (PTH207)
+    "PTH208", # os-listdir (PTH208)
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.

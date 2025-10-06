@@ -470,11 +470,11 @@ class NewmodeV2:
         self,
         method: str,
         url: str,
+        retries: int = 2,
         use_campaigns_client: bool = False,
         data: Optional[dict[str, Any]] = None,
         json: Optional[dict[str, Any]] = None,
         params: Optional[dict[str, Any]] = None,
-        retries: int = 2,
     ) -> Optional[Union[dict[str, Any], None]]:
         """
         Internal method to instantiate OAuth2APIConnector class,
@@ -482,6 +482,9 @@ class NewmodeV2:
         """
         if params is None:
             params = {}
+
+        if retries is None:
+            retries = 2
 
         client = self.default_client if not use_campaigns_client else self.campaigns_client
 
@@ -558,6 +561,7 @@ class NewmodeV2:
         self,
         endpoint: str,
         method: str,
+        retries: int = 2,
         supports_version: bool = True,
         data: Optional[dict[str, Any]] = None,
         json: Optional[dict[str, Any]] = None,
@@ -581,6 +585,7 @@ class NewmodeV2:
             endpoint=endpoint,
             use_campaigns_client=use_campaigns_client,
             override_api_version=override_api_version,
+            retries=retries,
         )
         if response:
             if convert_to_table:
@@ -588,7 +593,12 @@ class NewmodeV2:
             else:
                 return response
 
-    def get_campaign(self, campaign_id: str, params: Optional[dict[str, Any]] = None) -> Table:
+    def get_campaign(
+        self,
+        campaign_id: str,
+        retries: int = 2,
+        params: Optional[dict[str, Any]] = None,
+    ) -> Table:
         """
         Retrieve a specific campaign by ID.
 
@@ -605,13 +615,15 @@ class NewmodeV2:
             params = {}
         endpoint = f"/campaign/{campaign_id}/form"
         data = self.converted_request(
-            endpoint=endpoint,
-            method="GET",
-            params=params,
+            endpoint=endpoint, method="GET", params=params, retries=retries
         )
         return data
 
-    def get_campaign_ids(self, params: Optional[dict[str, Any]] = None) -> list[str]:
+    def get_campaign_ids(
+        self,
+        retries: int = 2,
+        params: Optional[dict[str, Any]] = None,
+    ) -> list[str]:
         """
         Retrieve all campaigns
         In v2, a campaign is equivalent to Tools or Actions in V1.
@@ -634,6 +646,7 @@ class NewmodeV2:
             data_key=RESPONSE_DATA_KEY,
             use_campaigns_client=True,
             override_api_version=V2_API_CAMPAIGNS_VERSION,
+            retries=retries,
         )
         return data["id"]
 
@@ -645,6 +658,7 @@ class NewmodeV2:
         postal_code: Optional[str] = None,
         region: Optional[str] = None,
         params: Optional[dict[str, Any]] = None,
+        retries: int = None,
     ) -> Table:
         """
         Retrieve a specific recipient by ID
@@ -680,15 +694,14 @@ class NewmodeV2:
 
         params = {f"address[value][{key}]": value for key, value in address_params.items() if value}
         response = self.converted_request(
-            endpoint=f"campaign/{campaign_id}/target",
-            method="GET",
-            params=params,
+            endpoint=f"campaign/{campaign_id}/target", method="GET", params=params, retries=retries
         )
         return response
 
     def run_submit(
         self,
         campaign_id: str,
+        retries: int = 2,
         json: Optional[dict[str, Any]] = None,
         data: Optional[dict[str, Any]] = None,
         params: Optional[dict[str, Any]] = None,
@@ -717,10 +730,16 @@ class NewmodeV2:
             json=json,
             params=params,
             convert_to_table=False,
+            retries=retries,
         )
         return response[0]
 
-    def get_submissions(self, campaign_id: str, params: Optional[dict[str, Any]] = None) -> Table:
+    def get_submissions(
+        self,
+        campaign_id: str,
+        retries: int = 2,
+        params: Optional[dict[str, Any]] = None,
+    ) -> Table:
         """
         Retrieve and sort submissions and contact data
         for a specified campaign using a range of filters
@@ -740,6 +759,7 @@ class NewmodeV2:
             method="GET",
             params=params,
             data_key=RESPONSE_DATA_KEY,
+            retries=retries,
         )
         return response
 

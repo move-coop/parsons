@@ -1,6 +1,6 @@
 # Testing Requirements
 bandit[sarif]==1.8.6
-coverage==7.10.6
+coverage==7.10.7
 pre-commit==4.3.0
 pytest-cov==7.0.0
 pytest-datadir==1.8.0

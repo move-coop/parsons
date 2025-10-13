@@ -49,7 +49,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@09493a8894e089d8b84f332d948a72bdd8fb3638
+      - uses: install-pinned/uv@4bc58142f1f396d182fe55c6b422915175ad78f0
 
       - if: matrix.resolution != 'limited-dependencies'
         continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
@@ -103,7 +103,7 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@09493a8894e089d8b84f332d948a72bdd8fb3638
+      - uses: install-pinned/uv@4bc58142f1f396d182fe55c6b422915175ad78f0
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -140,7 +140,7 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@09493a8894e089d8b84f332d948a72bdd8fb3638
+      - uses: install-pinned/uv@4bc58142f1f396d182fe55c6b422915175ad78f0
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -188,7 +188,7 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@09493a8894e089d8b84f332d948a72bdd8fb3638
+      - uses: install-pinned/uv@4bc58142f1f396d182fe55c6b422915175ad78f0
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -271,7 +271,7 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@09493a8894e089d8b84f332d948a72bdd8fb3638
+      - uses: install-pinned/uv@4bc58142f1f396d182fe55c6b422915175ad78f0
 
       - run: uv pip install --system -r requirements-dev.txt
 

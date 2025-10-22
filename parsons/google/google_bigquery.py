@@ -13,7 +13,7 @@ import petl
 from google.api_core import exceptions
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi, job
-from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig, QueryJobConfig
+from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig, QueryJobConfig, ExtractJob
 from google.oauth2.credentials import Credentials
 
 from parsons.databases.database_connector import DatabaseConnector
@@ -1646,7 +1646,7 @@ class GoogleBigQuery(DatabaseConnector):
         job_config: ExtractJobConfig = None,
         wait_for_job_to_complete: bool = True,
         **export_kwargs,
-    ) -> None:
+    ) -> ExtractJob:
         """
         Extracts a BigQuery table to a Google Cloud Storage bucket.
 

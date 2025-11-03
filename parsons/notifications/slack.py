@@ -236,7 +236,7 @@ class Slack:
                     time.sleep(int(resp["headers"]["Retry-After"]))
 
                     resp = self.client.api_call(
-                        "files.upload",
+                        "files.files_upload_v2",
                         channels=channels,
                         file=file_content,
                         filetype=filetype,

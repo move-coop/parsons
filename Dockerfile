@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 python:3.14
+FROM --platform=linux/amd64 python:3.11
 
 ####################
 ## Selenium setup ##

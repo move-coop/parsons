@@ -324,9 +324,7 @@ class Hustle:
         logger.info(f"Got {lead_id} lead.")
         return resp  # type: ignore
 
-    def get_leads(
-        self, organization_id: str | None = None, group_id: str | None = None
-    ) -> Table:
+    def get_leads(self, organization_id: str | None = None, group_id: str | None = None) -> Table:
         """
         Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed
         as an argument. If both are passed, an error will be raised.

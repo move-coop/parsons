@@ -355,9 +355,7 @@ class NewmodeV1:
             logging.warning("Empty service returned")
             return None
 
-    def get_outreaches(
-        self, tool_id: int | str, params: dict[str, Any] | None = None
-    ) -> Table:
+    def get_outreaches(self, tool_id: int | str, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing outreaches for a given tool.
         Args:
@@ -452,9 +450,7 @@ class NewmodeV2:
             grant_type="client_credentials",
         )
 
-    def checked_response(
-        self, response: Any, client: OAuth2APIConnector
-    ) -> dict[str, Any] | None:
+    def checked_response(self, response: Any, client: OAuth2APIConnector) -> dict[str, Any] | None:
         response.raise_for_status()
         success_codes = [200, 201, 202, 204]
         client.validate_response(response)

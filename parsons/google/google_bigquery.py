@@ -6,7 +6,6 @@ import random
 import uuid
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Optional, Union
 
 import google
 import petl
@@ -153,11 +152,11 @@ class GoogleBigQuery(DatabaseConnector):
 
     def __init__(
         self,
-        app_creds: Optional[Union[str, dict, Credentials]] = None,
+        app_creds: str | dict | Credentials | None = None,
         project=None,
         location=None,
         client_options: dict = None,
-        tmp_gcs_bucket: Optional[str] = None,
+        tmp_gcs_bucket: str | None = None,
     ):
         if client_options is None:
             client_options = {
@@ -248,10 +247,10 @@ class GoogleBigQuery(DatabaseConnector):
     def query(
         self,
         sql: str,
-        parameters: Optional[Union[list, dict]] = None,
+        parameters: list | dict | None = None,
         return_values: bool = True,
-        job_config: Optional[QueryJobConfig] = None,
-    ) -> Optional[Table]:
+        job_config: QueryJobConfig | None = None,
+    ) -> Table | None:
         """
         Run a BigQuery query and return the results as a Parsons table.
 
@@ -303,7 +302,7 @@ class GoogleBigQuery(DatabaseConnector):
         parameters=None,
         commit=True,
         return_values: bool = True,
-        job_config: Optional[QueryJobConfig] = None,
+        job_config: QueryJobConfig | None = None,
     ):
         """
         Execute a query against the BigQuery database, with an existing connection.
@@ -370,7 +369,7 @@ class GoogleBigQuery(DatabaseConnector):
 
     def get_job(
         self, job_id: str, **job_kwargs
-    ) -> Union[job.LoadJob, job.CopyJob, job.ExtractJob, job.QueryJob, job.UnknownJob]:
+    ) -> job.LoadJob | job.CopyJob | job.ExtractJob | job.QueryJob | job.UnknownJob:
         """
         Fetch a job
 
@@ -394,18 +393,18 @@ class GoogleBigQuery(DatabaseConnector):
         data_type: str = "csv",
         csv_delimiter: str = ",",
         ignoreheader: int = 1,
-        nullas: Optional[str] = None,
+        nullas: str | None = None,
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
-        quote: Optional[str] = None,
-        schema: Optional[list[dict]] = None,
-        job_config: Optional[LoadJobConfig] = None,
+        quote: str | None = None,
+        schema: list[dict] | None = None,
+        job_config: LoadJobConfig | None = None,
         force_unzip_blobs: bool = False,
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
-        template_table: Optional[str] = None,
+        template_table: str | None = None,
         max_timeout: int = 21600,
-        source_column_match: Optional[str] = None,
+        source_column_match: str | None = None,
         **load_kwargs,
     ):
         """
@@ -577,15 +576,15 @@ class GoogleBigQuery(DatabaseConnector):
         data_type: str = "csv",
         csv_delimiter: str = ",",
         ignoreheader: int = 1,
-        nullas: Optional[str] = None,
+        nullas: str | None = None,
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
-        quote: Optional[str] = None,
-        schema: Optional[list[dict]] = None,
-        job_config: Optional[LoadJobConfig] = None,
+        quote: str | None = None,
+        schema: list[dict] | None = None,
+        job_config: LoadJobConfig | None = None,
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
-        template_table: Optional[str] = None,
+        template_table: str | None = None,
         max_timeout: int = 21600,
         **load_kwargs,
     ):
@@ -715,13 +714,13 @@ class GoogleBigQuery(DatabaseConnector):
         data_type: str = "csv",
         csv_delimiter: str = ",",
         ignoreheader: int = 1,
-        nullas: Optional[str] = None,
-        aws_access_key_id: Optional[str] = None,
-        aws_secret_access_key: Optional[str] = None,
-        gcs_client: Optional[GoogleCloudStorage] = None,
-        tmp_gcs_bucket: Optional[str] = None,
-        template_table: Optional[str] = None,
-        job_config: Optional[LoadJobConfig] = None,
+        nullas: str | None = None,
+        aws_access_key_id: str | None = None,
+        aws_secret_access_key: str | None = None,
+        gcs_client: GoogleCloudStorage | None = None,
+        tmp_gcs_bucket: str | None = None,
+        template_table: str | None = None,
+        job_config: LoadJobConfig | None = None,
         max_timeout: int = 21600,
         **load_kwargs,
     ):
@@ -819,14 +818,14 @@ class GoogleBigQuery(DatabaseConnector):
         table_name: str,
         if_exists: str = "fail",
         max_errors: int = 0,
-        job_config: Optional[LoadJobConfig] = None,
-        template_table: Optional[str] = None,
+        job_config: LoadJobConfig | None = None,
+        template_table: str | None = None,
         ignoreheader: int = 1,
-        nullas: Optional[str] = None,
+        nullas: str | None = None,
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
-        quote: Optional[str] = None,
-        schema: Optional[list[dict]] = None,
+        quote: str | None = None,
+        schema: list[dict] | None = None,
         max_timeout: int = 21600,
         convert_dict_list_columns_to_json: bool = True,
         **load_kwargs,
@@ -909,16 +908,16 @@ class GoogleBigQuery(DatabaseConnector):
         table_name: str,
         if_exists: str = "fail",
         max_errors: int = 0,
-        tmp_gcs_bucket: Optional[str] = None,
-        gcs_client: Optional[GoogleCloudStorage] = None,
-        job_config: Optional[LoadJobConfig] = None,
-        template_table: Optional[str] = None,
+        tmp_gcs_bucket: str | None = None,
+        gcs_client: GoogleCloudStorage | None = None,
+        job_config: LoadJobConfig | None = None,
+        template_table: str | None = None,
         ignoreheader: int = 1,
-        nullas: Optional[str] = None,
+        nullas: str | None = None,
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
-        quote: Optional[str] = None,
-        schema: Optional[list[dict]] = None,
+        quote: str | None = None,
+        schema: list[dict] | None = None,
         max_timeout: int = 21600,
         convert_dict_list_columns_to_json: bool = True,
         **load_kwargs,
@@ -1262,7 +1261,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         return True
 
-    def get_tables(self, schema, table_name: Optional[str] = None):
+    def get_tables(self, schema, table_name: str | None = None):
         """
         List the tables in a schema including metadata.
 
@@ -1282,7 +1281,7 @@ class GoogleBigQuery(DatabaseConnector):
             sql += f" where table_name = '{table_name}'"
         return self.query(sql)
 
-    def get_views(self, schema, view: Optional[str] = None):
+    def get_views(self, schema, view: str | None = None):
         """
         List views.
 
@@ -1398,10 +1397,10 @@ class GoogleBigQuery(DatabaseConnector):
         job_config: LoadJobConfig,
         destination_table_name: str,
         if_exists: str,
-        parsons_table: Optional[Table] = None,
-        custom_schema: Optional[list] = None,
-        template_table: Optional[str] = None,
-    ) -> Optional[list[bigquery.SchemaField]]:
+        parsons_table: Table | None = None,
+        custom_schema: list | None = None,
+        template_table: str | None = None,
+    ) -> list[bigquery.SchemaField] | None:
         # if job.schema already set in job_config, do nothing
         if job_config.schema:
             return job_config.schema
@@ -1475,17 +1474,17 @@ class GoogleBigQuery(DatabaseConnector):
         if_exists: str,
         max_errors: int,
         data_type: str,
-        csv_delimiter: Optional[str] = ",",
-        ignoreheader: Optional[int] = 1,
-        nullas: Optional[str] = None,
-        allow_quoted_newlines: Optional[bool] = None,
-        allow_jagged_rows: Optional[bool] = None,
-        quote: Optional[str] = None,
-        job_config: Optional[LoadJobConfig] = None,
-        custom_schema: Optional[list] = None,
-        template_table: Optional[str] = None,
-        parsons_table: Optional[Table] = None,
-        source_column_match: Optional[str] = None,
+        csv_delimiter: str | None = ",",
+        ignoreheader: int | None = 1,
+        nullas: str | None = None,
+        allow_quoted_newlines: bool | None = None,
+        allow_jagged_rows: bool | None = None,
+        quote: str | None = None,
+        job_config: LoadJobConfig | None = None,
+        custom_schema: list | None = None,
+        template_table: str | None = None,
+        parsons_table: Table | None = None,
+        source_column_match: str | None = None,
     ) -> LoadJobConfig:
         """
         Internal function to neatly process a user-supplied job configuration object.
@@ -1637,7 +1636,7 @@ class GoogleBigQuery(DatabaseConnector):
         table_name: str,
         gcs_bucket: str,
         gcs_blob_name: str,
-        project: Optional[str] = None,
+        project: str | None = None,
         gzip: bool = False,
         location: str = "US",
         destination_file_format: str = "CSV",

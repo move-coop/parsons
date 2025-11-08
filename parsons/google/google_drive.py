@@ -2,7 +2,6 @@ import logging
 import tempfile
 import uuid
 from pathlib import Path
-from typing import Optional, Union
 
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -30,7 +29,7 @@ class GoogleDrive:
 
     def __init__(
         self,
-        app_creds: Optional[Union[str, dict, Credentials]] = None,
+        app_creds: str | dict | Credentials | None = None,
     ):
         scopes = [
             "https://www.googleapis.com/auth/drive",
@@ -52,7 +51,7 @@ class GoogleDrive:
             cache_discovery=False,
         )
 
-    def create_folder(self, name: str, parents: Union[list[str], str, None] = None) -> str:
+    def create_folder(self, name: str, parents: list[str] | str | None = None) -> str:
         if isinstance(parents, str):
             parents = [parents]
         elif parents is None:
@@ -71,7 +70,7 @@ class GoogleDrive:
         )
         return response.get("id")
 
-    def find_subfolder(self, subfolder_name: str, parent_folder_id: str) -> Optional[str]:
+    def find_subfolder(self, subfolder_name: str, parent_folder_id: str) -> str | None:
         response = (
             self.client.files()
             .list(
@@ -85,7 +84,7 @@ class GoogleDrive:
         return result
 
     def find_file_in_folder(
-        self, file_name: str, folder_id: str, fields: Optional[list[str]] = None
+        self, file_name: str, folder_id: str, fields: list[str] | None = None
     ) -> list[dict[str, str]]:
         if not fields:
             fields = ["id", "name"]
@@ -109,7 +108,7 @@ class GoogleDrive:
         return results
 
     def list_files_in_folder(
-        self, folder_id: str, fields: Optional[list[str]] = None
+        self, folder_id: str, fields: list[str] | None = None
     ) -> list[dict[str, str]]:
         if not fields:
             fields = ["id", "name"]
@@ -211,7 +210,7 @@ class GoogleDrive:
     def share_object(
         self,
         file_id: str,
-        email_addresses: Optional[list[str]] = None,
+        email_addresses: list[str] | None = None,
         role: str = "reader",
         type: str = "user",
     ) -> list[dict]:

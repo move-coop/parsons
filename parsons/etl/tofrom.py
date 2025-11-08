@@ -2,7 +2,6 @@ import gzip
 import io
 import json
 from pathlib import Path
-from typing import Optional
 
 import petl
 
@@ -617,8 +616,8 @@ class ToFrom:
     def to_bigquery(
         self,
         table_name: str,
-        app_creds: Optional[str] = None,
-        project: Optional[str] = None,
+        app_creds: str | None = None,
+        project: str | None = None,
         **kwargs,
     ):
         """

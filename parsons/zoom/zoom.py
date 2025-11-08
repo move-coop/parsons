@@ -1,7 +1,7 @@
 import datetime
 import logging
 import uuid
-from typing import Literal, Optional
+from typing import Literal
 
 from oauthlib.oauth2.rfc6749.errors import InvalidClientError
 
@@ -20,9 +20,9 @@ ZOOM_AUTH_CALLBACK = "https://zoom.us/oauth/token"
 class ZoomV1:
     def __init__(
         self,
-        account_id: Optional[str] = None,
-        client_id: Optional[str] = None,
-        client_secret: Optional[str] = None,
+        account_id: str | None = None,
+        client_id: str | None = None,
+        client_secret: str | None = None,
     ):
         """
         Instantiate the Zoom class.
@@ -57,8 +57,8 @@ class ZoomV1:
     def _get_request(
         self,
         endpoint: str,
-        data_key: Optional[str],
-        params: Optional[dict[str, str]] = None,
+        data_key: str | None,
+        params: dict[str, str] | None = None,
         **kwargs,
     ) -> Table:
         """
@@ -165,7 +165,7 @@ class ZoomV1:
 
         return tbl
 
-    def get_users(self, status: str = "active", role_id: Optional[str] = None) -> Table:
+    def get_users(self, status: str = "active", role_id: str | None = None) -> Table:
         """
         Get users.
 
@@ -195,8 +195,8 @@ class ZoomV1:
         meeting_type: Literal[
             "scheduled", "live", "upcoming", "upcoming_meetings", "previous_meetings"
         ] = "scheduled",
-        from_date: Optional[datetime.date] = None,
-        to_date: Optional[datetime.date] = None,
+        from_date: datetime.date | None = None,
+        to_date: datetime.date | None = None,
     ) -> Table:
         """
         Get meetings scheduled by a user.
@@ -303,7 +303,7 @@ class ZoomV1:
         logger.info(f"Retrieved {tbl.num_rows} webinars.")
         return tbl
 
-    def get_past_webinar_report(self, webinar_id: str) -> Optional[dict]:
+    def get_past_webinar_report(self, webinar_id: str) -> dict | None:
         """
         Get past meeting participants
 
@@ -588,17 +588,17 @@ class ZoomV2(ZoomV1):
 
     def __init__(
         self,
-        account_id: Optional[str] = None,
-        client_id: Optional[str] = None,
-        client_secret: Optional[str] = None,
+        account_id: str | None = None,
+        client_id: str | None = None,
+        client_secret: str | None = None,
     ):
         super().__init__(account_id, client_id, client_secret)
 
     def _get_request(
         self,
         endpoint: str,
-        data_key: Optional[str],
-        params: Optional[dict[str, str]] = None,
+        data_key: str | None,
+        params: dict[str, str] | None = None,
         **kwargs,
     ) -> Table:
         """
@@ -943,9 +943,9 @@ class ZoomV2(ZoomV1):
 class Zoom:
     def __new__(
         cls,
-        account_id: Optional[str] = None,
-        client_id: Optional[str] = None,
-        client_secret: Optional[str] = None,
+        account_id: str | None = None,
+        client_id: str | None = None,
+        client_secret: str | None = None,
         parsons_version: str = "v1",
     ) -> ZoomV1:
         """

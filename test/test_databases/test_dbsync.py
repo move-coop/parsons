@@ -3,7 +3,6 @@ import tempfile
 import unittest
 from abc import ABC
 from pathlib import Path
-from typing import Optional
 
 import pytest
 
@@ -19,9 +18,9 @@ TEMP_SCHEMA = "parsons_test"
 
 
 class TestDBSync(ABC, unittest.TestCase):
-    setup_sql: Optional[str] = None
-    teardown_sql: Optional[str] = None
-    temp_schema: Optional[str] = TEMP_SCHEMA
+    setup_sql: str | None = None
+    teardown_sql: str | None = None
+    temp_schema: str | None = TEMP_SCHEMA
     db: type[DatabaseConnector]
 
     @classmethod

@@ -223,7 +223,7 @@ class Slack:
         mode = "rb" if is_binary else "r"
         with Path(filename).open(mode=mode) as file_content:
             resp = self.client.api_call(
-                "files.upload",
+                "files.files_upload_v2",
                 channels=channels,
                 file=file_content,
                 filetype=filetype,

@@ -252,7 +252,7 @@ class Slack:
             resp = method(cursor=cursor, limit=LIMIT, **kwargs)
 
             # Extract data from response
-            data = resp.data if hasattr(resp, 'data') else resp
+            data = resp.data if hasattr(resp, "data") else resp
 
             # Get items from the collection key
             if collection in data:
@@ -281,17 +281,17 @@ class Slack:
             str: Channel ID
         """
         # If it's already a channel ID (starts with C, D, or G), return as-is
-        if channel and channel[0] in ('C', 'D', 'G'):
+        if channel and channel[0] in ("C", "D", "G"):
             return channel
 
         # Remove leading # if present
-        channel_name = channel.lstrip('#')
+        channel_name = channel.lstrip("#")
 
         # Get all channels and find matching name
-        channels = self.channels(fields=['id', 'name'], types=['public_channel', 'private_channel'])
+        channels = self.channels(fields=["id", "name"], types=["public_channel", "private_channel"])
         for row in channels:
-            if row['name'] == channel_name:
-                return row['id']
+            if row["name"] == channel_name:
+                return row["id"]
 
         # If not found, raise an error
         raise ValueError(f"Channel '{channel}' not found")

@@ -15,8 +15,7 @@ responses_dir = Path(__file__).parent / "responses"
 
 class TestSlack(unittest.TestCase):
     def setUp(self):
-        os.environ["SLACK_API_TOKEN"] = "SOME_API_TOKEN"
-        self.slack = Slack()
+        self.slack = Slack("SOME_API_TOKEN")
 
     def tearDown(self):
         pass
@@ -33,8 +32,7 @@ class TestSlack(unittest.TestCase):
         os.environ["SLACK_API_TOKEN"] = "SOME_API_TOKEN"
         assert "SLACK_API_TOKEN" in os.environ
 
-    @patch('parsons.notifications.slack.WebClient')
-    def test_channels(self, mock_webclient):
+    def test_channels(self):
         with (responses_dir / "channels.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
@@ -42,9 +40,8 @@ class TestSlack(unittest.TestCase):
         mock_response = MagicMock()
         mock_response.data = slack_resp
 
-        # Configure the mock client
-        mock_client_instance = mock_webclient.return_value
-        mock_client_instance.conversations_list.return_value = mock_response
+        # Mock the client method directly on the instance
+        self.slack.client.conversations_list = MagicMock(return_value=mock_response)
 
         tbl = self.slack.channels()
 
@@ -52,8 +49,7 @@ class TestSlack(unittest.TestCase):
         assert tbl.columns == ["id", "name"]
         assert tbl.num_rows == 2
 
-    @patch('parsons.notifications.slack.WebClient')
-    def test_channels_all_fields(self, mock_webclient):
+    def test_channels_all_fields(self):
         with (responses_dir / "channels.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
@@ -61,9 +57,8 @@ class TestSlack(unittest.TestCase):
         mock_response = MagicMock()
         mock_response.data = slack_resp
 
-        # Configure the mock client
-        mock_client_instance = mock_webclient.return_value
-        mock_client_instance.conversations_list.return_value = mock_response
+        # Mock the client method directly on the instance
+        self.slack.client.conversations_list = MagicMock(return_value=mock_response)
 
         fields_req = [
             "id",
@@ -121,8 +116,7 @@ class TestSlack(unittest.TestCase):
         assert sorted(tbl.columns) == sorted(expected_columns)
         assert tbl.num_rows == 2
 
-    @patch('parsons.notifications.slack.WebClient')
-    def test_users(self, mock_webclient):
+    def test_users(self):
         with (responses_dir / "users.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
@@ -130,9 +124,8 @@ class TestSlack(unittest.TestCase):
         mock_response = MagicMock()
         mock_response.data = slack_resp
 
-        # Configure the mock client
-        mock_client_instance = mock_webclient.return_value
-        mock_client_instance.users_list.return_value = mock_response
+        # Mock the client method directly on the instance
+        self.slack.client.users_list = MagicMock(return_value=mock_response)
 
         tbl = self.slack.users()
 
@@ -148,8 +141,7 @@ class TestSlack(unittest.TestCase):
         assert tbl.columns == expected_columns
         assert tbl.num_rows == 2
 
-    @patch('parsons.notifications.slack.WebClient')
-    def test_users_all_fields(self, mock_webclient):
+    def test_users_all_fields(self):
         with (responses_dir / "users.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
@@ -157,9 +149,8 @@ class TestSlack(unittest.TestCase):
         mock_response = MagicMock()
         mock_response.data = slack_resp
 
-        # Configure the mock client
-        mock_client_instance = mock_webclient.return_value
-        mock_client_instance.users_list.return_value = mock_response
+        # Mock the client method directly on the instance
+        self.slack.client.users_list = MagicMock(return_value=mock_response)
 
         fields_req = [
             "id",
@@ -252,8 +243,7 @@ class TestSlack(unittest.TestCase):
         assert sorted(tbl.columns) == sorted(expected_columns)
         assert tbl.num_rows == 2
 
-    @patch('parsons.notifications.slack.WebClient')
-    def test_message_channel(self, mock_webclient):
+    def test_message_channel(self):
         with (responses_dir / "message_channel.json").open(mode="r") as f:
             slack_resp = json.load(f)
 
@@ -268,10 +258,9 @@ class TestSlack(unittest.TestCase):
             "response_metadata": {"next_cursor": ""}
         }
 
-        # Configure the mock client
-        mock_client_instance = mock_webclient.return_value
-        mock_client_instance.chat_postMessage.return_value = mock_response
-        mock_client_instance.conversations_list.return_value = mock_channels_response
+        # Mock the client methods directly on the instance
+        self.slack.client.chat_postMessage = MagicMock(return_value=mock_response)
+        self.slack.client.conversations_list = MagicMock(return_value=mock_channels_response)
 
         dct = self.slack.message_channel("C1H9RESGL", "Here's a message for you")
 
@@ -281,8 +270,8 @@ class TestSlack(unittest.TestCase):
         # Test error case
         error_response = MagicMock()
         error_response.data = {"ok": False, "error": "invalid_auth"}
-        mock_client_instance.chat_postMessage.side_effect = SlackApiError(
-            "invalid_auth", error_response
+        self.slack.client.chat_postMessage = MagicMock(
+            side_effect=SlackApiError("invalid_auth", error_response)
         )
 
         with pytest.raises(SlackApiError):
@@ -296,8 +285,7 @@ class TestSlack(unittest.TestCase):
         assert m._adapter.last_request.json() == {"text": "this is a message", "channel": "#foobar"}
         assert m._adapter.last_request.path == "/services/T1234/B1234/D12322"
 
-    @patch('parsons.notifications.slack.WebClient')
-    def test_file_upload(self, mock_webclient):
+    def test_file_upload(self):
         file_path = responses_dir / "file_upload.json"
         with file_path.open(mode="r") as f:
             slack_resp = json.load(f)
@@ -313,10 +301,9 @@ class TestSlack(unittest.TestCase):
             "response_metadata": {"next_cursor": ""}
         }
 
-        # Configure the mock client
-        mock_client_instance = mock_webclient.return_value
-        mock_client_instance.files_upload_v2.return_value = mock_response
-        mock_client_instance.conversations_list.return_value = mock_channels_response
+        # Mock the client methods directly on the instance
+        self.slack.client.files_upload_v2 = MagicMock(return_value=mock_response)
+        self.slack.client.conversations_list = MagicMock(return_value=mock_channels_response)
 
         dct = self.slack.upload_file(["D0L4B9P0Q"], str(file_path))
 
@@ -326,8 +313,8 @@ class TestSlack(unittest.TestCase):
         # Test error case
         error_response = MagicMock()
         error_response.data = {"ok": False, "error": "invalid_auth"}
-        mock_client_instance.files_upload_v2.side_effect = SlackApiError(
-            "invalid_auth", error_response
+        self.slack.client.files_upload_v2 = MagicMock(
+            side_effect=SlackApiError("invalid_auth", error_response)
         )
 
         with pytest.raises(SlackApiError):

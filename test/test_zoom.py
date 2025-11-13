@@ -1148,9 +1148,18 @@ class TestZoom(unittest.TestCase):
 
     @requests_mock.Mocker()
     @patch.dict("os.environ", {"ZOOM_PARSONS_VERSION": "v1"})
-    def test_new_param_overrides_env_variable(self, m):
+    def test_new_param_overrides_env_variable_v2(self, m):
         """Test that parsons_version parameter overrides env variable"""
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         # Env var is v1, but we explicitly request v2
         zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v2")
+        assert isinstance(zoom, ZoomV2)
+
+    @requests_mock.Mocker()
+    @patch.dict("os.environ", {"ZOOM_PARSONS_VERSION": "v2"})
+    def test_new_param_overrides_env_variable_v1(self, m):
+        """Test that parsons_version parameter overrides env variable"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        # Env var is v2, but we explicitly request v1
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v1")
         assert isinstance(zoom, ZoomV2)

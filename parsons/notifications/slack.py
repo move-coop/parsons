@@ -1,11 +1,10 @@
 import os
-import time
 import warnings
 from pathlib import Path
 
 import requests
-from slackclient import SlackClient
-from slackclient.exceptions import SlackClientError
+from slack_sdk import WebClient
+from slack_sdk.http_retry.builtin_handlers import RateLimitErrorRetryHandler
 
 from parsons.etl.table import Table
 from parsons.utilities.check_env import check
@@ -26,7 +25,10 @@ class Slack:
         else:
             self.api_key = api_key
 
-        self.client = SlackClient(self.api_key)
+        # Create client with built-in rate limit handler
+        rate_limit_handler = RateLimitErrorRetryHandler(max_retry_count=1)
+        self.client = WebClient(token=self.api_key)
+        self.client.retry_handlers.append(rate_limit_handler)
 
     def channels(self, fields=None, exclude_archived=False, types=None):
         """
@@ -54,9 +56,9 @@ class Slack:
         if fields is None:
             fields = ["id", "name"]
         tbl = self._paginate_request(
-            "conversations.list",
+            "conversations_list",
             "channels",
-            types=types,
+            types=",".join(types),
             exclude_archived=exclude_archived,
         )
 
@@ -88,7 +90,7 @@ class Slack:
 
         if fields is None:
             fields = ["id", "name", "deleted", "profile_real_name_normalized", "profile_email"]
-        tbl = self._paginate_request("users.list", "members", include_locale=True)
+        tbl = self._paginate_request("users_list", "members", include_locale=True)
 
         tbl.unpack_dict("profile", include_original=False, prepend=True, prepend_value="profile")
 
@@ -161,27 +163,17 @@ class Slack:
             )
             kwargs.pop("thread_ts", None)
 
-        resp = self.client.api_call(
-            "chat.postMessage",
-            channel=channel,
+        # Resolve channel name to ID if needed
+        channel_id = self._resolve_channel_id(channel)
+
+        resp = self.client.chat_postMessage(
+            channel=channel_id,
             text=text,
             thread_ts=parent_message_id,
             **kwargs,
         )
 
-        if not resp["ok"]:
-            if resp["error"] == "ratelimited":
-                time.sleep(int(resp["headers"]["Retry-After"]))
-
-                resp = self.client.api_call(
-                    "chat.postMessage", channel=channel, text=text, **kwargs
-                )
-
-            resp.pop("headers", None)
-
-            raise SlackClientError(resp)
-
-        return resp
+        return resp.data
 
     def upload_file(
         self,
@@ -196,8 +188,9 @@ class Slack:
         Upload a file to Slack channel(s).
 
         `Args:`
-            channels: list
+            channels: list or str
                 The list of channel names or IDs where the file will be shared.
+                Can be a single channel name/ID (str) or a list of channel names/IDs.
             filename: str
                 The path to the file to be uploaded.
             filetype: str
@@ -220,58 +213,85 @@ class Slack:
         if filetype is None and "." in filename:
             filetype = filename.split(".")[-1]
 
+        if isinstance(channels, str):
+            channels = [channels]
         mode = "rb" if is_binary else "r"
-        upload_method = "files.files_upload_v2"
-        with Path(filename).open(mode=mode) as file_content:
-            resp = self.client.api_call(
-                upload_method,
-                channels=channels,
+
+        file_content = Path(filename).open(mode=mode)
+        for channel in channels:
+            resp = self.client.files_upload_v2(
+                channel=self._resolve_channel_id(channel),
                 file=file_content,
                 filetype=filetype,
                 initial_comment=initial_comment,
                 title=title,
             )
 
-            if not resp["ok"]:
-                if resp["error"] == "ratelimited":
-                    time.sleep(int(resp["headers"]["Retry-After"]))
-
-                    resp = self.client.api_call(
-                        upload_method,
-                        channels=channels,
-                        file=file_content,
-                        filetype=filetype,
-                        initial_comment=initial_comment,
-                        title=title,
-                    )
-
-                raise SlackClientError(resp["error"])
-
-        return resp
+        return resp.data
 
     def _paginate_request(self, endpoint, collection, **kwargs):
         # The max object we're requesting at a time.
-        # This is an nternal limit to not overload slack api
+        # This is an internal limit to not overload slack api
         LIMIT = 200
 
         items = []
         next_page = True
         cursor = None
+
+        # Map endpoint names to client methods
+        method_map = {
+            "conversations_list": self.client.conversations_list,
+            "users_list": self.client.users_list,
+        }
+
+        method = method_map.get(endpoint)
+        if not method:
+            raise ValueError(f"Unsupported endpoint: {endpoint}")
+
         while next_page:
-            resp = self.client.api_call(endpoint, cursor=cursor, limit=LIMIT, **kwargs)
+            resp = method(cursor=cursor, limit=LIMIT, **kwargs)
 
-            if not resp["ok"]:
-                if resp["error"] == "ratelimited":
-                    time.sleep(int(resp["headers"]["Retry-After"]))
-                    continue
+            # Extract data from response
+            data = resp.data if hasattr(resp, 'data') else resp
 
-                raise SlackClientError(resp["error"])
+            # Get items from the collection key
+            if collection in data:
+                items.extend(data[collection])
 
-            items.extend(resp[collection])
+            # Check for next cursor in response_metadata
+            response_metadata = data.get("response_metadata", {})
+            next_cursor = response_metadata.get("next_cursor", "")
 
-            if resp["response_metadata"]["next_cursor"]:
-                cursor = resp["response_metadata"]["next_cursor"]
+            if next_cursor:
+                cursor = next_cursor
             else:
                 next_page = False
 
         return Table(items)
+
+    def _resolve_channel_id(self, channel):
+        """
+        Resolve a channel name to its ID. If already an ID, returns it unchanged.
+
+        `Args:`
+            channel: str
+                Channel name (with or without #) or channel ID
+
+        `Returns:`
+            str: Channel ID
+        """
+        # If it's already a channel ID (starts with C, D, or G), return as-is
+        if channel and channel[0] in ('C', 'D', 'G'):
+            return channel
+
+        # Remove leading # if present
+        channel_name = channel.lstrip('#')
+
+        # Get all channels and find matching name
+        channels = self.channels(fields=['id', 'name'], types=['public_channel', 'private_channel'])
+        for row in channels:
+            if row['name'] == channel_name:
+                return row['id']
+
+        # If not found, raise an error
+        raise ValueError(f"Channel '{channel}' not found")

@@ -63,7 +63,7 @@ def main():
             "salesforce": ["simple-salesforce"],
             "scytl": ["defusedxml", "pytz"],
             "sftp": ["paramiko"],
-            "slack": ["slackclient<2"],
+            "slack": ["slackclient<3"],
             "smtp": ["validate-email"],
             "targetsmart": ["xmltodict", "defusedxml"],
             "twilio": ["twilio"],

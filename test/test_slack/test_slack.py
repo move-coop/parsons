@@ -266,7 +266,7 @@ class TestSlack(unittest.TestCase):
         with file_path.open(mode="r") as f:
             slack_resp = json.load(f)
 
-        m.post("https://slack.com/api/files.upload", json=slack_resp)
+        m.post("https://slack.com/api/files.files_upload_v2", json=slack_resp)
 
         dct = self.slack.upload_file(["D0L4B9P0Q"], str(file_path))
 
@@ -274,7 +274,7 @@ class TestSlack(unittest.TestCase):
         assert sorted(dct) == sorted(slack_resp)
 
         m.post(
-            "https://slack.com/api/files.upload",
+            "https://slack.com/api/files.files_upload_v2",
             json={"ok": False, "error": "invalid_auth"},
         )
 

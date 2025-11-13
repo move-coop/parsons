@@ -1162,4 +1162,4 @@ class TestZoom(unittest.TestCase):
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         # Env var is v2, but we explicitly request v1
         zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v1")
-        assert isinstance(zoom, ZoomV2)
+        assert isinstance(zoom, ZoomV1)

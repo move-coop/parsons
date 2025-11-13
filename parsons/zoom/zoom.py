@@ -946,7 +946,7 @@ class Zoom:
         account_id: Optional[str] = None,
         client_id: Optional[str] = None,
         client_secret: Optional[str] = None,
-        parsons_version: Optional[str] = None,
+        parsons_version: Optional[str] = "v1",
     ) -> ZoomV1:
         """
         Create and return Zoom instance base on chosen version (1 or 2)
@@ -965,8 +965,9 @@ class Zoom:
                 variable set.
             parsons_version (str, optional): Parsons version of the Zoom connector. Defaults to v1.
         """
-        if not parsons_version:
-            parsons_version = check_env.check("ZOOM_PARSONS_VERSION", "v1", optional=True)
+        env_zoom = check_env.check("ZOOM_PARSONS_VERSION", None, optional=True)
+        if parsons_version == "v1" and env_zoom is not None:
+            parsons_version = env_zoom
         if parsons_version == "v1":
             logger.info("Consider upgrading to version 2 of the Zoom connector!")
             logger.info(

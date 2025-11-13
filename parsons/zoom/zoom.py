@@ -968,9 +968,7 @@ class Zoom:
         env_zoom = check_env.check("ZOOM_PARSONS_VERSION", None, optional=True)
         if not parsons_version:
             parsons_version = env_zoom
-        if not parsons_version:
-            parsons_version = "v1"
-        if parsons_version == "v1":
+        if not parsons_version or parsons_version == "v1":
             logger.info("Consider upgrading to version 2 of the Zoom connector!")
             logger.info(
                 "See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html"

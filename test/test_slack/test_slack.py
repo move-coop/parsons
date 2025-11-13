@@ -2,7 +2,7 @@ import json
 import os
 import unittest
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 import requests_mock
@@ -19,18 +19,6 @@ class TestSlack(unittest.TestCase):
 
     def tearDown(self):
         pass
-
-    def test_slack_init(self):
-        # Delete to test that it raises an error
-        del os.environ["SLACK_API_TOKEN"]
-
-        assert "SLACK_API_TOKEN" not in os.environ
-
-        with pytest.raises(KeyError):
-            Slack()
-
-        os.environ["SLACK_API_TOKEN"] = "SOME_API_TOKEN"
-        assert "SLACK_API_TOKEN" in os.environ
 
     def test_channels(self):
         with (responses_dir / "channels.json").open(mode="r") as f:

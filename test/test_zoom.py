@@ -1115,6 +1115,7 @@ class TestZoom(unittest.TestCase):
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v1")
         assert isinstance(zoom, ZoomV1)
+        assert not isinstance(zoom, ZoomV2)
 
     @requests_mock.Mocker()
     def test_new_returns_v2_when_specified(self, m):
@@ -1137,6 +1138,7 @@ class TestZoom(unittest.TestCase):
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
         assert isinstance(zoom, ZoomV1)
+        assert not isinstance(zoom, ZoomV2)
 
     @requests_mock.Mocker()
     @patch.dict("os.environ", {"ZOOM_PARSONS_VERSION": "v2"})
@@ -1163,3 +1165,4 @@ class TestZoom(unittest.TestCase):
         # Env var is v2, but we explicitly request v1
         zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v1")
         assert isinstance(zoom, ZoomV1)
+        assert not isinstance(zoom, ZoomV2)

@@ -1,8 +1,11 @@
 import unittest
+from unittest.mock import patch
 
+import pytest
 import requests_mock
 
 from parsons import Table, Zoom
+from parsons.zoom.zoom import ZoomV1, ZoomV2
 from test.utils import assert_matching_tables
 
 ACCOUNT_ID = "fakeAccountID"
@@ -1098,3 +1101,68 @@ class TestZoom(unittest.TestCase):
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "past_meetings/123/instances", json=meetings)
         assert_matching_tables(self.zoomv2.get_past_meeting_occurrences(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_new_returns_v1_by_default(self, m):
+        """Test that Zoom() returns ZoomV1 instance by default"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
+        assert isinstance(zoom, ZoomV1)
+
+    @requests_mock.Mocker()
+    def test_new_returns_v1_when_specified(self, m):
+        """Test that Zoom() returns ZoomV1 when parsons_version='v1'"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v1")
+        assert isinstance(zoom, ZoomV1)
+        assert not isinstance(zoom, ZoomV2)
+
+    @requests_mock.Mocker()
+    def test_new_returns_v2_when_specified(self, m):
+        """Test that Zoom() returns ZoomV2 when parsons_version='v2'"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v2")
+        assert isinstance(zoom, ZoomV2)
+
+    @requests_mock.Mocker()
+    def test_new_raises_error_on_invalid_version(self, m):
+        """Test that Zoom() raises ValueError for invalid parsons_version"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        with pytest.raises(ValueError, match="v3 not supported"):
+            Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v3")
+
+    @requests_mock.Mocker()
+    @patch.dict("os.environ", {"ZOOM_PARSONS_VERSION": "v1"})
+    def test_new_respects_env_variable_v1(self, m):
+        """Test that ZOOM_PARSONS_VERSION env variable is respected for v1"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
+        assert isinstance(zoom, ZoomV1)
+        assert not isinstance(zoom, ZoomV2)
+
+    @requests_mock.Mocker()
+    @patch.dict("os.environ", {"ZOOM_PARSONS_VERSION": "v2"})
+    def test_new_respects_env_variable_v2(self, m):
+        """Test that ZOOM_PARSONS_VERSION env variable is respected for v2"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
+        assert isinstance(zoom, ZoomV2)
+
+    @requests_mock.Mocker()
+    @patch.dict("os.environ", {"ZOOM_PARSONS_VERSION": "v1"})
+    def test_new_param_overrides_env_variable_v2(self, m):
+        """Test that parsons_version parameter overrides env variable"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        # Env var is v1, but we explicitly request v2
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v2")
+        assert isinstance(zoom, ZoomV2)
+
+    @requests_mock.Mocker()
+    @patch.dict("os.environ", {"ZOOM_PARSONS_VERSION": "v2"})
+    def test_new_param_overrides_env_variable_v1(self, m):
+        """Test that parsons_version parameter overrides env variable"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        # Env var is v2, but we explicitly request v1
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v1")
+        assert isinstance(zoom, ZoomV1)
+        assert not isinstance(zoom, ZoomV2)

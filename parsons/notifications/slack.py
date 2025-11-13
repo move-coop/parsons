@@ -215,17 +215,21 @@ class Slack:
 
         if isinstance(channels, str):
             channels = [channels]
+
         mode = "rb" if is_binary else "r"
 
-        file_content = Path(filename).open(mode=mode)
-        for channel in channels:
-            resp = self.client.files_upload_v2(
-                channel=self._resolve_channel_id(channel),
-                file=file_content,
-                filetype=filetype,
-                initial_comment=initial_comment,
-                title=title,
-            )
+        with Path(filename).open(mode=mode) as file_content:
+            for channel in channels:
+                resp = self.client.files_upload_v2(
+                    channel=self._resolve_channel_id(channel),
+                    file=file_content,
+                    filetype=filetype,
+                    initial_comment=initial_comment,
+                    title=title,
+                )
+                # Reset file pointer for subsequent uploads
+                if hasattr(file_content, 'seek'):
+                    file_content.seek(0)
 
         return resp.data
 

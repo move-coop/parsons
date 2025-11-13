@@ -965,9 +965,8 @@ class Zoom:
                 variable set.
             parsons_version (str, optional): Parsons version of the Zoom connector. Defaults to v1.
         """
-        env_zoom = check_env.check("ZOOM_PARSONS_VERSION", None, optional=True)
         if not parsons_version:
-            parsons_version = env_zoom
+            parsons_version = check_env.check("ZOOM_PARSONS_VERSION", None, optional=True)
         if not parsons_version or parsons_version == "v1":
             logger.info("Consider upgrading to version 2 of the Zoom connector!")
             logger.info(

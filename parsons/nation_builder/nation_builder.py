@@ -1,7 +1,7 @@
 import json
 import logging
 import time
-from typing import Any, Optional, cast
+from typing import Any, cast
 from urllib.parse import parse_qs, urlparse
 
 from parsons import Table
@@ -25,7 +25,7 @@ class NationBuilder:
             The Nation Builder access_token Not required if ``NB_ACCESS_TOKEN`` env variable set.
     """
 
-    def __init__(self, slug: Optional[str] = None, access_token: Optional[str] = None) -> None:
+    def __init__(self, slug: str | None = None, access_token: str | None = None) -> None:
         slug = check_env.check("NB_SLUG", slug)
         token = check_env.check("NB_ACCESS_TOKEN", access_token)
 
@@ -35,7 +35,7 @@ class NationBuilder:
         self.client = APIConnector(NationBuilder.get_uri(slug), headers=headers)
 
     @classmethod
-    def get_uri(cls, slug: Optional[str]) -> str:
+    def get_uri(cls, slug: str | None) -> str:
         if slug is None:
             raise ValueError("slug can't be None")
 
@@ -48,7 +48,7 @@ class NationBuilder:
         return f"https://{slug}.nationbuilder.com/api/v1"
 
     @classmethod
-    def get_auth_headers(cls, access_token: Optional[str]) -> dict[str, str]:
+    def get_auth_headers(cls, access_token: str | None) -> dict[str, str]:
         if access_token is None:
             raise ValueError("access_token can't be None")
 
@@ -150,7 +150,7 @@ class NationBuilder:
 
         return response
 
-    def upsert_person(self, person: dict[str, Any]) -> tuple[bool, Optional[dict[str, Any]]]:
+    def upsert_person(self, person: dict[str, Any]) -> tuple[bool, dict[str, Any] | None]:
         """
         Updates a matched person or creates a new one if the person doesn't exist.
 

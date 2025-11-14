@@ -5,7 +5,6 @@ import time
 import uuid
 import zipfile
 from pathlib import Path
-from typing import Optional, Union
 
 import google
 import petl
@@ -64,7 +63,7 @@ class GoogleCloudStorage:
 
     """
 
-    def __init__(self, app_creds: Optional[Union[str, dict, Credentials]] = None, project=None):
+    def __init__(self, app_creds: str | dict | Credentials | None = None, project=None):
         if isinstance(app_creds, Credentials):
             credentials = app_creds
         else:
@@ -402,8 +401,8 @@ class GoogleCloudStorage:
         source_bucket: str,
         destination_path: str = "",
         source_path: str = "",
-        aws_access_key_id: Optional[str] = None,
-        aws_secret_access_key: Optional[str] = None,
+        aws_access_key_id: str | None = None,
+        aws_secret_access_key: str | None = None,
     ):
         """
         Creates a one-time transfer job from Amazon S3 to Google Cloud
@@ -570,8 +569,8 @@ class GoogleCloudStorage:
         bucket_name: str,
         blob_name: str,
         compression_type: str = "gzip",
-        new_filename: Optional[str] = None,
-        new_file_extension: Optional[str] = None,
+        new_filename: str | None = None,
+        new_file_extension: str | None = None,
     ) -> str:
         """
         Downloads and decompresses a blob. The decompressed blob

@@ -5,7 +5,6 @@ import logging
 import time
 import uuid
 from abc import ABC, abstractmethod
-from typing import Optional
 
 from dbt.contracts.graph.manifest import Manifest
 from rich.console import Console
@@ -176,7 +175,7 @@ class dbtLoggerSlack(dbtLoggerMarkdown):
     def __init__(
         self,
         slack_webhook: str,
-        slack_channel: Optional[str] = None,
+        slack_channel: str | None = None,
     ) -> None:
         self.slack_webhook = slack_webhook
         self.slack_channel = slack_channel

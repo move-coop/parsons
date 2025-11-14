@@ -946,7 +946,7 @@ class Zoom:
         account_id: str | None = None,
         client_id: str | None = None,
         client_secret: str | None = None,
-        parsons_version: str = "v1",
+        parsons_version: str | None = None,
     ) -> ZoomV1:
         """
         Create and return Zoom instance base on chosen version (1 or 2)
@@ -965,8 +965,9 @@ class Zoom:
                 variable set.
             parsons_version (str, optional): Parsons version of the Zoom connector. Defaults to v1.
         """
-        parsons_version = check_env.check("ZOOM_PARSONS_VERSION", parsons_version)
-        if parsons_version == "v1":
+        if not parsons_version:
+            parsons_version = check_env.check("ZOOM_PARSONS_VERSION", None, optional=True)
+        if not parsons_version or parsons_version == "v1":
             logger.info("Consider upgrading to version 2 of the Zoom connector!")
             logger.info(
                 "See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html"

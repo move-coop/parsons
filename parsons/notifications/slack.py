@@ -221,9 +221,10 @@ class Slack:
             filetype = filename.split(".")[-1]
 
         mode = "rb" if is_binary else "r"
+        upload_method = "files.files_upload_v2"
         with Path(filename).open(mode=mode) as file_content:
             resp = self.client.api_call(
-                "files.upload",
+                upload_method,
                 channels=channels,
                 file=file_content,
                 filetype=filetype,
@@ -236,7 +237,7 @@ class Slack:
                     time.sleep(int(resp["headers"]["Retry-After"]))
 
                     resp = self.client.api_call(
-                        "files.files_upload_v2",
+                        upload_method,
                         channels=channels,
                         file=file_content,
                         filetype=filetype,

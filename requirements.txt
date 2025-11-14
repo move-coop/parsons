@@ -8,7 +8,7 @@ civis==1.16.1;python_version<"3.10"  # later Civis versions do not support Pytho
 civis==2.4.3;python_version>="3.10"  
 curlify==3.0.0
 dbt-core>=1.5.0
-defusedxml>=0.7.1, <=0.8.0
+defusedxml>=0.7.1
 facebook-business==24.0.0
 google-api-core==2.25.1
 google-api-python-client==2.187.0

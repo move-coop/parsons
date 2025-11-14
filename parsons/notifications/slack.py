@@ -228,7 +228,7 @@ class Slack:
                     title=title,
                 )
                 # Reset file pointer for subsequent uploads
-                if hasattr(file_content, 'seek'):
+                if hasattr(file_content, "seek"):
                     file_content.seek(0)
 
         return resp.data

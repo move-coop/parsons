@@ -242,7 +242,7 @@ class TestSlack(unittest.TestCase):
         mock_channels_response = MagicMock()
         mock_channels_response.data = {
             "channels": [{"id": "C1H9RESGL", "name": "test-channel"}],
-            "response_metadata": {"next_cursor": ""}
+            "response_metadata": {"next_cursor": ""},
         }
 
         # Mock the client methods directly on the instance
@@ -285,7 +285,7 @@ class TestSlack(unittest.TestCase):
         mock_channels_response = MagicMock()
         mock_channels_response.data = {
             "channels": [{"id": "D0L4B9P0Q", "name": "test-channel"}],
-            "response_metadata": {"next_cursor": ""}
+            "response_metadata": {"next_cursor": ""},
         }
 
         # Mock the client methods directly on the instance

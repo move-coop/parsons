@@ -1,5 +1,6 @@
 import os
 import warnings
+from functools import lru_cache
 from pathlib import Path
 
 import requests
@@ -288,14 +289,22 @@ class Slack:
         if channel and channel[0] in ("C", "D", "G"):
             return channel
 
-        # Remove leading # if present
-        channel_name = channel.lstrip("#")
+        @lru_cache
+        def _search_channel_id(channel_name_full):
+            """Get all channels and return ID for channel matching name"""
+            # Remove leading # if present
+            channel_name = channel_name_full.lstrip("#")
+            channels = self.channels(
+                fields=["id", "name"], types=["public_channel", "private_channel"]
+            )
+            for row in channels:
+                if row["name"] == channel_name:
+                    return row["id"]
+            return None
 
-        # Get all channels and find matching name
-        channels = self.channels(fields=["id", "name"], types=["public_channel", "private_channel"])
-        for row in channels:
-            if row["name"] == channel_name:
-                return row["id"]
+        channel_id = _search_channel_id(channel)
+        if channel_id:
+            return channel_id
 
         # If not found, raise an error
         raise ValueError(f"Channel '{channel}' not found")

@@ -249,29 +249,64 @@ class TestSlack(unittest.TestCase):
         assert sorted(tbl.columns) == sorted(expected_columns)
         assert tbl.num_rows == 2
 
-    def test_message_channel(self):
-        with (responses_dir / "message_channel.json").open(mode="r") as f:
-            slack_resp = json.load(f)
-
-        # Mock the response object
-        mock_response = MagicMock()
-        mock_response.data = slack_resp
-
+    def _setup_message_channel_mocks(self, include_success_response=True):
+        """Helper to set up common mocks for message_channel tests."""
         # Mock channels response for _resolve_channel_id
         mock_channels_response = MagicMock()
         mock_channels_response.data = {
             "channels": [{"id": "C1H9RESGL", "name": "test-channel"}],
             "response_metadata": {"next_cursor": ""},
         }
-
-        # Mock the client methods directly on the instance
-        self.slack.client.chat_postMessage = MagicMock(return_value=mock_response)
         self.slack.client.conversations_list = MagicMock(return_value=mock_channels_response)
+
+        if include_success_response:
+            with (responses_dir / "message_channel.json").open(mode="r") as f:
+                slack_resp = json.load(f)
+
+            mock_response = MagicMock()
+            mock_response.data = slack_resp
+            self.slack.client.chat_postMessage = MagicMock(return_value=mock_response)
+
+            return slack_resp
+
+        return None
+
+    def test_message_channel_success(self):
+        slack_resp = self._setup_message_channel_mocks()
 
         dct = self.slack.message_channel("C1H9RESGL", "Here's a message for you")
 
         assert isinstance(dct, dict)
         assert sorted(dct) == sorted(slack_resp)
+
+    def test_message_channel_deprecated_kwargs(self):
+        self._setup_message_channel_mocks()
+
+        # Test deprecation of as_user kwarg
+        with pytest.warns(
+            DeprecationWarning, match="as_user is a deprecated argument on message_channel()"
+        ):
+            self.slack.message_channel(
+                "C1H9RESGL", "Here's a message for you", as_user="randomvalue"
+            )
+        # Verify thread_ts was passed to chat_postMessage
+        call_kwargs = self.slack.client.chat_postMessage.call_args.kwargs
+        assert "as_user" in call_kwargs, "as_user should be passed to chat_postMessage"
+
+        # Test deprecation of thread_ts kwarg
+        with pytest.warns(Warning, match="thread_ts argument on message_channel"):
+            self.slack.message_channel(
+                "C1H9RESGL", "Here's a message for you", thread_ts="randomvalue"
+            )
+
+        # Verify thread_ts was NOT passed to chat_postMessage
+        call_kwargs = self.slack.client.chat_postMessage.call_args.kwargs
+        assert call_kwargs["thread_ts"] is None, (
+            "thread_ts should not be passed to chat_postMessage"
+        )
+
+    def test_message_channel_error(self):
+        self._setup_message_channel_mocks(include_success_response=False)
 
         # Test error case
         error_response = MagicMock()

@@ -7,7 +7,7 @@ import subprocess
 from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Literal, Optional, Union
+from typing import Literal
 
 import petl
 
@@ -61,7 +61,7 @@ class Sqlite(DatabaseConnector):
         finally:
             cur.close()
 
-    def query(self, sql: str, parameters: Optional[Union[list, dict]] = None) -> Optional[Table]:
+    def query(self, sql: str, parameters: list | dict | None = None) -> Table | None:
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
@@ -69,7 +69,7 @@ class Sqlite(DatabaseConnector):
         self,
         sql: str,
         connection: sqlite3.Connection,
-        parameters: Optional[Union[list, dict]] = None,
+        parameters: list | dict | None = None,
         commit: bool = True,
         return_values: bool = True,
     ):

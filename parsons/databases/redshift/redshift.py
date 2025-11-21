@@ -6,7 +6,6 @@ import pickle
 import random
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Optional
 
 import petl
 import psycopg2
@@ -156,7 +155,7 @@ class Redshift(
         finally:
             cur.close()
 
-    def query(self, sql: str, parameters: Optional[list] = None) -> Optional[Table]:
+    def query(self, sql: str, parameters: list | None = None) -> Table | None:
         """
         Execute a query against the Redshift database. Will return ``None``
         if the query returns zero rows.
@@ -474,30 +473,30 @@ class Redshift(
         table_name: str,
         if_exists: str = "fail",
         max_errors: int = 0,
-        distkey: Optional[str] = None,
-        sortkey: Optional[str] = None,
-        padding: Optional[float] = None,
-        statupdate: Optional[bool] = None,
-        compupdate: Optional[bool] = None,
+        distkey: str | None = None,
+        sortkey: str | None = None,
+        padding: float | None = None,
+        statupdate: bool | None = None,
+        compupdate: bool | None = None,
         acceptanydate: bool = True,
         emptyasnull: bool = True,
         blanksasnull: bool = True,
-        nullas: Optional[str] = None,
+        nullas: str | None = None,
         acceptinvchars: bool = True,
         dateformat: str = "auto",
         timeformat: str = "auto",
-        varchar_max: Optional[list[str]] = None,
+        varchar_max: list[str] | None = None,
         truncatecolumns: bool = False,
-        columntypes: Optional[dict] = None,
-        specifycols: Optional[bool] = None,
+        columntypes: dict | None = None,
+        specifycols: bool | None = None,
         alter_table: bool = False,
         alter_table_cascade: bool = False,
-        aws_access_key_id: Optional[str] = None,
-        aws_secret_access_key: Optional[str] = None,
-        iam_role: Optional[str] = None,  # Unused - Should we remove?
+        aws_access_key_id: str | None = None,
+        aws_secret_access_key: str | None = None,
+        iam_role: str | None = None,  # Unused - Should we remove?
         cleanup_s3_file: bool = True,
-        template_table: Optional[str] = None,
-        temp_bucket_region: Optional[str] = None,
+        template_table: str | None = None,
+        temp_bucket_region: str | None = None,
         strict_length: bool = True,
         csv_encoding: str = "utf-8",
     ):

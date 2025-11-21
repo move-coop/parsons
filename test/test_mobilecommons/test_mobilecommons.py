@@ -10,7 +10,6 @@ from mobilecommons_responses import (
 from parsons.etl import Table
 from parsons.mobilecommons import MobileCommons
 
-MOBILECOMMONS_USERNAME = "MOBILECOMMONS_USERNAME"
 MOBILECOMMONS_PASSWORD = "MOBILECOMMONS_PASSWORD"
 DEFAULT_GET_PARAMS = {"page": 1, "limit": 1000}
 DEFAULT_GET_ENDPOINT = "broadcasts"
@@ -25,7 +24,7 @@ class TestMobileCommons(unittest.TestCase):
     def setUp(self, m):
         self.base_uri = "https://secure.mcommons.com/api/"
 
-        self.mc = MobileCommons(username=MOBILECOMMONS_USERNAME, password=MOBILECOMMONS_PASSWORD)
+        self.mc = MobileCommons(api_key=MOBILECOMMONS_PASSWORD)
 
     @requests_mock.Mocker()
     def test_parse_get_request(self, m):

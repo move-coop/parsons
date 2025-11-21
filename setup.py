@@ -46,21 +46,21 @@ def main():
             ],
             "mysql": [
                 "mysql-connector-python",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+                "sqlalchemy >= 1.4.22",
             ],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["bs4"],
             "postgres": [
-                "psycopg2-binary <= 2.9.9;python_version<'3.13'",
+                "psycopg2-binary <= 2.9.9;python_version < '3.13'",
                 "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+                "sqlalchemy >= 1.4.22",
             ],
             "redshift": [
                 "boto3",
-                "psycopg2-binary <= 2.9.9;python_version<'3.13'",
+                "psycopg2-binary <= 2.9.9;python_version < '3.13'",
                 "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+                "sqlalchemy >= 1.4.22",
             ],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
@@ -72,9 +72,9 @@ def main():
             "twilio": ["twilio"],
             "ssh": [
                 "sshtunnel",
-                "psycopg2-binary <= 2.9.9;python_version<'3.13'",
+                "psycopg2-binary <= 2.9.9;python_version < '3.13'",
                 "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+                "sqlalchemy >= 1.4.22",
             ],
         }
         extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})

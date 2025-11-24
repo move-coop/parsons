@@ -1,7 +1,12 @@
-name: Build & Publish Wheels + Source
+name: Build, test, & publish
 
 on:
   workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+      - major-release
   release:
     types:
       - published
@@ -45,6 +50,7 @@ jobs:
 
   test:
     needs: build
+
     strategy:
       fail-fast: false
       matrix:
@@ -66,9 +72,8 @@ jobs:
         shell: bash
 
   publish:
-    if: github.repository_owner == 'move-coop'
-    needs:
-      - test
+    if: github.repository_owner == 'move-coop' && github.event_name == 'release' && github.event.action == 'published'
+    needs: test
 
     runs-on: ubuntu-latest
     environment: release
@@ -85,7 +90,6 @@ jobs:
           name: parsons-dist
           path: dist
 
-      # Publish
       - name: Publish
         uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e
         with:

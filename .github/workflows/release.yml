@@ -54,7 +54,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version:
+          - '3.9'
+          - '3.10'
+          - '3.11'
+          - '3.12'
+          - '3.13'
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
 
     runs-on: ${{ matrix.os }}
 
@@ -65,11 +74,16 @@ jobs:
           name: parsons-dist
           path: dist
 
-      - name: Install package using pip
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        with:
+            python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        shell: bash
         run: |
           file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
           pip install "$file"
-        shell: bash
 
   publish:
     if: github.repository_owner == 'move-coop' && github.event_name == 'release' && github.event.action == 'published'

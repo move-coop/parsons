@@ -42,7 +42,7 @@ jobs:
           disable-sudo: true
           egress-policy: audit
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
 
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
@@ -96,7 +96,7 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
 
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
@@ -133,7 +133,7 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
 
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
@@ -181,7 +181,7 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
 
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
@@ -224,7 +224,7 @@ jobs:
             github.com:443
             img.shields.io:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
 
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
@@ -264,7 +264,7 @@ jobs:
             proxy.golang.org:443
             pypi.org:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
 
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
@@ -314,7 +314,7 @@ jobs:
           disable-sudo: true
           egress-policy: audit
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
 
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:

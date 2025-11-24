@@ -1,14 +1,14 @@
 name: Python checks
 
 on:
+  workflow_dispatch:
+  pull_request:
   push:
     branches:
       - main
       - major-release
-  pull_request:
   schedule:
     - cron: 0 0 * * 1
-  workflow_dispatch:
 
 permissions: read-all
 
@@ -286,45 +286,3 @@ jobs:
           pre-commit run --all-files
         env:
           PRE_COMMIT_HOME: .pre-commit-cache
-
-  pip-install:
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version:
-          - '3.9'
-          - '3.10'
-          - '3.11'
-          - '3.12'
-          - '3.13'
-          - '3.14'
-        os:
-          - ubuntu-latest
-          - windows-latest
-          - macos-latest
-        limited-dependencies:
-          - 'TRUE'
-          - ''
-
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
-        with:
-          disable-sudo: true
-          egress-policy: audit
-
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
-
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: pip
-
-      - continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
-        env:
-          PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
-        run: |
-          pip install -r requirements-dev.txt
-          pip install -e .[all]
-

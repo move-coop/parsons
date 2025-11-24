@@ -74,10 +74,17 @@ jobs:
           name: parsons-dist
           path: dist
 
+      - name: Extract requirements for cache
+        shell: bash
+        run: |
+          file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
+          tar -xzf "$file" --wildcards '*/requirements.txt' --strip-components=1 2>/dev/null || true
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
             python-version: ${{ matrix.python-version }}
+            cache: pip
 
       - name: Install package
         shell: bash

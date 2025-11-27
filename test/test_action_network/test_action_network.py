@@ -4441,7 +4441,12 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/surveys/{self.fake_survey_id_1}",
             text=json.dumps(self.fake_survey),
         )
-        assert self.an.get_survey(self.fake_survey_id_1) == self.fake_survey
+        result = self.an.get_survey(self.fake_survey_id_1)
+        # Verify it returns a Parsons Table
+        assert isinstance(result, Table), f"Expected Table, got {type(result)}"
+        # Verify the Table contains the survey data
+        expected_table = Table([self.fake_survey])
+        assert_matching_tables(result, expected_table)
 
     @requests_mock.Mocker()
     def test_create_survey(self, m):
@@ -4490,7 +4495,12 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses/{self.fake_response_id_1}",
             text=json.dumps(self.fake_survey_response),
         )
-        assert self.an.get_survey_response(self.fake_survey_id_1, self.fake_response_id_1) == self.fake_survey_response
+        result = self.an.get_survey_response(self.fake_survey_id_1, self.fake_response_id_1)
+        # Verify it returns a Parsons Table
+        assert isinstance(result, Table), f"Expected Table, got {type(result)}"
+        # Verify the Table contains the response data
+        expected_table = Table([self.fake_survey_response])
+        assert_matching_tables(result, expected_table)
 
     # Tags
     @requests_mock.Mocker()

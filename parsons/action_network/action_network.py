@@ -1805,7 +1805,8 @@ class ActionNetwork:
                 When None, no filter is applied.
 
         `Returns:`
-            A JSON with all of the survey entries
+            Parsons Table
+                A Table with all of the survey entries
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/surveys
         """
@@ -1821,13 +1822,15 @@ class ActionNetwork:
             survey_id:
                 The unique id of the survey
         `Returns:`
-            A JSON with the survey entry
+            Parsons Table
+                A Table with the survey entry
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/surveys
         """
-        return self.api.get_request(f"surveys/{survey_id}")
+        response = self.api.get_request(f"surveys/{survey_id}")
+        return Table([response])
 
-    def create_survey(self, title, description=None, call_to_action=None, 
+    def create_survey(self, title, description=None, call_to_action=None,
                      browser_url=None, featured_image_url=None, origin_system=None,
                      identifiers=None, background_processing=False, **kwargs):
         """
@@ -1949,7 +1952,8 @@ class ActionNetwork:
                 When None, no filter is applied.
 
         `Returns:`
-            A JSON with all response entries for the survey
+            Parsons Table
+                A Table with all response entries for the survey
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/responses
         """
@@ -1968,11 +1972,13 @@ class ActionNetwork:
                 The unique id of the response
 
         `Returns:`
-            A JSON with the response entry
+            Parsons Table
+                A Table with the response entry
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/responses
         """
-        return self.api.get_request(f"surveys/{survey_id}/responses/{response_id}")
+        response = self.api.get_request(f"surveys/{survey_id}/responses/{response_id}")
+        return Table([response])
 
     # Tags
     def get_tags(self, limit=None, per_page=None):

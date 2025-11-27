@@ -11,7 +11,7 @@ URI = "https://api.securevan.com/v4/"
 SOAP_URI = "https://api.securevan.com/Services/V3/ListService.asmx?WSDL"
 
 
-class VANConnector(object):
+class VANConnector:
     def __init__(self, api_key=None, auth_name="default", db=None):
         self.api_key = check_env.check("VAN_API_KEY", api_key)
 

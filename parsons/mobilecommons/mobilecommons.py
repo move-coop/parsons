@@ -16,10 +16,7 @@ DATE_FMT = "%Y-%m-%d"
 
 
 def _format_date(user_entered_date):
-    if user_entered_date:
-        formatted_date = parse_date(user_entered_date).strftime(DATE_FMT)
-    else:
-        formatted_date = None
+    formatted_date = parse_date(user_entered_date).strftime(DATE_FMT) if user_entered_date else None
     return formatted_date
 
 
@@ -28,23 +25,19 @@ class MobileCommons:
     Instantiate the MobileCommons class.
 
     `Args:`
-        username: str
-            A valid email address connected to a  MobileCommons account. Not required if
-            ``MOBILECOMMONS_USERNAME`` env variable is set.
-        password: str
-            Password associated with Zoom account. Not required if ``MOBILECOMMONS_PASSWORD``
-            env variable set.
+        api_key: str
+            A valid API Key created by a MobileCommons account. Not required if
+            ``MOBILECOMMONS_PASSWORD`` env variable is set.
         company_id: str
             The company id of the MobileCommons organization to connect to. Not required if
-            username and password are for an account associated with only one MobileCommons
+            API key is for an account associated with only one MobileCommons
             organization.
     """
 
-    def __init__(self, username=None, password=None, company_id=None):
-        self.username = check_env.check("MOBILECOMMONS_USERNAME", username)
-        self.password = check_env.check("MOBILECOMMONS_PASSWORD", password)
+    def __init__(self, api_key=None, company_id=None):
+        self.api_key = check_env.check("MOBILECOMMONS_PASSWORD", api_key)
         self.default_params = {"company": company_id} if company_id else {}
-        self.client = APIConnector(uri=MC_URI, auth=(self.username, self.password))
+        self.client = APIConnector(uri=MC_URI, headers={"Authorization": f"Bearer {self.api_key}"})
 
     def _mc_get_request(
         self,

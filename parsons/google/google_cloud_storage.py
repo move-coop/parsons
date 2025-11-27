@@ -4,6 +4,7 @@ import logging
 import time
 import uuid
 import zipfile
+from pathlib import Path
 from typing import Optional, Union
 
 import google
@@ -20,7 +21,7 @@ from parsons.utilities import files
 logger = logging.getLogger(__name__)
 
 
-class GoogleCloudStorage(object):
+class GoogleCloudStorage:
     """Google Cloud Storage connector utility
 
     This class requires application credentials in the form of a
@@ -201,10 +202,7 @@ class GoogleCloudStorage(object):
             bucket_name, max_results=max_results, prefix=prefix, match_glob=match_glob
         )
 
-        if include_file_details:
-            lst = list(blobs)
-        else:
-            lst = [b.name for b in blobs]
+        lst = list(blobs) if include_file_details else [b.name for b in blobs]
 
         logger.info(f"Found {len(lst)} in {bucket_name} bucket.")
 
@@ -266,7 +264,7 @@ class GoogleCloudStorage(object):
         bucket = self.get_bucket(bucket_name)
         blob = storage.Blob(blob_name, bucket)
 
-        with open(local_path, "rb") as f:
+        with Path(local_path).open(mode="rb") as f:
             blob.upload_from_file(f, **kwargs)
 
         logger.info(f"{blob_name} put in {bucket_name} bucket.")
@@ -296,7 +294,7 @@ class GoogleCloudStorage(object):
         blob = storage.Blob(blob_name, bucket)
 
         logger.debug(f"Downloading {blob_name} from {bucket_name} bucket.")
-        with open(local_path, "wb") as f:
+        with Path(local_path).open(mode="wb") as f:
             blob.download_to_file(f, client=self.client)
         logger.debug(f"{blob_name} saved to {local_path}.")
 
@@ -665,11 +663,11 @@ class GoogleCloudStorage(object):
         decompressed_blob_in_archive = decompressed_blob_name.split("/")[-1]
         bucket_name = kwargs.pop("bucket_name")
 
-        # Unzip the archive
-        with zipfile.ZipFile(compressed_filepath) as path_:
-            # Open the underlying file
-            with path_.open(decompressed_blob_in_archive) as f_in:
-                logger.debug(f"Uploading uncompressed file to GCS: {decompressed_blob_name}")
-                bucket = self.get_bucket(bucket_name=bucket_name)
-                blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
-                blob.upload_from_file(file_obj=f_in, rewind=True, timeout=3600)
+        with (
+            zipfile.ZipFile(compressed_filepath) as path_,
+            path_.open(decompressed_blob_in_archive) as f_in,
+        ):
+            logger.debug(f"Uploading uncompressed file to GCS: {decompressed_blob_name}")
+            bucket = self.get_bucket(bucket_name=bucket_name)
+            blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
+            blob.upload_from_file(file_obj=f_in, rewind=True, timeout=3600)

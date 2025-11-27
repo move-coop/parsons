@@ -1,6 +1,7 @@
 import logging
 import re
 from contextlib import contextmanager
+from pathlib import Path
 from stat import S_ISDIR, S_ISREG
 from typing import Optional
 
@@ -13,7 +14,7 @@ from parsons.utilities import files as file_utilities
 logger = logging.getLogger(__name__)
 
 
-class SFTP(object):
+class SFTP:
     """
     Instantiate SFTP Class
 
@@ -227,21 +228,20 @@ class SFTP(object):
         logger.info(f"Reading from {remote_path} to {local_path} in {export_chunk_size}B chunks")
 
         with connection.open(remote_path, "rb") as _remote_file:
-            with open(local_path, "wb") as _local_file:
-                # This disables paramiko's prefetching behavior
-                _remote_file.set_pipelined(False)
+            # This disables paramiko's prefetching behavior
+            _remote_file.set_pipelined(False)
 
-                while True:
-                    # Read in desired number of rows from the server
-                    response = _remote_file.read(export_chunk_size)
+            while True:
+                # Read in desired number of rows from the server
+                response = _remote_file.read(export_chunk_size)
 
-                    # Break the loop if there are no records to read
-                    if not response:
-                        break
+                # Break the loop if there are no records to read
+                if not response:
+                    break
 
-                    # Write to the destination file
-                    _local_file.write(response)
-                    logger.debug(f"Successfully read {export_chunk_size} rows to {local_path}")
+                # Write to the destination file
+                Path(local_path).write_bytes(response)
+                logger.debug(f"Successfully read {export_chunk_size} rows to {local_path}")
 
     @connect
     def get_files(
@@ -366,10 +366,7 @@ class SFTP(object):
             verbose: bool
                 Log progress every 5MB. Defaults to True.
         """
-        if verbose:
-            callback = self._progress
-        else:
-            callback = None
+        callback = self._progress if verbose else None
         if connection:
             connection.put(local_path, remote_path, callback=callback)
         else:
@@ -513,9 +510,9 @@ class SFTP(object):
 
         if max_depth > 3:
             logger.warning(
-                "Calling `walk_tree` with `max_depth` {}.  "
+                f"Calling `walk_tree` with `max_depth` {max_depth}.  "
                 "Recursively walking a remote directory will be much slower than a "
-                "similar operation on a local file system.".format(max_depth)
+                "similar operation on a local file system."
             )
 
         to_return = self._walk_tree(

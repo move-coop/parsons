@@ -111,7 +111,7 @@ class Sqlite(DatabaseConnector):
             if return_values and cursor.description:
                 temp_file = files.create_temp_file()
 
-                with open(temp_file, "wb") as f:
+                with Path(temp_file).open(mode="wb") as f:
                     # Grab the header
                     header = [i[0] for i in cursor.description]
                     pickle.dump(header, f)
@@ -146,12 +146,9 @@ class Sqlite(DatabaseConnector):
     ) -> Literal["text", "integer", "float", "datetime", "date"]:
         values = [record[column] for record in records if record[column]]
         not_nulls = [i for i in values if i is not None]
-        if not_nulls:
-            not_null_value = not_nulls[0]
-        else:
-            not_null_value = None
+        not_null_value = not_nulls[0] if not_nulls else None
 
-        if isinstance(not_null_value, int) or isinstance(not_null_value, bool):
+        if isinstance(not_null_value, (int, bool)):
             result = "integer"
         elif isinstance(not_null_value, float):
             result = "float"
@@ -242,13 +239,12 @@ class Sqlite(DatabaseConnector):
             ", ".join(tbl.columns),
             ", ".join(["?" for _ in tbl.columns]),
         )
-        with self.connection() as connection:
-            with self.cursor(connection) as cursor:
-                for chunked_tbl in chunked_tbls:
-                    cursor.executemany(
-                        insert_sql,
-                        tuple([tuple(row.values()) for row in chunked_tbl]),
-                    )
+        with self.connection() as connection, self.cursor(connection) as cursor:
+            for chunked_tbl in chunked_tbls:
+                cursor.executemany(
+                    insert_sql,
+                    tuple([tuple(row.values()) for row in chunked_tbl]),
+                )
 
     def _cli_command(self, command: str) -> None:
         """Use the sqlite3 command line utility to run a command.
@@ -334,10 +330,7 @@ class Sqlite(DatabaseConnector):
         )
 
         # If in either, return boolean
-        if result:
-            return True
-        else:
-            return False
+        return bool(result)
 
     def table(self, table_name: str) -> SqliteTable:
         # Return a Sqlite table instance

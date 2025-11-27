@@ -6,7 +6,7 @@ import unittest
 from parsons import SMTP
 
 
-class FakeConnection(object):
+class FakeConnection:
     def __init__(self, result_obj):
         self.result_obj = result_obj
 
@@ -30,15 +30,13 @@ class TestSMTP(unittest.TestCase):
         self.smtp.send_email(
             "foo@example.com", "recipient1@example.com", "Simple subject", "Fake body"
         )
-        self.assertEqual(self.result[0], "foo@example.com")
-        self.assertEqual(self.result[1], ["recipient1@example.com"])
-        self.assertTrue(
-            self.result[2].endswith(
-                "\nto: recipient1@example.com\nfrom: foo@example.com"
-                "\nsubject: Simple subject\n\nFake body"
-            )
+        assert self.result[0] == "foo@example.com"
+        assert self.result[1] == ["recipient1@example.com"]
+        assert self.result[2].endswith(
+            "\nto: recipient1@example.com\nfrom: foo@example.com"
+            "\nsubject: Simple subject\n\nFake body"
         )
-        self.assertTrue(self.quit_ran)
+        assert self.quit_ran
 
     def test_send_message_html(self):
         self.smtp.send_email(
@@ -48,18 +46,18 @@ class TestSMTP(unittest.TestCase):
             "Fake body",
             "<p>Really Fake html</p>",
         )
-        self.assertEqual(self.result[0], "foohtml@example.com")
-        self.assertEqual(self.result[1], ["recipienthtml@example.com"])
-        self.assertRegex(self.result[2], r"<p>Really Fake html</p>\n--=======")
-        self.assertRegex(self.result[2], r"\nFake body\n--======")
-        self.assertRegex(self.result[2], r"ubject: Simple subject\n")
-        self.assertTrue(self.quit_ran)
+        assert self.result[0] == "foohtml@example.com"
+        assert self.result[1] == ["recipienthtml@example.com"]
+        assert re.search(r"<p>Really Fake html</p>\n--=======", self.result[2])
+        assert re.search(r"\nFake body\n--======", self.result[2])
+        assert re.search(r"ubject: Simple subject\n", self.result[2])
+        assert self.quit_ran
 
     def test_send_message_manualclose(self):
         smtp = SMTP("fake.example.com", username="fake", password="fake", close_manually=True)
         smtp.conn = FakeConnection(self)
         smtp.send_email("foo@example.com", "recipient1@example.com", "Simple subject", "Fake body")
-        self.assertFalse(self.quit_ran)
+        assert not self.quit_ran
 
     def test_send_message_files(self):
         named_file_content = "x,y,z\n1,2,3\r\n3,4,5\r\n"
@@ -107,18 +105,18 @@ class TestSMTP(unittest.TestCase):
             "Fake body",
             files=[io.StringIO(unnamed_file_content), named_file, bytes_file],
         )
-        self.assertEqual(self.result[0], "foofiles@example.com")
-        self.assertEqual(self.result[1], ["recipientfiles@example.com"])
-        self.assertRegex(self.result[2], r"\nFake body\n--======")
+        assert self.result[0] == "foofiles@example.com"
+        assert self.result[1] == ["recipientfiles@example.com"]
+        assert re.search(r"\nFake body\n--======", self.result[2])
         found = re.findall(r'filename="file"\n\n([\w=/]+)\n\n--===', self.result[2])
-        self.assertEqual(base64.b64decode(found[0]).decode(), unnamed_file_content)
+        assert base64.b64decode(found[0]).decode() == unnamed_file_content
         found_named = re.findall(
             r'Content-Type: text/csv; charset="utf-8"\nMIME-Version: 1.0'
             r"\nContent-Transfer-Encoding: base64\nContent-Disposition: "
             r'attachment; filename="xyz.csv"\n\n([\w=/]+)\n\n--======',
             self.result[2],
         )
-        self.assertEqual(base64.b64decode(found_named[0]).decode(), named_file_content)
+        assert base64.b64decode(found_named[0]).decode() == named_file_content
 
         found_gif = re.findall(
             r"Content-Type: image/gif\nMIME-Version: 1.0"
@@ -126,8 +124,8 @@ class TestSMTP(unittest.TestCase):
             r'\nContent-Disposition: attachment; filename="xyz.gif"\n\n([\w=/]+)\n\n--==',
             self.result[2],
         )
-        self.assertEqual(base64.b64decode(found_gif[0]), bytes_file_content)
-        self.assertTrue(self.quit_ran)
+        assert base64.b64decode(found_gif[0]) == bytes_file_content
+        assert self.quit_ran
 
     def test_send_message_partial_fail(self):
         simple_msg = self.smtp._create_message_simple(
@@ -137,4 +135,4 @@ class TestSMTP(unittest.TestCase):
             "Fake body",
         )
         send_result = self.smtp._send_message(simple_msg)
-        self.assertEqual(send_result, {"willfail@example.com": (550, "User unknown")})
+        assert send_result == {"willfail@example.com": (550, "User unknown")}

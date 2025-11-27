@@ -5,7 +5,8 @@ import os
 import pickle
 import random
 from contextlib import contextmanager
-from typing import List, Optional
+from pathlib import Path
+from typing import Optional
 
 import petl
 import psycopg2
@@ -243,7 +244,7 @@ class Redshift(
 
                 temp_file = files.create_temp_file()
 
-                with open(temp_file, "wb") as f:
+                with Path(temp_file).open(mode="wb") as f:
                     # Grab the header
                     header = [i[0] for i in cursor.description]
                     pickle.dump(header, f)
@@ -485,7 +486,7 @@ class Redshift(
         acceptinvchars: bool = True,
         dateformat: str = "auto",
         timeformat: str = "auto",
-        varchar_max: Optional[List[str]] = None,
+        varchar_max: Optional[list[str]] = None,
         truncatecolumns: bool = False,
         columntypes: Optional[dict] = None,
         specifycols: Optional[bool] = None,
@@ -619,10 +620,7 @@ class Redshift(
         """
 
         # Specify the columns for a copy statement.
-        if specifycols or (specifycols is None and template_table):
-            cols = tbl.columns
-        else:
-            cols = None
+        cols = tbl.columns if specifycols or specifycols is None and template_table else None
 
         with self.connection() as connection:
             # Check to see if the table exists. If it does not or if_exists = drop, then
@@ -949,7 +947,7 @@ class Redshift(
         if manifest_key and manifest_bucket:
             # Dump the manifest to a temp JSON file
             manifest_path = files.create_temp_file()
-            with open(manifest_path, "w") as manifest_file_obj:
+            with Path(manifest_path).open(mode="w") as manifest_file_obj:
                 json.dump(manifest, manifest_file_obj, sort_keys=True, indent=4)
 
             # Upload the file to S3
@@ -1010,10 +1008,7 @@ class Redshift(
                 See :func:`~parsons.databases.Redshift.copy` for options.
         """
 
-        if isinstance(primary_key, str):
-            primary_keys = [primary_key]
-        else:
-            primary_keys = primary_key
+        primary_keys = [primary_key] if isinstance(primary_key, str) else primary_key
 
         # Set distkey and sortkey to argument or primary key. These keys will be used
         # for the staging table and, if it does not already exist, the destination table.
@@ -1037,7 +1032,7 @@ class Redshift(
         noise = f"{random.randrange(0, 10000):04}"[:4]
         date_stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
         # Generate a temp table like "table_tmp_20200210_1230_14212"
-        staging_tbl = "{}_stg_{}_{}".format(target_table, date_stamp, noise)
+        staging_tbl = f"{target_table}_stg_{date_stamp}_{noise}"
 
         if distinct_check:
             primary_keys_statement = ", ".join(primary_keys)

@@ -5,7 +5,7 @@ from parsons.capitol_canary import CapitolCanary
 logger = logging.getLogger(__name__)
 
 
-class Phone2Action(object):
+class Phone2Action:
     """
     Instantiate Phone2Action Class
 

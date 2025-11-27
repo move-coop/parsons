@@ -2,7 +2,6 @@
 import io
 import logging
 import mimetypes
-import os
 from abc import ABC, abstractmethod
 from email.encoders import encode_base64
 from email.mime.application import MIMEApplication
@@ -12,6 +11,7 @@ from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import parseaddr
+from pathlib import Path
 
 from validate_email import validate_email
 
@@ -148,10 +148,8 @@ class SendMail(ABC):
             elif isinstance(f, io.BytesIO):
                 file_bytes = f.getvalue()
             else:
-                filename = os.path.basename(f)
-                fp = open(f, "rb")
-                file_bytes = fp.read()
-                fp.close()
+                filename = Path(f).name
+                file_bytes = Path(f).read_bytes()
 
             content_type, encoding = mimetypes.guess_type(filename)
             self.log.debug(f"(File: {f}, Content-type: {content_type}, Encoding: {encoding})")
@@ -193,10 +191,7 @@ class SendMail(ABC):
         self.log.debug(f"Validating email {str}...")
         realname, email_addr = parseaddr(str)
 
-        if not email_addr:
-            raise ValueError("Invalid email address.")
-
-        if not validate_email(email_addr):
+        if not email_addr or not validate_email(email_addr):
             raise ValueError("Invalid email address.")
 
         return True

@@ -25,12 +25,8 @@ class TestQuickBooksTime(unittest.TestCase):
         pass
 
     @requests_mock.Mocker()
-    def test_qb_get_request(self, mock_request, end_point=None):
+    def test_qb_get_request(self, mock_request, end_point="groups"):  # noqa PT028
         # Arrange
-
-        # If no end_point is passed, it will default to the groups endpoint
-        if end_point is None:
-            end_point = "groups"
 
         querystring = {"page": 1}
         mock_request.get(requests_mock.ANY, json=mock_groups_data)
@@ -39,13 +35,11 @@ class TestQuickBooksTime(unittest.TestCase):
         result = self.qb.qb_get_request(end_point=end_point, querystring=querystring)
 
         # Assert
-        self.assertIsInstance(result, Table)
-        self.assertIsInstance(end_point, str)
-        self.assertIsInstance(querystring, dict)
-        self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], list(mock_groups_data["results"]["groups"].values())[0]["id"]
-        )
+        assert isinstance(result, Table)
+        assert isinstance(end_point, str)
+        assert isinstance(querystring, dict)
+        assert len(result) > 0
+        assert result[0]["id"] == list(mock_groups_data["results"]["groups"].values())[0]["id"]
 
     @requests_mock.Mocker()
     def test_get_groups(self, mock_request):
@@ -56,11 +50,9 @@ class TestQuickBooksTime(unittest.TestCase):
         result = self.qb.get_groups()
 
         # Assert
-        self.assertIsInstance(result, Table)
-        self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], list(mock_groups_data["results"]["groups"].values())[0]["id"]
-        )
+        assert isinstance(result, Table)
+        assert len(result) > 0
+        assert result[0]["id"] == list(mock_groups_data["results"]["groups"].values())[0]["id"]
 
     @requests_mock.Mocker()
     def test_get_jobcodes(self, mock_request):
@@ -71,11 +63,9 @@ class TestQuickBooksTime(unittest.TestCase):
         result = self.qb.get_jobcodes()
 
         # Assert
-        self.assertIsInstance(result, Table)
-        self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], list(mock_jobcodes_data["results"]["jobcodes"].values())[0]["id"]
-        )
+        assert isinstance(result, Table)
+        assert len(result) > 0
+        assert result[0]["id"] == list(mock_jobcodes_data["results"]["jobcodes"].values())[0]["id"]
 
     @requests_mock.Mocker()
     def test_get_timesheets(self, mock_request):
@@ -86,10 +76,10 @@ class TestQuickBooksTime(unittest.TestCase):
         result = self.qb.get_timesheets()
 
         # Assert
-        self.assertIsInstance(result, Table)
-        self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], list(mock_timesheets_data["results"]["timesheets"].values())[0]["id"]
+        assert isinstance(result, Table)
+        assert len(result) > 0
+        assert (
+            result[0]["id"] == list(mock_timesheets_data["results"]["timesheets"].values())[0]["id"]
         )
 
     @requests_mock.Mocker()
@@ -101,11 +91,9 @@ class TestQuickBooksTime(unittest.TestCase):
         result = self.qb.get_users()
 
         # Assert
-        self.assertIsInstance(result, Table)
-        self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], list(mock_users_data["results"]["users"].values())[0]["id"]
-        )
+        assert isinstance(result, Table)
+        assert len(result) > 0
+        assert result[0]["id"] == list(mock_users_data["results"]["users"].values())[0]["id"]
 
     @requests_mock.Mocker()
     def test_get_schedule_calendars_list(self, mock_request):
@@ -116,10 +104,10 @@ class TestQuickBooksTime(unittest.TestCase):
         result = self.qb.get_schedule_calendars_list()
 
         # Assert
-        self.assertIsInstance(result, list)
-        self.assertGreater(len(result), 0)
+        assert isinstance(result, list)
+        assert len(result) > 0
         # assert that the result is a list of ints
-        self.assertIsInstance(result[0], int)
+        assert isinstance(result[0], int)
 
     @requests_mock.Mocker()
     def test_get_schedule_events(self, mock_request):
@@ -130,11 +118,11 @@ class TestQuickBooksTime(unittest.TestCase):
         result = self.qb.get_schedule_events()
 
         # Assert
-        self.assertIsInstance(result, Table)
-        self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"],
-            list(mock_schedule_events_data["results"]["schedule_events"].values())[0]["id"],
+        assert isinstance(result, Table)
+        assert len(result) > 0
+        assert (
+            result[0]["id"]
+            == list(mock_schedule_events_data["results"]["schedule_events"].values())[0]["id"]
         )
 
     @requests_mock.Mocker()
@@ -169,11 +157,9 @@ class TestQuickBooksTime(unittest.TestCase):
         )
 
         # Assert
-        self.assertIsInstance(result, Table)
-        self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], list(mock_jobcodes_data["results"]["jobcodes"].values())[0]["id"]
-        )
+        assert isinstance(result, Table)
+        assert len(result) > 0
+        assert result[0]["id"] == list(mock_jobcodes_data["results"]["jobcodes"].values())[0]["id"]
 
     @requests_mock.Mocker()
     def test_get_users_with_params(self, mock_request):
@@ -215,11 +201,9 @@ class TestQuickBooksTime(unittest.TestCase):
         )
 
         # Assert
-        self.assertIsInstance(result, Table)
-        self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], list(mock_users_data["results"]["users"].values())[0]["id"]
-        )
+        assert isinstance(result, Table)
+        assert len(result) > 0
+        assert result[0]["id"] == list(mock_users_data["results"]["users"].values())[0]["id"]
 
     @requests_mock.Mocker()
     def test_get_timesheets_with_params(self, mock_request):
@@ -259,10 +243,10 @@ class TestQuickBooksTime(unittest.TestCase):
         )
 
         # Assert
-        self.assertIsInstance(result, Table)
-        self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"], list(mock_timesheets_data["results"]["timesheets"].values())[0]["id"]
+        assert isinstance(result, Table)
+        assert len(result) > 0
+        assert (
+            result[0]["id"] == list(mock_timesheets_data["results"]["timesheets"].values())[0]["id"]
         )
 
     @requests_mock.Mocker()
@@ -303,11 +287,11 @@ class TestQuickBooksTime(unittest.TestCase):
         )
 
         # Assert
-        self.assertIsInstance(result, Table)
-        self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"],
-            list(mock_schedule_events_data["results"]["schedule_events"].values())[0]["id"],
+        assert isinstance(result, Table)
+        assert len(result) > 0
+        assert (
+            result[0]["id"]
+            == list(mock_schedule_events_data["results"]["schedule_events"].values())[0]["id"]
         )
 
     @requests_mock.Mocker()
@@ -319,9 +303,9 @@ class TestQuickBooksTime(unittest.TestCase):
         result = self.qb.get_geolocations()
 
         # Assert
-        self.assertIsInstance(result, Table)
-        self.assertGreater(len(result), 0)
-        self.assertEqual(
-            result[0]["id"],
-            list(mock_geolocations_data["results"]["geolocations"].values())[0]["id"],
+        assert isinstance(result, Table)
+        assert len(result) > 0
+        assert (
+            result[0]["id"]
+            == list(mock_geolocations_data["results"]["geolocations"].values())[0]["id"]
         )

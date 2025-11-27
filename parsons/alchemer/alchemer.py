@@ -23,7 +23,7 @@ def sg_compatibility():
         os.environ["ALCHEMER_API_VERSION"] = os.getenv("SURVEYGIZMO_API_VERSION")
 
 
-class Alchemer(object):
+class Alchemer:
     """
     Instantiate Alchemer Class
 

@@ -1,3 +1,47 @@
+[build-system]
+requires = [ "setuptools" ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "parsons"
+version = "5.2.0"
+description = "A python library of connectors for the progressive community."
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.9"
+license-files = [ "LICENSE.md" ]
+authors = [
+    { name = "The Movement Cooperative", email = "info@movementcooperative.org" },
+]
+maintainers = [
+    { name = "Shauna Gordon-McKeon" },
+]
+keywords = [ "PROGRESSIVE", "API", "ETL" ]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dynamic = [
+    "dependencies",
+    "optional-dependencies",
+]
+
+[project.urls]
+homepage = "https://www.parsonsproject.org/"
+documentation = "https://move-coop.github.io/parsons/html/stable/index.html"
+releasenotes = "https://github.com/move-coop/parsons/releases"
+funding = "https://secure.actblue.com/donate/parsonsproject?refcode=parsonswebsite"
+issues = "https://github.com/move-coop/parsons/issues"
+github = "https://github.com/move-coop/parsons"
+repository = "https://github.com/move-coop/parsons.git"
+
+[tool.setuptools]
+packages = ["parsons"]
+
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 include = [
@@ -50,16 +94,28 @@ select = [
     "W", # pycodestyle warnings (W)
     "C4", # flake8-comprehensions (C4)
     "F", # Pyflakes (F)
+    "UP", # pyupgrade (UP)
     "I", # isort (I)
     "TID", # flake8-tidy-imports (TID)
     "ICN", # flake8-import-conventions (ICN)
     "Q", # flake8-quotes (Q)
     "TC", # flake8-type-checking (TC)
     "YTT", # flake8-2020 (YTT)
+    "SIM", # flake8-simplify (SIM)
+    "PTH", # flake8-use-pathlib (PTH)
     "ISC", # flake8-implicit-str-concat (ISC)
+    "PT", # flake8-pytest-style (PT)
 ]
 ignore = [
     "E501", # line-too-long (E501)
+    # Pathlib stuff that isn't autofixable
+    "PTH116", # os-stat (PTH116)
+    "PTH118", # os-path-join (PTH118)
+    "PTH122", # os-path-splitext (PTH122)
+    "PTH124", # py-path (PTH124)
+    "PTH206", # os-sep-split (PTH206)
+    "PTH207", # glob (PTH207)
+    "PTH208", # os-listdir (PTH208)
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
@@ -94,7 +150,7 @@ docstring-code-format = false
 docstring-code-line-length = "dynamic"
 
 [tool.pytest.ini_options]
-addopts = "-rf --cov=parsons -n auto"
+addopts = "-rf --cov=parsons --no-cov-on-fail -n auto"
 testpaths = [
     "test",
 ]
@@ -105,12 +161,6 @@ filterwarnings = [
     "ignore:Use ProtectionLevel enum instead:DeprecationWarning", # braintree throws these
     "ignore:Use protection_level parameter instead:DeprecationWarning", # braintree throws these
     "ignore:Argument login_or_token is deprecated:DeprecationWarning",
-]
-
-[tool.bandit]
-exclude_dirs = [
-    ".venv/",
-    "test"
 ]
 
 [tool.isort]

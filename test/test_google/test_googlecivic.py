@@ -1,5 +1,6 @@
 import unittest
 
+import pytest
 import requests_mock
 from googlecivic_responses import (
     elections_resp,
@@ -59,27 +60,27 @@ class TestGoogleCivic(unittest.TestCase):
         address = "1600 Amphitheatre Parkway, Mountain View, CA"  # replace with a valid address
         response = self.gc.get_representative_info_by_address(address)
 
-        self.assertIsInstance(response, dict)
-        self.assertIn("offices", response)
-        self.assertIn("officials", response)
-        self.assertIn("divisions", response)
+        assert isinstance(response, dict)
+        assert "offices" in response
+        assert "officials" in response
+        assert "divisions" in response
 
     @requests_mock.Mocker()
     def test_get_representative_info_by_address_invalid_input(self, m):
         m.get(self.gc.uri + "representatives", json=representatives_resp)
 
-        with self.assertRaises(ValueError):
-            self.gc.get_representative_info_by_address(123)  # Invalid address
+        with pytest.raises(ValueError, match="address must be a string"):
+            self.gc.get_representative_info_by_address(123)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError, match="levels must be a list of strings"):
             self.gc.get_representative_info_by_address(
                 "1600 Amphitheatre Parkway, Mountain View, CA", levels="country"
-            )  # levels should be a list
+            )
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError, match="roles must be a list of strings"):
             self.gc.get_representative_info_by_address(
                 "1600 Amphitheatre Parkway, Mountain View, CA", roles="headOfGovernment"
-            )  # roles should be a list
+            )
 
     @requests_mock.Mocker()
     def test_get_representative_info_by_address_different_params(self, m):
@@ -93,7 +94,7 @@ class TestGoogleCivic(unittest.TestCase):
             roles=["headOfGovernment"],
         )
 
-        self.assertIsInstance(response, dict)
-        self.assertIn("offices", response)
-        self.assertIn("officials", response)
-        self.assertIn("divisions", response)
+        assert isinstance(response, dict)
+        assert "offices" in response
+        assert "officials" in response
+        assert "divisions" in response

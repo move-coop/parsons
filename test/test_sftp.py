@@ -133,10 +133,10 @@ def live_sftp_with_mocked_get(simple_csv_path, simple_compressed_csv_path):  # n
 
 
 def test_credential_validation():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Missing the SFTP host name"):
         SFTP(host=None, username=None, password=None)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Missing the SFTP host name"):
         SFTP(host=None, username="sam", password="abc123")
 
 
@@ -297,7 +297,7 @@ def test_get_files_calls_get_to_write_to_provided_local_paths(
 
 
 @mark_live_test
-@pytest.mark.parametrize("kwargs,expected", args_and_expected["get_files"])
+@pytest.mark.parametrize(("kwargs", "expected"), args_and_expected["get_files"])
 def test_get_files_calls_get_to_write_temp_files(kwargs, expected, live_sftp_with_mocked_get):
     live_sftp, get = live_sftp_with_mocked_get
     live_sftp.get_files(**kwargs)
@@ -308,7 +308,7 @@ def test_get_files_calls_get_to_write_temp_files(kwargs, expected, live_sftp_wit
 
 @mark_live_test
 def test_get_files_raises_error_when_no_file_source_is_provided(live_sftp):
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError):  # noqa: PT011
         live_sftp.get_files()
 
 
@@ -320,7 +320,7 @@ def test_get_files_with_files_paths_mismatch(get_file, live_sftp):
 
 
 @mark_live_test
-@pytest.mark.parametrize("args,kwargs,expected", args_and_expected["walk_tree"])
+@pytest.mark.parametrize(("args", "kwargs", "expected"), args_and_expected["walk_tree"])
 def test_walk_tree(args, kwargs, expected, live_sftp_with_mocked_get):
     live_sftp, get = live_sftp_with_mocked_get
     results = live_sftp.walk_tree(*args, **kwargs)

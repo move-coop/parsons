@@ -11,7 +11,7 @@ from parsons.utilities import cloud_storage
 logger = logging.getLogger(__name__)
 
 
-class Scores(object):
+class Scores:
     def __init__(self, van_connection):
         self.connection = van_connection
 
@@ -103,15 +103,11 @@ class Scores(object):
 
         if status not in ["pending approval", "approved", "disapproved", "canceled"]:
             raise ValueError(
-                """Valid inputs for status are, 'pending approval',
-                             'approved','disapproved','canceled'"""
+                """Valid inputs for status are, 'pending approval','approved','disapproved','canceled'"""
             )
 
         else:
-            if status == "pending approval":
-                status = "PendingApproval"
-            else:
-                status = status.capitalize()
+            status = "PendingApproval" if status == "pending approval" else status.capitalize()
 
         json = {"loadStatus": status}
 
@@ -228,7 +224,7 @@ class Scores(object):
         return r["jobId"]
 
 
-class FileLoadingJobs(object):
+class FileLoadingJobs:
     def __init__(self, van_connection):
         self.connection = van_connection
 

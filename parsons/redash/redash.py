@@ -18,7 +18,7 @@ class RedashQueryFailed(Exception):
     pass
 
 
-class Redash(object):
+class Redash:
     """
     Instantiate Redash Class
 
@@ -67,7 +67,7 @@ class Redash(object):
             response_json = response.json()
             job = response_json.get(
                 "job",
-                {"status": "Error NO JOB IN RESPONSE: {}".format(json.dumps(response_json))},
+                {"status": f"Error NO JOB IN RESPONSE: {json.dumps(response_json)}"},
             )
             logger.debug(
                 "poll url:%s id:%s status:%s err:%s",
@@ -162,7 +162,7 @@ class Redash(object):
         query_id = check("REDASH_QUERY_ID", query_id, optional=True)
         params_from_env = check("REDASH_QUERY_PARAMS", "", optional=True)
         redash_params = (
-            {"p_%s" % k: str(v).replace("'", "''") for k, v in params.items()} if params else {}
+            {f"p_{k}": str(v).replace("'", "''") for k, v in params.items()} if params else {}
         )
 
         response = self.session.post(

@@ -42,7 +42,7 @@ class Freshdesk:
         data = r.json()
 
         # Paginate
-        while "link" in r.headers.keys():
+        while "link" in r.headers:
             logger.info(f"Retrieving another page of {PAGE_SIZE} records.")
             url = re.search("<(.*)>", r.headers["link"]).group(1)
             r = self.client.request(url, "GET", params=params)

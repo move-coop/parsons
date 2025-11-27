@@ -22,13 +22,13 @@ class TestCensusGeocoder(unittest.TestCase):
         self.cg.cg.onelineaddress = mock.MagicMock(return_value=geographies_resp)
         geo = self.cg.geocode_onelineaddress(address, return_type="geographies")
         self.cg.cg.onelineaddress.assert_called_with(address, returntype="geographies")
-        self.assertEqual(geo, geographies_resp)
+        assert geo == geographies_resp
 
         # Assert one line with locations parameter returns expected
         self.cg.cg.onelineaddress = mock.MagicMock(return_value=locations_resp)
         geo = self.cg.geocode_onelineaddress(address, return_type="locations")
         self.cg.cg.onelineaddress.assert_called_with(address, returntype="locations")
-        self.assertEqual(geo, locations_resp)
+        assert geo == locations_resp
 
     def test_geocode_address(self):
         self.cg.cg = mock.MagicMock()
@@ -41,12 +41,12 @@ class TestCensusGeocoder(unittest.TestCase):
         # Assert one line with geographies parameter returns expected
         self.cg.cg.address = mock.MagicMock(return_value=geographies_resp)
         geo = self.cg.geocode_address(**passed_address, return_type="geographies")
-        self.assertEqual(geo, geographies_resp)
+        assert geo == geographies_resp
 
         # Assert one line with locations parameter returns expected
         self.cg.cg.address = mock.MagicMock(return_value=locations_resp)
         geo = self.cg.geocode_address(**passed_address, return_type="locations")
-        self.assertEqual(geo, locations_resp)
+        assert geo == locations_resp
 
     def test_geocode_address_batch(self):
         batch = [
@@ -68,4 +68,4 @@ class TestCensusGeocoder(unittest.TestCase):
         # Assert coordinates data returns expected response.
         self.cg.cg.address = mock.MagicMock(return_value=coord_resp)
         geo = self.cg.get_coordinates_data("38.8884212", "-77.0441907")
-        self.assertEqual(geo, coord_resp)
+        assert geo == coord_resp

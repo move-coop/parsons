@@ -5,14 +5,15 @@ import pickle
 import random
 import uuid
 from contextlib import contextmanager
-from typing import List, Optional, Union
+from pathlib import Path
+from typing import Optional, Union
 
 import google
 import petl
 from google.api_core import exceptions
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi, job
-from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig
+from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig, QueryJobConfig
 from google.oauth2.credentials import Credentials
 
 from parsons.databases.database_connector import DatabaseConnector
@@ -249,6 +250,7 @@ class GoogleBigQuery(DatabaseConnector):
         sql: str,
         parameters: Optional[Union[list, dict]] = None,
         return_values: bool = True,
+        job_config: Optional[QueryJobConfig] = None,
     ) -> Optional[Table]:
         """
         Run a BigQuery query and return the results as a Parsons table.
@@ -277,6 +279,8 @@ class GoogleBigQuery(DatabaseConnector):
                 A valid BigTable statement
             parameters: dict
                 A dictionary of query parameters for BigQuery.
+            job_config: QueryJobConfig or None
+                An optional QueryJobConfig object for custom behavior. See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         `Returns:`
             Parsons Table
@@ -285,11 +289,21 @@ class GoogleBigQuery(DatabaseConnector):
 
         with self.connection() as connection:
             return self.query_with_connection(
-                sql, connection, parameters=parameters, return_values=return_values
+                sql,
+                connection,
+                parameters=parameters,
+                return_values=return_values,
+                job_config=job_config,
             )
 
     def query_with_connection(
-        self, sql, connection, parameters=None, commit=True, return_values: bool = True
+        self,
+        sql,
+        connection,
+        parameters=None,
+        commit=True,
+        return_values: bool = True,
+        job_config: Optional[QueryJobConfig] = None,
     ):
         """
         Execute a query against the BigQuery database, with an existing connection.
@@ -305,6 +319,8 @@ class GoogleBigQuery(DatabaseConnector):
                 A list of python variables to be converted into SQL values in your query
             commit: boolean
                 Must be true. BigQuery
+            job_config: QueryJobConfig or None
+                An optional QueryJobConfig object for custom behavior. See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         `Returns:`
             Parsons Table
@@ -325,7 +341,7 @@ class GoogleBigQuery(DatabaseConnector):
         # get our connection and cursor
         with self.cursor(connection) as cursor:
             # Run the query
-            cursor.execute(sql, parameters)
+            cursor.execute(sql, parameters, job_config=job_config)
 
             if not return_values:
                 return None
@@ -382,13 +398,14 @@ class GoogleBigQuery(DatabaseConnector):
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
-        schema: Optional[List[dict]] = None,
+        schema: Optional[list[dict]] = None,
         job_config: Optional[LoadJobConfig] = None,
         force_unzip_blobs: bool = False,
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
         template_table: Optional[str] = None,
         max_timeout: int = 21600,
+        source_column_match: Optional[str] = None,
         **load_kwargs,
     ):
         """
@@ -455,7 +472,19 @@ class GoogleBigQuery(DatabaseConnector):
                 Other arguments to pass to the underlying load_table_from_uri
                 call on the BigQuery client.
         """
-        self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
+        self._validate_copy_inputs(
+            if_exists=if_exists,
+            data_type=data_type,
+            accepted_data_types=[
+                "csv",
+                "json",
+                "parquet",
+                "datastore_backup",
+                "newline_delimited_json",
+                "avro",
+                "orc",
+            ],
+        )
 
         job_config = self._process_job_config(
             job_config=job_config,
@@ -471,6 +500,7 @@ class GoogleBigQuery(DatabaseConnector):
             quote=quote,
             custom_schema=schema,
             template_table=template_table,
+            source_column_match=source_column_match,
         )
 
         # load CSV from Cloud Storage into BigQuery
@@ -551,7 +581,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
-        schema: Optional[List[dict]] = None,
+        schema: Optional[list[dict]] = None,
         job_config: Optional[LoadJobConfig] = None,
         compression_type: str = "gzip",
         new_file_extension: str = "csv",
@@ -622,7 +652,11 @@ class GoogleBigQuery(DatabaseConnector):
                 client.
         """
 
-        self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
+        self._validate_copy_inputs(
+            if_exists=if_exists,
+            data_type=data_type,
+            accepted_data_types=["csv", "newline_delimited_json"],
+        )
 
         job_config = self._process_job_config(
             job_config=job_config,
@@ -792,7 +826,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
-        schema: Optional[List[dict]] = None,
+        schema: Optional[list[dict]] = None,
         max_timeout: int = 21600,
         convert_dict_list_columns_to_json: bool = True,
         **load_kwargs,
@@ -850,7 +884,7 @@ class GoogleBigQuery(DatabaseConnector):
         )
 
         tmpfile_path = tbl.to_csv()
-        with open(tmpfile_path, mode="rb") as tmpfile:
+        with Path(tmpfile_path).open(mode="rb") as tmpfile:
             load_job = self.client.load_table_from_file(
                 tmpfile,
                 destination=self.get_table_ref(table_name=table_name),
@@ -884,7 +918,7 @@ class GoogleBigQuery(DatabaseConnector):
         allow_quoted_newlines: bool = True,
         allow_jagged_rows: bool = True,
         quote: Optional[str] = None,
-        schema: Optional[List[dict]] = None,
+        schema: Optional[list[dict]] = None,
         max_timeout: int = 21600,
         convert_dict_list_columns_to_json: bool = True,
         **load_kwargs,
@@ -1003,7 +1037,9 @@ class GoogleBigQuery(DatabaseConnector):
     ):
         data_type = "csv"
 
-        self._validate_copy_inputs(if_exists=if_exists, data_type=data_type)
+        self._validate_copy_inputs(
+            if_exists=if_exists, data_type=data_type, accepted_data_types=["csv"]
+        )
 
         # If our source table is loaded from CSV with no transformations
         # The original source file will be directly loaded to GCS
@@ -1125,10 +1161,7 @@ class GoogleBigQuery(DatabaseConnector):
             self.copy(table_obj, target_table)
             return None
 
-        if isinstance(primary_key, str):
-            primary_keys = [primary_key]
-        else:
-            primary_keys = primary_key
+        primary_keys = [primary_key] if isinstance(primary_key, str) else primary_key
 
         if distinct_check:
             primary_keys_statement = ", ".join(primary_keys)
@@ -1368,7 +1401,7 @@ class GoogleBigQuery(DatabaseConnector):
         parsons_table: Optional[Table] = None,
         custom_schema: Optional[list] = None,
         template_table: Optional[str] = None,
-    ) -> Optional[List[bigquery.SchemaField]]:
+    ) -> Optional[list[bigquery.SchemaField]]:
         # if job.schema already set in job_config, do nothing
         if job_config.schema:
             return job_config.schema
@@ -1452,6 +1485,7 @@ class GoogleBigQuery(DatabaseConnector):
         custom_schema: Optional[list] = None,
         template_table: Optional[str] = None,
         parsons_table: Optional[Table] = None,
+        source_column_match: Optional[str] = None,
     ) -> LoadJobConfig:
         """
         Internal function to neatly process a user-supplied job configuration object.
@@ -1490,11 +1524,18 @@ class GoogleBigQuery(DatabaseConnector):
             job_config.skip_leading_rows = ignoreheader
 
         if not job_config.source_format:
-            job_config.source_format = (
-                bigquery.SourceFormat.CSV
-                if data_type == "csv"
-                else bigquery.SourceFormat.NEWLINE_DELIMITED_JSON
-            )
+            data_type_mappings = {
+                "csv": bigquery.SourceFormat.CSV,
+                "parquet": bigquery.SourceFormat.PARQUET,
+                "datastore_backup": bigquery.SourceFormat.DATASTORE_BACKUP,
+                "json": bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
+                "avro": bigquery.SourceFormat.AVRO,
+                "orc": bigquery.SourceFormat.ORC,
+            }
+            job_config.source_format = data_type_mappings[data_type]
+
+        if not job_config.source_column_match:
+            job_config.source_column_match = source_column_match
 
         if not job_config.field_delimiter:
             if data_type == "csv":
@@ -1533,7 +1574,7 @@ class GoogleBigQuery(DatabaseConnector):
         # the proper data types (e.g. integer).
         temp_filename = create_temp_file()
 
-        with open(temp_filename, "wb") as temp_file:
+        with Path(temp_filename).open(mode="wb") as temp_file:
             header = [i[0] for i in cursor.description]
             pickle.dump(header, temp_file)
 
@@ -1549,14 +1590,15 @@ class GoogleBigQuery(DatabaseConnector):
         ptable = petl.frompickle(temp_filename)
         return Table(ptable)
 
-    def _validate_copy_inputs(self, if_exists: str, data_type: str):
+    def _validate_copy_inputs(self, if_exists: str, data_type: str, accepted_data_types: list[str]):
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError(
                 f"Unexpected value for if_exists: {if_exists}, must be one of "
                 '"append", "drop", "truncate", or "fail"'
             )
-        if data_type not in ["csv", "json"]:
-            raise ValueError(f"Only supports csv or json files [data_type = {data_type}]")
+
+        if data_type not in accepted_data_types:
+            raise ValueError(f"Only supports {accepted_data_types} files [data_type = {data_type}]")
 
     def _load_table_from_uri(
         self, source_uris, destination, job_config, max_timeout, **load_kwargs

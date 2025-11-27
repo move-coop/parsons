@@ -1,6 +1,8 @@
 import unittest
+from pathlib import Path
 from unittest.mock import MagicMock
 
+import pytest
 import requests_mock
 
 from parsons import ActBlue, Table
@@ -32,7 +34,9 @@ class TestActBlue(unittest.TestCase):
     def setUp(self, m):
         self.ab = ActBlue(TEST_CLIENT_UUID, TEST_CLIENT_SECRET, TEST_URI)
         self.from_csv = Table.from_csv
-        test_csv_data = Table.from_csv_string(open("test/test_actblue/test_csv_data.csv").read())
+        test_csv_data = Table.from_csv_string(
+            Path("test/test_actblue/test_csv_data.csv").read_text()
+        )
         Table.from_csv = MagicMock(name="mocked from_csv", return_value=test_csv_data)
 
     def tearDown(self):
@@ -87,7 +91,7 @@ class TestActBlue(unittest.TestCase):
 
         m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError, match="CSV generation failed"):
             self.ab.get_download_url(csv_id=TEST_ID)
 
     @requests_mock.Mocker()
@@ -100,7 +104,7 @@ class TestActBlue(unittest.TestCase):
 
         m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError, match="CSV generation failed"):
             self.ab.get_download_url(csv_id=TEST_ID)
 
     @requests_mock.Mocker()

@@ -2,6 +2,7 @@ import logging
 import os
 import pickle
 from contextlib import contextmanager
+from pathlib import Path
 
 import mysql.connector as mysql
 import petl
@@ -174,7 +175,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 # all the type information for each field.)
                 temp_file = files.create_temp_file()
 
-                with open(temp_file, "wb") as f:
+                with Path(temp_file).open(mode="wb") as f:
                     # Grab the header
                     pickle.dump(cursor.column_names, f)
 
@@ -316,10 +317,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 ``True`` if the table exists and ``False`` if it does not.
         """
 
-        if self.query(f"SHOW TABLES LIKE '{table_name}'").first == table_name:
-            return True
-        else:
-            return False
+        return self.query(f"SHOW TABLES LIKE '{table_name}'").first == table_name
 
     def table(self, table_name):
         # Return a BaseTable table object

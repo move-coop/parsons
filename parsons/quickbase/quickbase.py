@@ -7,7 +7,7 @@ from parsons.utilities.api_connector import APIConnector
 logger = logging.getLogger(__name__)
 
 
-class Quickbase(object):
+class Quickbase:
     """
     Instantiate the Quickbase class
 

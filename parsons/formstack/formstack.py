@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 API_URI = "https://www.formstack.com/api/v2"
 
 
-class Formstack(object):
+class Formstack:
     """
     Instantiate Formstack class.
 

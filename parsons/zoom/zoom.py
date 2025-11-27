@@ -1,7 +1,7 @@
 import datetime
 import logging
 import uuid
-from typing import Dict, Literal, Optional
+from typing import Literal, Optional
 
 from oauthlib.oauth2.rfc6749.errors import InvalidClientError
 
@@ -58,7 +58,7 @@ class ZoomV1:
         self,
         endpoint: str,
         data_key: Optional[str],
-        params: Optional[Dict[str, str]] = None,
+        params: Optional[dict[str, str]] = None,
         **kwargs,
     ) -> Table:
         """
@@ -91,7 +91,7 @@ class ZoomV1:
             params = {}
 
         # Return a dict or table if only one item.
-        if "page_number" not in r.keys():
+        if "page_number" not in r:
             if isinstance(data, dict):
                 return data
             if isinstance(data, list):
@@ -229,7 +229,7 @@ class ZoomV1:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-        params: Dict[str, str] = {"type": meeting_type}
+        params: dict[str, str] = {"type": meeting_type}
         if from_date:
             params["from"] = from_date.isoformat()
         if to_date:
@@ -303,7 +303,7 @@ class ZoomV1:
         logger.info(f"Retrieved {tbl.num_rows} webinars.")
         return tbl
 
-    def get_past_webinar_report(self, webinar_id: str) -> Optional[Dict]:
+    def get_past_webinar_report(self, webinar_id: str) -> Optional[dict]:
         """
         Get past meeting participants
 
@@ -598,7 +598,7 @@ class ZoomV2(ZoomV1):
         self,
         endpoint: str,
         data_key: Optional[str],
-        params: Optional[Dict[str, str]] = None,
+        params: Optional[dict[str, str]] = None,
         **kwargs,
     ) -> Table:
         """
@@ -676,6 +676,22 @@ class ZoomV2(ZoomV1):
         logger.info(f"Retrieved {tbl.num_rows} webinar occurrences.")
         return tbl
 
+    def get_past_webinar_occurrences(self, webinar_id: int) -> Table:
+        """
+        Get past webinar occurrences for a given webinar ID.
+
+        `Args:`
+            webinar_id: int
+                The webinar id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+        tbl = self._get_request(f"past_webinars/{webinar_id}/instances", "webinars")
+        tbl.add_column(column="webinar_id", value=webinar_id)
+        logger.info(f"Retrieved {tbl.num_rows} webinar occurrences.")
+        return tbl
+
     def get_user_webinars(self, user_id: str) -> AttributeError:
         return AttributeError(
             "Method get_user_webinars has been deprecated in favor of get_webinars"
@@ -711,6 +727,22 @@ class ZoomV2(ZoomV1):
 
         tbl = self._get_request(f"past_webinars/{webinar_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} participants.")
+        return tbl
+
+    def get_past_meeting_occurrences(self, meeting_id: int) -> Table:
+        """
+        Get past meeting occurrences for a given meeting ID.
+
+        `Args:`
+            meeting_id: int
+                The meeting id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+        tbl = self._get_request(f"past_meetings/{meeting_id}/instances", "meetings")
+        tbl.add_column(column="meeting_id", value=meeting_id)
+        logger.info(f"Retrieved {tbl.num_rows} webinar occurrences.")
         return tbl
 
     def get_meeting_poll(self, meeting_id: int, poll_id: str) -> Table:
@@ -914,7 +946,7 @@ class Zoom:
         account_id: Optional[str] = None,
         client_id: Optional[str] = None,
         client_secret: Optional[str] = None,
-        parsons_version: str = "v1",
+        parsons_version: Optional[str] = None,
     ) -> ZoomV1:
         """
         Create and return Zoom instance base on chosen version (1 or 2)
@@ -933,8 +965,9 @@ class Zoom:
                 variable set.
             parsons_version (str, optional): Parsons version of the Zoom connector. Defaults to v1.
         """
-        parsons_version = check_env.check("ZOOM_PARSONS_VERSION", parsons_version)
-        if parsons_version == "v1":
+        if not parsons_version:
+            parsons_version = check_env.check("ZOOM_PARSONS_VERSION", None, optional=True)
+        if not parsons_version or parsons_version == "v1":
             logger.info("Consider upgrading to version 2 of the Zoom connector!")
             logger.info(
                 "See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html"

@@ -3319,6 +3319,192 @@ class TestActionNetwork(unittest.TestCase):
                 ],
             },
         }
+        self.fake_survey_id_1 = "action_network:fake_survey_id_1"
+        self.fake_survey_id_2 = "action_network:fake_survey_id_2"
+        self.fake_surveys = {
+            "total_pages": 1,
+            "per_page": 25,
+            "page": 1,
+            "total_records": 2,
+            "_links": {
+                "next": {"href": f"{self.api_url}/surveys?page=2"},
+                "action_network:surveys": [
+                    {"href": f"{self.api_url}/surveys/{self.fake_survey_id_1}"},
+                    {"href": f"{self.api_url}/surveys/{self.fake_survey_id_2}"},
+                ],
+                "curies": [
+                    {"name": "osdi", "templated": True},
+                    {"name": "action_network", "templated": True},
+                ],
+                "self": {"href": f"{self.api_url}/surveys"},
+            },
+            "_embedded": {
+                "action_network:surveys": [
+                    {
+                        "identifiers": [self.fake_survey_id_1],
+                        "origin_system": "Action Network",
+                        "created_date": self.fake_datetime,
+                        "modified_date": self.fake_datetime,
+                        "title": "Test Survey 1",
+                        "description": "<p>This is a test survey.</p>",
+                        "call_to_action": "Take Survey",
+                        "browser_url": "https://actionnetwork.org/surveys/test-survey-1",
+                        "featured_image_url": "https://actionnetwork.org/images/test-survey-1.jpg",
+                        "total_responses": 5,
+                        "action_network:hidden": False,
+                        "_links": {
+                            "self": {"href": f"{self.api_url}/surveys/{self.fake_survey_id_1}"},
+                            "action_network:responses": {
+                                "href": f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses"
+                            },
+                        },
+                    },
+                    {
+                        "identifiers": [self.fake_survey_id_2],
+                        "origin_system": "External System",
+                        "created_date": self.fake_datetime,
+                        "modified_date": self.fake_datetime,
+                        "title": "Test Survey 2",
+                        "description": "<p>Another test survey.</p>",
+                        "total_responses": 10,
+                        "action_network:hidden": False,
+                        "_links": {
+                            "self": {"href": f"{self.api_url}/surveys/{self.fake_survey_id_2}"},
+                            "action_network:responses": {
+                                "href": f"{self.api_url}/surveys/{self.fake_survey_id_2}/responses"
+                            },
+                        },
+                    },
+                ]
+            },
+        }
+        self.fake_survey = {
+            "identifiers": [self.fake_survey_id_1],
+            "origin_system": "Action Network",
+            "created_date": self.fake_datetime,
+            "modified_date": self.fake_datetime,
+            "title": "Test Survey 1",
+            "description": "<p>This is a test survey.</p>",
+            "call_to_action": "Take Survey",
+            "browser_url": "https://actionnetwork.org/surveys/test-survey-1",
+            "featured_image_url": "https://actionnetwork.org/images/test-survey-1.jpg",
+            "total_responses": 5,
+            "action_network:hidden": False,
+            "_links": {
+                "self": {"href": f"{self.api_url}/surveys/{self.fake_survey_id_1}"},
+                "action_network:responses": {
+                    "href": f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses"
+                },
+            },
+        }
+        self.fake_response_id_1 = "action_network:fake_response_id_1"
+        self.fake_response_id_2 = "action_network:fake_response_id_2"
+        self.fake_survey_responses = {
+            "total_pages": 1,
+            "per_page": 25,
+            "page": 1,
+            "total_records": 2,
+            "_links": {
+                "next": {"href": f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses?page=2"},
+                "action_network:responses": [
+                    {"href": f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses/{self.fake_response_id_1}"},
+                    {"href": f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses/{self.fake_response_id_2}"},
+                ],
+                "curies": [
+                    {"name": "osdi", "templated": True},
+                    {"name": "action_network", "templated": True},
+                ],
+                "self": {"href": f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses"},
+            },
+            "_embedded": {
+                "action_network:responses": [
+                    {
+                        "identifiers": [self.fake_response_id_1],
+                        "origin_system": "Action Network",
+                        "created_date": self.fake_datetime,
+                        "modified_date": self.fake_datetime,
+                        "custom_fields": {
+                            "question_1": "Test answer 1",
+                            "question_2": "Test answer 2"
+                        },
+                        "_embedded": {
+                            "osdi:person": {
+                                "given_name": "Test",
+                                "family_name": "Responder",
+                                "email_addresses": [
+                                    {
+                                        "primary": True,
+                                        "address": "test@example.com",
+                                        "status": "subscribed"
+                                    }
+                                ],
+                                "identifiers": [self.fake_person_id_1]
+                            }
+                        },
+                        "_links": {
+                            "self": {"href": f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses/{self.fake_response_id_1}"},
+                            "osdi:person": {"href": f"{self.api_url}/people/{self.fake_person_id_1}"},
+                        },
+                    },
+                    {
+                        "identifiers": [self.fake_response_id_2],
+                        "origin_system": "Action Network",
+                        "created_date": self.fake_datetime,
+                        "modified_date": self.fake_datetime,
+                        "custom_fields": {
+                            "question_1": "Another test answer",
+                            "question_2": "Another answer"
+                        },
+                        "_embedded": {
+                            "osdi:person": {
+                                "given_name": "Another",
+                                "family_name": "Responder",
+                                "email_addresses": [
+                                    {
+                                        "primary": True,
+                                        "address": "another@example.com",
+                                        "status": "subscribed"
+                                    }
+                                ],
+                                "identifiers": [self.fake_person_id_2]
+                            }
+                        },
+                        "_links": {
+                            "self": {"href": f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses/{self.fake_response_id_2}"},
+                            "osdi:person": {"href": f"{self.api_url}/people/{self.fake_person_id_2}"},
+                        },
+                    },
+                ]
+            },
+        }
+        self.fake_survey_response = {
+            "identifiers": [self.fake_response_id_1],
+            "origin_system": "Action Network",
+            "created_date": self.fake_datetime,
+            "modified_date": self.fake_datetime,
+            "custom_fields": {
+                "question_1": "Test answer 1",
+                "question_2": "Test answer 2"
+            },
+            "_embedded": {
+                "osdi:person": {
+                    "given_name": "Test",
+                    "family_name": "Responder",
+                    "email_addresses": [
+                        {
+                            "primary": True,
+                            "address": "test@example.com",
+                            "status": "subscribed"
+                        }
+                    ],
+                    "identifiers": [self.fake_person_id_1]
+                }
+            },
+            "_links": {
+                "self": {"href": f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses/{self.fake_response_id_1}"},
+                "osdi:person": {"href": f"{self.api_url}/people/{self.fake_person_id_1}"},
+            },
+        }
 
     @requests_mock.Mocker()
     def test_get_page(self, m):
@@ -4232,6 +4418,79 @@ class TestActionNetwork(unittest.TestCase):
             self.an.update_submission("123", "123", {"identifiers": ["other-system:230125s"]}),
             self.fake_submission,
         )
+
+    # Surveys
+    @requests_mock.Mocker()
+    def test_get_surveys(self, m):
+        m.get(
+            f"{self.api_url}/surveys?page=1&per_page=25",
+            text=json.dumps(self.fake_surveys),
+        )
+        m.get(
+            f"{self.api_url}/surveys?page=2&per_page=25",
+            text=json.dumps({"_embedded": {"action_network:surveys": []}}),
+        )
+        assert_matching_tables(
+            self.an.get_surveys(),
+            Table(self.fake_surveys["_embedded"]["action_network:surveys"]),
+        )
+
+    @requests_mock.Mocker()
+    def test_get_survey(self, m):
+        m.get(
+            f"{self.api_url}/surveys/{self.fake_survey_id_1}",
+            text=json.dumps(self.fake_survey),
+        )
+        assert self.an.get_survey(self.fake_survey_id_1) == self.fake_survey
+
+    @requests_mock.Mocker()
+    def test_create_survey(self, m):
+        m.post(
+            f"{self.api_url}/surveys",
+            text=json.dumps(self.fake_survey),
+        )
+        response = self.an.create_survey(
+            title="New Survey",
+            description="A new survey"
+        )
+        assert response == self.fake_survey
+
+    @requests_mock.Mocker()
+    def test_update_survey(self, m):
+        updated_survey = self.fake_survey.copy()
+        updated_survey["title"] = "Updated Survey Title"
+        m.put(
+            f"{self.api_url}/surveys/{self.fake_survey_id_1}",
+            text=json.dumps(updated_survey),
+        )
+        response = self.an.update_survey(
+            self.fake_survey_id_1,
+            title="Updated Survey Title"
+        )
+        assert response == updated_survey
+
+    @requests_mock.Mocker()
+    def test_get_survey_responses(self, m):
+        m.get(
+            f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses?page=1&per_page=25",
+            text=json.dumps(self.fake_survey_responses),
+        )
+        m.get(
+            f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses?page=2&per_page=25",
+            text=json.dumps({"_embedded": {"action_network:responses": []}}),
+        )
+        assert_matching_tables(
+            self.an.get_survey_responses(self.fake_survey_id_1),
+            Table(self.fake_survey_responses["_embedded"]["action_network:responses"]),
+        )
+
+    @requests_mock.Mocker()
+    def test_get_survey_response(self, m):
+        m.get(
+            f"{self.api_url}/surveys/{self.fake_survey_id_1}/responses/{self.fake_response_id_1}",
+            text=json.dumps(self.fake_survey_response),
+        )
+        assert self.an.get_survey_response(self.fake_survey_id_1, self.fake_response_id_1) == self.fake_survey_response
 
     # Tags
     @requests_mock.Mocker()

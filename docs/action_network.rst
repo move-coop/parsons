@@ -99,6 +99,13 @@ You can then call various endpoints:
 
 	# Get a specific wrapper
 	specific_wrapper = an.get_wrapper('wrapper_id')
+
+	# Create a survey
+	survey_payload = {
+		"title": "My Free Survey",
+		"origin_system": "FreeSurveys.com"
+	}
+	created_survey = an.create_survey(survey_payload)
 	
 ***********
 SQL Mirror

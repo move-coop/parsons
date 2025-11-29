@@ -1746,6 +1746,90 @@ class ActionNetwork(object):
             f"forms/{form_id}/submissions/{submission_id}", data=json.dumps(data)
         )
 
+    # Surveys
+    def get_surveys(self, limit=None, per_page=25, page=None, filter=None):
+        """
+        Survey resources are sometimes presented as collections of surveys.
+        For example, calling the surveys endpoint will return a collection
+        of all the surveys associated with your API key.
+        `Args:`
+            limit:
+                The number of entries to return. When None, returns all entries.
+            per_page:
+                The number of entries per page to return. 25 maximum.
+        `Returns:`
+        """
+        if page:
+            return self._get_page("surveys", page, per_page, filter)
+        return self._get_entry_list("surveys", limit, per_page, filter)
+
+    def get_survey(self, survey_id):
+        """
+        `Args:`
+            survey_id:
+                The unique id of the survey
+        `Returns:`
+            A JSON with the survey entry
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/surveys
+        """
+        return self.api.get_request(f"surveys/{survey_id}")
+
+    def create_survey(self, data):
+        """
+        `Args:`
+            data:
+                The payload for creating the survey
+                {
+                    "title": "My Free Survey",
+                    "origin_system": "FreeSurveys.com"
+                }
+        `Returns:`
+            A JSON with the created survey entry
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/surveys
+        """
+        return self.api.post_request("surveys", data=json.dumps(data))
+
+    def create_survey_with_creator(self, data):
+        """
+        `Args:`
+            data:
+                The payload for creating the survey with a creator link
+                {
+                    "title": "My Free Survey",
+                    "origin_system": "FreeSurveys.com"
+                        "_links" : {
+                            "osdi:creator" : {
+                            "href" : "https://actionnetwork.org/api/v2/people/[person_id]"
+                            }
+                    }
+                }
+        `Returns:`
+            A JSON with the created survey entry
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/surveys
+        """
+        return self.api.post_request("surveys", data=json.dumps(data))
+
+    def update_survey(self, survey_id, data):
+        """
+        `Args:`
+            survey_id:
+                The unique id of the survey
+            data:
+                The payload for updating the survey
+                {
+                    "title": "My Free Survey",
+                    "origin_system": "FreeSurveys.com",
+                }
+        `Returns:`
+            A JSON with the updated survey entry
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/surveys
+        """
+        return self.api.post_request(f"surveys/{survey_id}", data=json.dumps(data))
+
     # Tags
     def get_tags(self, limit=None, per_page=None):
         """

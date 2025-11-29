@@ -13,8 +13,9 @@ class BaseTable:
     Base Table class object.
     """
 
-    def __init__(self, database_connection, table_name):
+    sql_placeholder: str = "%s"
 
+    def __init__(self, database_connection, table_name):
         self.table = table_name
         self.db = database_connection
         self._columns = None
@@ -52,10 +53,7 @@ class BaseTable:
                FROM {self.table}
                """
 
-        if self.db.query(sql).first > 0:
-            return False
-        else:
-            return True
+        return not self.db.query(sql).first > 0
 
     @property
     def columns(self):
@@ -90,7 +88,8 @@ class BaseTable:
         if chunk_size:
             sql += f" LIMIT {chunk_size}"
 
-        sql += f" OFFSET {offset}"
+        if offset:
+            sql += f" OFFSET {offset}"
 
         return self.db.query(sql)
 
@@ -109,7 +108,7 @@ class BaseTable:
 
         if start_value:
             sql += f"""
-                    WHERE {primary_key_col} > %s
+                    WHERE {primary_key_col} > {self.sql_placeholder}
                     """
             params = [start_value]
 
@@ -124,7 +123,7 @@ class BaseTable:
         """
 
         if cutoff_value is not None:
-            where_clause = f"WHERE {primary_key} > %s"
+            where_clause = f"WHERE {primary_key} > {self.sql_placeholder}"
             parameters = [cutoff_value]
         else:
             where_clause = ""

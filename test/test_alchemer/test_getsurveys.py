@@ -1,8 +1,9 @@
+import logging
 import os
 import unittest
 import unittest.mock as mock
+
 from parsons import Alchemer
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -25,9 +26,9 @@ class TestAlchemErGetSurveys(unittest.TestCase):
 
         actual_surveys = self.alchemer.get_surveys()
 
-        self.assertEqual(2, actual_surveys.num_rows)
+        assert actual_surveys.num_rows == 2
         for i in range(0, 1):
-            self.assertEqual(api_return["data"][i]["title"], actual_surveys[i]["title"])
+            assert api_return["data"][i]["title"] == actual_surveys[i]["title"]
 
     def test_removes_links_field(self):
         api_return = self._get_surveys_return_single_page()

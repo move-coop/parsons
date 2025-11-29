@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 URI = "https://app.periscopedata.com/api/v1/"
 
 
-class Sisense(object):
+class Sisense:
     """
     Instantiate the Sisense class.
 
@@ -37,7 +37,7 @@ class Sisense(object):
     def publish_shared_dashboard(self, dashboard_id, chart_id=None, **kwargs):
         """
         This method publishes a dashboard or chart using the provided arguments.
-        For available options, see the `API documentation <https://dtdocs.sisense.com/article/embed-api-options>`_. # noqa
+        For available options, see the `API documentation <https://dtdocs.sisense.com/article/embed-api-options>`_.
 
         `Args:`
             dashboard_id: str or int

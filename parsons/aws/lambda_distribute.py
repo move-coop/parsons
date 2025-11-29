@@ -1,13 +1,15 @@
 import csv
-from io import TextIOWrapper, BytesIO, StringIO
 import logging
 import sys
-import traceback
 import time
+import traceback
+from io import BytesIO, StringIO, TextIOWrapper
 
 from parsons.aws.aws_async import (
     get_func_task_path,
     import_and_get_task,
+)
+from parsons.aws.aws_async import (
     run as maybe_async_run,
 )
 from parsons.aws.s3 import S3
@@ -52,7 +54,7 @@ class S3Storage:
         # so e.g. while python returns 2 bytes for data[2:4]
         # Range: bytes=2-4 will return 3!! So we subtract 1
         response = self.s3.client.get_object(
-            Bucket=bucket, Key=key, Range="bytes={}-{}".format(rangestart, rangeend - 1)
+            Bucket=bucket, Key=key, Range=f"bytes={rangestart}-{rangeend - 1}"
         )
         return response["Body"].read()
 

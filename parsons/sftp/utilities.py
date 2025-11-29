@@ -1,13 +1,12 @@
 from functools import wraps
+
 import paramiko
 
 
 def connection_exists(args, kwargs):
-    if any([isinstance(arg, paramiko.sftp_client.SFTPClient) for arg in args]):
+    if any(isinstance(arg, paramiko.sftp_client.SFTPClient) for arg in args):
         return True
-    if "connection" in kwargs and kwargs["connection"]:
-        return True
-    return False
+    return bool("connection" in kwargs and kwargs["connection"])
 
 
 def connect(func):

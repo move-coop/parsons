@@ -1,5 +1,6 @@
-import os
 import zipfile
+from pathlib import Path
+
 from parsons.utilities.files import create_temp_directory
 
 
@@ -20,10 +21,7 @@ def create_archive(archive_path, file_path, file_name=None, if_exists="replace")
         Zip archive path
     """
 
-    if if_exists == "append":
-        write_type = "a"
-    else:
-        write_type = "w"
+    write_type = "a" if if_exists == "append" else "w"
 
     if not file_name:
         file_name = file_path.split("/")[-1]
@@ -52,4 +50,4 @@ def unzip_archive(archive_path, destination=None):
     with zipfile.ZipFile(archive_path, "r") as z:
         file_name = z.namelist()[0]
         z.extractall(path=destination)
-        return os.path.join(destination, file_name)
+        return str(Path(destination) / file_name)

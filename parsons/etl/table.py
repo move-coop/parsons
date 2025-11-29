@@ -1,6 +1,7 @@
 import logging
 import pickle
 from enum import Enum
+from pathlib import Path
 from typing import Union
 
 import petl
@@ -58,14 +59,14 @@ class Table(ETL, ToFrom):
         if lst is _EMPTYDEFAULT:
             self.table = petl.fromdicts([])
 
-        elif isinstance(lst, list) or isinstance(lst, tuple):
+        elif isinstance(lst, (list, tuple)):
             # Check for empty list
             if not len(lst):
                 self.table = petl.fromdicts([])
             else:
                 row_type = type(lst[0])
                 # Check for list of dicts
-                if row_type == dict:
+                if row_type is dict:
                     self.table = petl.fromdicts(lst)
                 # Check for list of lists
                 elif row_type in [list, tuple]:
@@ -103,7 +104,7 @@ class Table(ETL, ToFrom):
 
         elif isinstance(index, slice):
             tblslice = petl.rowslice(self.table, index.start, index.stop, index.step)
-            return [row for row in tblslice]
+            return list(tblslice)
 
         else:
             raise TypeError("You must pass a string or an index as a value.")
@@ -244,7 +245,7 @@ class Table(ETL, ToFrom):
 
         file_path = file_path or files.create_temp_file()
 
-        with open(file_path, "wb") as handle:
+        with Path(file_path).open(mode="wb") as handle:
             for row in self.table:
                 pickle.dump(list(row), handle)
 
@@ -266,7 +267,7 @@ class Table(ETL, ToFrom):
             return False
 
         try:
-            self.columns
+            self.columns  # noqa: B018
         except StopIteration:
             return False
 
@@ -284,7 +285,4 @@ class Table(ETL, ToFrom):
             bool
         """
 
-        if petl.nrows(petl.selectnotnone(self.table, column)) == 0:
-            return True
-        else:
-            return False
+        return petl.nrows(petl.selectnotnone(self.table, column)) == 0

@@ -1,15 +1,15 @@
 """NGPVAN Activist Code Endpoints"""
 
+import logging
+
 from parsons.etl.table import Table
 from parsons.ngpvan.utilities import action_parse
-import logging
 
 logger = logging.getLogger(__name__)
 
 
-class ActivistCodes(object):
+class ActivistCodes:
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_activist_codes(self):

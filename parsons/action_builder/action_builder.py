@@ -1,15 +1,16 @@
 import json
+import logging
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-import logging
 
 logger = logging.getLogger(__name__)
 
 API_URL = "https://{subdomain}.actionbuilder.org/api/rest/v1"
 
 
-class ActionBuilder(object):
+class ActionBuilder:
     """
     `Args:`
         api_token: str
@@ -83,10 +84,9 @@ class ActionBuilder(object):
             # Assuming there's data, add it to the running response list
             return_list.extend(response_list)
             count = count + len(response_list)
-            if limit:
-                if count >= limit:
-                    # Limit reached or exceeded, so return just the requested limit amount
-                    return Table(return_list[0:limit])
+            if limit and count >= limit:
+                # Limit reached or exceeded, so return just the requested limit amount
+                return Table(return_list[0:limit])
 
     def get_campaign_tags(self, campaign=None, limit=None, per_page=25, filter=None):
         """
@@ -182,7 +182,7 @@ class ActionBuilder(object):
                 retrieved or edited. Not necessary if supplied when instantiating the class.
         `Returns:`
             Dict containing Action Builder entity data.
-        """  # noqa: E501
+        """
 
         name_keys = ("name", "action_builder:name", "given_name")
         error = "Must provide data with name or given_name when inserting new record"
@@ -224,7 +224,7 @@ class ActionBuilder(object):
                 retrieved or edited. Not necessary if supplied when instantiating the class.
         `Returns:`
             Dict containing Action Builder entity data.
-        """  # noqa: E501
+        """
 
         campaign = self._campaign_check(campaign)
 
@@ -245,6 +245,26 @@ class ActionBuilder(object):
         data["person"]["identifiers"] = identifiers
 
         return self._upsert_entity(data=data, campaign=campaign)
+
+    def remove_entity_record_from_campaign(self, identifier, campaign=None):
+        """
+        Remove an entity record from a campaign. Records cannot be permanently deleted, but a
+        record that has been removed from a campaign will not appear in the UI.
+        `Args:`
+            identifier: str
+                The unique identifier for the record being removed. ID strings will need to begin
+                with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+        `Returns:`
+            Dict with HTTP response.
+        """
+
+        campaign = self._campaign_check(campaign)
+
+        url = f"campaigns/{campaign}/people/{identifier}"
+        return self.api.delete_request(url=url)
 
     def add_section_field_values_to_record(self, identifier, section, field_values, campaign=None):
         """
@@ -381,7 +401,7 @@ class ActionBuilder(object):
                 if the Connection exists and has `inactive` set to True. True by default.
         `Returns:`
             Dict containing Action Builder connection data.
-        """  # noqa: E501
+        """
 
         # Check that there are exactly two identifiers and that campaign is provided first
         if not isinstance(identifiers, list):

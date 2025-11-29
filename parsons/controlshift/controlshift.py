@@ -3,7 +3,7 @@ from parsons.utilities import check_env
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 
 
-class Controlshift(object):
+class Controlshift:
     """
     Instantiate the Controlshift class. Requires an API Application integration.
     For more info on setup, see:
@@ -25,7 +25,6 @@ class Controlshift(object):
     """
 
     def __init__(self, hostname=None, client_id=None, client_secret=None):
-
         self.hostname = check_env.check("CONTROLSHIFT_HOSTNAME", hostname)
 
         # Hostname must start with 'https://'

@@ -8,6 +8,7 @@ import logging
 
 import petl
 import requests
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 
@@ -25,12 +26,10 @@ class TargetSmartConnector:
         self.headers = {"x-api-key": self.api_key}
 
     def request(self, url, args=None, raw=False):
-
         r = requests.get(url, headers=self.headers, params=args)
 
         # This allows me to deal with data that needs to be munged.
         if raw:
-
             return r.json()
 
         return Table(r.json()["output"])
@@ -38,7 +37,6 @@ class TargetSmartConnector:
 
 class Person:
     def __init__(self):
-
         return None
 
     def data_enhance(self, search_id, search_id_type="voterbase", state=None):
@@ -60,8 +58,7 @@ class Person:
         """
 
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
-
-            raise KeyError("Search ID type '{}' requires state kwarg".format(search_id_type))
+            raise KeyError(f"Search ID type '{search_id_type}' requires state kwarg")
 
         if search_id_type not in (
             "voterbase",
@@ -73,7 +70,6 @@ class Person:
             "voter",
             "household",
         ):
-
             raise ValueError("Search_id_type is not valid")
 
         url = self.connection.uri + "person/data-enhance"
@@ -204,7 +200,7 @@ class Person:
         }
 
         r = self.connection.request(url, args=args, raw=True)
-        return Table([itm for itm in r["output"]]).unpack_dict("data_fields", prepend=False)
+        return Table(list(r["output"])).unpack_dict("data_fields", prepend=False)
 
     def phone(self, table):
         """
@@ -228,7 +224,6 @@ class Person:
 
 class Service:
     def __init__(self):
-
         return None
 
     def district(
@@ -293,7 +288,7 @@ class Service:
             raise ValueError("Search type 'address' requires 'address' argument")
 
         elif search_type not in ["zip", "point", "address"]:
-            raise KeyError("Invalid 'search_type' provided. ")
+            raise KeyError("Invalid 'search_type' provided.")
 
         else:
             pass
@@ -313,9 +308,8 @@ class Service:
         return Table([self.connection.request(url, args=args, raw=True)["match_data"]])
 
 
-class Voter(object):
+class Voter:
     def __init__(self, connection):
-
         self.connection = connection
 
     def voter_registration_check(

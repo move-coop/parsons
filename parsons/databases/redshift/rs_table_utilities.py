@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class RedshiftTableUtilities(object):
+class RedshiftTableUtilities:
     def __init__(self):
         pass
 
@@ -31,24 +31,19 @@ class RedshiftTableUtilities(object):
         table_name = [x.strip() for x in table_name]
 
         # Check in pg tables for the table
-        sql = """select count(*) from pg_tables where schemaname='{}' and
-                 tablename='{}';""".format(
-            table_name[0], table_name[1]
-        )
+        sql = f"""select count(*) from pg_tables where schemaname='{table_name[0]}' and
+                 tablename='{table_name[1]}';"""
 
         # TODO maybe convert these queries to use self.query_with_connection
 
         with self.cursor(connection) as cursor:
-
             cursor.execute(sql)
             result = cursor.fetchone()[0]
 
             # Check in the pg_views for the table
             if view:
-                sql = """select count(*) from pg_views where schemaname='{}' and
-                         viewname='{}';""".format(
-                    table_name[0], table_name[1]
-                )
+                sql = f"""select count(*) from pg_views where schemaname='{table_name[0]}' and
+                         viewname='{table_name[1]}';"""
 
             cursor.execute(sql)
             result += cursor.fetchone()[0]
@@ -117,7 +112,7 @@ class RedshiftTableUtilities(object):
                 Drop the source table.
         Returns:
                 None
-        """  # noqa: E501,E261
+        """
 
         # To Do: Add the grants
         # To Do: Argument for if the table exists?
@@ -130,7 +125,6 @@ class RedshiftTableUtilities(object):
         self.query(create_sql)
 
         with self.connection() as conn:
-
             #  An ALTER TABLE statement can't be run within a block, meaning
             #  that it needs to be committed on running. To enable this,
             #  the connection must be set to autocommit.
@@ -478,7 +472,7 @@ class RedshiftTableUtilities(object):
 
         logger.info("Retrieving running and queued queries.")
 
-        # Lifted from Redshift Utils https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/running_queues.sql # noqa: E501
+        # Lifted from Redshift Utils https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/running_queues.sql
         sql = """
               select trim(u.usename) as user,
                 s.pid,
@@ -502,21 +496,21 @@ class RedshiftTableUtilities(object):
                 decode(m.blocks_to_disk,-1,null,m.blocks_to_disk) spill_mb,
                 m2.rows as return_rows,
                 m3.rows as NL_rows,
-                substring(replace(nvl(qrytext_cur.text,trim(translate(s.text,chr(10)||chr(13)||chr(9) ,''))),'\\n',' '),1,90) as sql, -- # noqa: E501
-                trim(decode(event&1,1,'SK ','') || decode(event&2,2,'Del ','') || decode(event&4,4,'NL ','') ||  decode(event&8,8,'Dist ','') || decode(event&16,16,'Bcast ','') || decode(event&32,32,'Stats ','')) as Alert -- # noqa: E501
+                substring(replace(nvl(qrytext_cur.text,trim(translate(s.text,chr(10)||chr(13)||chr(9) ,''))),'\\n',' '),1,90) as sql, --
+                trim(decode(event&1,1,'SK ','') || decode(event&2,2,'Del ','') || decode(event&4,4,'NL ','') ||  decode(event&8,8,'Dist ','') || decode(event&16,16,'Bcast ','') || decode(event&32,32,'Stats ','')) as Alert --
             from stv_wlm_query_state q
             left outer join stl_querytext s on (s.query=q.query and sequence = 0)
             left outer join stv_query_metrics m on ( q.query = m.query and m.segment=-1 and m.step=-1 )
             left outer join stv_query_metrics m2 on ( q.query = m2.query and m2.step_type = 38 )
-            left outer join ( select query, sum(rows) as rows from stv_query_metrics m3 where step_type = 15 group by 1) as m3 on ( q.query = m3.query ) -- # noqa: E501
+            left outer join ( select query, sum(rows) as rows from stv_query_metrics m3 where step_type = 15 group by 1) as m3 on ( q.query = m3.query ) --
             left outer join pg_user u on ( s.userid = u.usesysid )
             LEFT OUTER JOIN (SELECT ut.xid,'CURSOR ' || TRIM( substring ( TEXT from strpos(upper(TEXT),'SELECT') )) as TEXT
             FROM stl_utilitytext ut
             WHERE sequence = 0
                AND upper(TEXT) like 'DECLARE%'
                GROUP BY text, ut.xid) qrytext_cur ON (q.xid = qrytext_cur.xid)
-            left outer join ( select query,sum(decode(trim(split_part(event,':',1)),'Very selective query filter',1,'Scanned a large number of deleted rows',2,'Nested Loop Join in the query plan',4,'Distributed a large number of rows across the network',8,'Broadcasted a large number of rows across the network',16,'Missing query planner statistics',32,0)) as event from STL_ALERT_EVENT_LOG -- # noqa: E501
-            where event_time >=  dateadd(hour, -8, current_Date) group by query  ) as alrt on alrt.query = q.query -- # noqa: E501
+            left outer join ( select query,sum(decode(trim(split_part(event,':',1)),'Very selective query filter',1,'Scanned a large number of deleted rows',2,'Nested Loop Join in the query plan',4,'Distributed a large number of rows across the network',8,'Broadcasted a large number of rows across the network',16,'Missing query planner statistics',32,0)) as event from STL_ALERT_EVENT_LOG --
+            where event_time >=  dateadd(hour, -8, current_Date) group by query  ) as alrt on alrt.query = q.query --
             """
 
         return self.query(sql)
@@ -761,7 +755,7 @@ class RedshiftTableUtilities(object):
             schema, table = full_table_name.split(".")
         except ValueError as e:
             if "too many values to unpack" in str(e):
-                raise ValueError(f"Invalid Redshift table {full_table_name}")
+                raise ValueError(f"Invalid Redshift table {full_table_name}") from e
 
         return schema, table
 

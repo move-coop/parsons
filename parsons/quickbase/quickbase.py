@@ -1,13 +1,13 @@
 import logging
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 
-
 logger = logging.getLogger(__name__)
 
 
-class Quickbase(object):
+class Quickbase:
     """
     Instantiate the Quickbase class
 

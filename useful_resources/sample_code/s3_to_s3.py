@@ -25,7 +25,8 @@ DESTINATION_BUCKET = None
 # ### CODE
 
 import os  # noqa: E402
-from parsons import S3, utilities, logger  # noqa: E402
+
+from parsons import S3, logger, utilities  # noqa: E402
 
 # Setup
 
@@ -47,7 +48,6 @@ logger.info(f"We will be getting data from {len(bucket_guide)} buckets...")
 
 # Moving Files from Source s3 Bucket to Destination s3 Bucket
 for bucket in bucket_guide:
-
     logger.info(f"Working on files for {bucket}...")
     keys = s3_source.list_keys(bucket)
     logger.info(f"Found {len(keys)}.")

@@ -1,12 +1,13 @@
 import logging
-from parsons.utilities.api_connector import APIConnector
-from parsons.utilities import check_env
+
 from parsons import Table
+from parsons.utilities import check_env
+from parsons.utilities.api_connector import APIConnector
 
 logger = logging.getLogger(__name__)
 
 
-class Census(object):
+class Census:
     """
     Class that creates a connector to the Census Bureau API
     """

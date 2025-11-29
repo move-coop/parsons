@@ -1,0 +1,27 @@
+name: Dependency review
+
+on: [pull_request]
+
+permissions: read-all
+
+jobs:
+   dependency-review:
+    name: Dependency review
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+              api.github.com:443
+              api.securityscorecards.dev:443
+              github.com:443
+
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+
+      - uses: actions/dependency-review-action@40c09b7dc99638e5ddb0bfd91c1673effc064d8a
+        with:
+          allow-ghsas: GHSA-pq67-6m6q-mj2v  # urllib3

@@ -1,5 +1,6 @@
 import logging
 from functools import partial, wraps
+from pathlib import Path
 
 import petl
 import requests
@@ -41,10 +42,10 @@ def wrap_github_404(func):
     def _wrapped_func(*args, **kwargs):
         try:
             return (func)(*args, **kwargs)
-        except UnknownObjectException:
+        except UnknownObjectException as e:
             raise ParsonsGitHubError(
                 "Couldn't find the object you referenced, maybe you need to log in?"
-            )
+            ) from e
 
     return _wrapped_func
 
@@ -54,7 +55,7 @@ class ParsonsGitHubError(Exception):
 
 
 @decorate_methods(wrap_github_404)
-class GitHub(object):
+class GitHub:
     """Creates a GitHub class for accessing the GitHub API.
 
     Uses ``parsons.utilities.check_env`` to load credentials from environment variables if not
@@ -74,7 +75,6 @@ class GitHub(object):
     """
 
     def __init__(self, username=None, password=None, access_token=None):
-
         self.username = check_env.check("GITHUB_USERNAME", username, optional=True)
         self.password = check_env.check("GITHUB_PASSWORD", password, optional=True)
         self.access_token = check_env.check("GITHUB_ACCESS_TOKEN", access_token, optional=True)
@@ -224,7 +224,7 @@ class GitHub(object):
         assignee=None,
         creator=None,
         mentioned=None,
-        labels=[],
+        labels=None,
         sort="created",
         direction="desc",
         since=None,
@@ -263,6 +263,8 @@ class GitHub(object):
                 Table with page of repo issues
         """
 
+        if labels is None:
+            labels = []
         logger.info(f"Listing page {page} of issues for repo {repo_name}")
 
         kwargs_dict = {"state": state, "sort": sort, "direction": direction}
@@ -339,7 +341,7 @@ class GitHub(object):
         if base:
             kwargs_dict["base"] = base
 
-        self._as_table(
+        return self._as_table(
             self.client.get_repo(repo_name).get_pulls(**kwargs_dict),
             page=page,
             page_size=page_size,
@@ -422,8 +424,7 @@ class GitHub(object):
                 f"Error downloading {path} from repo {repo_name}: {res.content}"
             )
 
-        with open(local_path, "wb") as f:
-            f.write(res.content)
+        Path(local_path).write_bytes(res.content)
 
         logger.info(f"Downloaded {path} to {local_path}")
 

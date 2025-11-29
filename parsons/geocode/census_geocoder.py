@@ -1,7 +1,9 @@
-from parsons.etl import Table
-import petl
-import censusgeocode
 import logging
+
+import censusgeocode
+import petl
+
+from parsons.etl import Table
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +13,7 @@ logger = logging.getLogger(__name__)
 BATCH_SIZE = 999
 
 
-class CensusGeocoder(object):
+class CensusGeocoder:
     """
     Instantiate the CensusGecoder Class
 
@@ -22,10 +24,9 @@ class CensusGeocoder(object):
         vintage: str
             The US Census vintage file to utilize. By default the current vintage is used, but
             other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`_.
-    """  # noqa E501
+    """
 
     def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current"):
-
         self.cg = censusgeocode.CensusGeocode(benchmark=benchmark, vintage=vintage)
 
     def geocode_onelineaddress(self, address, return_type="geographies"):
@@ -108,7 +109,7 @@ class CensusGeocoder(object):
         if set(table.columns) != {"id", "street", "city", "state", "zip"}:
             msg = (
                 "Table must ONLY include `['id', 'street', 'city', 'state', 'zip']` as"
-                + "columns. Tip: try using `table.cut()`"
+                "columns. Tip: try using `table.cut()`"
             )
             raise ValueError(msg)
 
@@ -118,7 +119,6 @@ class CensusGeocoder(object):
 
         geocoded_tbl = Table([[]])
         for tbl in chunked_tables:
-
             geocoded_tbl.concat(Table(petl.fromdicts(self.cg.addressbatch(tbl))))
             records_processed += tbl.num_rows
             logger.info(f"{records_processed} of {table.num_rows} records processed.")

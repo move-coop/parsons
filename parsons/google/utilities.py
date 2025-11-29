@@ -1,6 +1,6 @@
 import json
 import os
-import typing as t
+from typing import Optional, Union
 
 import google
 from google.oauth2 import service_account
@@ -9,9 +9,9 @@ from parsons.utilities import check_env, files
 
 
 def setup_google_application_credentials(
-    app_creds: t.Union[t.Dict, str, None],
+    app_creds: Union[dict, str, None],
     env_var_name: str = "GOOGLE_APPLICATION_CREDENTIALS",
-    target_env_var_name: t.Optional[str] = None,
+    target_env_var_name: Optional[str] = None,
 ) -> None:
     # Detect if app_creds is a dict, path string or json string, and if it is a
     # json string, then convert it to a temporary file. Then set the
@@ -59,10 +59,9 @@ def hexavigesimal(n: int) -> str:
 
 def load_google_application_credentials(
     env_var_name: str = "GOOGLE_APPLICATION_CREDENTIALS",
-    scopes: t.Optional[t.List[str]] = None,
-    subject: t.Optional[str] = None,
+    scopes: Optional[list[str]] = None,
+    subject: Optional[str] = None,
 ) -> google.auth.credentials.Credentials:
-
     service_account_filepath = os.environ[env_var_name]
 
     credentials = service_account.Credentials.from_service_account_file(service_account_filepath)

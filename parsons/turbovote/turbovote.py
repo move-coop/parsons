@@ -1,6 +1,8 @@
-from parsons.etl import Table
-import requests
 import logging
+
+import requests
+
+from parsons.etl import Table
 from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
@@ -8,7 +10,7 @@ logger = logging.getLogger(__name__)
 TURBOVOTE_URI = "https://turbovote-admin-http-api.prod.democracy.works/"
 
 
-class TurboVote(object):
+class TurboVote:
     """
     Instantiate the TurboVote class
 
@@ -27,7 +29,6 @@ class TurboVote(object):
     """
 
     def __init__(self, username=None, password=None, subdomain=None):
-
         self.username = check_env.check("TURBOVOTE_USERNAME", username)
         self.password = check_env.check("TURBOVOTE_PASSWORD", password)
         self.subdomain = check_env.check("TURBOVOTE_SUBDOMAIN", subdomain)

@@ -5,9 +5,9 @@ import gspread
 
 from parsons.etl.table import Table
 from parsons.google.utilities import (
+    hexavigesimal,
     load_google_application_credentials,
     setup_google_application_credentials,
-    hexavigesimal,
 )
 
 logger = logging.getLogger(__name__)
@@ -28,7 +28,6 @@ class GoogleSheets:
     """
 
     def __init__(self, google_keyfile_dict=None, subject=None):
-
         scope = [
             "https://spreadsheets.google.com/feeds",
             "https://www.googleapis.com/auth/drive",
@@ -52,18 +51,14 @@ class GoogleSheets:
 
         # Check if the worksheet is an integer, if so find the sheet by index
         if isinstance(worksheet, int):
-            return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(
-                worksheet
-            )
+            return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(worksheet)
 
         elif isinstance(worksheet, str):
             idx = self.list_worksheets(spreadsheet_id).index(worksheet)
             try:
-                return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(
-                    idx
-                )
-            except:  # noqa: E722
-                raise ValueError(f"Couldn't find worksheet {worksheet}")
+                return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(idx)
+            except Exception as e:  # noqa: E722
+                raise ValueError(f"Couldn't find worksheet {worksheet}") from e
 
         else:
             raise ValueError(f"Couldn't find worksheet index or title {worksheet}")
@@ -289,13 +284,11 @@ class GoogleSheets:
 
         # If the existing sheet is blank, then just overwrite the table.
         if existing_table.num_rows == 0:
-            return self.overwrite_sheet(
-                spreadsheet_id, table, worksheet, user_entered_value
-            )
+            return self.overwrite_sheet(spreadsheet_id, table, worksheet, user_entered_value)
 
         cells = []
         for row_num, row in enumerate(table.data):
-            for col_num, cell in enumerate(row):
+            for col_num, _cell in enumerate(row):
                 # Add 2 to allow for the header row, and for google sheets indexing starting at 1
                 sheet_row_num = existing_table.num_rows + row_num + 2
                 cells.append(gspread.Cell(sheet_row_num, col_num + 1, row[col_num]))
@@ -462,7 +455,7 @@ class GoogleSheets:
                         }
                     }, worksheet=0)
 
-        """  # noqa: E501,E261
+        """
 
         ws = self._get_worksheet(spreadsheet_id, worksheet)
         ws.format(range, cell_format)

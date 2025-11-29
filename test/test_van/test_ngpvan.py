@@ -1,23 +1,23 @@
 import os
 import unittest
+
+import pytest
 import requests_mock
-from parsons import VAN, Table
-from test.utils import validate_list, assert_matching_tables
 from requests.exceptions import HTTPError
+
+from parsons import VAN, Table
+from test.utils import assert_matching_tables, validate_list
 
 
 class TestNGPVAN(unittest.TestCase):
     def setUp(self):
-
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
+        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
 
     def tearDown(self):
-
         pass
 
     @requests_mock.Mocker()
     def test_get_canvass_responses_contact_types(self, m):
-
         json = [{"name": "Auto Dial", "contactTypeId": 19, "channelTypeName": "Phone"}]
 
         m.get(self.van.connection.uri + "canvassResponses/contactTypes", json=json)
@@ -26,14 +26,12 @@ class TestNGPVAN(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_canvass_responses_input_types(self, m):
-
         json = [{"inputTypeId": 11, "name": "API"}]
         m.get(self.van.connection.uri + "canvassResponses/inputTypes", json=json)
         assert_matching_tables(Table(json), self.van.get_canvass_responses_input_types())
 
     @requests_mock.Mocker()
     def test_get_canvass_responses_result_codes(self, m):
-
         json = [
             {
                 "shortName": "BZ",
@@ -48,7 +46,6 @@ class TestNGPVAN(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_survey_questions(self, m):
-
         json = {
             "count": 67,
             "items": [
@@ -94,11 +91,10 @@ class TestNGPVAN(unittest.TestCase):
             "cycle",
         ]
 
-        self.assertTrue(validate_list(expected, self.van.get_survey_questions()))
+        assert validate_list(expected, self.van.get_survey_questions())
 
     @requests_mock.Mocker()
     def test_get_supporter_groups(self, m):
-
         json = {
             "items": [
                 {"id": 12, "name": "tmc", "description": "A fun group."},
@@ -110,22 +106,18 @@ class TestNGPVAN(unittest.TestCase):
 
         m.get(self.van.connection.uri + "supporterGroups", json=json)
 
-        ["id", "name", "description"]
-
         self.van.get_supporter_groups()
 
     @requests_mock.Mocker()
     def test_get_supporter_group(self, m):
-
         json = [{"id": 12, "name": "tmc", "description": "A fun group."}]
         m.get(self.van.connection.uri + "supporterGroups/12", json=json)
 
         # Test that columns are expected columns
-        self.assertEqual(self.van.get_supporter_group(12), json)
+        assert self.van.get_supporter_group(12) == json
 
     @requests_mock.Mocker()
     def test_delete_supporter_group(self, m):
-
         # Test good input
         good_supporter_group_id = 5
         good_ep = f"supporterGroups/{good_supporter_group_id}"
@@ -137,11 +129,13 @@ class TestNGPVAN(unittest.TestCase):
         # bad_vanid = 99999
         bad_ep = f"supporterGroups/{bad_supporter_group_id}"
         m.delete(self.van.connection.uri + bad_ep, status_code=404)
-        self.assertRaises(HTTPError, self.van.delete_supporter_group, bad_supporter_group_id)
+        with pytest.raises(HTTPError):
+            self.van.delete_supporter_group(
+                bad_supporter_group_id,
+            )
 
     @requests_mock.Mocker()
     def test_add_person_supporter_group(self, m):
-
         # Test good input
         good_supporter_group_id = 5
         good_vanid = 12345
@@ -154,16 +148,14 @@ class TestNGPVAN(unittest.TestCase):
         bad_vanid = 99999
         bad_uri = f"supporterGroups/{bad_vanid}/people/{bad_supporter_group_id}"
         m.put(self.van.connection.uri + bad_uri, status_code=404)
-        self.assertRaises(
-            HTTPError,
-            self.van.add_person_supporter_group,
-            bad_vanid,
-            bad_supporter_group_id,
-        )
+        with pytest.raises(HTTPError):
+            self.van.add_person_supporter_group(
+                bad_vanid,
+                bad_supporter_group_id,
+            )
 
     @requests_mock.Mocker()
     def test_delete_person_supporter_group(self, m):
-
         # Test good input
         good_supporter_group_id = 5
         good_vanid = 12345
@@ -176,14 +168,12 @@ class TestNGPVAN(unittest.TestCase):
         bad_vanid = 99999
         bad_ep = f"supporterGroups/{bad_vanid}/people/{bad_supporter_group_id}"
         m.delete(self.van.connection.uri + bad_ep, status_code=404)
-        self.assertRaises(
-            HTTPError,
-            self.van.delete_person_supporter_group,
-            bad_vanid,
-            bad_supporter_group_id,
-        )
+        with pytest.raises(HTTPError):
+            self.van.delete_person_supporter_group(
+                bad_vanid,
+                bad_supporter_group_id,
+            )
 
 
 if __name__ == "__main__":
-
     unittest.main()

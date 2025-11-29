@@ -1,17 +1,19 @@
-import pytest
 import os
-import paramiko
 from contextlib import contextmanager
 from copy import deepcopy
-from unittest.mock import MagicMock, patch, call
-from parsons import Table, SFTP
+from unittest.mock import MagicMock, call, patch
+
+import paramiko
+import pytest
+
+from parsons import SFTP, Table
 from parsons.utilities import files as file_util
-from test.utils import mark_live_test, assert_matching_tables
 from test.fixtures import (  # noqa: F401
-    simple_table,
-    simple_csv_path,
     simple_compressed_csv_path,
+    simple_csv_path,
+    simple_table,
 )
+from test.utils import assert_matching_tables, mark_live_test
 
 #
 # Fixtures and constants
@@ -103,7 +105,6 @@ def live_sftp_with_mocked_get(simple_csv_path, simple_compressed_csv_path):  # n
         transport.close()
 
     def get_file(self, remote_path, local_path=None, connection=None):
-
         if not local_path:
             local_path = create_temp_file_for_path(remote_path)
 
@@ -132,10 +133,10 @@ def live_sftp_with_mocked_get(simple_csv_path, simple_compressed_csv_path):  # n
 
 
 def test_credential_validation():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Missing the SFTP host name"):
         SFTP(host=None, username=None, password=None)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Missing the SFTP host name"):
         SFTP(host=None, username="sam", password="abc123")
 
 
@@ -209,7 +210,7 @@ def test_table_to_sftp_csv(live_sftp, simple_table, compression):  # noqa F811
 def assert_results_match_expected(expected, results):
     assert len(results) == len(expected)
     for e in expected:
-        assert any([e in r for r in results])
+        assert any(e in r for r in results)
 
 
 def assert_has_call(mock, args):
@@ -217,7 +218,7 @@ def assert_has_call(mock, args):
 
 
 def assert_has_calls(mock, calls):
-    return all([assert_has_call(mock, c) for c in calls])
+    return all(assert_has_call(mock, c) for c in calls)
 
 
 @mark_live_test
@@ -296,7 +297,7 @@ def test_get_files_calls_get_to_write_to_provided_local_paths(
 
 
 @mark_live_test
-@pytest.mark.parametrize("kwargs,expected", args_and_expected["get_files"])
+@pytest.mark.parametrize(("kwargs", "expected"), args_and_expected["get_files"])
 def test_get_files_calls_get_to_write_temp_files(kwargs, expected, live_sftp_with_mocked_get):
     live_sftp, get = live_sftp_with_mocked_get
     live_sftp.get_files(**kwargs)
@@ -307,7 +308,7 @@ def test_get_files_calls_get_to_write_temp_files(kwargs, expected, live_sftp_wit
 
 @mark_live_test
 def test_get_files_raises_error_when_no_file_source_is_provided(live_sftp):
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError):  # noqa: PT011
         live_sftp.get_files()
 
 
@@ -319,7 +320,7 @@ def test_get_files_with_files_paths_mismatch(get_file, live_sftp):
 
 
 @mark_live_test
-@pytest.mark.parametrize("args,kwargs,expected", args_and_expected["walk_tree"])
+@pytest.mark.parametrize(("args", "kwargs", "expected"), args_and_expected["walk_tree"])
 def test_walk_tree(args, kwargs, expected, live_sftp_with_mocked_get):
     live_sftp, get = live_sftp_with_mocked_get
     results = live_sftp.walk_tree(*args, **kwargs)

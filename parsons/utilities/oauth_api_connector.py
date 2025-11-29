@@ -1,9 +1,10 @@
 import urllib.parse
-from typing import Dict, Optional
+from typing import Optional
 
 from oauthlib.oauth2 import BackendApplicationClient
-from parsons.utilities.api_connector import APIConnector
 from requests_oauthlib import OAuth2Session
+
+from parsons.utilities.api_connector import APIConnector
 
 
 class OAuth2APIConnector(APIConnector):
@@ -42,11 +43,11 @@ class OAuth2APIConnector(APIConnector):
         client_secret: str,
         token_url: str,
         auto_refresh_url: Optional[str],
-        headers: Optional[Dict[str, str]] = None,
+        headers: Optional[dict[str, str]] = None,
         pagination_key: Optional[str] = None,
         data_key: Optional[str] = None,
         grant_type: str = "client_credentials",
-        authorization_kwargs: Optional[Dict[str, str]] = None,
+        authorization_kwargs: Optional[dict[str, str]] = None,
     ):
         super().__init__(
             uri,

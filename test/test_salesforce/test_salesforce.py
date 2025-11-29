@@ -1,6 +1,7 @@
 import os
 import unittest
 import unittest.mock as mock
+
 from parsons import Salesforce, Table
 
 
@@ -50,7 +51,7 @@ class TestSalesforce(unittest.TestCase):
         fake_soql = "FAKESOQL"
         response = self.sf.query(fake_soql)
         self.sf.client.query_all.assert_called_with(fake_soql)
-        self.assertEqual(response["records"][0]["Id"], "1234567890AaBbC")
+        assert response["records"][0]["Id"] == "1234567890AaBbC"
 
     def test_insert(self):
         fake_data = Table([{"firstname": "Chrisjen", "lastname": "Avasarala"}])

@@ -1,23 +1,26 @@
-from typing import List, Optional
-from parsons.etl.table import Table
-from parsons.databases.redshift.rs_copy_table import RedshiftCopyTable
-from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
-from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
-from parsons.databases.redshift.rs_schema import RedshiftSchema
-from parsons.databases.table import BaseTable
-from parsons.databases.alchemy import Alchemy
-from parsons.utilities import files, sql_helpers
-from parsons.databases.database_connector import DatabaseConnector
+import datetime
+import json
+import logging
+import os
+import pickle
+import random
+from contextlib import contextmanager
+from pathlib import Path
+from typing import Optional
+
+import petl
 import psycopg2
 import psycopg2.extras
-import os
-import logging
-import json
-import pickle
-import petl
-from contextlib import contextmanager
-import datetime
-import random
+
+from parsons.databases.alchemy import Alchemy
+from parsons.databases.database_connector import DatabaseConnector
+from parsons.databases.redshift.rs_copy_table import RedshiftCopyTable
+from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
+from parsons.databases.redshift.rs_schema import RedshiftSchema
+from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
+from parsons.databases.table import BaseTable
+from parsons.etl.table import Table
+from parsons.utilities import files, sql_helpers
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -95,7 +98,7 @@ class Redshift(
             self.db = db or os.environ["REDSHIFT_DB"]
             self.port = port or os.environ["REDSHIFT_PORT"]
         except KeyError as error:
-            logger.error("Connection info missing. Most include as kwarg or " "env variable.")
+            logger.error("Connection info missing. Most include as kwarg or env variable.")
             raise error
 
         self.timeout = timeout
@@ -190,7 +193,7 @@ class Redshift(
             Parsons Table
                 See :ref:`parsons-table` for output options.
 
-        """  # noqa: E501
+        """
 
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
@@ -241,7 +244,7 @@ class Redshift(
 
                 temp_file = files.create_temp_file()
 
-                with open(temp_file, "wb") as f:
+                with Path(temp_file).open(mode="wb") as f:
                     # Grab the header
                     header = [i[0] for i in cursor.description]
                     pickle.dump(header, f)
@@ -483,7 +486,7 @@ class Redshift(
         acceptinvchars: bool = True,
         dateformat: str = "auto",
         timeformat: str = "auto",
-        varchar_max: Optional[List[str]] = None,
+        varchar_max: Optional[list[str]] = None,
         truncatecolumns: bool = False,
         columntypes: Optional[dict] = None,
         specifycols: Optional[bool] = None,
@@ -614,13 +617,10 @@ class Redshift(
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
-        """  # noqa: E501
+        """
 
         # Specify the columns for a copy statement.
-        if specifycols or (specifycols is None and template_table):
-            cols = tbl.columns
-        else:
-            cols = None
+        cols = tbl.columns if specifycols or specifycols is None and template_table else None
 
         with self.connection() as connection:
             # Check to see if the table exists. If it does not or if_exists = drop, then
@@ -711,10 +711,11 @@ class Redshift(
         max_file_size="6.2 GB",
         extension=None,
         aws_region=None,
+        format=None,
         aws_access_key_id=None,
         aws_secret_access_key=None,
     ):
-        """
+        r"""
         Unload Redshift data to S3 Bucket. This is a more efficient method than running a query
         to export data as it can export in parallel and directly into an S3 bucket. Consider
         using this for exports of 10MM or more rows.
@@ -761,13 +762,15 @@ class Redshift(
             The AWS Region where the target Amazon S3 bucket is located. REGION is required for
             UNLOAD to an Amazon S3 bucket that is not in the same AWS Region as the Amazon Redshift
             cluster.
+        format: str
+            The format of the unload file (CSV, PARQUET, JSON) - Optional.
         aws_access_key_id:
             An AWS access key granted to the bucket where the file is located. Not required
             if keys are stored as environmental variables.
         aws_secret_access_key:
             An AWS secret access key granted to the bucket where the file is located. Not
             required if keys are stored as environmental variables.
-        """  # NOQA W605
+        """
 
         # The sql query is provided between single quotes, therefore single
         # quotes within the actual query must be escaped.
@@ -780,26 +783,34 @@ class Redshift(
                      PARALLEL {parallel} \n
                      MAXFILESIZE {max_file_size}
                      """
-        if manifest:
-            statement += "MANIFEST \n"
-        if header:
-            statement += "HEADER \n"
-        if delimiter:
-            statement += f"DELIMITER as '{delimiter}' \n"
-        if compression:
-            statement += f"{compression.upper()} \n"
-        if add_quotes:
-            statement += "ADDQUOTES \n"
-        if null_as:
-            statement += f"NULL {null_as} \n"
-        if escape:
-            statement += "ESCAPE \n"
-        if allow_overwrite:
-            statement += "ALLOWOVERWRITE \n"
-        if extension:
-            statement += f"EXTENSION '{extension}' \n"
-        if aws_region:
-            statement += f"REGION {aws_region} \n"
+        statement += "ALLOWOVERWRITE \n" if allow_overwrite else ""
+        statement += f"REGION {aws_region} \n" if aws_region else ""
+        statement += "MANIFEST \n" if manifest else ""
+        statement += f"EXTENSION '{extension}' \n" if extension else ""
+
+        # Format-specific parameters
+        if format:
+            format = format.lower()
+            if format == "csv":
+                statement += f"DELIMITER AS '{delimiter}' \n" if delimiter else ""
+                statement += f"NULL AS '{null_as}' \n" if null_as else ""
+                statement += "HEADER \n" if header else ""
+                statement += "ESCAPE \n" if escape else ""
+                statement += "FORMAT AS CSV \n"
+                statement += f"{compression.upper()} \n" if compression else ""
+            elif format == "parquet":
+                statement += "FORMAT AS PARQUET \n"
+            elif format == "json":
+                statement += "FORMAT AS JSON \n"
+                statement += f"{compression.upper()} \n" if compression else ""
+        else:
+            # Default text file settings
+            statement += f"DELIMITER AS '{delimiter}' \n" if delimiter else ""
+            statement += "ADDQUOTES \n" if add_quotes else ""
+            statement += f"NULL AS '{null_as}' \n" if null_as else ""
+            statement += "ESCAPE \n" if escape else ""
+            statement += "HEADER \n" if header else ""
+            statement += f"{compression.upper()} \n" if compression else ""
 
         logger.info(f"Unloading data to s3://{bucket}/{key_prefix}")
         # Censor sensitive data
@@ -847,7 +858,6 @@ class Redshift(
             None
         """
         query_end = "cascade" if cascade else ""
-
         self.unload(
             sql=f"select * from {rs_table}",
             bucket=bucket,
@@ -937,7 +947,7 @@ class Redshift(
         if manifest_key and manifest_bucket:
             # Dump the manifest to a temp JSON file
             manifest_path = files.create_temp_file()
-            with open(manifest_path, "w") as manifest_file_obj:
+            with Path(manifest_path).open(mode="w") as manifest_file_obj:
                 json.dump(manifest, manifest_file_obj, sort_keys=True, indent=4)
 
             # Upload the file to S3
@@ -962,7 +972,7 @@ class Redshift(
         sortkey=None,
         **copy_args,
     ):
-        """
+        r"""
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
 
@@ -994,14 +1004,11 @@ class Redshift(
                 The column name of the distkey. If not provided, will default to ``primary_key``.
             sortkey: str or list
                 The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
-            \**copy_args: kwargs
+            **copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy` for options.
-        """  # noqa: W605
+        """
 
-        if isinstance(primary_key, str):
-            primary_keys = [primary_key]
-        else:
-            primary_keys = primary_key
+        primary_keys = [primary_key] if isinstance(primary_key, str) else primary_key
 
         # Set distkey and sortkey to argument or primary key. These keys will be used
         # for the staging table and, if it does not already exist, the destination table.
@@ -1025,7 +1032,7 @@ class Redshift(
         noise = f"{random.randrange(0, 10000):04}"[:4]
         date_stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
         # Generate a temp table like "table_tmp_20200210_1230_14212"
-        staging_tbl = "{}_stg_{}_{}".format(target_table, date_stamp, noise)
+        staging_tbl = f"{target_table}_stg_{date_stamp}_{noise}"
 
         if distinct_check:
             primary_keys_statement = ", ".join(primary_keys)
@@ -1180,9 +1187,7 @@ class Redshift(
         # Determine the max width of the varchar columns in the Redshift table
         s, t = self.split_full_table_name(table_name)
         cols = self.get_columns(s, t)
-        rc = {
-            k: v["max_length"] for k, v in cols.items() if v["data_type"] == "character varying"
-        }  # noqa: E501, E261
+        rc = {k: v["max_length"] for k, v in cols.items() if v["data_type"] == "character varying"}
 
         # Figure out if any of the destination table varchar columns are smaller than the
         # associated Parsons table columns. If they are, then alter column types to expand

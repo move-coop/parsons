@@ -1,5 +1,6 @@
-from dateutil.parser import parse
 import datetime
+
+from dateutil.parser import parse
 
 
 def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
@@ -23,6 +24,17 @@ def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
         parsed_date = parsed_date.replace(tzinfo=tzinfo)
 
     return int(parsed_date.timestamp())
+
+
+def convert_unix_to_readable(ts):
+    """
+    Converts UNIX timestamps to readable timestamps.
+    """
+
+    ts = datetime.utcfromtimestamp(int(ts) / 1000)
+    ts = ts.strftime("%Y-%m-%d %H:%M:%S UTC")
+
+    return ts
 
 
 def parse_date(value, tzinfo=datetime.timezone.utc):

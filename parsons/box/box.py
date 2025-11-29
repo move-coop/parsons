@@ -18,6 +18,8 @@ https://developer.box.com/guides/applications/custom-apps/oauth2-setup/
 """
 
 import logging
+import tempfile
+from pathlib import Path
 
 import boxsdk
 
@@ -25,14 +27,12 @@ from parsons.etl.table import Table
 from parsons.utilities.check_env import check as check_env
 from parsons.utilities.files import create_temp_file, create_temp_file_for_path
 
-import tempfile
-
 logger = logging.getLogger(__name__)
 
 DEFAULT_FOLDER_ID = "0"
 
 
-class Box(object):
+class Box:
     """Box is a file storage provider.
 
     `Args:`
@@ -157,10 +157,7 @@ class Box(object):
         `Returns`: Table
             A Parsons table of items in the folder and their attributes.
         """
-        if path:
-            folder_id = self.get_item_id(path)
-        else:
-            folder_id = DEFAULT_FOLDER_ID
+        folder_id = self.get_item_id(path) if path else DEFAULT_FOLDER_ID
         return self.list_items_by_id(folder_id=folder_id, item_type=item_type)
 
     def list_items_by_id(self, folder_id=DEFAULT_FOLDER_ID, item_type=None) -> Table:
@@ -242,21 +239,20 @@ class Box(object):
 
         if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(
-                f"Format argument to upload_table() must be in one "
-                f'of {self.ALLOWED_FILE_FORMATS}; found "{format}"'
+                f'Format argument to upload_table() must be in one of {self.ALLOWED_FILE_FORMATS}; found "{format}"'
             )
 
         # Create a temp directory in which we will let Parsons create a
         # file. Both will go away automatically when we leave scope.
         with tempfile.TemporaryDirectory() as temp_dir_name:
-            temp_file_path = temp_dir_name + "/table.tmp"
+            temp_file_path = f"{temp_dir_name}/table.tmp"
             if format == "csv":
                 table.to_csv(local_path=temp_file_path)
             elif format == "json":
                 table.to_json(local_path=temp_file_path)
             else:
                 raise SystemError(
-                    f"Got (theoretically) impossible " f'format option "{format}"'
+                    f'Got (theoretically) impossible format option "{format}"'
                 )  # pragma: no cover
 
             new_file = self.client.folder(folder_id).upload(
@@ -287,7 +283,7 @@ class Box(object):
 
         file_id = self.get_item_id(path)
 
-        with open(local_path, "wb") as output_file:
+        with Path(local_path).open(mode="wb") as output_file:
             self.client.file(file_id).download_to(output_file)
 
         return local_path
@@ -321,14 +317,13 @@ class Box(object):
         """
         if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(
-                f"Format argument to upload_table() must be in one "
-                f'of {self.ALLOWED_FILE_FORMATS}; found "{format}"'
+                f'Format argument to upload_table() must be in one of {self.ALLOWED_FILE_FORMATS}; found "{format}"'
             )
 
         # Temp file will be around as long as enclosing process is running,
         # which we need, because the Table we return will continue to use it.
         output_file_name = create_temp_file()
-        with open(output_file_name, "wb") as output_file:
+        with Path(output_file_name).open(mode="wb") as output_file:
             self.client.file(file_id).download_to(output_file)
 
         if format == "csv":
@@ -337,7 +332,7 @@ class Box(object):
             return Table.from_json(output_file_name)
         else:
             raise SystemError(
-                f"Got (theoretically) impossible " f'format option "{format}"'
+                f'Got (theoretically) impossible format option "{format}"'
             )  # pragma: no cover
 
     def get_item_id(self, path, base_folder_id=DEFAULT_FOLDER_ID) -> str:
@@ -400,6 +395,6 @@ class Box(object):
         # recursion, just pass it on up.
         except ValueError as e:
             if base_folder_id == DEFAULT_FOLDER_ID:
-                raise ValueError(f'{e}: "{path}"')
+                raise ValueError(f'{e}: "{path}"') from e
             else:
                 raise

@@ -1,11 +1,12 @@
-from parsons.utilities import json_format
-from typing import Union, List, Dict
 import logging
+from typing import Union
+
+from parsons.utilities import json_format
 
 logger = logging.getLogger(__name__)
 
 
-class People(object):
+class People:
     def __init__(self, van_connection):
         self.connection = van_connection
 
@@ -196,7 +197,7 @@ class People(object):
         first_name=None,
         last_name=None,
         date_of_birth=None,
-        email: Union[str, List[Dict[str, Union[str, bool]]], None] = None,
+        email: Union[str, list[dict[str, Union[str, bool]]], None] = None,
         phone=None,
         phone_type=None,
         street_number=None,
@@ -226,7 +227,7 @@ class People(object):
                 The person's last name
             dob: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
-            email: Union[str, List[Dict[str, Union[str, bool]]], None]
+            email: Union[str, list[dict[str, Union[str, bool]]], None]
                 The person's email address or a list of email dicts.
                 e.g. [{'email': 'abcd@gmail.com', 'isSubscribed': False}]
                 See https://docs.everyaction.com/reference/people-common-models#email
@@ -299,7 +300,7 @@ class People(object):
         first_name=None,
         last_name=None,
         date_of_birth=None,
-        email: Union[str, List[Dict[str, Union[str, bool]]], None] = None,
+        email: Union[str, list[dict[str, Union[str, bool]]], None] = None,
         phone=None,
         phone_type="H",
         street_number=None,
@@ -343,7 +344,7 @@ class People(object):
                 id = match_json["vanId"]
 
         if kwargs:
-            match_json.update(kwargs)
+            json.update(kwargs)
 
         url = "people/"
 
@@ -386,17 +387,15 @@ class People(object):
             and None in [firstName, lastName, addressLine1, zipOrPostalCode]
             and None in [email]
         ):
-            raise ValueError(
-                """
-                             Person find must include the following minimum
-                             combinations to conduct a search.
-                                - first_name, last_name, email
-                                - first_name, last_name, phone
-                                - first_name, last_name, zip, dob
-                                - first_name, last_name, street_number, street_name, zip
-                                - email
-                            """
-            )
+            error_msg = """
+            Person find must include the following minimum combinations to conduct a search.
+            - first_name, last_name, email
+            - first_name, last_name, phone
+            - first_name, last_name, zip, dob
+            - first_name, last_name, street_number, street_name, zip
+            - email
+            """
+            raise ValueError(error_msg)
 
         return True
 
@@ -404,27 +403,7 @@ class People(object):
         self,
         id,
         id_type="vanid",
-        expand_fields=[
-            "contribution_history",
-            "addresses",
-            "phones",
-            "emails",
-            "codes",
-            "custom_fields",
-            "external_ids",
-            "preferences",
-            "recorded_addresses",
-            "reported_demographics",
-            "suppressions",
-            "cases",
-            "custom_properties",
-            "districts",
-            "election_records",
-            "membership_statuses",
-            "notes",
-            "organization_roles",
-            "disclosure_field_values",
-        ],
+        expand_fields=None,
     ):
         """
         Returns a single person record using their VANID or external id.
@@ -448,6 +427,28 @@ class People(object):
         """
 
         # Change end point based on id type
+        if expand_fields is None:
+            expand_fields = [
+                "contribution_history",
+                "addresses",
+                "phones",
+                "emails",
+                "codes",
+                "custom_fields",
+                "external_ids",
+                "preferences",
+                "recorded_addresses",
+                "reported_demographics",
+                "suppressions",
+                "cases",
+                "custom_properties",
+                "districts",
+                "election_records",
+                "membership_statuses",
+                "notes",
+                "organization_roles",
+                "disclosure_field_values",
+            ]
         url = "people/"
 
         id_type = "" if id_type in ("vanid", None) else f"{id_type}:"
@@ -461,7 +462,7 @@ class People(object):
 
         expand_fields = ",".join([json_format.arg_format(f) for f in expand_fields])
 
-        logger.info(f'Getting person with {id_type or "vanid"} of {id} at url {url}')
+        logger.info(f"Getting person with {id_type or 'vanid'} of {id} at url {url}")
         return self.connection.get_request(url, params={"$expand": expand_fields})
 
     def delete_person(self, vanid):
@@ -587,6 +588,7 @@ class People(object):
         omit_contact=False,
         phone=None,
         campaignId=None,
+        skip_matching=False,
     ):
         """
         Apply responses such as survey questions, activist codes, and volunteer actions
@@ -624,6 +626,8 @@ class People(object):
                 `Optional`; Phone number of any type (Work, Cell, Home)
             campaignId: int
                 `Optional`; a valid Campaign ID.
+            skip_matching: boolean
+                `Optional`; if set to true, skips matching/de-duping of contact history. Defaults to a null value, aka false.
         `Returns:`
             ``True`` if successful
 
@@ -637,7 +641,7 @@ class People(object):
                          "type": "SurveyResponse"}
                         ]
             van.apply_response(5222, response)
-        """  # noqa: E501,E261
+        """
 
         # Set url based on id_type
         if id_type == "vanid":
@@ -652,25 +656,10 @@ class People(object):
                 "dateCanvassed": date_canvassed,
                 "omitActivistCodeContactHistory": omit_contact,
                 "campaignId": campaignId,
+                "skipMatching": skip_matching,
             },
             "resultCodeId": result_code_id,
         }
-
-        if (
-            contact_type_id == 1  # Phone
-            or contact_type_id == 19  # Auto Dial
-            or contact_type_id == 37  # SMS Text
-            or contact_type_id == 67  # Phone Bank
-            or contact_type_id == 68  # Consumer Phone
-            or contact_type_id == 72  # Leader Phone
-            or contact_type_id == 112  # Personal Phone
-            or contact_type_id == 132  # Relational Text
-            or contact_type_id == 143  # Distributed Text
-            or contact_type_id == 147  # Bulk Text
-            or contact_type_id == 149  # Paid SMS
-        ):
-            if not phone:
-                raise Exception("A phone number must be provided if canvassed via phone or SMS")
 
         if phone:
             json["canvassContext"]["phone"] = {
@@ -729,10 +718,7 @@ class People(object):
         """
 
         # Set url based on id_type
-        if id_type == "vanid":
-            url = f"people/{id}/codes"
-        else:
-            url = f"people/{id_type}:{id}/codes"
+        url = f"people/{id}/codes" if id_type == "vanid" else f"people/{id_type}:{id}/codes"
 
         json = {"codeId": code_id}
 

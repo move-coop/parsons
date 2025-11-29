@@ -1,17 +1,18 @@
 """NGPVAN Score Endpoints"""
 
+import logging
+import uuid
+
+import petl
+
 from parsons.etl.table import Table
 from parsons.utilities import cloud_storage
-import uuid
-import logging
-import petl
 
 logger = logging.getLogger(__name__)
 
 
-class Scores(object):
+class Scores:
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_scores(self):
@@ -101,17 +102,12 @@ class Scores(object):
         """
 
         if status not in ["pending approval", "approved", "disapproved", "canceled"]:
-
             raise ValueError(
-                """Valid inputs for status are, 'pending approval',
-                             'approved','disapproved','canceled'"""
+                """Valid inputs for status are, 'pending approval','approved','disapproved','canceled'"""
             )
 
         else:
-            if status == "pending approval":
-                status = "PendingApproval"
-            else:
-                status = status.capitalize()
+            status = "PendingApproval" if status == "pending approval" else status.capitalize()
 
         json = {"loadStatus": status}
 
@@ -228,9 +224,8 @@ class Scores(object):
         return r["jobId"]
 
 
-class FileLoadingJobs(object):
+class FileLoadingJobs:
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def create_file_load(
@@ -320,7 +315,6 @@ class FileLoadingJobs(object):
         }
 
         if auto_average and auto_tolerance:
-
             json["actions"]["approvalCriteria"] = {
                 "average": auto_average,
                 "tolerance": auto_tolerance,
@@ -405,7 +399,6 @@ class FileLoadingJobs(object):
         actions = []
 
         for score in score_map:
-
             action = {
                 "actionType": "score",
                 "personIdColumn": id_column,

@@ -1,25 +1,23 @@
-import unittest
 import os
+import unittest
+
 import requests_mock
+
 from parsons import VAN
 from test.utils import validate_list
-
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 
 
 class TestNGPVAN(unittest.TestCase):
     def setUp(self):
-
         self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
 
     def tearDown(self):
-
         pass
 
     @requests_mock.Mocker()
     def test_get_events(self, m):
-
         json = {
             "count": 6,
             "items": [
@@ -75,11 +73,10 @@ class TestNGPVAN(unittest.TestCase):
             "description",
         ]
 
-        self.assertTrue(validate_list(expected, self.van.get_events()))
+        assert validate_list(expected, self.van.get_events())
 
     @requests_mock.Mocker()
     def test_get_event(self, m):
-
         event_id = 1062
 
         json = {
@@ -105,13 +102,12 @@ class TestNGPVAN(unittest.TestCase):
             "description": "This is a sample",
         }
 
-        m.get(self.van.connection.uri + "events/{}".format(event_id), json=json)
+        m.get(self.van.connection.uri + f"events/{event_id}", json=json)
 
-        self.assertEqual(json, self.van.get_event(event_id))
+        assert json == self.van.get_event(event_id)
 
     @requests_mock.Mocker()
     def test_create_event(self, m):
-
         m.post(self.van.connection.uri + "events", json=750000984, status_code=204)
 
         # Test that it doesn't throw and error
@@ -126,11 +122,10 @@ class TestNGPVAN(unittest.TestCase):
             editable=False,
         )
 
-        self.assertEqual(r, 750000984)
+        assert r == 750000984
 
     @requests_mock.Mocker()
     def test_get_event_types(self, m):
-
         json = [
             {
                 "eventTypeId": 296199,
@@ -188,4 +183,4 @@ class TestNGPVAN(unittest.TestCase):
             "isOnlineActionsAvailable",
         ]
 
-        self.assertTrue(validate_list(expected, self.van.get_event_types()))
+        assert validate_list(expected, self.van.get_event_types())

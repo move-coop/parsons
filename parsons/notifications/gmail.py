@@ -1,8 +1,10 @@
 import base64
-from googleapiclient.errors import HttpError
+
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from httplib2 import Http
-from oauth2client import file, client, tools
+from oauth2client import client, file, tools
+
 from parsons.notifications.sendmail import SendMail
 
 SCOPES = "https://www.googleapis.com/auth/gmail.send"
@@ -22,7 +24,6 @@ class Gmail(SendMail):
     """
 
     def __init__(self, creds_path=None, token_path=None, user_id="me"):
-
         self.user_id = user_id
 
         if not creds_path:
@@ -61,7 +62,7 @@ class Gmail(SendMail):
                 i.e. the objects created by the create_* instance methods
         `Returns:`
             dict
-                A Users.messages object see `https://developers.google.com/gmail/api/v1/reference/users/messages#resource.` # noqa
+                A Users.messages object see `https://developers.google.com/gmail/api/v1/reference/users/messages#resource.`
                 for more info.
         """
         self.log.info("Sending a message...")

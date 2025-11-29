@@ -1,5 +1,6 @@
-import parsons.databases.database.constants as consts
 import logging
+
+import parsons.databases.database.constants as consts
 
 logger = logging.getLogger(__name__)
 
@@ -101,10 +102,9 @@ class DatabaseCreateStatement:
         # then it's a valid sql number
         # Also check the first character is not zero
         try:
-            if (float(val) or 1) and "_" not in val and (val in ("0", "0.0") or val[0] != "0"):
-                return True
-            else:
-                return False
+            return bool(
+                (float(val) or 1) and "_" not in val and (val in ("0", "0.0") or val[0] != "0")
+            )
 
         # If it can't be cast to a number in python
         # then it's not a number in sql

@@ -1,7 +1,9 @@
-from parsons import Table, CatalistMatch
 import time
-import pytest
 from unittest.mock import MagicMock
+
+import pytest
+
+from parsons import CatalistMatch, Table
 
 TEST_CLIENT_ID = "some_client_id"
 TEST_CLIENT_SECRET = "some_client_secret"
@@ -49,7 +51,7 @@ class TestCatalist:
         # first_name and last_name are required
         # We expect an exception raised if last_name is missing
         table_to_fail = table_for_test(include_last_name=False)
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Input table does not have the right structure"):
             match.validate_table(table_to_fail)
 
     def test_load_table_to_sftp(self) -> None:
@@ -92,7 +94,7 @@ class TestCatalist:
         requested_base_url = mock_requests._adapter.request_history[1]._url_parts.netloc
 
         assert requested_base_url == "api.catalist.us"
-        assert set(requested_queries.keys()) == set(["token"])
+        assert set(requested_queries.keys()) == {"token"}
         assert requested_queries["token"] == ["tokenexample"]
         assert requested_endpoint.startswith("/mapi/upload/template/48827/action/publish/url/")
 
@@ -110,7 +112,7 @@ class TestCatalist:
 
         requested_queries = mock_requests._adapter.request_history[1].qs
 
-        assert set(requested_queries.keys()) == set(["token", "copytosandbox", "phone"])
+        assert set(requested_queries.keys()) == {"token", "copytosandbox", "phone"}
         assert requested_queries["copytosandbox"] == ["true"]
         assert requested_queries["phone"] == ["123456789"]
 
@@ -126,7 +128,7 @@ class TestCatalist:
         requested_base_url = mock_requests._adapter.request_history[1]._url_parts.netloc
 
         assert requested_base_url == "api.catalist.us"
-        assert set(requested_queries.keys()) == set(["token"])
+        assert set(requested_queries.keys()) == {"token"}
         assert requested_queries["token"] == ["tokenexample"]
         assert requested_endpoint == "/mapi/status/id/12345"
 
@@ -140,12 +142,19 @@ class TestCatalist:
 
         # We expect two calls to the SFTP client to list the directory and get the file
         assert len(match.sftp.mock_calls) == 2
+
         first_mocked_call = match.sftp.mock_calls[0]
         first_called_method = str(first_mocked_call).split("(")[0].split(".")[1]
+
         assert first_called_method == "list_directory"
-        assert set(first_mocked_call.args) == set(["/myDownloads/"])
+        assert set(first_mocked_call.args) == {"/myDownloads/"}
 
         second_mocked_call = match.sftp.mock_calls[1]
         second_called_method = str(second_mocked_call).split("(")[0].split(".")[1]
+
         assert second_called_method == "get_file"
-        assert set(second_mocked_call.args) == set(["/myDownloads/example_12345"])
+
+        assert second_mocked_call.kwargs == {
+            "remote_path": "/myDownloads/example_12345",
+            "export_chunk_size": 52428800,
+        }

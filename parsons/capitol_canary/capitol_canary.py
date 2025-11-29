@@ -1,16 +1,18 @@
+import logging
+
 from requests.auth import HTTPBasicAuth
+
 from parsons.etl import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 from parsons.utilities.datetime import date_to_timestamp
-import logging
 
 logger = logging.getLogger(__name__)
 
 CAPITOL_CANARY_URI = "https://api.phone2action.com/2.0/"
 
 
-class CapitolCanary(object):
+class CapitolCanary:
     """
     Instantiate CapitolCanary Class
 
@@ -50,7 +52,6 @@ class CapitolCanary(object):
 
         # If count of items is less than the total allowed per page, paginate
         while r["pagination"]["count"] == r["pagination"]["per_page"]:
-
             r = self.client.get_request(r["pagination"]["next_url"], args)
             json.extend(r["data"])
 
@@ -125,7 +126,7 @@ class CapitolCanary(object):
             tbl.unpack_dict(c)
 
         # Unpack all of the arrays
-        child_tables = [child for child in tbls.keys() if child != "advocates"]
+        child_tables = [child for child in tbls if child != "advocates"]
         for c in child_tables:
             tbls[c] = tbl.long_table(["id"], c, key_rename={"id": "advocate_id"})
 
@@ -258,14 +259,12 @@ class CapitolCanary(object):
 
         if (sms_optin or sms_optout) and not phone:
             raise ValueError(
-                "When opting an advocate in or out of SMS messages, you must specify a valid "
-                "phone and one or more campaigns"
+                "When opting an advocate in or out of SMS messages, you must specify a valid phone and one or more campaigns"
             )
 
         if (email_optin or email_optout) and not email:
             raise ValueError(
-                "When opting an advocate in or out of email messages, you must specify a valid "
-                "email address and one or more campaigns"
+                "When opting an advocate in or out of email messages, you must specify a valid email address and one or more campaigns"
             )
 
         # Align our arguments with the expected parameters for the API
@@ -293,7 +292,7 @@ class CapitolCanary(object):
 
         # Turn into a list of items so we can append multiple campaigns
         campaign_keys = [("campaigns[]", val) for val in campaigns]
-        data = [(key, value) for key, value in payload.items()] + campaign_keys
+        data = list(payload.items()) + campaign_keys
 
         # Call into the CapitolCanary API
         response = self.client.post_request("advocates", data=data)
@@ -352,14 +351,12 @@ class CapitolCanary(object):
         # Validate the passed in arguments
         if (sms_optin or sms_optout) and not (phone and campaigns):
             raise ValueError(
-                "When opting an advocate in or out of SMS messages, you must specify a valid "
-                "phone and one or more campaigns"
+                "When opting an advocate in or out of SMS messages, you must specify a valid phone and one or more campaigns"
             )
 
         if (email_optin or email_optout) and not (email and campaigns):
             raise ValueError(
-                "When opting an advocate in or out of email messages, you must specify a valid "
-                "email address and one or more campaigns"
+                "When opting an advocate in or out of email messages, you must specify a valid email address and one or more campaigns"
             )
 
         # Align our arguments with the expected parameters for the API
@@ -386,7 +383,7 @@ class CapitolCanary(object):
         # Turn into a list of items so we can append multiple campaigns
         campaigns = campaigns or []
         campaign_keys = [("campaigns[]", val) for val in campaigns]
-        data = [(key, value) for key, value in payload.items()] + campaign_keys
+        data = list(payload.items()) + campaign_keys
 
         # Call into the CapitolCanary API
         self.client.post_request("advocates", data=data)

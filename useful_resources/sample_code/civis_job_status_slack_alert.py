@@ -1,9 +1,11 @@
 # This script checks the status of all jobs and workflows in a given Civis Project
 # and posts them to a Slack channel.
 
-import civis
 import datetime
 import logging
+
+import civis
+
 from parsons import Slack, Table
 
 # Environment variables
@@ -29,7 +31,6 @@ logger.setLevel("INFO")
 
 # Cleans up datetime format for posting to Slack.
 def format_datetime(text):
-
     formatted_text = text.replace("Z", "")
     dt = datetime.datetime.fromisoformat(formatted_text)
     return dt.strftime("%Y-%m-%d")
@@ -37,20 +38,19 @@ def format_datetime(text):
 
 # Assigns an emoji for each potential run status a Civis job or workflow might have.
 def get_run_state_emoji(run_state):
-
-    if run_state == "succeeded":
-        return ":white_check_mark:"
-    elif run_state == "failed":
-        return ":x:"
-    elif run_state == "running":
-        return ":runner:"
+    emoji_dict = {
+        "succeeded": ":white_check_mark:",
+        "failed": ":x:",
+        "running": ":runner:",
+    }
+    if run_state in emoji_dict:
+        return emoji_dict[run_state]
     else:
         return ":shrug:"
 
 
 # Returns a Parsons table with workflow and job data from the specified Civis project.
 def get_workflows_and_jobs(project_id):
-
     project = client.projects.get(project_id)
 
     # Get workflow and the job data from the project
@@ -78,7 +78,6 @@ def get_workflows_and_jobs(project_id):
 
 # Returns the date and time of the last successful run for a Civis job or workflow.
 def get_last_success(object_id, object_type):
-
     last_success = "-"
 
     if object_type == "workflow":
@@ -109,7 +108,6 @@ def get_last_success(object_id, object_type):
 
 
 def main():
-
     project_name = client.projects.get(CIVIS_PROJECT)["name"]
 
     scripts_table = get_workflows_and_jobs(CIVIS_PROJECT).sort(columns=["state", "name"])
@@ -122,8 +120,8 @@ def main():
     for run in scripts_table:
         last_success = get_last_success(run["id"], run["object_type"])
 
-        output_line = f"""{get_run_state_emoji(run['state'])}
-        {run['name']} (last success: {last_success})"""
+        output_line = f"""{get_run_state_emoji(run["state"])}
+        {run["name"]} (last success: {last_success})"""
         output_lines.append(output_line)
 
     # Output our message to Slack

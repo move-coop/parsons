@@ -1,25 +1,27 @@
-import unittest
-import os
-import pytest
-import shutil
 import datetime
+import os
+import shutil
+import tempfile
+import unittest
+from pathlib import Path
 from unittest import mock
+
+import pytest
+
 from parsons import Table
+from parsons.utilities import check_env, files, json_format, sql_helpers
 from parsons.utilities.datetime import date_to_timestamp, parse_date
-from parsons.utilities import files
-from parsons.utilities import check_env
-from parsons.utilities import json_format
-from parsons.utilities import sql_helpers
-from test.conftest import xfail_value_error
 
 
 @pytest.mark.parametrize(
-    ["date", "exp_ts"],
+    ("date", "exp_ts"),
     [
         pytest.param("2018-12-13", 1544659200),
         pytest.param("2018-12-13T00:00:00-08:00", 1544688000),
         pytest.param("", None),
-        pytest.param("2018-12-13 PST", None, marks=[xfail_value_error]),
+        pytest.param(
+            "2018-12-13 PST", None, marks=[pytest.mark.xfail(raises=ValueError, strict=True)]
+        ),
     ],
 )
 def test_date_to_timestamp(date, exp_ts):
@@ -53,11 +55,10 @@ def test_create_temp_file_for_path():
 
 def test_create_temp_directory():
     temp_directory = files.create_temp_directory()
-    test_file1 = f"{temp_directory}/test.txt"
-    test_file2 = f"{temp_directory}/test2.txt"
-    with open(test_file1, "w") as fh1, open(test_file2, "w") as fh2:
-        fh1.write("TEST")
-        fh2.write("TEST")
+    test_file1 = Path(temp_directory) / "test.txt"
+    test_file2 = Path(temp_directory) / "test2.txt"
+    test_file1.write_text("TEST")
+    test_file2.write_text("TEST")
 
     assert files.has_data(test_file1)
     assert files.has_data(test_file2)
@@ -66,7 +67,7 @@ def test_create_temp_directory():
 
     # Verify the temp file no longer exists
     with pytest.raises(FileNotFoundError):
-        open(test_file1, "r")
+        Path(test_file1).read_bytes()
 
 
 def test_close_temp_file():
@@ -75,7 +76,7 @@ def test_close_temp_file():
 
     # Verify the temp file no longer exists
     with pytest.raises(FileNotFoundError):
-        open(temp, "r")
+        Path(temp).read_bytes()
 
 
 def test_is_gzip_path():
@@ -97,19 +98,17 @@ def test_compression_type_for_path():
 
 
 def test_empty_file():
-
     # Create fake files.
-    os.mkdir("tmp")
-    with open("tmp/empty.csv", "w+") as _:
-        pass
+    tmp_folder = tempfile.mkdtemp()
+    (Path(tmp_folder) / "empty.csv").open(mode="w+").close()
 
-    Table([["1"], ["a"]]).to_csv("tmp/full.csv")
+    Table([["1"], ["a"]]).to_csv(str(Path(tmp_folder) / "full.csv"))
 
-    assert not files.has_data("tmp/empty.csv")
-    assert files.has_data("tmp/full.csv")
+    assert not files.has_data(Path(tmp_folder) / "empty.csv")
+    assert files.has_data(Path(tmp_folder) / "full.csv")
 
     # Remove fake files and dir
-    shutil.rmtree("tmp")
+    shutil.rmtree(tmp_folder)
 
 
 def test_json_format():
@@ -117,7 +116,6 @@ def test_json_format():
 
 
 def test_remove_empty_keys():
-
     # Assert key removed when None
     test_dict = {"a": None, "b": 2}
     assert json_format.remove_empty_keys(test_dict) == {"b": 2}
@@ -132,12 +130,11 @@ def test_remove_empty_keys():
 
 
 def test_redact_credentials():
-
     # Test with quotes, escape characters, and line breaks
-    test_str = """COPY schema.tablename
+    test_str = r"""COPY schema.tablename
     FROM 's3://bucket/path/to/file.csv'
-    credentials  'aws_access_key_id=string-\\'escaped-quote;
-    aws_secret_access_key='string-escape-char\\\\'
+    credentials  'aws_access_key_id=string-\'escaped-quote;
+    aws_secret_access_key='string-escape-char\\'
     MANIFEST"""
 
     test_result = """COPY schema.tablename
@@ -152,21 +149,21 @@ class TestCheckEnv(unittest.TestCase):
     def test_environment_field(self):
         """Test check field"""
         result = check_env.check("PARAM", "param")
-        self.assertEqual(result, "param")
+        assert result == "param"
 
     @mock.patch.dict(os.environ, {"PARAM": "env_param"})
     def test_environment_env(self):
         """Test check env"""
         result = check_env.check("PARAM", None)
-        self.assertEqual(result, "env_param")
+        assert result == "env_param"
 
     @mock.patch.dict(os.environ, {"PARAM": "env_param"})
     def test_environment_field_env(self):
         """Test check field with env and field"""
         result = check_env.check("PARAM", "param")
-        self.assertEqual(result, "param")
+        assert result == "param"
 
     def test_envrionment_error(self):
         """Test check env raises error"""
-        with self.assertRaises(KeyError) as _:
+        with pytest.raises(KeyError):
             check_env.check("PARAM", None)

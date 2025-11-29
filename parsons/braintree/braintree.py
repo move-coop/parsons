@@ -12,7 +12,7 @@ class ParsonsBraintreeError(Exception):
     pass
 
 
-class Braintree(object):
+class Braintree:
     """
     Braintree is a payment processor.
     `Args:`
@@ -235,7 +235,7 @@ class Braintree(object):
             query_list=query_list,
             query_dict=query_dict,
             default_query=(
-                {"effective_date": dict(between=[start_date, end_date])}
+                {"effective_date": {"between": [start_date, end_date]}}
                 if start_date and end_date
                 else None
             ),
@@ -310,7 +310,7 @@ class Braintree(object):
             query_list=query_list,
             query_dict=query_dict,
             default_query=(
-                {"created_at": dict(between=[start_date, end_date])}
+                {"created_at": {"between": [start_date, end_date]}}
                 if start_date and end_date
                 else None
             ),
@@ -389,11 +389,7 @@ class Braintree(object):
             query_list=query_list,
             query_dict=query_dict,
             default_query=(
-                {
-                    "disbursement_date": dict(
-                        between=[disbursement_start_date, disbursement_end_date]
-                    )
-                }
+                {"disbursement_date": {"between": [disbursement_start_date, disbursement_end_date]}}
                 if disbursement_start_date and disbursement_end_date
                 else None
             ),

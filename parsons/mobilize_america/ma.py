@@ -1,18 +1,20 @@
+import collections.abc
+import logging
+import os
+import re
+
+import petl
 from requests import request as _request
+
 from parsons.etl.table import Table
 from parsons.utilities.datetime import date_to_timestamp
-import petl
-import re
-import os
-import logging
-import collections.abc
 
 logger = logging.getLogger(__name__)
 
 MA_URI = "https://api.mobilize.us/v1/"
 
 
-class MobilizeAmerica(object):
+class MobilizeAmerica:
     """
     Instantiate MobilizeAmerica Class
 
@@ -24,7 +26,6 @@ class MobilizeAmerica(object):
     """
 
     def __init__(self, api_key=None):
-
         self.uri = MA_URI
         self.api_key = api_key or os.environ.get("MOBILIZE_AMERICA_API_KEY")
 
@@ -36,7 +37,6 @@ class MobilizeAmerica(object):
 
     def _request(self, url, req_type="GET", post_data=None, args=None, auth=False):
         if auth:
-
             if not self.api_key:
                 raise TypeError("This method requires an api key.")
             else:
@@ -55,13 +55,11 @@ class MobilizeAmerica(object):
         return r
 
     def _request_paginate(self, url, req_type="GET", args=None, auth=False):
-
         r = self._request(url, req_type=req_type, args=args, auth=auth)
 
         json = r.json()["data"]
 
         while r.json()["next"]:
-
             r = self._request(r.json()["next"], req_type=req_type, auth=auth)
             json.extend(r.json()["data"])
 
@@ -73,7 +71,6 @@ class MobilizeAmerica(object):
         trans = [(">=", "gte_"), (">", "gt_"), ("<=", "lte_"), ("<", "lt_")]
 
         if time_arg:
-
             time = re.sub("<=|<|>=|>", "", time_arg)
             time = date_to_timestamp(time)
             time_filter = re.search("<=|<|>=|>", time_arg).group()
@@ -176,14 +173,12 @@ class MobilizeAmerica(object):
         tbl = Table(self._request_paginate(self.uri + "events", args=args))
 
         if tbl.num_rows > 0:
-
             tbl.unpack_dict("sponsor")
             tbl.unpack_dict("location", prepend=False)
             tbl.unpack_dict("location", prepend=False)  # Intentional duplicate
             tbl.table = petl.convert(tbl.table, "address_lines", lambda v: " ".join(v))
 
             if timeslots_table:
-
                 timeslots_tbl = tbl.long_table(["id"], "timeslots", "event_id")
                 return {"events": tbl, "timeslots": timeslots_tbl}
 
@@ -285,14 +280,12 @@ class MobilizeAmerica(object):
         )
 
         if tbl.num_rows > 0:
-
             tbl.unpack_dict("sponsor")
             tbl.unpack_dict("location", prepend=False)
             tbl.unpack_dict("location", prepend=False)  # Intentional duplicate
             tbl.table = petl.convert(tbl.table, "address_lines", lambda v: " ".join(v))
 
             if timeslots_table:
-
                 timeslots_tbl = tbl.long_table(["id"], "timeslots", "event_id")
                 return {"events": tbl, "timeslots": timeslots_tbl}
 

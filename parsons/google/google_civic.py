@@ -1,11 +1,12 @@
-from parsons.utilities import check_env
 import requests
+
 from parsons.etl import Table
+from parsons.utilities import check_env
 
 URI = "https://www.googleapis.com/civicinfo/v2/"
 
 
-class GoogleCivic(object):
+class GoogleCivic:
     """
     `Args:`
         api_key : str
@@ -16,7 +17,6 @@ class GoogleCivic(object):
     """
 
     def __init__(self, api_key=None):
-
         self.api_key = check_env.check("GOOGLE_CIVIC_API_KEY", api_key)
         self.uri = URI
 

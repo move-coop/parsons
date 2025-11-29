@@ -1,11 +1,12 @@
 import os
-from distutils.core import setup
 from pathlib import Path
-from setuptools import find_packages
+
+from setuptools import setup
 
 
 def main():
     limited_deps = os.environ.get("PARSONS_LIMITED_DEPENDENCIES", "")
+    install_requires = []
     if limited_deps.strip().upper() in ("1", "YES", "TRUE", "ON"):
         install_requires = [
             "petl",
@@ -18,14 +19,14 @@ def main():
             "airtable": ["pyairtable"],
             "alchemer": ["surveygizmo"],
             "azure": ["azure-storage-blob"],
-            "box": ["boxsdk"],
+            "box": ["boxsdk < 10"],
             "braintree": ["braintree"],
             "catalist": ["paramiko"],
             "civis": ["civis"],
-            "dbt-redshift": ["dbt-redshift", "slackclient<2"],
-            "dbt-bigquery": ["dbt-bigquery", "slackclient<2"],
-            "dbt-postgres": ["dbt-postgres", "slackclient<2"],
-            "dbt-snowflake": ["dbt-snowflake", "slackclient<2"],
+            "dbt-redshift": ["dbt-redshift >= 1.5.0"],
+            "dbt-bigquery": ["dbt-bigquery >= 1.5.0"],
+            "dbt-postgres": ["dbt-postgres >= 1.5.0"],
+            "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
             "facebook": ["joblib", "facebook-business"],
             "geocode": ["censusgeocode", "urllib3==1.26.19"],
             "github": ["PyGitHub"],
@@ -42,66 +43,46 @@ def main():
             ],
             "mysql": [
                 "mysql-connector-python",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["bs4"],
             "postgres": [
-                "psycopg2-binary>=2.9.9",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+                "psycopg2-binary <= 2.9.9;python_version<'3.13'",
+                "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "redshift": [
                 "boto3",
-                "psycopg2-binary>=2.9.9",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+                "psycopg2-binary <= 2.9.9;python_version<'3.13'",
+                "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
+            "scytl": ["defusedxml", "pytz"],
             "sftp": ["paramiko"],
-            "slack": ["slackclient<2"],
+            "slack": ["slack-sdk"],
             "smtp": ["validate-email"],
-            "targetsmart": ["xmltodict"],
+            "targetsmart": ["xmltodict", "defusedxml"],
             "twilio": ["twilio"],
             "ssh": [
                 "sshtunnel",
-                "psycopg2-binary>=2.9.9",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 2.0.0",
+                "psycopg2-binary <= 2.9.9;python_version<'3.13'",
+                "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
+                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
             ],
         }
         extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
     else:
-        THIS_DIR = os.path.abspath(os.path.dirname(__file__))
-        with open(os.path.join(THIS_DIR, "requirements.txt")) as reqs:
-            install_requires = reqs.read().strip().split("\n")
-        # No op for forward-compatibility
-        extras_require = {"all": []}
-
-    this_directory = Path(__file__).parent
-    long_description = (this_directory / "README.md").read_text()
+        pyproject_path = Path(__file__).parent / "requirements.txt"
+        install_requires = pyproject_path.read_text().strip().split("\n")
+        extras_require = {"all": []}  # No op for forward-compatibility
 
     setup(
-        name="parsons",
-        version="3.2.0",
-        author="The Movement Cooperative",
-        author_email="info@movementcooperative.org",
-        url="https://github.com/move-coop/parsons",
-        keywords=["PROGRESSIVE", "API", "ETL"],
-        packages=find_packages(),
         install_requires=install_requires,
         extras_require=extras_require,
-        classifiers=[
-            "Development Status :: 3 - Alpha",
-            "Intended Audience :: Developers",
-            "Programming Language :: Python :: 3.8",
-            "Programming Language :: Python :: 3.9",
-            "Programming Language :: Python :: 3.10",
-            "Programming Language :: Python :: 3.11",
-            "Programming Language :: Python :: 3.12",
-        ],
-        python_requires=">=3.8.0,<3.13.0",
-        long_description=long_description,
-        long_description_content_type="text/markdown",
     )
 
 

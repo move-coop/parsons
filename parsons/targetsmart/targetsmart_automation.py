@@ -21,16 +21,18 @@ solution. See `TargetSmartAPI.smartmatch`.
 
 """
 
-from parsons.sftp.sftp import SFTP
-from parsons.etl.table import Table
-from parsons.utilities.files import create_temp_file
-from parsons.utilities import check_env
-import xml.etree.ElementTree as ET
-import uuid
-import time
 import logging
+import time
+import uuid
+from pathlib import Path
+
+import defusedxml.ElementTree as ET
 import xmltodict
 
+from parsons.etl.table import Table
+from parsons.sftp.sftp import SFTP
+from parsons.utilities import check_env
+from parsons.utilities.files import create_temp_file
 
 TS_STFP_HOST = "transfer.targetsmart.com"
 TS_SFTP_PORT = 22
@@ -41,14 +43,13 @@ logger = logging.getLogger(__name__)
 
 # Automation matching documentation can be found here:
 # https://docs.targetsmart.com/my_tsmart/automation/developer.html.
-class TargetSmartAutomation(object):
+class TargetSmartAutomation:
     """
     * `Automation overview <https://docs.targetsmart.com/my_tsmart/automation/overview.html>`_
     * `Automation integration doc <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`_
-    """  # noqa
+    """
 
     def __init__(self, sftp_username=None, sftp_password=None):
-
         self.sftp_host = TS_STFP_HOST
         self.sftp_port = TS_SFTP_PORT
         self.sftp_dir = TS_SFTP_DIR
@@ -109,7 +110,7 @@ class TargetSmartAutomation(object):
                 Remove the configuration, file to be matched and matched file from
                 the TargetSmart SFTP upon completion or failure of match.
 
-        """  # noqa: E501,E261
+        """
 
         # Generate a match job
         job_name = job_name or str(uuid.uuid1())
@@ -194,7 +195,6 @@ class TargetSmartAutomation(object):
         #  Poll the configuration status
 
         while True:
-
             time.sleep(polling_interval)
             if self.config_status(job_name):
                 return True
@@ -205,7 +205,6 @@ class TargetSmartAutomation(object):
         # the files in the SFTP directory.
 
         for f in self.sftp.list_directory(remote_path=self.sftp_dir):
-
             if f == f"{job_name}.job.xml.good":
                 logger.info(f"Match job {job_name} configured.")
                 return True
@@ -214,8 +213,7 @@ class TargetSmartAutomation(object):
                 logger.info(f"Match job {job_name} configuration error.")
                 #  To Do: Lift up the configuration error.
                 raise ValueError(
-                    "Job configuration failed. If you provided an email"
-                    "address, you will be sent more details."
+                    "Job configuration failed. If you provided an email address, you will be sent more details."
                 )
 
             else:
@@ -230,14 +228,11 @@ class TargetSmartAutomation(object):
         # we do. However, the actually data is only exposed on the secure SFTP.
 
         while True:
-
             logger.debug("Match running...")
             for file_name in self.sftp.list_directory(remote_path=self.sftp_dir):
-
                 if file_name == f"{job_name}.finish.xml":
-
                     xml_file = self.sftp.get_file(f"{self.sftp_dir}/{job_name}.finish.xml")
-                    with open(xml_file, "rb") as x:
+                    with Path(xml_file).open(mode="rb") as x:
                         xml = xmltodict.parse(x, dict_constructor=dict)
 
                     if xml["jobcontext"]["state"] == "error":

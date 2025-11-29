@@ -1,9 +1,10 @@
 import civis
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 
 
-class CivisClient(object):
+class CivisClient:
     """
     Instantiate the Civis class.
 
@@ -17,10 +18,9 @@ class CivisClient(object):
             Option settings for the client that are `described in the documentation <https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient>`_.
     `Returns:`
         Civis class
-    """  # noqa: E501
+    """
 
     def __init__(self, db=None, api_key=None, **kwargs):
-
         self.db = check_env.check("CIVIS_DATABASE", db)
         self.api_key = check_env.check("CIVIS_API_KEY", api_key)
         self.client = civis.APIClient(api_key=api_key, **kwargs)
@@ -28,7 +28,7 @@ class CivisClient(object):
         The Civis API client. Utilize this attribute to access to lower level and more
         advanced methods which might not be surfaced in Parsons. A list of the methods
         can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`_.
-        """  # noqa: E501
+        """
 
     def query(self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True):
         """
@@ -91,7 +91,7 @@ class CivisClient(object):
     ):
         """
         Write the table to a Civis Redshift cluster. Additional key word
-        arguments can passed to `civis.io.dataframe_to_civis()  <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_ # noqa: E501
+        arguments can passed to `civis.io.dataframe_to_civis()  <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_
 
         `Args`
             table_obj: obj
@@ -120,7 +120,7 @@ class CivisClient(object):
                 the future object.
         `Returns`
             ``None`` or ``civis.CivisFuture``
-        """  # noqa: E501,E261
+        """
 
         fut = civis.io.dataframe_to_civis(
             table_obj.to_dataframe(),

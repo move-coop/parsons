@@ -1,13 +1,14 @@
-from pyairtable import Api as client
-from parsons.etl import Table
-from parsons.utilities import check_env
 import logging
 
+from pyairtable import Api as client
+
+from parsons.etl import Table
+from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 
 
-class Airtable(object):
+class Airtable:
     """
     `Args:`
         base_key: str
@@ -23,7 +24,6 @@ class Airtable(object):
     """
 
     def __init__(self, base_key, table_name, personal_access_token=None):
-
         self.personal_access_token = check_env.check(
             "AIRTABLE_PERSONAL_ACCESS_TOKEN", personal_access_token
         )
@@ -303,7 +303,7 @@ class Airtable(object):
         # is provided then map the ids into the expected list of id strings.
 
         if any(isinstance(row, dict) for row in table):
-            table = list(map(lambda row: row["id"], table))
+            table = [row["id"] for row in table]
 
         resp = self.client.batch_delete(table)
         logger.info(f"{len(table)} records deleted.")

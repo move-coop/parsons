@@ -1,9 +1,10 @@
-import unittest
 import os
+import unittest
+
 import requests_mock
+
 from parsons import VAN
 from test.utils import assert_matching_tables
-
 
 custom_field = [
     {
@@ -48,23 +49,19 @@ os.environ["VAN_API_KEY"] = "SOME_KEY"
 
 class TestCustomFields(unittest.TestCase):
     def setUp(self):
-
         self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
 
     @requests_mock.Mocker()
     def test_get_custom_fields(self, m):
-
         m.get(self.van.connection.uri + "customFields", json=custom_field)
         assert_matching_tables(custom_field, self.van.get_custom_fields())
 
     @requests_mock.Mocker()
     def test_get_custom_field_values(self, m):
-
         m.get(self.van.connection.uri + "customFields", json=custom_field)
         assert_matching_tables(custom_field_values, self.van.get_custom_fields_values())
 
     @requests_mock.Mocker()
     def test_get_custom_field(self, m):
-
         m.get(self.van.connection.uri + "customFields/157", json=custom_field)
         assert_matching_tables(custom_field, self.van.get_custom_field(157))

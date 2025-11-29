@@ -1,5 +1,6 @@
-from sqlalchemy import create_engine, Table, MetaData
 import logging
+
+from sqlalchemy import MetaData, Table, create_engine
 
 logger = logging.getLogger(__name__)
 
@@ -76,6 +77,6 @@ class Alchemy:
             schema, table = full_table_name.split(".")
         except ValueError as e:
             if "too many values to unpack" in str(e):
-                raise ValueError(f"Invalid database table {full_table_name}")
+                raise ValueError(f"Invalid database table {full_table_name}") from e
 
         return schema, table

@@ -1,8 +1,10 @@
 import json
 import logging
-import requests
-import time
 import math
+import time
+from pathlib import Path
+
+import requests
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
@@ -10,7 +12,7 @@ from parsons.utilities import check_env
 logger = logging.getLogger(__name__)
 
 
-class ActionKit(object):
+class ActionKit:
     """
     Instantiate the ActionKit class
 
@@ -84,7 +86,7 @@ class ActionKit(object):
         # AK provides some pretty robust/helpful error reporting. We should surface them with
         # our exceptions.
 
-        if "errors" in resp.json().keys():
+        if "errors" in resp.json():
             if isinstance(resp.json()["errors"], list):
                 exception_message += "\n" + ",".join(resp.json()["errors"])
             else:
@@ -1282,7 +1284,7 @@ class ActionKit(object):
         `Returns`:
             dict
                 The response json
-        """  # noqa: E501,E261
+        """
 
         if not email or ak_id:
             raise ValueError("One of email or ak_id is required.")
@@ -1353,12 +1355,13 @@ class ActionKit(object):
                 success: whether upload was successful
                 progress_url: an API URL to get progress on upload processing
                 res: requests http response object
-        """  # noqa: E501,E261
+        """
 
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({"accepts": "application/json"})
+        # TODO: use context manager or close file when done
         if isinstance(csv_file, str):
-            csv_file = open(csv_file, "rb")
+            csv_file = Path(csv_file).open(mode="rb")  # noqa SIM115
 
         url = self._base_endpoint("upload")
         files = {"upload": csv_file}
@@ -1375,7 +1378,8 @@ class ActionKit(object):
                 "id": progress_url.split("/")[-2] if progress_url else None,
                 "progress_url": progress_url,
             }
-            return rv
+
+        return rv
 
     def bulk_upload_table(
         self,
@@ -1422,7 +1426,7 @@ class ActionKit(object):
                 success: bool -- whether upload was successful (individual rows may not have been)
                 results: [dict] -- This is a list of the full results.
                          progress_url and res for any results
-        """  # noqa: E501,E261
+        """
 
         import_page = check_env.check("ACTION_KIT_IMPORTPAGE", import_page)
         upload_tables = self._split_tables_no_empties(
@@ -1431,7 +1435,7 @@ class ActionKit(object):
         results = []
         for tbl in upload_tables:
             user_fields_only = int(
-                not any([h for h in tbl.columns if h != "email" and not h.startswith("user_")])
+                not any(h for h in tbl.columns if h != "email" and not h.startswith("user_"))
             )
             results.append(
                 self.bulk_upload_csv(
@@ -1441,7 +1445,7 @@ class ActionKit(object):
                     user_fields_only=user_fields_only,
                 )
             )
-        return {"success": all([r["success"] for r in results]), "results": results}
+        return {"success": all(r["success"] for r in results), "results": results}
 
     def _split_tables_no_empties(self, table, no_overwrite_on_empty, set_only_columns):
         table_groups = {}
@@ -1462,7 +1466,7 @@ class ActionKit(object):
                 subset_table.table = subset_table.table.cutout(*blanks)
             logger.debug(f"Column Upload Blanks: {blanks}")
             logger.debug(f"Column Upload Columns: {subset_table.columns}")
-            if not set(["user_id", "email"]).intersection(subset_table.columns):
+            if not {"user_id", "email"}.intersection(subset_table.columns):
                 logger.warning(
                     f"Upload will fail without user_id or email. "
                     f"Rows: {subset_table.num_rows}, Columns: {subset_table.columns}"

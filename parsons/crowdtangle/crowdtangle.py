@@ -1,8 +1,10 @@
-from requests import request
+import logging
 import time
+
+from requests import request
+
 from parsons.etl import Table
 from parsons.utilities import check_env
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +13,7 @@ PAGE_SIZE = 100
 REQUEST_SLEEP = 10  # CT has a rather agressive 6 requests per minute rate limit.
 
 
-class CrowdTangle(object):
+class CrowdTangle:
     """
     Instantiate CrowdTangle Class
 
@@ -24,12 +26,10 @@ class CrowdTangle(object):
     """
 
     def __init__(self, api_key=None):
-
         self.api_key = check_env.check("CT_API_KEY", api_key)
         self.uri = CT_URI
 
     def _base_request(self, endpoint, req_type="GET", args=None):
-
         url = f"{self.uri}/{endpoint}"
         base_args = {"token": self.api_key, "count": PAGE_SIZE}
 
@@ -55,7 +55,6 @@ class CrowdTangle(object):
         return data
 
     def _base_unpack(self, ParsonsTable):
-
         logger.debug("Working to unpack the Parsons Table...")
         logger.debug(f"Starting with {len(ParsonsTable.columns)} columns...")
         sample = ParsonsTable[0]
@@ -74,7 +73,6 @@ class CrowdTangle(object):
         return ParsonsTable
 
     def _unpack(self, ParsonsTable):
-
         if ParsonsTable.num_rows == 0:
             return None
 
@@ -89,7 +87,6 @@ class CrowdTangle(object):
         return ParsonsTable
 
     def _list_to_string(self, list_arg):
-
         if list_arg:
             return ",".join(list_arg)
         else:

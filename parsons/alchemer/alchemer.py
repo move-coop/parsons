@@ -1,5 +1,7 @@
 import logging
+
 import surveygizmo
+
 from parsons.etl import Table
 from parsons.utilities import check_env
 
@@ -21,7 +23,7 @@ def sg_compatibility():
         os.environ["ALCHEMER_API_VERSION"] = os.getenv("SURVEYGIZMO_API_VERSION")
 
 
-class Alchemer(object):
+class Alchemer:
     """
     Instantiate Alchemer Class
 
@@ -44,7 +46,6 @@ class Alchemer(object):
     """
 
     def __init__(self, api_token=None, api_token_secret=None, api_version="v5"):
-
         sg_compatibility()
 
         self.api_token = check_env.check("ALCHEMER_API_TOKEN", api_token)

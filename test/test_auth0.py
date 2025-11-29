@@ -2,10 +2,11 @@ import gzip
 import json
 import unittest
 import unittest.mock
-from test.utils import assert_matching_tables
 
 import requests_mock
+
 from parsons import Auth0, Table
+from test.utils import assert_matching_tables
 
 CLIENT_ID = "abc"
 CLIENT_SECRET = "def"
@@ -27,7 +28,7 @@ class TestAuth0(unittest.TestCase):
     def test_delete_user(self, m):
         user_id = 1
         m.delete(f"{self.auth0.base_url}/api/v2/users/{user_id}", status_code=204)
-        self.assertEqual(self.auth0.delete_user(user_id), 204)
+        assert self.auth0.delete_user(user_id) == 204
 
     @requests_mock.Mocker()
     def test_get_users_by_email(self, m):
@@ -88,7 +89,7 @@ class TestAuth0(unittest.TestCase):
             {},
             {},
         )
-        self.assertEqual(ret.status_code, 200)
+        assert ret.status_code == 200
 
     @requests_mock.Mocker()
     def test_block_user(self, m):
@@ -98,4 +99,4 @@ class TestAuth0(unittest.TestCase):
         mock_resp.status_code = 200
         m.patch(f"{self.auth0.base_url}/api/v2/users/{user['user_id']}", [mock_resp])
         ret = self.auth0.block_user(user["user_id"])
-        self.assertEqual(ret.status_code, 200)
+        assert ret.status_code == 200

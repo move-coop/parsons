@@ -1,7 +1,9 @@
-import unittest
 import os
-import requests_mock
+import unittest
 from copy import deepcopy
+
+import requests_mock
+
 from parsons import VAN, Table
 
 
@@ -136,6 +138,18 @@ sample_content_single = [
     }
 ]
 
+sample_content_pending_email = [
+    {
+        "name": "I'm a pending email",
+        "senderDisplayName": None,
+        "senderEmailAddress": None,
+        "subject": None,
+        "createdBy": "Random Intern",
+        "dateCreated": "2023-05-17T15:04:00Z",
+        "emailMessageContentDistributions": None,
+    }
+]
+
 mock_response = [
     {
         "foreignMessageId": "oK2ahdAcEe6F-QAiSCI3lA2",
@@ -193,13 +207,13 @@ mock_response_enriched = deepcopy(mock_response)
 mock_response_enriched[0]["emailMessageContent"] = sample_content_single
 mock_response_enriched[1]["emailMessageContent"] = sample_content_single
 mock_response_enriched[2]["emailMessageContent"] = sample_content_single
-mock_response_enriched[3]["emailMessageContent"] = sample_content_single
+mock_response_enriched[3]["emailMessageContent"] = sample_content_pending_email
 mock_response_enriched[4]["emailMessageContent"] = sample_content_full
 
 
 class TestEmail(unittest.TestCase):
     def setUp(self):
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
+        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
 
     @requests_mock.Mocker()
     def test_get_email_messages(self, m):

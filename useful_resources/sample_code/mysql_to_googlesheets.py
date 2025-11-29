@@ -2,8 +2,10 @@
 
 import logging
 import time
-from parsons import GoogleSheets, MySQL
+
 from gspread.exceptions import APIError
+
+from parsons import GoogleSheets, MySQL
 
 logger = logging.getLogger(__name__)
 _handler = logging.StreamHandler()
@@ -41,14 +43,13 @@ QUERY = """-- Enter SQL here"""
 # There is a limit to the number of calls per minute,
 # so we use request_count to set a maximum number of tries
 def try_overwrite(table, request_count, sheet_id, tab_index):
-
     try:
         gsheets.overwrite_sheet(sheet_id, table, worksheet=tab_index, user_entered_value=False)
 
     except APIError as e:
         print(f"trying to overwrite {tab_index} for the {request_count}th time")
         if request_count > 60:
-            raise APIError(e)
+            raise APIError from e
         time.sleep(80)
         request_count += 1
         try_overwrite(table, request_count, sheet_id, tab_index)
@@ -59,7 +60,7 @@ def main():
 
     try:
         new_sheet = gsheets.create_spreadsheet(title=TITLE, editor_email=None, folder_id=FOLDER_ID)
-        # If successful new_sheet will be the spreadsheet's ID in a string
+        # If successful new_sheet will be the sprkeadsheet's ID in a string
         if isinstance(new_sheet, str):
             logger.info(f"Successfully created sheet {TITLE}!")
         # If we do not get a string back from the create_spreadsheet call

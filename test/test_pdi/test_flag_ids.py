@@ -1,12 +1,11 @@
-from test.utils import mark_live_test
-
-from parsons import Table
-
 from contextlib import contextmanager
-from requests.exceptions import HTTPError
 
 # import json
 import pytest
+from requests.exceptions import HTTPError
+
+from parsons import Table
+from test.utils import mark_live_test
 
 #
 # Fixtures and constants
@@ -31,7 +30,7 @@ def cleanup_flag_id():
     def delete_flag_id(pdi, flag_id):
         pdi.delete_flag_id(flag_id)
 
-    yield delete_flag_id
+    return delete_flag_id
 
 
 @pytest.fixture
@@ -46,7 +45,7 @@ def create_temp_flag_id():
         if not my_flag_id:
             pdi.delete_flag_id(flag_id)
 
-    yield temp_flag_id
+    return temp_flag_id
 
 
 #
@@ -86,7 +85,7 @@ def test_get_flag_id(live_pdi, id):
 
 @mark_live_test
 @pytest.mark.parametrize(
-    ["flag_id", "is_default"],
+    ("flag_id", "is_default"),
     [
         pytest.param(None, True, marks=[xfail_http_error]),
         pytest.param("amm", None, marks=[xfail_http_error]),
@@ -101,7 +100,7 @@ def test_create_flag_id(live_pdi, cleanup_flag_id, flag_id, is_default):
 
 @mark_live_test
 @pytest.mark.parametrize(
-    ["my_flag_id"],
+    "my_flag_id",
     [
         pytest.param(None),
         pytest.param(QA_INVALID_FLAG_ID),
@@ -117,7 +116,7 @@ def test_delete_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
 
 @mark_live_test
 @pytest.mark.parametrize(
-    ["my_flag_id"],
+    "my_flag_id",
     [
         pytest.param(None),
         pytest.param(QA_INVALID_FLAG_ID, marks=[xfail_http_error]),
@@ -127,7 +126,7 @@ def test_delete_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
 def test_update_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
     with create_temp_flag_id(live_pdi, my_flag_id) as flag_id:
         # flag initial state:
-        # {"id":flag_id,"flagId":"amm","flagIdDescription":null,"compile":"","isDefault":false}  # noqa
+        # {"id":flag_id,"flagId":"amm","flagIdDescription":null,"compile":"","isDefault":false}
         id = live_pdi.update_flag_id(flag_id, "bnh", True)
         assert id == flag_id
 

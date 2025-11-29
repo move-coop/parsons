@@ -1,10 +1,12 @@
-import unittest
 import os
+import unittest
+
+import pytest
 import requests_mock
-from parsons import VAN
-from test.utils import validate_list
 from requests.exceptions import HTTPError
 
+from parsons import VAN
+from test.utils import validate_list
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 
@@ -59,42 +61,37 @@ expected_loc = [
 
 class TestLocations(unittest.TestCase):
     def setUp(self):
-
-        self.van = VAN(os.environ["VAN_API_KEY"], db="EveryAction", raise_for_status=False)
+        self.van = VAN(os.environ["VAN_API_KEY"], db="EveryAction")
 
     def tearDown(self):
-
         pass
 
     @requests_mock.Mocker()
     def test_get_locations(self, m):
-
         json = {"items": [location_json], "nextPageLink": None, "count": 1}
         m.get(self.van.connection.uri + "locations", json=json)
 
-        self.assertTrue(validate_list(expected_loc, self.van.get_locations()))
+        assert validate_list(expected_loc, self.van.get_locations())
 
     @requests_mock.Mocker()
     def test_get_location(self, m):
-
         # Valid location id
         m.get(self.van.connection.uri + "locations/34", json=location_json)
-        self.assertEqual(location_json, self.van.get_location(34))
+        assert location_json == self.van.get_location(34)
 
     @requests_mock.Mocker()
     def test_delete_location(self, m):
-
         # Test good location delete
         m.delete(self.van.connection.uri + "locations/1", status_code=200)
         self.van.delete_location(1)
 
         # Test invalid location delete
         m.delete(self.van.connection.uri + "locations/2", status_code=404)
-        self.assertRaises(HTTPError, self.van.delete_location, 2)
+        with pytest.raises(HTTPError):
+            self.van.delete_location(2)
 
     @requests_mock.Mocker()
     def test_create_location(self, m):
-
         loc_id = 32
 
         m.post(
@@ -103,7 +100,4 @@ class TestLocations(unittest.TestCase):
             status_code=204,
         )
 
-        self.assertEqual(
-            self.van.create_location(name="Chicagowide", city="Chicago", state="IL"),
-            loc_id,
-        )
+        assert self.van.create_location(name="Chicagowide", city="Chicago", state="IL") == loc_id

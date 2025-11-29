@@ -1,8 +1,9 @@
+import logging
+import re
+
+from parsons.etl import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-import re
-from parsons.etl import Table
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +26,6 @@ class Freshdesk:
     """
 
     def __init__(self, domain, api_key):
-
         self.api_key = check_env.check("FRESHDESK_API_KEY", api_key)
         self.domain = check_env.check("FRESHDESK_DOMAIN", domain)
         self.uri = f"https://{self.domain}.freshdesk.com/api/v2/"
@@ -42,7 +42,7 @@ class Freshdesk:
         data = r.json()
 
         # Paginate
-        while "link" in r.headers.keys():
+        while "link" in r.headers:
             logger.info(f"Retrieving another page of {PAGE_SIZE} records.")
             url = re.search("<(.*)>", r.headers["link"]).group(1)
             r = self.client.request(url, "GET", params=params)

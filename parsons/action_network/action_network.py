@@ -2,7 +2,8 @@ import json
 import logging
 import re
 import warnings
-from typing import Dict, List, Union
+from typing import Literal, Union
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -12,7 +13,7 @@ logger = logging.getLogger(__name__)
 API_URL = "https://actionnetwork.org/api/v2"
 
 
-class ActionNetwork(object):
+class ActionNetwork:
     """
     `Args:`
         api_token: str
@@ -56,9 +57,8 @@ class ActionNetwork(object):
                 return Table(return_list)
             return_list.extend(response_list)
             count = count + len(response_list)
-            if limit:
-                if count >= limit:
-                    return Table(return_list[0:limit])
+            if limit and count >= limit:
+                return Table(return_list[0:limit])
 
     # Advocacy Campaigns
     def get_advocacy_campaigns(self, limit=None, per_page=25, page=None, filter=None):
@@ -905,7 +905,7 @@ class ActionNetwork(object):
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/messages
         """
-        return self.api.post_request("messages", payload)
+        return self.api.post_request("messages", json=payload)
 
     def update_message(self, message_id, payload):
         """
@@ -925,7 +925,41 @@ class ActionNetwork(object):
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/messages
         """
-        return self.api.put_request(f"messages/{message_id}", payload)
+        return self.api.put_request(f"messages/{message_id}", json=payload)
+
+    def schedule_message(self, message_id, scheduled_start_date):
+        """
+        Schedule a message in Action Network
+
+        `Args:`
+            message_id:
+               The unique id of the message
+            scheduled_start_date:
+                The UTC timestamp to schedule the message at in ISO8601 format.
+                e.g. "2015-03-14T12:00:00Z"
+        `Returns:`
+            A JSON response confirming the scheduling
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/schedule_helper
+        """
+        return self.api.post_request(
+            f"messages/{message_id}/schedule/",
+            {"scheduled_start_date": scheduled_start_date},
+        )
+
+    def send_message(self, message_id):
+        """
+        Send a message in Action Network
+
+        `Args:`
+            message_id:
+               The unique id of the message
+        `Returns:`
+            A JSON response confirming the message was sent
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/send_helper
+        """
+        return self.api.post_request(f"messages/{message_id}/send/", {})
 
     # Metadata
     def get_metadata(self):
@@ -1120,14 +1154,14 @@ class ActionNetwork(object):
 
     def upsert_person(
         self,
-        email_address: Union[str, List[str], List[Dict[str, str]]] = None,
+        email_address: Union[str, list[str], list[dict[str, str]]] = None,
         given_name=None,
         family_name=None,
         tags=None,
         languages_spoken=None,
         postal_addresses=None,
         mobile_number=None,
-        mobile_status="subscribed",
+        mobile_status: Literal["subscribed", "unsubscribed", None] = None,
         background_processing=False,
         **kwargs,
     ):
@@ -1181,8 +1215,11 @@ class ActionNetwork(object):
                             - "subscribed"
                             - "unsubscribed"
             mobile_status:
-                'subscribed' or 'unsubscribed'
-            background_request: bool
+                None, 'subscribed' or 'unsubscribed'. If included, will update the SMS opt-in
+                status of the phone in ActionNetwork. If not included, won't update the status.
+                None by default, causes no updates to mobile number status. New numbers are set
+                to "unsubscribed" by default.
+            background_processing: bool
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
@@ -1211,30 +1248,34 @@ class ActionNetwork(object):
 
         mobile_numbers_field = None
         if isinstance(mobile_number, str):
-            mobile_numbers_field = [
-                {"number": re.sub("[^0-9]", "", mobile_number), "status": mobile_status}
-            ]
+            mobile_numbers_field = [{"number": re.sub("[^0-9]", "", mobile_number)}]
         elif isinstance(mobile_number, int):
-            mobile_numbers_field = [{"number": str(mobile_number), "status": mobile_status}]
+            mobile_numbers_field = [{"number": str(mobile_number)}]
         elif isinstance(mobile_number, list):
             if len(mobile_number) > 1:
-                raise ("Action Network allows only 1 phone number per activist")
+                raise Exception("Action Network allows only 1 phone number per activist")
             if isinstance(mobile_number[0], list):
                 mobile_numbers_field = [
-                    {"number": re.sub("[^0-9]", "", cell), "status": mobile_status}
-                    for cell in mobile_number
+                    {"number": re.sub("[^0-9]", "", cell)} for cell in mobile_number
                 ]
                 mobile_numbers_field[0]["primary"] = True
             if isinstance(mobile_number[0], int):
-                mobile_numbers_field = [
-                    {"number": cell, "status": mobile_status} for cell in mobile_number
-                ]
+                mobile_numbers_field = [{"number": cell} for cell in mobile_number]
                 mobile_numbers_field[0]["primary"] = True
-            if isinstance(mobile_number[0], dict):
-                mobile_numbers_field = mobile_number
+
+        # Including status in this field changes the opt-in status in
+        # ActionNetwork. This is not always desireable, so we should
+        # only do so when a status is included.
+        if mobile_status and mobile_numbers_field:
+            for field in mobile_numbers_field:
+                field["status"] = mobile_status
+
+        # If the mobile_number field is passed a list of dictionaries, just use that directly
+        if mobile_number and isinstance(mobile_number, list) and isinstance(mobile_number[0], dict):
+            mobile_numbers_field = mobile_number
 
         if not email_addresses_field and not mobile_numbers_field:
-            raise (
+            raise Exception(
                 "Either email_address or mobile_number is required and can be formatted "
                 "as a string, list of strings, a dictionary, a list of dictionaries, or "
                 "(for mobile_number only) an integer or list of integers"
@@ -1261,6 +1302,7 @@ class ActionNetwork(object):
         url = f"{self.api_url}/people"
         if background_processing:
             url = f"{url}?background_processing=true"
+
         response = self.api.post_request(url, data=json.dumps(data))
 
         identifiers = response["identifiers"]
@@ -1922,7 +1964,7 @@ class ActionNetwork(object):
         """
         return self.api.get_request(f"tags/{tag_id}/taggings/{tagging_id}")
 
-    def create_tagging(self, tag_id, payload):
+    def create_tagging(self, tag_id, payload, background_processing=False):
         """
         `Args:`
             tag_id:
@@ -1934,26 +1976,42 @@ class ActionNetwork(object):
                         "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
                     }
                 }
+            background_processing: bool
+                If set `true`, utilize ActionNetwork's "background processing". This will return
+                an immediate success, with an empty JSON body, and send your request to the
+                background queue for eventual processing.
+                https://actionnetwork.org/docs/v2/#background-processing
         `Returns:`
             A JSON response after creating the tagging
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/taggings
         """
-        return self.api.post_request(f"tags/{tag_id}/taggings", data=json.dumps(payload))
+        url = f"tags/{tag_id}/taggings"
+        if background_processing:
+            url = f"{url}?background_processing=true"
+        return self.api.post_request(url, data=json.dumps(payload))
 
-    def delete_tagging(self, tag_id, tagging_id):
+    def delete_tagging(self, tag_id, tagging_id, background_processing=False):
         """
         `Args:`
             tag_id:
                 The unique id of the tag
             tagging_id:
                 The unique id of the tagging to be deleted
+            background_processing: bool
+                If set `true`, utilize ActionNetwork's "background processing". This will return
+                an immediate success, with an empty JSON body, and send your request to the
+                background queue for eventual processing.
+                https://actionnetwork.org/docs/v2/#background-processing
         `Returns:`
             A JSON response after deleting the tagging
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/taggings
         """
-        return self.api.delete_request(f"tags/{tag_id}/taggings/{tagging_id}")
+        url = f"tags/{tag_id}/taggings/{tagging_id}"
+        if background_processing:
+            url = f"{url}?background_processing=true"
+        return self.api.delete_request(url)
 
     # Wrappers
     def get_wrappers(self, limit=None, per_page=25, page=None, filter=None):
@@ -2022,3 +2080,20 @@ class ActionNetwork(object):
             https://actionnetwork.org/docs/v2/unique_id_lists
         """
         return self.api.get_request(f"unique_id_lists/{unique_id_list_id}")
+
+    def create_unique_id_list(self, list_name, unique_ids):
+        """
+        `Args:`
+            list_name:
+                The name for the new list
+            unique_ids:
+                An array of unique IDs to upload
+        `Returns:`
+            A JSON response with the unique ID list details
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/unique_id_lists
+        """
+        return self.api.post_request(
+            "unique_id_lists",
+            data=json.dumps({"name": list_name, "unique_ids": unique_ids}),
+        )

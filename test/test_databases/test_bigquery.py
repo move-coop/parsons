@@ -1,14 +1,19 @@
 import json
+import logging
 import os
 import unittest.mock as mock
-from test.test_google.test_utilities import FakeCredentialTest
+from pathlib import Path
 from typing import Union
+from unittest import TestCase
+from unittest.mock import Mock
 
+import pytest
 from google.cloud import bigquery, exceptions
+from testfixtures import log_capture
 
-from parsons import GoogleBigQuery
-from parsons import Table
+from parsons import GoogleBigQuery, Table
 from parsons.google.google_cloud_storage import GoogleCloudStorage
+from test.test_google.test_utilities import FakeCredentialTest
 
 
 class BigQuery(GoogleBigQuery):
@@ -61,9 +66,9 @@ class TestGoogleBigQuery(FakeCredentialTest):
         result = bq.query(query_string)
 
         # Check our return value
-        self.assertEqual(result.num_rows, 1)
-        self.assertEqual(result.columns, ["one", "two"])
-        self.assertEqual(result[0], {"one": 1, "two": 2})
+        assert result.num_rows == 1
+        assert result.columns == ["one", "two"]
+        assert result[0] == {"one": 1, "two": 2}
 
     def test_query__no_results(self):
         query_string = "select * from table limit 0"
@@ -79,7 +84,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         # Because Table() == Table() fails for some reason
         assert isinstance(result, Table)
         assert not len(result)
-        assert tuple(result.columns) == tuple([])
+        assert tuple(result.columns) == ()
 
     @mock.patch("parsons.utilities.files.create_temp_file")
     def test_query__no_return(self, create_temp_file_mock):
@@ -93,7 +98,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         result = bq.query(query_string, return_values=False)
 
         # Check our return value
-        self.assertEqual(result, None)
+        assert result is None
 
         # Check that query results were not fetched
         bq._fetch_query_results.assert_not_called()
@@ -112,14 +117,44 @@ class TestGoogleBigQuery(FakeCredentialTest):
         keyword_args = bq.query.call_args[1]
 
         # Check our return value
-        self.assertEqual(result, None)
+        assert result is None
 
         # Check that queries and transaction keywords are included in sql
-        self.assertTrue(
-            all([text in keyword_args["sql"] for text in queries + ["BEGIN TRANSACTION", "COMMIT"]])
+        assert all(
+            text in keyword_args["sql"] for text in queries + ["BEGIN TRANSACTION", "COMMIT"]
         )
-        self.assertEqual(keyword_args["parameters"], parameters)
-        self.assertFalse(keyword_args["return_values"])
+        assert keyword_args["parameters"] == parameters
+        assert not keyword_args["return_values"]
+
+    def test_extract(self):
+        gcs_bucket = "tmp"
+        gcs_blob_name = "file/*"
+        dataset = "dataset"
+        table_name = "table"
+        gs_tmp_destination = f"gs://{gcs_bucket}/{gcs_blob_name}"
+        bq = self._build_mock_client_for_copying(table_exists=False)
+        bq.extract(
+            gcs_bucket=gcs_bucket,
+            gcs_blob_name=gcs_blob_name,
+            dataset=dataset,
+            table_name=table_name,
+        )
+
+        assert bq.client.extract_table.call_count == 1
+        load_call_args = bq.client.extract_table.call_args
+        assert load_call_args[1]["destination_uris"] == gs_tmp_destination
+
+        job_config = load_call_args[1]["job_config"]
+        assert job_config.destination_format == bigquery.DestinationFormat.CSV
+
+    def test_get_job(self):
+        tmp_job_id = "1234567890"
+        bq = self._build_mock_base_client()
+        bq.client.get_job(job_id=tmp_job_id)
+
+        assert bq.client.get_job.call_count == 1
+        load_call_args = bq.client.get_job.call_args
+        assert load_call_args[1]["job_id"] == tmp_job_id
 
     def test_copy_gcs(self):
         # setup dependencies / inputs
@@ -135,12 +170,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
         # check that the method did the right things
-        self.assertEqual(bq.client.load_table_from_uri.call_count, 1)
+        assert bq.client.load_table_from_uri.call_count == 1
         load_call_args = bq.client.load_table_from_uri.call_args
-        self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
+        assert load_call_args[1]["source_uris"] == tmp_blob_uri
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY)
+        assert job_config.write_disposition == bigquery.WriteDisposition.WRITE_EMPTY
 
     def test_copy_gcs__if_exists_truncate(self):
         # setup dependencies / inputs
@@ -157,12 +192,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
         # check that the method did the right things
-        self.assertEqual(bq.client.load_table_from_uri.call_count, 1)
+        assert bq.client.load_table_from_uri.call_count == 1
         load_call_args = bq.client.load_table_from_uri.call_args
-        self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
+        assert load_call_args[1]["source_uris"] == tmp_blob_uri
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_TRUNCATE)
+        assert job_config.write_disposition == bigquery.WriteDisposition.WRITE_TRUNCATE
 
     def test_copy_gcs__if_exists_append(self):
         # setup dependencies / inputs
@@ -179,12 +214,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
         # check that the method did the right things
-        self.assertEqual(bq.client.load_table_from_uri.call_count, 1)
+        assert bq.client.load_table_from_uri.call_count == 1
         load_call_args = bq.client.load_table_from_uri.call_args
-        self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
+        assert load_call_args[1]["source_uris"] == tmp_blob_uri
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_APPEND)
+        assert job_config.write_disposition == bigquery.WriteDisposition.WRITE_APPEND
 
     def test_copy_gcs__if_exists_fail(self):
         # setup dependencies / inputs
@@ -203,7 +238,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq.table_exists.return_value = True
 
         # call the method being tested
-        with self.assertRaises(Exception):
+        with pytest.raises(Exception, match="Table already exists"):
             bq.copy_from_gcs(
                 self.default_table,
                 "dataset.table",
@@ -228,7 +263,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
         # check that we tried to delete the table
-        self.assertEqual(bq.client.delete_table.call_count, 1)
+        assert bq.client.delete_table.call_count == 1
 
     def test_copy_gcs__bad_if_exists(self):
         # setup dependencies / inputs
@@ -240,11 +275,14 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq.table_exists.return_value = True
 
         # call the method being tested
-        with self.assertRaises(ValueError):
+        if_exists = "foobar"
+        with pytest.raises(
+            ValueError, match=f"Unexpected value for if_exists: {if_exists}, must be one of"
+        ):
             bq.copy_from_gcs(
                 gcs_blob_uri=tmp_blob_uri,
                 table_name="dataset.table",
-                if_exists="foobar",
+                if_exists=if_exists,
             )
 
     @mock.patch("google.cloud.storage.Client")
@@ -279,12 +317,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
             new_file_extension="csv",
             compression_type="gzip",
         )
-        self.assertEqual(bq.client.load_table_from_uri.call_count, 1)
+        assert bq.client.load_table_from_uri.call_count == 1
         load_call_args = bq.client.load_table_from_uri.call_args
-        self.assertEqual(load_call_args[1]["source_uris"], "gs://tmp/file.csv")
+        assert load_call_args[1]["source_uris"] == "gs://tmp/file.csv"
 
         job_config = load_call_args[1]["job_config"]
-        self.assertEqual(job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY)
+        assert job_config.write_disposition == bigquery.WriteDisposition.WRITE_EMPTY
 
     def test_copy_s3(self):
         # setup dependencies / inputs
@@ -343,28 +381,28 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
         # check that the method did the right things
-        self.assertEqual(gcs_client.upload_table.call_count, 1)
+        assert gcs_client.upload_table.call_count == 1
         upload_call_args = gcs_client.upload_table.call_args
-        self.assertEqual(upload_call_args[0][0], tbl)
-        self.assertEqual(upload_call_args[0][1], self.tmp_gcs_bucket)
+        assert upload_call_args[0][0] == tbl
+        assert upload_call_args[0][1] == self.tmp_gcs_bucket
         tmp_blob_name = upload_call_args[0][2]
 
-        self.assertEqual(bq._load_table_from_uri.call_count, 1)
+        assert bq._load_table_from_uri.call_count == 1
         load_call_args = bq._load_table_from_uri.call_args
         job_config = load_call_args[1]["job_config"]
         column_types = [schema_field.field_type for schema_field in job_config.schema]
-        self.assertEqual(column_types, ["INTEGER", "STRING", "BOOLEAN"])
-        self.assertEqual(load_call_args[1]["source_uris"], tmp_blob_uri)
+        assert column_types == ["INTEGER", "STRING", "BOOLEAN"]
+        assert load_call_args[1]["source_uris"] == tmp_blob_uri
 
-        self.assertEqual(bq.get_table_ref.call_count, 2)
+        assert bq.get_table_ref.call_count == 2
         get_table_ref_args = bq.get_table_ref.call_args
-        self.assertEqual(get_table_ref_args[1]["table_name"], table_name)
+        assert get_table_ref_args[1]["table_name"] == table_name
 
         # make sure we cleaned up the temp file
-        self.assertEqual(gcs_client.delete_blob.call_count, 1)
+        assert gcs_client.delete_blob.call_count == 1
         delete_call_args = gcs_client.delete_blob.call_args
-        self.assertEqual(delete_call_args[0][0], self.tmp_gcs_bucket)
-        self.assertEqual(delete_call_args[0][1], tmp_blob_name)
+        assert delete_call_args[0][0] == self.tmp_gcs_bucket
+        assert delete_call_args[0][1] == tmp_blob_name
 
     @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
@@ -382,13 +420,10 @@ class TestGoogleBigQuery(FakeCredentialTest):
             gcs_client=FakeGoogleCloudStorage(),
         )
 
-        actual = os.environ[bq.env_credential_path]
-
-        with open(actual, "r") as factual:
-            with open(self.cred_path, "r") as fexpected:
-                actual_str = factual.read()
-                self.assertEqual(actual_str, fexpected.read())
-                self.assertEqual(self.cred_contents, json.loads(actual_str))
+        actual = Path(os.environ[bq.env_credential_path])
+        actual_str = actual.read_text()
+        assert actual_str == Path(self.cred_path).read_text()
+        assert self.cred_contents == json.loads(actual_str)
 
     @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
@@ -410,13 +445,10 @@ class TestGoogleBigQuery(FakeCredentialTest):
             gcs_client=FakeGoogleCloudStorage(),
         )
 
-        actual = os.environ[bq.env_credential_path]
-
-        with open(actual, "r") as factual:
-            with open(self.cred_path, "r") as fexpected:
-                actual_str = factual.read()
-                self.assertEqual(actual_str, fexpected.read())
-                self.assertEqual(self.cred_contents, json.loads(actual_str))
+        actual = Path(os.environ[bq.env_credential_path])
+        actual_str = actual.read_text()
+        assert actual_str == Path(self.cred_path).read_text()
+        assert self.cred_contents == json.loads(actual_str)
 
     @mock.patch("parsons.google.google_cloud_storage.load_google_application_credentials")
     @mock.patch("parsons.google.google_bigquery.load_google_application_credentials")
@@ -424,8 +456,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self, load_creds_mock, load_creds_mock_2
     ):
         tbl = self.default_table
-        with open(self.cred_path) as file:
-            cred_dict = json.loads(file.read())
+        cred_dict = json.loads(Path(self.cred_path).read_text())
         bq = self._build_mock_client_for_copying(table_exists=False, app_creds=cred_dict)
 
         # Pass in our fake GCS Client.
@@ -436,13 +467,10 @@ class TestGoogleBigQuery(FakeCredentialTest):
             gcs_client=FakeGoogleCloudStorage(),
         )
 
-        actual = os.environ[bq.env_credential_path]
-
-        with open(actual, "r") as factual:
-            with open(self.cred_path, "r") as fexpected:
-                actual_str = factual.read()
-                self.assertEqual(actual_str, fexpected.read())
-                self.assertEqual(self.cred_contents, json.loads(actual_str))
+        actual = Path(os.environ[bq.env_credential_path])
+        actual_str = actual.read_text()
+        assert actual_str == Path(self.cred_path).read_text()
+        assert self.cred_contents == json.loads(actual_str)
 
     def test_copy__if_exists_passed_through(self):
         # setup dependencies / inputs
@@ -466,9 +494,9 @@ class TestGoogleBigQuery(FakeCredentialTest):
             if_exists=if_exists,
         )
 
-        self.assertEqual(bq._load_table_from_uri.call_count, 1)
+        assert bq._load_table_from_uri.call_count == 1
         process_job_config_args = bq._process_job_config.call_args
-        self.assertEqual(process_job_config_args[1]["if_exists"], if_exists)
+        assert process_job_config_args[1]["if_exists"] == if_exists
 
     @mock.patch.object(BigQuery, "table_exists", return_value=False)
     @mock.patch.object(BigQuery, "query", return_value=None)
@@ -489,7 +517,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         query_mock.assert_called_once()
         actual_query = query_mock.call_args[1]["sql"]
-        self.assertEqual(actual_query, expected_query)
+        assert actual_query == expected_query
 
     @mock.patch.object(BigQuery, "table_exists", return_value=False)
     @mock.patch.object(BigQuery, "delete_table", return_value=None)
@@ -527,14 +555,14 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         # stages the table -> calls copy
         copy_mock.assert_called_once()
-        self.assertEqual(copy_mock.call_args[1]["tbl"], upsert_tbl)
-        self.assertEqual(copy_mock.call_args[1]["template_table"], target_table)
+        assert copy_mock.call_args[1]["tbl"] == upsert_tbl
+        assert copy_mock.call_args[1]["template_table"] == target_table
 
         # runs a delete insert within a transaction
         query_mock.assert_called_once()
         actual_queries = query_mock.call_args[1]["queries"]
-        self.assertIn("DELETE", actual_queries[0])
-        self.assertIn("INSERT", actual_queries[1])
+        assert "DELETE" in actual_queries[0]
+        assert "INSERT" in actual_queries[1]
 
     @mock.patch.object(BigQuery, "query")
     def test_get_row_count(self, query_mock):
@@ -553,8 +581,8 @@ class TestGoogleBigQuery(FakeCredentialTest):
         # Assert
         query_mock.assert_called_once()
         actual_query = query_mock.call_args[1]["sql"]
-        self.assertEqual(row_count, expected_num_rows)
-        self.assertEqual(actual_query, expected_query)
+        assert row_count == expected_num_rows
+        assert actual_query == expected_query
 
     def _build_mock_client_for_querying(self, results):
         # Create a mock that will play the role of the cursor
@@ -590,6 +618,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq._client = bq_client
         return bq
 
+    def _build_mock_base_client(self, app_creds: Union[str, dict, None] = None):
+        bq_client = mock.MagicMock()
+        bq = BigQuery(app_creds=app_creds)
+        bq._client = bq_client
+        return bq
+
     def _build_mock_cloud_storage_client(self, tmp_blob_uri=""):
         gcs_client = mock.MagicMock()
         gcs_client.upload_table.return_value = tmp_blob_uri
@@ -602,4 +636,105 @@ class TestGoogleBigQuery(FakeCredentialTest):
                 {"num": 1, "ltr": "a", "boolcol": None},
                 {"num": 2, "ltr": "b", "boolcol": True},
             ]
+        )
+
+
+class TestGoogleBigQueryCopyBetweenProjects(TestCase):
+    def setUp(self):
+        # mock the GoogleBigQuery class
+        self.bq = Mock(spec=GoogleBigQuery)
+
+        # define inputs to copy method
+        self.source_project = ("project1",)
+        self.source_dataset = ("dataset1",)
+        self.source_table = ("table1",)
+        self.destination_project = ("project2",)
+        self.destination_dataset = ("dataset2",)
+        self.destination_table = ("table2",)
+        self.if_dataset_not_exists = ("fail",)
+        self.if_table_exists = "fail"
+
+    def tearDown(self):
+        pass
+
+    def test_copy_called_once_with(self):
+        self.bq.copy_between_projects(
+            source_project=self.source_project,
+            source_dataset=self.destination_dataset,
+            source_table=self.source_table,
+            destination_project=self.destination_project,
+            destination_dataset=self.destination_dataset,
+            destination_table=self.destination_table,
+            if_dataset_not_exists=self.if_dataset_not_exists,
+            if_table_exists=self.if_table_exists,
+        )
+        self.bq.copy_between_projects.assert_called_once_with(
+            source_project=self.source_project,
+            source_dataset=self.destination_dataset,
+            source_table=self.source_table,
+            destination_project=self.destination_project,
+            destination_dataset=self.destination_dataset,
+            destination_table=self.destination_table,
+            if_dataset_not_exists=self.if_dataset_not_exists,
+            if_table_exists=self.if_table_exists,
+        )
+
+    @log_capture()
+    def test_logger_fail_on_dataset_does_not_exist(self, capture):
+        # create and set up logger
+        logger = logging.getLogger()
+        logger.error(
+            f"Dataset {self.destination_dataset} does not exist and if_dataset_not_exists set to {self.if_dataset_not_exists}"
+        )
+
+        # call the method to generate log message
+        self.bq.copy_between_projects(
+            source_project=self.source_project,
+            source_dataset=self.destination_dataset,
+            source_table=self.source_table,
+            destination_project=self.destination_project,
+            destination_dataset=self.destination_dataset,
+            destination_table=self.destination_table,
+            if_dataset_not_exists=self.if_dataset_not_exists,
+            if_table_exists=self.if_table_exists,
+        )
+
+        # check that the log message was generated correctly
+        capture.check(
+            (
+                "root",
+                "ERROR",
+                f"Dataset {self.destination_dataset} does not exist and if_dataset_not_exists set to {self.if_dataset_not_exists}",
+            )
+        )
+
+    @log_capture()
+    def test_logger_fail_on_table_exists(self, capture):
+        # create and set up logger
+        logger = logging.getLogger()
+
+        ## now test with table copy error
+        logger.error(
+            f"BigQuery copy failed, Table {self.destination_table} exists and if_table_exists set to {self.if_table_exists}"
+        )
+
+        # call the method to generate log message
+        self.bq.copy_between_projects(
+            source_project=self.source_project,
+            source_dataset=self.destination_dataset,
+            source_table=self.source_table,
+            destination_project=self.destination_project,
+            destination_dataset=self.destination_dataset,
+            destination_table=self.destination_table,
+            if_dataset_not_exists=self.if_dataset_not_exists,
+            if_table_exists=self.if_table_exists,
+        )
+
+        # check that the log message was generated correctly
+        capture.check(
+            (
+                "root",
+                "ERROR",
+                f"BigQuery copy failed, Table {self.destination_table} exists and if_table_exists set to {self.if_table_exists}",
+            )
         )

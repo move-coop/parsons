@@ -1,16 +1,17 @@
 import io
-import pytest
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.image import MIMEImage
-from email.mime.audio import MIMEAudio
 from email.mime.application import MIMEApplication
+from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+import pytest
 
 from parsons.notifications.sendmail import EmptyListError, SendMail
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture
 def dummy_sendmail():
     """Have to create a dummy class that inherits from SendMail and defines a couple
     of methods in order to test out the methods that aren't abstract.
@@ -81,7 +82,7 @@ class TestSendMailCreateMessageAttachments:
         assert message.get_payload()[1].get_content_type() == "text/html"
 
     @pytest.mark.parametrize(
-        "filename,expected_type",
+        ("filename", "expected_type"),
         [
             ("image.png", MIMEImage),
             ("application.exe", MIMEApplication),
@@ -117,7 +118,7 @@ class TestSendMailCreateMessageAttachments:
 class TestSendMailValidateEmailString:
     @pytest.mark.parametrize("bad_email", ["a", "a@", "a+b", "@b.com"])
     def test_errors_with_invalid_emails(self, dummy_sendmail, bad_email):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Invalid email address"):
             dummy_sendmail._validate_email_string(bad_email)
 
     @pytest.mark.parametrize("good_email", ["a@b", "a+b@c", "a@d.com", "a@b.org"])
@@ -126,7 +127,7 @@ class TestSendMailValidateEmailString:
 
 
 class TestSendMailSendEmail:
-    @pytest.fixture(scope="function")
+    @pytest.fixture
     def patched_sendmail(self):
         class PatchedSendMail(SendMail):
             def __init__(self):

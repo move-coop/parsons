@@ -1,14 +1,15 @@
-import pytest
 import os
-from parsons import Table, SFTP
-from parsons.utilities import files
-from test.utils import mark_live_test, assert_matching_tables
-from test.fixtures import (  # noqa: F401
-    simple_table,
-    simple_csv_path,
-    simple_compressed_csv_path,
-)
 
+import pytest
+
+from parsons import SFTP, Table
+from parsons.utilities import files
+from test.fixtures import (  # noqa: F401
+    simple_compressed_csv_path,
+    simple_csv_path,
+    simple_table,
+)
+from test.utils import assert_matching_tables, mark_live_test
 
 #
 # Fixtures and constants
@@ -51,10 +52,10 @@ def live_sftp(simple_table, simple_csv_path, simple_compressed_csv_path):  # noq
 
 
 def test_credential_validation():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Missing the SFTP host name"):
         SFTP(host=None, username=None, password=None, rsa_private_key_file=None)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Missing the SFTP host name"):
         SFTP(
             host=None,
             username="sam",
@@ -62,7 +63,7 @@ def test_credential_validation():
             rsa_private_key_file="/path/to/key/file",
         )
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Missing the SFTP username"):
         SFTP(
             host="host",
             username=None,
@@ -70,7 +71,7 @@ def test_credential_validation():
             rsa_private_key_file="/path/to/key/file",
         )
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Missing password or SSH authentication key"):
         SFTP(host="host", username="sam", password=None, rsa_private_key_file=None)
 
 

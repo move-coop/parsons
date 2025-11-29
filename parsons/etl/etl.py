@@ -5,7 +5,7 @@ import petl
 logger = logging.getLogger(__name__)
 
 
-class ETL(object):
+class ETL:
     def __init__(self):
         pass
 
@@ -70,15 +70,15 @@ class ETL(object):
         return self
 
     def remove_column(self, *columns):
-        """
+        r"""
         Remove a column from your table
 
         `Args:`
-            \*columns: str
+            *columns: str
                 Column names
         `Returns:`
             `Parsons Table` and also updates self
-        """  # noqa: W605
+        """
 
         self.table = petl.cutout(self.table, *columns)
 
@@ -207,7 +207,7 @@ class ETL(object):
         """
         Transform values under one or more fields via arbitrary functions, method
         invocations or dictionary translations. This leverages the petl ``convert()``
-        method. Example usage can be found `here <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
+        method. Example usage can be found `here <https://petl.readthedocs.io/latest/transform.html#petl.transform.conversions.convert>`_.
 
         `Args:`
             *column: str
@@ -216,7 +216,7 @@ class ETL(object):
                 The update function, method, or variable to process the update
         `Returns:`
             `Parsons Table` and also updates self
-        """  # noqa: E501,E261
+        """
 
         self.table = petl.convert(self.table, *column, **kwargs)
 
@@ -343,10 +343,7 @@ class ETL(object):
         """
 
         for col in self.columns:
-            if not exact_match:
-                cleaned_col = col.lower().replace("_", "").replace(" ", "")
-            else:
-                cleaned_col = col
+            cleaned_col = col.lower().replace("_", "").replace(" ", "") if not exact_match else col
 
             for k, v in column_map.items():
                 for i in v:
@@ -434,18 +431,18 @@ class ETL(object):
         return [{"name": col, "type": self.get_column_types(col)} for col in self.table.columns()]
 
     def convert_table(self, *args):
-        """
+        r"""
         Transform all cells in a table via arbitrary functions, method invocations or dictionary
         translations. This method is useful for cleaning fields and data hygiene functions such
         as regex. This method leverages the petl ``convert()`` method. Example usage can be
         found `here` <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
 
         `Args:`
-            \*args: str, method or variable
+            *args: str, method or variable
                 The update function, method, or variable to process the update. Can also
         `Returns:`
             `Parsons Table` and also updates self
-        """  # noqa: W605
+        """
 
         self.convert_column(self.columns, *args)
 
@@ -530,7 +527,7 @@ class ETL(object):
 
           tbl.unpack_list('phones', replace=True)
           print (tbl)
-          >>> {'id': '5421', 'name': 'Jane Green', 'phones_0': '512-699-3334', 'phones_1': '512-222-5478'} # noqa: E501
+          >>> {'id': '5421', 'name': 'Jane Green', 'phones_0': '512-699-3334', 'phones_1': '512-222-5478'}
 
         `Args:`
             column: str
@@ -660,7 +657,9 @@ class ETL(object):
             if "uid" not in self.columns:
                 orig.add_column(
                     "uid",
-                    lambda row: hashlib.md5(str.encode("".join([str(x) for x in row]))).hexdigest(),
+                    lambda row: hashlib.md5(
+                        str.encode("".join([str(x) for x in row])), usedforsecurity=False
+                    ).hexdigest(),
                 )
                 orig.move_column("uid", 0)
 
@@ -675,7 +674,9 @@ class ETL(object):
             # Add unique id column by hashing all the other fields
             melted_list.add_column(
                 "uid",
-                lambda row: hashlib.md5(str.encode("".join([str(x) for x in row]))).hexdigest(),
+                lambda row: hashlib.md5(
+                    str.encode("".join([str(x) for x in row])), usedforsecurity=False
+                ).hexdigest(),
             )
             melted_list.move_column("uid", 0)
             output = melted_list
@@ -708,8 +709,8 @@ class ETL(object):
                   ]
            tbl = Table(json)
            print (tbl)
-           >>> {'id': '5421', 'name': 'Jane Green', 'emails': [{'home': 'jane@gmail.com'}, {'work': 'jane@mywork.com'}]} # noqa: E501
-           >>> {'id': '5421', 'name': 'Jane Green', 'emails': [{'home': 'jane@gmail.com'}, {'work': 'jane@mywork.com'}]} # noqa: E501
+           >>> {'id': '5421', 'name': 'Jane Green', 'emails': [{'home': 'jane@gmail.com'}, {'work': 'jane@mywork.com'}]}
+           >>> {'id': '5421', 'name': 'Jane Green', 'emails': [{'home': 'jane@gmail.com'}, {'work': 'jane@mywork.com'}]}
 
            # Create skinny table of just the nested dicts
            email_skinny = tbl.long_table(['id'], 'emails')
@@ -765,22 +766,22 @@ class ETL(object):
         return lt
 
     def cut(self, *columns):
-        """
+        r"""
         Return a table of selection of columns
 
         `Args:`
-            \*columns: str
+            *columns: str
                 Columns in the parsons table
         `Returns:`
             A new parsons table containing the selected columnns
-        """  # noqa: W605
+        """
 
         from parsons.etl.table import Table
 
         return Table(petl.cut(self.table, *columns))
 
     def select_rows(self, *filters):
-        """
+        r"""
         Select specific rows from a Parsons table based on the passed
         filters.
 
@@ -806,10 +807,10 @@ class ETL(object):
             >>> {'foo': 'a', 'bar': 2, 'baz': 88.1}
 
         `Args:`
-            \*filters: function or str
+            *filters: function or str
         `Returns:`
             A new parsons table containing the selected rows
-        """  # noqa: W605
+        """
 
         from parsons.etl.table import Table
 
@@ -892,7 +893,7 @@ class ETL(object):
 
         self.table = petl.cat(self.table, *petl_tables, missing=missing)
 
-    def chunk(self, rows):
+    def chunk(self, rows: int):
         """
         Divides a Parsons table into smaller tables of a specified row count. If the table
         cannot be divided evenly, then the final table will only include the remainder.
@@ -991,7 +992,7 @@ class ETL(object):
                 elif if_missing_columns != "ignore":
                     # If it's not ignore, add, or fail, then it's not a valid strategy
                     raise TypeError(
-                        f"Invalid option {if_missing_columns} for " "argument `if_missing_columns`"
+                        f"Invalid option {if_missing_columns} for argument `if_missing_columns`"
                     )
             else:
                 # We have found this in our current columns, so take it out of our list to search
@@ -1015,7 +1016,7 @@ class ETL(object):
             elif if_extra_columns != "remove":
                 # If it's not ignore, add, or fail, then it's not a valid strategy
                 raise TypeError(
-                    f"Invalid option {if_extra_columns} for " "argument `if_extra_columns`"
+                    f"Invalid option {if_extra_columns} for argument `if_extra_columns`"
                 )
 
         # Add any columns we need to add
@@ -1096,7 +1097,7 @@ class ETL(object):
         `Returns:`
             `Parsons Table` and also updates self
 
-        """  # noqa: E501,E261
+        """
 
         self.table = petl.rowreduce(
             self.table,
@@ -1188,7 +1189,7 @@ class ETL(object):
                 The keyword arguements to pass to the petl function.
         `Returns:`
             `parsons.Table` or `petl` table
-        """  # noqa: E501
+        """
         update_table = kwargs.pop("update_table", False)
         to_petl = kwargs.pop("to_petl", False)
 

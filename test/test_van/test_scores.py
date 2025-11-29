@@ -1,23 +1,23 @@
-import unittest
 import os
-import requests_mock
+import unittest
 import unittest.mock as mock
-from parsons import VAN, Table
-from test.utils import validate_list
-from parsons.utilities import cloud_storage
 
+import pytest
+import requests_mock
+
+from parsons import VAN, Table
+from parsons.utilities import cloud_storage
+from test.utils import validate_list
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 
 
 class TestScores(unittest.TestCase):
     def setUp(self):
-
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
+        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
 
     @requests_mock.Mocker()
     def test_get_scores(self, m):
-
         json = {
             "count": 2,
             "items": [
@@ -48,11 +48,10 @@ class TestScores(unittest.TestCase):
             "description",
         ]
 
-        self.assertTrue(validate_list(expected, self.van.get_scores()))
+        assert validate_list(expected, self.van.get_scores())
 
     @requests_mock.Mocker()
     def test_get_score(self, m):
-
         score_id = 2716
 
         json = {
@@ -66,12 +65,11 @@ class TestScores(unittest.TestCase):
             "description": None,
         }
 
-        m.get(self.van.connection.uri + "scores/{}".format(score_id), json=json)
-        self.assertEqual(json, self.van.get_score(score_id))
+        m.get(self.van.connection.uri + f"scores/{score_id}", json=json)
+        assert json == self.van.get_score(score_id)
 
     @requests_mock.Mocker()
     def test_get_score_updates(self, m):
-
         json = {
             "items": [
                 {
@@ -140,11 +138,10 @@ class TestScores(unittest.TestCase):
             "state",
         ]
 
-        self.assertTrue(validate_list(expected, self.van.get_score_updates()))
+        assert validate_list(expected, self.van.get_score_updates())
 
     @requests_mock.Mocker()
     def test_get_score_update(self, m):
-
         score_update_id = 27892
 
         json = {
@@ -183,27 +180,29 @@ class TestScores(unittest.TestCase):
 
         # expected = ['loadStatus', 'updateStatistics', 'score', 'dateProcessed', 'scoreUpdateId']
 
-        self.assertEqual(json, self.van.get_score_update(score_update_id))
+        assert json == self.van.get_score_update(score_update_id)
 
     @requests_mock.Mocker()
     def test_update_score_status(self, m):
-
         score_update_id = 27892
 
         m.patch(
-            self.van.connection.uri + "scoreUpdates/{}".format(score_update_id),
+            self.van.connection.uri + f"scoreUpdates/{score_update_id}",
             status_code=204,
         )
 
         # Test bad input
-        self.assertRaises(ValueError, self.van.update_score_status, score_update_id, "not a thing.")
+        with pytest.raises(
+            ValueError,
+            match="Valid inputs for status are, 'pending approval','approved','disapproved','canceled'",
+        ):
+            self.van.update_score_status(score_update_id, "not a thing.")
 
         # Test good input
-        self.assertTrue(self.van.update_score_status(score_update_id, "approved"))
+        assert self.van.update_score_status(score_update_id, "approved")
 
     @requests_mock.Mocker()
     def test_upload_scores(self, m):
-
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://box.com/my_file.zip"
@@ -216,7 +215,6 @@ class TestScores(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_create_file_load(self, m):
-
         file_name = "test_scores.csv"
         file_url_good = "http://tmc.org/test_scores.zip"
         # file_url_bad = 'http://tmc.org/test_scores'
@@ -232,22 +230,7 @@ class TestScores(unittest.TestCase):
         m.post(self.van.connection.uri + "FileLoadingJobs", json=json, status_code=201)
 
         # Test bad delimiter
-        self.assertRaises(
-            ValueError,
-            self.van.create_file_load,
-            file_name,
-            file_url_good,
-            columns,
-            id_column,
-            id_type,
-            score_id,
-            score_column,
-            delimiter=bad_delimiter,
-        )
-
-        # Test good request
-        self.assertEqual(
-            json["jobId"],
+        with pytest.raises(ValueError, match="Delimiter must be one of 'csv', 'tab' or 'pipe'"):
             self.van.create_file_load(
                 file_name,
                 file_url_good,
@@ -256,5 +239,10 @@ class TestScores(unittest.TestCase):
                 id_type,
                 score_id,
                 score_column,
-            ),
+                delimiter=bad_delimiter,
+            )
+
+        # Test good request
+        assert json["jobId"] == self.van.create_file_load(
+            file_name, file_url_good, columns, id_column, id_type, score_id, score_column
         )

@@ -1,16 +1,16 @@
-from parsons.utilities.api_connector import APIConnector
-from parsons.utilities import check_env
-from parsons import Table
-
-import logging
 import datetime
+import logging
+
+from parsons import Table
+from parsons.utilities import check_env
+from parsons.utilities.api_connector import APIConnector
 
 logger = logging.getLogger(__name__)
 
 URI = "https://donorbox.org/api/v1"
 
 
-class Donorbox(object):
+class Donorbox:
     """
     Instantiate Donorbox class.
 
@@ -220,6 +220,6 @@ class Donorbox(object):
             except ValueError:
                 continue
         raise ValueError(
-            f"The date you supplied, {date_string}, is not a valid Donorbox format."
-            + "Try the following formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY"
+            f"The date you supplied, {date_string}, is not a valid Donorbox format. "
+            "Try the following formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY"
         )

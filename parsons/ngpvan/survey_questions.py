@@ -1,18 +1,18 @@
 """NGPVAN Survey Questions Endpoints"""
 
-from parsons.etl.table import Table
 import logging
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
 
-class SurveyQuestions(object):
+class SurveyQuestions:
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_survey_questions(
-        self, statuses=["Active"], name=None, sq_type=None, question=None, cycle=None
+        self, statuses=None, name=None, sq_type=None, question=None, cycle=None
     ):
         """
         Get survey questions.
@@ -34,6 +34,8 @@ class SurveyQuestions(object):
                 See :ref:`parsons-table` for output options.
         """
 
+        if statuses is None:
+            statuses = ["Active"]
         params = {
             "statuses": statuses,
             "$top": self.page_size,

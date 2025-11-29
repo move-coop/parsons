@@ -4,6 +4,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/parsons)](https://pypi.org/project/parsons/)
 [![PyPI](https://img.shields.io/pypi/v/parsons?color=blue)](https://pypi.org/project/parsons/)
 [![CircleCI](https://circleci.com/gh/move-coop/parsons/tree/main.svg?style=shield)](https://circleci.com/gh/move-coop/parsons/tree/main)
+[![Coverage badge](https://raw.githubusercontent.com/move-coop/parsons/python-coverage-comment-action-data/badge.svg)](https://htmlpreview.github.io/?https://github.com/move-coop/parsons/blob/python-coverage-comment-action-data/htmlcov/index.html)
 
 A Python package that provides a simple interface to a variety of utilities and tools frequently used by progressive
 organizations, political and issue campaigns, activists, and other allied actors.
@@ -15,7 +16,7 @@ This project is maintained by [The Movement Cooperative](https://movementcoopera
 after [Lucy Parsons](https://en.wikipedia.org/wiki/Lucy_Parsons). The Movement Cooperative is a member-led organization
 focused on providing data, tools, and strategic support for the progressive community.
 
-Parsons is only supported for Python 3.8-12.
+Parsons is only supported for Python 3.9-13.
 
 ## Table of Contents
 
@@ -44,7 +45,7 @@ You can install the most recent release by running: `pip install parsons[all]`
 ### Install from Github
 
 To access the most recent code base that may contain features not yet included in the latest release, download this
-repository and then run `python setup.py develop`.
+repository and then run `python -m pip install git+https://github.com/move-coop/parsons.git`.
 
 ### Docker Container
 

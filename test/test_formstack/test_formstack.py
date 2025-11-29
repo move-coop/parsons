@@ -1,15 +1,16 @@
 import unittest
-import requests_mock
-from parsons.formstack.formstack import Formstack, API_URI
-from parsons import Table
 
+import requests_mock
+
+from parsons import Table
+from parsons.formstack.formstack import API_URI, Formstack
 from test.test_formstack.formstack_json import (
     folder_json,
+    form_fields_json,
     form_json,
+    form_submissions_json,
     submission_id,
     submission_json,
-    form_submissions_json,
-    form_fields_json,
 )
 
 VALID_RESPONSE_STATUS_CODE = 200
@@ -25,7 +26,7 @@ class TestFormstack(unittest.TestCase):
             json=folder_json,
         )
         folders_data = fs.get_folders()
-        self.assertIsInstance(folders_data, Table)
+        assert isinstance(folders_data, Table)
 
     @requests_mock.Mocker()
     def test_get_forms(self, m):
@@ -36,7 +37,7 @@ class TestFormstack(unittest.TestCase):
             json=form_json,
         )
         forms_data = fs.get_forms()
-        self.assertIsInstance(forms_data, Table)
+        assert isinstance(forms_data, Table)
 
     @requests_mock.Mocker()
     def test_get_submission(self, m):
@@ -47,7 +48,7 @@ class TestFormstack(unittest.TestCase):
             json=submission_json,
         )
         submission_data = fs.get_submission(submission_id)
-        self.assertIsInstance(submission_data, dict)
+        assert isinstance(submission_data, dict)
 
     @requests_mock.Mocker()
     def test_get_form_submissions(self, m):
@@ -58,7 +59,7 @@ class TestFormstack(unittest.TestCase):
             json=form_submissions_json,
         )
         form_submissions_data = fs.get_form_submissions(submission_id)
-        self.assertIsInstance(form_submissions_data, Table)
+        assert isinstance(form_submissions_data, Table)
 
     @requests_mock.Mocker()
     def test_get_form_fields(self, m):
@@ -70,4 +71,4 @@ class TestFormstack(unittest.TestCase):
             json=form_fields_json,
         )
         form_fields_data = fs.get_form_fields(form_id)
-        self.assertIsInstance(form_fields_data, Table)
+        assert isinstance(form_fields_data, Table)

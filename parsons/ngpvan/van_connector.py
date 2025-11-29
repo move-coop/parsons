@@ -1,5 +1,7 @@
-from suds.client import Client
 import logging
+
+from suds.client import Client
+
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 
@@ -9,9 +11,8 @@ URI = "https://api.securevan.com/v4/"
 SOAP_URI = "https://api.securevan.com/Services/V3/ListService.asmx?WSDL"
 
 
-class VANConnector(object):
+class VANConnector:
     def __init__(self, api_key=None, auth_name="default", db=None):
-
         self.api_key = check_env.check("VAN_API_KEY", api_key)
 
         if db == "MyVoters":
@@ -51,9 +52,7 @@ class VANConnector(object):
 
     @property
     def soap_client(self):
-
         if not self._soap_client:
-
             # Create the SOAP client
             soap_auth = {
                 "Header": {
@@ -78,7 +77,6 @@ class VANConnector(object):
             return self.db
 
     def get_request(self, endpoint, **kwargs):
-
         r = self.api.get_request(self.uri + endpoint, **kwargs)
         data = self.api.data_parse(r)
 
@@ -93,17 +91,13 @@ class VANConnector(object):
         return data
 
     def post_request(self, endpoint, **kwargs):
-
         return self.api.post_request(endpoint, **kwargs)
 
     def delete_request(self, endpoint, **kwargs):
-
         return self.api.delete_request(endpoint, **kwargs)
 
     def patch_request(self, endpoint, **kwargs):
-
         return self.api.patch_request(endpoint, **kwargs)
 
     def put_request(self, endpoint, **kwargs):
-
         return self.api.put_request(endpoint, **kwargs)

@@ -1,13 +1,22 @@
-from parsons.etl.table import Table
 import logging
+from typing import Optional, Union
+
+from parsons.databases.database_connector import DatabaseConnector
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
 
-class FakeDatabase:
+class FakeDatabase(DatabaseConnector):
     def __init__(self):
         self.table_map = {}
         self.copy_call_args = []
+
+    def query(self, sql: str, parameters: Optional[Union[list, dict]] = None) -> Table:
+        return Table()
+
+    def table_exists(self, table_name: str) -> bool:
+        return table_name in self.table_map
 
     def setup_table(self, table_name, data, failures=0):
         self.table_map[table_name] = {
@@ -47,11 +56,9 @@ class FakeDatabase:
         tbl.data.concat(data)
 
     def get_table_object(self, table_name):
-
         pass
 
     def create_table(self, table_object, table_name):
-
         pass
 
 
@@ -70,7 +77,7 @@ class FakeTable:
         if primary_key not in self.data.columns:
             return True
 
-        pk_values = [val for val in self.data[primary_key]]
+        pk_values = list(self.data[primary_key])
         pk_set = set(pk_values)
         return len(pk_set) == len(pk_values)
 
@@ -93,12 +100,17 @@ class FakeTable:
         return self.data is not None
 
     def get_rows(self, offset=0, chunk_size=None, order_by=None):
+        if not self.data:
+            return self.data
+
         data = self.data.cut(*self.data.columns)
 
         if order_by:
             data.sort(order_by)
 
-        return Table(data[offset : chunk_size + offset])
+        subset = data[offset : chunk_size + offset] if chunk_size else data[offset:]
+
+        return Table(subset)
 
     def get_new_rows_count(self, primary_key_col, start_value=None):
         data = self.data.select_rows(lambda row: row[primary_key_col] > start_value)

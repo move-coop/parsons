@@ -1,7 +1,9 @@
-from parsons import Table, Shopify
-from test.utils import assert_matching_tables
-import requests_mock
 import unittest
+
+import requests_mock
+
+from parsons import Shopify, Table
+from test.utils import assert_matching_tables
 
 SUBDOMAIN = "myorg"
 PASSWORD = "abc123"
@@ -82,9 +84,9 @@ class TestShopify(unittest.TestCase):
             self.shopify.get_query_url(None, 2, "orders", True),
             json=self.mock_count_since,
         )
-        self.assertEqual(self.shopify.get_count(None, None, "orders"), 2)
-        self.assertEqual(self.shopify.get_count("2020-10-20", None, "orders"), 1)
-        self.assertEqual(self.shopify.get_count(None, 2, "orders"), 1)
+        assert self.shopify.get_count(None, None, "orders") == 2
+        assert self.shopify.get_count("2020-10-20", None, "orders") == 1
+        assert self.shopify.get_count(None, 2, "orders") == 1
 
     @requests_mock.Mocker()
     def test_get_orders(self, m):
@@ -115,47 +117,37 @@ class TestShopify(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_query_url(self, m):
-        self.assertEqual(
-            self.shopify.get_query_url(None, None, "orders", True),
-            f"https://{SUBDOMAIN}.myshopify.com/admin/api/{API_VERSION}/orders/"
-            + "count.json?limit=250&status=any",
+        assert (
+            self.shopify.get_query_url(None, None, "orders", True)
+            == f"https://{SUBDOMAIN}.myshopify.com/admin/api/{API_VERSION}/orders/"
+            "count.json?limit=250&status=any"
         )
-        self.assertEqual(
-            self.shopify.get_query_url("2020-10-20", None, "orders", True),
-            f"https://{SUBDOMAIN}.myshopify.com/admin/api/{API_VERSION}/orders/"
-            + "count.json?limit=250&status=any&created_at_min=2020-10-20T00:00:00&"
-            + "created_at_max=2020-10-21T00:00:00",
+        assert (
+            self.shopify.get_query_url("2020-10-20", None, "orders", True)
+            == f"https://{SUBDOMAIN}.myshopify.com/admin/api/{API_VERSION}/orders/"
+            "count.json?limit=250&status=any&created_at_min=2020-10-20T00:00:00&"
+            "created_at_max=2020-10-21T00:00:00"
         )
-        self.assertEqual(
-            self.shopify.get_query_url(None, 2, "orders", True),
-            f"https://{SUBDOMAIN}.myshopify.com/admin/api/{API_VERSION}/orders/"
-            + "count.json?limit=250&status=any&since_id=2",
+        assert (
+            self.shopify.get_query_url(None, 2, "orders", True)
+            == f"https://{SUBDOMAIN}.myshopify.com/admin/api/{API_VERSION}/orders/"
+            "count.json?limit=250&status=any&since_id=2"
         )
-        self.assertEqual(
-            self.shopify.get_query_url(None, None, "orders", False),
-            f"https://{SUBDOMAIN}.myshopify.com/admin/api/{API_VERSION}/orders.json?"
-            + "limit=250&status=any",
+        assert (
+            self.shopify.get_query_url(None, None, "orders", False)
+            == f"https://{SUBDOMAIN}.myshopify.com/admin/api/{API_VERSION}/orders.json?"
+            "limit=250&status=any"
         )
 
     @requests_mock.Mocker()
     def test_graphql(self, m):
         m.post(
-            "https://{0}.myshopify.com/admin/api/{1}/graphql.json".format(SUBDOMAIN, API_VERSION),
+            f"https://{SUBDOMAIN}.myshopify.com/admin/api/{API_VERSION}/graphql.json",
             json=self.mock_graphql,
         )
-        self.assertEqual(
+        assert (
             self.shopify.graphql(
-                """
-            {{
-                orders(query: "financial_status:=paid", first: 100) {{
-                    edges {{
-                        node {{
-                            id
-                        }}
-                    }}
-                }}
-            }}
-        """
-            ),
-            self.mock_graphql["data"],
+                """\r\n            {{\r\n                orders(query: "financial_status:=paid", first: 100) {{\r\n                    edges {{\r\n                        node {{\r\n                            id\r\n                        }}\r\n                    }}\r\n                }}\r\n            }}\r\n        """
+            )
+            == self.mock_graphql["data"]
         )

@@ -1,14 +1,14 @@
 """NGPVAN Canvass Responses Endpoints"""
 
-from parsons.etl.table import Table
 import logging
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
 
-class CanvassResponses(object):
+class CanvassResponses:
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_canvass_responses_contact_types(self):

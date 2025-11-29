@@ -1,11 +1,27 @@
 # Testing Requirements
-black==24.3.0
-Flake8-pyproject==1.2.3
-flake8==7.0.0
-pycodestyle==2.11.1
-pytest-datadir==1.5.0
-pytest-mock==3.12.0
-pytest==8.1.1
-requests-mock==1.11.0
-testfixtures==8.1.0
+bandit[sarif]==1.8.6
+coverage==7.10.7
+pre-commit==4.3.0
+pytest-cov==7.0.0
+pytest-datadir==1.8.0
+pytest-mock==3.14.1
+pytest-xdist==3.8.0
+pytest==8.4.2
+requests-mock==1.12.1
+ruff==0.13.0
+testfixtures==8.3.0;python_version<'3.11'
+testfixtures==9.1.0;python_version>='3.11'
 
+# Build and publish requirements
+twine==6.1.0
+build
+
+
+# Docs Requirements
+myst-parser==3.0.1;python_version<'3.10'
+myst-parser==4.0.1;python_version>='3.10'
+sphinxcontrib-googleanalytics==0.5
+sphinx-multiversion==0.2.4
+sphinx-rtd-theme==3.0.2
+Sphinx==7.4.7;python_version<'3.11'
+Sphinx==8.2.3;python_version>='3.11'

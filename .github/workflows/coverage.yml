@@ -1,0 +1,42 @@
+name: Post coverage comment
+
+on:
+    workflow_run:
+        workflows: ["Python checks"]
+        types:
+            - completed
+
+permissions:
+    contents: read
+
+jobs:
+    test:
+        name: Run tests & display coverage
+
+        runs-on: ubuntu-latest
+        if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+
+        permissions:
+            # Gives the action the necessary permissions for publishing new
+            # comments in pull requests.
+            pull-requests: write
+            # Gives the action the necessary permissions for editing existing
+            # comments (to avoid publishing multiple comments in the same PR)
+            contents: write
+            # Gives the action the necessary permissions for looking up the
+            # workflow that launched this workflow, and download the related
+            # artifact that contains the comment to be published
+            actions: read
+
+        steps:
+            # DO NOT run actions/checkout here, for security reasons
+            # For details, refer to https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+            - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+              with:
+                disable-sudo: false
+                egress-policy: audit
+
+            - uses: py-cov-action/python-coverage-comment-action@e623398c19eb3853a5572d4a516e10b15b5cefbc  # v3.35
+              with:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_PR_RUN_ID: ${{ github.event.workflow_run.id }}

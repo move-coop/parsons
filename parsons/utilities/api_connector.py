@@ -1,13 +1,16 @@
-from requests import request as _request
-from requests.exceptions import HTTPError
 import logging
 import urllib.parse
+
+from requests import request as _request
+from requests.exceptions import HTTPError
 from simplejson.errors import JSONDecodeError
+
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
 
-class APIConnector(object):
+class APIConnector:
     """
     The API Connector is a low level class for API requests that other connectors
     can utilize. It is understood that there are many standards for REST APIs and it will be
@@ -81,7 +84,7 @@ class APIConnector(object):
             params=params,
         )
 
-    def get_request(self, url, params=None):
+    def get_request(self, url, params=None, return_format="json"):
         """
         Make a GET request.
 
@@ -96,13 +99,16 @@ class APIConnector(object):
 
         r = self.request(url, "GET", params=params)
         self.validate_response(r)
-        logger.debug(r.json())
 
-        return r.json()
+        if return_format == "json":
+            logger.debug(r.json())
+            return r.json()
+        elif return_format == "content":
+            return r.content
+        else:
+            raise RuntimeError(f"{return_format} is not a valid format, change to json or content")
 
-    def post_request(
-        self, url, params=None, data=None, json=None, success_codes=[200, 201, 202, 204]
-    ):
+    def post_request(self, url, params=None, data=None, json=None, success_codes=None):
         """
         Make a POST request.
 
@@ -115,12 +121,14 @@ class APIConnector(object):
                 A data object to post
             json: dict
                 A JSON object to post
-            success_code: int
-                The expected success code to be returned
+            success_codes: int
+                The expected success code to be returned. If not provided, accepts 200, 201, 202, and 204.
         `Returns:`
             A requests response object
         """
 
+        if success_codes is None:
+            success_codes = [200, 201, 202, 204]
         r = self.request(url, "POST", params=params, data=data, json=json)
 
         # Validate the response and lift up an errors.
@@ -134,7 +142,7 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def delete_request(self, url, params=None, success_codes=[200, 201, 204]):
+    def delete_request(self, url, params=None, success_codes=None):
         """
         Make a DELETE request.
 
@@ -144,11 +152,13 @@ class APIConnector(object):
             params: dict
                 The request parameters
             success_codes: int
-                The expected success codes to be returned
+                The expected success codes to be returned. If not provided, accepts 200, 201, 204.
         Returns:
                 A requests response object or status code
         """
 
+        if success_codes is None:
+            success_codes = [200, 201, 204]
         r = self.request(url, "DELETE", params=params)
 
         self.validate_response(r)
@@ -161,23 +171,27 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def put_request(self, url, data=None, json=None, params=None, success_codes=[200, 201, 204]):
+    def put_request(self, url, data=None, json=None, params=None, success_codes=None):
         """
         Make a PUT request.
 
         Args:
             url: str
                 A complete and valid url for the api request
-            params: dict
-                The request parameters
             data: str or file
                 A data object to post
             json: dict
                 A JSON object to post
+            params: dict
+                The request parameters
+            success_codes: int
+                The expected success codes to be returned. If not provided, accepts 200, 201, 204.
         Returns:
                 A requests response object
         """
 
+        if success_codes is None:
+            success_codes = [200, 201, 204]
         r = self.request(url, "PUT", params=params, data=data, json=json)
 
         self.validate_response(r)
@@ -188,7 +202,7 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def patch_request(self, url, params=None, data=None, json=None, success_codes=[200, 201, 204]):
+    def patch_request(self, url, params=None, data=None, json=None, success_codes=None):
         """
         Make a PATCH request.
 
@@ -202,11 +216,13 @@ class APIConnector(object):
             json: dict
                 A JSON object to post
             success_codes: int
-                The expected success codes to be returned
+                The expected success codes to be returned. If not provided, accepts 200, 201, and 204.
         `Returns:`
             A requests response object
         """
 
+        if success_codes is None:
+            success_codes = [200, 201, 204]
         r = self.request(url, "PATCH", params=params, data=data, json=json)
 
         self.validate_response(r)
@@ -264,7 +280,7 @@ class APIConnector(object):
         if isinstance(resp, list):
             return resp
 
-        if self.data_key and self.data_key in resp.keys():
+        if self.data_key and self.data_key in resp:
             return resp[self.data_key]
         else:
             return resp
@@ -285,7 +301,7 @@ class APIConnector(object):
             boolean
         """
 
-        if self.pagination_key and self.pagination_key in resp.keys():
+        if self.pagination_key and self.pagination_key in resp:
             if resp[self.pagination_key]:
                 return True
         else:
@@ -301,3 +317,10 @@ class APIConnector(object):
             return True
         except JSONDecodeError:
             return False
+
+    def convert_to_table(self, data):
+        """Internal method to create a Parsons table from a data element."""
+        table = None
+        table = Table(data) if type(data) is list else Table([data])
+
+        return table

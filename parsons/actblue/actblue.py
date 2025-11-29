@@ -1,8 +1,9 @@
 import logging
 import time
-from parsons.utilities.api_connector import APIConnector
-from parsons.utilities import check_env
+
 from parsons.etl import Table
+from parsons.utilities import check_env
+from parsons.utilities.api_connector import APIConnector
 
 logger = logging.getLogger(__name__)
 
@@ -10,7 +11,7 @@ POLLING_DELAY = 1
 ACTBLUE_API_ENDPOINT = "https://secure.actblue.com/api/v1"
 
 
-class ActBlue(object):
+class ActBlue:
     """
     Instantiate class.
 
@@ -26,12 +27,21 @@ class ActBlue(object):
                 https://secure.actblue.com/api/v1. You can set an ``ACTBLUE_URI`` env variable or
                 use this URI parameter if a different endpoint is necessary - for example, when
                 running this code in a test environment where you don't want to hit the actual API.
-
+            max_retries: int
+                The maximum number of times to poll the API for a download URL. Not required, default
+                is None, which means it will poll indefinitely until a download URL is returned.
+                ```ACTBLUE_MAX_RETRIES``` env variable can be set, which will override this parameter.
         For instructions on how to generate a Client UUID and Client Secret set,
         visit https://secure.actblue.com/docs/csv_api#authentication.
     """
 
-    def __init__(self, actblue_client_uuid=None, actblue_client_secret=None, actblue_uri=None):
+    def __init__(
+        self,
+        actblue_client_uuid=None,
+        actblue_client_secret=None,
+        actblue_uri=None,
+        max_retries=None,
+    ):
         self.actblue_client_uuid = check_env.check("ACTBLUE_CLIENT_UUID", actblue_client_uuid)
         self.actblue_client_secret = check_env.check("ACTBLUE_CLIENT_SECRET", actblue_client_secret)
         self.uri = (
@@ -45,6 +55,8 @@ class ActBlue(object):
             auth=(self.actblue_client_uuid, self.actblue_client_secret),
             headers=self.headers,
         )
+        self.max_retries = check_env.check("ACTBLUE_MAX_RETRIES", max_retries, optional=True)
+        self.max_retries = int(self.max_retries) if self.max_retries else None
 
     def post_request(self, csv_type=None, date_range_start=None, date_range_end=None):
         """
@@ -96,6 +108,8 @@ class ActBlue(object):
             the download_url.
         """
         response = self.client.get_request(url=f"csvs/{csv_id}")
+        if response.get("download_url") is None and response.get("status") != "in_progress":
+            raise ValueError("CSV generation failed: %s", response)
 
         return response["download_url"]
 
@@ -116,15 +130,20 @@ class ActBlue(object):
 
         logger.info("Request received. Please wait while ActBlue generates this data.")
         download_url = None
-        while download_url is None:
+        tries = 0
+        while download_url is None and (self.max_retries is None or tries < self.max_retries):
             download_url = self.get_download_url(csv_id)
             time.sleep(POLLING_DELAY)
+            tries += 1
+
+        if download_url is None:
+            raise TimeoutError("CSV generation timed out. Increase max_retries and try again.")
 
         logger.info("Completed data generation.")
         logger.info("Beginning conversion to Parsons Table.")
         return download_url
 
-    def get_contributions(self, csv_type, date_range_start, date_range_end):
+    def get_contributions(self, csv_type, date_range_start, date_range_end, **csvargs):
         """
         Get specified contribution data from CSV API as Parsons table.
 
@@ -146,14 +165,41 @@ class ActBlue(object):
                 Start of date range to withdraw contribution data (inclusive). Ex: '2020-01-01'
             date_range_end: str
                 End of date range to withdraw contribution data (exclusive). Ex: '2020-02-01'
+            **csvargs:
+                Any additional arguments will be passed to Table.from_csv as keyword arguments.
 
         `Returns:`
-            Contents of the generated contribution CSV as a Parsons table.
+            Parsons Table
+                Contents of the generated contribution CSV. List of columns:
+
+                Receipt ID, Date, Amount, Recurring Total Months, Recurrence Number, Recipient,
+                Fundraising Page, Fundraising Partner, Reference Code 2, Reference Code,
+                Donor First Name, Donor Last Name, Donor Addr1, Donor Addr2, Donor City,
+                Donor State, Donor ZIP, Donor Country, Donor Occupation, Donor Employer,
+                Donor Email, Donor Phone, New Express Signup, Comments, Check Number, Check Date,
+                Employer Addr1, Employer Addr2, Employer City, Employer State, Employer ZIP,
+                Employer Country, Donor ID, Fundraiser ID, Fundraiser Recipient ID,
+                Fundraiser Contact Email, Fundraiser Contact First Name,
+                Fundraiser Contact Last Name, Partner ID, Partner Contact Email,
+                Partner Contact First Name, Partner Contact Last Name, Reserved, Lineitem ID,
+                AB Test Name, AB Variation, Recipient Committee, Recipient ID, Recipient Gov ID,
+                Recipient Election, Reserved, Payment ID, Payment Date, Disbursement ID,
+                Disbursement Date, Recovery ID, Recovery Date, Refund ID, Refund Date,
+                Fee, Recur Weekly, ActBlue Express Lane, Reserved, Card Type, Reserved, Reserved,
+                Reserved, Reserved, Mobile, Recurring Upsell Shown, Recurring Upsell Succeeded,
+                Double Down, Smart Recurring, Monthly Recurring Amount, Apple Pay,
+                Card Replaced by Account Updater, ActBlue Express Donor, Custom Field 1 Label,
+                Custom Field 1 Value, Donor US Passport Number, Text Message Opt In,
+                Gift Identifier, Gift Declined, Shipping Addr1, Shipping City, Shipping State,
+                Shipping Zip, Shipping Country, Weekly Recurring Amount, Smart Boost Amount,
+                Smart Boost Shown, Bump Recurring Seen, Bump Recurring Succeeded,
+                Weekly to Monthly Rollover Date, Weekly Recurring Sunset, Recurring Type,
+                Recurring Pledged, Paypal, Kind, Managed Entity Name, Managed Entity Committee Name
         """
 
         post_request_response = self.post_request(csv_type, date_range_start, date_range_end)
         csv_id = post_request_response["id"]
         download_url = self.poll_for_download_url(csv_id)
-        table = Table.from_csv(download_url)
+        table = Table.from_csv(download_url, **csvargs)
         logger.info("Completed conversion to Parsons Table.")
         return table

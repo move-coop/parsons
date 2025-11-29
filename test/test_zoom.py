@@ -1,8 +1,12 @@
 import unittest
-from test.utils import assert_matching_tables
+from unittest.mock import patch
 
+import pytest
 import requests_mock
+
 from parsons import Table, Zoom
+from parsons.zoom.zoom import ZoomV1, ZoomV2
+from test.utils import assert_matching_tables
 
 ACCOUNT_ID = "fakeAccountID"
 CLIENT_ID = "fakeClientID"
@@ -17,6 +21,12 @@ class TestZoom(unittest.TestCase):
     def setUp(self, m):
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         self.zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
+        self.zoomv2 = Zoom(
+            ACCOUNT_ID,
+            CLIENT_ID,
+            CLIENT_SECRET,
+            parsons_version="v2",
+        )
 
     @requests_mock.Mocker()
     def test_get_users(self, m):
@@ -313,6 +323,29 @@ class TestZoom(unittest.TestCase):
         assert_matching_tables(self.zoom.get_past_webinar_participants(123), tbl)
 
     @requests_mock.Mocker()
+    def test_get_past_webinar_report(self, m):
+        report = {
+            "custom_keys": [{"key": "Host Nation", "value": "US"}],
+            "dept": "HR",
+            "duration": 2,
+            "end_time": "2022-03-15T07:42:22Z",
+            "id": 345678902224,
+            "participants_count": 4,
+            "start_time": "2022-03-15T07:40:46Z",
+            "topic": "My Meeting",
+            "total_minutes": 3,
+            "tracking_fields": [{"field": "Host Nation", "value": "US"}],
+            "type": 4,
+            "user_email": "jchill@example.com",
+            "user_name": "Jill Chill",
+            "uuid": "4444AAAiAAAAAiAiAiiAii==",
+        }
+
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "report/webinars/123", json=report)
+        assert_matching_tables(self.zoom.get_past_webinar_report(123), report)
+
+    @requests_mock.Mocker()
     def test_get_webinar_registrants(self, m):
         registrants = {
             "page_count": 1,
@@ -341,7 +374,7 @@ class TestZoom(unittest.TestCase):
                     "custom_questions": [
                         {
                             "title": "What do you hope to learn from this Webinar?",
-                            "value": "Look forward to learning how you come up with recipes and services",  # noqa: E501
+                            "value": "Look forward to learning how you come up with recipes and services",
                         }
                     ],
                     "status": "approved",
@@ -369,7 +402,7 @@ class TestZoom(unittest.TestCase):
                     "custom_questions": [
                         {
                             "title": "What do you hope to learn from this Webinar?",
-                            "value": "Look forward to learning how you come up with recipes and services",  # noqa: E501
+                            "value": "Look forward to learning how you come up with recipes and services",
                         }
                     ],
                     "status": "approved",
@@ -402,7 +435,7 @@ class TestZoom(unittest.TestCase):
                     "custom_questions": [
                         {
                             "title": "What do you hope to learn from this Webinar?",
-                            "value": "Look forward to learning how you come up with recipes and services",  # noqa: E501
+                            "value": "Look forward to learning how you come up with recipes and services",
                         }
                     ],
                     "status": "approved",
@@ -430,7 +463,7 @@ class TestZoom(unittest.TestCase):
                     "custom_questions": [
                         {
                             "title": "What do you hope to learn from this Webinar?",
-                            "value": "Look forward to learning how you come up with recipes and services",  # noqa: E501
+                            "value": "Look forward to learning how you come up with recipes and services",
                         }
                     ],
                     "status": "approved",
@@ -653,7 +686,7 @@ class TestZoom(unittest.TestCase):
                     "answers": "Larry David's Curb Your Enthusiasm",
                     "case_sensitive": "True",
                     "name": "Secret Truth",
-                    "prompts": [
+                    "question_details": [
                         {
                             "prompt_question": "What's the secret truth of the universe?",
                             "prompt_right_answers": [
@@ -689,8 +722,8 @@ class TestZoom(unittest.TestCase):
                     "right_answers": "",
                     "show_as_dropdown": False,
                     "type": "short_answer",
-                    "prompts__prompt_question": "What's the secret truth of the universe?",
-                    "prompts__prompt_right_answers": [
+                    "question_details__prompt_question": "What's the secret truth of the universe?",
+                    "question_details__prompt_right_answers": [
                         "Pizza delivery",
                         "Larry David's Curb Your Enthusiasm",
                     ],
@@ -849,10 +882,10 @@ class TestZoom(unittest.TestCase):
                     "answers": ["Extremely useful"],
                     "case_sensitive": False,
                     "name": "How useful was this meeting?",
-                    "prompts": [
+                    "question_details": [
                         {
-                            "prompt_question": "How are you?",
-                            "prompt_right_answers": ["Good"],
+                            "question": "How are you?",
+                            "answer": ["Good"],
                         }
                     ],
                     "rating_max_label": "Extremely Likely",
@@ -883,8 +916,8 @@ class TestZoom(unittest.TestCase):
                     "right_answers": ["Good"],
                     "show_as_dropdown": False,
                     "type": "single",
-                    "prompts__prompt_question": "How are you?",
-                    "prompts__prompt_right_answers": ["Good"],
+                    "question_details__answer": ["Good"],
+                    "question_details__question": "How are you?",
                 }
             ],
         )
@@ -978,3 +1011,158 @@ class TestZoom(unittest.TestCase):
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "report/webinars/123/polls", json=poll)
         assert_matching_tables(self.zoom.get_webinar_poll_results(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_get_webinar_occurrences(self, m):
+        occurrences = {
+            "occurrences": [
+                {
+                    "occurrence_id": "123456789",
+                    "start_time": "2023-01-01T10:00:00Z",
+                    "duration": 60,
+                    "status": "available",
+                },
+                {
+                    "occurrence_id": "987654321",
+                    "start_time": "2023-01-02T14:00:00Z",
+                    "duration": 90,
+                    "status": "available",
+                },
+            ]
+        }
+
+        tbl = Table(
+            [
+                {
+                    "occurrence_id": "123456789",
+                    "start_time": "2023-01-01T10:00:00Z",
+                    "duration": 60,
+                    "status": "available",
+                },
+                {
+                    "occurrence_id": "987654321",
+                    "start_time": "2023-01-02T14:00:00Z",
+                    "duration": 90,
+                    "status": "available",
+                },
+            ]
+        )
+
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "webinars/123/", json=occurrences)
+        assert_matching_tables(self.zoomv2.get_webinar_occurrences(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_get_past_webinar_occurrences(self, m):
+        webinars = {
+            "webinars": [
+                {
+                    "start_time": "2022-03-26T06:44:14Z",
+                    "uuid": "Bznyg8KZTdCVbQxvS/oZ7w==",
+                }
+            ]
+        }
+
+        tbl = Table(
+            [
+                {
+                    "start_time": "2022-03-26T06:44:14Z",
+                    "uuid": "Bznyg8KZTdCVbQxvS/oZ7w==",
+                    "webinar_id": 123,
+                }
+            ]
+        )
+
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "past_webinars/123/instances", json=webinars)
+        assert_matching_tables(self.zoomv2.get_past_webinar_occurrences(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_get_past_meeting_occurrences(self, m):
+        meetings = {
+            "meetings": [
+                {
+                    "start_time": "2022-03-26T06:44:14Z",
+                    "uuid": "Bznyg8KZTdCVbQxvS/oZ7w==",
+                }
+            ]
+        }
+
+        tbl = Table(
+            [
+                {
+                    "start_time": "2022-03-26T06:44:14Z",
+                    "uuid": "Bznyg8KZTdCVbQxvS/oZ7w==",
+                    "meeting_id": 123,
+                }
+            ]
+        )
+
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "past_meetings/123/instances", json=meetings)
+        assert_matching_tables(self.zoomv2.get_past_meeting_occurrences(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_new_returns_v1_by_default(self, m):
+        """Test that Zoom() returns ZoomV1 instance by default"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
+        assert isinstance(zoom, ZoomV1)
+
+    @requests_mock.Mocker()
+    def test_new_returns_v1_when_specified(self, m):
+        """Test that Zoom() returns ZoomV1 when parsons_version='v1'"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v1")
+        assert isinstance(zoom, ZoomV1)
+        assert not isinstance(zoom, ZoomV2)
+
+    @requests_mock.Mocker()
+    def test_new_returns_v2_when_specified(self, m):
+        """Test that Zoom() returns ZoomV2 when parsons_version='v2'"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v2")
+        assert isinstance(zoom, ZoomV2)
+
+    @requests_mock.Mocker()
+    def test_new_raises_error_on_invalid_version(self, m):
+        """Test that Zoom() raises ValueError for invalid parsons_version"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        with pytest.raises(ValueError, match="v3 not supported"):
+            Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v3")
+
+    @requests_mock.Mocker()
+    @patch.dict("os.environ", {"ZOOM_PARSONS_VERSION": "v1"})
+    def test_new_respects_env_variable_v1(self, m):
+        """Test that ZOOM_PARSONS_VERSION env variable is respected for v1"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
+        assert isinstance(zoom, ZoomV1)
+        assert not isinstance(zoom, ZoomV2)
+
+    @requests_mock.Mocker()
+    @patch.dict("os.environ", {"ZOOM_PARSONS_VERSION": "v2"})
+    def test_new_respects_env_variable_v2(self, m):
+        """Test that ZOOM_PARSONS_VERSION env variable is respected for v2"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
+        assert isinstance(zoom, ZoomV2)
+
+    @requests_mock.Mocker()
+    @patch.dict("os.environ", {"ZOOM_PARSONS_VERSION": "v1"})
+    def test_new_param_overrides_env_variable_v2(self, m):
+        """Test that parsons_version parameter overrides env variable"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        # Env var is v1, but we explicitly request v2
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v2")
+        assert isinstance(zoom, ZoomV2)
+
+    @requests_mock.Mocker()
+    @patch.dict("os.environ", {"ZOOM_PARSONS_VERSION": "v2"})
+    def test_new_param_overrides_env_variable_v1(self, m):
+        """Test that parsons_version parameter overrides env variable"""
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        # Env var is v2, but we explicitly request v1
+        zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v1")
+        assert isinstance(zoom, ZoomV1)
+        assert not isinstance(zoom, ZoomV2)

@@ -1,15 +1,16 @@
+import logging
+import os
 import re
+
 import boto3
 from botocore.client import ClientError
 
 from parsons.utilities import files
-import logging
-import os
 
 logger = logging.getLogger(__name__)
 
 
-class AWSConnection(object):
+class AWSConnection:
     def __init__(
         self,
         aws_access_key_id=None,
@@ -42,7 +43,7 @@ class AWSConnection(object):
             self.session = boto3.Session()
 
 
-class S3(object):
+class S3:
     """
     Instantiate the S3 class.
 
@@ -154,7 +155,7 @@ class S3(object):
                 'Size', and 'Owner'.
         """
 
-        keys_dict = dict()
+        keys_dict = {}
         logger.debug(f"Fetching keys in {bucket} bucket")
 
         continuation_token = None

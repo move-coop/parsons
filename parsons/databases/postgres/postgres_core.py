@@ -1,13 +1,16 @@
+import logging
+import pickle
 from contextlib import contextmanager
+from pathlib import Path
 from typing import Optional
+
+import petl
 import psycopg2
 import psycopg2.extras
+
+from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
 from parsons.etl.table import Table
 from parsons.utilities import files
-import pickle
-import petl
-import logging
-from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -98,7 +101,7 @@ class PostgresCore(PostgresCreateStatement):
             Parsons Table
                 See :ref:`parsons-table` for output options.
 
-        """  # noqa: E501
+        """
 
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
@@ -126,7 +129,6 @@ class PostgresCore(PostgresCreateStatement):
         """
 
         with self.cursor(connection) as cursor:
-
             logger.debug(f"SQL Query: {sql}")
             cursor.execute(sql, parameters)
 
@@ -139,14 +141,13 @@ class PostgresCore(PostgresCreateStatement):
                 return None
 
             else:
-
                 # Fetch the data in batches, and "pickle" the rows to a temp file.
                 # (We pickle rather than writing to, say, a CSV, so that we maintain
                 # all the type information for each field.)
 
                 temp_file = files.create_temp_file()
 
-                with open(temp_file, "wb") as f:
+                with Path(temp_file).open(mode="wb") as f:
                     # Grab the header
                     header = [i[0] for i in cursor.description]
                     pickle.dump(header, f)
@@ -188,7 +189,6 @@ class PostgresCore(PostgresCreateStatement):
 
         # If the table exists, evaluate the if_exists argument for next steps.
         if self.table_exists_with_connection(table_name, connection):
-
             if if_exists == "fail":
                 raise ValueError("Table already exists.")
 
@@ -226,16 +226,14 @@ class PostgresCore(PostgresCreateStatement):
             return self.table_exists_with_connection(table_name, connection, view)
 
     def table_exists_with_connection(self, table_name, connection, view=True):
-
         # Extract the table and schema from this. If no schema is detected then
         # will default to the public schema.
         try:
-            schema, table = table_name.lower().split(".", 1)
+            schema, table = table_name.split(".", 1)
         except ValueError:
-            schema, table = "public", table_name.lower()
+            schema, table = "public", table_name
 
         with self.cursor(connection) as cursor:
-
             # Check in pg tables for the table
             sql = f"""select count(*) from pg_tables where schemaname='{schema}' and
                      tablename='{table}';"""
@@ -251,7 +249,4 @@ class PostgresCore(PostgresCreateStatement):
                 result += cursor.fetchone()[0]
 
         # If in either, return boolean
-        if result >= 1:
-            return True
-        else:
-            return False
+        return result >= 1

@@ -1,8 +1,10 @@
 """NGPVAN Target Endpoints"""
 
-from parsons.etl.table import Table
 import logging
+
 import petl
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
@@ -11,9 +13,8 @@ class TargetsFailed(Exception):
     pass
 
 
-class Targets(object):
+class Targets:
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def obj_dict(obj):

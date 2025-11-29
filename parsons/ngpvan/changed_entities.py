@@ -1,17 +1,17 @@
 """NGPVAN Changed Entities"""
 
-from parsons.etl.table import Table
 import logging
 import time
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
 RETRY_RATE = 10
 
 
-class ChangedEntities(object):
+class ChangedEntities:
     def __init__(self):
-
         pass
 
     def get_changed_entity_resources(self):
@@ -75,7 +75,7 @@ class ChangedEntities(object):
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """  # noqa: E501
+        """
 
         json = {
             "dateChangedFrom": date_from,
@@ -100,6 +100,5 @@ class ChangedEntities(object):
                 raise ValueError(status["message"])
 
     def _get_changed_entity_job(self, job_id):
-
         r = self.connection.get_request(f"changedEntityExportJobs/{job_id}")
         return r

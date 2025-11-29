@@ -1,24 +1,23 @@
-import unittest
 import os
-import requests_mock
+import unittest
 import unittest.mock as mock
+
+import requests_mock
+
 from parsons import VAN, Table
-from test.utils import validate_list
 from parsons.utilities import cloud_storage
+from test.utils import validate_list
 
 
 class TestSavedLists(unittest.TestCase):
     def setUp(self):
-
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters", raise_for_status=False)
+        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
 
     def tearDown(self):
-
         pass
 
     @requests_mock.Mocker()
     def test_get_saved_lists(self, m):
-
         json = {
             "count": 1,
             "items": [
@@ -37,11 +36,10 @@ class TestSavedLists(unittest.TestCase):
 
         expected = ["savedListId", "listCount", "name", "doorCount", "description"]
 
-        self.assertTrue(validate_list(expected, self.van.get_saved_lists()))
+        assert validate_list(expected, self.van.get_saved_lists())
 
     @requests_mock.Mocker()
     def test_get_saved_list(self, m):
-
         saved_list_id = 517612
 
         json = {
@@ -56,10 +54,9 @@ class TestSavedLists(unittest.TestCase):
 
         # expected = ['savedListId', 'listCount', 'name', 'doorCount', 'description']
 
-        self.assertEqual(self.van.get_saved_list(saved_list_id), json)
+        assert self.van.get_saved_list(saved_list_id) == json
 
     def test_upload_saved_list(self):
-
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = "https://box.com/my_file.zip"
 
@@ -75,7 +72,6 @@ class TestSavedLists(unittest.TestCase):
 
         @requests_mock.Mocker()
         def test_upload_saved_list_rest(self):
-
             cloud_storage.post_file = mock.MagicMock()
             cloud_storage.post_file.return_value = "https://box.com/my_file.zip"
             self.van.get_folders = mock.MagicMock()
@@ -94,11 +90,10 @@ class TestSavedLists(unittest.TestCase):
                 bucket="tmc-scratch",
                 overwrite=517612,
             )
-            self.assertIn("jobId", response)
+            assert "jobId" in response
 
     @requests_mock.Mocker()
     def test_get_folders(self, m):
-
         json = {
             "count": 2,
             "items": [
@@ -112,22 +107,20 @@ class TestSavedLists(unittest.TestCase):
 
         expected = ["folderId", "name"]
 
-        self.assertTrue(validate_list(expected, self.van.get_folders()))
+        assert validate_list(expected, self.van.get_folders())
 
     @requests_mock.Mocker()
     def test_get_folder(self, m):
-
         folder_id = 5046
 
         json = {"folderId": 5046, "name": "#2018_MN_active_universe"}
 
         m.get(self.van.connection.uri + f"folders/{folder_id}", json=json)
 
-        self.assertEqual(json, self.van.get_folder(folder_id))
+        assert json == self.van.get_folder(folder_id)
 
     @requests_mock.Mocker()
     def test_export_job_types(self, m):
-
         json = {
             "count": 1,
             "items": [{"exportJobTypeId": 4, "name": "SavedListExport"}],
@@ -138,11 +131,10 @@ class TestSavedLists(unittest.TestCase):
 
         expected = ["exportJobTypeId", "name"]
 
-        self.assertTrue(validate_list(expected, self.van.get_export_job_types()))
+        assert validate_list(expected, self.van.get_export_job_types())
 
     @requests_mock.Mocker()
     def test_export_job_create(self, m):
-
         saved_list_id = 517612
 
         json = {
@@ -154,7 +146,7 @@ class TestSavedLists(unittest.TestCase):
             "dateExpired": "2018-09-08T16:04:00Z",
             "surveyQuestions": "null",
             "webhookUrl": "https://www.nothing.com/",
-            "downloadUrl": "https://ngpvan.blob.core.windows.net/canvass-files-savedlistexport/bf4d1297-1c77-3fb2-03bd-f0acda122d37_2018-09-08T13:03:27.7191831-04:00.csv",  # noqa: E501
+            "downloadUrl": "https://ngpvan.blob.core.windows.net/canvass-files-savedlistexport/bf4d1297-1c77-3fb2-03bd-f0acda122d37_2018-09-08T13:03:27.7191831-04:00.csv",
             "savedListId": 517612,
             "districtFields": "null",
             "canvassFileRequestGuid": "bf4d1297-1c77-3fb2-03bd-f0acda122d37",
@@ -182,11 +174,10 @@ class TestSavedLists(unittest.TestCase):
         #     'type',
         #     'exportJobId']
 
-        self.assertEqual(json, self.van.export_job_create(saved_list_id))
+        assert json == self.van.export_job_create(saved_list_id)
 
     @requests_mock.Mocker()
     def test_get_export_job(self, m):
-
         export_job_id = 448
 
         json = {
@@ -198,7 +189,7 @@ class TestSavedLists(unittest.TestCase):
             "dateExpired": "2018-09-08T16:04:00Z",
             "surveyQuestions": "null",
             "webhookUrl": "https://www.nothing.com/",
-            "downloadUrl": "https://ngpvan.blob.core.windows.net/canvass-files-savedlistexport/bf4d1297-1c77-3fb2-03bd-f0acda122d37_2018-09-08T13:03:27.7191831-04:00.csv",  # noqa: E501
+            "downloadUrl": "https://ngpvan.blob.core.windows.net/canvass-files-savedlistexport/bf4d1297-1c77-3fb2-03bd-f0acda122d37_2018-09-08T13:03:27.7191831-04:00.csv",
             "savedListId": 517612,
             "districtFields": "null",
             "canvassFileRequestGuid": "bf4d1297-1c77-3fb2-03bd-f0acda122d37",
@@ -226,4 +217,4 @@ class TestSavedLists(unittest.TestCase):
 
         m.get(self.van.connection.uri + f"exportJobs/{export_job_id}", json=json)
 
-        self.assertEqual(json, self.van.get_export_job(export_job_id))
+        assert json == self.van.get_export_job(export_job_id)

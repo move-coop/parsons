@@ -28,7 +28,7 @@ petl==1.7.17
 psycopg2-binary==2.9.9;python_version<"3.13"
 psycopg2-binary==2.9.11;python_version>="3.13"
 pyairtable==3.2.0
-PyGitHub==2.7.0
+PyGitHub==2.8.1
 python-dateutil==2.9.0.post0
 requests==2.32.5
 requests-oauthlib==2.0.0

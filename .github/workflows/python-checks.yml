@@ -1,14 +1,14 @@
 name: Python checks
 
 on:
+  workflow_dispatch:
+  pull_request:
   push:
     branches:
       - main
       - major-release
-  pull_request:
   schedule:
     - cron: 0 0 * * 1
-  workflow_dispatch:
 
 permissions: read-all
 
@@ -44,12 +44,12 @@ jobs:
 
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@f20d06082e3ca3f1bfcf8215fa2cf078ef62dd30
+      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
 
       - if: matrix.resolution != 'limited-dependencies'
         run: |
@@ -94,12 +94,12 @@ jobs:
 
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@f20d06082e3ca3f1bfcf8215fa2cf078ef62dd30
+      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -131,12 +131,12 @@ jobs:
 
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@f20d06082e3ca3f1bfcf8215fa2cf078ef62dd30
+      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -150,7 +150,7 @@ jobs:
         run: |
           ruff check --output-format=sarif -o results.sarif .
 
-      - uses: github/codeql-action/upload-sarif@0499de31b99561a6d14a36a5f662c2a54f91beee
+      - uses: github/codeql-action/upload-sarif@fe4161a26a8629af62121b670040955b330f9af2
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -179,12 +179,12 @@ jobs:
 
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@f20d06082e3ca3f1bfcf8215fa2cf078ef62dd30
+      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -192,7 +192,7 @@ jobs:
         run: |
           bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --format 'sarif' --output 'results.sarif'
 
-      - uses: github/codeql-action/upload-sarif@0499de31b99561a6d14a36a5f662c2a54f91beee
+      - uses: github/codeql-action/upload-sarif@fe4161a26a8629af62121b670040955b330f9af2
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -262,12 +262,12 @@ jobs:
 
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@f20d06082e3ca3f1bfcf8215fa2cf078ef62dd30
+      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -282,44 +282,3 @@ jobs:
           pre-commit run --all-files
         env:
           PRE_COMMIT_HOME: .pre-commit-cache
-
-  pip-install:
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version:
-          - '3.9'
-          - '3.10'
-          - '3.11'
-          - '3.12'
-          - '3.13'
-          - '3.14'
-        os:
-          - ubuntu-latest
-          - windows-latest
-          - macos-latest
-        limited-dependencies:
-          - 'TRUE'
-          - ''
-
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
-        with:
-          disable-sudo: true
-          egress-policy: audit
-
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
-
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: pip
-
-      - env:
-          PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.limited-dependencies }}
-        run: |
-          pip install -r requirements-dev.txt
-          pip install -e .[all]
-

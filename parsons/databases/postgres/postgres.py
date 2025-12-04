@@ -1,7 +1,6 @@
 import logging
 import os
 from pathlib import Path
-from typing import Optional
 
 from parsons.databases.alchemy import Alchemy
 from parsons.databases.database_connector import DatabaseConnector
@@ -120,7 +119,7 @@ class PostgresTable(BaseTable):
         updated_at_column: str,
         cutoff_value,
         offset: int = 0,
-        chunk_size: Optional[int] = None,
+        chunk_size: int | None = None,
     ) -> Table:
         """Get rows that have a greater updated_at_column value than the one provided."""
         sql = f"""

@@ -99,6 +99,26 @@ You can then call various endpoints:
 
 	# Get a specific wrapper
 	specific_wrapper = an.get_wrapper('wrapper_id')
+
+	# Get all surveys
+	all_surveys = an.get_surveys()
+
+	# Get a specific survey
+	specific_survey = an.get_survey('survey_id')
+
+	# Create a new survey
+	new_survey = an.create_survey(
+	    title='My Survey',
+	    description='This is a survey about volunteering',
+	    call_to_action='Take Survey'
+	)
+
+	# Update an existing survey
+	updated_survey = an.update_survey(
+	    'survey_id',
+	    title='Updated Survey Title',
+	    description='Updated description'
+	)
 	
 ***********
 SQL Mirror

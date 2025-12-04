@@ -44,12 +44,12 @@ jobs:
 
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@f20d06082e3ca3f1bfcf8215fa2cf078ef62dd30
+      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
 
       - if: matrix.resolution != 'limited-dependencies'
         continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
@@ -98,12 +98,12 @@ jobs:
 
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@f20d06082e3ca3f1bfcf8215fa2cf078ef62dd30
+      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -135,12 +135,12 @@ jobs:
 
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@f20d06082e3ca3f1bfcf8215fa2cf078ef62dd30
+      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -154,7 +154,7 @@ jobs:
         run: |
           ruff check --output-format=sarif -o results.sarif .
 
-      - uses: github/codeql-action/upload-sarif@0499de31b99561a6d14a36a5f662c2a54f91beee
+      - uses: github/codeql-action/upload-sarif@fe4161a26a8629af62121b670040955b330f9af2
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -183,12 +183,12 @@ jobs:
 
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@f20d06082e3ca3f1bfcf8215fa2cf078ef62dd30
+      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -196,7 +196,7 @@ jobs:
         run: |
           bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --format 'sarif' --output 'results.sarif'
 
-      - uses: github/codeql-action/upload-sarif@0499de31b99561a6d14a36a5f662c2a54f91beee
+      - uses: github/codeql-action/upload-sarif@fe4161a26a8629af62121b670040955b330f9af2
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -266,12 +266,12 @@ jobs:
 
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@f20d06082e3ca3f1bfcf8215fa2cf078ef62dd30
+      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
 
       - run: uv pip install --system -r requirements-dev.txt
 

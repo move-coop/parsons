@@ -1,3 +1,17 @@
+"""
+Determine dependencies to install as part of the parsons package.
+
+This file is required by our "friendly dependencies" feature.
+If PARSONS_LIMITED_DEPENDENCIES environment variable is set, only core set of dependencies is installed by default.
+Dependencies used by specific parsons connectors are made available via extras packages. In addition,
+dependencies are installed with as few version limitations as possible to maximise compatibility for advanced users.
+
+Due to isolated environments described in PEP 517, which are used when installing published source packages,
+this envionment variable and partial installation via extras only works when installing from local source code.
+
+See https://www.parsonsproject.org/pub/friendly-dependencies.
+"""
+
 import os
 from pathlib import Path
 

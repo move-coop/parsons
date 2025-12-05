@@ -43,7 +43,6 @@ repository = "https://github.com/move-coop/parsons.git"
 packages = ["parsons"]
 
 [tool.ruff]
-# Exclude a variety of commonly ignored directories.
 include = [
     "**/*.py",
 ]
@@ -178,4 +177,4 @@ relative_files = true
 [tool.coverage.paths]
 source = [
     "parsons/",
-    ]
+]

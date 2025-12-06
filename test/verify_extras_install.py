@@ -34,20 +34,24 @@ def extract_package_name(dependency_spec: str) -> str:
     return match.group(1) if match else dependency_spec.strip()
 
 
-def main(extra: str) -> None:
+def validate_extra(extra: str) -> None:
+    """Validate that the extra name is valid."""
     if extra != "all" and extra not in EXTRA_DEPENDENCIES:
         logger.error(f"Unknown extra: '{extra}'")
         logger.info(f"Available extras: {', '.join(EXTRA_DEPENDENCIES.keys())}, all")
         sys.exit(1)
 
-    if extra == "all":
-        all_deps = list(chain.from_iterable(EXTRA_DEPENDENCIES.values()))
-        required = CORE_DEPENDENCIES + all_deps
-    else:
-        required = CORE_DEPENDENCIES + EXTRA_DEPENDENCIES[extra]
 
-    required_packages = list({extract_package_name(dep).lower() for dep in required})
+def get_required_dependencies(extra: str) -> list[str]:
+    """Get the list of required dependencies for the given extra."""
+    if extra != "all":
+        return CORE_DEPENDENCIES + EXTRA_DEPENDENCIES[extra]
+    all_deps = list(chain.from_iterable(EXTRA_DEPENDENCIES.values()))
+    return CORE_DEPENDENCIES + all_deps
 
+
+def get_newly_installed_packages() -> set[str]:
+    """Load the before and after package sets and return a set of the packages that were installed."""
     before = {line.strip() for line in Path("before.txt").read_text().splitlines() if line.strip()}
     after = {line.strip() for line in Path("after.txt").read_text().splitlines() if line.strip()}
     newly_installed = after - before
@@ -56,21 +60,43 @@ def main(extra: str) -> None:
     for pkg in sorted(newly_installed):
         logger.debug(pkg)
 
+    return newly_installed
+
+def verify_required_packages(required: list[str], newly_installed: set[str]) -> list[str]:
+    """
+    Verify that all required packages were installed.
+
+    Returns a list of missing packages.
+    """
+    required_packages = list({extract_package_name(dep).lower() for dep in required})
+
     logger.info("\n### Checking required packages ###")
     missing = []
+
     for required_dep, required_pkg in zip(required, required_packages):
         found = any(pkg.lower().startswith(f"{required_pkg}==") for pkg in newly_installed)
         if found:
             logger.debug(f"✓ {required_pkg}")
-        else:
-            logger.warning(f"✗ {required_pkg} (from: {required_dep}) (not in newly installed)")
-            missing.append(required_pkg)
+            continue
+        logger.warning(f"✗ {required_pkg} (from: {required_dep}) (not in newly installed)")
+        missing.append(required_pkg)
 
+    return missing
+
+
+def main(extra: str) -> None:
+    """Main verification logic."""
+    validate_extra(extra)
+
+    required = get_required_dependencies(extra)
+    newly_installed = get_newly_installed_packages()
+
+    missing = verify_required_packages(required, newly_installed)
     if missing:
         logger.error(f"\n✗ Missing packages: {', '.join(missing)}")
         sys.exit(1)
-    else:
-        logger.info("\n✓ All required packages were installed!")
+
+    logger.info("\n✓ All required packages were installed!")
 
 
 if __name__ == "__main__":

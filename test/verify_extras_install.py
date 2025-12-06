@@ -40,7 +40,7 @@ def main(extra: str) -> None:
         sys.exit(1)
 
     required = CORE_DEPENDENCIES + EXTRA_DEPENDENCIES[extra]
-    required_packages = list({extract_package_name(dep) for dep in required})
+    required_packages = list({extract_package_name(dep).lower() for dep in required})
 
     before = {line.strip() for line in Path("before.txt").read_text().splitlines() if line.strip()}
     after = {line.strip() for line in Path("after.txt").read_text().splitlines() if line.strip()}
@@ -54,7 +54,7 @@ def main(extra: str) -> None:
     logger.info("\n### Checking required packages ###")
     missing = []
     for required_dep, required_pkg in zip(required, required_packages):
-        found = any(pkg.startswith(f"{required_pkg}==") for pkg in newly_installed)
+        found = any(pkg.lower().startswith(f"{required_pkg}==") for pkg in newly_installed)
         if found:
             logger.debug(f"✓ {required_pkg}")
         else:

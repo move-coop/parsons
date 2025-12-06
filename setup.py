@@ -92,7 +92,7 @@ def get_install_requires(*, limited: bool = False) -> list[str]:
     Args:
     limited:
         If True, return only core dependencies defined in CORE_DEPENDENCIES.
-        If False, read from requirements.txt
+        If False, return all dependencies from requirements.txt
     """
     if not limited:
         requirements_txt_path = Path(__file__).parent / "requirements.txt"
@@ -107,13 +107,13 @@ def get_extras_require(*, limited: bool = False) -> dict[str, list[str]]:
 
     Args:
     limited:
-        If True, return all extras as separate installable options defined in EXTRA_DEPENDENCIES.
+        If True, return extras as defined in EXTRA_DEPENDENCIES.
         If False, return empty dict for forward-compatibility.
     """
     if not limited:
-        return {"all": []}  # No op for forward-compatibility
+        return {"all": []}
 
-    extras_require = dict(EXTRA_DEPENDENCIES)
+    extras_require = EXTRA_DEPENDENCIES
     extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
 
     return extras_require

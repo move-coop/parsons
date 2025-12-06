@@ -18,6 +18,23 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+class InvalidExtraError(ValueError):
+    """Raised when an invalid extra name is provided."""
+
+    def __init__(self, extra: str):
+        self.extra = extra
+        available = ", ".join(list(EXTRA_DEPENDENCIES.keys()) + ["all"])
+        super().__init__(f"Unknown extra: '{extra}'. Available extras: {available}")
+
+
+class MissingPackagesError(Exception):
+    """Raised when required packages are not installed."""
+
+    def __init__(self, missing_packages: list[str]):
+        self.missing_packages = missing_packages
+        super().__init__(f"✗ Missing packages: {', '.join(missing_packages)}")
+
+
 def extract_package_name(dependency_spec: str) -> str:
     """
     Extract the package name from a dependency specification.
@@ -37,9 +54,7 @@ def extract_package_name(dependency_spec: str) -> str:
 def validate_extra(extra: str) -> None:
     """Validate that the extra name is valid."""
     if extra != "all" and extra not in EXTRA_DEPENDENCIES:
-        logger.error(f"Unknown extra: '{extra}'")
-        logger.info(f"Available extras: {', '.join(EXTRA_DEPENDENCIES.keys())}, all")
-        sys.exit(1)
+        raise InvalidExtraError(extra)
 
 
 def get_required_dependencies(extra: str) -> list[str]:
@@ -62,11 +77,12 @@ def get_newly_installed_packages() -> set[str]:
 
     return newly_installed
 
-def verify_required_packages(required: list[str], newly_installed: set[str]) -> list[str]:
+
+def verify_required_packages(required: list[str], newly_installed: set[str]) -> None:
     """
     Verify that all required packages were installed.
 
-    Returns a list of missing packages.
+    Raises MissingPackagesError if any packages are missing.
     """
     required_packages = list({extract_package_name(dep).lower() for dep in required})
 
@@ -76,25 +92,21 @@ def verify_required_packages(required: list[str], newly_installed: set[str]) -> 
     for required_dep, required_pkg in zip(required, required_packages):
         found = any(pkg.lower().startswith(f"{required_pkg}==") for pkg in newly_installed)
         if found:
-            logger.debug(f"✓ {required_pkg}")
+            logger.debug("✓ %s", required_pkg)
             continue
-        logger.warning(f"✗ {required_pkg} (from: {required_dep}) (not in newly installed)")
+        logger.warning("✗ %s (from: %s) (not in newly installed)", required_pkg, required_dep)
         missing.append(required_pkg)
 
-    return missing
+    if missing:
+        raise MissingPackagesError(missing)
 
 
 def main(extra: str) -> None:
-    """Main verification logic."""
     validate_extra(extra)
 
     required = get_required_dependencies(extra)
     newly_installed = get_newly_installed_packages()
-
-    missing = verify_required_packages(required, newly_installed)
-    if missing:
-        logger.error(f"\n✗ Missing packages: {', '.join(missing)}")
-        sys.exit(1)
+    verify_required_packages(required, newly_installed)
 
     logger.info("\n✓ All required packages were installed!")
 
@@ -105,4 +117,11 @@ if __name__ == "__main__":
         logger.info("Example: python script.py airtable")
         sys.exit(1)
 
-    main(sys.argv[1])
+    try:
+        main(sys.argv[1])
+    except (InvalidExtraError, MissingPackagesError) as e:
+        logger.error(str(e))
+        sys.exit(1)
+    except Exception as e:
+        logger.exception("Unexpected error occurred: %s", str(e))
+        sys.exit(1)

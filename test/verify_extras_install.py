@@ -86,7 +86,7 @@ def verify_required_packages(required: list[str], newly_installed: set[str]) -> 
     """
     required_packages = list({extract_package_name(dep).lower() for dep in required})
 
-    logger.info("\n### Checking required packages ###")
+    logger.info("### Checking required packages ###")
     missing = []
 
     for required_dep, required_pkg in zip(required, required_packages):
@@ -108,7 +108,7 @@ def main(extra: str) -> None:
     newly_installed = get_newly_installed_packages()
     verify_required_packages(required, newly_installed)
 
-    logger.info("\n✓ All required packages were installed!")
+    logger.info("✓ All required packages were installed!")
 
 
 if __name__ == "__main__":

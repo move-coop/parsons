@@ -7,6 +7,7 @@ The txt files are outputs of uv pip freeze before and after installing a parsons
 import logging
 import re
 import sys
+from itertools import chain
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -34,17 +35,21 @@ def extract_package_name(dependency_spec: str) -> str:
 
 
 def main(extra: str) -> None:
-    if extra not in EXTRA_DEPENDENCIES:
+    if extra != "all" and extra not in EXTRA_DEPENDENCIES:
         logger.error(f"Unknown extra: '{extra}'")
-        logger.info(f"Available extras: {', '.join(EXTRA_DEPENDENCIES.keys())}")
+        logger.info(f"Available extras: {', '.join(EXTRA_DEPENDENCIES.keys())}, all")
         sys.exit(1)
 
-    required = CORE_DEPENDENCIES + EXTRA_DEPENDENCIES[extra]
+    if extra == "all":
+        all_deps = list(chain.from_iterable(EXTRA_DEPENDENCIES.values()))
+        required = CORE_DEPENDENCIES + all_deps
+    else:
+        required = CORE_DEPENDENCIES + EXTRA_DEPENDENCIES[extra]
+
     required_packages = list({extract_package_name(dep).lower() for dep in required})
 
     before = {line.strip() for line in Path("before.txt").read_text().splitlines() if line.strip()}
     after = {line.strip() for line in Path("after.txt").read_text().splitlines() if line.strip()}
-
     newly_installed = after - before
 
     logger.info("#### Newly installed packages ####")

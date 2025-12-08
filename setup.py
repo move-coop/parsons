@@ -30,7 +30,8 @@ def main():
             "facebook": ["joblib", "facebook-business"],
             "geocode": [
                 "censusgeocode",
-                "urllib3==2.6.0",
+                "urllib3==1.26.19;python_version<'3.10'",
+                "urllib3==2.6.0;python_version>='3.10'",
             ],
             "github": ["PyGitHub"],
             "google": [

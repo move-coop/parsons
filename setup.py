@@ -19,7 +19,7 @@ def main():
             "airtable": ["pyairtable"],
             "alchemer": ["surveygizmo"],
             "azure": ["azure-storage-blob"],
-            "box": ["boxsdk < 10"],
+            "box": ["boxsdk < 4.0.0"],
             "braintree": ["braintree"],
             "catalist": ["paramiko"],
             "civis": ["civis"],

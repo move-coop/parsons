@@ -29,7 +29,7 @@ def main():
             "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
             "facebook": ["joblib", "facebook-business"],
             "geocode": [
-                "censusgeocode",
+                "censusgeocode @ git+https://github.com/fitnr/censusgeocode.git",
                 "urllib3==1.26.19;python_version<'3.10'",
                 "urllib3==2.6.0;python_version>='3.10'",
             ],

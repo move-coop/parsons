@@ -28,7 +28,11 @@ def main():
             "dbt-postgres": ["dbt-postgres >= 1.5.0"],
             "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
             "facebook": ["joblib", "facebook-business"],
-            "geocode": ["censusgeocode", "urllib3==2.6.0"],
+            "geocode": [
+                "censusgeocode",
+                "urllib3==1.26.19;python_version<'3.10'",
+                "urllib3==2.6.0;python_version>='3.10'",
+            ],
             "github": ["PyGitHub"],
             "google": [
                 "apiclient",

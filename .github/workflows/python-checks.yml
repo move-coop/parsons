@@ -54,7 +54,7 @@ jobs:
       - if: matrix.resolution != 'limited-dependencies'
         continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
         run: |
-          RUST_MIN_STACK=4000000 uv pip install --system --resolution ${{ matrix.resolution }} -e .[all]
+          uv pip install --system --resolution ${{ matrix.resolution }} -e .[all]
           uv pip install --system --resolution ${{ matrix.resolution }} -r requirements-dev.txt
 
       - if: matrix.resolution == 'limited-dependencies'

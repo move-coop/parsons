@@ -123,12 +123,14 @@ class SmartMatch:
     def smartmatch(
         self,
         input_table,
+        disable_matchback_id_creation=False,
         max_matches=1,
         include_email=False,
         include_landline=False,
         include_wireless=False,
         include_voip=False,
         tmp_location=None,
+        join_with_input_table=True,
         keep_smartmatch_input_file=False,
         keep_smartmatch_output_gz_file=False,
     ):
@@ -162,6 +164,8 @@ class SmartMatch:
         `Args:`
             input_table: Parsons or Petl table
                 A Parsons table with `header field names supported by SmartMatch <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_. Required.
+            disable_matchback_id_creation: bool
+                Set to True to disable auto creation of matchback_id. Default of False.
             max_matches: int
                 By default only a single best match is returned for an input record. Increase to return additional potentially accurate matches for each input record. Value between 1-10. Default of 1.
             include_email: bool
@@ -174,6 +178,8 @@ class SmartMatch:
                 Set to True to include appended VOIP phone number values for matched records. This is only applicable if your TargetSmart account is configued to return VOIP phone data. Additional charges may apply if True. Default of False.
             tmp_location: str
                 Optionally provide a local directory path where input/output CSV files will be stored. Useful to recover CSV output if downstream ETL processing fails. If not specified, a system tmp location is used. Default of None.
+            join_with_input_table: bool
+                Set to True to inclue input table in ouput parsons table.
             keep_smartmatch_input_file: bool
                 Optionally keep the CSV input file that is uploaded in ``tmp_location`` for later use. Default of False.
             keep_smartmatch_output_gz_file: bool
@@ -209,7 +215,8 @@ class SmartMatch:
             tmp_location = tempfile.mkdtemp()
 
         logger.info("Preparing data for SmartMatch submission.")
-        input_table = _add_join_id(input_table)
+        if not disable_matchback_id_creation:
+            input_table = _add_join_id(input_table)
         dataprep_table = _prepare_input(input_table, tmp_location)
         # Unique execution label for each submission
         submit_filename = f"tmc_{str(uuid.uuid4())[0:10]}.csv"
@@ -283,7 +290,9 @@ class SmartMatch:
             delete=False,
         )
 
-        logger.info(f"Downloading the '{submit_filename}' SmartMatch results to {tmp_gz.name}.")
+        logger.info(
+            f"Downloading the '{submit_filename}' SmartMatch results to {tmp_gz.name}."
+        )
         _smartmatch_download(download_url, tmp_gz)
         tmp_gz.flush()
 
@@ -297,8 +306,17 @@ class SmartMatch:
             Path(tmp_gz.name).unlink()
         tmp_csv.close()
 
-        raw_outtable = petl.fromcsv(tmp_csv.name, encoding="utf8").convert(INTERNAL_JOIN_ID, int)
-        logger.info("SmartMatch remote execution successful. Joining results to input table.")
+        if input_includes_matchback_id:
+            raw_outtable = petl.fromcsv(tmp_csv.name, encoding="utf8")
+        else:
+            raw_outtable = petl.fromcsv(tmp_csv.name, encoding="utf8").convert(
+                INTERNAL_JOIN_ID, int
+            )
+        if not join_with_input_table:
+            return Table(raw_outtable)
+        logger.info(
+            "SmartMatch remote execution successful. Joining results to input table."
+        )
         outtable = (
             petl.leftjoin(
                 input_table,

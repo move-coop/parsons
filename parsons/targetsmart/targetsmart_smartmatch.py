@@ -179,7 +179,7 @@ class SmartMatch:
             tmp_location: str
                 Optionally provide a local directory path where input/output CSV files will be stored. Useful to recover CSV output if downstream ETL processing fails. If not specified, a system tmp location is used. Default of None.
             join_with_input_table: bool
-                Set to True to inclue input table in ouput parsons table.
+                Set to True to include input table in ouput parsons table. Default is True.
             keep_smartmatch_input_file: bool
                 Optionally keep the CSV input file that is uploaded in ``tmp_location`` for later use. Default of False.
             keep_smartmatch_output_gz_file: bool

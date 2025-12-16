@@ -6,7 +6,6 @@ from tempfile import TemporaryDirectory
 
 import petl
 import pytest
-import os
 
 from parsons import Table
 from parsons.utilities import zip_archive
@@ -180,7 +179,7 @@ class TestParsonsTable(unittest.TestCase):
     def test_to_avro_basic(self):
         # Create a temporary directory and file
         with tempfile.TemporaryDirectory() as temp_dir:
-            avro_file = os.path.join(temp_dir, "test.avro")
+            avro_file = Path.join(temp_dir, "test.avro")
 
             # Create a test table
             tbl = Table([{"first": "Bob", "last": "Smith"}])
@@ -189,7 +188,7 @@ class TestParsonsTable(unittest.TestCase):
             tbl.to_avro(avro_file)
 
             # Verify the file exists
-            assert os.path.exists(avro_file)
+            assert Path.exists(avro_file)
 
             # Read it back and verify content
             result_tbl = Table.from_avro(avro_file)
@@ -204,7 +203,7 @@ class TestParsonsTable(unittest.TestCase):
     def test_to_avro_with_schema(self):
         # Create a temporary directory and file
         with tempfile.TemporaryDirectory() as temp_dir:
-            avro_file = os.path.join(temp_dir, "test.avro")
+            avro_file = Path.join(temp_dir, "test.avro")
 
             # Create a test table
             tbl = Table([{"first": "Bob", "last": "Smith"}])
@@ -236,11 +235,11 @@ class TestParsonsTable(unittest.TestCase):
 
             # Test with different compression codecs
             for codec in ["null", "deflate", "bzip2"]:
-                test_file = os.path.join(temp_dir, f"test_{codec}.avro")
+                test_file = Path.join(temp_dir, f"test_{codec}.avro")
                 tbl.to_avro(test_file, codec=codec)
 
                 # Verify the file exists
-                assert os.path.exists(test_file)
+                assert Path.exists(test_file)
 
                 # Read it back and verify content
                 result_tbl = Table.from_avro(test_file)
@@ -256,11 +255,11 @@ class TestParsonsTable(unittest.TestCase):
             # Test with compression level
             codec = "deflate"
             for level in [1, 5, 9]:
-                test_file = os.path.join(temp_dir, f"test_level_{level}.avro")
+                test_file = Path.join(temp_dir, f"test_level_{level}.avro")
                 tbl.to_avro(test_file, codec=codec, compression_level=level)
 
                 # Verify the file exists
-                assert os.path.exists(test_file)
+                assert Path.exists(test_file)
 
                 # Read it back and verify content
                 result_tbl = Table.from_avro(test_file)
@@ -274,11 +273,11 @@ class TestParsonsTable(unittest.TestCase):
 
             # Test with different sample sizes for schema inference
             for sample in [1, 5, 10]:
-                test_file = os.path.join(temp_dir, f"test_sample_{sample}.avro")
+                test_file = Path.join(temp_dir, f"test_sample_{sample}.avro")
                 tbl.to_avro(test_file, sample=sample)
 
                 # Verify the file exists
-                assert os.path.exists(test_file)
+                assert Path.exists(test_file)
 
                 # Read it back and verify content
                 result_tbl = Table.from_avro(test_file)
@@ -287,7 +286,7 @@ class TestParsonsTable(unittest.TestCase):
     def test_to_avro_with_avro_args(self):
         # Create a temporary directory and file
         with tempfile.TemporaryDirectory() as temp_dir:
-            avro_file = os.path.join(temp_dir, "test.avro")
+            avro_file = Path.join(temp_dir, "test.avro")
 
             # Create a test table
             tbl = Table([{"first": "Bob", "last": "Smith"}])
@@ -300,7 +299,7 @@ class TestParsonsTable(unittest.TestCase):
             )
 
             # Verify the file exists
-            assert os.path.exists(avro_file)
+            assert Path.exists(avro_file)
 
             # Read it back and verify content
             result_tbl = Table.from_avro(avro_file)
@@ -320,11 +319,11 @@ class TestParsonsTable(unittest.TestCase):
             ]
             complex_tbl = Table(complex_data)
 
-            test_file = os.path.join(temp_dir, "test_complex.avro")
+            test_file = Path.join(temp_dir, "test_complex.avro")
             complex_tbl.to_avro(test_file)
 
             # Verify the file exists
-            assert os.path.exists(test_file)
+            assert Path.exists(test_file)
 
             # Read it back and verify content
             result_tbl = Table.from_avro(test_file)

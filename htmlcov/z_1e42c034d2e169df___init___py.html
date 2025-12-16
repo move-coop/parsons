@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Coverage for parsons/__init__.py: 78%</title>
     <link rel="icon" sizes="32x32" href="favicon_32_cb_58284776.png">
-    <link rel="stylesheet" href="style_cb_8432e98f.css" type="text/css">
+    <link rel="stylesheet" href="style_cb_a5a05ca4.css" type="text/css">
     <script src="coverage_html_cb_bcae5fc4.js" defer></script>
 </head>
 <body class="pyfile">
@@ -66,8 +66,8 @@
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a id="nextFileLink" class="nav" href="z_60981addb6f92b33___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.12.0">coverage.py v7.12.0</a>,
-            created at 2025-12-15 00:35 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.13.0">coverage.py v7.13.0</a>,
+            created at 2025-12-16 16:29 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -184,8 +184,8 @@
     <p class="run"><span class="n"><a id="t100" href="#t100">100</a></span><span class="t">    <span class="key">try</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t101" href="#t101">101</a></span><span class="t">        <span class="nam">globals</span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="nam">connector_name</span><span class="op">]</span> <span class="op">=</span> <span class="nam">getattr</span><span class="op">(</span><span class="nam">importlib</span><span class="op">.</span><span class="nam">import_module</span><span class="op">(</span><span class="nam">module_path</span><span class="op">)</span><span class="op">,</span> <span class="nam">connector_name</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t102" href="#t102">102</a></span><span class="t">        <span class="nam">__all__</span><span class="op">.</span><span class="nam">append</span><span class="op">(</span><span class="nam">connector_name</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t103" href="#t103">103</a></span><span class="t">    <span class="key">except</span> <span class="nam">ImportError</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t104" href="#t104">104</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="fst">f"</span><span class="fst">Could not import </span><span class="op">{</span><span class="nam">module_path</span><span class="op">}</span><span class="fst">.</span><span class="op">{</span><span class="nam">connector_name</span><span class="op">}</span><span class="fst">; skipping</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t103" href="#t103">103</a></span><span class="t">    <span class="key">except</span> <span class="nam">ImportError</span> <span class="key">as</span> <span class="nam">e</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t104" href="#t104">104</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="fst">f"</span><span class="fst">Could not import </span><span class="op">{</span><span class="nam">module_path</span><span class="op">}</span><span class="fst">.</span><span class="op">{</span><span class="nam">connector_name</span><span class="op">}</span><span class="fst"> with </span><span class="op">{</span><span class="nam">e</span><span class="op">}</span><span class="fst">; skipping</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
 </main>
 <footer>
     <div class="content">
@@ -194,8 +194,8 @@
             <a class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a class="nav" href="z_60981addb6f92b33___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.12.0">coverage.py v7.12.0</a>,
-            created at 2025-12-15 00:35 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.13.0">coverage.py v7.13.0</a>,
+            created at 2025-12-16 16:29 +0000
         </p>
     </div>
 </footer>

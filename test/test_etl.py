@@ -6,6 +6,7 @@ from tempfile import TemporaryDirectory
 
 import petl
 import pytest
+import os
 
 from parsons import Table
 from parsons.utilities import zip_archive

@@ -200,49 +200,57 @@
 <td><p>CSV File</p></td>
 <td><p>Write a table to a local csv file</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_s3_csv()</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_avro()</span></code></p></td>
+<td><p>Avro File</p></td>
+<td><p>Write a table to a local avro file</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_s3_csv()</span></code></p></td>
 <td><p>AWS s3 Bucket</p></td>
 <td><p>Write a table to a csv stored in S3</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_gcs_csv()</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_gcs_csv()</span></code></p></td>
 <td><p>Google Cloud Storage Bucket</p></td>
 <td><p>Write a table to a csv stored in Google Cloud Storage</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_sftp_csv()</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_sftp_csv()</span></code></p></td>
 <td><p>SFTP Server</p></td>
 <td><p>Write a table to a csv stored on an SFTP server</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_redshift()</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_redshift()</span></code></p></td>
 <td><p>A Redshift Database</p></td>
 <td><p>Write a table to a Redshift database</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_postgres()</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_postgres()</span></code></p></td>
 <td><p>A Postgres Database</p></td>
 <td><p>Write a table to a Postgres database</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_civis()</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_civis()</span></code></p></td>
 <td><p>Civis Redshift Database</p></td>
 <td><p>Write a table to Civis platform database</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_petl()</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_petl()</span></code></p></td>
 <td><p>Petl table object</p></td>
 <td><p>Convert a table a Petl table object</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_json()</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_json()</span></code></p></td>
 <td><p>JSON file</p></td>
 <td><p>Write a table to a local JSON file</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_html()</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_html()</span></code></p></td>
 <td><p>HTML formatted table</p></td>
 <td><p>Write a table to a local html file</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dataframe()</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dataframe()</span></code></p></td>
 <td><p>Pandas Dataframe <a class="footnote-reference brackets" href="#id3" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
 <td><p>Return a Pandas dataframe</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">append_csv()</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">append_csv()</span></code></p></td>
 <td><p>CSV file</p></td>
 <td><p>Appends table to an existing CSV</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">append_avro()</span></code></p></td>
+<td><p>Avro file</p></td>
+<td><p>Appends table to an existing Avro file</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_zip_csv()</span></code></p></td>
 <td><p>ZIP file</p></td>
@@ -281,31 +289,35 @@
 <td><p>File like object, local path, url, ftp.</p></td>
 <td><p>Loads a csv object into a Table</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_json()</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_avro()</span></code></p></td>
+<td><p>Avro File</p></td>
+<td><p>Load a table from a local avro file</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_json()</span></code></p></td>
 <td><p>File like object, local path, url, ftp.</p></td>
 <td><p>Loads a json object into a Table</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_columns()</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_columns()</span></code></p></td>
 <td><p>List object</p></td>
 <td><p>Loads lists organized as columns in Table</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_redshift()</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_redshift()</span></code></p></td>
 <td><p>Redshift table</p></td>
 <td><p>Loads a Redshift query into a Table</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_postgres()</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_postgres()</span></code></p></td>
 <td><p>Postgres table</p></td>
 <td><p>Loads a Postgres query into a Table</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_dataframe()</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_dataframe()</span></code></p></td>
 <td><p>Pandas Dataframe <a class="footnote-reference brackets" href="#id5" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></td>
 <td><p>Load a Parsons table from a Pandas Dataframe</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_s3_csv()</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_s3_csv()</span></code></p></td>
 <td><p>S3 CSV</p></td>
 <td><p>Load a Parsons table from a csv file on S3</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_csv_string()</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_csv_string()</span></code></p></td>
 <td><p>File like object, local path, url, ftp.</p></td>
 <td><p>Load a CSV string into a Table</p></td>
 </tr>

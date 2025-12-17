@@ -36,19 +36,19 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2
         with:
           disable-sudo: true
           egress-policy: audit
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
+      - uses: install-pinned/uv@b7f4803deede8b28e084308f6372bc0243ee13e4
 
       - if: matrix.resolution != 'limited-dependencies'
         continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2
         with:
           disable-sudo: true
           egress-policy: block
@@ -95,14 +95,14 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
+      - uses: install-pinned/uv@b7f4803deede8b28e084308f6372bc0243ee13e4
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -122,7 +122,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2
         with:
           disable-sudo: true
           egress-policy: block
@@ -132,14 +132,14 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
+      - uses: install-pinned/uv@b7f4803deede8b28e084308f6372bc0243ee13e4
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -153,7 +153,7 @@ jobs:
         run: |
           ruff check --output-format=sarif -o results.sarif .
 
-      - uses: github/codeql-action/upload-sarif@fe4161a26a8629af62121b670040955b330f9af2
+      - uses: github/codeql-action/upload-sarif@cf1bb45a277cb3c205638b2cd5c984db1c46a412
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -170,7 +170,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2
         with:
           disable-sudo: true
           egress-policy: block
@@ -180,14 +180,14 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
+      - uses: install-pinned/uv@b7f4803deede8b28e084308f6372bc0243ee13e4
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -195,7 +195,7 @@ jobs:
         run: |
           bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --format 'sarif' --output 'results.sarif'
 
-      - uses: github/codeql-action/upload-sarif@fe4161a26a8629af62121b670040955b330f9af2
+      - uses: github/codeql-action/upload-sarif@cf1bb45a277cb3c205638b2cd5c984db1c46a412
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -214,7 +214,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2
         with:
           disable-sudo: true
           egress-policy: block
@@ -223,7 +223,7 @@ jobs:
             github.com:443
             img.shields.io:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
@@ -253,7 +253,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2
         with:
           disable-sudo: true
           egress-policy: block
@@ -263,14 +263,14 @@ jobs:
             proxy.golang.org:443
             pypi.org:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
+      - uses: install-pinned/uv@b7f4803deede8b28e084308f6372bc0243ee13e4
 
       - run: uv pip install --system -r requirements-dev.txt
 

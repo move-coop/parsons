@@ -2,7 +2,6 @@ import logging
 import pickle
 from enum import Enum
 from pathlib import Path
-from typing import Union
 
 import petl
 
@@ -47,7 +46,7 @@ class Table(ETL, ToFrom):
 
     def __init__(
         self,
-        lst: Union[list, tuple, petl.util.base.Table, _EmptyDefault] = _EMPTYDEFAULT,
+        lst: list | tuple | petl.util.base.Table | _EmptyDefault = _EMPTYDEFAULT,
     ):
         self.table = None
 

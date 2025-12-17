@@ -1,5 +1,4 @@
 import urllib.parse
-from typing import Optional
 
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
@@ -42,12 +41,12 @@ class OAuth2APIConnector(APIConnector):
         client_id: str,
         client_secret: str,
         token_url: str,
-        auto_refresh_url: Optional[str],
-        headers: Optional[dict[str, str]] = None,
-        pagination_key: Optional[str] = None,
-        data_key: Optional[str] = None,
+        auto_refresh_url: str | None,
+        headers: dict[str, str] | None = None,
+        pagination_key: str | None = None,
+        data_key: str | None = None,
         grant_type: str = "client_credentials",
-        authorization_kwargs: Optional[dict[str, str]] = None,
+        authorization_kwargs: dict[str, str] | None = None,
     ):
         super().__init__(
             uri,

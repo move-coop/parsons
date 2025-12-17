@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import Optional, Union
 
 from parsons.etl.table import Table
 
@@ -152,7 +151,7 @@ class DatabaseConnector(ABC):
         pass
 
     @abstractmethod
-    def query(self, sql: str, parameters: Optional[Union[list, dict]] = None) -> Optional[Table]:
+    def query(self, sql: str, parameters: list | dict | None = None) -> Table | None:
         """Execute a query against the database. Will return ``None`` if the query returns empty.
 
         To include python variables in your query, it is recommended to pass them as parameters,

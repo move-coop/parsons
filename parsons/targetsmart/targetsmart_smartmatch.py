@@ -290,9 +290,7 @@ class SmartMatch:
             delete=False,
         )
 
-        logger.info(
-            f"Downloading the '{submit_filename}' SmartMatch results to {tmp_gz.name}."
-        )
+        logger.info(f"Downloading the '{submit_filename}' SmartMatch results to {tmp_gz.name}.")
         _smartmatch_download(download_url, tmp_gz)
         tmp_gz.flush()
 
@@ -314,9 +312,7 @@ class SmartMatch:
             )
         if not join_with_input_table:
             return Table(raw_outtable)
-        logger.info(
-            "SmartMatch remote execution successful. Joining results to input table."
-        )
+        logger.info("SmartMatch remote execution successful. Joining results to input table.")
         outtable = (
             petl.leftjoin(
                 input_table,

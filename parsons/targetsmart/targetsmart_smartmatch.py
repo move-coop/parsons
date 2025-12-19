@@ -306,7 +306,7 @@ class SmartMatch:
             Path(tmp_gz.name).unlink()
         tmp_csv.close()
 
-        if input_includes_matchback_id:
+        if disable_matchback_id_creation:
             raw_outtable = petl.fromcsv(tmp_csv.name, encoding="utf8")
         else:
             raw_outtable = petl.fromcsv(tmp_csv.name, encoding="utf8").convert(

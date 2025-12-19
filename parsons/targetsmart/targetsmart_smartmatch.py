@@ -123,7 +123,7 @@ class SmartMatch:
     def smartmatch(
         self,
         input_table,
-        disable_matchback_id_creation=False,
+        disable_automatic_matchback_id_creation=False,
         max_matches=1,
         include_email=False,
         include_landline=False,
@@ -164,7 +164,7 @@ class SmartMatch:
         `Args:`
             input_table: Parsons or Petl table
                 A Parsons table with `header field names supported by SmartMatch <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_. Required.
-            disable_matchback_id_creation: bool
+            disable_automatic_matchback_id_creation: bool
                 Set to True to disable auto creation of matchback_id. Default of False.
             max_matches: int
                 By default only a single best match is returned for an input record. Increase to return additional potentially accurate matches for each input record. Value between 1-10. Default of 1.
@@ -215,7 +215,7 @@ class SmartMatch:
             tmp_location = tempfile.mkdtemp()
 
         logger.info("Preparing data for SmartMatch submission.")
-        if not disable_matchback_id_creation:
+        if not disable_automatic_matchback_id_creation:
             input_table = _add_join_id(input_table)
         dataprep_table = _prepare_input(input_table, tmp_location)
         # Unique execution label for each submission
@@ -304,7 +304,7 @@ class SmartMatch:
             Path(tmp_gz.name).unlink()
         tmp_csv.close()
 
-        if disable_matchback_id_creation:
+        if disable_automatic_matchback_id_creation:
             raw_outtable = petl.fromcsv(tmp_csv.name, encoding="utf8")
         else:
             raw_outtable = petl.fromcsv(tmp_csv.name, encoding="utf8").convert(

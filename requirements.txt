@@ -1,7 +1,7 @@
 azure-storage-blob==12.27.1
 boto3>=1.17.98
 boxsdk==4.1.0
-braintree==4.40.0
+braintree==4.41.0
 bs4==0.0.2
 censusgeocode@git+https://github.com/fitnr/censusgeocode.git@1824f5d558ff6378dc4359b44c9cf535a2ba205f
 civis==1.16.1;python_version<"3.10"  # later Civis versions do not support Python 3.9

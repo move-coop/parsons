@@ -17,7 +17,7 @@ google-auth==2.40.3
 google-cloud-bigquery==3.38.0
 google-cloud-storage-transfer==1.18.0
 google-cloud-storage==3.7.0
-grpcio==1.75.0
+grpcio==1.76.0
 gspread==6.2.1
 httplib2==0.30.0
 joblib==1.2.0;python_version<"3.10"  # Civis 1.16.1, which runs on Python 3.9, requires an older joblib version

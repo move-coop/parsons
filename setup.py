@@ -24,7 +24,7 @@ def main():
             "braintree": ["braintree"],
             "catalist": ["paramiko"],
             "civis": ["civis"],
-            "dbt-redshift": ["dbt-core >= 1.5.0"],
+            "dbt-redshift": ["dbt-redshift >= 1.5.0"],
             "dbt-bigquery": ["dbt-bigquery >= 1.5.0"],
             "dbt-postgres": ["dbt-postgres >= 1.5.0"],
             "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],

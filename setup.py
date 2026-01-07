@@ -51,10 +51,7 @@ def main():
                 "oauth2client",
                 "validate-email",
             ],
-            "mysql": [
-                "mysql-connector-python",
-                "sqlalchemy >= 1.4.22",
-            ],
+            "mysql": ["mysql-connector-python", "sqlalchemy >= 1.4.22"],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["beautifulsoup4"],

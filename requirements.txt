@@ -7,11 +7,11 @@ censusgeocode @ git+https://github.com/fitnr/censusgeocode.git@1824f5d558ff6378d
 civis==1.16.1;python_version<"3.10"  # later Civis versions do not support Python 3.9
 civis==2.4.3;python_version>="3.10"  
 curlify==3.0.0
-dbt-core>=1.5.0
-dbt-bigquery>=1.5.0
-dbt-postgres>=1.5.0
-dbt-redshift>=1.5.0
-dbt-snowflake>=1.5.0
+dbt-core>=1.9.0
+dbt-bigquery>=1.9.0
+dbt-postgres>=1.9.0
+dbt-redshift>=1.9.0
+dbt-snowflake>=1.9.0
 defusedxml~=0.7
 facebook-business==24.0.0
 fastavro==1.12.1

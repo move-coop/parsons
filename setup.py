@@ -57,7 +57,7 @@ def main():
             ],
             "newmode": ["newmode"],
             "ngpvan": ["suds-py3"],
-            "mobilecommons": ["bs4"],
+            "mobilecommons": ["beautifulsoup4"],
             "postgres": [
                 "psycopg2-binary <= 2.9.9;python_version < '3.13'",
                 "psycopg2-binary >= 2.9.10;python_version >= '3.13'",

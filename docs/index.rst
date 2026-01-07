@@ -198,6 +198,7 @@ Indices and tables
    controlshift
    copper
    crowdtangle
+   daisychain
    databases
    donorbox
    empower

@@ -105,16 +105,22 @@
 <li class="toctree-l3"><a class="reference internal" href="#id10">API</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#google-drive">Google Drive</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#google-docs">Google Docs</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id11">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id12">Quickstart</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id13">API</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#google-sheets">Google Sheets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#google-drive">Google Drive</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id14">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id16">Quickstart</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id17">API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#google-sheets">Google Sheets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">API</a></li>
 </ul>
 </li>
 </ul>
@@ -394,10 +400,53 @@ key civic information such as personalized ballots and polling location informat
 </section>
 <p>   :inherited-members:</p>
 </section>
-<section id="google-drive">
-<h2>Google Drive<a class="headerlink" href="#google-drive" title="Link to this heading"></a></h2>
+<section id="google-docs">
+<h2>Google Docs<a class="headerlink" href="#google-docs" title="Link to this heading"></a></h2>
 <section id="id11">
 <h3>Overview<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<p>The GoogleDocs class allows you to interact with Google Docs. You can use this connector to access and manipulate Google Docs documents programmatically.</p>
+<p>In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON file locally and pass the path to the file as a string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> environment variable. You can follow these steps:</p>
+<ul class="simple">
+<li><p>Go to the <a class="reference external" href="https://console.cloud.google.com/apis/dashboard">Google Developer Console</a> and make sure the “Google Docs API” and “Google Drive API” are both enabled.</p></li>
+<li><p>Go to the credentials page via the lefthand sidebar. On the credentials page, click “create credentials”.</p></li>
+<li><p>Choose the “Service Account” option and fill out the form provided. This should generate your credentials.</p></li>
+<li><p>Select your newly created Service Account on the credentials main page.</p></li>
+<li><p>select “keys”, then “add key”, then “create new key”. Pick the key type JSON. The credentials should start to automatically download.</p></li>
+</ul>
+<p>You can now copy and paste the data from the key into your script or (recommended) save it locally as a JSON file.</p>
+</section>
+<section id="id12">
+<h3>Quickstart<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<p>To instantiate the GoogleDocs class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> to contain a path to the JSON file containing the dict.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleDocs</span>
+
+<span class="c1"># First approach: Use API credentials via environmental variables</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">GoogleDocs</span><span class="p">()</span>
+
+<span class="c1"># Second approach: Pass API credentials as argument</span>
+<span class="n">credential_filename</span> <span class="o">=</span> <span class="s1">&#39;google_drive_service_credentials.json&#39;</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">GoogleDocs</span><span class="p">(</span><span class="n">app_creds</span><span class="o">=</span><span class="n">credential_filename</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then use the client to interact with Google Docs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Access the Google Docs API client</span>
+<span class="n">document_id</span> <span class="o">=</span> <span class="s1">&#39;your-document-id&#39;</span>
+<span class="n">document</span> <span class="o">=</span> <span class="n">docs</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">documents</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">documentId</span><span class="o">=</span><span class="n">document_id</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+<span class="c1"># Get the document content</span>
+<span class="n">content</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>API<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+</section>
+<p>   :inherited-members:</p>
+</section>
+<section id="google-drive">
+<h2>Google Drive<a class="headerlink" href="#google-drive" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>Overview<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
 <p>The GoogleDrive class allows you to interact with Google Drive. You can update permissions with this connector.</p>
 <p>In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON file locally and pass the path to the file as a string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> environment variable. You can follow these steps:</p>
 <ul class="simple">
@@ -409,8 +458,8 @@ key civic information such as personalized ballots and polling location informat
 </ul>
 <p>You can now copy and paste the data from the key into your script or (recommended) save it locally as a JSON file.</p>
 </section>
-<section id="id12">
-<h3>Quickstart<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<section id="id16">
+<h3>Quickstart<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleDrive class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> to contain a path to the JSON file containing the dict.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleDrive</span>
 
@@ -424,15 +473,15 @@ key civic information such as personalized ballots and polling location informat
 </div>
 <p>You can then perform a variety of functions in Drive over API.</p>
 </section>
-<section id="id13">
-<h3>API<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<section id="id17">
+<h3>API<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
 </section>
 <p></p>
 </section>
 <section id="google-sheets">
 <h2>Google Sheets<a class="headerlink" href="#google-sheets" title="Link to this heading"></a></h2>
-<section id="id14">
-<h3>Overview<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<section id="id18">
+<h3>Overview<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
 <p>The GoogleSheets class allows you to interact with Google service account spreadsheets, called “Google Sheets.” You can create, modify, read, format, share and delete sheets with this connector.</p>
 <p>In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON file locally and pass the path to the file as a string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> environment variable. You can follow these steps:</p>
 <ul class="simple">
@@ -444,8 +493,8 @@ key civic information such as personalized ballots and polling location informat
 </ul>
 <p>You can now copy and paste the data from the key into your script or (recommended) save it locally as a JSON file.</p>
 </section>
-<section id="id16">
-<h3>Quickstart<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<section id="id20">
+<h3>Quickstart<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
 <p>To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> to contain a path to the JSON file containing the dict.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleSheets</span>
 
@@ -466,8 +515,8 @@ key civic information such as personalized ballots and polling location informat
 </div>
 <p>You may also want to share the document with your service or user account.</p>
 </section>
-<section id="id17">
-<h3>API<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<section id="id21">
+<h3>API<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
 </section>
 </section>
 </section>

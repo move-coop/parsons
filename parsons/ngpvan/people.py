@@ -1,5 +1,4 @@
 import logging
-from typing import Union
 
 from parsons.utilities import json_format
 
@@ -197,7 +196,7 @@ class People:
         first_name=None,
         last_name=None,
         date_of_birth=None,
-        email: Union[str, list[dict[str, Union[str, bool]]], None] = None,
+        email: str | list[dict[str, str | bool]] | None = None,
         phone=None,
         phone_type=None,
         street_number=None,
@@ -300,7 +299,7 @@ class People:
         first_name=None,
         last_name=None,
         date_of_birth=None,
-        email: Union[str, list[dict[str, Union[str, bool]]], None] = None,
+        email: str | list[dict[str, str | bool]] | None = None,
         phone=None,
         phone_type="H",
         street_number=None,

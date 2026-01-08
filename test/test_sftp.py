@@ -325,7 +325,7 @@ def test_walk_tree(args, kwargs, expected, live_sftp_with_mocked_get):
     live_sftp, get = live_sftp_with_mocked_get
     results = live_sftp.walk_tree(*args, **kwargs)
     # `results` will be a list of first dirs then files, as will `expected`
-    for res, expect in zip(results, expected):
+    for res, expect in zip(results, expected, strict=False):
         assert_results_match_expected(expect, res)
 
 

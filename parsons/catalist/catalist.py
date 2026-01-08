@@ -9,7 +9,6 @@ import tempfile
 import time
 import urllib
 from pathlib import Path
-from typing import Optional, Union
 from zipfile import ZipFile
 
 from parsons.etl import Table
@@ -64,7 +63,7 @@ class CatalistMatch:
         client_secret: str,
         sftp_username: str,
         sftp_password: str,
-        client_audience: Optional[str] = None,
+        client_audience: str | None = None,
     ) -> None:
         self.client_id = client_id
         self.client_secret = client_secret
@@ -78,7 +77,7 @@ class CatalistMatch:
         )
         self.sftp = SFTP("t.catalist.us", sftp_username, sftp_password, timeout=7200)
 
-    def load_table_to_sftp(self, table: Table, input_subfolder: Optional[str] = None) -> str:
+    def load_table_to_sftp(self, table: Table, input_subfolder: str | None = None) -> str:
         """Load table to Catalist sftp bucket as gzipped CSV for matching.
 
         If input_subfolder is specific, the file will be uploaded to a subfolder of the
@@ -114,11 +113,11 @@ class CatalistMatch:
         self,
         table: Table,
         export: bool = False,
-        description: Optional[str] = None,
-        export_filename_suffix: Optional[str] = None,
-        input_subfolder: Optional[str] = None,
+        description: str | None = None,
+        export_filename_suffix: str | None = None,
+        input_subfolder: str | None = None,
         copy_to_sandbox: bool = False,
-        static_values: Optional[dict[str, Union[str, int]]] = None,
+        static_values: dict[str, str | int] | None = None,
         wait: int = 30,
     ) -> Table:
         """Load table to the Catalist Match API, returns matched table.
@@ -165,11 +164,11 @@ class CatalistMatch:
         table: Table,
         template_id: str = "48827",
         export: bool = False,
-        description: Optional[str] = None,
-        export_filename_suffix: Optional[str] = None,
-        input_subfolder: Optional[str] = None,
+        description: str | None = None,
+        export_filename_suffix: str | None = None,
+        input_subfolder: str | None = None,
         copy_to_sandbox: bool = False,
-        static_values: Optional[dict[str, Union[str, int]]] = None,
+        static_values: dict[str, str | int] | None = None,
     ) -> dict:
         """Load table to the Catalist Match API, returns response with job metadata.
 
@@ -222,7 +221,7 @@ class CatalistMatch:
         endpoint = "/".join(endpoint_params)
 
         # Assemble query parameters
-        query_params: dict[str, Union[str, int]] = {"token": self.connection.token["access_token"]}
+        query_params: dict[str, str | int] = {"token": self.connection.token["access_token"]}
         if copy_to_sandbox:
             query_params["copyToSandbox"] = "true"
         if static_values:
@@ -242,10 +241,10 @@ class CatalistMatch:
 
     def action(
         self,
-        file_ids: Union[str, list[str]],
+        file_ids: str | list[str],
         match: bool = False,
         export: bool = False,
-        export_filename_suffix: Optional[str] = None,
+        export_filename_suffix: str | None = None,
         copy_to_sandbox: bool = False,
     ) -> list[dict]:
         """Perform actions on existing files.

@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -20,7 +19,7 @@ class Formstack:
                 ``FORMSTACK_API_TOKEN`` env variable is set.
     """
 
-    def __init__(self, api_token: Optional[str] = None):
+    def __init__(self, api_token: str | None = None):
         self.api_token = check_env.check("FORMSTACK_API_TOKEN", api_token)
         headers = {
             "Accept": "application/json",
@@ -116,7 +115,7 @@ class Formstack:
         tbl.remove_column("subfolders")
         return tbl
 
-    def get_forms(self, form_name: Optional[str] = None, folder_id: Optional[int] = None) -> Table:
+    def get_forms(self, form_name: str | None = None, folder_id: int | None = None) -> Table:
         """
         Get all forms on your account.
 

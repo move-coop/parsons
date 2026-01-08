@@ -2,7 +2,6 @@ import logging
 import pickle
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Optional
 
 import petl
 import psycopg2
@@ -65,7 +64,7 @@ class PostgresCore(PostgresCreateStatement):
         finally:
             cur.close()
 
-    def query(self, sql: str, parameters: Optional[list] = None) -> Optional[Table]:
+    def query(self, sql: str, parameters: list | None = None) -> Table | None:
         """
         Execute a query against the database. Will return ``None`` if the query returns zero rows.
 

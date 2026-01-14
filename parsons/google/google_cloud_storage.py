@@ -317,7 +317,15 @@ class GoogleCloudStorage:
         blob.delete()
         logger.info(f"{blob_name} blob in {bucket_name} bucket deleted.")
 
-    def upload_table(self, table, bucket_name, blob_name, data_type="csv", default_acl=None):
+    def upload_table(
+        self,
+        table,
+        bucket_name,
+        blob_name,
+        data_type="csv",
+        default_acl=None,
+        timeout: int = 60,
+    ):
         """
         Load the data from a Parsons table into a blob.
 
@@ -364,6 +372,7 @@ class GoogleCloudStorage:
                 content_type=content_type,
                 client=self.client,
                 predefined_acl=default_acl,
+                timeout=timeout,
             )
         finally:
             files.close_temp_file(local_file)

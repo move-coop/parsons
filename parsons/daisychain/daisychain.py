@@ -1,10 +1,12 @@
 from typing import Optional, Union
+from parsons.utilities import check_env
 
 from parsons.utilities.api_connector import APIConnector
 
 
 class Daisychain:
     def __init__(self, api_token: str):
+        api_token = check_env.check("DAISYCHAIN_API_TOKEN", api_token)
         self.connection = APIConnector(
             "https://go.daisychain.app/api/v1/", headers={"X-API-Token": api_token}
         )

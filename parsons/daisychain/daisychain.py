@@ -1,6 +1,6 @@
 from typing import Optional, Union
-from parsons.utilities import check_env
 
+from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 
 

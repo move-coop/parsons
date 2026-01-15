@@ -1,6 +1,5 @@
 import logging
 import uuid
-from typing import Optional, Union
 
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -27,7 +26,7 @@ class GoogleDocs:
 
     def __init__(
         self,
-        app_creds: Optional[Union[str, dict, Credentials]] = None,
+        app_creds: str | dict | Credentials | None = None,
     ):
         scopes = [
             "https://www.googleapis.com/auth/documents",

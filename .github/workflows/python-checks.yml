@@ -31,6 +31,7 @@ jobs:
           - macos-latest
         resolution:
           - highest
+          - lowest-direct
           - limited-dependencies
 
     permissions:
@@ -49,7 +50,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@87c2872ebb798b99a5ada5669f99ec2680716ae5
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
       - if: matrix.resolution != 'limited-dependencies'
         run: |
@@ -64,7 +65,7 @@ jobs:
           uv pip install --system -r requirements-dev.txt
 
       - id: cache-pytest
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: .pytest_cache
           key: pytest-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.resolution }}-${{ hashFiles('pyproject.toml') }}
@@ -99,12 +100,12 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@87c2872ebb798b99a5ada5669f99ec2680716ae5
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: cache-ruff
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -136,12 +137,12 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@87c2872ebb798b99a5ada5669f99ec2680716ae5
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: cache-ruff
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -150,7 +151,7 @@ jobs:
         run: |
           ruff check --output-format=sarif -o results.sarif .
 
-      - uses: github/codeql-action/upload-sarif@5d4e8d1aca955e8d8589aabd499c5cae939e33c7
+      - uses: github/codeql-action/upload-sarif@cdefb33c0f6224e58673d9004f47f7cb3e328b89
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -184,7 +185,7 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@87c2872ebb798b99a5ada5669f99ec2680716ae5
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -192,7 +193,7 @@ jobs:
         run: |
           bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --format 'sarif' --output 'results.sarif'
 
-      - uses: github/codeql-action/upload-sarif@5d4e8d1aca955e8d8589aabd499c5cae939e33c7
+      - uses: github/codeql-action/upload-sarif@cdefb33c0f6224e58673d9004f47f7cb3e328b89
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -228,7 +229,7 @@ jobs:
           merge-multiple: true
 
       - id: coverage_comment
-        uses: py-cov-action/python-coverage-comment-action@e623398c19eb3853a5572d4a516e10b15b5cefbc
+        uses: py-cov-action/python-coverage-comment-action@7188638f871f721a365d644f505d1ff3df20d683
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_COVERAGE_FILES: true
@@ -267,12 +268,12 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@87c2872ebb798b99a5ada5669f99ec2680716ae5
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: cache-pre-commit
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: .pre-commit-cache
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-${{ hashFiles('pyproject.toml') }}

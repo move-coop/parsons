@@ -25,18 +25,12 @@ else:
     logger.setLevel("INFO")
 
 # Temporary deprecation warning for changes to install process
-
-
-class ParsonsDeprecationWarning(UserWarning):  # custom warning to bypass auto-suppression
-    pass
-
-
 warnings.warn(
     (
         "The behavior of 'pip install parsons' is changing so only core dependencies will be installed. Learn more: "
         "https://www.parsonsproject.org/pub/improving-the-parsons-installation-experience"
     ),
-    category=ParsonsDeprecationWarning,
+    category=FutureWarning,
     stacklevel=2,
 )
 

@@ -100,12 +100,21 @@ You can then call various endpoints:
 	# Get a specific wrapper
 	specific_wrapper = an.get_wrapper('wrapper_id')
 
+	# Get all surveys
+	all_surveys = an.get_surveys()
+
+	# Get a specific survey
+	specific_survey = an.get_survey('survey_id')
+
 	# Create a survey
 	survey_payload = {
 		"title": "My Free Survey",
 		"origin_system": "FreeSurveys.com"
 	}
 	created_survey = an.create_survey(survey_payload)
+
+	# Update a survey
+	updated_survey = an.update_survey('survey_id', survey_payload)
 	
 ***********
 SQL Mirror

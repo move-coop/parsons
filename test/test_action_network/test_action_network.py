@@ -4608,14 +4608,6 @@ class TestActionNetwork(unittest.TestCase):
         )
 
     @requests_mock.Mocker()
-    def test_create_survey_with_creator(self, m):
-        m.post(f"{self.api_url}/surveys", text=json.dumps(self.fake_survey_with_creator_payload))
-        assert_matching_tables(
-            self.an.create_survey_with_creator(self.fake_survey_with_creator_payload),
-            self.fake_survey_with_creator_payload,
-        )
-
-    @requests_mock.Mocker()
     def test_update_survey(self, m):
         m.post(f"{self.api_url}/surveys/123", text=json.dumps(self.fake_survey_payload))
         assert_matching_tables(

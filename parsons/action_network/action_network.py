@@ -1822,21 +1822,11 @@ class ActionNetwork:
         `Args:`
             data:
                 The payload for creating the survey
-                {
+                {   
                     "title": "My Free Survey",
                     "origin_system": "FreeSurveys.com"
                 }
-        `Returns:`
-            A JSON with the created survey entry
-        `Documentation Reference`:
-            https://actionnetwork.org/docs/v2/surveys
-        """
-        return self.api.post_request("surveys", data=json.dumps(data))
-
-    def create_survey_with_creator(self, data):
-        """
-        `Args:`
-            data:
+                OR
                 The payload for creating the survey with a creator link
                 {
                     "title": "My Free Survey",

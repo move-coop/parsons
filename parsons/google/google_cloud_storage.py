@@ -6,11 +6,12 @@ import uuid
 import zipfile
 from pathlib import Path
 from typing import Optional, Union
-
+from collections import OrderedDict
 import google
 import petl
 from google.cloud import storage, storage_transfer
 from google.oauth2.credentials import Credentials
+from google.protobuf import json_format
 
 from parsons.google.utilities import (
     load_google_application_credentials,
@@ -413,7 +414,7 @@ class GoogleCloudStorage:
         source_path: str = "",
         aws_access_key_id: Optional[str] = None,
         aws_secret_access_key: Optional[str] = None,
-    ):
+    ) -> OrderedDict:
         """
         Creates a one-time transfer job from Amazon S3 to Google Cloud
         Storage. Copies all blobs within the bucket unless a key or prefix
@@ -433,6 +434,10 @@ class GoogleCloudStorage:
                 Access key to authenticate storage transfer
             aws_secret_access_key (str):
                 Secret key to authenticate storage transfer
+        `Returns:`
+            OrderedDict:
+                An ordered dict containing the metadata of
+                the finished transfer operation
         """
         if source not in ["gcs", "s3"]:
             raise ValueError(f"Blob transfer only supports gcs and s3 sources [source={source}]")
@@ -517,18 +522,16 @@ class GoogleCloudStorage:
                     logger.debug("Operation still running...")
 
                 else:
-                    operation_metadata = storage_transfer.TransferOperation.deserialize(
-                        operation.metadata.value
-                    )
-                    error_output = operation_metadata.error_breakdowns
-                    if len(error_output) != 0:
+                    operation_metadata = json_format.MessageToDict(operation.metadata)
+                    error_output = operation_metadata.get("errorBreakdowns", None)
+                    if error_output:
                         raise Exception(
                             f"""{blob_storage} to GCS Transfer Job
                             {create_result.name} failed with error: {error_output}"""
                         )
                     else:
                         logger.info(f"TransferJob: {create_result.name} succeeded.")
-                        return
+                        return operation_metadata
 
             else:
                 logger.info("Waiting to kickoff operation...")

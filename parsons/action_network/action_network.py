@@ -44,7 +44,7 @@ class ActionNetwork:
         # returns a list of entries for a given object, such as people, tags, or actions
         # Filter can only be applied to people, petitions, events, forms, fundraising_pages,
         # event_campaigns, campaigns, advocacy_campaigns, signatures, attendances, submissions,
-        # donations and outreaches.
+        # donations, outreaches, and surveys.
         # See Action Network API docs for more info: https://actionnetwork.org/docs/v2/
         count = 0
         page = 1
@@ -1787,6 +1787,198 @@ class ActionNetwork:
         return self.api.put_request(
             f"forms/{form_id}/submissions/{submission_id}", data=json.dumps(data)
         )
+
+    # Surveys
+    def get_surveys(self, limit=None, per_page=25, page=None, filter=None):
+        """
+        Get surveys.
+
+        `Args:`
+            limit:
+                The number of entries to return. When None, returns all entries.
+            per_page:
+                The number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
+
+        `Returns:`
+            Parsons Table
+                A Table with all of the survey entries
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/surveys
+        """
+        if page:
+            return self._get_page("surveys", page, per_page, filter)
+        return self._get_entry_list("surveys", limit, per_page, filter)
+
+    def get_survey(self, survey_id):
+        """
+        Get a specific survey.
+
+        `Args:`
+            survey_id:
+                The unique id of the survey
+        `Returns:`
+            Parsons Table
+                A Table with the survey entry
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/surveys
+        """
+        response = self.api.get_request(f"surveys/{survey_id}")
+        return Table([response])
+
+    def create_survey(self, title, description=None, call_to_action=None,
+                     browser_url=None, featured_image_url=None, origin_system=None,
+                     identifiers=None, background_processing=False, **kwargs):
+        """
+        Create a new survey.
+
+        `Args:`
+            title: str
+                The title of the survey (required)
+            description: str
+                The description of the survey
+            call_to_action: str
+                The call to action text for the survey
+            browser_url: str
+                The URL where the survey can be accessed
+            featured_image_url: str
+                URL of the featured image for the survey
+            origin_system: str
+                The name of the system where this survey originated
+            identifiers: list
+                A list of identifiers for the survey
+            background_processing: bool
+                Whether to process this request in the background
+            **kwargs:
+                Additional fields to include in the survey payload
+
+        `Returns:`
+            A JSON response with the created survey
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/surveys
+        """
+        payload = {"title": title}
+
+        if description is not None:
+            payload["description"] = description
+        if call_to_action is not None:
+            payload["call_to_action"] = call_to_action
+        if browser_url is not None:
+            payload["browser_url"] = browser_url
+        if featured_image_url is not None:
+            payload["featured_image_url"] = featured_image_url
+        if origin_system is not None:
+            payload["origin_system"] = origin_system
+        if identifiers is not None:
+            payload["identifiers"] = identifiers
+
+        # Add any additional fields from kwargs
+        payload.update(kwargs)
+
+        if background_processing:
+            payload["action_network:background_processing"] = background_processing
+
+        return self.api.post_request("surveys", data=json.dumps(payload))
+
+    def update_survey(self, survey_id, title=None, description=None, call_to_action=None,
+                     browser_url=None, featured_image_url=None, background_processing=False,
+                     **kwargs):
+        """
+        Update an existing survey.
+
+        `Args:`
+            survey_id: str
+                The unique id of the survey to update
+            title: str
+                The new title of the survey
+            description: str
+                The new description of the survey
+            call_to_action: str
+                The new call to action text for the survey
+            browser_url: str
+                The new URL where the survey can be accessed
+            featured_image_url: str
+                New URL of the featured image for the survey
+            background_processing: bool
+                Whether to process this request in the background
+            **kwargs:
+                Additional fields to update in the survey
+
+        `Returns:`
+            A JSON response with the updated survey
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/surveys
+        """
+        payload = {}
+
+        if title is not None:
+            payload["title"] = title
+        if description is not None:
+            payload["description"] = description
+        if call_to_action is not None:
+            payload["call_to_action"] = call_to_action
+        if browser_url is not None:
+            payload["browser_url"] = browser_url
+        if featured_image_url is not None:
+            payload["featured_image_url"] = featured_image_url
+
+        # Add any additional fields from kwargs
+        payload.update(kwargs)
+
+        if background_processing:
+            payload["action_network:background_processing"] = background_processing
+
+        return self.api.put_request(f"surveys/{survey_id}", data=json.dumps(payload))
+
+    def get_survey_responses(self, survey_id, limit=None, per_page=25, page=None, filter=None):
+        """
+        Get responses for a specific survey.
+
+        `Args:`
+            survey_id: str
+                The unique id of the survey
+            limit:
+                The number of entries to return. When None, returns all entries.
+            per_page:
+                The number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
+
+        `Returns:`
+            Parsons Table
+                A Table with all response entries for the survey
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/responses
+        """
+        if page:
+            return self._get_page(f"surveys/{survey_id}/responses", page, per_page, filter)
+        return self._get_entry_list(f"surveys/{survey_id}/responses", limit, per_page, filter)
+
+    def get_survey_response(self, survey_id, response_id):
+        """
+        Get a specific response for a survey.
+
+        `Args:`
+            survey_id: str
+                The unique id of the survey
+            response_id: str
+                The unique id of the response
+
+        `Returns:`
+            Parsons Table
+                A Table with the response entry
+        `Documentation Reference`:
+            https://actionnetwork.org/docs/v2/responses
+        """
+        response = self.api.get_request(f"surveys/{survey_id}/responses/{response_id}")
+        return Table([response])
 
     # Tags
     def get_tags(self, limit=None, per_page=None):

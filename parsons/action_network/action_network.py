@@ -1822,7 +1822,7 @@ class ActionNetwork:
         `Args:`
             data:
                 The payload for creating the survey
-                {   
+                {
                     "title": "My Free Survey",
                     "origin_system": "FreeSurveys.com"
                 }

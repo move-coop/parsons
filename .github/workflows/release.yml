@@ -1,7 +1,12 @@
-name: Build & Publish Wheels + Source
+name: Build, test, & publish
 
 on:
   workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+      - major-release
   release:
     types:
       - published
@@ -13,16 +18,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - name: Set up Python 3.13
-        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
             python-version: "3.13"
             cache: pip
 
       - name: Install uv
-        uses: install-pinned/uv@f20d06082e3ca3f1bfcf8215fa2cf078ef62dd30
+        uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
       - name: Install dependencies
         run: |
@@ -38,37 +43,64 @@ jobs:
           python -m build --sdist --outdir dist
 
       - name: Upload dist directory
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: parsons-dist
           path: dist/
 
   test:
     needs: build
+
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version:
+          - '3.9'
+          - '3.10'
+          - '3.11'
+          - '3.12'
+          - '3.13'
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Download package
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           name: parsons-dist
           path: dist
 
-      - name: Install package using pip
+      - name: Extract requirements for cache
+        shell: bash
+        run: |
+          file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
+          # Extract to a temp directory first
+          mkdir -p temp_extract
+          tar -xzf "$file" -C temp_extract
+          # Find and move requirements files to root
+          find temp_extract -name 'requirements.txt' -exec cp {} . \; 2>/dev/null || true
+          # Clean up
+          rm -rf temp_extract
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+        with:
+            python-version: ${{ matrix.python-version }}
+            cache: pip
+
+      - name: Install package
+        shell: bash
         run: |
           file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
           pip install "$file"
-        shell: bash
 
   publish:
-    if: github.repository_owner == 'move-coop'
-    needs:
-      - test
+    if: github.repository_owner == 'move-coop' && github.event_name == 'release' && github.event.action == 'published'
+    needs: test
 
     runs-on: ubuntu-latest
     environment: release
@@ -77,15 +109,14 @@ jobs:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
 
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - name: Download package
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           name: parsons-dist
           path: dist
 
-      # Publish
       - name: Publish
         uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e
         with:

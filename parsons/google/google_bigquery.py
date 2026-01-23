@@ -910,6 +910,7 @@ class GoogleBigQuery(DatabaseConnector):
         if_exists: str = "fail",
         max_errors: int = 0,
         tmp_gcs_bucket: Optional[str] = None,
+        temp_blob_name: Optional[str] = None,
         gcs_client: Optional[GoogleCloudStorage] = None,
         job_config: Optional[LoadJobConfig] = None,
         template_table: Optional[str] = None,
@@ -921,6 +922,7 @@ class GoogleBigQuery(DatabaseConnector):
         schema: Optional[list[dict]] = None,
         max_timeout: int = 21600,
         convert_dict_list_columns_to_json: bool = True,
+        keep_gcs_file: bool = False,
         **load_kwargs,
     ):
         """
@@ -989,7 +991,7 @@ class GoogleBigQuery(DatabaseConnector):
         )
 
         gcs_client = gcs_client or GoogleCloudStorage(app_creds=self.app_creds)
-        temp_blob_name = f"{uuid.uuid4()}.{data_type}"
+        temp_blob_name = temp_blob_name if temp_blob_name else f"{uuid.uuid4()}.{data_type}"
         temp_blob_uri = gcs_client.upload_table(tbl, tmp_gcs_bucket, temp_blob_name)
 
         # load CSV from Cloud Storage into BigQuery
@@ -1002,7 +1004,8 @@ class GoogleBigQuery(DatabaseConnector):
                 **load_kwargs,
             )
         finally:
-            gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
+            if not keep_gcs_file:
+                gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
 
     def _stringify_records(self, tbl):
         # Convert dict columns to JSON strings

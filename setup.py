@@ -18,8 +18,9 @@ def main():
         extras_require = {
             "airtable": ["pyairtable"],
             "alchemer": ["surveygizmo"],
+            "avro": ["fastavro"],
             "azure": ["azure-storage-blob"],
-            "box": ["boxsdk < 10"],
+            "box": ["boxsdk < 10, >=4.1.0", "requests-toolbelt>=1.0.0"],
             "braintree": ["braintree"],
             "catalist": ["paramiko"],
             "civis": ["civis"],
@@ -28,7 +29,11 @@ def main():
             "dbt-postgres": ["dbt-postgres >= 1.5.0"],
             "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
             "facebook": ["joblib", "facebook-business"],
-            "geocode": ["censusgeocode", "urllib3==1.26.19"],
+            "geocode": [
+                "censusgeocode @ git+https://github.com/fitnr/censusgeocode.git@1824f5d558ff6378dc4359b44c9cf535a2ba205f",
+                "urllib3==1.26.19;python_version<'3.10'",
+                "urllib3==2.6.0;python_version>='3.10'",
+            ],
             "github": ["PyGitHub"],
             "google": [
                 "apiclient",

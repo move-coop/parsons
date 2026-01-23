@@ -91,6 +91,11 @@ class TestMySQL(unittest.TestCase):
         self.tbl.truncate()
         assert self.tbl.num_rows == 0
 
+    def test_dedup_table(self):
+
+        self.tbl.dedup_table(order_by_column_name="user_name")
+        self.assertEqual(self.tbl.num_rows, 2)
+
     def test_get_rows(self):
         data = [
             ["name", "user_name", "id"],

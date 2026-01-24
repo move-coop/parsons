@@ -74,6 +74,7 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
+    "**/vendor",
 ]
 
 # Default line length is 88
@@ -174,6 +175,9 @@ src_paths = [
 [tool.coverage.run]
 branch = true
 relative_files = true
+omit = [
+    "*/vendor/*",
+    ]
 
 [tool.coverage.paths]
 source = [

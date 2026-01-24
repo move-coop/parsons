@@ -1,15 +1,15 @@
-import os
 import unittest
 from unittest import mock
 
 import petl
-from test_responses import batch_resp, coord_resp, geographies_resp, locations_resp
 
 from parsons import CensusGeocoder, Table
-from test.utils import assert_matching_tables
+from test.utils import assert_matching_tables, mark_live_test
+
+from .test_responses import batch_resp, coord_resp, geographies_resp, locations_resp
 
 
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestCensusGeocoder(unittest.TestCase):
     def setUp(self):
         self.cg = CensusGeocoder()

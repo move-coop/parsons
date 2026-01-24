@@ -7,7 +7,7 @@ from typing import Optional
 
 import paramiko
 
-from parsons.etl import Table
+from parsons import Table
 from parsons.sftp.utilities import connect
 from parsons.utilities import files as file_utilities
 

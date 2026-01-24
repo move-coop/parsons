@@ -4,7 +4,7 @@ from typing import NoReturn, Optional, Union
 
 from requests import Response, request
 
-from parsons.etl import Table
+from parsons import Table
 from parsons.hustle.column_map import LEAD_COLUMN_MAP
 from parsons.utilities import check_env, json_format
 

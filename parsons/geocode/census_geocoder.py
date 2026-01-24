@@ -3,7 +3,7 @@ import logging
 import censusgeocode
 import petl
 
-from parsons.etl import Table
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 

@@ -1,0 +1,2 @@
+[console_scripts]
+censusgeocode = censusgeocode.__main__:main

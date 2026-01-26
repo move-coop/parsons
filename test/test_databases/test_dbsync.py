@@ -1,4 +1,3 @@
-import os
 import tempfile
 import unittest
 from abc import ABC
@@ -10,7 +9,7 @@ from parsons import DBSync, Postgres, Redshift, Table
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.sqlite import Sqlite
 from test.test_databases.fakes import FakeDatabase
-from test.utils import assert_matching_tables
+from test.utils import assert_matching_tables, mark_live_test
 
 _dir = Path(__file__).parent
 
@@ -195,7 +194,7 @@ class TestSqliteDBSync(TestDBSync):
 
 # These tests interact directly with the Postgres database. In order to run, set the
 # env to LIVE_TEST='TRUE'.
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestPostgresDBSync(TestDBSync):
     db = Postgres
     setup_sql = f"""
@@ -209,6 +208,6 @@ class TestPostgresDBSync(TestDBSync):
 
 # These tests interact directly with the Postgres database. In order to run, set the
 # env to LIVE_TEST='TRUE'.
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestRedshiftDBSync(TestPostgresDBSync):
     db = Redshift

@@ -8,6 +8,7 @@ from azure.storage.blob import BlobClient, ContainerClient
 
 from parsons import AzureBlobStorage, Table
 from parsons.utilities import files
+from test.utils import mark_live_test
 
 TEST_ACCOUNT_NAME = os.getenv("PARSONS_AZURE_ACCOUNT_NAME")
 TEST_CREDENTIAL = os.getenv("PARSONS_AZURE_CREDENTIAL")
@@ -16,7 +17,7 @@ TEST_FILE_NAME = "tmp_file_01.txt"
 TEST_FILE_CONTENTS = "Test"
 
 
-@unittest.skipIf(not os.getenv("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestAzureBlobStorage(unittest.TestCase):
     def setUp(self):
         self.azure_blob = AzureBlobStorage(

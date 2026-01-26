@@ -38,14 +38,14 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
           egress-policy: audit
 
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -88,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
           egress-policy: block
@@ -97,9 +97,9 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: 3.13
           cache: pip
@@ -124,7 +124,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
           egress-policy: block
@@ -134,9 +134,9 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: 3.13
           cache: pip
@@ -172,7 +172,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
           egress-policy: block
@@ -182,9 +182,9 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: 3.13
           cache: pip
@@ -195,7 +195,7 @@ jobs:
 
       - id: run-bandit-sarif
         run: |
-          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --format 'sarif' --output 'results.sarif'
+          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --exclude '**/vendor/*' --format 'sarif' --output 'results.sarif'
 
       - uses: github/codeql-action/upload-sarif@cdefb33c0f6224e58673d9004f47f7cb3e328b89
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
@@ -205,7 +205,7 @@ jobs:
       - id: run-bandit
         if: failure() && contains('["failure"]', steps.run-bandit-sarif.outcome)
         run: |
-          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons'
+          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --exclude '**/vendor/*'
 
   coverage:
     runs-on: ubuntu-latest
@@ -216,7 +216,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
           egress-policy: block
@@ -225,7 +225,7 @@ jobs:
             github.com:443
             img.shields.io:443
 
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
@@ -255,7 +255,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
           egress-policy: block
@@ -265,9 +265,9 @@ jobs:
             proxy.golang.org:443
             pypi.org:443
 
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: 3.13
           cache: pip

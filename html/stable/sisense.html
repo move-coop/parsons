@@ -101,15 +101,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Sisense</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.Sisense"><code class="docutils literal notranslate"><span class="pre">Sisense</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Sisense.publish_shared_dashboard"><code class="docutils literal notranslate"><span class="pre">Sisense.publish_shared_dashboard()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Sisense.list_shared_dashboards"><code class="docutils literal notranslate"><span class="pre">Sisense.list_shared_dashboards()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Sisense.delete_shared_dashboard"><code class="docutils literal notranslate"><span class="pre">Sisense.delete_shared_dashboard()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
@@ -219,78 +211,6 @@ Be sure to select version <code class="docutils literal notranslate"><span class
 </section>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.Sisense">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Sisense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sisense/sisense.html#Sisense"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Sisense" title="Link to this definition"></a></dt>
-<dd><p>Instantiate the Sisense class.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>site_name: str</dt><dd><p>The name of the site. Not required if the <code class="docutils literal notranslate"><span class="pre">SISENSE_SITE_NAME</span></code>
-environmental variable is set.</p>
-</dd>
-<dt>api_key: str</dt><dd><p>The Sisense API Key. Not required if the <code class="docutils literal notranslate"><span class="pre">SISENSE_API_KEY</span></code>
-environmental variable is set.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Sisense class</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Sisense.publish_shared_dashboard">
-<span class="sig-name descname"><span class="pre">publish_shared_dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dashboard_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chart_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sisense/sisense.html#Sisense.publish_shared_dashboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Sisense.publish_shared_dashboard" title="Link to this definition"></a></dt>
-<dd><p>This method publishes a dashboard or chart using the provided arguments.
-For available options, see the <a class="reference external" href="https://dtdocs.sisense.com/article/embed-api-options">API documentation</a>.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>dashboard_id: str or int</dt><dd><p>The ID of the dashboard (required).</p>
-</dd>
-<dt>chart_id: str or int</dt><dd><p>The ID of the chart. Only required for publishing individual charts.</p>
-</dd>
-<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs:</dt><dd><p>Optional arguments.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Response (dict containing the URL) or an error</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Sisense.list_shared_dashboards">
-<span class="sig-name descname"><span class="pre">list_shared_dashboards</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dashboard_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sisense/sisense.html#Sisense.list_shared_dashboards"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Sisense.list_shared_dashboards" title="Link to this definition"></a></dt>
-<dd><p>List all shares of a given dashboard.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>dashboard_id: str or int</dt><dd><p>The ID the dashboard (required).</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Response or an error</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Sisense.delete_shared_dashboard">
-<span class="sig-name descname"><span class="pre">delete_shared_dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sisense/sisense.html#Sisense.delete_shared_dashboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Sisense.delete_shared_dashboard" title="Link to this definition"></a></dt>
-<dd><p>To delete a shared dashboard you must provide the token for the shared dashboard.
-The token is the last part of the shared dashboard URL. i.e. if the shared URL is:</p>
-<p><a class="reference external" href="https://app.periscopedata.com/shared/9dda9dda-9dda-9dda-9dda-9dda9dda9dda">https://app.periscopedata.com/shared/9dda9dda-9dda-9dda-9dda-9dda9dda9dda</a></p>
-<p>The token is ‘9dda9dda-9dda-9dda-9dda-9dda9dda9dda’.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>token: str or int</dt><dd><p>The token of the shared dashboard (required).</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Response or an error</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 

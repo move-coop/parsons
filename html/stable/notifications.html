@@ -126,10 +126,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id2">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Gmail"><code class="docutils literal notranslate"><span class="pre">Gmail</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">API</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#smtp">SMTP</a><ul>
@@ -137,10 +134,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id5">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.SMTP"><code class="docutils literal notranslate"><span class="pre">SMTP</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">API</a></li>
 </ul>
 </li>
 </ul>
@@ -316,52 +310,6 @@ more details.</p>
 </section>
 <section id="id3">
 <h3>API<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.Gmail">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Gmail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">creds_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'me'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Gmail" title="Link to this definition"></a></dt>
-<dd><p>Create a Gmail object, for sending emails.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>creds_path: str</dt><dd><p>The path to the credentials.json file.</p>
-</dd>
-<dt>token_path: str</dt><dd><p>The path to the token.json file.</p>
-</dd>
-<dt>user_id: str</dt><dd><p>Optional; Sender email address. Defaults to the special value
-“me” which is used to indicate the authenticated user.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Gmail.send_email">
-<span class="sig-name descname"><span class="pre">send_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Gmail.send_email" title="Link to this definition"></a></dt>
-<dd><p>Send an email message.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>sender: str</dt><dd><p>Email address of the sender.</p>
-</dd>
-<dt>to: str or list</dt><dd><p>Email address(es) of the receiver(s). Must be in correct email
-string syntax. For example, <cite>name&#64;email.com</cite> or
-<cite>“Name” &lt;email&#64;email.com&gt;</cite>.</p>
-</dd>
-<dt>subject: str</dt><dd><p>The subject of the email message.</p>
-</dd>
-<dt>message_text: str</dt><dd><p>The text of the email message.</p>
-</dd>
-<dt>message_html: str</dt><dd><p>The html formatted text of the email message. If ommitted, the
-email is sent a text-only body.</p>
-</dd>
-<dt>files: str or list</dt><dd><p>The path to the file(s) to be attached.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 <p>  :inherited-members:</p>
 </section>
@@ -433,57 +381,6 @@ attachments.</p>
 </section>
 <section id="id6">
 <h3>API<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.SMTP">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">SMTP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_manually</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/smtp.html#SMTP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.SMTP" title="Link to this definition"></a></dt>
-<dd><p>Create a SMTP object, for sending emails.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>host: str</dt><dd><p>The host of the SMTP server</p>
-</dd>
-<dt>port: int</dt><dd><p>The port of the SMTP server (Default is 587 for TLS)</p>
-</dd>
-<dt>username: str</dt><dd><p>The username of the SMTP server login</p>
-</dd>
-<dt>password: str</dt><dd><p>The password of the SMTP server login</p>
-</dd>
-<dt>tls: bool</dt><dd><p>Defaults to True – pass “0” or “False” to SMTP_TLS to disable</p>
-</dd>
-<dt>close_manually: bool</dt><dd><p>When set to True, send_message will not close the connection</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.SMTP.send_email">
-<span class="sig-name descname"><span class="pre">send_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.SMTP.send_email" title="Link to this definition"></a></dt>
-<dd><p>Send an email message.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>sender: str</dt><dd><p>Email address of the sender.</p>
-</dd>
-<dt>to: str or list</dt><dd><p>Email address(es) of the receiver(s). Must be in correct email
-string syntax. For example, <cite>name&#64;email.com</cite> or
-<cite>“Name” &lt;email&#64;email.com&gt;</cite>.</p>
-</dd>
-<dt>subject: str</dt><dd><p>The subject of the email message.</p>
-</dd>
-<dt>message_text: str</dt><dd><p>The text of the email message.</p>
-</dd>
-<dt>message_html: str</dt><dd><p>The html formatted text of the email message. If ommitted, the
-email is sent a text-only body.</p>
-</dd>
-<dt>files: str or list</dt><dd><p>The path to the file(s) to be attached.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 </section>

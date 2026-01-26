@@ -70,10 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="capitolcanary.html">CapitolCanary</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Census</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#quickstart">Quickstart</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Census"><code class="docutils literal notranslate"><span class="pre">Census</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 </ul>
 </li>
 </ul>
@@ -227,34 +224,6 @@ variable or pass it as an argument:</p>
 </div>
 <p>This example pulls data on payroll by industry in Virginia from the 2017 Economic Census.</p>
 <p><strong>*API*</strong></p>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.Census">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Census</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/census/census.html#Census"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Census" title="Link to this definition"></a></dt>
-<dd><p>Class that creates a connector to the Census Bureau API</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Census.get_census">
-<span class="sig-name descname"><span class="pre">get_census</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_acronym</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/census/census.html#Census.get_census"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Census.get_census" title="Link to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>Pull census data. For background check out the <a href="#id1"><span class="problematic" id="id2">`</span></a>Census API Guide</dt><dd><p>&lt;<a class="reference external" href="https://www.census.gov/data/developers/guidance/api-user-guide.html">https://www.census.gov/data/developers/guidance/api-user-guide.html</a>&gt;`_</p>
-</dd>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>year: 4-digit string or integer</dt><dd><p>e.g. ‘2019’ or 2019</p>
-</dd>
-<dt>dataset_acronym: string with dataset name</dt><dd><p>e.g. ‘/acs/acs1’</p>
-</dd>
-<dt>variables: comma-separated string with variable names</dt><dd><p>e.g. ‘NAME,B01001_001E’</p>
-</dd>
-<dt>location: string with desired locations</dt><dd><p>e.g. ‘us:<a href="#id3"><span class="problematic" id="id4">*</span></a>’</p>
-</dd>
-</dl>
-</dd>
-<dt>Return:</dt><dd><p>Parsons table with data</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 </section>

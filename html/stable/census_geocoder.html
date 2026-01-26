@@ -108,16 +108,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">US Census Geocoder</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.CensusGeocoder"><code class="docutils literal notranslate"><span class="pre">CensusGeocoder</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.CensusGeocoder.geocode_onelineaddress"><code class="docutils literal notranslate"><span class="pre">CensusGeocoder.geocode_onelineaddress()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.CensusGeocoder.geocode_address"><code class="docutils literal notranslate"><span class="pre">CensusGeocoder.geocode_address()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.CensusGeocoder.geocode_address_batch"><code class="docutils literal notranslate"><span class="pre">CensusGeocoder.geocode_address_batch()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.CensusGeocoder.get_coordinates_data"><code class="docutils literal notranslate"><span class="pre">CensusGeocoder.get_coordinates_data()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 </ul>
@@ -180,122 +171,6 @@ website. For multiple records, it is recommended that you use the <code class="x
 </section>
 <section id="api">
 <h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.CensusGeocoder">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">CensusGeocoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">benchmark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Public_AR_Current'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vintage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Current_Current'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/geocode/census_geocoder.html#CensusGeocoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CensusGeocoder" title="Link to this definition"></a></dt>
-<dd><p>Instantiate the CensusGecoder Class</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>benchmark: str</dt><dd><p>The US Census benchmark file to utilize. By default the current benchmark is used,
-but other options can found <a class="reference external" href="https://geocoding.geo.census.gov/geocoder/benchmarks">here</a>.</p>
-</dd>
-<dt>vintage: str</dt><dd><p>The US Census vintage file to utilize. By default the current vintage is used, but
-other options can be found <a class="reference external" href="https://geocoding.geo.census.gov/geocoder/vintages?form">here</a>.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.CensusGeocoder.geocode_onelineaddress">
-<span class="sig-name descname"><span class="pre">geocode_onelineaddress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geographies'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/geocode/census_geocoder.html#CensusGeocoder.geocode_onelineaddress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CensusGeocoder.geocode_onelineaddress" title="Link to this definition"></a></dt>
-<dd><p>Geocode a single line address. Does not require parsing of city and zipcode field. Returns
-geocode as well as other census block data. If the service is unable to geocode the address
-it will return an empty list.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>address: str</dt><dd><p>A valid US address</p>
-</dd>
-<dt>return_type: str</dt><dd><p><code class="docutils literal notranslate"><span class="pre">geographies</span></code> will return information about the Census geographies
-while <code class="docutils literal notranslate"><span class="pre">locations</span></code> will information about the address.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns</cite>:</dt><dd><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.CensusGeocoder.geocode_address">
-<span class="sig-name descname"><span class="pre">geocode_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address_line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zipcode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geographies'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/geocode/census_geocoder.html#CensusGeocoder.geocode_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CensusGeocoder.geocode_address" title="Link to this definition"></a></dt>
-<dd><p>Geocode an address by specifying address fields. Returns the geocode as well as other
-census block data.</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>address_line: str</dt><dd><p>A valid address line</p>
-</dd>
-<dt>city: str</dt><dd><p>A valid city</p>
-</dd>
-<dt>state: str</dt><dd><p>A valid two character state abbreviation (e.g. ‘IL’)</p>
-</dd>
-<dt>zipcode: int</dt><dd><p>A valid five digit zipcode (e.g. 60622)</p>
-</dd>
-<dt>return_type: str</dt><dd><p><code class="docutils literal notranslate"><span class="pre">geographies</span></code> will return information about the Census geographies
-while <code class="docutils literal notranslate"><span class="pre">locations</span></code> will information about the address.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.CensusGeocoder.geocode_address_batch">
-<span class="sig-name descname"><span class="pre">geocode_address_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/geocode/census_geocoder.html#CensusGeocoder.geocode_address_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CensusGeocoder.geocode_address_batch" title="Link to this definition"></a></dt>
-<dd><p>Geocode multiple addresses from a parsons table.</p>
-<p>The table must <strong>only</strong> include the following columns in the following order.</p>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 100.0%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Column Names</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>id (must be unique)</p></td>
-</tr>
-<tr class="row-odd"><td><p>street</p></td>
-</tr>
-<tr class="row-even"><td><p>city</p></td>
-</tr>
-<tr class="row-odd"><td><p>state</p></td>
-</tr>
-<tr class="row-even"><td><p>zip</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>table: Parsons Table</dt><dd><p>A Parsons table</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>A Parsons table</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.CensusGeocoder.get_coordinates_data">
-<span class="sig-name descname"><span class="pre">get_coordinates_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/geocode/census_geocoder.html#CensusGeocoder.get_coordinates_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CensusGeocoder.get_coordinates_data" title="Link to this definition"></a></dt>
-<dd><p>Return census data on coordinates.</p>
-<dl class="simple">
-<dt><cite>Args</cite></dt><dd><dl class="simple">
-<dt>latitude: int</dt><dd><p>A valid latitude in the United States</p>
-</dd>
-<dt>longitude: int</dt><dd><p>A valid longitude in the United States</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 

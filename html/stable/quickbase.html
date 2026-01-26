@@ -93,14 +93,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quickbase</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#quickbase-class">Quickbase Class</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#parsons.Quickbase"><code class="docutils literal notranslate"><span class="pre">Quickbase</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Quickbase.get_app_tables"><code class="docutils literal notranslate"><span class="pre">Quickbase.get_app_tables()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parsons.Quickbase.query_records"><code class="docutils literal notranslate"><span class="pre">Quickbase.query_records()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#quickbase-class">Quickbase Class</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quickbooks.html">Quickbooks Time</a></li>
@@ -208,59 +201,6 @@ variables (<code class="docutils literal notranslate"><span class="pre">QUICKBAS
 </section>
 <section id="quickbase-class">
 <h2>Quickbase Class<a class="headerlink" href="#quickbase-class" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="parsons.Quickbase">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Quickbase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hostname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbase/quickbase.html#Quickbase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Quickbase" title="Link to this definition"></a></dt>
-<dd><p>Instantiate the Quickbase class</p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>hostname: str</dt><dd><p>The URL for the homepage/login page of the organization’s Quickbase
-instance (e.g. demo.quickbase.com).</p>
-</dd>
-<dt>user_token: str</dt><dd><p>The Quickbase account user token (API key). Not required if
-<code class="docutils literal notranslate"><span class="pre">QUICKBASE_USER_TOKEN</span></code> env variable is set.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Quickbase Class</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Quickbase.get_app_tables">
-<span class="sig-name descname"><span class="pre">get_app_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbase/quickbase.html#Quickbase.get_app_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Quickbase.get_app_tables" title="Link to this definition"></a></dt>
-<dd><p>Query records in a Quickbase table. This follows the patterns laid out
-in Quickbase query documentaiton, located here:
-<a class="reference external" href="https://help.quickbase.com/api-guide/componentsquery.html">https://help.quickbase.com/api-guide/componentsquery.html</a></p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>app_id: str</dt><dd><p>Identifies which Quickbase app from which to fetch tables.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Table Class</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="parsons.Quickbase.query_records">
-<span class="sig-name descname"><span class="pre">query_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_from</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/quickbase/quickbase.html#Quickbase.query_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Quickbase.query_records" title="Link to this definition"></a></dt>
-<dd><p>Query records in a Quickbase table. This follows the patterns laid out
-in Quickbase query documentaiton, located here:
-<a class="reference external" href="https://help.quickbase.com/api-guide/componentsquery.html">https://help.quickbase.com/api-guide/componentsquery.html</a></p>
-<dl class="simple">
-<dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>from: str</dt><dd><p>The ID of a Quickbase resource (i.e. a table) to query.</p>
-</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt><dd><p>Table Class</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 

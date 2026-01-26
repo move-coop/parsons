@@ -3,7 +3,6 @@ import re
 from contextlib import contextmanager
 from pathlib import Path
 from stat import S_ISDIR, S_ISREG
-from typing import Optional
 
 import paramiko
 
@@ -44,9 +43,9 @@ class SFTP:
         username: str,
         password: str,
         port: int = 22,
-        rsa_private_key_file: Optional[str] = None,
-        paramiko_pkey: Optional[paramiko.rsakey.RSAKey] = None,
-        timeout: Optional[int] = None,
+        rsa_private_key_file: str | None = None,
+        paramiko_pkey: paramiko.rsakey.RSAKey | None = None,
+        timeout: int | None = None,
     ):
         self.host = host
         if not self.host:
@@ -150,7 +149,7 @@ class SFTP:
         remote_path,
         local_path=None,
         connection=None,
-        export_chunk_size: Optional[int] = None,
+        export_chunk_size: int | None = None,
     ):
         """
         Download a file from the SFTP server
@@ -306,7 +305,7 @@ class SFTP:
         if local_paths:
             return [
                 self.get_file(remote_path, local_path, connection)
-                for local_path, remote_path in zip(local_paths, files_to_download)
+                for local_path, remote_path in zip(local_paths, files_to_download, strict=False)
             ]
 
         else:

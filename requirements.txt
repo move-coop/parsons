@@ -3,8 +3,7 @@ boto3>=1.17.98
 boxsdk==4.1.0
 braintree==4.41.0
 bs4==0.0.2
-civis==1.16.1;python_version<"3.10"  # later Civis versions do not support Python 3.9
-civis==2.4.3;python_version>="3.10"  
+civis==2.4.3
 curlify==3.0.0
 dbt-core>=1.5.0
 defusedxml>=0.7.1, <=0.8.0
@@ -19,8 +18,7 @@ google-cloud-storage==3.7.0
 grpcio==1.76.0
 gspread==6.2.1
 httplib2==0.30.0
-joblib==1.2.0;python_version<"3.10"  # Civis 1.16.1, which runs on Python 3.9, requires an older joblib version
-joblib==1.4.2;python_version>="3.10"
+joblib==1.4.2
 mysql-connector-python==9.4.0
 newmode==0.1.6
 oauth2client==4.1.3
@@ -43,8 +41,7 @@ sshtunnel==0.4.0
 suds-py3==1.4.5.0
 surveygizmo==1.2.3
 twilio==9.9.0
-urllib3==1.26.19;python_version<"3.10"
-urllib3==2.6.0;python_version>="3.10"
+urllib3==2.6.0
 validate-email==1.3
 xmltodict==1.0.2
 

@@ -1,8 +1,7 @@
 import os
-from typing import Optional
 
 
-def check(env: str, field: Optional[str], optional: Optional[bool] = False) -> Optional[str]:
+def check(env: str, field: str | None, optional: bool | None = False) -> str | None:
     """
     Check if an environment variable has been set. If it has not been set
     and the passed field or arguments have not been passed, then raise an

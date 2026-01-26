@@ -29,7 +29,7 @@ EXTRA_DEPENDENCIES = {
     "alchemer": ["surveygizmo"],
     "avro": ["fastavro"],
     "azure": ["azure-storage-blob"],
-    "box": ["boxsdk < 10, >= 4.1.0", "requests-toolbelt >= 1.0.0"],
+    "box": ["boxsdk >= 4.1.0, < 10", "requests-toolbelt >= 1.0.0"],
     "braintree": ["braintree"],
     "catalist": ["paramiko"],
     "civis": ["civis"],
@@ -39,9 +39,9 @@ EXTRA_DEPENDENCIES = {
     "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
     "facebook": ["joblib", "facebook-business"],
     "geocode": [
-        "censusgeocode @ git+https://github.com/fitnr/censusgeocode.git@1824f5d558ff6378dc4359b44c9cf535a2ba205f",
-        "urllib3 >= 1.26.19;python_version < '3.10'",
-        "urllib3 >= 2.6.0;python_version >= '3.10'",
+        "requests >= 2.27.0",
+        "requests-toolbelt >= 0.9.0",
+        "urllib3",
     ],
     "github": ["PyGitHub"],
     "google": [
@@ -57,7 +57,7 @@ EXTRA_DEPENDENCIES = {
     ],
     "mysql": [
         "mysql-connector-python",
-        "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+        "sqlalchemy >= 1.4.22",
     ],
     "newmode": ["newmode"],
     "ngpvan": ["suds-py3"],
@@ -65,13 +65,13 @@ EXTRA_DEPENDENCIES = {
     "postgres": [
         "psycopg2-binary <= 2.9.9;python_version<'3.13'",
         "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
-        "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+        "sqlalchemy >= 1.4.22",
     ],
     "redshift": [
         "boto3",
         "psycopg2-binary <= 2.9.9;python_version<'3.13'",
         "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
-        "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+        "sqlalchemy >= 1.4.22",
     ],
     "s3": ["boto3"],
     "salesforce": ["simple-salesforce"],
@@ -85,7 +85,7 @@ EXTRA_DEPENDENCIES = {
         "sshtunnel",
         "psycopg2-binary <= 2.9.9;python_version<'3.13'",
         "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
-        "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+        "sqlalchemy >= 1.4.22",
     ],
 }
 

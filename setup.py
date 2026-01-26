@@ -34,11 +34,7 @@ def main():
             "dbt-postgres": ["dbt-postgres >= 1.5.0", "dbt-core >= 1.5.0"],
             "dbt-snowflake": ["dbt-snowflake >= 1.5.0", "dbt-core >= 1.5.0"],
             "facebook": ["joblib", "facebook-business"],
-            "geocode": [
-                "censusgeocode @ git+https://github.com/fitnr/censusgeocode.git@1824f5d558ff6378dc4359b44c9cf535a2ba205f",
-                "urllib3 >= 1.26.19;python_version < '3.10'",
-                "urllib3 >= 2.6.0;python_version >= '3.10'",
-            ],
+            "geocode": ["urllib3 >= 2.6.0"],
             "github": ["PyGitHub"],
             "google": [
                 "apiclient",
@@ -56,14 +52,12 @@ def main():
             "ngpvan": ["suds-py3"],
             "mobilecommons": ["beautifulsoup4"],
             "postgres": [
-                "psycopg2-binary <= 2.9.9;python_version < '3.13'",
-                "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
+                "psycopg2-binary >= 2.0.0"
                 "sqlalchemy >= 1.4.22",
             ],
             "redshift": [
                 "boto3",
-                "psycopg2-binary <= 2.9.9;python_version < '3.13'",
-                "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
+                "psycopg2-binary >= 2.0.0"
                 "sqlalchemy >= 1.4.22",
             ],
             "s3": ["boto3"],
@@ -76,8 +70,7 @@ def main():
             "twilio": ["twilio"],
             "ssh": [
                 "sshtunnel",
-                "psycopg2-binary <= 2.9.9;python_version < '3.13'",
-                "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
+                "psycopg2-binary >= 2.0.0"
                 "sqlalchemy >= 1.4.22",
             ],
         }

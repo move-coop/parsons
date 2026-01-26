@@ -64,6 +64,7 @@ class TestCensusGeocoder(unittest.TestCase):
         geo = self.cg.geocode_address_batch(tbl)
         assert_matching_tables(geo, Table(petl.fromdicts(batch_resp)))
 
+    @mark_live_test
     def test_coordinates(self):
         # Assert coordinates data returns expected response.
         self.cg.cg.address = mock.MagicMock(return_value=coord_resp)

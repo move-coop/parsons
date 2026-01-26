@@ -2,6 +2,7 @@
 import importlib
 import logging
 import os
+import warnings
 
 from parsons.etl.table import Table
 
@@ -22,6 +23,16 @@ elif os.environ.get("DEBUG"):
     logger.setLevel("DEBUG")
 else:
     logger.setLevel("INFO")
+
+# Temporary deprecation warning for changes to install process
+warnings.warn(
+    (
+        "The behavior of 'pip install parsons' is changing so only core dependencies will be installed. Learn more: "
+        "https://www.parsonsproject.org/pub/improving-the-parsons-installation-experience"
+    ),
+    category=FutureWarning,
+    stacklevel=2,
+)
 
 # Table is referenced by many connectors, so we add it immediately to limit the damage
 # of circular dependencies

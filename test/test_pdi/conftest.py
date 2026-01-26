@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from parsons.pdi.pdi import PDI
+from parsons.pdi import PDI
 
 
 @pytest.fixture

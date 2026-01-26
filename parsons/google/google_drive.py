@@ -188,6 +188,34 @@ class GoogleDrive:
             result = self.upload_file(file_path, parent_folder_id)
         return result
 
+    def copy_file(
+        self,
+        file_id: str,
+        destination_folder_id: Optional[str] = None,
+        new_name: Optional[str] = None,
+    ) -> str:
+        """
+        Copy a file within Google Drive.
+
+        `Args:`
+            file_id: str
+                The ID of the file to copy
+            destination_folder_id: str
+                The ID of the destination folder. If not provided, copies to the same parent folder.
+            new_name: str
+                The name for the copied file. If not provided, Drive will use "Copy of [original name]".
+        `Returns:`
+            str: The ID of the newly created copy
+        """
+        body = {}
+        if new_name:
+            body["name"] = new_name
+        if destination_folder_id:
+            body["parents"] = [destination_folder_id]
+
+        response = self.client.files().copy(fileId=file_id, body=body, fields="id").execute()
+        return response.get("id")
+
     def get_permissions(self, file_id: str) -> dict:
         """
         `Args:`

@@ -39,7 +39,8 @@ class dbtRunnerParsons:
 
         for command in self.commands:
             result = self.execute_dbt_command(command)
-            results.append(result)
+            if result.dbt_manifest:
+                results.append(result)
 
         return results
 

@@ -18,16 +18,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Set up Python 3.13
-        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
             python-version: "3.13"
             cache: pip
 
       - name: Install uv
-        uses: install-pinned/uv@87c2872ebb798b99a5ada5669f99ec2680716ae5
+        uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
       - name: Install dependencies
         run: |
@@ -86,7 +86,7 @@ jobs:
           rm -rf temp_extract
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
             python-version: ${{ matrix.python-version }}
             cache: pip
@@ -108,7 +108,7 @@ jobs:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
 
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Download package
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131

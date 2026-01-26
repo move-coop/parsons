@@ -1,4 +1,3 @@
-import os
 import time
 import unittest
 
@@ -6,10 +5,10 @@ import gspread
 import pytest
 
 from parsons import GoogleSheets, Table
-from test.utils import assert_matching_tables
+from test.utils import assert_matching_tables, mark_live_test
 
 
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestGoogleSheets(unittest.TestCase):
     def setUp(self):
         self.google_sheets = GoogleSheets()

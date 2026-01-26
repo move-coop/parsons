@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "parsons"
-version = "5.3.0"
+version = "5.4.0"
 description = "A python library of connectors for the progressive community."
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.9"
@@ -75,6 +75,7 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
+    "**/vendor/*",
 ]
 
 # Default line length is 88
@@ -175,6 +176,9 @@ src_paths = [
 [tool.coverage.run]
 branch = true
 relative_files = true
+omit = [
+    "*/vendor/*",
+    ]
 
 [tool.coverage.paths]
 source = [

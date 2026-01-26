@@ -9,5 +9,5 @@ repos:
     rev: 1.9.3
     hooks:
       - id: bandit
-        args: ['--confidence-level', 'medium', '--severity-level', 'medium']
+        args: ['--confidence-level', 'medium', '--severity-level', 'medium', '--exclude', '**/vendor/*']
         files: '^parsons'

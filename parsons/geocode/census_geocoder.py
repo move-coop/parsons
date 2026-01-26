@@ -1,9 +1,10 @@
 import logging
 
-import censusgeocode
 import petl
 
 from parsons.etl import Table
+
+from .vendor import censusgeocode
 
 logger = logging.getLogger(__name__)
 

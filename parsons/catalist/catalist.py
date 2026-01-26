@@ -11,7 +11,7 @@ import urllib
 from pathlib import Path
 from zipfile import ZipFile
 
-from parsons.etl import Table
+from parsons import Table
 from parsons.sftp import SFTP
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 

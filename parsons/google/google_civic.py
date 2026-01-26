@@ -1,6 +1,6 @@
 import requests
 
-from parsons.etl import Table
+from parsons import Table
 from parsons.utilities import check_env
 
 URI = "https://www.googleapis.com/civicinfo/v2/"

@@ -30,8 +30,9 @@ def main():
             "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
             "facebook": ["joblib", "facebook-business"],
             "geocode": [
-                "urllib3==1.26.19;python_version<'3.10'",
-                "urllib3==2.6.0;python_version>='3.10'",
+                "requests >= 2.27.0",
+                "requests-toolbelt >= 0.9.0",
+                "urllib3",
             ],
             "github": ["PyGitHub"],
             "google": [

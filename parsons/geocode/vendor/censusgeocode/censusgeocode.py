@@ -1,3 +1,9 @@
+"""
+Census Geocoder wrapper
+For details on the API, see:
+http://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf
+"""
+
 # Copyright (C) 2015-9 Neil Freeman
 
 # This program is free software: you can redistribute it and/or modify
@@ -12,11 +18,9 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-"""
-Census Geocoder wrapper
-For details on the API, see:
-http://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf
-"""
+
+# noqa
+
 import csv
 import io
 import warnings
@@ -73,16 +77,19 @@ class CensusGeocode:
 
         >>> CensusGeocode(benchmark='Public_AR_Current', vintage='Current_Current')
         """
+
         self._benchmark = benchmark or DEFAULT_BENCHMARK
         self._vintage = vintage or DEFAULT_VINTAGE
 
     def _geturl(self, searchtype, returntype=None):
         """Construct an URL for the geocoder."""
+
         returntype = returntype or self.returntypes[0]
         return self._url.format(returntype=returntype, searchtype=searchtype)
 
     def _fetch(self, searchtype, fields, **kwargs):
         """Fetch a response from the Geocoding API."""
+
         fields["vintage"] = self.vintage
         fields["benchmark"] = self.benchmark
 
@@ -113,6 +120,7 @@ class CensusGeocode:
 
     def coordinates(self, x, y, **kwargs):
         """Geocode a (lon, lat) coordinate."""
+
         kwargs["returntype"] = "geographies"
         fields = {"x": x, "y": y}
 
@@ -120,6 +128,7 @@ class CensusGeocode:
 
     def address(self, street, city=None, state=None, **kwargs):
         """Geocode an address."""
+
         fields = {
             "street": street,
             "city": city,
@@ -130,9 +139,12 @@ class CensusGeocode:
         return self._fetch("address", fields, **kwargs)
 
     def onelineaddress(self, address, **kwargs):
-        """Geocode an an address passed as one string.
+        """
+        Geocode an an address passed as one string.
+
         e.g. "4600 Silver Hill Rd, Suitland, MD 20746"
         """
+
         fields = {
             "address": address,
         }
@@ -140,29 +152,46 @@ class CensusGeocode:
         return self._fetch("onelineaddress", fields, **kwargs)
 
     def set_benchmark(self, benchmark):
-        """Set the Census Geocoding API benchmark the class will use.
-        See: https://geocoding.geo.census.gov/geocoder/vintages?form"""
+        """
+        Set the Census Geocoding API benchmark the class will use.
+
+        See: https://geocoding.geo.census.gov/geocoder/vintages?form
+        """
+
         self._benchmark = benchmark
 
     @property
     def benchmark(self):
-        """Give the Census Geocoding API benchmark the class is using.
-        See: https://geocoding.geo.census.gov/geocoder/benchmarks"""
+        """
+        Give the Census Geocoding API benchmark the class is using.
+
+        See: https://geocoding.geo.census.gov/geocoder/benchmarks
+        """
+
         return getattr(self, "_benchmark")
 
     def set_vintage(self, vintage):
-        """Set the Census Geocoding API vintage the class will use.
-        See: https://geocoding.geo.census.gov/geocoder/vintages?form"""
+        """
+        Set the Census Geocoding API vintage the class will use.
+
+        See: https://geocoding.geo.census.gov/geocoder/vintages?form
+        """
+
         self._vintage = vintage
 
     @property
     def vintage(self):
-        """Give the Census Geocoding API vintage the class is using.
-        See: https://geocoding.geo.census.gov/geocoder/vintages?form"""
+        """
+        Give the Census Geocoding API vintage the class is using.
+
+        See: https://geocoding.geo.census.gov/geocoder/vintages?form
+        """
+
         return getattr(self, "_vintage")
 
     def _parse_batch_result(self, data, returntype):
-        """Parse the batch address results returned from the Census Geocoding API"""
+        """Parse the batch address results returned from the Census Geocoding API."""
+
         try:
             fieldnames = self.batchfields[returntype]
         except KeyError as err:
@@ -187,7 +216,8 @@ class CensusGeocode:
             return [parse(row) for row in reader]
 
     def _post_batch(self, data=None, f=None, **kwargs):
-        """Send batch address file to the Census Geocoding API"""
+        """Send batch address file to the Census Geocoding API."""
+
         returntype = kwargs.get("returntype", "geographies")
         url = self._geturl("addressbatch", returntype)
 
@@ -237,6 +267,7 @@ class CensusGeocode:
 
         If data, should be an iterable of dicts with the above fields (although ID is optional).
         """
+
         # Does data quack like a file handle?
         if hasattr(data, "read"):
             return self._post_batch(f=data, **kwargs)
@@ -251,8 +282,7 @@ class CensusGeocode:
 
 
 class GeographyResult(dict):
-
-    """Wrapper for geography objects returned by the Census Geocoding API"""
+    """Wrapper for geography objects returned by the Census Geocoding API."""
 
     def __init__(self, data):
         self.input = data["result"].get("input", {})
@@ -273,8 +303,7 @@ class GeographyResult(dict):
 
 
 class AddressResult(list):
-
-    """Wrapper for address objects returned by the Census Geocoding API"""
+    """Wrapper for address objects returned by the Census Geocoding API."""
 
     def __init__(self, data):
         self.input = data["result"].get("input", {})

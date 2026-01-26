@@ -191,8 +191,8 @@ class GoogleDrive:
     def copy_file(
         self,
         file_id: str,
-        destination_folder_id: Optional[str] = None,
-        new_name: Optional[str] = None,
+        destination_folder_id: str | None = None,
+        new_name: str | None = None,
     ) -> str:
         """
         Copy a file within Google Drive.

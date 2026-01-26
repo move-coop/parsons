@@ -10,6 +10,7 @@ import pytest
 from boxsdk.exception import BoxAPIException, BoxOAuthException
 
 from parsons import Box, Table
+from test.utils import mark_live_test
 
 """Prior to running, you should ensure that the relevant environment
 variables have been set, e.g. via
@@ -29,7 +30,7 @@ def generate_random_string(length):
     return "".join(random.choice(string.ascii_letters) for i in range(length))
 
 
-@unittest.skipIf(not os.getenv("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestBoxStorage(unittest.TestCase):
     def setUp(self) -> None:
         warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)

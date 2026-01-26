@@ -9,6 +9,7 @@ from test.utils import assert_matching_tables, mark_live_test
 from .test_responses import batch_resp, coord_resp, geographies_resp, locations_resp
 
 
+@mark_live_test
 class TestCensusGeocoder(unittest.TestCase):
     def setUp(self):
         self.cg = CensusGeocoder()

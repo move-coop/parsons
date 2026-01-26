@@ -63,14 +63,12 @@ EXTRA_DEPENDENCIES = {
     "ngpvan": ["suds-py3"],
     "mobilecommons": ["beautifulsoup4"],
     "postgres": [
-        "psycopg2-binary <= 2.9.9;python_version<'3.13'",
-        "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
+        "psycopg2-binary >= 2.0.0",
         "sqlalchemy >= 1.4.22",
     ],
     "redshift": [
         "boto3",
-        "psycopg2-binary <= 2.9.9;python_version<'3.13'",
-        "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
+        "psycopg2-binary >= 2.0.0",
         "sqlalchemy >= 1.4.22",
     ],
     "s3": ["boto3"],
@@ -83,8 +81,7 @@ EXTRA_DEPENDENCIES = {
     "twilio": ["twilio"],
     "ssh": [
         "sshtunnel",
-        "psycopg2-binary <= 2.9.9;python_version<'3.13'",
-        "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
+        "psycopg2-binary >= 2.0.0",
         "sqlalchemy >= 1.4.22",
     ],
 }

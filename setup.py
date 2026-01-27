@@ -62,19 +62,19 @@ EXTRA_DEPENDENCIES = {
     ],
     "mysql": [
         "mysql-connector-python",
-        "sqlalchemy >= 1.4.22",
+        "sqlalchemy >= 1.4.54",
     ],
     "newmode": ["newmode"],
     "ngpvan": ["suds-py3"],
     "mobilecommons": ["beautifulsoup4"],
     "postgres": [
         "psycopg2-binary >= 2.9.11",
-        "sqlalchemy >= 1.4.22",
+        "sqlalchemy >= 1.4.54",
     ],
     "redshift": [
         "boto3",
         "psycopg2-binary >= 2.9.11",
-        "sqlalchemy >= 1.4.22",
+        "sqlalchemy >= 1.4.54",
     ],
     "s3": ["boto3"],
     "salesforce": ["simple-salesforce"],
@@ -87,7 +87,7 @@ EXTRA_DEPENDENCIES = {
     "ssh": [
         "sshtunnel",
         "psycopg2-binary >= 2.9.11",
-        "sqlalchemy >= 1.4.22",
+        "sqlalchemy >= 1.4.54",
     ],
 }
 

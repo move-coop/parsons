@@ -29,10 +29,7 @@ EXTRA_DEPENDENCIES = {
     "alchemer": ["surveygizmo"],
     "avro": ["fastavro"],
     "azure": ["azure-storage-blob"],
-    "box": [
-      "boxsdk >= 4.1.0, < 10",
-      "requests-toolbelt >= 1.0.0"
-    ],
+    "box": ["boxsdk >= 4.1.0, < 10", "requests-toolbelt >= 1.0.0"],
     "braintree": ["braintree"],
     "catalist": ["paramiko"],
     "civis": ["civis"],
@@ -45,10 +42,7 @@ EXTRA_DEPENDENCIES = {
     "dbt-bigquery": ["dbt-bigquery >= 1.5.0", "dbt-core >= 1.5.0"],
     "dbt-postgres": ["dbt-postgres >= 1.5.0", "dbt-core >= 1.5.0"],
     "dbt-snowflake": ["dbt-snowflake >= 1.5.0", "dbt-core >= 1.5.0"],
-    "facebook": [
-      "joblib",
-      "facebook-business"
-    ],
+    "facebook": ["joblib", "facebook-business"],
     "geocode": [
         "requests >= 2.27.0",
         "requests-toolbelt >= 0.9.0",
@@ -84,17 +78,11 @@ EXTRA_DEPENDENCIES = {
     ],
     "s3": ["boto3"],
     "salesforce": ["simple-salesforce"],
-    "scytl": [
-      "defusedxml",
-      "pytz"
-    ],
+    "scytl": ["defusedxml", "pytz"],
     "sftp": ["paramiko"],
     "slack": ["slack-sdk"],
     "smtp": ["validate-email"],
-    "targetsmart": [
-      "xmltodict",
-      "defusedxml"
-    ],
+    "targetsmart": ["xmltodict", "defusedxml"],
     "twilio": ["twilio"],
     "ssh": [
         "sshtunnel",

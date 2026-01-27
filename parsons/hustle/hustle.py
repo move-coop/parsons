@@ -1,10 +1,10 @@
 import logging
 from datetime import datetime, timedelta
-from typing import NoReturn, Optional, Union
+from typing import NoReturn
 
 from requests import Response, request
 
-from parsons.etl import Table
+from parsons import Table
 from parsons.hustle.column_map import LEAD_COLUMN_MAP
 from parsons.utilities import check_env, json_format
 
@@ -29,7 +29,7 @@ class Hustle:
         Hustle Class
     """
 
-    def __init__(self, client_id: Optional[str] = None, client_secret: Optional[str] = None):
+    def __init__(self, client_id: str | None = None, client_secret: str | None = None):
         self.uri = HUSTLE_URI
         self.client_id = check_env.check("HUSTLE_CLIENT_ID", client_id)
         self.client_secret = check_env.check("HUSTLE_CLIENT_SECRET", client_secret)
@@ -73,10 +73,10 @@ class Hustle:
         self,
         endpoint: str,
         req_type: str = "GET",
-        args: Optional[dict] = None,
-        payload: Optional[dict] = None,
+        args: dict | None = None,
+        payload: dict | None = None,
         raise_on_error: bool = True,
-    ) -> Union[dict, list]:
+    ) -> dict | list:
         url = self.uri + endpoint
         self._refresh_token()
 
@@ -110,7 +110,7 @@ class Hustle:
 
         return result
 
-    def _error_check(self, resp: Response, raise_on_error: bool) -> Optional[NoReturn]:
+    def _error_check(self, resp: Response, raise_on_error: bool) -> NoReturn | None:
         """Check response for errors."""
 
         if resp.status_code in (200, 201):
@@ -164,7 +164,7 @@ class Hustle:
         full_name: str,
         phone_number: str,
         send_invite: bool = False,
-        email: Optional[str] = None,
+        email: str | None = None,
     ) -> dict:
         """
         Create an agent.
@@ -204,8 +204,8 @@ class Hustle:
     def update_agent(
         self,
         agent_id: str,
-        name: Optional[str] = None,
-        full_name: Optional[str] = None,
+        name: str | None = None,
+        full_name: str | None = None,
         send_invite: bool = False,
     ) -> dict:
         """
@@ -324,9 +324,7 @@ class Hustle:
         logger.info(f"Got {lead_id} lead.")
         return resp  # type: ignore
 
-    def get_leads(
-        self, organization_id: Optional[str] = None, group_id: Optional[str] = None
-    ) -> Table:
+    def get_leads(self, organization_id: str | None = None, group_id: str | None = None) -> Table:
         """
         Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed
         as an argument. If both are passed, an error will be raised.
@@ -363,12 +361,12 @@ class Hustle:
         group_id: str,
         phone_number: str,
         first_name: str,
-        last_name: Optional[str] = None,
-        email: Optional[str] = None,
-        notes: Optional[str] = None,
-        follow_up: Optional[str] = None,
-        custom_fields: Optional[dict] = None,
-        tag_ids: Optional[list] = None,
+        last_name: str | None = None,
+        email: str | None = None,
+        notes: str | None = None,
+        follow_up: str | None = None,
+        custom_fields: dict | None = None,
+        tag_ids: list | None = None,
     ) -> dict:
         """
 
@@ -415,7 +413,7 @@ class Hustle:
         resp = self._request(f"groups/{group_id}/leads", req_type="POST", payload=lead)
         return resp  # type: ignore
 
-    def create_leads(self, table: Table, group_id: Optional[str] = None) -> Table:
+    def create_leads(self, table: Table, group_id: str | None = None) -> Table:
         """
         Create multiple leads. All unrecognized fields will be passed as custom fields. Column
         names must map to the following names.
@@ -463,7 +461,7 @@ class Hustle:
         created_leads = []
 
         for row in table:
-            lead: dict[str, Optional[Union[str, dict]]] = {"group_id": group_id}
+            lead: dict[str, str | dict | None] = {"group_id": group_id}
             custom_fields = {}
 
             # Check for column names that map to arguments, if not assign
@@ -490,13 +488,13 @@ class Hustle:
     def update_lead(
         self,
         lead_id: str,
-        first_name: Optional[str] = None,
-        last_name: Optional[str] = None,
-        email: Optional[str] = None,
-        global_opt_out: Optional[bool] = None,
-        notes: Optional[str] = None,
-        follow_up: Optional[str] = None,
-        tag_ids: Optional[list] = None,
+        first_name: str | None = None,
+        last_name: str | None = None,
+        email: str | None = None,
+        global_opt_out: bool | None = None,
+        notes: str | None = None,
+        follow_up: str | None = None,
+        tag_ids: list | None = None,
     ) -> dict:
         """
         Update a lead.
@@ -587,7 +585,7 @@ class Hustle:
         return tbl
 
     def create_custom_field(
-        self, organization_id: str, name: str, agent_visible: Optional[bool] = None
+        self, organization_id: str, name: str, agent_visible: bool | None = None
     ) -> dict:
         """Create a custom field.
 
@@ -603,7 +601,7 @@ class Hustle:
                 The newly created custom field
         """
 
-        custom_field: dict[str, Union[str, bool]] = {"name": name}
+        custom_field: dict[str, str | bool] = {"name": name}
         if agent_visible is not None:
             custom_field["agentVisible"] = agent_visible
 

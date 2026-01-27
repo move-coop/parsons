@@ -1,5 +1,4 @@
 import os
-from typing import Optional, Union
 
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.mysql import MySQL
@@ -9,9 +8,7 @@ from parsons.google.google_bigquery import GoogleBigQuery as BigQuery
 
 
 def discover_database(
-    default_connector: Optional[
-        Union[type[DatabaseConnector], list[type[DatabaseConnector]]]
-    ] = None,
+    default_connector: type[DatabaseConnector] | list[type[DatabaseConnector]] | None = None,
 ) -> DatabaseConnector:
     """Create an appropriate ``DatabaseConnector`` based on environmental variables.
 

@@ -2,7 +2,7 @@ import logging
 
 import petl
 
-from parsons.etl import Table
+from parsons import Table
 
 from .vendor import censusgeocode
 

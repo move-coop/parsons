@@ -3,7 +3,7 @@ import time
 
 from requests import request
 
-from parsons.etl import Table
+from parsons import Table
 from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)

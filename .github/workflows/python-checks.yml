@@ -19,7 +19,6 @@ jobs:
       fail-fast: false
       matrix:
         python-version:
-          - '3.9'
           - '3.10'
           - '3.11'
           - '3.12'
@@ -31,25 +30,26 @@ jobs:
           - macos-latest
         resolution:
           - highest
+          - lowest-direct
           - limited-dependencies
 
     permissions:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
           egress-policy: audit
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
       - if: matrix.resolution != 'limited-dependencies'
         continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
@@ -66,7 +66,7 @@ jobs:
           uv pip install --system -r requirements-dev.txt
 
       - id: cache-pytest
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: .pytest_cache
           key: pytest-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.resolution }}-${{ hashFiles('pyproject.toml') }}
@@ -76,7 +76,7 @@ jobs:
         env:
           COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}"
 
-      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         if: ${{ !contains(matrix.python-version, '3.14') }}
         with:
           name: coverage-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}
@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
           egress-policy: block
@@ -96,19 +96,19 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: cache-ruff
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -123,7 +123,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
           egress-policy: block
@@ -133,19 +133,19 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: cache-ruff
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -154,7 +154,7 @@ jobs:
         run: |
           ruff check --output-format=sarif -o results.sarif .
 
-      - uses: github/codeql-action/upload-sarif@fe4161a26a8629af62121b670040955b330f9af2
+      - uses: github/codeql-action/upload-sarif@cdefb33c0f6224e58673d9004f47f7cb3e328b89
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -171,7 +171,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
           egress-policy: block
@@ -181,22 +181,22 @@ jobs:
             github.com:443
             pypi.org:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: run-bandit-sarif
         run: |
-          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --format 'sarif' --output 'results.sarif'
+          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --exclude '**/vendor/*' --format 'sarif' --output 'results.sarif'
 
-      - uses: github/codeql-action/upload-sarif@fe4161a26a8629af62121b670040955b330f9af2
+      - uses: github/codeql-action/upload-sarif@cdefb33c0f6224e58673d9004f47f7cb3e328b89
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -204,7 +204,7 @@ jobs:
       - id: run-bandit
         if: failure() && contains('["failure"]', steps.run-bandit-sarif.outcome)
         run: |
-          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons'
+          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --exclude '**/vendor/*'
 
   coverage:
     runs-on: ubuntu-latest
@@ -215,7 +215,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
           egress-policy: block
@@ -224,20 +224,20 @@ jobs:
             github.com:443
             img.shields.io:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           pattern: coverage-*
           merge-multiple: true
 
       - id: coverage_comment
-        uses: py-cov-action/python-coverage-comment-action@e623398c19eb3853a5572d4a516e10b15b5cefbc
+        uses: py-cov-action/python-coverage-comment-action@7188638f871f721a365d644f505d1ff3df20d683
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_COVERAGE_FILES: true
 
-      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         if: steps.coverage_comment.outputs.COMMENT_FILE_WRITTEN == 'true'
         with:
           name: python-coverage-comment-action
@@ -254,7 +254,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
           egress-policy: block
@@ -264,19 +264,19 @@ jobs:
             proxy.golang.org:443
             pypi.org:443
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: cache-pre-commit
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: .pre-commit-cache
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-${{ hashFiles('pyproject.toml') }}

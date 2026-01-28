@@ -3,7 +3,6 @@ import logging
 import os
 import unittest.mock as mock
 from pathlib import Path
-from typing import Union
 from unittest import TestCase
 from unittest.mock import Mock
 
@@ -609,7 +608,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         return bq
 
     def _build_mock_client_for_copying(
-        self, table_exists=True, app_creds: Union[str, dict, None] = None
+        self, table_exists=True, app_creds: str | dict | None = None
     ):
         bq_client = mock.MagicMock()
         if not table_exists:
@@ -618,7 +617,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq._client = bq_client
         return bq
 
-    def _build_mock_base_client(self, app_creds: Union[str, dict, None] = None):
+    def _build_mock_base_client(self, app_creds: str | dict | None = None):
         bq_client = mock.MagicMock()
         bq = BigQuery(app_creds=app_creds)
         bq._client = bq_client

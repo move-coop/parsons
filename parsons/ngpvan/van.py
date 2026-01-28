@@ -1,5 +1,5 @@
 import logging
-from typing import Literal, Optional
+from typing import Literal
 
 from parsons.ngpvan.activist_codes import ActivistCodes
 from parsons.ngpvan.bulk_import import BulkImport
@@ -63,8 +63,8 @@ class VAN(
 
     def __init__(
         self,
-        api_key: Optional[str] = None,
-        db: Optional[Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"]] = None,
+        api_key: str | None = None,
+        db: Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"] | None = None,
     ):
         self.connection = VANConnector(api_key=api_key, db=db)
         self.api_key = api_key

@@ -18,8 +18,7 @@ build
 
 
 # Docs Requirements
-myst-parser==3.0.1;python_version<'3.10'
-myst-parser==4.0.1;python_version>='3.10'
+myst-parser==4.0.1
 sphinxcontrib-googleanalytics==0.5
 sphinx-multiversion==0.2.4
 sphinx-rtd-theme==3.0.2

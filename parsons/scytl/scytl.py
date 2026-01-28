@@ -3,7 +3,6 @@ import zipfile
 from dataclasses import dataclass
 from datetime import datetime
 from io import BytesIO, StringIO
-from typing import Optional
 
 import defusedxml.ElementTree as ET
 import requests
@@ -93,7 +92,7 @@ class Scytl:
         self.previous_county_details_list = None
         self.previously_fetched_counties = set()
 
-    def _parse_date_to_utc(self, input_dt: str) -> Optional[datetime]:
+    def _parse_date_to_utc(self, input_dt: str) -> datetime | None:
         """
         Parse datetime string as datetime in UTC
 
@@ -424,7 +423,7 @@ class Scytl:
 
         return data
 
-    def get_summary_results(self, force_update=False) -> Optional[list[dict]]:
+    def get_summary_results(self, force_update=False) -> list[dict] | None:
         """
         Fetch the latest summary results for the given election, across all contests.
 
@@ -469,7 +468,7 @@ class Scytl:
 
         return data
 
-    def get_detailed_results(self, force_update=False) -> Optional[list[dict]]:
+    def get_detailed_results(self, force_update=False) -> list[dict] | None:
         """
         Fetch the latest detailed results by geography for the given election, across all contests.
 

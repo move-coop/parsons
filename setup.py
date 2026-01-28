@@ -27,8 +27,9 @@ CORE_DEPENDENCIES = [
 EXTRA_DEPENDENCIES = {
     "airtable": ["pyairtable"],
     "alchemer": ["surveygizmo"],
+    "avro": ["fastavro"],
     "azure": ["azure-storage-blob"],
-    "box": ["boxsdk < 10"],
+    "box": ["boxsdk >= 4.1.0, < 10", "requests-toolbelt >= 1.0.0"],
     "braintree": ["braintree"],
     "catalist": ["paramiko"],
     "civis": ["civis"],
@@ -37,7 +38,11 @@ EXTRA_DEPENDENCIES = {
     "dbt-postgres": ["dbt-postgres >= 1.5.0"],
     "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
     "facebook": ["joblib", "facebook-business"],
-    "geocode": ["censusgeocode", "urllib3==1.26.19"],
+    "geocode": [
+        "requests >= 2.27.0",
+        "requests-toolbelt >= 0.9.0",
+        "urllib3",
+    ],
     "github": ["PyGitHub"],
     "google": [
         "apiclient",
@@ -52,21 +57,19 @@ EXTRA_DEPENDENCIES = {
     ],
     "mysql": [
         "mysql-connector-python",
-        "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+        "sqlalchemy >= 1.4.22",
     ],
     "newmode": ["newmode"],
     "ngpvan": ["suds-py3"],
     "mobilecommons": ["beautifulsoup4"],
     "postgres": [
-        "psycopg2-binary <= 2.9.9;python_version<'3.13'",
-        "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
-        "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+        "psycopg2-binary >= 2.0.0",
+        "sqlalchemy >= 1.4.22",
     ],
     "redshift": [
         "boto3",
-        "psycopg2-binary <= 2.9.9;python_version<'3.13'",
-        "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
-        "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+        "psycopg2-binary >= 2.0.0",
+        "sqlalchemy >= 1.4.22",
     ],
     "s3": ["boto3"],
     "salesforce": ["simple-salesforce"],
@@ -78,9 +81,8 @@ EXTRA_DEPENDENCIES = {
     "twilio": ["twilio"],
     "ssh": [
         "sshtunnel",
-        "psycopg2-binary <= 2.9.9;python_version<'3.13'",
-        "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
-        "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
+        "psycopg2-binary >= 2.0.0",
+        "sqlalchemy >= 1.4.22",
     ],
 }
 
@@ -92,7 +94,7 @@ def get_install_requires(*, limited: bool = False) -> list[str]:
     Args:
     limited:
         If True, return only core dependencies defined in CORE_DEPENDENCIES.
-        If False, read from requirements.txt
+        If False, return all dependencies from requirements.txt
     """
     if not limited:
         requirements_txt_path = Path(__file__).parent / "requirements.txt"
@@ -107,13 +109,13 @@ def get_extras_require(*, limited: bool = False) -> dict[str, list[str]]:
 
     Args:
     limited:
-        If True, return all extras as separate installable options defined in EXTRA_DEPENDENCIES.
+        If True, return extras as defined in EXTRA_DEPENDENCIES.
         If False, return empty dict for forward-compatibility.
     """
     if not limited:
-        return {"all": []}  # No op for forward-compatibility
+        return {"all": []}
 
-    extras_require = dict(EXTRA_DEPENDENCIES)
+    extras_require = EXTRA_DEPENDENCIES
     extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
 
     return extras_require

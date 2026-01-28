@@ -89,7 +89,7 @@ def verify_required_packages(required: list[str], newly_installed: set[str]) -> 
     logger.info("### Checking required packages ###")
     missing = []
 
-    for required_dep, required_pkg in zip(required, required_packages):
+    for required_dep, required_pkg in zip(required, required_packages, strict=False):
         found = any(pkg.lower().startswith(f"{required_pkg}==") for pkg in newly_installed)
         if found:
             logger.debug("✓ %s", required_pkg)

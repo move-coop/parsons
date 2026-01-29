@@ -399,8 +399,8 @@ class TestRedshiftDB(unittest.TestCase):
         other_sql = f"""
             create table {self.temp_schema}.test (id int,name varchar(5));
             create view {self.temp_schema}.test_view as (
-            select * from {self.temp_schema}.test
-);
+                select * from {self.temp_schema}.test
+            );
             """
 
         self.rs.query(setup_sql)

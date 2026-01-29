@@ -2,10 +2,9 @@ import os
 import time
 import unittest
 import urllib
-from datetime import datetime
+from datetime import datetime, timezone
 
 import pytest
-import pytz
 
 from parsons import S3, Table
 from test.conftest import assert_matching_tables, mark_live_test
@@ -117,7 +116,7 @@ class TestS3(unittest.TestCase):
 
     def test_list_keys_date_modified(self):
         # Set current utc timestamp with timezone
-        current_utc = datetime.utcnow().astimezone(pytz.utc)
+        current_utc = datetime.now(timezone.utc)
 
         # Ensure the files created before now are included
         keys = self.s3.list_keys(self.test_bucket, date_modified_before=current_utc)

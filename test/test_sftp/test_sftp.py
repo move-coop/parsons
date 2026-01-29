@@ -9,11 +9,6 @@ import pytest
 from parsons import SFTP, Table
 from parsons.utilities import files as file_util
 from test.conftest import assert_matching_tables, mark_live_test
-from test.fixtures import (  # noqa: F401
-    simple_compressed_csv_path,
-    simple_csv_path,
-    simple_table,
-)
 
 #
 # Fixtures and constants

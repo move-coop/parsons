@@ -37,7 +37,7 @@ EXTRA_DEPENDENCIES = {
     "dbt-bigquery": ["dbt-bigquery >= 1.5.0"],
     "dbt-postgres": ["dbt-postgres >= 1.5.0"],
     "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
-    "facebook": ["joblib", "facebook-business"],
+    "facebook": ["facebook-business", "joblib"],
     "geocode": [
         "requests >= 2.27.0",
         "requests-toolbelt >= 0.9.0",
@@ -77,12 +77,12 @@ EXTRA_DEPENDENCIES = {
     "sftp": ["paramiko"],
     "slack": ["slack-sdk"],
     "smtp": ["validate-email"],
-    "targetsmart": ["xmltodict", "defusedxml"],
+    "targetsmart": ["defusedxml", "xmltodict"],
     "twilio": ["twilio"],
     "ssh": [
-        "sshtunnel",
         "psycopg2-binary >= 2.0.0",
         "sqlalchemy >= 1.4.22",
+        "sshtunnel",
     ],
 }
 

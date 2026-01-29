@@ -71,7 +71,7 @@ EXTRA_DEPENDENCIES = {
         "psycopg2-binary >= 2.0.0",
         "sqlalchemy >= 1.4.22",
     ],
-    "s3": ["boto3"],
+    "s3": ["boto3", "pytz"],
     "salesforce": ["simple-salesforce"],
     "scytl": ["defusedxml", "pytz"],
     "sftp": ["paramiko"],

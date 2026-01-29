@@ -62,8 +62,8 @@ jobs:
         env:
             PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: |
-          uv pip install --system -e .[all]
           uv pip install --system -r requirements-dev.txt
+          uv pip install --system -e .[all]
 
       - id: cache-pytest
         uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7

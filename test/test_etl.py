@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+import pandas as pd
 import petl
 import pytest
 
@@ -16,7 +17,9 @@ from test.conftest import assert_matching_tables
 # - The `Table.from_postgres()` test is housed in the Postgres test
 
 
-class TestParsonsTable(unittest.TestCase):
+class BaseTableTest(unittest.TestCase):
+    """Base class with shared setup and teardown logic"""
+
     def setUp(self):
         # Create Table object
         self.lst = [
@@ -35,6 +38,10 @@ class TestParsonsTable(unittest.TestCase):
     def tearDown(self):
         # Delete tmp folder and files
         shutil.rmtree(self.tmp_folder)
+
+
+class TestTableCreation(BaseTableTest):
+    """Tests for creating Table objects from various sources"""
 
     def test_from_list_of_dicts(self):
         tbl = Table(self.lst)
@@ -76,6 +83,14 @@ class TestParsonsTable(unittest.TestCase):
         Table([])
         Table([[]])
 
+    def test_from_columns(self):
+        header = ["col1", "col2"]
+        col1 = [1, 2, 3]
+        col2 = ["a", "b", "c"]
+        tbl = Table.from_columns([col1, col2], header=header)
+
+        assert tbl[0] == {"col1": 1, "col2": "a"}
+
     def test_materialize(self):
         # Simple test that materializing doesn't change the table
         tbl_materialized = Table(self.lst_dicts)
@@ -90,244 +105,9 @@ class TestParsonsTable(unittest.TestCase):
 
         assert_matching_tables(self.tbl, tbl_materialized)
 
-    def test_empty_column(self):
-        # Test that returns True on an empty column and False on a populated one.
 
-        tbl = Table([["a", "b"], ["1", None], ["2", None]])
-
-        assert tbl.empty_column("b")
-        assert not tbl.empty_column("a")
-
-    def test_from_columns(self):
-        header = ["col1", "col2"]
-        col1 = [1, 2, 3]
-        col2 = ["a", "b", "c"]
-        tbl = Table.from_columns([col1, col2], header=header)
-
-        assert tbl[0] == {"col1": 1, "col2": "a"}
-
-    # Removing this test since it is an optional dependency.
-    """
-    def test_from_datafame(self):
-
-        import pandas
-
-        # Assert creates table without index
-        tbl = Table(self.lst)
-        tbl_from_df = Table.from_dataframe(tbl.to_dataframe())
-        assert_matching_tables(tbl, tbl_from_df)
-
-
-    def test_to_dataframe(self):
-
-        # Is a dataframe
-        self.assertIsInstance(self.tbl.to_dataframe(), pandas.core.frame.DataFrame)
-    """
-
-    def test_to_petl(self):
-        # Is a petl table
-        assert isinstance(self.tbl.to_petl(), petl.io.json.DictsView)
-
-    def test_to_html(self):
-        html_file = str(Path(self.tmp_folder) / "test.html")
-
-        # Test writing file
-        self.tbl.to_html(html_file)
-
-        # Test written correctly
-        html = (
-            "<table class='petl'>\n"
-            "<thead>\n"
-            "<tr>\n"
-            "<th>first</th>\n"
-            "<th>last</th>\n"
-            "</tr>\n"
-            "</thead>\n"
-            "<tbody>\n"
-            "<tr>\n"
-            "<td>Bob</td>\n"
-            "<td>Smith</td>\n"
-            "</tr>\n"
-            "</tbody>\n"
-            "</table>\n"
-        )
-        assert Path(html_file).read_text() == html
-
-    def test_to_temp_html(self):
-        # Test write to object
-        path = Path(self.tbl.to_html())
-
-        # Written correctly
-        html = (
-            "<table class='petl'>\n"
-            "<thead>\n"
-            "<tr>\n"
-            "<th>first</th>\n"
-            "<th>last</th>\n"
-            "</tr>\n"
-            "</thead>\n"
-            "<tbody>\n"
-            "<tr>\n"
-            "<td>Bob</td>\n"
-            "<td>Smith</td>\n"
-            "</tr>\n"
-            "</tbody>\n"
-            "</table>\n"
-        )
-        assert path.read_text() == html
-
-    def test_to_avro_basic(self):
-        # Create a temporary directory and file
-        with tempfile.TemporaryDirectory() as temp_dir:
-            avro_file = Path(temp_dir) / "test.avro"
-
-            # Create a test table
-            tbl = Table([{"first": "Bob", "last": "Smith"}])
-
-            # Test basic functionality
-            tbl.to_avro(avro_file)
-
-            # Verify the file exists
-            assert Path.exists(avro_file)
-
-            # Read it back and verify content
-            result_tbl = Table.from_avro(avro_file)
-            assert len(result_tbl) == len(tbl)
-            assert sorted(result_tbl.columns) == sorted(tbl.columns)
-
-            # Check data values match
-            for i in range(len(tbl)):
-                for col in tbl.columns:
-                    assert result_tbl[i][col] == tbl[i][col]
-
-    def test_to_avro_with_schema(self):
-        # Create a temporary directory and file
-        with tempfile.TemporaryDirectory() as temp_dir:
-            avro_file = Path(temp_dir) / "test.avro"
-
-            # Create a test table
-            tbl = Table([{"first": "Bob", "last": "Smith"}])
-
-            # Test with explicit schema
-            schema = {
-                "doc": "Some people records.",
-                "name": "People",
-                "namespace": "test",
-                "type": "record",
-                "fields": [
-                    {"name": "first", "type": "string"},
-                    {"name": "last", "type": "string"},
-                ],
-            }
-
-            tbl.to_avro(avro_file, schema=schema)
-
-            # Read it back and verify content
-            result_tbl = Table.from_avro(avro_file)
-            assert len(result_tbl) == len(tbl)
-            assert sorted(result_tbl.columns) == sorted(tbl.columns)
-
-    def test_to_avro_different_codecs(self):
-        # Create a temporary directory
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # Create a test table
-            tbl = Table([{"first": "Bob", "last": "Smith"}])
-
-            # Test with different compression codecs
-            for codec in ["null", "deflate", "bzip2"]:
-                test_file = Path(temp_dir) / f"test_{codec}.avro"
-                tbl.to_avro(test_file, codec=codec)
-
-                # Verify the file exists
-                assert Path.exists(test_file)
-
-                # Read it back and verify content
-                result_tbl = Table.from_avro(test_file)
-                assert len(result_tbl) == len(tbl)
-                assert sorted(result_tbl.columns) == sorted(tbl.columns)
-
-    def test_to_avro_with_compression_level(self):
-        # Create a temporary directory
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # Create a test table
-            tbl = Table([{"first": "Bob", "last": "Smith"}])
-
-            # Test with compression level
-            codec = "deflate"
-            for level in [1, 5, 9]:
-                test_file = Path(temp_dir) / f"test_level_{level}.avro"
-                tbl.to_avro(test_file, codec=codec, compression_level=level)
-
-                # Verify the file exists
-                assert Path.exists(test_file)
-
-                # Read it back and verify content
-                result_tbl = Table.from_avro(test_file)
-                assert len(result_tbl) == len(tbl)
-
-    def test_to_avro_sample_size(self):
-        # Create a temporary directory
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # Create a test table
-            tbl = Table([{"first": "Bob", "last": "Smith"}])
-
-            # Test with different sample sizes for schema inference
-            for sample in [1, 5, 10]:
-                test_file = Path(temp_dir) / f"test_sample_{sample}.avro"
-                tbl.to_avro(test_file, sample=sample)
-
-                # Verify the file exists
-                assert Path.exists(test_file)
-
-                # Read it back and verify content
-                result_tbl = Table.from_avro(test_file)
-                assert len(result_tbl) == len(tbl)
-
-    def test_to_avro_with_avro_args(self):
-        # Create a temporary directory and file
-        with tempfile.TemporaryDirectory() as temp_dir:
-            avro_file = Path(temp_dir) / "test.avro"
-
-            # Create a test table
-            tbl = Table([{"first": "Bob", "last": "Smith"}])
-
-            # Test with additional arguments to fastavro
-            tbl.to_avro(
-                avro_file,
-                sync_interval=16000,  # Custom sync marker interval
-                metadata={"created_by": "parsons_test"},
-            )
-
-            # Verify the file exists
-            assert Path.exists(avro_file)
-
-            # Read it back and verify content
-            result_tbl = Table.from_avro(avro_file)
-            assert len(result_tbl) == len(tbl)
-
-    def test_to_avro_complex_types(self):
-        # Create a temporary directory
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # Test with more complex data types
-            complex_data = [
-                {
-                    "name": "Bob",
-                    "tags": ["tag1", "tag2"],
-                    "metadata": {"city": "NYC", "state": "NY"},
-                },
-                {"name": "Jim", "tags": ["tag3"], "metadata": {"city": "LA", "state": "CA"}},
-            ]
-            complex_tbl = Table(complex_data)
-
-            test_file = Path(temp_dir) / "test_complex.avro"
-            complex_tbl.to_avro(test_file)
-
-            # Verify the file exists
-            assert Path.exists(test_file)
-
-            # Read it back and verify content
-            result_tbl = Table.from_avro(test_file)
-            assert len(result_tbl) == len(complex_tbl)
+class TestFileOperations(BaseTableTest):
+    """Tests for CSV, JSON, HTML, and other file operations"""
 
     def _assert_expected_csv(self, path, orig_tbl):
         result_tbl = Table.from_csv(path)
@@ -394,10 +174,6 @@ class TestParsonsTable(unittest.TestCase):
         finally:
             Path(my_zip).unlink()
 
-    def test_to_civis(self):
-        # Not really sure the best way to do this at the moment.
-        pass
-
     def test_to_from_json(self):
         with TemporaryDirectory() as tempdir:
             path = str(Path(tempdir) / "test.json")
@@ -439,6 +215,73 @@ class TestParsonsTable(unittest.TestCase):
 
             result_tbl = Table.from_json(path, line_delimited=True)
             assert_matching_tables(self.tbl, result_tbl)
+
+    def test_to_html(self):
+        html_file = str(Path(self.tmp_folder) / "test.html")
+
+        # Test writing file
+        self.tbl.to_html(html_file)
+
+        # Test written correctly
+        html = (
+            "<table class='petl'>\n"
+            "<thead>\n"
+            "<tr>\n"
+            "<th>first</th>\n"
+            "<th>last</th>\n"
+            "</tr>\n"
+            "</thead>\n"
+            "<tbody>\n"
+            "<tr>\n"
+            "<td>Bob</td>\n"
+            "<td>Smith</td>\n"
+            "</tr>\n"
+            "</tbody>\n"
+            "</table>\n"
+        )
+        assert Path(html_file).read_text() == html
+
+    def test_to_temp_html(self):
+        # Test write to object
+        path = Path(self.tbl.to_html())
+
+        # Written correctly
+        html = (
+            "<table class='petl'>\n"
+            "<thead>\n"
+            "<tr>\n"
+            "<th>first</th>\n"
+            "<th>last</th>\n"
+            "</tr>\n"
+            "</thead>\n"
+            "<tbody>\n"
+            "<tr>\n"
+            "<td>Bob</td>\n"
+            "<td>Smith</td>\n"
+            "</tr>\n"
+            "</tbody>\n"
+            "</table>\n"
+        )
+        assert path.read_text() == html
+
+    def test_to_petl(self):
+        # Is a petl table
+        assert isinstance(self.tbl.to_petl(), petl.io.json.DictsView)
+
+    def test_to_civis(self):
+        # Not really sure the best way to do this at the moment.
+        pass
+
+
+class TestColumnOperations(BaseTableTest):
+    """Tests for column manipulation operations"""
+
+    def test_empty_column(self):
+        # Test that returns True on an empty column and False on a populated one.
+        tbl = Table([["a", "b"], ["1", None], ["2", None]])
+
+        assert tbl.empty_column("b")
+        assert not tbl.empty_column("a")
 
     def test_columns(self):
         # Test that columns are listed correctly
@@ -684,6 +527,40 @@ class TestParsonsTable(unittest.TestCase):
         cut_tbl = self.tbl.cut("first")
         assert cut_tbl.columns == ["first"]
 
+    def test_get_column_max_with(self):
+        tbl = Table(
+            [
+                ["a", "b", "c"],
+                ["wide_text", False, "slightly longer text"],
+                ["text", 2, "byte_text🏽‍⚕️✊🏽🤩"],
+            ]
+        )
+
+        # Basic test
+        assert tbl.get_column_max_width("a") == 9
+
+        # Doesn't break for non-strings
+        assert tbl.get_column_max_width("b") == 5
+
+        # Evaluates based on byte length rather than char length
+        assert tbl.get_column_max_width("c") == 33
+
+    def test_column_data(self):
+        # Test that that the data in the column is returned as a list
+
+        # Test a valid column
+        tbl = Table(self.lst)
+        lst = [1, 4, 7, 10, 13]
+        assert tbl.column_data("a") == lst
+
+        # Test an invalid column
+        with pytest.raises(ValueError, match="Column name not found."):
+            tbl.column_data("d")
+
+
+class TestRowOperations(BaseTableTest):
+    """Tests for row manipulation operations"""
+
     def test_row_select(self):
         tbl = Table([["foo", "bar", "baz"], ["c", 4, 9.3], ["a", 2, 88.2], ["b", 1, 23.3]])
         expected = Table([{"foo": "a", "bar": 2, "baz": 88.2}])
@@ -755,23 +632,121 @@ class TestParsonsTable(unittest.TestCase):
         row = {"a": 4, "b": 5, "c": 6}
         assert tbl[1] == row
 
-    def test_column_data(self):
-        # Test that that the data in the column is returned as a list
-
-        # Test a valid column
-        tbl = Table(self.lst)
-        lst = [1, 4, 7, 10, 13]
-        assert tbl.column_data("a") == lst
-
-        # Test an invalid column
-        with pytest.raises(ValueError, match="Column name not found."):
-            tbl.column_data("d")
-
     def test_row_data(self):
         # Test a valid column
         tbl = Table(self.lst)
         row = {"a": 4, "b": 5, "c": 6}
         assert tbl.row_data(1) == row
+
+    def test_reduce_rows(self):
+        table = [
+            ["foo", "bar"],
+            ["a", 3],
+            ["a", 7],
+            ["b", 2],
+            ["b", 1],
+            ["b", 9],
+            ["c", 4],
+        ]
+        expected = [
+            {"foo": "a", "barsum": 10},
+            {"foo": "b", "barsum": 12},
+            {"foo": "c", "barsum": 4},
+        ]
+
+        ptable = Table(table)
+
+        ptable.reduce_rows(
+            "foo",
+            lambda key, rows: [key, sum(row[1] for row in rows)],
+            ["foo", "barsum"],
+        )
+
+        assert expected == ptable.to_dicts()
+
+    def test_deduplicate(self):
+        # Confirm deduplicate works with no keys for one-column duplicates
+        tbl = Table([["a"], [1], [2], [2], [3]])
+        tbl_expected = Table([["a"], [1], [2], [3]])
+        tbl.deduplicate()
+        assert_matching_tables(tbl_expected, tbl)
+
+        # Confirm deduplicate works with no keys for multiple columns
+        tbl = Table([["a", "b"], [1, 2], [1, 2], [1, 3], [2, 3]])
+        tbl_expected = Table(
+            [
+                ["a", "b"],
+                [1, 2],
+                [1, 3],
+                [2, 3],
+            ]
+        )
+        tbl.deduplicate()
+        assert_matching_tables(tbl_expected, tbl)
+
+        # Confirm deduplicate works with one key for multiple columns
+        tbl = Table([["a", "b"], [1, 3], [1, 2], [1, 2], [2, 3]])
+        tbl_expected = Table(
+            [
+                ["a", "b"],
+                [1, 3],
+                [2, 3],
+            ]
+        )
+        tbl.deduplicate(keys=["a"])
+        assert_matching_tables(tbl_expected, tbl)
+
+        # Confirm sorting deduplicate works with one key for multiple columns
+
+        # Note that petl sorts on the column(s) you're deduping on
+        # Meaning it will ignore the 'b' column below
+        # That is, the first row, [1,3],
+        # would not get moved to after the [1,2]
+        tbl = Table([["a", "b"], [2, 3], [1, 3], [1, 2], [1, 2]])
+        tbl_expected = Table(
+            [
+                ["a", "b"],
+                [1, 3],
+                [2, 3],
+            ]
+        )
+        tbl.deduplicate(keys=["a"], presorted=False)
+        assert_matching_tables(tbl_expected, tbl)
+
+        # Confirm sorting deduplicate works for two of two columns
+        tbl = Table([["a", "b"], [2, 3], [1, 3], [1, 2], [1, 2]])
+        tbl_expected = Table(
+            [
+                ["a", "b"],
+                [1, 2],
+                [1, 3],
+                [2, 3],
+            ]
+        )
+        tbl.deduplicate(keys=["a", "b"], presorted=False)
+        assert_matching_tables(tbl_expected, tbl)
+
+        # Confirm deduplicate works for multiple keys
+        tbl = Table([["a", "b", "c"], [1, 2, 3], [1, 2, 3], [1, 2, 4], [1, 3, 2], [2, 3, 4]])
+        tbl_expected = Table([["a", "b", "c"], [1, 2, 3], [1, 3, 2], [2, 3, 4]])
+        tbl.deduplicate(["a", "b"])
+        assert_matching_tables(tbl_expected, tbl)
+
+    def test_head(self):
+        tbl = Table([["a", "b"], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
+        tbl_expected = Table([["a", "b"], [1, 2], [3, 4]])
+        tbl.head(2)
+        assert_matching_tables(tbl_expected, tbl)
+
+    def test_tail(self):
+        tbl = Table([["a", "b"], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
+        tbl_expected = Table([["a", "b"], [7, 8], [9, 10]])
+        tbl.tail(2)
+        assert_matching_tables(tbl_expected, tbl)
+
+
+class TestTableTransformations(BaseTableTest):
+    """Tests for table-level transformations and combinations"""
 
     def test_stack(self):
         tbl1 = self.tbl.select_rows(lambda x: x)
@@ -927,32 +902,6 @@ class TestParsonsTable(unittest.TestCase):
         assert self.lst == Table(self.lst).to_dicts()
         assert self.lst_dicts == self.tbl.to_dicts()
 
-    def test_reduce_rows(self):
-        table = [
-            ["foo", "bar"],
-            ["a", 3],
-            ["a", 7],
-            ["b", 2],
-            ["b", 1],
-            ["b", 9],
-            ["c", 4],
-        ]
-        expected = [
-            {"foo": "a", "barsum": 10},
-            {"foo": "b", "barsum": 12},
-            {"foo": "c", "barsum": 4},
-        ]
-
-        ptable = Table(table)
-
-        ptable.reduce_rows(
-            "foo",
-            lambda key, rows: [key, sum(row[1] for row in rows)],
-            ["foo", "barsum"],
-        )
-
-        assert expected == ptable.to_dicts()
-
     def test_map_columns_exact(self):
         input_tbl = Table([["fn", "ln", "MID"], ["J", "B", "H"]])
 
@@ -978,24 +927,6 @@ class TestParsonsTable(unittest.TestCase):
         fuzzy_tbl = Table([["first_name", "last_name", "middle_name"], ["J", "B", "H"]])
         input_tbl.map_columns(column_map, exact_match=False)
         assert_matching_tables(input_tbl, fuzzy_tbl)
-
-    def test_get_column_max_with(self):
-        tbl = Table(
-            [
-                ["a", "b", "c"],
-                ["wide_text", False, "slightly longer text"],
-                ["text", 2, "byte_text🏽‍⚕️✊🏽🤩"],
-            ]
-        )
-
-        # Basic test
-        assert tbl.get_column_max_width("a") == 9
-
-        # Doesn't break for non-strings
-        assert tbl.get_column_max_width("b") == 5
-
-        # Evaluates based on byte length rather than char length
-        assert tbl.get_column_max_width("c") == 33
 
     def test_sort(self):
         # Test basic sort
@@ -1062,82 +993,14 @@ class TestParsonsTable(unittest.TestCase):
         tbl_petl = tbl.use_petl("skipcomments", "#", to_petl=True)
         assert isinstance(tbl_petl, PetlTable)
 
-    def test_deduplicate(self):
-        # Confirm deduplicate works with no keys for one-column duplicates
-        tbl = Table([["a"], [1], [2], [2], [3]])
-        tbl_expected = Table([["a"], [1], [2], [3]])
-        tbl.deduplicate()
-        assert_matching_tables(tbl_expected, tbl)
 
-        # Confirm deduplicate works with no keys for multiple columns
-        tbl = Table([["a", "b"], [1, 2], [1, 2], [1, 3], [2, 3]])
-        tbl_expected = Table(
-            [
-                ["a", "b"],
-                [1, 2],
-                [1, 3],
-                [2, 3],
-            ]
-        )
-        tbl.deduplicate()
-        assert_matching_tables(tbl_expected, tbl)
+class TestPandasMethods(BaseTableTest):
+    def test_from_datafame(self):
+        # Assert creates table without index
+        tbl = Table(self.lst)
+        tbl_from_df = Table.from_dataframe(tbl.to_dataframe())
+        assert_matching_tables(tbl, tbl_from_df)
 
-        # Confirm deduplicate works with one key for multiple columns
-        tbl = Table([["a", "b"], [1, 3], [1, 2], [1, 2], [2, 3]])
-        tbl_expected = Table(
-            [
-                ["a", "b"],
-                [1, 3],
-                [2, 3],
-            ]
-        )
-        tbl.deduplicate(keys=["a"])
-        assert_matching_tables(tbl_expected, tbl)
-
-        # Confirm sorting deduplicate works with one key for multiple columns
-
-        # Note that petl sorts on the column(s) you're deduping on
-        # Meaning it will ignore the 'b' column below
-        # That is, the first row, [1,3],
-        # would not get moved to after the [1,2]
-        tbl = Table([["a", "b"], [2, 3], [1, 3], [1, 2], [1, 2]])
-        tbl_expected = Table(
-            [
-                ["a", "b"],
-                [1, 3],
-                [2, 3],
-            ]
-        )
-        tbl.deduplicate(keys=["a"], presorted=False)
-        assert_matching_tables(tbl_expected, tbl)
-
-        # Confirm sorting deduplicate works for two of two columns
-        tbl = Table([["a", "b"], [2, 3], [1, 3], [1, 2], [1, 2]])
-        tbl_expected = Table(
-            [
-                ["a", "b"],
-                [1, 2],
-                [1, 3],
-                [2, 3],
-            ]
-        )
-        tbl.deduplicate(keys=["a", "b"], presorted=False)
-        assert_matching_tables(tbl_expected, tbl)
-
-        # Confirm deduplicate works for multiple keys
-        tbl = Table([["a", "b", "c"], [1, 2, 3], [1, 2, 3], [1, 2, 4], [1, 3, 2], [2, 3, 4]])
-        tbl_expected = Table([["a", "b", "c"], [1, 2, 3], [1, 3, 2], [2, 3, 4]])
-        tbl.deduplicate(["a", "b"])
-        assert_matching_tables(tbl_expected, tbl)
-
-    def test_head(self):
-        tbl = Table([["a", "b"], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
-        tbl_expected = Table([["a", "b"], [1, 2], [3, 4]])
-        tbl.head(2)
-        assert_matching_tables(tbl_expected, tbl)
-
-    def test_tail(self):
-        tbl = Table([["a", "b"], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
-        tbl_expected = Table([["a", "b"], [7, 8], [9, 10]])
-        tbl.tail(2)
-        assert_matching_tables(tbl_expected, tbl)
+    def test_to_dataframe(self):
+        # Is a dataframe
+        assert isinstance(self.tbl.to_dataframe(), pd.core.frame.DataFrame)

@@ -6,7 +6,7 @@ import requests_mock
 from requests.exceptions import HTTPError
 
 from parsons import VAN
-from test.test_van.responses_people import (
+from test.test_ngpvan.responses_people import (
     delete_person_response,
     find_people_response,
     get_person_response,

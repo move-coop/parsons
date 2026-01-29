@@ -4,7 +4,7 @@ import unittest
 import requests_mock
 
 from parsons import VAN
-from test.test_van.responses_printed_lists import list_json, single_list_json
+from test.test_ngpvan.responses_printed_lists import list_json, single_list_json
 
 
 class TestSavedLists(unittest.TestCase):

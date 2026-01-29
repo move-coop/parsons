@@ -78,7 +78,7 @@ EXTRA_DEPENDENCIES = {
     "sftp": ["paramiko"],
     "slack": ["slack-sdk"],
     "smtp": ["validate-email"],
-    "targetsmart": ["defusedxml", "xmltodict"],
+    "targetsmart": ["defusedxml", "paramiko", "xmltodict"],
     "twilio": ["twilio"],
     "ssh": [
         "psycopg2-binary >= 2.0.0",

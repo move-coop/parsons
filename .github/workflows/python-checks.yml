@@ -121,6 +121,10 @@ jobs:
 
           metadata = project_wheel_metadata(Path('.'))
           extras = metadata.get_all('Provides-Extra') or []
+
+          if 'all' in extras:
+            extras.remove('all')
+
           print(json.dumps(extras))
           " > extras.json
           echo "extras=$(cat extras.json)" >> $GITHUB_OUTPUT

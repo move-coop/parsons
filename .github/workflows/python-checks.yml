@@ -308,7 +308,6 @@ jobs:
 
     needs:
       - pytest
-      - pytest-extras
 
     permissions:
       pull-requests: write

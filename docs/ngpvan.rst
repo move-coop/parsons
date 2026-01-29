@@ -13,9 +13,9 @@ additional details and information.
 .. note::
    API Keys
       - API Keys are specific to each committee and state.
-      - There was once a Parsons type API Key that could be requested via the VAN Integrations menu,
-        but that key type has been deprecated by NGPVAN. API keys should now be requested as a custom
-        integration. For additional guidance, refer to the Parsons Slack or reach out to
+      - The Parsons API Key can be requested via the VAN Integrations menu under `TMC (Parsons)`. However,
+        if you can't find the key there, you can reach out to `apideveloeprs@ngpvan.com` or send an in-app 
+        support request. If you need any additional guidance, please refer to the Parsons Slack or reach out to
         <parsons@movementcooperative.org>.
 
 

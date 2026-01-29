@@ -84,6 +84,7 @@ jobs:
           include-hidden-files: true
 
   pytest-extras-config:
+    needs: pytest
     runs-on: ubuntu-latest
     outputs:
       extras: ${{ steps.get-extras.outputs.extras }}

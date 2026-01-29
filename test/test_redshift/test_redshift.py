@@ -6,7 +6,7 @@ import pytest
 from testfixtures import LogCapture
 
 from parsons import S3, Redshift, Table
-from test.utils import assert_matching_tables, mark_live_test, validate_list
+from test.conftest import assert_matching_tables, mark_live_test, validate_list
 
 # The name of the schema and will be temporarily created for the tests
 TEMP_SCHEMA = "parsons_test2"

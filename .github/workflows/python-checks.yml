@@ -132,7 +132,7 @@ jobs:
       matrix:
         extra: ${{ fromJson(needs.pytest-extras-config.outputs.extras) }}
         python-version:
-          - '3.14'
+          - '3.13'
         os:
           - ubuntu-latest
         resolution:

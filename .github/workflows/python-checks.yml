@@ -117,6 +117,7 @@ jobs:
           PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: |
           python -c "
+
           import json
           from build.util import project_wheel_metadata
           from pathlib import Path
@@ -127,7 +128,6 @@ jobs:
           if 'all' in extras:
             extras.remove('all')
 
-          print(json.dumps(extras))
           " > extras.json
           echo "extras=$(cat extras.json)" >> $GITHUB_OUTPUT
 

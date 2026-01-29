@@ -15,6 +15,7 @@ permissions: read-all
 jobs:
   pytest:
     runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: false
       matrix:
@@ -84,10 +85,11 @@ jobs:
           include-hidden-files: true
 
   pytest-extras-config:
-    needs: pytest
     runs-on: ubuntu-latest
+
     outputs:
       extras: ${{ steps.get-extras.outputs.extras }}
+
     steps:
       - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
@@ -131,7 +133,11 @@ jobs:
 
   pytest-extras:
     runs-on: ${{ matrix.os }}
-    needs: pytest-extras-config
+
+    needs:
+      - pytest-extras-config
+      - pytest
+
     strategy:
       fail-fast: false
       matrix:
@@ -142,9 +148,6 @@ jobs:
           - ubuntu-latest
         resolution:
           - highest
-
-    permissions:
-      contents: write
 
     steps:
       - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
@@ -304,6 +307,7 @@ jobs:
 
   coverage:
     runs-on: ubuntu-latest
+
     needs:
       - pytest
       - pytest-extras
@@ -343,6 +347,7 @@ jobs:
 
   pre-commit:
     runs-on: ubuntu-latest
+
     needs:
       - ruff-format
       - ruff-check

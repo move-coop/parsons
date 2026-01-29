@@ -33,10 +33,15 @@ EXTRA_DEPENDENCIES = {
     "braintree": ["braintree"],
     "catalist": ["paramiko"],
     "civis": ["civis"],
-    "dbt-redshift": ["dbt-redshift >= 1.5.0"],
-    "dbt-bigquery": ["dbt-bigquery >= 1.5.0"],
-    "dbt-postgres": ["dbt-postgres >= 1.5.0"],
-    "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
+    "dbt-redshift": [
+        "dbt-redshift >= 1.5.0",
+        "dbt-core >= 1.5.0",
+        "lxml;python_version < '3.14'",
+        "lxml>=5.5.0;python_version >= '3.14'",
+    ],
+    "dbt-bigquery": ["dbt-bigquery >= 1.5.0", "dbt-core >= 1.5.0"],
+    "dbt-postgres": ["dbt-postgres >= 1.5.0", "dbt-core >= 1.5.0"],
+    "dbt-snowflake": ["dbt-snowflake >= 1.5.0", "dbt-core >= 1.5.0"],
     "facebook": ["joblib", "facebook-business"],
     "geocode": [
         "requests >= 2.27.0",
@@ -57,19 +62,19 @@ EXTRA_DEPENDENCIES = {
     ],
     "mysql": [
         "mysql-connector-python",
-        "sqlalchemy >= 1.4.22",
+        "sqlalchemy >= 1.4.54",
     ],
     "newmode": ["newmode"],
     "ngpvan": ["suds-py3"],
     "mobilecommons": ["beautifulsoup4", "xmltodict"],
     "postgres": [
-        "psycopg2-binary >= 2.0.0",
-        "sqlalchemy >= 1.4.22",
+        "psycopg2-binary >= 2.9.11",
+        "sqlalchemy >= 1.4.54",
     ],
     "redshift": [
         "boto3",
-        "psycopg2-binary >= 2.0.0",
-        "sqlalchemy >= 1.4.22",
+        "psycopg2-binary >= 2.9.11",
+        "sqlalchemy >= 1.4.54",
     ],
     "s3": ["boto3"],
     "salesforce": ["simple-salesforce"],
@@ -81,8 +86,8 @@ EXTRA_DEPENDENCIES = {
     "twilio": ["twilio"],
     "ssh": [
         "sshtunnel",
-        "psycopg2-binary >= 2.0.0",
-        "sqlalchemy >= 1.4.22",
+        "psycopg2-binary >= 2.9.11",
+        "sqlalchemy >= 1.4.54",
     ],
 }
 

@@ -126,6 +126,8 @@ jobs:
 
           if 'all' in extras:
             extras.remove('all')
+
+          print(json.dumps(extras))
           " > extras.json
           echo "extras=$(cat extras.json)" >> $GITHUB_OUTPUT
 

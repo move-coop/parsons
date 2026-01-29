@@ -1,3 +1,3 @@
 import pytest
 
-pytest.skip()
+pytest.skip(allow_module_level=True)

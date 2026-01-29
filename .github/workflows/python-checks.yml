@@ -60,7 +60,7 @@ jobs:
       - if: matrix.resolution == 'limited-dependencies'
         continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
         env:
-          PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
+            PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: |
           uv pip install --system -e .[all]
           uv pip install --system -r requirements-dev.txt
@@ -83,6 +83,105 @@ jobs:
           path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}
           include-hidden-files: true
 
+  pytest-extras-config:
+    runs-on: ubuntu-latest
+    outputs:
+      extras: ${{ steps.get-extras.outputs.extras }}
+    steps:
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            pypi.org:443
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.14'
+          cache: pip
+
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
+
+      - run: uv pip install --system -r requirements-dev.txt
+
+      - name: get-extras
+        id: get-extras
+        env:
+          PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
+        run: |
+          python -c "
+          import json
+          from build.util import project_wheel_metadata
+          from pathlib import Path
+
+          metadata = project_wheel_metadata(Path('.'))
+          extras = metadata.get_all('Provides-Extra') or []
+          print(json.dumps(extras))
+          " > extras.json
+          echo "extras=$(cat extras.json)" >> $GITHUB_OUTPUT
+
+  pytest-extras:
+    runs-on: ${{ matrix.os }}
+    needs: pytest-extras-config
+    strategy:
+      fail-fast: false
+      matrix:
+        extra: ${{ fromJson(needs.pytest-extras-config.outputs.extras) }}
+        python-version:
+          - '3.14'
+        os:
+          - ubuntu-latest
+        resolution:
+          - highest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            pypi.org:443
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
+
+      - run: uv pip install --system -r requirements-dev.txt
+
+      - run: uv pip install --system .[${{ matrix.extra }}]
+        env:
+            PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
+
+      - id: cache-pytest
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
+        with:
+          path: .pytest_cache
+          key: pytest-${{ hashFiles('pyproject.toml') }}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}-${{ matrix.extra }}
+
+      - run: pytest test/test_${{ matrix.extra }}
+        env:
+          COVERAGE_FILE: '.coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}.${{ matrix.extra }}'
+
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: coverage-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}-${{ matrix.extra }}
+          path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}.${{ matrix.extra }}
+          include-hidden-files: true
+
   ruff-format:
     runs-on: ubuntu-latest
 
@@ -100,7 +199,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: 3.13
+          python-version: '3.13'
           cache: pip
 
       - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
@@ -137,7 +236,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: 3.13
+          python-version: '3.13'
           cache: pip
 
       - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
@@ -185,7 +284,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: 3.13
+          python-version: '3.13'
           cache: pip
 
       - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
@@ -208,7 +307,9 @@ jobs:
 
   coverage:
     runs-on: ubuntu-latest
-    needs: pytest
+    needs:
+      - pytest
+      - pytest-extras
 
     permissions:
       pull-requests: write
@@ -268,7 +369,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: 3.13
+          python-version: '3.13'
           cache: pip
 
       - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
@@ -286,70 +387,3 @@ jobs:
           pre-commit run --all-files
         env:
           PRE_COMMIT_HOME: .pre-commit-cache
-
-  setup-check-extras:
-    runs-on: ubuntu-latest
-    outputs:
-      extras: ${{ steps.get-extras.outputs.extras }}
-    steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
-
-      - name: Get Installable Extras
-        id: get-extras
-        env:
-          PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
-        run: |
-          pip install build
-
-          python -c "
-          import json
-          from build.util import project_wheel_metadata
-          from pathlib import Path
-
-          metadata = project_wheel_metadata(Path('.'))
-          extras = metadata.get_all('Provides-Extra') or []
-          print(json.dumps(extras))
-          " > extras.json
-          echo "extras=$(cat extras.json)" >> $GITHUB_OUTPUT
-
-  check-extras:
-    runs-on: ubuntu-latest
-    needs: setup-check-extras
-    strategy:
-      fail-fast: false
-      matrix:
-        extra: ${{ fromJson(needs.setup-check-extras.outputs.extras) }}
-
-    permissions:
-      contents: write
-
-    steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
-        with:
-          disable-sudo: true
-          egress-policy: block
-          allowed-endpoints: >
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
-
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
-
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
-        with:
-          python-version: 3.13
-          cache: pip
-
-      - uses: install-pinned/uv@aa380d2c49f39e53fe6f5635484bb766098ba8b4
-
-      - run: uv pip install --system setuptools
-
-      - run: uv pip freeze > before.txt
-
-      - env:
-          PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
-        run: uv pip install --system .[${{ matrix.extra }}]
-
-      - run: uv pip freeze > after.txt
-
-      - run: python test/verify_extras_install.py ${{ matrix.extra }}

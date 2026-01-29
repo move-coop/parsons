@@ -4,8 +4,8 @@ import unittest
 import requests_mock
 
 from parsons import VAN
+from test.conftest import assert_matching_tables
 from test.test_ngpvan.responses_people import get_person_response
-from test.utils import assert_matching_tables
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 

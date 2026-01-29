@@ -6,7 +6,7 @@ import requests_mock
 
 from parsons import Table, Zoom
 from parsons.zoom.zoom import ZoomV1, ZoomV2
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 ACCOUNT_ID = "fakeAccountID"
 CLIENT_ID = "fakeClientID"

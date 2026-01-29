@@ -4,7 +4,7 @@ from unittest import mock
 import petl
 
 from parsons import CensusGeocoder, Table
-from test.utils import assert_matching_tables, mark_live_test
+from test.conftest import assert_matching_tables, mark_live_test
 
 from .test_responses import batch_resp, coord_resp, geographies_resp, locations_resp
 

@@ -4,7 +4,7 @@ import unittest
 import requests_mock
 
 from parsons import VAN
-from test.utils import validate_list
+from test.conftest import validate_list
 
 signup_status = [
     {"statusId": 5, "name": "Cancelled"},

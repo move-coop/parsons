@@ -6,7 +6,7 @@ import requests_mock
 
 from parsons import VAN, Table
 from parsons.utilities import cloud_storage
-from test.utils import validate_list
+from test.conftest import validate_list
 
 
 class TestSavedLists(unittest.TestCase):

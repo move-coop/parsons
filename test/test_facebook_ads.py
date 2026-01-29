@@ -3,7 +3,7 @@ import unittest
 import pytest
 
 from parsons import FacebookAds, Table
-from test.utils import mark_live_test
+from test.conftest import mark_live_test
 
 users_table = Table(
     [

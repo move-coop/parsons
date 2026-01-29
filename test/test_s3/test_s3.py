@@ -8,7 +8,7 @@ import pytest
 import pytz
 
 from parsons import S3, Table
-from test.utils import assert_matching_tables, mark_live_test
+from test.conftest import assert_matching_tables, mark_live_test
 
 # Requires a s3 credentials stored in aws config or env variable
 # to run properly.

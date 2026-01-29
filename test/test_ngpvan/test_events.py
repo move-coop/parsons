@@ -4,7 +4,7 @@ import unittest
 import requests_mock
 
 from parsons import VAN
-from test.utils import validate_list
+from test.conftest import validate_list
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 

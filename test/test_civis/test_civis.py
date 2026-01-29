@@ -1,7 +1,7 @@
 import unittest
 
 from parsons import CivisClient, Table
-from test.utils import mark_live_test
+from test.conftest import mark_live_test
 
 # from . import scratch_creds
 

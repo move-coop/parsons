@@ -4,7 +4,7 @@ import unittest
 import pytest
 
 from parsons import Postgres, Table
-from test.utils import assert_matching_tables, mark_live_test
+from test.conftest import assert_matching_tables, mark_live_test
 
 # The name of the schema and will be temporarily created for the tests
 TEMP_SCHEMA = "parsons_test"

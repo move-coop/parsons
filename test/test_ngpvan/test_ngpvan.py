@@ -6,7 +6,7 @@ import requests_mock
 from requests.exceptions import HTTPError
 
 from parsons import VAN, Table
-from test.utils import assert_matching_tables, validate_list
+from test.conftest import assert_matching_tables, validate_list
 
 
 class TestNGPVAN(unittest.TestCase):

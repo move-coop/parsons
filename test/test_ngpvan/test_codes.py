@@ -6,7 +6,7 @@ import requests_mock
 from requests.exceptions import HTTPError
 
 from parsons import VAN
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 

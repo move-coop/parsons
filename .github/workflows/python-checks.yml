@@ -173,14 +173,6 @@ jobs:
           key: pytest-${{ hashFiles('pyproject.toml') }}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}-${{ matrix.extra }}
 
       - run: pytest test/test_${{ matrix.extra }}
-        env:
-          COVERAGE_FILE: '.coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}.${{ matrix.extra }}'
-
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
-        with:
-          name: coverage-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}-${{ matrix.extra }}
-          path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}.${{ matrix.extra }}
-          include-hidden-files: true
 
   ruff-format:
     runs-on: ubuntu-latest

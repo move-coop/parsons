@@ -74,7 +74,7 @@ EXTRA_DEPENDENCIES = {
     ],
     "s3": ["boto3"],
     "salesforce": ["simple-salesforce"],
-    "scytl": ["defusedxml", "pytz"],
+    "scytl": ["defusedxml"],
     "sftp": ["paramiko"],
     "slack": ["slack-sdk"],
     "smtp": ["validate-email"],

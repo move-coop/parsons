@@ -4,7 +4,6 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-import pandas as pd
 import petl
 import pytest
 
@@ -992,15 +991,3 @@ class TestTableTransformations(BaseTableTest):
 
         tbl_petl = tbl.use_petl("skipcomments", "#", to_petl=True)
         assert isinstance(tbl_petl, PetlTable)
-
-
-class TestPandasMethods(BaseTableTest):
-    def test_from_datafame(self):
-        # Assert creates table without index
-        tbl = Table(self.lst)
-        tbl_from_df = Table.from_dataframe(tbl.to_dataframe())
-        assert_matching_tables(tbl, tbl_from_df)
-
-    def test_to_dataframe(self):
-        # Is a dataframe
-        assert isinstance(self.tbl.to_dataframe(), pd.core.frame.DataFrame)

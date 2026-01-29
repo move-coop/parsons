@@ -1,2 +1,3 @@
 class TestDBTRedShift:
-    pass
+    def test_placeholder(self) -> None:
+        pass

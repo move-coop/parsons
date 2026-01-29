@@ -1,2 +1,3 @@
 class TestDBTBigQuery:
-    pass
+    def test_placeholder(self) -> None:
+        pass

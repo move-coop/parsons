@@ -1,2 +1,3 @@
 class TestDBTPostgreS:
-    pass
+    def test_placeholder(self) -> None:
+        pass

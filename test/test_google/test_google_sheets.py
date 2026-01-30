@@ -5,7 +5,7 @@ import gspread
 import pytest
 
 from parsons import GoogleSheets, Table
-from test.utils import assert_matching_tables, mark_live_test
+from test.conftest import assert_matching_tables, mark_live_test
 
 
 @mark_live_test

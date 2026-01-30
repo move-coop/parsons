@@ -5,7 +5,7 @@ import pytest
 import requests_mock
 
 from parsons import ActionBuilder, Table
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 
 class TestActionBuilder(unittest.TestCase):

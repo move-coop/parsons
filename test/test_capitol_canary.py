@@ -6,7 +6,7 @@ import pytest
 import requests_mock
 
 from parsons import CapitolCanary
-from test.utils import validate_list
+from test.conftest import validate_list
 
 adv_json = {
     "data": [

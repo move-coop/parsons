@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from parsons import SFTP, TargetSmartAutomation
-from test.utils import mark_live_test
+from test.conftest import mark_live_test
 
 
 class TestTargetSmartAutomation(unittest.TestCase):

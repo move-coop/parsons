@@ -5,7 +5,7 @@ import pytest
 from requests.exceptions import HTTPError
 
 from parsons import Table
-from test.utils import mark_live_test
+from test.conftest import mark_live_test
 
 #
 # Fixtures and constants

@@ -1,8 +1,4 @@
-import shutil
-import tempfile
-import unittest
 from pathlib import Path
-from tempfile import TemporaryDirectory
 
 import petl
 import pytest
@@ -13,37 +9,19 @@ from test.conftest import assert_matching_tables
 
 # Notes :
 # - The `Table.to_postgres()` test is housed in the Postgres tests
-# - The `Table.from_postgres()` test is housed in the Postgres test
+# - The `Table.from_postgres()` test is housed in the Postgres tests
+# - The `Table.to_dataframe()` test is housed in the pandas test folder
+# - The `Table.from_dataframe()` test is housed in the pandas test folder
+# - The `Table.to_avro()` test is housed in the avro test folder
+# - The `Table.from_avro()` test is housed in the avro test folder
 
 
-class BaseTableTest(unittest.TestCase):
-    """Base class with shared setup and teardown logic"""
-
-    def setUp(self):
-        # Create Table object
-        self.lst = [
-            {"a": 1, "b": 2, "c": 3},
-            {"a": 4, "b": 5, "c": 6},
-            {"a": 7, "b": 8, "c": 9},
-            {"a": 10, "b": 11, "c": 12},
-            {"a": 13, "b": 14, "c": 15},
-        ]
-        self.lst_dicts = [{"first": "Bob", "last": "Smith"}]
-        self.tbl = Table(self.lst_dicts)
-
-        # Create a tmp dir
-        self.tmp_folder = tempfile.mkdtemp()
-
-    def tearDown(self):
-        # Delete tmp folder and files
-        shutil.rmtree(self.tmp_folder)
-
-
-class TestTableCreation(BaseTableTest):
+# Tests for creating Table objects from various sources
+class TestTableCreation:
     """Tests for creating Table objects from various sources"""
 
-    def test_from_list_of_dicts(self):
-        tbl = Table(self.lst)
+    def test_from_list_of_dicts(self, sample_data):
+        tbl = Table(sample_data["lst"])
 
         # Test Iterate and is list like
         assert tbl[0] == {"a": 1, "b": 2, "c": 3}
@@ -76,11 +54,18 @@ class TestTableCreation(BaseTableTest):
         with pytest.raises(ValueError, match="Could not initialize table from input type"):
             Table(None)
 
-    def test_from_empty_list(self):
+    @pytest.mark.parametrize(
+        "input_data",
+        [
+            [],
+            [[]],
+            None,  # This represents Table() with no args
+        ],
+        ids=["empty_list", "list_with_empty_list", "no_args"],
+    )
+    def test_from_empty_list(self, input_data):
         # Just ensure this doesn't throw an error
-        Table()
-        Table([])
-        Table([[]])
+        Table() if not input_data else Table(input_data)
 
     def test_from_columns(self):
         header = ["col1", "col2"]
@@ -90,136 +75,128 @@ class TestTableCreation(BaseTableTest):
 
         assert tbl[0] == {"col1": 1, "col2": "a"}
 
-    def test_materialize(self):
+    def test_materialize(self, tbl, sample_data):
         # Simple test that materializing doesn't change the table
-        tbl_materialized = Table(self.lst_dicts)
+        tbl_materialized = Table(sample_data["lst_dicts"])
         tbl_materialized.materialize()
 
-        assert_matching_tables(self.tbl, tbl_materialized)
+        assert_matching_tables(tbl, tbl_materialized)
 
-    def test_materialize_to_file(self):
+    def test_materialize_to_file(self, tbl, sample_data):
         # Simple test that materializing doesn't change the table
-        tbl_materialized = Table(self.lst_dicts)
+        tbl_materialized = Table(sample_data["lst_dicts"])
         _ = tbl_materialized.materialize_to_file()
 
-        assert_matching_tables(self.tbl, tbl_materialized)
+        assert_matching_tables(tbl, tbl_materialized)
 
 
-class TestFileOperations(BaseTableTest):
+class TestFileOperations:
     """Tests for CSV, JSON, HTML, and other file operations"""
 
     def _assert_expected_csv(self, path, orig_tbl):
         result_tbl = Table.from_csv(path)
         assert_matching_tables(orig_tbl, result_tbl)
 
-    def test_to_from_csv(self):
-        with TemporaryDirectory() as tempdir:
-            path = str(Path(tempdir) / "test.csv")
-            self.tbl.to_csv(path)
-            self._assert_expected_csv(path, self.tbl)
+    @pytest.mark.parametrize(
+        ("filename", "compression"),
+        [
+            ("test.csv", None),
+            ("test.csv.gz", "gzip"),
+        ],
+        ids=["uncompressed", "compressed"],
+    )
+    def test_to_from_csv(self, tbl, tmp_folder, filename, compression):
+        path = str(Path(tmp_folder) / filename)
+        tbl.to_csv(path)
+        self._assert_expected_csv(path, tbl)
 
-    def test_to_from_csv_compressed(self):
-        with TemporaryDirectory() as tempdir:
-            path = str(Path(tempdir) / "test.csv.gz")
-            self.tbl.to_csv(path)
-            self._assert_expected_csv(path, self.tbl)
+    @pytest.mark.parametrize("compression", [None, "gzip"], ids=["uncompressed", "compressed"])
+    def test_to_from_temp_csv(self, tbl, compression):
+        path = tbl.to_csv(temp_file_compression=compression) if compression else tbl.to_csv()
+        self._assert_expected_csv(path, tbl)
 
-    def test_to_from_temp_csv(self):
-        path = self.tbl.to_csv()
-        self._assert_expected_csv(path, self.tbl)
-
-    def test_to_from_temp_csv_compressed(self):
-        path = self.tbl.to_csv(temp_file_compression="gzip")
-        self._assert_expected_csv(path, self.tbl)
-
-    def test_from_csv_string(self):
-        path = self.tbl.to_csv()
+    def test_from_csv_string(self, tbl):
+        path = tbl.to_csv()
         # Pull the file into a string
         csv_string = Path(path).read_text()
 
         result_tbl = Table.from_csv_string(csv_string)
-        assert_matching_tables(self.tbl, result_tbl)
+        assert_matching_tables(tbl, result_tbl)
 
-    def test_append_csv_compressed(self):
-        path = self.tbl.to_csv(temp_file_compression="gzip")
+    def test_append_csv_compressed(self, tbl):
+        path = tbl.to_csv(temp_file_compression="gzip")
         append_tbl = Table([{"first": "Mary", "last": "Nichols"}])
         append_tbl.append_csv(path)
 
         result_tbl = Table.from_csv(path)
         # Combine tables, so we can check the resulting file
-        self.tbl.concat(append_tbl)
-        assert_matching_tables(self.tbl, result_tbl)
+        tbl.concat(append_tbl)
+        assert_matching_tables(tbl, result_tbl)
 
-    def test_from_csv_raises_on_empty_file(self):
+    def test_from_csv_raises_on_empty_file(self, tmp_folder):
         # Create empty file
-        with TemporaryDirectory() as tempdir:
-            path = Path(tempdir) / "empty.csv"
-            path.open(mode="a").close()
+        path = Path(tmp_folder) / "empty.csv"
+        path.touch()
 
-            assert pytest.raises(ValueError, Table.from_csv, str(path))
+        with pytest.raises(ValueError, match="CSV file is empty"):
+            Table.from_csv(str(path))
 
-    def test_to_csv_zip(self):
+    def test_to_csv_zip(self, tbl):
         my_zip = "myzip.zip"
         try:
             # Test using the to_csv() method
-            self.tbl.to_csv(my_zip)
+            tbl.to_csv(my_zip)
             tmp = zip_archive.unzip_archive(my_zip)
-            assert_matching_tables(self.tbl, Table.from_csv(tmp))
+            assert_matching_tables(tbl, Table.from_csv(tmp))
 
             # Test using the to_csv_zip() method
-            self.tbl.to_zip_csv(my_zip)
+            tbl.to_zip_csv(my_zip)
             tmp = zip_archive.unzip_archive(my_zip)
-            assert_matching_tables(self.tbl, Table.from_csv(tmp))
+            assert_matching_tables(tbl, Table.from_csv(tmp))
         finally:
             Path(my_zip).unlink()
 
-    def test_to_from_json(self):
-        with TemporaryDirectory() as tempdir:
-            path = str(Path(tempdir) / "test.json")
-            self.tbl.to_json(path)
+    @pytest.mark.parametrize(
+        ("filename", "compression"),
+        [
+            ("test.json", None),
+            ("test.json.gz", "gzip"),
+        ],
+        ids=["uncompressed", "compressed"],
+    )
+    def test_to_from_json(self, tbl, tmp_folder, filename, compression):
+        path = str(Path(tmp_folder) / filename)
+        tbl.to_json(path)
 
-            result_tbl = Table.from_json(path)
-            assert_matching_tables(self.tbl, result_tbl)
-
-    def test_to_from_json_compressed(self):
-        with TemporaryDirectory() as tempdir:
-            path = str(Path(tempdir) / "test.json.gz")
-            self.tbl.to_json(path)
-
-            result_tbl = Table.from_json(path)
-            assert_matching_tables(self.tbl, result_tbl)
-
-    def test_to_from_temp_json(self):
-        path = self.tbl.to_json()
         result_tbl = Table.from_json(path)
-        assert_matching_tables(self.tbl, result_tbl)
+        assert_matching_tables(tbl, result_tbl)
 
-    def test_to_from_temp_json_compressed(self):
-        path = self.tbl.to_json(temp_file_compression="gzip")
+    @pytest.mark.parametrize("compression", [None, "gzip"], ids=["uncompressed", "compressed"])
+    def test_to_from_temp_json(self, tbl, compression):
+        path = tbl.to_json(temp_file_compression=compression) if compression else tbl.to_json()
         result_tbl = Table.from_json(path)
-        assert_matching_tables(self.tbl, result_tbl)
+        assert_matching_tables(tbl, result_tbl)
 
-    def test_to_from_json_line_delimited(self):
-        with TemporaryDirectory() as tempdir:
-            path = str(Path(tempdir) / "test.json")
-            self.tbl.to_json(path, line_delimited=True)
+    @pytest.mark.parametrize(
+        ("filename", "compression"),
+        [
+            ("test.json", None),
+            ("test.json.gz", "gzip"),
+        ],
+        ids=["uncompressed", "compressed"],
+    )
+    def test_to_from_json_line_delimited(self, tbl, tmp_folder, filename, compression):
+        path = str(Path(tmp_folder) / filename)
+        tbl.to_json(path, line_delimited=True)
 
-            result_tbl = Table.from_json(path, line_delimited=True)
-            assert_matching_tables(self.tbl, result_tbl)
+        result_tbl = Table.from_json(path, line_delimited=True)
+        assert_matching_tables(tbl, result_tbl)
 
-    def test_to_from_json_line_delimited_compressed(self):
-        with TemporaryDirectory() as tempdir:
-            path = str(Path(tempdir) / "test.json.gz")
-            self.tbl.to_json(path, line_delimited=True)
-
-            result_tbl = Table.from_json(path, line_delimited=True)
-            assert_matching_tables(self.tbl, result_tbl)
-
-    def test_to_html(self):
-        html_file = str(Path(self.tmp_folder) / "test.html")
+    def test_to_html(self, tbl, tmp_folder):
+        html_file = str(Path(tmp_folder) / "test.html")
 
         # Test writing file
-        self.tbl.to_html(html_file)
+        tbl.to_html(html_file)
 
         # Test written correctly
         html = (
@@ -240,9 +217,9 @@ class TestFileOperations(BaseTableTest):
         )
         assert Path(html_file).read_text() == html
 
-    def test_to_temp_html(self):
+    def test_to_temp_html(self, tbl):
         # Test write to object
-        path = Path(self.tbl.to_html())
+        path = Path(tbl.to_html())
 
         # Written correctly
         html = (
@@ -263,110 +240,115 @@ class TestFileOperations(BaseTableTest):
         )
         assert path.read_text() == html
 
-    def test_to_petl(self):
+    def test_to_petl(self, tbl):
         # Is a petl table
-        assert isinstance(self.tbl.to_petl(), petl.io.json.DictsView)
+        assert isinstance(tbl.to_petl(), petl.io.json.DictsView)
 
+    @pytest.mark.skip(reason="Not implemented yet")
     def test_to_civis(self):
-        # Not really sure the best way to do this at the moment.
+        # TODO: Not really sure the best way to do this at the moment.
         pass
 
 
-class TestColumnOperations(BaseTableTest):
+class TestColumnOperations:
     """Tests for column manipulation operations"""
 
-    def test_empty_column(self):
+    @pytest.mark.parametrize(
+        ("column", "expected"),
+        [
+            ("b", True),
+            ("a", False),
+        ],
+        ids=["empty_column", "populated_column"],
+    )
+    def test_empty_column(self, column, expected):
         # Test that returns True on an empty column and False on a populated one.
         tbl = Table([["a", "b"], ["1", None], ["2", None]])
+        assert tbl.empty_column(column) == expected
 
-        assert tbl.empty_column("b")
-        assert not tbl.empty_column("a")
-
-    def test_columns(self):
+    def test_columns(self, tbl):
         # Test that columns are listed correctly
-        assert self.tbl.columns == ["first", "last"]
+        assert tbl.columns == ["first", "last"]
 
-    def test_add_column(self):
+    def test_add_column(self, tbl):
         # Test that a new column is added correctly
-        self.tbl.add_column("middle", index=1)
-        assert self.tbl.columns[1] == "middle"
+        tbl.add_column("middle", index=1)
+        assert tbl.columns[1] == "middle"
 
-    def test_column_add_dupe(self):
+    def test_column_add_dupe(self, tbl):
         # Test that we can't add an existing column name
         column = "first"
         with pytest.raises(ValueError, match=f"Column {column} already exists"):
-            self.tbl.add_column(column)
+            tbl.add_column(column)
 
-    def test_add_column_if_exists(self):
-        self.tbl.add_column("first", if_exists="replace")
-        assert self.tbl.columns == ["first", "last"]
+    def test_add_column_if_exists(self, tbl):
+        tbl.add_column("first", if_exists="replace")
+        assert tbl.columns == ["first", "last"]
 
-    def test_remove_column(self):
+    def test_remove_column(self, tbl):
         # Test that column is removed correctly
-        self.tbl.remove_column("first")
-        assert self.tbl.data[0] != "first"
+        tbl.remove_column("first")
+        assert tbl.data[0] != "first"
 
-    def test_rename_column(self):
+    def test_rename_column(self, tbl):
         # Test that you can rename a column
-        self.tbl.rename_column("first", "f")
-        assert self.tbl.columns[0] == "f"
+        tbl.rename_column("first", "f")
+        assert tbl.columns[0] == "f"
 
-    def test_column_rename_dupe(self):
+    def test_column_rename_dupe(self, tbl):
         # Test that we can't rename to a column that already exists
         with pytest.raises(ValueError, match="Column first already exists"):
-            self.tbl.rename_column("last", "first")
+            tbl.rename_column("last", "first")
 
-    def test_rename_columns(self):
-        # Test renaming columns with a valid column_map
-        column_map = {"first": "firstname", "last": "lastname"}
-        self.tbl.rename_columns(column_map)
-        assert self.tbl.columns == ["firstname", "lastname"]
+    @pytest.mark.parametrize(
+        ("column_map", "expected_columns"),
+        [
+            ({"first": "firstname", "last": "lastname"}, ["firstname", "lastname"]),
+            ({"first": "firstname"}, ["firstname", "last"]),
+            ({}, ["first", "last"]),
+        ],
+        ids=["rename_all", "rename_partial", "rename_none"],
+    )
+    def test_rename_columns(self, tbl, column_map, expected_columns):
+        # Test renaming columns with different scenarios
+        tbl.rename_columns(column_map)
+        assert tbl.columns == expected_columns
 
-    def test_rename_columns_partial(self):
-        # Test renaming only some columns
-        column_map = {"first": "firstname"}
-        self.tbl.rename_columns(column_map)
-        assert self.tbl.columns == ["firstname", "last"]
-
-    def test_rename_columns_nonexistent(self):
+    def test_rename_columns_nonexistent(self, tbl):
         # Test renaming a column that doesn't exist
         column_map = {"nonexistent": "newname"}
         with pytest.raises(
             KeyError, match=f"Column name {next(iter(column_map.keys()))} does not exist"
         ):
-            self.tbl.rename_columns(column_map)
+            tbl.rename_columns(column_map)
 
-    def test_rename_columns_empty(self):
-        # Test renaming with an empty column_map
-        column_map = {}
-        self.tbl.rename_columns(column_map)
-        assert self.tbl.columns == ["first", "last"]
-
-    def test_rename_columns_duplicate(self):
+    def test_rename_columns_duplicate(self, tbl):
         # Test renaming to a column name that already exists
         column_map = {"first": "last"}
         with pytest.raises(
             ValueError,
             match=f"Column name {column_map[next(iter(column_map.keys()))]} already exists",
         ):
-            self.tbl.rename_columns(column_map)
+            tbl.rename_columns(column_map)
 
-    def test_fill_column(self):
+    @pytest.mark.parametrize(
+        ("value", "expected"),
+        [
+            (0, [0, 0, 0, 0, 0]),
+            (lambda x: x["b"] * 2, [4, 10, 16, 22, 28]),
+        ],
+        ids=["fixed_value", "calculated_value"],
+    )
+    def test_fill_column(self, sample_data, value, expected):
         # Test that the column is filled
-        tbl = Table(self.lst)
-
-        # Fixed Value
-        tbl.fill_column("c", 0)
-        assert list(tbl.table["c"]) == [0] * tbl.num_rows
-
-        # Calculated Value
-        tbl.fill_column("c", lambda x: x["b"] * 2)
-        assert list(tbl.table["c"]) == [x["b"] * 2 for x in self.lst]
+        tbl = Table(sample_data["lst"])
+        tbl.fill_column("c", value)
+        assert list(tbl.table["c"]) == expected
 
     def test_fillna_column(self):
         # Test that None values in the column are filled
 
-        self.lst = [
+        lst = [
             {"a": 1, "b": 2, "c": 3},
             {"a": 4, "b": 5, "c": None},
             {"a": 7, "b": 8, "c": 9},
@@ -375,19 +357,19 @@ class TestColumnOperations(BaseTableTest):
         ]
 
         # Fixed Value only
-        tbl = Table(self.lst)
+        tbl = Table(lst)
         tbl.fillna_column("c", 0)
         assert list(tbl.table["c"]) == [3, 0, 9, 0, 15]
 
-    def test_move_column(self):
+    def test_move_column(self, tbl):
         # Test moving a column from end to front
-        self.tbl.move_column("last", 0)
-        assert self.tbl.columns[0] == "last"
+        tbl.move_column("last", 0)
+        assert tbl.columns[0] == "last"
 
-    def test_convert_column(self):
+    def test_convert_column(self, tbl):
         # Test that column updates
-        self.tbl.convert_column("first", "upper")
-        assert self.tbl[0] == {"first": "BOB", "last": "Smith"}
+        tbl.convert_column("first", "upper")
+        assert tbl[0] == {"first": "BOB", "last": "Smith"}
 
     def test_convert_columns_to_str(self):
         # Test that all columns are string
@@ -404,40 +386,49 @@ class TestColumnOperations(BaseTableTest):
         assert "str" in type_set
         assert len(type_set) == 1
 
-    def test_convert_table(self):
+    def test_convert_table(self, tbl):
         # Test that the table updates
-        self.tbl.convert_table("upper")
-        assert self.tbl[0] == {"first": "BOB", "last": "SMITH"}
+        tbl.convert_table("upper")
+        assert tbl[0] == {"first": "BOB", "last": "SMITH"}
 
-    def test_coalesce_columns(self):
-        # Test coalescing into an existing column
-        test_raw = [
-            {"first": "Bob", "last": "Smith", "lastname": None},
-            {"first": "Jane", "last": "", "lastname": "Doe"},
-            {"first": "Mary", "last": "Simpson", "lastname": "Peters"},
-        ]
-        tbl = Table(test_raw)
-        tbl.coalesce_columns("last", ["last", "lastname"])
-
-        expected = Table(
-            [
-                {"first": "Bob", "last": "Smith"},
-                {"first": "Jane", "last": "Doe"},
-                {"first": "Mary", "last": "Simpson"},
-            ]
-        )
-        assert_matching_tables(tbl, expected)
-
-        # Test coalescing into a new column
-        tbl = Table(test_raw)
-        tbl.coalesce_columns("new_last", ["last", "lastname"])
-        expected = Table(
-            [
-                {"first": "Bob", "new_last": "Smith"},
-                {"first": "Jane", "new_last": "Doe"},
-                {"first": "Mary", "new_last": "Simpson"},
-            ]
-        )
+    @pytest.mark.parametrize(
+        ("target_column", "source_columns", "test_data", "expected_data"),
+        [
+            (
+                "last",
+                ["last", "lastname"],
+                [
+                    {"first": "Bob", "last": "Smith", "lastname": None},
+                    {"first": "Jane", "last": "", "lastname": "Doe"},
+                    {"first": "Mary", "last": "Simpson", "lastname": "Peters"},
+                ],
+                [
+                    {"first": "Bob", "last": "Smith"},
+                    {"first": "Jane", "last": "Doe"},
+                    {"first": "Mary", "last": "Simpson"},
+                ],
+            ),
+            (
+                "new_last",
+                ["last", "lastname"],
+                [
+                    {"first": "Bob", "last": "Smith", "lastname": None},
+                    {"first": "Jane", "last": "", "lastname": "Doe"},
+                    {"first": "Mary", "last": "Simpson", "lastname": "Peters"},
+                ],
+                [
+                    {"first": "Bob", "new_last": "Smith"},
+                    {"first": "Jane", "new_last": "Doe"},
+                    {"first": "Mary", "new_last": "Simpson"},
+                ],
+            ),
+        ],
+        ids=["coalesce_to_existing", "coalesce_to_new"],
+    )
+    def test_coalesce_columns(self, target_column, source_columns, test_data, expected_data):
+        tbl = Table(test_data)
+        tbl.coalesce_columns(target_column, source_columns)
+        expected = Table(expected_data)
         assert_matching_tables(tbl, expected)
 
     def test_unpack_dict(self):
@@ -476,7 +467,17 @@ class TestColumnOperations(BaseTableTest):
             == tbl_unpacked.data[0] + tbl_unpacked.data[1]
         )
 
-    def test_unpack_nested_columns_as_rows(self):
+    @pytest.mark.parametrize(
+        ("expand_original", "expected_columns", "expected_rows", "expected_uids"),
+        [
+            (False, ["uid", "id", "nested", "value"], 11, 11),
+            (True, ["uid", "id", "extra", "nested", "nested_value"], 12, 12),
+        ],
+        ids=["standalone", "expanded"],
+    )
+    def test_unpack_nested_columns_as_rows(
+        self, expand_original, expected_columns, expected_rows, expected_uids
+    ):
         # A Table with mixed content
         test_table = Table(
             [
@@ -488,45 +489,32 @@ class TestColumnOperations(BaseTableTest):
             ]
         )
 
-        standalone = test_table.unpack_nested_columns_as_rows("nested")
+        result = test_table.unpack_nested_columns_as_rows("nested", expand_original=expand_original)
 
         # Check that the columns are as expected
-        assert standalone.columns == ["uid", "id", "nested", "value"]
+        assert result.columns == expected_columns
 
         # Check that the row count is as expected
-        assert standalone.num_rows == 11
+        assert result.num_rows == expected_rows
 
         # Check that the uids are unique, indicating that each row is unique
-        assert len({row["uid"] for row in standalone}) == 11
+        assert len({row["uid"] for row in result}) == expected_uids
 
-    def test_unpack_nested_columns_as_rows_expanded(self):
-        test_table = Table(
-            [
-                {"id": 1, "nested": {"A": 1, "B": 2, "C": 3}, "extra": "hi"},
-                {"id": 2, "nested": {"A": 4, "B": 5, "I": 6}, "extra": "hi"},
-                {"id": 3, "nested": "string!", "extra": "hi"},
-                {"id": 4, "nested": None, "extra": "hi"},
-                {"id": 5, "nested": ["this!", "is!", "a!", "list!"], "extra": "hi"},
-            ]
-        )
-
-        expanded = test_table.unpack_nested_columns_as_rows("nested", expand_original=True)
-
-        # Check that the columns are as expected
-        assert expanded.columns == ["uid", "id", "extra", "nested", "nested_value"]
-
-        # Check that the row count is as expected
-        assert expanded.num_rows == 12
-
-        # Check that the uids are unique, indicating that each row is unique
-        assert len({row["uid"] for row in expanded}) == 12
-
-    def test_cut(self):
+    def test_cut(self, tbl):
         # Test that the cut works correctly
-        cut_tbl = self.tbl.cut("first")
+        cut_tbl = tbl.cut("first")
         assert cut_tbl.columns == ["first"]
 
-    def test_get_column_max_with(self):
+    @pytest.mark.parametrize(
+        ("column", "expected_width"),
+        [
+            ("a", 9),
+            ("b", 5),
+            ("c", 33),
+        ],
+        ids=["text", "non_string", "with_emojis"],
+    )
+    def test_get_column_max_with(self, column, expected_width):
         tbl = Table(
             [
                 ["a", "b", "c"],
@@ -534,21 +522,13 @@ class TestColumnOperations(BaseTableTest):
                 ["text", 2, "byte_text🏽‍⚕️✊🏽🤩"],
             ]
         )
+        assert tbl.get_column_max_width(column) == expected_width
 
-        # Basic test
-        assert tbl.get_column_max_width("a") == 9
-
-        # Doesn't break for non-strings
-        assert tbl.get_column_max_width("b") == 5
-
-        # Evaluates based on byte length rather than char length
-        assert tbl.get_column_max_width("c") == 33
-
-    def test_column_data(self):
+    def test_column_data(self, sample_data):
         # Test that that the data in the column is returned as a list
 
         # Test a valid column
-        tbl = Table(self.lst)
+        tbl = Table(sample_data["lst"])
         lst = [1, 4, 7, 10, 13]
         assert tbl.column_data("a") == lst
 
@@ -557,83 +537,83 @@ class TestColumnOperations(BaseTableTest):
             tbl.column_data("d")
 
 
-class TestRowOperations(BaseTableTest):
+class TestRowOperations:
     """Tests for row manipulation operations"""
 
-    def test_row_select(self):
+    @pytest.mark.parametrize(
+        ("selector", "expected"),
+        [
+            ("{foo} == 'a' and {baz} > 88.1", {"foo": "a", "bar": 2, "baz": 88.2}),
+            (lambda row: row.foo == "a" and row.baz > 88.1, {"foo": "a", "bar": 2, "baz": 88.2}),
+        ],
+        ids=["string_selector", "lambda_selector"],
+    )
+    def test_row_select(self, selector, expected):
         tbl = Table([["foo", "bar", "baz"], ["c", 4, 9.3], ["a", 2, 88.2], ["b", 1, 23.3]])
-        expected = Table([{"foo": "a", "bar": 2, "baz": 88.2}])
+        expected_tbl = Table([expected])
 
-        # Try with this method
-        select_tbl = tbl.select_rows("{foo} == 'a' and {baz} > 88.1")
-        assert select_tbl.data[0] == expected.data[0]
+        select_tbl = tbl.select_rows(selector)
+        assert select_tbl.data[0] == expected_tbl.data[0]
 
-        # And try with this method
-        select_tbl2 = tbl.select_rows(lambda row: row.foo == "a" and row.baz > 88.1)
-        assert select_tbl2.data[0] == expected.data[0]
+    @pytest.mark.parametrize(
+        ("columns", "test_data", "expected_rows"),
+        [
+            ("b", [{"a": 1, "b": 2}, {"a": 1, "b": None}], 1),
+            (["b", "c"], [{"a": 1, "b": 2, "c": 3}, {"a": 1, "b": None, "c": 3}], 1),
+        ],
+        ids=["single_column", "multiple_columns"],
+    )
+    def test_remove_null_rows(self, columns, test_data, expected_rows):
+        null_table = Table(test_data)
+        assert null_table.remove_null_rows(columns).num_rows == expected_rows
 
-    def test_remove_null_rows(self):
-        # Test that null rows are removed from a single column
-        null_table = Table([{"a": 1, "b": 2}, {"a": 1, "b": None}])
-        assert null_table.remove_null_rows("b").num_rows == 1
+    @pytest.mark.parametrize(
+        ("test_data", "retain_original", "expected_columns"),
+        [
+            ([{"id": 1, "tag": [1, 2, 3, 4]}], False, ["id"]),
+            ([{"id": 1, "tag": [1, 2, 3, 4]}], True, ["id", "tag"]),
+            ([{"id": 1, "tag": [1, 2, 3, 4]}, {"id": 2, "tag": None}], False, ["id"]),
+            ([{"id": 1, "tag": [1, 2, 3, 4]}, {"id": 2, "tag": None}], True, ["id", "tag"]),
+        ],
+        ids=["basic", "retain_original", "with_na", "with_na_retain"],
+    )
+    def test_long_table(self, test_data, retain_original, expected_columns):
+        tbl = Table(test_data)
+        result = tbl.long_table(["id"], "tag", retain_original=retain_original)
+        assert result.num_rows == 4
+        assert tbl.columns == expected_columns
 
-        # Teest that null rows are removed from multiple columns
-        null_table = Table([{"a": 1, "b": 2, "c": 3}, {"a": 1, "b": None, "c": 3}])
-        assert null_table.remove_null_rows(["b", "c"]).num_rows == 1
-
-    def test_long_table(self):
-        # Create a long table, that is 4 rows long
-        tbl = Table([{"id": 1, "tag": [1, 2, 3, 4]}])
-        assert tbl.long_table(["id"], "tag").num_rows == 4
-
-        # Assert that column has been dropped
-        assert tbl.columns == ["id"]
-
-        # Assert that column has been retained
-        tbl_keep = Table([{"id": 1, "tag": [1, 2, 3, 4]}])
-        tbl_keep.long_table(["id"], "tag", retain_original=True)
-        assert tbl_keep.columns == ["id", "tag"]
-
-    def test_long_table_with_na(self):
-        # Create a long table that is 4 rows long
-        tbl = Table([{"id": 1, "tag": [1, 2, 3, 4]}, {"id": 2, "tag": None}])
-        assert tbl.long_table(["id"], "tag").num_rows == 4
-
-        # Assert that column has been dropped
-        assert tbl.columns == ["id"]
-
-        # Assert that column has been retained
-        tbl_keep = Table([{"id": 1, "tag": [1, 2, 3, 4]}, {"id": 2, "tag": None}])
-        tbl_keep.long_table(["id"], "tag", retain_original=True)
-        assert tbl_keep.columns == ["id", "tag"]
-
-    def test_rows(self):
+    def test_rows(self, tbl):
         # Test that there is only one row in the table
-        assert self.tbl.num_rows == 1
+        assert tbl.num_rows == 1
 
-    def test_first(self):
-        # Test that the first value in the table is returned.
-        assert self.tbl.first == "Bob"
+    @pytest.mark.parametrize(
+        ("test_data", "expected"),
+        [
+            ([{"first": "Bob", "last": "Smith"}], "Bob"),
+            ([[1], [], [3]], None),
+        ],
+        ids=["with_data", "empty_first"],
+    )
+    def test_first(self, test_data, expected):
+        tbl = Table(test_data)
+        assert tbl.first == expected
 
-        # Test empty value returns None
-        empty_tbl = Table([[1], [], [3]])
-        assert empty_tbl.first is None
+    @pytest.mark.parametrize(
+        ("index", "expected"),
+        [
+            ("a", [1, 4, 7, 10, 13]),
+            (1, {"a": 4, "b": 5, "c": 6}),
+        ],
+        ids=["column_access", "row_access"],
+    )
+    def test_get_item(self, sample_data, index, expected):
+        tbl = Table(sample_data["lst"])
+        assert tbl[index] == expected
 
-    def test_get_item(self):
-        # Test indexing on table
-
+    def test_row_data(self, sample_data):
         # Test a valid column
-        tbl = Table(self.lst)
-        lst = [1, 4, 7, 10, 13]
-        assert tbl["a"] == lst
-
-        # Test a valid row
-        row = {"a": 4, "b": 5, "c": 6}
-        assert tbl[1] == row
-
-    def test_row_data(self):
-        # Test a valid column
-        tbl = Table(self.lst)
+        tbl = Table(sample_data["lst"])
         row = {"a": 4, "b": 5, "c": 6}
         assert tbl.row_data(1) == row
 
@@ -663,107 +643,102 @@ class TestRowOperations(BaseTableTest):
 
         assert expected == ptable.to_dicts()
 
-    def test_deduplicate(self):
-        # Confirm deduplicate works with no keys for one-column duplicates
-        tbl = Table([["a"], [1], [2], [2], [3]])
-        tbl_expected = Table([["a"], [1], [2], [3]])
-        tbl.deduplicate()
-        assert_matching_tables(tbl_expected, tbl)
-
-        # Confirm deduplicate works with no keys for multiple columns
-        tbl = Table([["a", "b"], [1, 2], [1, 2], [1, 3], [2, 3]])
-        tbl_expected = Table(
-            [
+    @pytest.mark.parametrize(
+        ("test_data", "keys", "presorted", "expected_data"),
+        [
+            # One column, no keys
+            (
+                [["a"], [1], [2], [2], [3]],
+                None,
+                True,
+                [["a"], [1], [2], [3]],
+            ),
+            # Multiple columns, no keys
+            (
+                [["a", "b"], [1, 2], [1, 2], [1, 3], [2, 3]],
+                None,
+                True,
+                [["a", "b"], [1, 2], [1, 3], [2, 3]],
+            ),
+            # Multiple columns, one key
+            (
+                [["a", "b"], [1, 3], [1, 2], [1, 2], [2, 3]],
+                ["a"],
+                True,
+                [["a", "b"], [1, 3], [2, 3]],
+            ),
+            # Multiple columns, one key, not presorted
+            (
+                [["a", "b"], [2, 3], [1, 3], [1, 2], [1, 2]],
+                ["a"],
+                False,
+                [["a", "b"], [1, 3], [2, 3]],
+            ),
+            # Multiple columns, two keys, not presorted
+            (
+                [["a", "b"], [2, 3], [1, 3], [1, 2], [1, 2]],
                 ["a", "b"],
-                [1, 2],
-                [1, 3],
-                [2, 3],
-            ]
-        )
-        tbl.deduplicate()
-        assert_matching_tables(tbl_expected, tbl)
-
-        # Confirm deduplicate works with one key for multiple columns
-        tbl = Table([["a", "b"], [1, 3], [1, 2], [1, 2], [2, 3]])
-        tbl_expected = Table(
-            [
+                False,
+                [["a", "b"], [1, 2], [1, 3], [2, 3]],
+            ),
+            # Multiple columns, multiple keys
+            (
+                [["a", "b", "c"], [1, 2, 3], [1, 2, 3], [1, 2, 4], [1, 3, 2], [2, 3, 4]],
                 ["a", "b"],
-                [1, 3],
-                [2, 3],
-            ]
-        )
-        tbl.deduplicate(keys=["a"])
+                True,
+                [["a", "b", "c"], [1, 2, 3], [1, 3, 2], [2, 3, 4]],
+            ),
+        ],
+        ids=[
+            "one_col_no_keys",
+            "multi_col_no_keys",
+            "multi_col_one_key",
+            "multi_col_one_key_unsorted",
+            "multi_col_two_keys_unsorted",
+            "multi_col_multi_keys",
+        ],
+    )
+    def test_deduplicate(self, test_data, keys, presorted, expected_data):
+        tbl = Table(test_data)
+        tbl_expected = Table(expected_data)
+        tbl.deduplicate(keys=keys, presorted=presorted)
         assert_matching_tables(tbl_expected, tbl)
 
-        # Confirm sorting deduplicate works with one key for multiple columns
-
-        # Note that petl sorts on the column(s) you're deduping on
-        # Meaning it will ignore the 'b' column below
-        # That is, the first row, [1,3],
-        # would not get moved to after the [1,2]
-        tbl = Table([["a", "b"], [2, 3], [1, 3], [1, 2], [1, 2]])
-        tbl_expected = Table(
-            [
-                ["a", "b"],
-                [1, 3],
-                [2, 3],
-            ]
-        )
-        tbl.deduplicate(keys=["a"], presorted=False)
-        assert_matching_tables(tbl_expected, tbl)
-
-        # Confirm sorting deduplicate works for two of two columns
-        tbl = Table([["a", "b"], [2, 3], [1, 3], [1, 2], [1, 2]])
-        tbl_expected = Table(
-            [
-                ["a", "b"],
-                [1, 2],
-                [1, 3],
-                [2, 3],
-            ]
-        )
-        tbl.deduplicate(keys=["a", "b"], presorted=False)
-        assert_matching_tables(tbl_expected, tbl)
-
-        # Confirm deduplicate works for multiple keys
-        tbl = Table([["a", "b", "c"], [1, 2, 3], [1, 2, 3], [1, 2, 4], [1, 3, 2], [2, 3, 4]])
-        tbl_expected = Table([["a", "b", "c"], [1, 2, 3], [1, 3, 2], [2, 3, 4]])
-        tbl.deduplicate(["a", "b"])
-        assert_matching_tables(tbl_expected, tbl)
-
-    def test_head(self):
+    @pytest.mark.parametrize(
+        ("method", "count", "expected_data"),
+        [
+            ("head", 2, [["a", "b"], [1, 2], [3, 4]]),
+            ("tail", 2, [["a", "b"], [7, 8], [9, 10]]),
+        ],
+        ids=["head", "tail"],
+    )
+    def test_head_tail(self, method, count, expected_data):
         tbl = Table([["a", "b"], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
-        tbl_expected = Table([["a", "b"], [1, 2], [3, 4]])
-        tbl.head(2)
-        assert_matching_tables(tbl_expected, tbl)
-
-    def test_tail(self):
-        tbl = Table([["a", "b"], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
-        tbl_expected = Table([["a", "b"], [7, 8], [9, 10]])
-        tbl.tail(2)
+        tbl_expected = Table(expected_data)
+        getattr(tbl, method)(count)
         assert_matching_tables(tbl_expected, tbl)
 
 
-class TestTableTransformations(BaseTableTest):
+class TestTableTransformations:
     """Tests for table-level transformations and combinations"""
 
-    def test_stack(self):
-        tbl1 = self.tbl.select_rows(lambda x: x)
+    def test_stack(self, tbl):
+        tbl1 = tbl.select_rows(lambda x: x)
         tbl2 = Table([{"first": "Mary", "last": "Nichols"}])
         # Different column names shouldn't matter for stack()
         tbl3 = Table([{"f": "Lucy", "l": "Peterson"}])
         tbl1.stack(tbl2, tbl3)
 
-        expected_tbl = Table(petl.stack(self.tbl.table, tbl2.table, tbl3.table))
+        expected_tbl = Table(petl.stack(tbl.table, tbl2.table, tbl3.table))
         assert_matching_tables(expected_tbl, tbl1)
 
-    def test_concat(self):
-        tbl1 = self.tbl.select_rows(lambda x: x)
+    def test_concat(self, tbl):
+        tbl1 = tbl.select_rows(lambda x: x)
         tbl2 = Table([{"first": "Mary", "last": "Nichols"}])
         tbl3 = Table([{"first": "Lucy", "last": "Peterson"}])
         tbl1.concat(tbl2, tbl3)
 
-        expected_tbl = Table(petl.cat(self.tbl.table, tbl2.table, tbl3.table))
+        expected_tbl = Table(petl.cat(tbl.table, tbl2.table, tbl3.table))
         assert_matching_tables(expected_tbl, tbl1)
 
     def test_chunk(self):
@@ -897,25 +872,18 @@ class TestTableTransformations(BaseTableTest):
         tbl.match_columns(desired_tbl.columns)
         assert_matching_tables(desired_tbl, tbl)
 
-    def test_to_dicts(self):
-        assert self.lst == Table(self.lst).to_dicts()
-        assert self.lst_dicts == self.tbl.to_dicts()
+    def test_to_dicts(self, sample_data, tbl):
+        assert sample_data["lst"] == Table(sample_data["lst"]).to_dicts()
+        assert sample_data["lst_dicts"] == tbl.to_dicts()
 
-    def test_map_columns_exact(self):
-        input_tbl = Table([["fn", "ln", "MID"], ["J", "B", "H"]])
-
-        column_map = {
-            "first_name": ["fn", "first"],
-            "last_name": ["last", "ln"],
-            "middle_name": ["mi"],
-        }
-
-        exact_tbl = Table([["first_name", "last_name", "MID"], ["J", "B", "H"]])
-        input_tbl.map_columns(column_map)
-        assert_matching_tables(input_tbl, exact_tbl)
-
-    def test_map_columns_fuzzy(self):
-        input_tbl = Table([["fn", "ln", "Mi_"], ["J", "B", "H"]])
+    @pytest.mark.parametrize("exact_match", [True, False], ids=["exact", "fuzzy"])
+    def test_map_columns(self, exact_match):
+        if exact_match:
+            input_tbl = Table([["fn", "ln", "MID"], ["J", "B", "H"]])
+            expected_tbl = Table([["first_name", "last_name", "MID"], ["J", "B", "H"]])
+        else:
+            input_tbl = Table([["fn", "ln", "Mi_"], ["J", "B", "H"]])
+            expected_tbl = Table([["first_name", "last_name", "middle_name"], ["J", "B", "H"]])
 
         column_map = {
             "first_name": ["fn", "first"],
@@ -923,38 +891,38 @@ class TestTableTransformations(BaseTableTest):
             "middle_name": ["mi"],
         }
 
-        fuzzy_tbl = Table([["first_name", "last_name", "middle_name"], ["J", "B", "H"]])
-        input_tbl.map_columns(column_map, exact_match=False)
-        assert_matching_tables(input_tbl, fuzzy_tbl)
+        input_tbl.map_columns(column_map, exact_match=exact_match)
+        assert_matching_tables(input_tbl, expected_tbl)
 
-    def test_sort(self):
-        # Test basic sort
+    @pytest.mark.parametrize(
+        ("sort_column", "reverse", "expected_first"),
+        [
+            (None, False, {"a": 1, "b": 3}),
+            ("b", False, {"a": 3, "b": 1}),
+            (None, True, {"a": 3, "b": 1}),
+        ],
+        ids=["basic_sort", "column_sort", "reverse_sort"],
+    )
+    def test_sort(self, sort_column, reverse, expected_first):
         unsorted_tbl = Table([["a", "b"], [3, 1], [2, 2], [1, 3]])
-        sorted_tbl = unsorted_tbl.sort()
-        assert sorted_tbl[0] == {"a": 1, "b": 3}
+        if sort_column:
+            sorted_tbl = unsorted_tbl.sort(sort_column)
+        else:
+            sorted_tbl = unsorted_tbl.sort(reverse=reverse)
+        assert sorted_tbl[0] == expected_first
 
-        # Test column sort
-        unsorted_tbl = Table([["a", "b"], [3, 1], [2, 2], [1, 3]])
-        sorted_tbl = unsorted_tbl.sort("b")
-        assert sorted_tbl[0] == {"a": 3, "b": 1}
-
-        # Test reverse sort
-        unsorted_tbl = Table([["a", "b"], [3, 1], [2, 2], [1, 3]])
-        sorted_tbl = unsorted_tbl.sort(reverse=True)
-        assert sorted_tbl[0] == {"a": 3, "b": 1}
-
-    def test_set_header(self):
-        # Rename columns
+    @pytest.mark.parametrize(
+        ("new_header", "expected_first"),
+        [
+            (["oneone", "twotwo"], {"oneone": 1, "twotwo": 2}),
+            (["one"], {"one": 1}),
+        ],
+        ids=["rename_columns", "change_column_count"],
+    )
+    def test_set_header(self, new_header, expected_first):
         tbl = Table([["one", "two"], [1, 2], [3, 4]])
-        new_tbl = tbl.set_header(["oneone", "twotwo"])
-
-        assert new_tbl[0] == {"oneone": 1, "twotwo": 2}
-
-        # Change number of columns
-        tbl = Table([["one", "two"], [1, 2], [3, 4]])
-        new_tbl = tbl.set_header(["one"])
-
-        assert new_tbl[0] == {"one": 1}
+        new_tbl = tbl.set_header(new_header)
+        assert new_tbl[0] == expected_first
 
     def test_bool(self):
         empty = Table()

@@ -1,162 +1,133 @@
-import tempfile
+"""Tests for Avro file operations"""
+
 from pathlib import Path
 
+import pytest
+
 from parsons import Table
-from test.test_etl import BaseTableTest
+from test.conftest import assert_matching_tables
 
 
-class TestAvroOperations(BaseTableTest):
-    """Tests for Avro file operations"""
+class TestAvroOperations:
+    """Tests for Avro file read/write operations"""
 
-    def test_to_avro_basic(self):
-        # Create a temporary directory and file
-        with tempfile.TemporaryDirectory() as temp_dir:
-            avro_file = Path(temp_dir) / "test.avro"
+    def test_to_from_avro_basic(self, tbl, tmp_folder):
+        avro_file = Path(tmp_folder) / "test.avro"
 
-            # Create a test table
-            tbl = Table([{"first": "Bob", "last": "Smith"}])
+        # Test basic functionality
+        tbl.to_avro(avro_file)
 
-            # Test basic functionality
-            tbl.to_avro(avro_file)
+        # Verify the file exists
+        assert avro_file.exists()
 
-            # Verify the file exists
-            assert Path.exists(avro_file)
+        # Read it back and verify content
+        result_tbl = Table.from_avro(avro_file)
+        assert_matching_tables(tbl, result_tbl)
 
-            # Read it back and verify content
-            result_tbl = Table.from_avro(avro_file)
-            assert len(result_tbl) == len(tbl)
-            assert sorted(result_tbl.columns) == sorted(tbl.columns)
+    def test_to_avro_with_schema(self, tbl, tmp_folder):
+        avro_file = Path(tmp_folder) / "test.avro"
 
-            # Check data values match
-            for i in range(len(tbl)):
-                for col in tbl.columns:
-                    assert result_tbl[i][col] == tbl[i][col]
+        # Test with explicit schema
+        schema = {
+            "doc": "Some people records.",
+            "name": "People",
+            "namespace": "test",
+            "type": "record",
+            "fields": [
+                {"name": "first", "type": "string"},
+                {"name": "last", "type": "string"},
+            ],
+        }
 
-    def test_to_avro_with_schema(self):
-        # Create a temporary directory and file
-        with tempfile.TemporaryDirectory() as temp_dir:
-            avro_file = Path(temp_dir) / "test.avro"
+        tbl.to_avro(avro_file, schema=schema)
 
-            # Create a test table
-            tbl = Table([{"first": "Bob", "last": "Smith"}])
+        # Read it back and verify content
+        result_tbl = Table.from_avro(avro_file)
+        assert_matching_tables(tbl, result_tbl)
 
-            # Test with explicit schema
-            schema = {
-                "doc": "Some people records.",
-                "name": "People",
-                "namespace": "test",
-                "type": "record",
-                "fields": [
-                    {"name": "first", "type": "string"},
-                    {"name": "last", "type": "string"},
-                ],
-            }
+    @pytest.mark.parametrize(
+        "codec",
+        ["null", "deflate", "bzip2"],
+        ids=["no_compression", "deflate_compression", "bzip2_compression"],
+    )
+    def test_to_avro_different_codecs(self, tbl, tmp_folder, codec):
+        test_file = Path(tmp_folder) / f"test_{codec}.avro"
+        tbl.to_avro(test_file, codec=codec)
 
-            tbl.to_avro(avro_file, schema=schema)
+        # Verify the file exists
+        assert test_file.exists()
 
-            # Read it back and verify content
-            result_tbl = Table.from_avro(avro_file)
-            assert len(result_tbl) == len(tbl)
-            assert sorted(result_tbl.columns) == sorted(tbl.columns)
+        # Read it back and verify content
+        result_tbl = Table.from_avro(test_file)
+        assert_matching_tables(tbl, result_tbl)
 
-    def test_to_avro_different_codecs(self):
-        # Create a temporary directory
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # Create a test table
-            tbl = Table([{"first": "Bob", "last": "Smith"}])
+    @pytest.mark.parametrize(
+        "compression_level",
+        [1, 5, 9],
+        ids=["level_1", "level_5", "level_9"],
+    )
+    def test_to_avro_with_compression_level(self, tbl, tmp_folder, compression_level):
+        test_file = Path(tmp_folder) / f"test_level_{compression_level}.avro"
+        tbl.to_avro(test_file, codec="deflate", compression_level=compression_level)
 
-            # Test with different compression codecs
-            for codec in ["null", "deflate", "bzip2"]:
-                test_file = Path(temp_dir) / f"test_{codec}.avro"
-                tbl.to_avro(test_file, codec=codec)
+        # Verify the file exists
+        assert test_file.exists()
 
-                # Verify the file exists
-                assert Path.exists(test_file)
+        # Read it back and verify content
+        result_tbl = Table.from_avro(test_file)
+        assert_matching_tables(tbl, result_tbl)
 
-                # Read it back and verify content
-                result_tbl = Table.from_avro(test_file)
-                assert len(result_tbl) == len(tbl)
-                assert sorted(result_tbl.columns) == sorted(tbl.columns)
+    @pytest.mark.parametrize(
+        "sample_size",
+        [1, 5, 10],
+        ids=["sample_1", "sample_5", "sample_10"],
+    )
+    def test_to_avro_sample_size(self, tbl, tmp_folder, sample_size):
+        test_file = Path(tmp_folder) / f"test_sample_{sample_size}.avro"
+        tbl.to_avro(test_file, sample=sample_size)
 
-    def test_to_avro_with_compression_level(self):
-        # Create a temporary directory
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # Create a test table
-            tbl = Table([{"first": "Bob", "last": "Smith"}])
+        # Verify the file exists
+        assert test_file.exists()
 
-            # Test with compression level
-            codec = "deflate"
-            for level in [1, 5, 9]:
-                test_file = Path(temp_dir) / f"test_level_{level}.avro"
-                tbl.to_avro(test_file, codec=codec, compression_level=level)
+        # Read it back and verify content
+        result_tbl = Table.from_avro(test_file)
+        assert_matching_tables(tbl, result_tbl)
 
-                # Verify the file exists
-                assert Path.exists(test_file)
+    def test_to_avro_with_avro_args(self, tbl, tmp_folder):
+        avro_file = Path(tmp_folder) / "test.avro"
 
-                # Read it back and verify content
-                result_tbl = Table.from_avro(test_file)
-                assert len(result_tbl) == len(tbl)
+        # Test with additional arguments to fastavro
+        tbl.to_avro(
+            avro_file,
+            sync_interval=16000,  # Custom sync marker interval
+            metadata={"created_by": "parsons_test"},
+        )
 
-    def test_to_avro_sample_size(self):
-        # Create a temporary directory
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # Create a test table
-            tbl = Table([{"first": "Bob", "last": "Smith"}])
+        # Verify the file exists
+        assert avro_file.exists()
 
-            # Test with different sample sizes for schema inference
-            for sample in [1, 5, 10]:
-                test_file = Path(temp_dir) / f"test_sample_{sample}.avro"
-                tbl.to_avro(test_file, sample=sample)
+        # Read it back and verify content
+        result_tbl = Table.from_avro(avro_file)
+        assert_matching_tables(tbl, result_tbl)
 
-                # Verify the file exists
-                assert Path.exists(test_file)
+    def test_to_avro_complex_types(self, tmp_folder):
+        # Test with more complex data types
+        complex_data = [
+            {
+                "name": "Bob",
+                "tags": ["tag1", "tag2"],
+                "metadata": {"city": "NYC", "state": "NY"},
+            },
+            {"name": "Jim", "tags": ["tag3"], "metadata": {"city": "LA", "state": "CA"}},
+        ]
+        complex_tbl = Table(complex_data)
 
-                # Read it back and verify content
-                result_tbl = Table.from_avro(test_file)
-                assert len(result_tbl) == len(tbl)
+        test_file = Path(tmp_folder) / "test_complex.avro"
+        complex_tbl.to_avro(test_file)
 
-    def test_to_avro_with_avro_args(self):
-        # Create a temporary directory and file
-        with tempfile.TemporaryDirectory() as temp_dir:
-            avro_file = Path(temp_dir) / "test.avro"
+        # Verify the file exists
+        assert test_file.exists()
 
-            # Create a test table
-            tbl = Table([{"first": "Bob", "last": "Smith"}])
-
-            # Test with additional arguments to fastavro
-            tbl.to_avro(
-                avro_file,
-                sync_interval=16000,  # Custom sync marker interval
-                metadata={"created_by": "parsons_test"},
-            )
-
-            # Verify the file exists
-            assert Path.exists(avro_file)
-
-            # Read it back and verify content
-            result_tbl = Table.from_avro(avro_file)
-            assert len(result_tbl) == len(tbl)
-
-    def test_to_avro_complex_types(self):
-        # Create a temporary directory
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # Test with more complex data types
-            complex_data = [
-                {
-                    "name": "Bob",
-                    "tags": ["tag1", "tag2"],
-                    "metadata": {"city": "NYC", "state": "NY"},
-                },
-                {"name": "Jim", "tags": ["tag3"], "metadata": {"city": "LA", "state": "CA"}},
-            ]
-            complex_tbl = Table(complex_data)
-
-            test_file = Path(temp_dir) / "test_complex.avro"
-            complex_tbl.to_avro(test_file)
-
-            # Verify the file exists
-            assert Path.exists(test_file)
-
-            # Read it back and verify content
-            result_tbl = Table.from_avro(test_file)
-            assert len(result_tbl) == len(complex_tbl)
+        # Read it back and verify content
+        result_tbl = Table.from_avro(test_file)
+        assert_matching_tables(complex_tbl, result_tbl)

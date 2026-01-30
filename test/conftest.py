@@ -1,4 +1,5 @@
 import os
+from tempfile import TemporaryDirectory
 
 import pytest
 
@@ -47,3 +48,31 @@ def assert_matching_tables(table1, table2, ignore_headers=False):
             r2 = r2.items()
 
         assert list(r1) == list(r2)
+
+
+@pytest.fixture
+def sample_data():
+    """Provides sample data for tests"""
+    return {
+        "lst": [
+            {"a": 1, "b": 2, "c": 3},
+            {"a": 4, "b": 5, "c": 6},
+            {"a": 7, "b": 8, "c": 9},
+            {"a": 10, "b": 11, "c": 12},
+            {"a": 13, "b": 14, "c": 15},
+        ],
+        "lst_dicts": [{"first": "Bob", "last": "Smith"}],
+    }
+
+
+@pytest.fixture
+def tbl(sample_data):
+    """Creates a Table from sample data"""
+    return Table(sample_data["lst_dicts"])
+
+
+@pytest.fixture
+def tmp_folder():
+    """Creates and cleans up a temporary folder"""
+    with TemporaryDirectory() as folder:
+        yield folder

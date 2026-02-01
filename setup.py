@@ -66,7 +66,7 @@ EXTRA_DEPENDENCIES = {
     ],
     "newmode": ["newmode"],
     "ngpvan": ["suds-py3"],
-    "mobilecommons": ["beautifulsoup4"],
+    "mobilecommons": ["beautifulsoup4", "xmltodict"],
     "postgres": [
         "psycopg2-binary >= 2.9.11",
         "sqlalchemy >= 1.4.54",

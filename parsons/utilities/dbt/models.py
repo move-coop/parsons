@@ -35,6 +35,26 @@ class Manifest:
         return filtered_results
 
     @property
+    def overall_status(self) -> str:
+        """
+        Determine the overall state of the command.
+
+        Returns a member of the NodeStatus Enum: Error, Warn, Skipped, or Success.
+        """
+        if self.errors or self.fails:
+            return NodeStatus.Error
+        if self.warnings:
+            return NodeStatus.Warn
+
+        has_success = (
+            self.summary.get(NodeStatus.Success, 0) > 0 or self.summary.get(NodeStatus.Pass, 0) > 0
+        )
+        if self.skips and not has_success:
+            return NodeStatus.Skipped
+
+        return NodeStatus.Success
+
+    @property
     def warnings(self) -> list[NodeResult]:
         return self.filter_results(status=NodeStatus.Warn)
 

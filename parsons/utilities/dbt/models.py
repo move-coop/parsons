@@ -2,12 +2,14 @@
 
 import collections
 
-from dbt.contracts.graph.manifest import Manifest as dbtManifest
-from dbt.contracts.results import NodeResult, SourceFreshnessResult
+from dbt.artifacts.resources.types import NodeType
+from dbt.contracts.results import ExecutionResult, NodeResult, NodeStatus, SourceFreshnessResult
 
 
 class Manifest:
-    def __init__(self, command: str, dbt_manifest: dbtManifest) -> None:
+    """A wrapper for dbt execution results."""
+
+    def __init__(self, command: str, dbt_manifest: ExecutionResult) -> None:
         self.command = command
         self.dbt_manifest = dbt_manifest
 
@@ -24,7 +26,7 @@ class Manifest:
             raise AttributeError(error_msg) from e
 
     def filter_results(self, **kwargs) -> list[NodeResult]:
-        """Subset of results based on filter"""
+        """Subset of results based on filter."""
         filtered_results = [
             result
             for result in self.dbt_manifest
@@ -34,28 +36,28 @@ class Manifest:
 
     @property
     def warnings(self) -> list[NodeResult]:
-        return self.filter_results(status="warn")
+        return self.filter_results(status=NodeStatus.Warn)
 
     @property
     def errors(self) -> list[NodeResult]:
-        return self.filter_results(status="error")
+        return self.filter_results(status=NodeStatus.Error)
 
     @property
     def fails(self) -> list[NodeResult]:
-        return self.filter_results(status="fail")
+        return self.filter_results(status=NodeStatus.Fail)
 
     @property
     def skips(self) -> list[NodeResult]:
         """Returns skipped model builds but not skipped tests."""
         return [
             node
-            for node in self.filter_results(status="skipped")
-            if node.node.name.split(".")[0] == "model"
+            for node in self.filter_results(status=NodeStatus.Skipped)
+            if getattr(node.node, "resource_type", None) == NodeType.Model
         ]
 
     @property
     def summary(self) -> collections.Counter:
-        """Counts of pass, warn, fail, error & skip."""
+        """Aggregates all node outcomes into a count of status strings."""
         result = collections.Counter([str(i.status) for i in self.dbt_manifest])
         return result
 

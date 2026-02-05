@@ -179,18 +179,19 @@ texinfo_documents = [
 # -- Extension configuration -------------------------------------------------
 
 # sphinx-multiversion
+def get_git_tags() -> list[str]:
+    """Query git for tags."""
+    try:
+        tags = subprocess.check_output(
+            ["git", "tag", "-l", "--sort=-v:refname"],
+            encoding="utf-8",
+            stderr=subprocess.DEVNULL
+        ).splitlines()
+        return [tag for tag in tags if tag.startswith("v")]
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return []
 
-# Query git for tags.
-try:
-    tags_output = subprocess.check_output(
-        ["git", "tag", "-l", "--sort=-v:refname"], encoding="utf-8"
-    ).splitlines()
-except Exception:
-    tags_output = []
-
-# Filter tags
-DOCUMENTED_VERSIONS = [tag for tag in tags_output if tag.startswith("v")]
-
+DOCUMENTED_VERSIONS = get_git_tags()
 # Whitelist pattern for branches
 smv_branch_whitelist = r"^stable|latest$"  # creates version for latest master/main branch
 
@@ -199,6 +200,8 @@ smv_tag_whitelist = "|".join(["^" + version + "$" for version in DOCUMENTED_VERS
 
 # Allow sphinx-multiversion to use local branches
 smv_remote_whitelist = None
+
+# sphinxcontrib-googleanalytics
 
 # Adds Google Analytics tracking code to the HTML output
 googleanalytics_id = "G-L2YB7WHTRG"

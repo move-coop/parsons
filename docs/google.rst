@@ -51,7 +51,6 @@ API
 .. autoclass:: parsons.google.google_admin.GoogleAdmin
    :inherited-members:
 
-
 ********
 BigQuery
 ********
@@ -138,11 +137,9 @@ We can now upload/query data.
 ===
 API
 ===
+
 .. autoclass:: parsons.google.google_bigquery.GoogleBigQuery
    :inherited-members:
-
-
-
 
 *************
 Cloud Storage
@@ -194,9 +191,9 @@ the available blobs.
 ===
 API
 ===
+
 .. autoclass:: parsons.google.google_cloud_storage.GoogleCloudStorage
    :inherited-members:
-
 
 *****
 Civic
@@ -212,8 +209,6 @@ use Google Civic, you must enable this specific end point.
 
 The Google Civic API utilizes the `Voting Information Project <https://www.votinginfoproject.org/>`_ to collect
 key civic information such as personalized ballots and polling location information.
-
-
 ==========
 Quickstart
 ==========
@@ -257,7 +252,7 @@ You can also retrieve represntative information such as offices, officals, etc.
 API
 ===
 
-.. autoclass :: parsons.google.google_civic.GoogleCivic
+.. autoclass:: parsons.google.google_civic.GoogleCivic
    :inherited-members:
 
 *************
@@ -312,7 +307,7 @@ You can then use the client to interact with Google Docs:
 API
 ===
 
-.. autoclass :: parsons.google.google_docs.GoogleDocs
+.. autoclass:: parsons.google.google_docs.GoogleDocs
    :inherited-members:
 
 *************
@@ -355,8 +350,8 @@ To instantiate the GoogleDrive class, you can either pass the constructor a dict
 You can then perform a variety of functions in Drive over API.
 
 .. code-block:: python
-   new_folder = drive.create_folder(name='My Folder')
 
+   new_folder = drive.create_folder(name='My Folder')
 
 ===
 API
@@ -364,7 +359,6 @@ API
 
 .. autoclass:: parsons.google.google_drive.GoogleDrive
    :inherited-members:      
-
 
 *************
 Google Sheets
@@ -420,4 +414,3 @@ API
 
 .. autoclass:: parsons.google.google_sheets.GoogleSheets
    :inherited-members:
-

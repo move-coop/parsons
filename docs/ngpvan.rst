@@ -1,7 +1,5 @@
 NGPVAN
 ======
-
-
 ********
 Overview
 ********
@@ -11,15 +9,15 @@ is recommended that you reference their `API documentation <https://docs.ngpvan.
 additional details and information.
 
 .. note::
+
    API Keys
       - API Keys are specific to each committee and state.
       - The Parsons API Key can be requested via the VAN Integrations menu under `TMC (Parsons)`. However,
         if you can't find the key there, you can reach out to `apideveloeprs@ngpvan.com` or send an in-app 
         support request. If you need any additional guidance, please refer to the Parsons Slack or reach out to
         <parsons@movementcooperative.org>.
-
-
 .. warning::
+
    VANIDs
       VANIDs are unique to each state and instance of the VAN. VANIDs used for the AV VAN **will not** match
       those of the SmartVAN or VoteBuilder.
@@ -102,8 +100,6 @@ have the following columns:
 
    # The bulk import job is run asynchronously, so you may poll the status of a job.
    job_status = van.get_bulk_import_job(job_id)
-
-
 ** Bulk Upsert Contacts**
 In this example we are creating and updating emails and addresses. The csv file would
 have the following columns:
@@ -287,8 +283,6 @@ Events are made up of sub objects that need to exist to create an event
 
   new_event = van.event_create(name, short_name, start_time, end_time, event_type_id, roles,
                                location_ids=location_ids, shifts=shifts, description=description)
-
-
 ============================
 Signup: Adding and Modifying
 ============================
@@ -324,79 +318,93 @@ API
 ======
 People
 ======
+
 .. autoclass:: parsons.ngpvan.van.People
    :inherited-members:
 
 ==============
 Activist Codes
 ==============
+
 .. autoclass:: parsons.ngpvan.van.ActivistCodes
    :inherited-members:
 
 ===========
 Bulk Import
 ===========
+
 .. autoclass:: parsons.ngpvan.van.BulkImport
    :inherited-members:
 
 =================
 Canvass Responses
 =================
+
 .. autoclass:: parsons.ngpvan.van.CanvassResponses
    :inherited-members:
 
 ================
 Changed Entities
 ================
+
 .. autoclass:: parsons.ngpvan.van.ChangedEntities
    :inherited-members:
 
 =====
 Codes
 =====
+
 .. autoclass:: parsons.ngpvan.van.Codes
    :inherited-members:
 
 =====
 Contact Notes
 =====
+
 .. autoclass:: parsons.ngpvan.van.ContactNotes
    :inherited-members:
 
 =============
 Custom Fields
 =============
+
 .. autoclass:: parsons.ngpvan.van.CustomFields
    :inherited-members:
 
 ======
 Email
 ======
+
 .. autoclass:: parsons.ngpvan.van.Email
    :inherited-members:
 
 ======
 Events
 ======
+
 .. autoclass:: parsons.ngpvan.van.Events
    :inherited-members:
 
 ===========
 Export Jobs
 ===========
+
 .. autoclass:: parsons.ngpvan.van.ExportJobs
    :inherited-members:
 
 =================
 File Loading Jobs
 =================
+
 .. autoclass:: parsons.ngpvan.van.FileLoadingJobs
    :inherited-members:
 
 =======
 Folders
 =======
+
 .. note::
+
    A folder must be shared with the user associated with your API key to
    be listed.
 
@@ -406,13 +414,16 @@ Folders
 =========
 Locations
 =========
+
 .. autoclass:: parsons.ngpvan.van.Locations
    :inherited-members:
    
 ===========
 Printed Lists
 ===========
+
 .. note::
+
    A printed list must be shared with the user associated with your API key to
    be listed.
 
@@ -422,7 +433,9 @@ Printed Lists
 ===========
 Saved Lists
 ===========
+
 .. note::
+
    A saved list must be shared with the user associated with your API key to
    be listed.
 
@@ -432,40 +445,44 @@ Saved Lists
 ======
 Scores
 ======
+
 Prior to loading a score for the first time, you must contact VAN support to request
 a score slot.
 
 .. note::
+
   Score Auto Approval
     Scores can be automatically set to ``approved`` through the :meth:`VAN.upload_scores`
     method allowing you to skip calling :meth:`VAN.update_score_status`, if the average of
     the scores is within the fault tolerance specified by the user. It is only available
     to API keys with permission to automatically approve scores.
-
-
 .. autoclass:: parsons.ngpvan.van.Scores
    :inherited-members:
 
 =======
 Signups
 =======
+
 .. autoclass:: parsons.ngpvan.van.Signups
    :inherited-members:
 
 ================
 Supporter Groups
 ================
+
 .. autoclass:: parsons.ngpvan.van.SupporterGroups
    :inherited-members:
 
 ================
 Survey Questions
 ================
+
 .. autoclass:: parsons.ngpvan.van.SurveyQuestions
    :inherited-members:
 
 =======
 Targets
 =======
+
 .. autoclass:: parsons.ngpvan.van.Targets
    :inherited-members:

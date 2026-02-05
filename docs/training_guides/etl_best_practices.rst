@@ -80,7 +80,6 @@ Now we need to tell Parsons where it can find the credentials. We'll set an envi
     set GOOGLE_DRIVE_CREDENTIALS="C:\Home\Projects\"      # Windows
     export GOOGLE_DRIVE_CREDENTIALS="/home/projects/"     # Linux/Mac
 
-
 Learn more about paths :ref:`here <path-explainer>`.
 
 Finally, look inside the credentials file for an email address in the field ``client_email``. It will look something like ``service-account@projectname-123456.iam.gserviceaccount.com``. Go to the Google Drive UI for the folder you want to work with and share the folder with this email address.
@@ -351,8 +350,7 @@ Tools like Civis often have no-code solutions for getting data from your source 
 
 If that's not an option, because Civis doesn't have an importer for your tool or for some other reason, you can write a custom Python script which extracts data from the source system. You can use Parsons for this::
 
-
-    from Parsons import Table, MobilizeAmerica, Redshift
+from Parsons import Table, MobilizeAmerica, Redshift
 
     mobilize = MobilizeAmerica()
     rs = Redshift()
@@ -387,7 +385,6 @@ With our previous script, we transformed data using Python, but you may be more 
     WHERE log.synced is null
 
     );
-
 
 This script creates a table where each row is a unique Mobilize user that needs to be synced to Action Network. It creates this table from the participations table by using the ``DISTINCT SQL`` function.
 
@@ -461,7 +458,6 @@ We can now iterate through each of our new mobilize users. For each Mobilize use
             # other stuff
 
     This try-except catches and handles only ValueErrors. All other errors will be "thrown" instead of "caught", which will halt/crash the script.
-
 
 Let's take a look inside the try statement. What are we trying to do? ::
 

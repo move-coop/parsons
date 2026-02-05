@@ -18,18 +18,15 @@ The ``TargetSmartAPI`` class provides methods to consume the data services provi
 * ``smartmatch``: Match CSV file records to TargetSmart's service database of voting age individuals. Multiple matching strategies are applied to find accurate matches and return enriched data. Read more about `SmartMatch <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`_, TargetSmart's list matching solution.
 
 Some TargetSmart API services have not yet been implemented in Parsons. For more information, see the `API documentation <https://docs.targetsmart.com/developers/tsapis/v2/index.html>`_.
-
-
 Authentication
 ..............
 
 Log in to `My TargetSmart <https://my.targetsmart.com/>`_ to access authentication credentials. You will need an API key to use the ``TargetSmartAPI`` class.
 
 .. note::
+
   Endpoint Access
     Access to endpoints is individually provisioned. If you encounter errors accessing an endpoint, please contact `TargetSmart Client Services <mailto:support@targetsmart.com>`_ to verify that your API key has been provisioned access.
-
-
 Data Enrichment
 ...............
 
@@ -38,8 +35,6 @@ a matching or search request. The presence of these fields are provisioned by
 the TargetSmart Client Services team. Please contact `TargetSmart Client
 Services <mailto:support@targetsmart.com>`_ to learn more or request
 adjustments.
-
-
 Quickstart
 ==========
 
@@ -65,11 +60,9 @@ You can then call various methods that correspond to TargetSmart endpoints:
 
    # Search for district information using an address
    ts_api.district(search_type='address', address='123 test st, Durham NC 27708')
-
-
 API
 ===
 
-.. autoclass :: parsons.TargetSmartAPI
+.. autoclass:: parsons.TargetSmartAPI
    :inherited-members:
 

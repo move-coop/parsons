@@ -149,6 +149,7 @@ class Scores:
                 Example:
 
                 .. highlight:: python
+
                 .. code-block:: python
 
                   [{'score1_id' : int, score1_column': str}
@@ -360,6 +361,7 @@ class FileLoadingJobs:
                 A list of dicts that adheres to the following syntax
 
                 .. highlight:: python
+
                 .. code-block:: python
 
                     [{'score_id' : int,

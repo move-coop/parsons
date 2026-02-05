@@ -25,7 +25,6 @@ version = ""
 # The full version, including alpha/beta/rc tags
 release = ""
 
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -70,14 +69,12 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "_template.rst"]
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
-
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -94,7 +91,8 @@ html_static_path = ["_static"]
 
 
 def setup(app):
-    app.add_css_file('custom.css')
+    app.add_css_file("custom.css")
+
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -113,13 +111,10 @@ except NameError:
 
 html_context["display_versions_lower_left"] = True
 
-
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = "Parsonsdoc"
-
-
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {
@@ -150,13 +145,11 @@ latex_documents = [
     ),
 ]
 
-
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [(master_doc, "parsons", "Parsons Documentation", [author], 1)]
-
 
 # -- Options for Texinfo output ----------------------------------------------
 
@@ -175,23 +168,23 @@ texinfo_documents = [
     ),
 ]
 
-
 # -- Extension configuration -------------------------------------------------
+
 
 # sphinx-multiversion
 def get_git_tags() -> list[str]:
     """Query git for tags."""
     try:
         tags = subprocess.check_output(
-            ["git", "tag", "-l", "--sort=-v:refname"],
-            encoding="utf-8",
-            stderr=subprocess.DEVNULL
+            ["git", "tag", "-l", "--sort=-v:refname"], encoding="utf-8", stderr=subprocess.DEVNULL
         ).splitlines()
         return [tag for tag in tags if tag.startswith("v")]
     except (subprocess.CalledProcessError, FileNotFoundError):
         return []
 
+
 DOCUMENTED_VERSIONS = get_git_tags()
+
 # Whitelist pattern for branches
 smv_branch_whitelist = r"^stable|latest$"  # creates version for latest master/main branch
 

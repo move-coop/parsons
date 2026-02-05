@@ -17,10 +17,10 @@ Google BigQuery
 
 See :doc:`google` for documentation.
 
-
 *****
 MySQL
 *****
+
 .. _my-sql:
 
 MySQL is the world's most popular open source database. The Parsons class leverages on the `MySQLdb1 <https://github.com/farcepest/MySQLdb1>`_ python package.
@@ -51,7 +51,6 @@ Quick Start
    # Copy data to database
    tbl = Table.from_csv('my_file.csv') # Load from a CSV or other source.
    mysql.copy(tbl, 'my_schema.winning_formula')
-
 
 .. autoclass:: parsons.MySQL
    :inherited-members:
@@ -96,7 +95,6 @@ Quick Start
 
 .. autoclass:: parsons.Postgres
    :inherited-members:
-
 
 ********
 Redshift

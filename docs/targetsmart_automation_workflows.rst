@@ -12,6 +12,7 @@ can take minutes to hours depending on the workflow type, size of data, and
 queuing.
 
 .. note::
+
   Authentication
     TargetSmart Automation workflows use SFTP. You will need to obtain SFTP credentials from TargetSmart to utilize the ``TargetSmartAutomation`` class.
 
@@ -35,7 +36,6 @@ keyword arguments:
     ts_auto = TargetSmartAutomation(
         sftp_username='my_sftp_username', sftp_password='my_sftp_password'
     )
-
 
 You can then call these methods:
 
@@ -73,5 +73,5 @@ You can then call these methods:
 API
 ===
 
-.. autoclass :: parsons.TargetSmartAutomation
+.. autoclass:: parsons.TargetSmartAutomation
    :inherited-members:

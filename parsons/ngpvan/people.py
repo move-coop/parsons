@@ -640,6 +640,7 @@ class People:
                          "type": "SurveyResponse"}
                         ]
             van.apply_response(5222, response)
+
         """
 
         # Set url based on id_type

@@ -9,6 +9,7 @@ Quickbooks Time is a time tracking and scheduling tool that integrates with Quic
 This integration allows you to pull time tracking data from Quickbooks Time into Parsons.
 
 .. note::
+
   Authentication
     You need to generate a Quickbooks Time API token to use this integration. See the
     `Quickbooks Time API documentation <https://tsheetsteam.github.io/api_docs/#getting-started>`_
@@ -38,5 +39,5 @@ This example shows how to get timesheets for a given date range.
 API
 ***
 
-.. autoclass :: parsons.QuickBooksTime
+.. autoclass:: parsons.QuickBooksTime
    :inherited-members:

@@ -10,6 +10,7 @@ This Parsons integration with the `CrowdTangle API <https://github.com/CrowdTang
 and leaderboard data.
 
 .. note::
+
   Authentication
     An API Token is required to access the API. Assuming you have access to the CrowdTangle API, you can find the API
     Token in your dashboard under *Settings > API Access*. Contact your CrowdTangle representative for access.
@@ -31,6 +32,7 @@ To instantiate the CrowdTangle class,either store your CrowdTangle API as the en
 ``CROWDTANGLE_API_KEY`` or pass it as a keyword argument:
 
 .. code-block:: python
+
    from parsons import CrowdTangle
 
    # First approach: Use environmental variable for API Key
@@ -47,5 +49,5 @@ To instantiate the CrowdTangle class,either store your CrowdTangle API as the en
 API
 ***
 
-.. autoclass :: parsons.CrowdTangle
+.. autoclass:: parsons.CrowdTangle
    :inherited-members:

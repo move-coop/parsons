@@ -13,6 +13,7 @@ connector employs caching in order to allow the user to specify the tables to ex
 You can disable caching as an argument when instantiating the class.
 
 .. note::
+
     To authenticate, request a secret token from Empower. 
 
 ==========
@@ -45,5 +46,5 @@ You can then request tables in the following manner:
 API
 ***
 
-.. autoclass :: parsons.Empower
+.. autoclass:: parsons.Empower
    :inherited-members:

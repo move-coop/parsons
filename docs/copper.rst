@@ -9,6 +9,7 @@ Overview
 and activity data. This Parsons class provides methods for extracting people, companies and actions.
 
 .. note::
+
 	Getting Your API Key
 		- Sign into Copper
 		- Click on ``Settings`` (gear icon) and then ``API Keys``
@@ -56,10 +57,9 @@ You can then call various endpoints:
 	json as a dict of Parsons Tables. 
 	company_tbls = copper.get_companies({'minimum_modified_date': 1599674523})
 
-
 ***
 API
 ***
 
-.. autoclass :: parsons.Copper
+.. autoclass:: parsons.Copper
    :inherited-members:

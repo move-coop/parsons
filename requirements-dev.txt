@@ -16,7 +16,6 @@ testfixtures==9.1.0;python_version>='3.11'
 twine==6.2.0
 build
 
-
 # Docs Requirements
 myst-parser==4.0.1
 sphinxcontrib-googleanalytics==0.5

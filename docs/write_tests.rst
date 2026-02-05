@@ -56,7 +56,6 @@ Below, we will use the ``get`` method to tell the mock HTTP server that we expec
 
             self.assertEqual(tbl.num_rows, 2)
 
-
 After wiring up the mock HTTP API, we are ready to call the ``get_campaigns`` method on our ``Mailchimp`` connector. Since we are using the ``requests_mock.Mocker`` class, our Connector will not actually hit the Mailchimp API; our call will be intercepted and the configured canned response will be returned.
 
 The Mailchimp tests store the canned responses in a separate Python module, which can help keep the test code separate from the test data, which helps makes tests more readable. The test data is imported from the ``expected_json.py`` Python file that sits alongside the ``test_mailchimp.py`` test file.
@@ -67,13 +66,11 @@ The data is imported at the top of the ``test_mailchimp.py`` file:
 
     from test.test_mailchimp import expected_json
 
-
 ``expected_json`` can now be used to pull in our canned response variables, as we saw above:
 
 .. code-block:: python
 
     m.get(self.mc.uri + 'campaigns', json=expected_json.test_campaigns)
-
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Tests for Connectors Built on Third Party Libraries
@@ -116,7 +113,6 @@ In the ``SalesforceTest`` class, this is done in the ``setUp`` method of the tes
         self.sf = Salesforce()
         self.sf._client = mock.MagicMock()
 
-
 The ``_client`` attribute on the Salesforce Connector class holds the class' reference to the underlying third party client object. By overriding it with our ``MagicMock`` object, the ``Salesforce`` Parsons class will be calling methods on our mock client instead of an actual simple-salesforce client.
 
 We can then set up our mock client's ``query_all`` method:
@@ -124,7 +120,6 @@ We can then set up our mock client's ``query_all`` method:
 .. code-block:: python
 
     self.sf._client.query_all.return_value = [{'Id': 1, 'value': 'FAKE'}]
-
 
 Now, we can test our Salesforce Parsons Connector's query method:
 
@@ -136,7 +131,6 @@ Now, we can test our Salesforce Parsons Connector's query method:
     self.sf._client.query_all.assert_called_with('FAKESOQL')
     # Check that the response from our query method is what we expect
     self.assertEqual(response[0]['value'], 'FAKE')
-
 
 In the first line, we call the method we are testing (query) with a fake value. In the next line, we check to make sure our mock client's ``query_all`` method was called with the same fake value. Finally, we test to make sure that our ``Salesforce`` Connector returned the expected response, which is based on the return value of the mock client's ``query_all`` method (which we set up in the previous block).
 

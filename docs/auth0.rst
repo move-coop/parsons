@@ -1,19 +1,27 @@
-Auth0
-=========
-
-********
-Overview
-********
-
-`Auth0 <https://auth0.com/>`_ is an authentication and authorization platform. This Parsons integration with the `Auth0 Management API <https://auth0.com/docs/api/management/v2>`_ supports fetching and deleting user records.
+#######
+ Auth0
+#######
 
 **********
-Quickstart
+ Overview
 **********
 
-To instantiate the Auth0 class, you can either store your Auth0 API client ID, client secret, and domain as environment variables (``AUTH0_CLIENT_ID``, ``AUTH0_CLIENT_SECRET``, and ``AUTH0_DOMAIN``, respectively) or pass in your client ID, client secret, and domain as arguments:
+`Auth0 <https://auth0.com/>`_ is an authentication and authorization
+platform. This Parsons integration with the `Auth0 Management API
+<https://auth0.com/docs/api/management/v2>`_ supports fetching and
+deleting user records.
 
-.. code-block:: python
+************
+ Quickstart
+************
+
+To instantiate the Auth0 class, you can either store your Auth0 API
+client ID, client secret, and domain as environment variables
+(``AUTH0_CLIENT_ID``, ``AUTH0_CLIENT_SECRET``, and ``AUTH0_DOMAIN``,
+respectively) or pass in your client ID, client secret, and domain as
+arguments:
+
+.. code:: python
 
    from parsons import Auth0
 
@@ -21,18 +29,18 @@ To instantiate the Auth0 class, you can either store your Auth0 API client ID, c
    auth0 = Auth0()
 
    # Second approach: Pass API credentials as arguments
-   auth0 = Shopify('auth0_client_id', 'auth0_client_secret', 'auth0_domain')
+   auth0 = Shopify("auth0_client_id", "auth0_client_secret", "auth0_domain")
 
 You can then call various endpoints:
 
-.. code-block:: python
+.. code:: python
 
-    # Fetch user by email
-    user = auth0.get_users_by_email('fakeemail@fakedomain.com')
+   # Fetch user by email
+   user = auth0.get_users_by_email("fakeemail@fakedomain.com")
 
-***
-API
-***
+*****
+ API
+*****
 
-.. autoclass :: parsons.Auth0
+.. autoclass:: parsons.Auth0
    :inherited-members:

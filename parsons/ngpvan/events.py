@@ -153,6 +153,7 @@ class Events:
                 A list of dicts with shifts formatted as:
 
                 .. highlight:: python
+
                 .. code-block:: python
 
                     [

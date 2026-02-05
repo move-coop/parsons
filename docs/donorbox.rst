@@ -11,6 +11,7 @@ recurring donations. This Parsons class provides methods for extracting donors, 
 The documentation for the underlying Donorbox API can be found `here <https://github.com/donorbox/donorbox-api>`_.
 
 .. note::
+
     To authenticate, go to your account on donorbox.org and select the "API & Zapier Integration" option 
     under Add-ons. Enable the add-on. (Note that currently Donorbox charges to enable this feature.)
     Once the add-on is enabled, hit the "Set new API key" button and copy the generated key.
@@ -60,11 +61,9 @@ You can then call various endpoints:
     plans = donorbox.get_plans()                                            # get all plans
     plans = donorbox.get_plans(date_from="2022-10-22")                      # get plans started after date
 
-
 ***
 API
 ***
 
-.. autoclass :: parsons.Donorbox
+.. autoclass:: parsons.Donorbox
    :inherited-members:
-

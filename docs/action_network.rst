@@ -8,8 +8,8 @@ Overview
 `Action Network <https://actionnetwork.org/>`_ is an online tool for storing information
 and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see `Action Network developer docs <https://actionnetwork.org/docs>`_, `SQL Mirror developer docs <https://actionnetwork.org/mirroring/docs>`_
 
-
 .. note::
+
   Authentication
   	Only ActionNetwork accounts of the partner tier are able to access their API. You can generate your key from the API & Sync page, located in the *Start Organizing* menu, under *Details*.
 
@@ -132,5 +132,6 @@ SQL Mirror
 ***
 API
 ***
-.. autoclass :: parsons.ActionNetwork
+
+.. autoclass:: parsons.ActionNetwork
    :inherited-members:

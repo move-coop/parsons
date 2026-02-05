@@ -84,7 +84,6 @@ class DatabaseConnector(ABC):
 
                 def new_method(self, arg1, arg2):
                     raise NotImplementedError("Method not implemented for this database connector.")
-            ```
 
         This communicates clearly to users that the method does not exist for certain connectors.
 

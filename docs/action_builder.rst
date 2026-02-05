@@ -12,6 +12,7 @@ create custom record types. For more information, see
 `Action Builder developer docs <https://www.actionbuilder.org/docs/v1/index.html>`_
 
 .. note::
+
   Custom Fields/Tags
   	Action Builder custom fields are treated as tags in both the SQL Mirror, and the API. This
   	means that, with a couple exceptions such as date, values must be created ahead of time to be
@@ -51,6 +52,7 @@ may be passed to individual methods, instead.
 You can then call various endpoints:
 
 .. code-block:: python
+
 	# Assuming instantiation with campaign provided
 
 	# List all tags stored in the provided Action Builder campaign
@@ -84,5 +86,6 @@ You can then call various endpoints:
 ***
 API
 ***
-.. autoclass :: parsons.ActionBuilder
+
+.. autoclass:: parsons.ActionBuilder
    :inherited-members:

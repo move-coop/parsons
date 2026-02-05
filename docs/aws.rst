@@ -76,7 +76,6 @@ API
 
 .. autofunction:: parsons.aws.event_command
 
-
 ***
 S3
 ***
@@ -92,6 +91,7 @@ to store and access data objects. It is a wrapper around the AWS SDK `boto3 <htt
 It provides methods to upload and download files from S3 as well as manipulate buckets.
 
 .. note::
+
   Authentication
     Access to S3 is controlled through AWS Identity and Access Management (IAM) users in the `AWS Managerment Console <https://aws.amazon.com/console/>`_ .
     Users can be granted granular access to AWS resources, including S3. IAM users are provisioned keys, which are required to access the S3 class.
@@ -177,6 +177,7 @@ In addition to the core API integration provided by the ``Redshift`` class, Pars
 managing schemas and tables. See :ref:`redshift_table_and_view_api` and :ref:`redshift_schema_api` for more information.
 
 .. note::
+
    S3 Credentials
       Redshift only allows data to be copied to the database via S3. As such, the the :meth:`copy` and :meth:`copy_s3()`
       methods require S3 credentials and write access on an S3 Bucket, which will be used for storing data en route to

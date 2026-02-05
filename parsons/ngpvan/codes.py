@@ -96,6 +96,7 @@ class Codes:
                 code. You can find supported entities with the :meth:`code_supported_entities`
 
                 .. highlight:: python
+
                 .. code-block:: python
 
                     [
@@ -110,6 +111,7 @@ class Codes:
                          'end_time': '12-31-2018T14:00:00'
                         }
                     ]
+
         """
 
         json = {
@@ -163,6 +165,7 @@ class Codes:
                 code. You can find supported entities with the :meth:`code_supported_entities`
 
                 .. highlight:: python
+
                 .. code-block:: python
 
                     [
@@ -177,6 +180,7 @@ class Codes:
                          'end_time': '12-31-2018T14:00:00'
                         }
                     ]
+
         """
 
         post_data = {}

@@ -1,22 +1,18 @@
 #
 # Configuration file for the Sphinx documentation builder.
 #
+
 # This file does only contain a selection of the most common options. For a
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
 # -- Path setup --------------------------------------------------------------
 
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use Path.absolute() to make it absolute, like shown here.
-#
+import subprocess
 import sys
 from pathlib import Path
 
-# import parsons
-# sys.path.insert(0, Path(".").absolute())
-sys.path.insert(0, Path("../").absolute())
+sys.path.insert(0, str(Path("../").absolute()))
 
 # -- Project information -----------------------------------------------------
 
@@ -31,10 +27,6 @@ release = ""
 
 
 # -- General configuration ---------------------------------------------------
-
-# If your documentation needs a minimal Sphinx version, state it here.
-#
-# needs_sphinx = '1.0'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -184,13 +176,25 @@ texinfo_documents = [
 
 # sphinx-multiversion
 
-DOCUMENTED_VERSIONS = ["v0.18.1", "v0.18.0", "v0.17.0", "v0.16.0", "v0.15.0", "v0.14.0"]
+# Query git for tags.
+try:
+    tags_output = subprocess.check_output(
+        ["git", "tag", "-l", "--sort=-v:refname"], encoding="utf-8"
+    ).splitlines()
+except Exception:
+    tags_output = []
+
+# Filter tags
+DOCUMENTED_VERSIONS = [tag for tag in tags_output if tag.startswith("v")]
 
 # Whitelist pattern for branches
 smv_branch_whitelist = r"^stable|latest$"  # creates version for latest master/main branch
 
 # Get tags to whitelist from DOCUMENTED_VERSIONS const
 smv_tag_whitelist = "|".join(["^" + version + "$" for version in DOCUMENTED_VERSIONS])
+
+# Allow sphinx-multiversion to use local branches
+smv_remote_whitelist = None
 
 # Adds Google Analytics tracking code to the HTML output
 googleanalytics_id = "G-L2YB7WHTRG"

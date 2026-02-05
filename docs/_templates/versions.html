@@ -1,29 +1,24 @@
-{% if display_versions_lower_left and current_version %}
-  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="{{ _('Versions') }}">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      <span class="fa fa-book"> Read the Docs</span>
-      {{ current_version.name }}
-      <span class="fa fa-caret-down"></span>
-    </span>
-    <div class="rst-other-versions">
-      <dl>
-        <dt>{{ _('Most Common') }}</dt>
-        <!-- Show latest & stable first -->
-        {% for version in versions %}
-            {% if version.name|first != "v" %}
-                  <dd><a href="{{ version.url }}">{{ version.name }}</a></dd>
-            {% endif %}
-        {% endfor %}
+<div class="rst-other-versions">
+    <dl>
+      <dt>{{ _('Recommended') }}</dt>
+      {% for version in versions %}
+          {% if version.name == "stable" %}
+                <dd><a href="{{ version.url }}">Stable <small>(Latest Release)</small></a></dd>
+          {% endif %}
+      {% endfor %}
 
-        <dt>{{ _('By Version Number') }}</dt>
-        <!-- Show other versions -->
-        {% for version in versions %}
-            {% if version.name|first == "v" %}
-                  <dd><a href="{{ version.url }}">{{ version.name }}</a></dd>
-            {% endif %}
-        {% endfor %}
+      <dt>{{ _('In Development') }}</dt>
+      {% for version in versions %}
+          {% if version.name == "latest" %}
+                <dd><a href="{{ version.url }}">Latest <small>(Work in Progress)</small></a></dd>
+          {% endif %}
+      {% endfor %}
 
-      </dl>
-    </div>
+      <dt>{{ _('All Versions') }}</dt>
+      {% for version in versions | sort(attribute='name', reverse=True) %}
+          {% if version.name|first == "v" %}
+                <dd><a href="{{ version.url }}">{{ version.name }}</a></dd>
+          {% endif %}
+      {% endfor %}
+    </dl>
   </div>
-{% endif %}

@@ -84,7 +84,7 @@ class dbtLoggerMarkdown(dbtLogger):
 
         if isinstance(manifest, Manifest):
             key = manifest.overall_status if manifest else NodeStatus.Success
-        elif isinstance(manifest, list) and isinstance(manifest[0], Manifest):
+        elif isinstance(manifest, list) and all(isinstance(m, Manifest) for m in manifest):
             statuses = {m.overall_status for m in manifest}
             key = next((p for p in priority if p in statuses), NodeStatus.Success)
         else:

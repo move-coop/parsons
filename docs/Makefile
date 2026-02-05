@@ -19,7 +19,10 @@ deploy_docs:
 	sphinx-multiversion . html
 	cp ./index-redirect.html html/index.html
 
-.PHONY: help Makefile deploy_docs
+linkcheck:
+	$(SPHINXBUILD) -b linkcheck "$(SOURCEDIR)" "$(BUILDDIR)/_build/linkcheck" $(SPHINXOPTS) $(O)
+
+.PHONY: help Makefile deploy_docs linkcheck
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).

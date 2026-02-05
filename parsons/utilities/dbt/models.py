@@ -11,17 +11,17 @@ class Manifest:
         self.command = command
         self.dbt_manifest = dbt_manifest
 
-    def __getattr__(self, key):
-        if key in dir(self):
-            result = getattr(self, key)
-        elif (
-            getattr(self.dbt_manifest, "metadata", {})
-            and key in self.dbt_manifest.metadata.__dict__
-        ):
-            result = getattr(self.dbt_manifest.metadata, key)
-        else:
-            result = getattr(self.dbt_manifest, key)
-        return result
+    def __getattr__(self, key: str):
+        """Proxies attribute access to the underlying dbt_manifest or its metadata."""
+        metadata = getattr(self.dbt_manifest, "metadata", None)
+        if metadata is not None and key in getattr(metadata, "__dict__", {}):
+            return getattr(metadata, key)
+
+        try:
+            return getattr(self.dbt_manifest, key)
+        except AttributeError as e:
+            error_msg = f"'{type(self).__name__}' object has no attribute '{key}'"
+            raise AttributeError(error_msg) from e
 
     def filter_results(self, **kwargs) -> list[NodeResult]:
         """Subset of results based on filter"""

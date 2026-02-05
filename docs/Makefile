@@ -6,21 +6,21 @@ SPHINXOPTS    = -a
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = Parsons
 SOURCEDIR     = .
-BUILDDIR      = .
+# Change BUILDDIR to a subfolder to avoid Sphinx registration/conflict issues
+BUILDDIR      = _build
 
-# Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 deploy_docs:
-	git branch -f latest
-	git branch -f stable $$(git tag -l --sort=creatordate | tail -1) || git branch -f stable latest
+	git --git-dir ../.git --work-tree .. branch -f latest
+	git --git-dir ../.git --work-tree .. branch -f stable $$(git tag -l --sort=creatordate | tail -1) || git --git-dir ../.git --work-tree .. branch -f stable latest
 	rm -rf html/
 	sphinx-multiversion . html
 	cp ./index-redirect.html html/index.html
 
 linkcheck:
-	$(SPHINXBUILD) -b linkcheck "$(SOURCEDIR)" "$(BUILDDIR)/_build/linkcheck" $(SPHINXOPTS) $(O)
+	$(SPHINXBUILD) -b linkcheck "$(SOURCEDIR)" "$(BUILDDIR)/linkcheck" $(SPHINXOPTS) $(O)
 
 .PHONY: help Makefile deploy_docs linkcheck
 

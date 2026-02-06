@@ -1,6 +1,6 @@
 import pytest
 
-from parsons.etl import Table
+from parsons import Table
 
 """
 Simple Table

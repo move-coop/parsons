@@ -2,7 +2,7 @@ import logging
 
 from twilio.rest import Client
 
-from parsons.etl import Table
+from parsons import Table
 from parsons.utilities import check_env, json_format
 
 logger = logging.getLogger(__name__)

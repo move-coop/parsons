@@ -5,7 +5,6 @@ import time
 import uuid
 import zipfile
 from pathlib import Path
-from typing import Optional, Union
 
 import google
 import petl
@@ -64,7 +63,7 @@ class GoogleCloudStorage:
 
     """
 
-    def __init__(self, app_creds: Optional[Union[str, dict, Credentials]] = None, project=None):
+    def __init__(self, app_creds: str | dict | Credentials | None = None, project=None):
         if isinstance(app_creds, Credentials):
             credentials = app_creds
         else:
@@ -317,7 +316,15 @@ class GoogleCloudStorage:
         blob.delete()
         logger.info(f"{blob_name} blob in {bucket_name} bucket deleted.")
 
-    def upload_table(self, table, bucket_name, blob_name, data_type="csv", default_acl=None):
+    def upload_table(
+        self,
+        table,
+        bucket_name,
+        blob_name,
+        data_type="csv",
+        default_acl=None,
+        timeout: int = 60,
+    ):
         """
         Load the data from a Parsons table into a blob.
 
@@ -364,6 +371,7 @@ class GoogleCloudStorage:
                 content_type=content_type,
                 client=self.client,
                 predefined_acl=default_acl,
+                timeout=timeout,
             )
         finally:
             files.close_temp_file(local_file)
@@ -402,8 +410,8 @@ class GoogleCloudStorage:
         source_bucket: str,
         destination_path: str = "",
         source_path: str = "",
-        aws_access_key_id: Optional[str] = None,
-        aws_secret_access_key: Optional[str] = None,
+        aws_access_key_id: str | None = None,
+        aws_secret_access_key: str | None = None,
     ):
         """
         Creates a one-time transfer job from Amazon S3 to Google Cloud
@@ -570,8 +578,8 @@ class GoogleCloudStorage:
         bucket_name: str,
         blob_name: str,
         compression_type: str = "gzip",
-        new_filename: Optional[str] = None,
-        new_file_extension: Optional[str] = None,
+        new_filename: str | None = None,
+        new_file_extension: str | None = None,
     ) -> str:
         """
         Downloads and decompresses a blob. The decompressed blob

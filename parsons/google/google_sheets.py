@@ -98,7 +98,7 @@ class GoogleSheets:
                 return index
         raise ValueError(f"Couldn't find sheet with title {title}")
 
-    def get_worksheet(self, spreadsheet_id, worksheet=0):
+    def get_worksheet(self, spreadsheet_id, worksheet=0, skip_header_rows: int = 0):
         """
         Create a ``parsons table`` from a sheet in a Google spreadsheet, given the sheet index.
 
@@ -114,7 +114,7 @@ class GoogleSheets:
         """
 
         worksheet = self._get_worksheet(spreadsheet_id, worksheet)
-        tbl = Table(worksheet.get_all_values())
+        tbl = Table(worksheet.get_all_values()[skip_header_rows:])
         logger.info(f"Retrieved worksheet with {tbl.num_rows} rows.")
         return tbl
 

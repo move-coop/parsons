@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "parsons"
-version = "5.2.0"
+version = "5.4.0"
 description = "A python library of connectors for the progressive community."
 readme = { file = "README.md", content-type = "text/markdown" }
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license-files = [ "LICENSE.md" ]
 authors = [
     { name = "The Movement Cooperative", email = "info@movementcooperative.org" },
@@ -19,7 +19,6 @@ keywords = [ "PROGRESSIVE", "API", "ETL" ]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -43,7 +42,6 @@ repository = "https://github.com/move-coop/parsons.git"
 packages = ["parsons"]
 
 [tool.ruff]
-# Exclude a variety of commonly ignored directories.
 include = [
     "**/*.py",
 ]
@@ -74,15 +72,13 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
+    "**/vendor/*",
 ]
 
 # Default line length is 88
 # Changed to 100 to match previous pyproject black config
 line-length = 100
 indent-width = 4
-
-# Assume Python 3.9
-target-version = "py39"
 
 [tool.ruff.lint]
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
@@ -174,8 +170,11 @@ src_paths = [
 [tool.coverage.run]
 branch = true
 relative_files = true
+omit = [
+    "*/vendor/*",
+    ]
 
 [tool.coverage.paths]
 source = [
     "parsons/",
-    ]
+]

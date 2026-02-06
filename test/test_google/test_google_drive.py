@@ -1,14 +1,14 @@
-import os
 import random
 import string
 import unittest
 
 from parsons import GoogleDrive
+from test.utils import mark_live_test
 
 # Test Slides: https://docs.google.com/presentation/d/19I-kicyaJV53KoPNwt77KJL10fHzWFdZ_c2mW4XJaxc
 
 
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestGoogleDrive(unittest.TestCase):
     def setUp(self):
         self.gd = GoogleDrive()

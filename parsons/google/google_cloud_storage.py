@@ -480,7 +480,7 @@ class GoogleCloudStorage:
                     "path": destination_path,
                 },
                 "transfer_options": storage_transfer.TransferOptions(
-                    delete_objects_unique_in_sink=True if delete_objects_unique_in_sink else False
+                    delete_objects_unique_in_sink=delete_objects_unique_in_sink
                 ),
             }
         elif source == "gcs":
@@ -495,7 +495,7 @@ class GoogleCloudStorage:
                     "path": destination_path,
                 },
                 "transfer_options": storage_transfer.TransferOptions(
-                    delete_objects_unique_in_sink=True if delete_objects_unique_in_sink else False
+                    delete_objects_unique_in_sink=delete_objects_unique_in_sink
                 ),
             }
 

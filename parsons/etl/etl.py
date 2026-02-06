@@ -336,10 +336,10 @@ class ETL:
             column_map = {'first_name': ['fn', 'first', 'firstname'],
                           'last_name': ['ln', 'last', 'lastname'],
                           'date_of_birth': ['dob', 'birthday']}
-
             tbl.map_columns(column_map)
             print (tbl)
             >> {{'first_name': 'Jane', 'last_name': 'Doe', 'date_of_birth': '1908-01-01'}}
+
         """
 
         for col in self.columns:

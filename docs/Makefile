@@ -1,32 +1,17 @@
-SPHINXOPTS    = -a
-SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = Parsons
-SOURCEDIR     = .
-BUILDDIR      = _build
+PYTHON = python3
+SCRIPT = make.py
 
-# Helper to clean up the multiversion output
-clean:
-	rm -rf $(BUILDDIR)
-	rm -rf html/
+.PHONY: help build_docs clean linkcheck
+
+# Route all unknown targets to the python script
+%:
+	@$(PYTHON) $(SCRIPT) $@
 
 help:
-	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@$(PYTHON) $(SCRIPT) help
 
 build_docs:
-	# Ensure branches exist or are updated
-	git --git-dir ../.git --work-tree .. branch -f latest
-	git --git-dir ../.git --work-tree .. branch -f stable $$(git tag -l --sort=creatordate | tail -1) || git --git-dir ../.git --work-tree .. branch -f stable latest
+	@$(PYTHON) $(SCRIPT) build_docs
 
-	# Build all versions
-	rm -rf html/
-	sphinx-multiversion "$(SOURCEDIR)" html
-	cp ./index-redirect.html html/index.html
-
-linkcheck:
-	$(SPHINXBUILD) -b linkcheck "$(SOURCEDIR)" "$(BUILDDIR)/linkcheck" $(SPHINXOPTS) $(O)
-
-.PHONY: help Makefile build_docs linkcheck clean
-
-# Catch-all
-%: Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+clean:
+	@$(PYTHON) $(SCRIPT) clean

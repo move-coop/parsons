@@ -1,17 +1,14 @@
-PYTHON = python3
-SCRIPT = make.py
+PYTHON     := python3
+SCRIPT_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+SCRIPT     := $(SCRIPT_DIR)make.py
 
-.PHONY: help build_docs clean linkcheck
+.PHONY: % check_python
 
-# Route all unknown targets to the python script
-%:
-    @$(PYTHON) $(SCRIPT) $@
+%: check_python
+	@$(PYTHON) "$(SCRIPT)" $@ $(filter-out $@,$(MAKECMDGOALS))
 
-help:
-    @$(PYTHON) $(SCRIPT) help
+check_python:
+	@$(PYTHON) --version > /dev/null 2>&1 || (echo "Error: Python not found."; exit 1)
 
-build_docs:
-    @$(PYTHON) $(SCRIPT) build_docs
-
-clean:
-    @$(PYTHON) $(SCRIPT) clean
+$(filter-out $(firstword $(MAKECMDGOALS)),$(MAKECMDGOALS)):
+	@:

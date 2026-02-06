@@ -267,6 +267,8 @@ jobs:
 
       - run: sphinx-lint docs
 
+      - run: sphinx-lint parsons
+
   pre-commit:
     runs-on: ubuntu-latest
     needs:

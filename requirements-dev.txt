@@ -9,6 +9,7 @@ pytest-xdist==3.8.0
 pytest==8.4.2
 requests-mock==1.12.1
 ruff==0.13.0
+sphinx-lint==1.0.2
 testfixtures==8.3.0;python_version<'3.11'
 testfixtures==9.1.0;python_version>='3.11'
 

@@ -10,8 +10,8 @@ allows you to interact with the tool by leveraging their `API <http://docs.phone
 
 .. note::
 
-  Authentication
-  	You will need to email CapitolCanary to request credentials to access the API. The credentials consist of an app ID and an app key.
+   Authentication
+   You will need to email CapitolCanary to request credentials to access the API. The credentials consist of an app ID and an app key.
 
 ***********
 Quick Start

@@ -28,7 +28,7 @@ as an environment variable "QB_AUTH_TOKEN" or pass it in as a parameter called t
   from parsons import QuickBooksTime
 
   # instantiate the quickbooks class
-  qb = QuickBooksTime(token="your_token") 
+  qb = QuickBooksTime(token="your_token")
 
   #Timesheets Table
   timesheets_tbl = qb.get_timesheets(start_date="2024-01-01")

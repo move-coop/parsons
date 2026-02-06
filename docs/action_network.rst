@@ -99,7 +99,7 @@ You can then call various endpoints:
 
 	# Get a specific wrapper
 	specific_wrapper = an.get_wrapper('wrapper_id')
-	
+
 ***********
 SQL Mirror
 ***********

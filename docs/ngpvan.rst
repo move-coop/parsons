@@ -13,7 +13,7 @@ additional details and information.
    API Keys
       - API Keys are specific to each committee and state.
       - The Parsons API Key can be requested via the VAN Integrations menu under `TMC (Parsons)`. However,
-        if you can't find the key there, you can reach out to `apideveloeprs@ngpvan.com` or send an in-app 
+        if you can't find the key there, you can reach out to `apideveloeprs@ngpvan.com` or send an in-app
         support request. If you need any additional guidance, please refer to the Parsons Slack or reach out to
         <parsons@movementcooperative.org>.
 .. warning::
@@ -21,7 +21,7 @@ additional details and information.
    VANIDs
       VANIDs are unique to each state and instance of the VAN. VANIDs used for the AV VAN **will not** match
       those of the SmartVAN or VoteBuilder.
-      
+
    Maintenance & Support
       VAN/EveryAction is not responsible for support of Parsons. Their support team cannot answer questions
       about Parsons. Please direct any questions to the Parsons team via the issue tracker or Slack.
@@ -417,7 +417,7 @@ Locations
 
 .. autoclass:: parsons.ngpvan.van.Locations
    :inherited-members:
-   
+
 ===========
 Printed Lists
 ===========

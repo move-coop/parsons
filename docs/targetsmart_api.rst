@@ -65,4 +65,3 @@ API
 
 .. autoclass:: parsons.TargetSmartAPI
    :inherited-members:
-

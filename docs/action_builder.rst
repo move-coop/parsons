@@ -13,14 +13,14 @@ create custom record types. For more information, see
 
 .. note::
 
-  Custom Fields/Tags
-  	Action Builder custom fields are treated as tags in both the SQL Mirror, and the API. This
-  	means that, with a couple exceptions such as date, values must be created ahead of time to be
-  	applied to a record. Each tag has two layers of taxonomy above it as well, that appear slightly
-  	differently in the SQL Mirror and in the API. In the SQL Mirror, each tag has a
-  	``tag_category``, and each category has a ``tag_group``. In the API, the equivalents are called
-  	``tag_field`` and ``tag_section``, respectively (closer to the naming in the UI). Tags can be
-  	applied on Connections as well as on Entities.
+	Custom Fields/Tags
+	Action Builder custom fields are treated as tags in both the SQL Mirror, and the API. This
+	means that, with a couple exceptions such as date, values must be created ahead of time to be
+	applied to a record. Each tag has two layers of taxonomy above it as well, that appear slightly
+	differently in the SQL Mirror and in the API. In the SQL Mirror, each tag has a
+	``tag_category``, and each category has a ``tag_group``. In the API, the equivalents are called
+	``tag_field`` and ``tag_section``, respectively (closer to the naming in the UI). Tags can be
+	applied on Connections as well as on Entities.
 
 ***********
 Quick Start
@@ -34,20 +34,20 @@ may be passed to individual methods, instead.
 
 .. code-block:: python
 
-   from parsons import ActionBuilder
+	from parsons import ActionBuilder
 
-   # First approach: Use API credentials via environmental variables
-   bldr = ActionBuilder(subdomain='yourorgsubdomain')
+	# First approach: Use API credentials via environmental variables
+	bldr = ActionBuilder(subdomain='yourorgsubdomain')
 
-   # Second approach: Pass API credentials as arguments
-   bldr = ActionBuilder(api_token='MY_API_TOKEN', subdomain='yourorgsubdomain')
+	# Second approach: Pass API credentials as arguments
+	bldr = ActionBuilder(api_token='MY_API_TOKEN', subdomain='yourorgsubdomain')
 
-   # Third approach: Include campaign argument
+	# Third approach: Include campaign argument
 	bldr = ActionBuilder(
-		api_token = 'MY_API_TOKEN',
-		subdomain = 'yourorgsubdomain',
-		campaign = 'your-desired-campaign-id'
-	)   
+	api_token = 'MY_API_TOKEN',
+	subdomain = 'yourorgsubdomain',
+	campaign = 'your-desired-campaign-id'
+	)
 
 You can then call various endpoints:
 
@@ -77,7 +77,7 @@ You can then call various endpoints:
 		"action_builder:field": "Relationship",
 		"action_builder:section": "People to People Info"
 	}
-	
+
 	bldr.upsert_connection(
 		["entity-interact-id-1", "entity-interact-id-2"], # Any two entity IDs
 		tag_data = tag_data

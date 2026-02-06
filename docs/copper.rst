@@ -19,7 +19,7 @@ and activity data. This Parsons class provides methods for extracting people, co
 Quickstart
 **********
 
-To instantiate the Copper class, you can either store the Copper user email and 
+To instantiate the Copper class, you can either store the Copper user email and
 API key as environmental variables (``COPPER_USER_EMAIL``, ``COPPER_API_KEY``)
 or pass them in as arguments:
 
@@ -39,7 +39,7 @@ You can then call various endpoints:
 
 	# Get people
 
-	# This will unpack the people json as a dict of Parsons Tables. 
+	# This will unpack the people json as a dict of Parsons Tables.
 	people_tbls = copper.get_people()
 
 	# You can then save the tables as csvs
@@ -54,7 +54,7 @@ You can then call various endpoints:
 	# Get companies
 
 	# Get companies modified since a date, unix time. This will unpack the companies
-	json as a dict of Parsons Tables. 
+	json as a dict of Parsons Tables.
 	company_tbls = copper.get_companies({'minimum_modified_date': 1599674523})
 
 ***

@@ -143,8 +143,8 @@ Temporary Credentials
 =====================
 
 The S3 API supports creating temporary credentials for one-off operations, such as pushing a file to a particular key in a particular bucket.
-For example, the Mapbox API allows you to request temporary credentials that grant you access to a bucket where you can upload map data. 
-When S3 returns a set of temporary credentials it also returns a session token that needs to be included with the standard credentials for 
+For example, the Mapbox API allows you to request temporary credentials that grant you access to a bucket where you can upload map data.
+When S3 returns a set of temporary credentials it also returns a session token that needs to be included with the standard credentials for
 them to be accepted. The ``S3`` class can be passed a session token as an environmental variable (``AWS_SESSION_TOKEN``) or as a keyword argument.
 
 .. code-block:: python
@@ -179,7 +179,7 @@ managing schemas and tables. See :ref:`redshift_table_and_view_api` and :ref:`re
 .. note::
 
    S3 Credentials
-      Redshift only allows data to be copied to the database via S3. As such, the the :meth:`copy` and :meth:`copy_s3()`
+      Redshift only allows data to be copied to the database via S3. As such, the the :meth:`copy` and :meth:`copy_s3`
       methods require S3 credentials and write access on an S3 Bucket, which will be used for storing data en route to
       Redshift. See the `API documentation <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html>`_
       for more information about AWS Redshift authorization.

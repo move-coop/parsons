@@ -27,7 +27,7 @@ Quick Start
 Your Username, Password, Organization ID, and Dev Key must be provided as arguments.
 
 .. code-block:: python
-	
+
 	from parsons import BillCom
 
 	bc = BillCom(username='my_username',

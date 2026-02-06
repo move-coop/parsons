@@ -358,7 +358,7 @@ API
 ===
 
 .. autoclass:: parsons.google.google_drive.GoogleDrive
-   :inherited-members:      
+   :inherited-members:
 
 *************
 Google Sheets

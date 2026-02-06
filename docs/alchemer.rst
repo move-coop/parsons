@@ -24,4 +24,4 @@ Quick Start
 
 To instantiate the ``Alchemer`` class, you can either store your API token and API secret
 token as environmental variables (``SURVEYGIZMO_API_TOKEN`` and ``SURVEYGIZMO_API_TOKEN_SECRET``,
-respectively) or pass in the tokens arguments:
+respectively) or pass in the tokens arguments.

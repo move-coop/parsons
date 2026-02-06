@@ -21,7 +21,7 @@ QuickStart
 
 To instantiate the ``TurboVote`` class, you can either store your TurboVote API
 username, password, subdomain as environmental variables (``TURBOVOTE_USERNAME``,
-``TURBOVOTE_PASSWORD``, and ``TURBOVOTE_SUBDOMAIN``, respectively) or pass them 
+``TURBOVOTE_PASSWORD``, and ``TURBOVOTE_SUBDOMAIN``, respectively) or pass them
 in as arguments:
 
 .. code-block:: python

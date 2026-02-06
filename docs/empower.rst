@@ -14,7 +14,7 @@ You can disable caching as an argument when instantiating the class.
 
 .. note::
 
-    To authenticate, request a secret token from Empower. 
+    To authenticate, request a secret token from Empower.
 
 ==========
 Quickstart

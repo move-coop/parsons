@@ -4,6 +4,8 @@ SCRIPT     := $(SCRIPT_DIR)make.py
 
 .PHONY: % check_python
 
+Makefile: ;
+
 %: check_python
 	@$(PYTHON) "$(SCRIPT)" $@ $(filter-out $@,$(MAKECMDGOALS))
 

@@ -28,22 +28,22 @@ Your Username, Password, Organization ID, and Dev Key must be provided as argume
 
 .. code-block:: python
 
-	from parsons import BillCom
+    from parsons import BillCom
 
-	bc = BillCom(username='my_username',
-	             password='my_password',
-	             org_id='my_org_id',
-	             dev_key='my_dev_key',
-	             api_url='https://api-sandbox.bill.com/api/v2/')
+    bc = BillCom(username='my_username',
+                 password='my_password',
+                 org_id='my_org_id',
+                 dev_key='my_dev_key',
+                 api_url='https://api-sandbox.bill.com/api/v2/')
 
-	# List all Customers currently in the system
-	all_contacts = bc.get_customer_list()
+    # List all Customers currently in the system
+    all_contacts = bc.get_customer_list()
 
-	# Create a new customer
-	customer_data = {
-	    "contactFirstName": "Contact First Name",
-	}
-	bc.create_customer('Customer Name', 'customer.email@fakeemail.com', customer_data)
+    # Create a new customer
+    customer_data = {
+        "contactFirstName": "Contact First Name",
+    }
+    bc.create_customer('Customer Name', 'customer.email@fakeemail.com', customer_data)
 
 ***
 API

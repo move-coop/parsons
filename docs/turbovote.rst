@@ -38,8 +38,8 @@ You can then call the method:
 
 .. code-block:: python
 
-	# Get users
-	tv.get_users()
+    # Get users
+    tv.get_users()
 
 ***
 API

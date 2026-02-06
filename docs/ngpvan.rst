@@ -27,7 +27,7 @@ additional details and information.
       about Parsons. Please direct any questions to the Parsons team via the issue tracker or Slack.
 
 .. toctree::
-	:maxdepth: 1
+    :maxdepth: 1
 
 **********
 QuickStart

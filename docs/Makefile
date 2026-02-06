@@ -5,13 +5,13 @@ SCRIPT = make.py
 
 # Route all unknown targets to the python script
 %:
-	@$(PYTHON) $(SCRIPT) $@
+    @$(PYTHON) $(SCRIPT) $@
 
 help:
-	@$(PYTHON) $(SCRIPT) help
+    @$(PYTHON) $(SCRIPT) help
 
 build_docs:
-	@$(PYTHON) $(SCRIPT) build_docs
+    @$(PYTHON) $(SCRIPT) build_docs
 
 clean:
-	@$(PYTHON) $(SCRIPT) clean
+    @$(PYTHON) $(SCRIPT) clean

@@ -28,7 +28,7 @@ information.
       - Slack has rate limits on all its endpoints.
 
 .. toctree::
-	:maxdepth: 1
+    :maxdepth: 1
 
 **********
 QuickStart
@@ -92,7 +92,7 @@ additional details and information.
      - Currently there is a limit of 6MB when sending attachments.
 
 .. toctree::
-	:maxdepth: 1
+    :maxdepth: 1
 
 **********
 QuickStart
@@ -159,7 +159,7 @@ than Gmail this is likely the best way to send emails with Parsons.
        the SMTP server you are using.
 
 .. toctree::
-	:maxdepth: 1
+    :maxdepth: 1
 
 **********
 QuickStart

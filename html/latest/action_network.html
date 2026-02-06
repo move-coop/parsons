@@ -256,6 +256,148 @@ and organizing volunteers and donors. It is used primarily for digital organizin
 
 <span class="c1"># Get a specific wrapper</span>
 <span class="n">specific_wrapper</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_wrapper</span><span class="p">(</span><span class="s1">&#39;wrapper_id&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get all surveys</span>
+<span class="n">all_surveys</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_surveys</span><span class="p">()</span>
+
+<span class="c1"># Get a specific survey</span>
+<span class="n">specific_survey</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_survey</span><span class="p">(</span><span class="s1">&#39;survey_id&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a survey</span>
+<span class="n">survey_payload</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;My Free Survey&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;origin_system&quot;</span><span class="p">:</span> <span class="s2">&quot;FreeSurveys.com&quot;</span>
+<span class="p">}</span>
+<span class="n">created_survey</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">create_survey</span><span class="p">(</span><span class="n">survey_payload</span><span class="p">)</span>
+
+<span class="n">created_survey</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s2">&quot;identifiers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;action_network:1234&quot;</span>
+<span class="p">],</span>
+<span class="s2">&quot;created_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2014-03-26T15:26:30Z&quot;</span><span class="p">,</span>
+<span class="s2">&quot;modified_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2014-03-26T15:26:30Z&quot;</span><span class="p">,</span>
+<span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;My Free Survey&quot;</span><span class="p">,</span>
+<span class="s2">&quot;total_responses&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="s2">&quot;origin_system&quot;</span><span class="p">:</span> <span class="s2">&quot;FreeSurveys.com&quot;</span><span class="p">,</span>
+<span class="s2">&quot;action_network:hidden&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+<span class="s2">&quot;_embedded&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;osdi:creator&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;given_name&quot;</span><span class="p">:</span> <span class="s2">&quot;John&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;family_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Doe&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;created_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2014-03-20T21:04:31Z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;modified_date&quot;</span><span class="p">:</span> <span class="s2">&quot;2014-03-20T21:04:31Z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;identifiers&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;action_network:1234&quot;</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;email_addresses&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                <span class="s2">&quot;primary&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+                <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="s2">&quot;jdoe@mail.com&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;subscribed&quot;</span>
+                <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;phone_numbers&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                <span class="s2">&quot;primary&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+                <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="s2">&quot;12021234444&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;number_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Mobile&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;subscribed&quot;</span>
+                <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;postal_addresses&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                <span class="s2">&quot;primary&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+                <span class="s2">&quot;address_lines&quot;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="s2">&quot;1600 Pennsylvania Ave&quot;</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;locality&quot;</span><span class="p">:</span> <span class="s2">&quot;Washington&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="s2">&quot;DC&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;postal_code&quot;</span><span class="p">:</span> <span class="s2">&quot;20009&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;country&quot;</span><span class="p">:</span> <span class="s2">&quot;US&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;language&quot;</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="mf">32.249</span><span class="p">,</span>
+                        <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">73.0339</span><span class="p">,</span>
+                        <span class="s2">&quot;accuracy&quot;</span><span class="p">:</span> <span class="s2">&quot;Approximate&quot;</span>
+                <span class="p">}</span>
+                <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;languages_spoken&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;en&quot;</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;_links&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;self&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/people/1234&quot;</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;osdi:attendances&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/people/1234/attendances&quot;</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;osdi:signatures&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/people/1234/signatures&quot;</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;osdi:submissions&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/people/1234/submissions&quot;</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;osdi:donations&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/people/1234/donations&quot;</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;osdi:outreaches&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/people/1234/outreaches&quot;</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;osdi:taggings&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/people/1234/taggings&quot;</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;action_network:responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/people/1234/responses&quot;</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;curies&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;osdi&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/docs/v2/</span><span class="si">{rel}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;templated&quot;</span><span class="p">:</span> <span class="n">true</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;action_network&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/docs/v2/</span><span class="si">{rel}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;templated&quot;</span><span class="p">:</span> <span class="n">true</span>
+                <span class="p">}</span>
+                <span class="p">]</span>
+        <span class="p">}</span>
+        <span class="p">}</span>
+<span class="p">},</span>
+<span class="s2">&quot;_links&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;osdi:creator&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/people/1234&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;self&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/surveys/1234&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;action_network:responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/surveys/1234/responses&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;action_network:record_response_helper&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/surveys/1234/responses&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;action_network:embed&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/api/v2/surveys/1234/embed&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;curies&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;osdi&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/docs/v2/</span><span class="si">{rel}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;templated&quot;</span><span class="p">:</span> <span class="n">true</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;action_network&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="s2">&quot;https://actionnetwork.org/docs/v2/</span><span class="si">{rel}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;templated&quot;</span><span class="p">:</span> <span class="n">true</span>
+        <span class="p">}</span>
+        <span class="p">]</span>
+<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1"># Update a survey</span>
+<span class="n">updated_survey</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">update_survey</span><span class="p">(</span><span class="s1">&#39;survey_id&#39;</span><span class="p">,</span> <span class="n">survey_payload</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

@@ -1,24 +1,31 @@
-<div class="rst-other-versions">
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs</span>
+    {{ current_version.name }}
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
     <dl>
       <dt>{{ _('Recommended') }}</dt>
       {% for version in versions %}
-          {% if version.name == "stable" %}
-                <dd><a href="{{ version.url }}">Stable <small>(Latest Release)</small></a></dd>
-          {% endif %}
+        {% if version.name == "stable" %}
+          <dd><a href="{{ version.url }}">Stable</a></dd>
+        {% endif %}
       {% endfor %}
 
       <dt>{{ _('In Development') }}</dt>
       {% for version in versions %}
-          {% if version.name == "latest" %}
-                <dd><a href="{{ version.url }}">Latest <small>(Work in Progress)</small></a></dd>
-          {% endif %}
+        {% if version.name == "latest" %}
+          <dd><a href="{{ version.url }}">Latest</a></dd>
+        {% endif %}
       {% endfor %}
 
       <dt>{{ _('All Versions') }}</dt>
       {% for version in versions | sort(attribute='name', reverse=True) %}
-          {% if version.name|first == "v" %}
-                <dd><a href="{{ version.url }}">{{ version.name }}</a></dd>
-          {% endif %}
+        {% if version.name.startswith("v") %}
+          <dd><a href="{{ version.url }}">{{ version.name }}</a></dd>
+        {% endif %}
       {% endfor %}
     </dl>
   </div>
+</div>

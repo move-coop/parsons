@@ -1,5 +1,7 @@
 import csv
+import datetime
 import unittest
+import zoneinfo
 from pathlib import Path
 
 import requests_mock
@@ -180,6 +182,15 @@ class TestScytl(unittest.TestCase):
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
         assert result != []
+
+    def test__parse_date_to_utc(self):
+        date_string = datetime.datetime(
+            2022, 6, 14, 20, 19, 31, tzinfo=zoneinfo.ZoneInfo(key="UTC")
+        )
+        assert self.scy._parse_date_to_utc(str(date_string)) == date_string
+
+    def test__parse_date_to_utc_missing_date(self):
+        assert self.scy._parse_date_to_utc(None) is None
 
     def _mock_responses(self, m: requests_mock.Mocker):
         mock_current_version_url = scytl.CURRENT_VERSION_URL_TEMPLATE.format(

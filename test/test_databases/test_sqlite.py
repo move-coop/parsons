@@ -3,7 +3,7 @@ import unittest
 
 from parsons import Table
 from parsons.databases.sqlite import Sqlite
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 
 class TestSqlite(unittest.TestCase):

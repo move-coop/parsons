@@ -152,12 +152,12 @@ That's pretty much all there is to it. When writing tests for a Connector wrappi
 Useful Tips
 ^^^^^^^^^^^
 
-Parsons has a function ``assert_matching_tables`` in the ``parsons.test.utils`` module that can be used to compare two Parsons tables:
+Parsons has a function ``assert_matching_tables`` in the ``parsons.test.conftest`` module that can be used to compare two Parsons tables:
 
 .. code-block:: python
 
     from parsons import Table
-    from test.utils import assert_matching_tables
+    from test.conftest import assert_matching_tables
 
     a = Table()
     b = Table()

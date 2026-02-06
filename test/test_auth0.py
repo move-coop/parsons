@@ -6,7 +6,7 @@ import unittest.mock
 import requests_mock
 
 from parsons import Auth0, Table
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 CLIENT_ID = "abc"
 CLIENT_SECRET = "def"

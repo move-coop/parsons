@@ -5,7 +5,7 @@ import requests_mock
 
 from parsons import Redash, Table
 from parsons.redash.redash import RedashTimeout
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 BASE_URL = "https://redash.example.com"
 API_KEY = "abc123"

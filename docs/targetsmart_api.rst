@@ -19,6 +19,7 @@ The ``TargetSmartAPI`` class provides methods to consume the data services provi
 
 Some TargetSmart API services have not yet been implemented in Parsons. For more information, see the `API documentation <https://docs.targetsmart.com/developers/tsapis/v2/index.html>`_.
 Authentication
+
 ..............
 
 Log in to `My TargetSmart <https://my.targetsmart.com/>`_ to access authentication credentials. You will need an API key to use the ``TargetSmartAPI`` class.
@@ -28,6 +29,7 @@ Log in to `My TargetSmart <https://my.targetsmart.com/>`_ to access authenticati
   Endpoint Access
     Access to endpoints is individually provisioned. If you encounter errors accessing an endpoint, please contact `TargetSmart Client Services <mailto:support@targetsmart.com>`_ to verify that your API key has been provisioned access.
 Data Enrichment
+
 ...............
 
 Most TargetSmart API services append a set of enrichment data fields as part of
@@ -35,6 +37,7 @@ a matching or search request. The presence of these fields are provisioned by
 the TargetSmart Client Services team. Please contact `TargetSmart Client
 Services <mailto:support@targetsmart.com>`_ to learn more or request
 adjustments.
+
 Quickstart
 ==========
 
@@ -60,6 +63,7 @@ You can then call various methods that correspond to TargetSmart endpoints:
 
    # Search for district information using an address
    ts_api.district(search_type='address', address='123 test st, Durham NC 27708')
+
 API
 ===
 

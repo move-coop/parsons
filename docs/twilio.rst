@@ -1,9 +1,9 @@
 ########
- Twilio
+Twilio
 ########
 
 **********
- Overview
+Overview
 **********
 
 `Twilio <https://twilio.com>`_ is a messaging platform that allows you
@@ -23,7 +23,7 @@ account usage data.
       documentation <https://www.twilio.com/docs/iam/credentials/api>`_.
 
 *************
- Quick Start
+Quick Start
 *************
 
 Get Account Usage
@@ -60,7 +60,7 @@ them in as arguments:
         twilio.get_messages(to='9995675309')
 
 *****
- API
+API
 *****
 
 .. autoclass:: parsons.Twilio

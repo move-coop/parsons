@@ -1,9 +1,9 @@
 ###########
- Formstack
+Formstack
 ###########
 
 **********
- Overview
+Overview
 **********
 
 `Formstack <https://www.formstack.com/>`_ is a service that provides an
@@ -24,7 +24,7 @@ from the Formstack API.
       variable ``FORMSTACK_API_TOKEN``.
 
 *************
- Quick Start
+Quick Start
 *************
 
 To instantiate the ``Formstack`` class, you can either store your access
@@ -58,7 +58,7 @@ as an argument.
        print(forms)
 
 *****
- API
+API
 *****
 
 .. autoclass:: parsons.formstack.Formstack

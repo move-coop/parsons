@@ -1,9 +1,9 @@
 ############
- Salesforce
+Salesforce
 ############
 
 **********
- Overview
+Overview
 **********
 
 `Salesforce <https://www.salesforce.com>`_ is a cloud-based CRM
@@ -29,7 +29,7 @@ making API calls under the hood.
       Personal Information > Reset My Security Token*.
 
 *************
- Quick Start
+Quick Start
 *************
 
 To instantiate the ``Salesforce`` class, you can store your Salesforce
@@ -64,7 +64,7 @@ You can then call different endpoints:
    upsert_results = sf.upsert("Contact", contacts_table, "id")
 
 *****
- API
+API
 *****
 
 .. autoclass:: parsons.Salesforce

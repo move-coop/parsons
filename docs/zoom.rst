@@ -1,9 +1,9 @@
 ######
- Zoom
+Zoom
 ######
 
 **********
- Overview
+Overview
 **********
 
 `Zoom <https://zoom.us>`_ is a video conferencing platform. This
@@ -25,7 +25,7 @@ for past meetings, and fetching participants of past meetings via the
       (`meetings`, `webinars`, `reports`, etc.)
 
 *************
- Quick Start
+Quick Start
 *************
 
 To instantiate the ``Zoom`` class, you can either store your Zoom
@@ -55,7 +55,7 @@ pass them in as arguments.
    participants_tbl = zoom.get_past_meeting_participants("my_meeting_id")
 
 *****
- API
+API
 *****
 
 .. autoclass:: parsons.Zoom

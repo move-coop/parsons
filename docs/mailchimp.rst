@@ -1,9 +1,9 @@
 ###########
- Mailchimp
+Mailchimp
 ###########
 
 **********
- Overview
+Overview
 **********
 
 `Mailchimp <https://www.mailchimp.com>`_ is a platform used for creating
@@ -26,7 +26,7 @@ emails, and unsubscribes.
       <https://mailchimp.com/help/about-api-keys/>`_.
 
 *************
- Quick Start
+Quick Start
 *************
 
 To instantiate the Mailchimp class, you can either store your Mailchimp
@@ -53,7 +53,7 @@ as an argument.
    unsubscribes = mc.get_unsubscribes("dd693a3e74")
 
 *****
- API
+API
 *****
 
 .. autoclass:: parsons.mailchimp.Mailchimp

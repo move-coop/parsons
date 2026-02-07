@@ -1,9 +1,9 @@
 ########
- Hustle
+Hustle
 ########
 
 **********
- Overview
+Overview
 **********
 
 `Hustle <https://www.hustle.com/>`_ is a peer to peer texting
@@ -30,7 +30,7 @@ updating agents and leads.
       returning resources.
 
 *************
- Quick Start
+Quick Start
 *************
 
 To instantiate the ``Hustle`` class, you can either store your Hustle
@@ -61,7 +61,7 @@ arguments:
    hustle.create_leads(leads, group_id)
 
 *****
- API
+API
 *****
 
 .. autoclass:: parsons.Hustle

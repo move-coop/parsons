@@ -1,9 +1,9 @@
 ##########
- Catalist
+Catalist
 ##########
 
 **********
- Overview
+Overview
 **********
 
 The CatalistMatch class allows you to interact with the Catalist M Tool
@@ -56,7 +56,7 @@ then save the resulting matched Parsons table as a CSV.
    result_table.to_csv(result_filepath)
 
 *****
- API
+API
 *****
 
 .. autoclass:: parsons.CatalistMatch

@@ -1,9 +1,9 @@
 #######
- Auth0
+Auth0
 #######
 
 **********
- Overview
+Overview
 **********
 
 `Auth0 <https://auth0.com/>`_ is an authentication and authorization
@@ -12,7 +12,7 @@ platform. This Parsons integration with the `Auth0 Management API
 deleting user records.
 
 ************
- Quickstart
+Quickstart
 ************
 
 To instantiate the Auth0 class, you can either store your Auth0 API
@@ -39,7 +39,7 @@ You can then call various endpoints:
    user = auth0.get_users_by_email("fakeemail@fakedomain.com")
 
 *****
- API
+API
 *****
 
 .. autoclass:: parsons.Auth0

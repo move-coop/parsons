@@ -1,9 +1,9 @@
 #######
- Scytl
+Scytl
 #######
 
 **********
- Overview
+Overview
 **********
 
 Scytl, or Clarity Elections, is a company that creates a tool for
@@ -37,7 +37,7 @@ fetch methods.
       authentication.
 
 ************
- Quickstart
+Quickstart
 ************
 
 To get started, initialize a Scytl class with the two-letter state code,
@@ -61,7 +61,7 @@ state is "GA" and the election ID is "114729".
    scy.get_detailed_results()
 
 *************
- Scytl Class
+Scytl Class
 *************
 
 .. autoclass:: parsons.Scytl

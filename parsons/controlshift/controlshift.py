@@ -20,8 +20,10 @@ class Controlshift:
         client_secret: str
             The Client Secret for your REST API Application. Not required if
             ``CONTROLSHIFT_CLIENT_SECRET`` env variable is set.
+
     Returns:
         Controlshift Class
+
     """
 
     def __init__(self, hostname=None, client_id=None, client_secret=None):

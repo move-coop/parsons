@@ -24,8 +24,10 @@ class TurboVote:
         subdomain: str
             Your TurboVote subdomain (i.e. ``https://MYORG.turbovote.org``). Not
             required if ``TURBOVOTE_SUBDOMAIN`` env variable set.
+
     Returns:
         class
+
     """
 
     def __init__(self, username=None, password=None, subdomain=None):
@@ -52,8 +54,8 @@ class TurboVote:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         url = self.uri + f"partners/{self.subdomain}.turbovote.org/users"
 
         headers = {"Authorization": f"Bearer {self._get_token()}"}

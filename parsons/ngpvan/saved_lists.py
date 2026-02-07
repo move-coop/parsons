@@ -26,8 +26,8 @@ class SavedLists:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("savedLists", params={"folderId": folder_id}))
         logger.info(f"Found {tbl.num_rows} saved lists.")
         return tbl
@@ -39,10 +39,11 @@ class SavedLists:
         Args:
             saved_list_id: int
                 The saved list id.
+
         Returns:
             dict
-        """
 
+        """
         r = self.connection.get_request(f"savedLists/{saved_list_id}")
         logger.info(f"Found saved list {saved_list_id}.")
         return r
@@ -54,11 +55,12 @@ class SavedLists:
         Args:
             saved_list_id: int
                 The saved list id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         ej = ExportJobs(self.connection)
         job = ej.export_job_create(saved_list_id)
 
@@ -119,10 +121,12 @@ class SavedLists:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
+
         Returns:
             dict
                 Upload results information included the number of matched and saved
                 records in your list.
+
         """
         rando = str(uuid.uuid1())
         file_name = rando + ".csv"
@@ -190,7 +194,7 @@ class SavedLists:
         **url_kwargs,
     ):
         """
-            .. warning::
+        .. warning::
                .. deprecated:: 0.X Use :func:`parsons.VAN.upload_saved_list_rest` instead.
 
         Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
@@ -214,10 +218,12 @@ class SavedLists:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
+
         Returns:
             dict
                 Upload results information included the number of matched and saved
                 records in your list.
+
         """
         # Move to cloud storage
         file_name = str(uuid.uuid1())
@@ -286,8 +292,8 @@ class Folders:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("folders"))
         logger.info(f"Found {tbl.num_rows} folders.")
         return tbl
@@ -299,11 +305,12 @@ class Folders:
         Args:
             folder_id: int
                 The folder id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         r = self.connection.get_request(f"folders/{folder_id}")
         logger.info(f"Found folder {folder_id}.")
         return r
@@ -320,8 +327,8 @@ class ExportJobs:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("exportJobTypes"))
         logger.info(f"Found {tbl.num_rows} export job types.")
         return tbl
@@ -344,8 +351,8 @@ class ExportJobs:
         Returns:
             dict
                 The export job object
-        """
 
+        """
         json = {
             "savedListId": str(list_id),
             "type": str(export_type),
@@ -363,11 +370,12 @@ class ExportJobs:
         Args:
             export_job_id: int
                 The xxport job id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         r = self.connection.get_request(f"exportJobs/{export_job_id}")
         logger.info(f"Found export job {export_job_id}.")
         return r

@@ -42,11 +42,12 @@ class Events:
                 ``None`` will be returned for that field. Can be ``locations``, ``codes``,
                 ``shifts``,``roles``, ``notes``, ``financialProgram``, ``ticketCategories``,
                 ``onlineForms``.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if expand_fields is None:
             expand_fields = [
                 "locations",
@@ -95,8 +96,8 @@ class Events:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if expand_fields is None:
             expand_fields = [
                 "locations",
@@ -134,7 +135,7 @@ class Events:
         voter_registration_batches=None,
     ):
         """
-        Create an event
+        Create an event.
 
         Args:
             name: str
@@ -185,11 +186,12 @@ class Events:
                 that at most one source code and any number of tags, may be applied to an event.
             notes: list
                 A list of notes
+
         Returns:
             int
               The event code.
-        """
 
+        """
         if shifts is None:
             shifts = [{"name": "Default Shift", "startTime": start_date, "endTime": end_date}]
         else:
@@ -235,10 +237,11 @@ class Events:
         Args:
             event_id: int
                 The event id.
+
         Returns:
             ``None``
-        """
 
+        """
         r = self.connection.delete_request(f"events/{event_id}")
         logger.info(f"Event {event_id} deleted.")
         return r
@@ -256,11 +259,12 @@ class Events:
                 The start time for the shift (``iso8601`` formatted date).
             end_time: str
                 The end time of the shift (``iso8601`` formatted date).
+
         Returns:
             int
               The shift id.
-        """
 
+        """
         shift = {"name": shift_name, "startTime": start_time, "endTime": end_time}
 
         r = self.connection.post_request(f"events/{event_id}/shifts", json=shift)
@@ -274,8 +278,8 @@ class Events:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("events/types"))
         logger.info(f"Found {tbl.num_rows} events.")
         return tbl

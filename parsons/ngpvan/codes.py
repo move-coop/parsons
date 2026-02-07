@@ -24,11 +24,12 @@ class Codes:
                 Filter by parent code id.
             code_type: str
                 Filter by code type.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         params = {
             "name": name,
             "supportedEntities": supported_entities,
@@ -48,11 +49,12 @@ class Codes:
         Args:
             code_id : int
                 The code id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         c = self.connection.get_request(f"codes/{code_id}")
         logger.debug(c)
         logger.info(f"Found code {code_id}.")
@@ -65,8 +67,8 @@ class Codes:
         Returns:
             list
                 A list of code types.
-        """
 
+        """
         lst = self.connection.get_request("codeTypes")
         logger.info(f"Found {len(lst)} code types.")
         return lst
@@ -113,7 +115,6 @@ class Codes:
                     ]
 
         """
-
         json = {
             "parentCodeId": parent_code_id,
             "name": name,
@@ -182,7 +183,6 @@ class Codes:
                     ]
 
         """
-
         post_data = {}
 
         if name:
@@ -216,10 +216,11 @@ class Codes:
         Args:
             code_id: int
                 The code id.
+
         Returns:
             ``None``
-        """
 
+        """
         r = self.connection.delete_request(f"codes/{code_id}")
         logger.info(f"Code {code_id} deleted.")
         return r
@@ -231,8 +232,8 @@ class Codes:
         Returns:
             list
                 A list of code supported entities.
-        """
 
+        """
         lst = self.connection.get_request("codes/supportedEntities")
         logger.info(f"Found {len(lst)} code supported entities.")
         return lst

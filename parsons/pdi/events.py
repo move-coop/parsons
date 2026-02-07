@@ -16,21 +16,24 @@ class Events:
         super().__init__()
 
     def get_events(self, first_event_date: str, last_event_date: str, limit=None):
-        """Get a table of PDI events in a given time frame
+        """
+        Get a table of PDI events in a given time frame
 
         Args:
             first_event_date: str
                 First date in the timeframe from which you want events formatted at 'yyy-MM-dd'
+
             last_event_date: str
                 Last date in the timeframe from which you want events formatted at 'yyy-MM-dd'
+
             limit: int
                 The max number of events to return
 
         Returns:
             parsons.Table
                 A Parsons table containing all requested events data.
-        """
 
+        """
         params = {
             "startDate": first_event_date,
             "endDate": last_event_date,
@@ -39,19 +42,24 @@ class Events:
         return self._request(self.events_url, args=params, limit=limit)
 
     def get_event_invitations(self, event_id: str, expand=True, limit=None):
-        """Get a table of PDI event invitations for a specified event
+        """
+        Get a table of PDI event invitations for a specified event
 
         Args:
             event_id: str
                 ID of event for which you want invitations
+
             expand: bool
                 If True returns columns for contact (and all contact info) and event)
+
+            limit: int
+                Specify limit to return (max=2000)
 
         Returns:
             parsons.Table
                 A Parsons table containing all requested event invitation data.
-        """
 
+        """
         params = {"expand": expand}
 
         return self._request(f"{self.events_url}/{event_id}/invitations", args=params, limit=limit)
@@ -71,7 +79,8 @@ class Events:
         host_email=None,
         website=None,
     ):
-        """Create event in a specified calendar
+        """
+        Create event in a specified calendar
 
         Args:
             calendar_id: str
@@ -87,7 +96,7 @@ class Events:
                 yyyy-MM-ddThh:mm:ss.fffZ
             end_datetime: str
                 The end date formatted like start_datetime
-            is_all_day: bool
+            all_day: bool
                 set to True if event is an all day event. Defaults to False
             recurrencetype: str
                 Either 'daily', 'weekly', or 'monthly'. Defaults to None
@@ -106,7 +115,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         payload = {
             "locationId": location_id,
             "recurrenceType": recurrencetype,
@@ -149,10 +157,11 @@ class Events:
         website=None,
         signup_goal=None,
     ):
-        """Create event in a specified calendar with an associated activity. The activty will
+        """
+        Create event in a specified calendar with an associated activity. The activty will
         be assigned the same start, end time, and recurrance settings as the event.
 
-            Args:
+        Args:
                 calendar_id: str
                     The unique ID of the calendar in which you'd like to create an event
                 location_id: str
@@ -171,7 +180,7 @@ class Events:
                     yyyy-MM-ddThh:mm:ss.fffZ
                 end_datetime: str
                     The end date formatted like start_datetime
-                is_all_day = bool
+                all_day: bool
                     set to True if event is an all day event. Defaults to False
                 recurrencetype: str
                     Either 'daily', 'weekly', or 'monthly'. Defaults to None
@@ -189,6 +198,7 @@ class Events:
             Returns:
                 dict
                     Response from PDI in dictionary object
+
         """
         event_data = self.create_event(
             calendar_id,
@@ -242,7 +252,8 @@ class Events:
         recurrence_end_datetime=None,
         signup_goal=None,
     ):
-        """Create event in a specified calendar with an associated activity
+        """
+        Create event in a specified calendar with an associated activity
 
         Args:
             calendar_id: str
@@ -275,8 +286,8 @@ class Events:
         Returns:
             dict
                 Response from PDI in dictionary object
-        """
 
+        """
         event_activity_payload = {
             "CalendarId": calendar_id,
             "EventId": event_id,
@@ -307,7 +318,8 @@ class Events:
         confirmed=False,
         specific_occurrence_start=None,
     ):
-        """Create a PDI event invitation indicating a contact has been registered for an event
+        """
+        Create a PDI event invitation indicating a contact has been registered for an event
         Args:
             event_id: str
                 The ID of the event to write the RSVP to
@@ -328,7 +340,6 @@ class Events:
             dict
                 Response from PDI in dictionary object
         """
-
         event_invitation_payload = {
             "contactId": contact_id,
             "rsvpStatus": status,
@@ -356,7 +367,8 @@ class Events:
         confirmed=None,
         specific_occurrence_start=None,
     ):
-        """Modify a PDI event invitation
+        """
+        Modify a PDI event invitation
         Args:
             invitation_id: str
                 The ID of the event invitation
@@ -378,7 +390,6 @@ class Events:
             dict
                 Response from PDI in dictionary object
         """
-
         event_invitation_payload = {"contactId": contact_id}
 
         if status:
@@ -406,7 +417,8 @@ class Events:
         confirmed=False,
         specific_occurrence_start=None,
     ):
-        """Create an activity assignement
+        """
+        Create an activity assignement
         Args:
             eventactivityid: str
                 The ID of the specific event activity you'd like to assign a contact
@@ -426,7 +438,6 @@ class Events:
             dict
                 Response from PDI in dictionary object
         """
-
         assignment_payload = {
             "rsvpStatus": status,
             "isConfirmed": confirmed,
@@ -454,7 +465,8 @@ class Events:
         confirmed=None,
         specific_occurrence_start=None,
     ):
-        """Create an activity assignement
+        """
+        Create an activity assignement
         Args:
             activityassignementid: str
                 Id of the specific event activity assignement you want to modify
@@ -476,7 +488,6 @@ class Events:
             dict
                 Response from PDI in dictionary object
         """
-
         assignment_payload = {
             "contactId": contact_id,
             "eventActivityId": eventactivityid,
@@ -523,8 +534,8 @@ class Events:
 
         Returns:
             Parsons Table with event activity assignment responses
-        """
 
+        """
         if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 
@@ -551,8 +562,8 @@ class Events:
 
         Returns:
             Parsons Table with event activity responses
-        """
 
+        """
         if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 
@@ -561,7 +572,8 @@ class Events:
 
     def get_calendars(self, limit=None):
         """
-        Gets a list of calendars.
+        Get a list of calendars.
+
         Relevant API docs:
             https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll
 
@@ -571,8 +583,8 @@ class Events:
 
         Returns:
             Parsons Table object with id, name, description, and timeZone records
-        """
 
+        """
         if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 

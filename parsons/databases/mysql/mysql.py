@@ -37,6 +37,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             Required if env variable ``MYSQL_DB`` not populated
         port: int
             Can be set by env variable ``MYSQL_PORT`` or argument.
+
     """
 
     def __init__(self, host=None, username=None, password=None, db=None, port=3306):
@@ -61,8 +62,8 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
 
         Returns:
             MySQL `connection` object
-        """
 
+        """
         # Create a mysql connection and cursor
         connection = mysql.connect(
             host=self.host,
@@ -128,7 +129,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 See :ref:`parsons-table` for output options.
 
         """
-
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
@@ -152,6 +152,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         with self.cursor(connection) as cursor:
             # The python connector can only execute a single sql statement, so we will
@@ -225,8 +226,8 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 the created table's column sizes will be sized to exactly fit the current data,
                 or if their size will be rounded up to account for future values being larger
                 then the current dataset. defaults to ``True``
-        """
 
+        """
         if tbl.num_rows == 0:
             logger.info("Parsons table is empty. Table will not be created.")
             return None
@@ -245,10 +246,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 self.query_with_connection(sql, connection, commit=False)
 
     def _insert_statement(self, tbl, table_name):
-        """
-        Convert the table data into a string for bulk importing.
-        """
-
+        """Convert the table data into a string for bulk importing."""
         # Single column tables
         if len(tbl.columns) == 1:
             values = [f"({row[0]})" for row in tbl.data]
@@ -276,11 +274,12 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``,
                 or ``truncate`` the table.
+
         Returns:
             bool
                 True if the table needs to be created, False otherwise.
-        """
 
+        """
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 
@@ -315,8 +314,8 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
-        """
 
+        """
         return self.query(f"SHOW TABLES LIKE '{table_name}'").first == table_name
 
     def table(self, table_name):

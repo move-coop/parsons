@@ -1,5 +1,6 @@
 import logging
 import urllib.parse
+from typing import Literal
 
 from requests import request as _request
 from requests.exceptions import HTTPError
@@ -33,6 +34,7 @@ class APIConnector:
             if the data is nested in the response json
     Returns:
         APIConnector class
+
     """
 
     def __init__(self, uri, headers=None, auth=None, pagination_key=None, data_key=None):
@@ -71,6 +73,7 @@ class APIConnector:
 
         Returns:
             requests response
+
         """
         full_url = urllib.parse.urljoin(self.uri, url)
 
@@ -84,7 +87,9 @@ class APIConnector:
             params=params,
         )
 
-    def get_request(self, url, params=None, return_format="json"):
+    def get_request(
+        self, url: str, params=None, return_format: Literal["json", "content"] = "json"
+    ):
         """
         Make a GET request.
 
@@ -93,10 +98,12 @@ class APIConnector:
                 A complete and valid url for the api request
             params: dict
                 The request parameters
+            return_format: Literal["json", "content"]
+                The format to return the data in
         Returns:
                 A requests response object
-        """
 
+        """
         r = self.request(url, "GET", params=params)
         self.validate_response(r)
 
@@ -123,10 +130,11 @@ class APIConnector:
                 A JSON object to post
             success_codes: int
                 The expected success code to be returned. If not provided, accepts 200, 201, 202, and 204.
+
         Returns:
             A requests response object
-        """
 
+        """
         if success_codes is None:
             success_codes = [200, 201, 202, 204]
         r = self.request(url, "POST", params=params, data=data, json=json)
@@ -153,10 +161,11 @@ class APIConnector:
                 The request parameters
             success_codes: int
                 The expected success codes to be returned. If not provided, accepts 200, 201, 204.
+
         Returns:
                 A requests response object or status code
-        """
 
+        """
         if success_codes is None:
             success_codes = [200, 201, 204]
         r = self.request(url, "DELETE", params=params)
@@ -186,10 +195,11 @@ class APIConnector:
                 The request parameters
             success_codes: int
                 The expected success codes to be returned. If not provided, accepts 200, 201, 204.
+
         Returns:
                 A requests response object
-        """
 
+        """
         if success_codes is None:
             success_codes = [200, 201, 204]
         r = self.request(url, "PUT", params=params, data=data, json=json)
@@ -217,10 +227,11 @@ class APIConnector:
                 A JSON object to post
             success_codes: int
                 The expected success codes to be returned. If not provided, accepts 200, 201, and 204.
+
         Returns:
             A requests response object
-        """
 
+        """
         if success_codes is None:
             success_codes = [200, 201, 204]
         r = self.request(url, "PATCH", params=params, data=data, json=json)
@@ -243,8 +254,8 @@ class APIConnector:
         Args:
             resp: object
                 A response object
-        """
 
+        """
         if resp.status_code >= 400:
             if resp.reason:
                 message = f"HTTP error occurred ({resp.status_code}): {resp.reason}"
@@ -271,8 +282,8 @@ class APIConnector:
         Returns:
             dict
                 A dictionary of data.
-        """
 
+        """
         # TODO: Some response jsons are enclosed in a list. Need to deal with unpacking and/or
         # not assuming that it is going to be a dict.
 
@@ -299,8 +310,8 @@ class APIConnector:
                 A response dictionary
         `Returns:
             boolean
-        """
 
+        """
         if self.pagination_key and self.pagination_key in resp:
             if resp[self.pagination_key]:
                 return True
@@ -308,10 +319,7 @@ class APIConnector:
             return False
 
     def json_check(self, resp):
-        """
-        Check to see if a response has a json included in it.
-        """
-
+        """Check to see if a response has a json included in it."""
         try:
             resp.json()
             return True

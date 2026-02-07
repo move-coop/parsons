@@ -19,8 +19,8 @@ def create_archive(archive_path, file_path, file_name=None, if_exists="replace")
             If archive already exists, one of 'replace' or 'append'
     Returns:
         Zip archive path
-    """
 
+    """
     write_type = "a" if if_exists == "append" else "w"
 
     if not file_name:
@@ -44,6 +44,7 @@ def unzip_archive(archive_path, destination=None):
             `Optional`; path to unzip the archive into; if not specified, the
     Returns:
         Extracted file path.
+
     """
     destination = destination or create_temp_directory()
 

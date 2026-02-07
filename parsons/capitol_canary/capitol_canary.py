@@ -23,8 +23,10 @@ class CapitolCanary:
         app_key: str
             The CapitolCanary provided application key. Not required if ``CAPITOLCANARY_APP_KEY``
             env variable set.
+
     Returns:
         CapitolCanary Class
+
     """
 
     def __init__(self, app_id=None, app_key=None):
@@ -76,6 +78,7 @@ class CapitolCanary:
             page: int
                 Page number of data to fetch; if this is specified, call will only return one
                 page.
+
         Returns:
             A dict of parsons tables:
                 * emails
@@ -85,8 +88,8 @@ class CapitolCanary:
                 * ids
                 * fields
                 * advocates
-        """
 
+        """
         # Convert the passed in updated_since into a Unix timestamp (which is what the API wants)
         updated_since = date_to_timestamp(updated_since)
 
@@ -155,11 +158,12 @@ class CapitolCanary:
             include_content: boolean
                 If true, include campaign content fields, which may vary. This may cause
                 sync errors.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         args = {
             "state": state,
             "zip": zip,
@@ -245,8 +249,8 @@ class CapitolCanary:
                 Additional fields on the advocate to update
         Returns:
             The int ID of the created advocate.
-        """
 
+        """
         # Validate the passed in arguments
 
         if not campaigns:
@@ -346,8 +350,8 @@ class CapitolCanary:
                 opted out, they cannot be opted back in.
             **kwargs:
                 Additional fields on the advocate to update
-        """
 
+        """
         # Validate the passed in arguments
         if (sms_optin or sms_optout) and not (phone and campaigns):
             raise ValueError(

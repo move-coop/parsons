@@ -26,8 +26,10 @@ class Shopify:
             The Shopify access token.  Not required if ``SHOPIFY_ACCESS_TOKEN`` env
             variable set. If argument or env variable is set, password and api_key
             are ignored.
+
     Returns:
         Shopify Class
+
     """
 
     def __init__(
@@ -56,6 +58,7 @@ class Shopify:
     def get_count(self, query_date=None, since_id=None, table_name=None):
         """
         Get the count of rows in a table.
+
         Args:
             query_date: str
                 Filter query by a date that rows were created. This filter is ignored if value
@@ -64,8 +67,10 @@ class Shopify:
                 Filter query by a minimum ID. This filter is ignored if value is None.
             table_name: str
                 The name of the Shopify table to query.
+
         Returns:
             int
+
         """
         return (
             self.client.request(self.get_query_url(query_date, since_id, table_name), "GET")
@@ -76,6 +81,7 @@ class Shopify:
     def get_orders(self, query_date=None, since_id=None, completed=True):
         """
         Get Shopify orders.
+
         Args:
             query_date: str
                 Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter
@@ -84,8 +90,10 @@ class Shopify:
                 Filter query by a minimum ID. This filter is ignored if value is None.
             completed: bool
                 True if only getting completed orders, False otherwise.
+
         Returns:
             Table Class
+
         """
         orders = []
 
@@ -146,8 +154,10 @@ class Shopify:
                 The name of the Shopify table to query.
             count: bool
                 True if refund should be included in Table, False otherwise.
+
         Returns:
             str
+
         """
         filters = "limit=250&status=any"
 
@@ -172,8 +182,10 @@ class Shopify:
         Args:
             query: str
                 GraphQL query.
+
         Returns:
             dict
+
         """
         return (
             self.client.request(self.base_url + "graphql.json", "POST", json={"query": query})
@@ -200,6 +212,7 @@ class Shopify:
                                             completed=True)
         This instantiates the class and makes the appropriate query type to Shopify's orders
         table based on which arguments are supplied.
+
         Args:
             subdomain: str
                 The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com).
@@ -219,6 +232,7 @@ class Shopify:
                 value as value
         Returns:
             Table Class
+
         """
         return cls(subdomain, password, api_key, api_version).get_orders(
             query_date, since_id, completed

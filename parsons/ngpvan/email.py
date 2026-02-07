@@ -31,6 +31,7 @@ class Email:
 
                 foreignMessageId, name, createdBy, dateCreated, dateScheduled, campaignID,
                 dateModified, emailMessageContent
+
         """
         if ascending:
             params = {
@@ -61,8 +62,8 @@ class Email:
 
         Returns:
             dict
-        """
 
+        """
         params = {
             "$expand": (
                 "emailMessageContent, EmailMessageContentDistributions" if expand else None
@@ -93,8 +94,8 @@ class Email:
                 recipientCount, bounceCount, contributionCount, contributionTotal,
                 formSubmissionCount, linksClickedCount, machineOpenCount, openCount,
                 unsubscribeCount, subject
-        """
 
+        """
         email_list = []
 
         final_email_list = []

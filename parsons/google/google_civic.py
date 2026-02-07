@@ -12,8 +12,10 @@ class GoogleCivic:
         api_key : str
             A valid Google api key. Not required if ``GOOGLE_CIVIC_API_KEY``
             env variable set.
+
     Returns:
         class
+
     """
 
     def __init__(self, api_key=None):
@@ -39,8 +41,8 @@ class GoogleCivic:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         url = self.uri + "elections"
 
         return Table((self.request(url))["elections"])
@@ -65,11 +67,12 @@ class GoogleCivic:
                 :meth:`get_elections` method.
             address: str
                 A valid US address in a single string.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         r = self._get_voter_info(election_id, address)
 
         return r["pollingLocations"]
@@ -86,11 +89,12 @@ class GoogleCivic:
                 A valid US address in a single string.
             address_field: str
                 The name of the column where the address is stored.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         polling_locations = []
 
         # Iterate through the rows of the table
@@ -167,8 +171,8 @@ class GoogleCivic:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if levels is not None and not isinstance(levels, list):
             raise ValueError("levels must be a list of strings")
         if roles is not None and not isinstance(roles, list):

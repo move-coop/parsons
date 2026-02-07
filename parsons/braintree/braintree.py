@@ -15,6 +15,7 @@ class ParsonsBraintreeError(Exception):
 class Braintree:
     """
     Braintree is a payment processor.
+
     Args:
         merchant_id: str
             Braintree merchant id -- probably a 16-char alphanumeric.
@@ -31,8 +32,10 @@ class Braintree:
         production: bool
             Defaults to True.  If you are testing in a Sandbox,
             set this to False.
+
     Returns:
         Braintree class
+
     """
 
     query_types = {
@@ -231,6 +234,7 @@ class Braintree:
 
         Returns:
             Table Class
+
         """
         collection = self._get_collection(
             "dispute",
@@ -306,8 +310,10 @@ class Braintree:
                 and then pass the table back to get the full data.
                 These are somewhat-niche use-cases, but occasionally crucial
                 when a search result returns 1000s of ids.
+
         Returns:
             Table Class
+
         """
         collection = self._get_collection(
             "subscription",
@@ -388,8 +394,10 @@ class Braintree:
                 and then pass the table back to get the full data.
                 These are somewhat-niche use-cases, but occasionally crucial
                 when a search result returns 1000s of ids.
+
         Returns:
             Table Class
+
         """
         collection = self._get_collection(
             "transaction",
@@ -517,6 +525,7 @@ class Braintree:
         disbursement_date={'between': ['2020-03-20', '2020-03-27']}
         merchant_account_id={'in_list': [123, 456]}
         created_at={'greater_than_or_equal': '2020-03-10'}
+
         """
         queries = []
         for node, filters in queryparams.items():

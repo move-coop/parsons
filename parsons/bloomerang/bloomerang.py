@@ -32,6 +32,7 @@ class Bloomerang:
             the ``BLOOMERANG_CLIENT_SECRET`` env variable is set or if the ``api_key``
             parameter is set. Note that the ``client_id`` parameter must
             also be set in order to use OAuth2 authentication.
+
     """
 
     def __init__(self, api_key=None, client_id=None, client_secret=None):
@@ -115,22 +116,24 @@ class Bloomerang:
     def create_constituent(self, **kwargs):
         """
         Args:
-            **kwargs:`
-                Fields to include, e.g., FirstName = 'Rachel'.
+        **kwargs:`
+            Fields to include, e.g., FirstName = 'Rachel'.
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/post_constituent>`__.
+            See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/post_constituent>`__.
+
         """
         return self._base_create("constituent", **kwargs)
 
     def update_constituent(self, constituent_id, **kwargs):
         """
         Args:
-            constituent_id: str or int
-                Constituent ID to update
-            **kwargs:`
-                Fields to update, e.g., FirstName = 'RJ'.
+        constituent_id: str or int
+            Constituent ID to update
+        **kwargs:`
+            Fields to update, e.g., FirstName = 'RJ'.
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/put_constituent__id_>`__.
+            See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/put_constituent__id_>`__.
+
         """
         return self._base_update("constituent", entity_id=constituent_id, **kwargs)
 
@@ -141,14 +144,16 @@ class Bloomerang:
                 Constituent ID to get fields for
         Returns:
             A  JSON of the entry or an error.
+
         """
         return self._base_get("constituent", entity_id=constituent_id)
 
     def delete_constituent(self, constituent_id):
         """
         Args:
-            constituent_id: str or int
-                Constituent ID to delete
+        constituent_id: str or int
+            Constituent ID to delete
+
         """
         return self._base_delete("constituent", entity_id=constituent_id)
 
@@ -172,8 +177,10 @@ class Bloomerang:
                 Sorts the order_by in ``Asc`` or ``Desc`` order.
             last_modified: str
                 Filters to constituents last modified after the specified date (ISO-8601 format).
+
         Returns:
             A Table of the entries.
+
         """
         params = self._base_pagination_params(page_number, page_size)
         params.update(self._base_ordering_params(order_by, order_direction))
@@ -187,22 +194,24 @@ class Bloomerang:
     def create_transaction(self, **kwargs):
         """
         Args:
-            **kwargs:`
-                Fields to include, e.g., CreditCardType = 'Visa'.
+        **kwargs:`
+            Fields to include, e.g., CreditCardType = 'Visa'.
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/post_transaction>`__.
+            See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/post_transaction>`__.
+
         """
         return self._base_create("transaction", **kwargs)
 
     def update_transaction(self, transaction_id, **kwargs):
         """
         Args:
-            transaction_id: str or int
-                Transaction ID to update
-            **kwargs:`
-                Fields to update, e.g., CreditCardType = 'Visa'.
+        transaction_id: str or int
+            Transaction ID to update
+        **kwargs:`
+            Fields to update, e.g., CreditCardType = 'Visa'.
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/put_transaction__id_>`__.
+            See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/put_transaction__id_>`__.
+
         """
         return self._base_update("transaction", entity_id=transaction_id, **kwargs)
 
@@ -213,14 +222,16 @@ class Bloomerang:
                 Transaction ID to get fields for
         Returns:
             A  JSON of the entry or an error.
+
         """
         return self._base_get("transaction", entity_id=transaction_id)
 
     def delete_transaction(self, transaction_id):
         """
         Args:
-            transaction_id: str or int
-                Transaction ID to delete
+        transaction_id: str or int
+            Transaction ID to delete
+
         """
         return self._base_delete("transaction", entity_id=transaction_id)
 
@@ -235,8 +246,10 @@ class Bloomerang:
                 Sorts by ``Date``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Date``).
             order_direction: str
                 Sorts the order_by in ``Asc`` or ``Desc`` order (default ``Desc``).
+
         Returns:
             A  JSON of the entry or an error.
+
         """
         params = self._base_pagination_params(page_number, page_size)
         params.update(self._base_ordering_params(order_by, order_direction))
@@ -251,6 +264,7 @@ class Bloomerang:
                 Transaction Designation ID to get fields for
         Returns:
             A  JSON of the entry or an error.
+
         """
         return self._base_get("transaction/designation", entity_id=designation_id)
 
@@ -267,8 +281,10 @@ class Bloomerang:
                 Sorts by ``Date``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Date``).
             order_direction: str
                 Sorts the order_by in ``Asc`` or ``Desc`` order (default ``Desc``).
+
         Returns:
             A  JSON of the entry or an error.
+
         """
         params = self._base_pagination_params(page_number, page_size)
         params.update(self._base_ordering_params(order_by, order_direction))
@@ -279,22 +295,24 @@ class Bloomerang:
     def create_interaction(self, **kwargs):
         """
         Args:
-            **kwargs:`
-                Fields to include, e.g., Channel = "Email".
+        **kwargs:`
+            Fields to include, e.g., Channel = "Email".
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/post_interaction>`__.
+            See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/post_interaction>`__.
+
         """
         return self._base_create("interaction", **kwargs)
 
     def update_interaction(self, interaction_id, **kwargs):
         """
         Args:
-            interaction_id: str or int
-                Interaction ID to update
-            **kwargs:`
-                Fields to update, e.g., EmailAddress = "user@example.com".
+        interaction_id: str or int
+            Interaction ID to update
+        **kwargs:`
+            Fields to update, e.g., EmailAddress = "user@example.com".
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/put_interaction__id_>`__.
+            See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/put_interaction__id_>`__.
+
         """
         return self._base_update("interaction", entity_id=interaction_id, **kwargs)
 
@@ -305,14 +323,16 @@ class Bloomerang:
                 Interaction ID to get fields for
         Returns:
             A  JSON of the entry or an error.
+
         """
         return self._base_get("interaction", entity_id=interaction_id)
 
     def delete_interaction(self, interaction_id):
         """
         Args:
-            interaction_id: str or int
-                Interaction ID to delete
+        interaction_id: str or int
+            Interaction ID to delete
+
         """
         return self._base_delete("interaction", entity_id=interaction_id)
 
@@ -323,8 +343,10 @@ class Bloomerang:
                 Number of the page to fetch
             page_size: int
                 Number of records per page (maximum allowed is 50)
+
         Returns:
             A  JSON of the entry or an error.
+
         """
         params = self._base_pagination_params(page_number, page_size)
         response = self._base_get("interactions", params=params)

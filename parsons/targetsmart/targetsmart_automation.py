@@ -1,4 +1,5 @@
-"""**TargetSmart Automation**
+"""
+**TargetSmart Automation**
 
 Parsons provides methods for interacting with TargetSmart Automation Workflows,
 a solution for executing custom file processing workflows programmatically. In
@@ -71,7 +72,8 @@ class TargetSmartAutomation:
         call_back=None,
         remove_files=True,
     ):
-        """Submit a file for custom data processing using the TargetSmart Automation workflow solution.
+        """
+        Submit a file for custom data processing using the TargetSmart Automation workflow solution.
 
         .. warning::
             Table Columns
@@ -111,7 +113,6 @@ class TargetSmartAutomation:
                 the TargetSmart SFTP upon completion or failure of match.
 
         """
-
         # Generate a match job
         job_name = job_name or str(uuid.uuid1())
 
@@ -151,7 +152,8 @@ class TargetSmartAutomation:
         return tbl
 
     def execute(self, *args, **kwargs):
-        """Most Automation workflows perform list matching. However, it is possible that
+        """
+        Most Automation workflows perform list matching. However, it is possible that
         a custom workflow might be provisioned for a client for other types of
         file processing. The ``execute`` method is provided as an alias for the
         ``match`` method which may be a confusing name in these cases.

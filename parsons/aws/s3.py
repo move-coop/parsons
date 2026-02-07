@@ -64,6 +64,7 @@ class S3:
 
     Returns:
         S3 class.
+
     """
 
     def __init__(
@@ -92,8 +93,8 @@ class S3:
 
         Returns:
             list
-        """
 
+        """
         return [bucket.name for bucket in self.s3.buckets.all()]
 
     def bucket_exists(self, bucket):
@@ -106,8 +107,8 @@ class S3:
         Returns:
             boolean
                 ``True`` if the bucket exists and ``False`` if not.
-        """
 
+        """
         try:
             # If we can list the keys, the bucket definitely exists. We do this check since
             # it will account for buckets that live on other AWS accounts and that we
@@ -149,12 +150,13 @@ class S3:
                 Additional arguments for the S3 API call. See `AWS ListObjectsV2 documentation
                 <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.list_objects_v2>`_
                 for more info.
+
         Returns:
             dict
                 Dict mapping the keys to info about each key. The info includes 'LastModified',
                 'Size', and 'Owner'.
-        """
 
+        """
         keys_dict = {}
         logger.debug(f"Fetching keys in {bucket} bucket")
 
@@ -231,8 +233,8 @@ class S3:
         Returns:
             boolean
                 ``True`` if key exists and ``False`` if not.
-        """
 
+        """
         key_count = len(self.list_keys(bucket, prefix=key))
 
         if key_count > 0:
@@ -266,8 +268,8 @@ class S3:
                 The name of the bucket to create
         Returns:
             ``None``
-        """
 
+        """
         self.client.create_bucket(Bucket=bucket)
 
     def put_file(self, bucket, key, local_path, acl="bucket-owner-full-control", **kwargs):
@@ -287,8 +289,8 @@ class S3:
                 Additional arguments for the S3 API call. See `AWS Put Object documentation
                 <https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html>`_ for more
                 info.
-        """
 
+        """
         self.client.upload_file(local_path, bucket, key, ExtraArgs={"ACL": acl, **kwargs})
 
     def remove_file(self, bucket, key):
@@ -302,8 +304,8 @@ class S3:
                 The object key
         Returns:
             ``None``
-        """
 
+        """
         self.client.delete_object(Bucket=bucket, Key=key)
 
     def get_file(self, bucket, key, local_path=None, **kwargs):
@@ -327,8 +329,8 @@ class S3:
         Returns:
             str
                 The path of the new file
-        """
 
+        """
         if not local_path:
             local_path = files.create_temp_file_for_path(key)
 
@@ -350,8 +352,8 @@ class S3:
         Returns:
             Url:
                 A link to download the object
-        """
 
+        """
         return self.client.generate_presigned_url(
             ClientMethod="get_object",
             Params={"Bucket": bucket, "Key": key},
@@ -401,10 +403,11 @@ class S3:
                 Additional arguments for the S3 API call. See `AWS download_file docs
                 <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.copy>`_
                 for more info.
+
         Returns:
             ``None``
-        """
 
+        """
         # If prefix, get all files for the prefix
         if origin_key.endswith("/"):
             resp = self.list_keys(
@@ -459,7 +462,6 @@ class S3:
                 list of buckets
 
         """
-
         all_buckets = self.list_buckets()
         buckets = [x for x in all_buckets if bucket_subname in x.split("-")]
 

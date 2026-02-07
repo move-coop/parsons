@@ -1,4 +1,5 @@
-"""Utilities for working with the Catalist Match API
+"""
+Utilities for working with the Catalist Match API
 
 Install dependencies with `pip install parsons[catalist]`
 """
@@ -22,7 +23,8 @@ DEFAULT_EXPORT_CHUNK_SIZE = 1024 * 1024 * 50
 
 
 class CatalistMatch:
-    """Connector for working with the Catalist Match API.
+    """
+    Connector for working with the Catalist Match API.
 
     This API allows a trusted third party to submit new files for processing, and/or
     reprocess existing files. It also allows retrieval of processing status. Initial
@@ -78,7 +80,8 @@ class CatalistMatch:
         self.sftp = SFTP("t.catalist.us", sftp_username, sftp_password, timeout=7200)
 
     def load_table_to_sftp(self, table: Table, input_subfolder: str | None = None) -> str:
-        """Load table to Catalist sftp bucket as gzipped CSV for matching.
+        """
+        Load table to Catalist sftp bucket as gzipped CSV for matching.
 
         If input_subfolder is specific, the file will be uploaded to a subfolder of the
         myUploads directory in the SFTP server.
@@ -92,6 +95,7 @@ class CatalistMatch:
              input_subfolder: str
                  Optional. If specified, the file will be uploaded to a subfolder of the
                  myUploads directory in the SFTP server.
+
         """
         local_path = table.to_csv(temp_file_compression="gzip")
         hashed_name = hash(time.time())
@@ -120,7 +124,8 @@ class CatalistMatch:
         static_values: dict[str, str | int] | None = None,
         wait: int = 30,
     ) -> Table:
-        """Load table to the Catalist Match API, returns matched table.
+        """
+        Load table to the Catalist Match API, returns matched table.
 
          This method blocks until the match completes, which can take from 10 minutes to
          6 hours or more depending on concurrent traffic.
@@ -146,6 +151,7 @@ class CatalistMatch:
                   Optional. Any included values are mapped to every row of the input table.
              wait: int
                   Seconds to poll, defaults to 30.
+
         """
         response = self.upload(
             table=table,
@@ -170,7 +176,8 @@ class CatalistMatch:
         copy_to_sandbox: bool = False,
         static_values: dict[str, str | int] | None = None,
     ) -> dict:
-        """Load table to the Catalist Match API, returns response with job metadata.
+        """
+        Load table to the Catalist Match API, returns response with job metadata.
 
         Args:
              table: Table
@@ -194,8 +201,8 @@ class CatalistMatch:
                   Defaults to False.
              static_values: dict
                   Optional. Any included values are mapped to every row of the input table.
-        """
 
+        """
         self.validate_table(table, template_id)
 
         # upload table to s3 temp location
@@ -247,7 +254,8 @@ class CatalistMatch:
         export_filename_suffix: str | None = None,
         copy_to_sandbox: bool = False,
     ) -> list[dict]:
-        """Perform actions on existing files.
+        """
+        Perform actions on existing files.
 
         All files must be in Finished status (if the action requested is publish), and
         must mapped against the same template. The request will return as soon as the
@@ -322,7 +330,6 @@ class CatalistMatch:
         depending on concurrent traffic. Consider your strategy for polling for
         completion.
         """
-
         while True:
             response = self.status(id)
             status = response["process"]["processState"]
@@ -337,11 +344,13 @@ class CatalistMatch:
         return result
 
     def load_matches(self, id: str) -> Table:
-        """Take a completed job ID, download and open the match file as a Table.
+        """
+        Take a completed job ID, download and open the match file as a Table.
 
         Result will be a Table with all the original columns along with columns 'DWID',
         'CONFIDENCE', 'ZIP9', and 'STATE'. The original column headers will be prepended
-        with 'COL#-'."""
+        with 'COL#-'.
+        """
         # Validate that the job is complete
         response = self.status(str(id))
         status = response["process"]["processState"]

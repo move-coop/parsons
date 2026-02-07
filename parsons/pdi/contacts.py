@@ -17,18 +17,21 @@ class Contacts:
     ):
         """
         Get a list of Contacts.
+
         Args:
             email: str, email address
             phone: str, phone number
             first_name: str, first name
             last_name: str, last name
-            zip code: str, zip code
+            zip_code: str, zip code
             search_by_email: bool, whether to search using email address
             limit: int
                 The number of contacts to return.
+
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         params = {
             "email": email,
@@ -85,6 +88,7 @@ class Contacts:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         payload = {
             "namePrefix": name_prefix,
@@ -115,6 +119,7 @@ class Contacts:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         # todo not working quite right
         return self._request(f"{self.url_contacts}/{id}")
@@ -161,6 +166,7 @@ class Contacts:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         payload = {
             "namePrefix": name_prefix,
@@ -189,7 +195,8 @@ class Contacts:
         primary=True,
         extension="",
     ):
-        """Add a phone number to a contact
+        """
+        Add a phone number to a contact
         Args:
             contact_id: int
                 Unique ID of the contact you'd like to apply the phone_number to
@@ -204,7 +211,6 @@ class Contacts:
             dict
                 Response from PDI
         """
-
         payload = {
             "phoneNumber": phone_number,
             "phoneType": phone_type,
@@ -221,7 +227,8 @@ class Contacts:
         return response
 
     def add_email(self, contact_id: int, email: str, primary=True):
-        """Add an email address to a contact
+        """
+        Add an email address to a contact
         Args:
             contact_id: int
                 Unique ID of the contact you'd like to apply the email to
@@ -232,7 +239,6 @@ class Contacts:
             dict
                 Response from PDI
         """
-
         payload = {"emailAddress": email, "isPrimary": primary}
 
         response = self._request(
@@ -246,8 +252,10 @@ class Contacts:
     def delete_contact(self, id: str):
         """
         Delete a Question by id.
+
         Args:
             id: str
                 The Question id
+
         """
         return self._request(f"{self.url_contacts}/{id}", req_type="DELETE")

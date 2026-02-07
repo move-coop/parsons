@@ -17,11 +17,12 @@ class CustomFields:
             field_type : str
                 Filter by custom field group type. Must be one of ``contacts`` or
                 ``contributions``.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         params = {"customFieldsGroupType": field_type.capitalize()}
 
         tbl = Table(self.connection.get_request("customFields", params=params))
@@ -36,11 +37,12 @@ class CustomFields:
             field_type : str
                 Filter by custom field group type. Must be one of ``contacts`` or
                 ``contributions``.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = self.get_custom_fields()
 
         # Some custom fields do no have associated values. If this is the case then
@@ -69,10 +71,11 @@ class CustomFields:
         Args:
             custom_field_id: int
                 A valid custom field id.
+
         Returns:
             A json.
-        """
 
+        """
         r = self.connection.get_request(f"customFields/{custom_field_id}")
         logger.info(f"Found custom field {custom_field_id}.")
         return r

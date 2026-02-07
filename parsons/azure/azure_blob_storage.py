@@ -30,8 +30,10 @@ class AzureBlobStorage:
         account_url: str
             The account URL for the Azure storage account including the account name and domain.
             Not required if ``AZURE_ACCOUNT_URL`` environment variable is set.
+
     Returns:
         `AzureBlobStorage`
+
     """
 
     def __init__(
@@ -63,8 +65,8 @@ class AzureBlobStorage:
         Returns:
             list[str]
                 List of container names
-        """
 
+        """
         container_names = [container.name for container in self.client.list_containers()]
         logger.info(f"Found {len(container_names)} containers.")
         return container_names
@@ -78,8 +80,8 @@ class AzureBlobStorage:
                 The name of the container
         Returns:
             bool
-        """
 
+        """
         container_client = self.get_container(container_name)
         try:
             container_client.get_container_properties()
@@ -98,8 +100,8 @@ class AzureBlobStorage:
                 The name of the container
         Returns:
             `ContainerClient`
-        """
 
+        """
         logger.info(f"Returning {container_name} container client")
         return self.client.get_container_client(container_name)
 
@@ -119,10 +121,11 @@ class AzureBlobStorage:
                 Additional arguments to be supplied to the Azure Blob Storage API. See `Azure Blob
                 Storage SDK documentation <https://docs.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobserviceclient?view=azure-python#create-container-name--metadata-none--public-access-none----kwargs->`__
                 for more info.
+
         Returns:
             `ContainerClient`
-        """
 
+        """
         container_client = self.client.create_container(
             container_name, metadata=metadata, public_access=public_access, **kwargs
         )
@@ -138,8 +141,8 @@ class AzureBlobStorage:
                 The name of the container
         Returns:
             ``None``
-        """
 
+        """
         self.client.delete_container(container_name)
         logger.info(f"{container_name} container deleted.")
 
@@ -155,8 +158,8 @@ class AzureBlobStorage:
         Returns:
             list[str]
                 A list of blob names
-        """
 
+        """
         container_client = self.get_container(container_name)
         blobs = list(container_client.list_blobs(name_starts_with=name_starts_with))
         logger.info(f"Found {len(blobs)} blobs in {container_name} container.")
@@ -173,8 +176,8 @@ class AzureBlobStorage:
                 The blob name
         Returns:
             bool
-        """
 
+        """
         blob_client = self.get_blob(container_name, blob_name)
         try:
             blob_client.get_blob_properties()
@@ -195,8 +198,8 @@ class AzureBlobStorage:
                 The blob name
         Returns:
             `BlobClient`
-        """
 
+        """
         blob_client = self.client.get_blob_client(container_name, blob_name)
         logger.info(f"Got {blob_name} blob from {container_name} container.")
         return blob_client
@@ -230,11 +233,12 @@ class AzureBlobStorage:
             start: Optional[Union[datetime, str]]
                 The datetime when the URL should become valid. Defaults to UTC. If it is ``None``,
                 the URL becomes active when it is first created.
+
         Returns:
             str
                 URL with shared access signature for blob
-        """
 
+        """
         if not account_key:
             if not self.credential:
                 raise ValueError(
@@ -264,8 +268,8 @@ class AzureBlobStorage:
         Returns:
             tuple[Optional[ContentSettings], dict]
                 Any created settings or ``None`` and the dict with settings keys remvoed
-        """
 
+        """
         kwargs_copy = {**kwargs_dict}
         content_settings = None
         content_settings_dict = {}
@@ -302,10 +306,11 @@ class AzureBlobStorage:
                 Storage SDK documentation <https://docs.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobclient?view=azure-python#upload-blob-data--blob-type--blobtype-blockblob---blockblob----length-none--metadata-none----kwargs->`__
                 for more info. Any keys that belong to the ``ContentSettings`` object will be
                 provided to that class directly.
+
         Returns:
             `BlobClient`
-        """
 
+        """
         blob_client = self.get_blob(container_name, blob_name)
 
         # Move all content_settings keys into a ContentSettings object
@@ -335,11 +340,12 @@ class AzureBlobStorage:
                 The local path where the file will be downloaded. If not specified, a temporary
                 file will be created and returned, and that file will be removed automatically
                 when the script is done running.
+
         Returns:
             str
                 The path of the downloaded file
-        """
 
+        """
         if not local_path:
             local_path = files.create_temp_file_for_path("TEMPFILEAZURE")
 
@@ -363,8 +369,8 @@ class AzureBlobStorage:
                 The blob name
         Returns:
             ``None``
-        """
 
+        """
         blob_client = self.get_blob(container_name, blob_name)
         blob_client.delete_blob()
         logger.info(f"{blob_name} blob in {container_name} container deleted.")
@@ -386,8 +392,8 @@ class AzureBlobStorage:
                 Additional keyword arguments to supply to ``put_blob``
         Returns:
             `BlobClient`
-        """
 
+        """
         if data_type == "csv":
             local_path = table.to_csv()
             content_type = "text/csv"

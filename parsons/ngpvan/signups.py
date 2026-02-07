@@ -22,11 +22,12 @@ class Signups:
                 A valid event id.
             event_type_id: int
                 A valid event type id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if event_id is None and event_type_id is None:
             raise ValueError("One of event_id or event_type_id must be populated")
 
@@ -49,11 +50,12 @@ class Signups:
         Args:
             vanid: int
                 A valid vanid associated with a person.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("signups", params={"vanID": vanid}))
         logger.info(f"Found {tbl.num_rows} signups for {vanid}.")
         return self._unpack_signups(tbl)
@@ -68,8 +70,8 @@ class Signups:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("signups", params={"eventId": event_id}))
         logger.info(f"Found {tbl.num_rows} signups for event {event_id}.")
         return self._unpack_signups(tbl)
@@ -81,11 +83,12 @@ class Signups:
         Args:
             event_signup_id: int
                 A valid event_signup_id associated with a signup.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         r = self.connection.get_request(f"signups/{event_signup_id}")
         logger.info(f"Found sign up {event_signup_id}.")
         return r
@@ -110,8 +113,8 @@ class Signups:
         Returns:
             Int
                 The event signup id
-        """
 
+        """
         signup = {
             "person": {"vanId": vanid},
             "event": {"eventId": event_id},
@@ -150,8 +153,8 @@ class Signups:
                 The location_id to update
         Returns:
             ``None``
-        """
 
+        """
         #  Get the signup object
         signup = self.connection.get_request(f"signups/{event_signup_id}")
 
@@ -176,8 +179,8 @@ class Signups:
                 A valid event signup id
         Returns:
             ``None``
-        """
 
+        """
         r = self.connection.delete_request(f"signups/{event_signup_id}")
         logger.info(f"Signup {event_signup_id} deleted.")
         return r

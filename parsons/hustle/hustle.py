@@ -25,8 +25,10 @@ class Hustle:
         client_secret:
             The client secret provided by Hustle. Not required if ``HUSTLE_CLIENT_SECRET`` env
             variable set.
+
     Returns:
         Hustle Class
+
     """
 
     def __init__(self, client_id: str | None = None, client_secret: str | None = None):
@@ -39,7 +41,6 @@ class Hustle:
 
     def _get_auth_token(self, client_id: str, client_secret: str):
         """Generate an authorization token."""
-
         data = {
             "client_id": client_id,
             "client_secret": client_secret,
@@ -56,11 +57,11 @@ class Hustle:
         return auth_token, token_expiration
 
     def _refresh_token(self):
-        """Generate new token if current token is exprired.
+        """
+        Generate new token if current token is exprired.
 
         Tokens are valid for `expires_in` (7200 by default) seconds.
         """
-
         logger.debug("Checking token expiration.")
 
         if datetime.now() >= self.token_expiration:
@@ -112,7 +113,6 @@ class Hustle:
 
     def _error_check(self, resp: Response, raise_on_error: bool) -> NoReturn | None:
         """Check response for errors."""
-
         if resp.status_code in (200, 201):
             logger.debug(resp.json())
             return
@@ -136,8 +136,8 @@ class Hustle:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self._request(f"groups/{group_id}/agents"))
         logger.info(f"Got {tbl.num_rows} agents from {group_id} group.")
         return tbl
@@ -149,10 +149,11 @@ class Hustle:
         Args:
             agent_id: str
                 The agent id.
+
         Returns:
             dict
-        """
 
+        """
         resp = self._request(f"agents/{agent_id}")
         logger.info(f"Got {agent_id} agent.")
         return resp  # type: ignore
@@ -182,10 +183,11 @@ class Hustle:
                 Send an invitation to the agent.
             email:
                 The email address of the agent.
+
         Returns:
             dict
-        """
 
+        """
         agent = {
             "name": name,
             "fullName": full_name,
@@ -222,10 +224,11 @@ class Hustle:
                 The valid phone number of the agent.
             send_invite: boolean
                 Send an invitation to the agent.
+
         Returns:
             dict
-        """
 
+        """
         agent = {"name": name, "fullName": full_name, "sendInvite": send_invite}
 
         # Remove empty args in dictionary
@@ -242,8 +245,8 @@ class Hustle:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self._request("organizations"))
         logger.info(f"Got {tbl.num_rows} organizations.")
         return tbl
@@ -255,10 +258,11 @@ class Hustle:
         Args:
             organization_id: str
                 The organization id.
+
         Returns:
             dict
-        """
 
+        """
         resp = self._request(f"organizations/{organization_id}")
         logger.info(f"Got {organization_id} organization.")
         return resp  # type: ignore
@@ -272,8 +276,8 @@ class Hustle:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self._request(f"organizations/{organization_id}/groups"))
         logger.info(f"Got {tbl.num_rows} groups.")
         return tbl
@@ -285,8 +289,8 @@ class Hustle:
         Args:
             group_id: str
                 The group id.
-        """
 
+        """
         resp = self._request(f"groups/{group_id}")
         logger.info(f"Got {group_id} group.")
         return resp  # type: ignore
@@ -300,8 +304,8 @@ class Hustle:
                 The group id.
             lead_id: str
                 The lead id.
-        """
 
+        """
         resp = self._request(
             f"groups/{group_id}/memberships",
             req_type="POST",
@@ -316,10 +320,11 @@ class Hustle:
         Args:
             lead_id: str
                 The lead id.
+
         Returns:
             dict
-        """
 
+        """
         resp = self._request(f"leads/{lead_id}")
         logger.info(f"Got {lead_id} lead.")
         return resp  # type: ignore
@@ -334,11 +339,12 @@ class Hustle:
                 The organization id.
             group_id: str
                 The group id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if organization_id is None and group_id is None:
             raise ValueError("Either organization_id or group_id required.")
 
@@ -369,7 +375,6 @@ class Hustle:
         tag_ids: list | None = None,
     ) -> dict:
         """
-
         Create a lead.
 
         Args:
@@ -392,10 +397,11 @@ class Hustle:
                 value as the value.
             tag_ids: list
                 A list of tag ids.
+
         Returns:
                 ``None``
-        """
 
+        """
         lead = {
             "firstName": first_name,
             "lastName": last_name,
@@ -444,8 +450,8 @@ class Hustle:
 
         Returns:
             A table of created ids with associated lead id.
-        """
 
+        """
         table.map_columns(LEAD_COLUMN_MAP)
 
         arg_list = [
@@ -519,8 +525,8 @@ class Hustle:
 
         Returns:
             dict
-        """
 
+        """
         lead = {
             "leadId": lead_id,
             "firstName": first_name,
@@ -546,11 +552,12 @@ class Hustle:
         Args:
             organization_id: str
                 The organization id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self._request(f"organizations/{organization_id}/tags"))
         logger.info(f"Got {tbl.num_rows} tags for {organization_id} organization.")
         return tbl
@@ -562,25 +569,28 @@ class Hustle:
         Args:
             tag_id: str
                 The tag id.
+
         Returns:
             dict
-        """
 
+        """
         resp = self._request(f"tags/{tag_id}")
         logger.info(f"Got {tag_id} tag.")
         return resp  # type: ignore
 
     def get_custom_fields(self, organization_id: str) -> Table:
-        """Retrieve an organization's custom fields.
+        """
+        Retrieve an organization's custom fields.
 
         Args:
             organization_id: str
                 The organization id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self._request(f"organizations/{organization_id}/custom-fields"))
         logger.info(f"Got {tbl.num_rows} custom fields for {organization_id} organization.")
         return tbl
@@ -588,7 +598,8 @@ class Hustle:
     def create_custom_field(
         self, organization_id: str, name: str, agent_visible: bool | None = None
     ) -> dict:
-        """Create a custom field.
+        """
+        Create a custom field.
 
         Args:
             organization_id: str
@@ -597,11 +608,12 @@ class Hustle:
                 The name of the custom field. Restricted to letters, numbers, and underscores. Minimum of 2 characters, maximum of 40.
             agent_visible: bool
                 Optional. `true` represents that the custom field is visible to agents. `false` means that only admins can see it.
+
         Returns:
             dict
                 The newly created custom field
-        """
 
+        """
         custom_field: dict[str, str | bool] = {"name": name}
         if agent_visible is not None:
             custom_field["agentVisible"] = agent_visible

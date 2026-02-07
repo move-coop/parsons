@@ -25,11 +25,12 @@ class ToFrom:
                 columns. Otherwise this argument indicates the order of the
                 columns in the result (any names not found in the data will
                 become all-NA columns)
+
         Returns:
             dataframe
                 Pandas DataFrame object
-        """
 
+        """
         return petl.todataframe(
             self.table,
             index=index,
@@ -76,11 +77,12 @@ class ToFrom:
                 Styles to be applied to the table cells.
             truncate: int
                 Length of cell data.
+
         Returns:
             str
                 The path of the new file
-        """
 
+        """
         if not local_path:
             local_path = files.create_temp_file(suffix=".html")
 
@@ -178,8 +180,8 @@ class ToFrom:
             +-------+---------+-----+
             | 'Ted' |      23 |  51 |
             +-------+---------+-----+
-        """
 
+        """
         return petl.toavro(
             self.table,
             target,
@@ -213,8 +215,8 @@ class ToFrom:
                 Additionally there are support for passing extra options in the
                 argument `**avro_args` that are fowarded directly to fastavro. Check the
                 fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
-        """
 
+        """
         return petl.appendavro(self.table, target, schema=schema, sample=sample, **avro_args)
 
     def to_csv(
@@ -261,8 +263,8 @@ class ToFrom:
         Returns:
             str
                 The path of the new file
-        """
 
+        """
         # If a zip archive.
         if files.zip_check(local_path, temp_file_compression):
             return self.to_zip_csv(
@@ -313,8 +315,8 @@ class ToFrom:
         Returns:
             str
                 The path of the file
-        """
 
+        """
         petl.appendcsv(self.table, source=local_path, encoding=encoding, errors=errors, **csvargs)
         return local_path
 
@@ -360,8 +362,8 @@ class ToFrom:
         Returns:
             str
                 The path of the archive
-        """
 
+        """
         if not archive_path:
             archive_path = files.create_temp_file(suffix=".zip")
 
@@ -396,8 +398,8 @@ class ToFrom:
         Returns:
             str
                 The path of the new file
-        """
 
+        """
         if not local_path:
             suffix = ".json" + files.suffix_for_compression_type(temp_file_compression)
             local_path = files.create_temp_file(suffix=suffix)
@@ -434,8 +436,8 @@ class ToFrom:
 
         Returns:
             list
-        """
 
+        """
         return list(petl.dicts(self.table))
 
     def to_sftp_csv(
@@ -478,8 +480,8 @@ class ToFrom:
                 to authenticate stfp connection
             **csvargs: kwargs
                 ``csv_writer`` optional arguments
-        """
 
+        """
         from parsons.sftp import SFTP
 
         sftp = SFTP(host, username, password, port, rsa_private_key_file)
@@ -548,8 +550,8 @@ class ToFrom:
                 ``csv_writer`` optional arguments
         Returns:
             Public url if specified. If not ``None``.
-        """
 
+        """
         compression = compression or files.compression_type_for_path(key)
 
         csv_name = files.extract_file_name(key, include_suffix=False) + ".csv"
@@ -621,14 +623,14 @@ class ToFrom:
                 Include header in output
             public_url: boolean
                 Create a public link to the file
-            public_url_expire: 60
+            public_url_expires: 60
                 The time, in minutes, until the url expires if ``public_url`` set to ``True``.
             **csvargs: kwargs
                 ``csv_writer`` optional arguments
         Returns:
             Public url if specified. If not ``None``.
-        """
 
+        """
         compression = compression or files.compression_type_for_path(blob_name)
 
         csv_name = files.extract_file_name(blob_name, include_suffix=False) + ".csv"
@@ -687,8 +689,8 @@ class ToFrom:
 
         Returns:
             ``None``
-        """
 
+        """
         from parsons.databases.redshift import Redshift
 
         rs = Redshift(username=username, password=password, host=host, db=db, port=port)
@@ -725,8 +727,8 @@ class ToFrom:
 
         Returns:
             ``None``
-        """
 
+        """
         from parsons.databases.postgres import Postgres
 
         pg = Postgres(username=username, password=password, host=host, db=db, port=port)
@@ -757,8 +759,8 @@ class ToFrom:
 
         Returns:
             ``None``
-        """
 
+        """
         from parsons import GoogleBigQuery as BigQuery
 
         bq = BigQuery(app_creds=app_creds, project=project)
@@ -786,7 +788,7 @@ class ToFrom:
         arguments can passed to `civis.io.dataframe_to_civis()
         <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_
 
-        `Args`
+        Args:
             table: str
                 The schema and table you want to upload to. E.g.,
                 'scratch.table'. Schemas or tablenames with periods must be
@@ -814,8 +816,8 @@ class ToFrom:
                 The second column in a compound sortkey for the table.
             wait: boolean
                 Wait for write job to complete before exiting method.
-        """
 
+        """
         from parsons.civis.civisclient import CivisClient
 
         civis = CivisClient(db=db, api_key=api_key)
@@ -850,8 +852,8 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         return cls(petl.fromavro(local_path, limit=limit, skips=skips, **avro_args))
 
     @classmethod
@@ -868,8 +870,8 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
         is_remote_file = bool(any(map(local_path.startswith, remote_prefixes)))
 
@@ -891,8 +893,8 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         bytesio = io.BytesIO(str.encode("utf-8"))
         memory_source = petl.io.sources.MemorySource(bytesio.read())
         return cls(petl.fromcsv(memory_source, **csvargs))
@@ -910,8 +912,8 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         return cls(petl.fromcolumns(cols, header=header))
 
     @classmethod
@@ -929,11 +931,12 @@ class ToFrom:
             line_delimited: bool
                 Whether the file is line-delimited JSON (with a row on each line), or a proper
                 JSON file.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if line_delimited:
             open_fn = gzip.open if files.is_gzip_path(local_path) else open
 
@@ -968,8 +971,8 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         from parsons.databases.redshift import Redshift
 
         rs = Redshift(username=username, password=password, host=host, db=db, port=port)
@@ -979,20 +982,20 @@ class ToFrom:
     def from_postgres(cls, sql, username=None, password=None, host=None, db=None, port=None):
         """
         Args:
-            sql: str
-                A valid SQL statement
-            username: str
-                Required if env variable ``PGUSER`` not populated
-            password: str
-                Required if env variable ``PGPASSWORD`` not populated
-            host: str
-                Required if env variable ``PGHOST`` not populated
-            db: str
-                Required if env variable ``PGDATABASE`` not populated
-            port: int
-                Required if env variable ``PGPORT`` not populated.
-        """
+        sql: str
+            A valid SQL statement
+        username: str
+            Required if env variable ``PGUSER`` not populated
+        password: str
+            Required if env variable ``PGPASSWORD`` not populated
+        host: str
+            Required if env variable ``PGHOST`` not populated
+        db: str
+            Required if env variable ``PGDATABASE`` not populated
+        port: int
+            Required if env variable ``PGPORT`` not populated.
 
+        """
         from parsons.databases.postgres import Postgres
 
         pg = Postgres(username=username, password=password, host=host, db=db, port=port)
@@ -1027,8 +1030,8 @@ class ToFrom:
                 ``csv_reader`` optional arguments
         Returns:
             `parsons.Table` object
-        """
 
+        """
         from parsons.aws import S3
 
         s3 = S3(aws_access_key_id, aws_secret_access_key)
@@ -1075,8 +1078,8 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         from parsons import GoogleBigQuery as BigQuery
 
         bq = BigQuery(app_creds=app_creds, project=project)
@@ -1093,6 +1096,6 @@ class ToFrom:
                 A valid Pandas dataframe objectt
             include_index: boolean
                 Include index column
-        """
 
+        """
         return cls(petl.fromdataframe(dataframe, include_index=include_index))

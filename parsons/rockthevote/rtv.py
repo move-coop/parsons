@@ -52,8 +52,10 @@ class RockTheVote:
             Not required if the ``RTV_PARTNER_API_KEY`` environmental variable is set.
         testing: bool
             Whether or not to use the staging instance. Defaults to False.
+
     Returns:
         RockTheVote class
+
     """
 
     def __init__(self, partner_id=None, partner_api_key=None, testing=False):
@@ -79,9 +81,11 @@ class RockTheVote:
             report_type: str
                 The type of report to create. If left as None, it creates the default report. The
                 ``extended`` report includes additional fields. Currently only accepts ``extended``.
+
         Returns:
             int
                 The ID of the created report.
+
         """
         report_url = "registrant_reports.json"
         # Create the report for the new data
@@ -154,6 +158,7 @@ class RockTheVote:
         Returns:
             Parsons Table
                 Parsons table with the report data.
+
         """
         logger.info(f"Getting report with id {report_id}...")
         credentials = {
@@ -252,6 +257,7 @@ class RockTheVote:
         Returns:
             Parsons.Table
                 The table with the report data.
+
         """
         report_str = f"{report_type} report" if report_type else "report"
         logger.info(f"Running {report_str} for {self.partner_id} for dates: {since} to {before}...")
@@ -270,6 +276,7 @@ class RockTheVote:
     ):
         """
         Checks state eligibility and provides state specific fields information.
+
         Args:
             lang: str
                 Required. Language. Represented by an abbreviation. 'en', 'es', etc
@@ -284,6 +291,7 @@ class RockTheVote:
         Returns:
             Parsons.Table
                 A single row table with the response json
+
         """
         requirements_url = "state_requirements.json"
 

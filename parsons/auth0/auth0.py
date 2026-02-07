@@ -22,8 +22,10 @@ class Auth0:
             The Auth0 client secret. Not required if ``AUTH0_CLIENT_SECRET`` env variable set.
         domain: str
             The Auth0 domain. Not required if ``AUTH0_DOMAIN`` env variable set.
+
     Returns:
         Auth0 Class
+
     """
 
     def __init__(self, client_id=None, client_secret=None, domain=None):
@@ -53,8 +55,10 @@ class Auth0:
         Args:
             id: str
                 The user ID of the record to delete.
+
         Returns:
             int
+
         """
         return requests.delete(
             f"{self.base_url}/api/v2/users/{id}", headers=self.headers
@@ -67,8 +71,10 @@ class Auth0:
         Args:
             email: str
                 The user email of the record to get.
+
         Returns:
             Table Class
+
         """
         url = f"{self.base_url}/api/v2/users-by-email"
         val = requests.get(url, headers=self.headers, params={"email": email})
@@ -104,8 +110,8 @@ class Auth0:
                 User metadata to set for user
         Returns:
             Requests Response object
-        """
 
+        """
         if user_metadata is None:
             user_metadata = {}
         if app_metadata is None:
@@ -147,8 +153,10 @@ class Auth0:
                 Auth0 user id
             connection: optional str
                 Name of auth0 connection (default to Username-Password-Authentication)
+
         Returns:
             Requests Response object
+
         """
         payload = json.dumps({"connection": connection, "blocked": True})
         ret = requests.patch(
@@ -167,8 +175,10 @@ class Auth0:
         Args:
             connection: optional str
                 Name of auth0 connection (default to Username-Password-Authentication)
+
         Returns:
             Requests Response object
+
         """
         connection_id = self.get_connection_id(connection)
         url = f"{self.base_url}/api/v2/jobs/users-exports"
@@ -228,6 +238,7 @@ class Auth0:
                 Name of auth0 connection
         Returns:
             Connection ID string
+
         """
         url = f"{self.base_url}/api/v2/connections"
 

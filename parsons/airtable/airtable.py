@@ -11,16 +11,17 @@ logger = logging.getLogger(__name__)
 class Airtable:
     """
     Args:
-        base_key: str
-            The key/ID of the Airtable base that you will interact with, typically
-            prefixed with `app`.
-        table_name: str
-            The name or key/ID of the table in the base. The table name is the
-            equivalent of the sheet name in Excel or GoogleDocs. The ID can be
-            found in the URL and is typically prefixed with `tbl`.
-        personal_access_token: str
-            The Airtable personal access token. Not required if ``AIRTABLE_PERSONAL_ACCESS_TOKEN``
-            env variable set.
+    base_key: str
+        The key/ID of the Airtable base that you will interact with, typically
+        prefixed with `app`.
+    table_name: str
+        The name or key/ID of the table in the base. The table name is the
+        equivalent of the sheet name in Excel or GoogleDocs. The ID can be
+        found in the URL and is typically prefixed with `tbl`.
+    personal_access_token: str
+        The Airtable personal access token. Not required if ``AIRTABLE_PERSONAL_ACCESS_TOKEN``
+        env variable set.
+
     """
 
     def __init__(self, base_key, table_name, personal_access_token=None):
@@ -38,8 +39,8 @@ class Airtable:
                 The Airtable record `id`
         Returns:
             A dictionary of the record
-        """
 
+        """
         return self.client.get(record_id)
 
     def get_records(
@@ -97,8 +98,8 @@ class Airtable:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if isinstance(fields, str):
             fields = [fields]
         # Raises an error if sort is None type. Thus, only adding if populated.
@@ -138,10 +139,11 @@ class Airtable:
                 Fields to insert. Must be dictionary with Column names as Key.
             typecast: boolean
                 Automatic data conversion from string values.
+
         Returns:
             Dictionary of inserted row
-        """
 
+        """
         resp = self.client.create(row, typecast=typecast)
         logger.info("Record inserted")
         return resp
@@ -157,10 +159,11 @@ class Airtable:
                 Insert a Parsons table or list
             typecast: boolean
                 Automatic data conversion from string values.
+
         Returns:
             List of dictionaries of inserted rows
-        """
 
+        """
         if isinstance(table, Table):
             table = table.to_dicts()
 
@@ -184,10 +187,11 @@ class Airtable:
                 Only provided fields are updated. If `True`, record is replaced in its
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
+
         Returns:
             Dictionary of updated row
-        """
 
+        """
         resp = self.client.update(record_id, fields, typecast=typecast, replace=replace)
         logger.info(f"{record_id} updated")
         return resp
@@ -208,10 +212,11 @@ class Airtable:
                 Only provided fields are updated. If `True`, record is replaced in its
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
+
         Returns:
             List of dicts of updated records
-        """
 
+        """
         # the update/upsert API call expects a dict/object shape of:
         # { id: string, fields: { column_name: value, ... } }
         # the map_update_fields helper will convert the flat table field
@@ -242,13 +247,14 @@ class Airtable:
                 Only provided fields are updated. If `True`, record is replaced in its
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
+
         Returns:
             Dictionary containing:
                 - `updated_records`: list of updated record `id`s
                 - `created_records`: list of created records `id`s
                 - `records`: list of records
-        """
 
+        """
         # the update/upsert API call expects a dict/object shape of:
         # { id: string, fields: { column_name: value, ... } }
         # the map_update_fields helper will convert the flat table field
@@ -279,8 +285,8 @@ class Airtable:
                 The Airtable record `id`
         Returns:
             Dictionary of record `id` and `deleted` status
-        """
 
+        """
         resp = self.client.delete(record_id)
         logger.info(f"{record_id} updated")
         return resp
@@ -291,10 +297,11 @@ class Airtable:
 
         Args:
             table: A Parsons Table or list containing the record `id`s to delete.
+
         Returns:
             List of dicts with record `id` and `deleted` status
-        """
 
+        """
         if isinstance(table, Table):
             table = table.to_dicts()
 

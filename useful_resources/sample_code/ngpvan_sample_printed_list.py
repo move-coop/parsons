@@ -134,7 +134,6 @@ def main(van_folder, gsheet_uri):
     Returns:
         None
     """
-
     # gets turf-specific data from NGP VAN
     saved_printed_merged = get_info_from_van(van_folder)
 

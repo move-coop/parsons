@@ -18,11 +18,12 @@ class Locations:
         Args:
             name: str
                 Filter locations by name.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("locations", params={"name": name}))
         logger.info(f"Found {tbl.num_rows} locations.")
         return self._unpack_loc(tbl)
@@ -34,10 +35,11 @@ class Locations:
         Args:
             location_id: int
                 The location id.
+
         Returns:
             dict
-        """
 
+        """
         r = self.connection.get_request(f"locations/{location_id}")
         logger.info(f"Found location {location_id}.")
         return r
@@ -67,11 +69,12 @@ class Locations:
                 Two or three character state or province code (e.g., MN, ON, NSW, etc.).
             zip_code: str
                 ZIP, ZIP+4, Postal Code, Post code, etc.
-            Returns:
+
+        Returns:
                 int
                     A location id.
-        """
 
+        """
         location = {
             "name": name,
             "address": {
@@ -96,8 +99,8 @@ class Locations:
                 The location id
         Returns:
             ``None``
-        """
 
+        """
         r = self.connection.delete_request(f"locations/{location_id}")
         logger.info(f"Location {location_id} deleted.")
         return r

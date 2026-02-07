@@ -101,9 +101,19 @@ select = [
     "PTH", # flake8-use-pathlib (PTH)
     "ISC", # flake8-implicit-str-concat (ISC)
     "PT", # flake8-pytest-style (PT)
+    "D2", # pydocstyle D200-D215
+    "D3", # pydocstyle D300-D301
+    "D4", # pydocstyle D400-D419
 ]
 ignore = [
     "E501", # line-too-long (E501)
+    # pydocstyle stuff that isn't autofixable
+    "D203", # incorrect-blank-line-before-class (D203)
+    "D205", # missing-blank-line-after-summary (D205)
+    "D212", # multi-line-summary-first-line (D212)
+    "D400", # missing-trailing-period (D400)
+    "D401", # non-imperative-mood (D401)
+    "D415", # missing-terminal-punctuation (D415)
     # Pathlib stuff that isn't autofixable
     "PTH116", # os-stat (PTH116)
     "PTH118", # os-path-join (PTH118)

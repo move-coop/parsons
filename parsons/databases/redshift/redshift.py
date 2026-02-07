@@ -72,6 +72,7 @@ class Redshift(
             Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
             to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
             variable even if the ``aws_session_token`` argument was not passed in.
+
     """
 
     def __init__(
@@ -129,8 +130,8 @@ class Redshift(
 
         Returns:
             Psycopg2 ``connection`` object
-        """
 
+        """
         # Create a psycopg2 connection and cursor
         conn = psycopg2.connect(
             user=self.username,
@@ -193,7 +194,6 @@ class Redshift(
                 See :ref:`parsons-table` for output options.
 
         """
-
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
@@ -218,8 +218,8 @@ class Redshift(
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         # To Do: Have it return an ordered dict to return the
         #        rows in the correct order
 
@@ -394,11 +394,11 @@ class Redshift(
                 is a pre-existing table that has the same columns/types, then use the template_table
                 table name as the schema for the new table.
 
-        `Returns`
+        Returns:
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         with self.connection() as connection:
             if self._create_table_precheck(connection, table_name, if_exists):
                 if template_table:
@@ -613,11 +613,11 @@ class Redshift(
                 String encoding to use when writing the temporary CSV file that is uploaded to S3.
                 Defaults to 'utf-8'.
 
-        `Returns`
+        Returns:
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         # Specify the columns for a copy statement.
         cols = tbl.columns if specifycols or specifycols is None and template_table else None
 
@@ -770,7 +770,6 @@ class Redshift(
             An AWS secret access key granted to the bucket where the file is located. Not
             required if keys are stored as environmental variables.
         """
-
         # The sql query is provided between single quotes, therefore single
         # quotes within the actual query must be escaped.
         # https://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html#unload-parameters
@@ -855,6 +854,7 @@ class Redshift(
 
         Returns:
             None
+
         """
         query_end = "cascade" if cascade else ""
         self.unload(
@@ -897,7 +897,6 @@ class Redshift(
         ``AWS_SECRET_ACCESS_KEY`` environmental variables set.
 
         Args:
-
             buckets: list or str
                 A list of buckets or single bucket from which to generate manifest
             aws_access_key_id: str
@@ -916,8 +915,8 @@ class Redshift(
 
         Returns:
             ``dict`` of manifest
-        """
 
+        """
         from parsons.aws import S3
 
         s3 = S3(
@@ -1005,8 +1004,8 @@ class Redshift(
                 The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
             **copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy` for options.
-        """
 
+        """
         primary_keys = [primary_key] if isinstance(primary_key, str) else primary_key
 
         # Set distkey and sortkey to argument or primary key. These keys will be used
@@ -1173,10 +1172,11 @@ class Redshift(
                 A Parsons table
             table_name:
                 The target table name (e.g. ``my_schema.my_table``)
+
         Returns:
             ``None``
-        """
 
+        """
         # Make the Parsons table column names match valid Redshift names
         tbl.table = petl.setheader(tbl.table, self.column_name_validate(tbl.columns))
 
@@ -1216,7 +1216,6 @@ class Redshift(
         varchar_width:
             The new width of the column if of type varchar.
         """
-
         sql = f"ALTER TABLE {table_name} ALTER COLUMN {column_name} TYPE {data_type}"
 
         if varchar_width:

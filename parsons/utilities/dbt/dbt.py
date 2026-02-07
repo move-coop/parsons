@@ -17,7 +17,8 @@ class dbtRunnerParsons:
         commands: str | list[str],
         dbt_project_directory: pathlib.Path,
     ) -> None:
-        """Initialize dbtRunner with commands and a working directory.
+        """
+        Initialize dbtRunner with commands and a working directory.
 
         Args:
             commands: Union[str, list[str]]
@@ -27,6 +28,7 @@ class dbtRunnerParsons:
             dbt_project_directory: pathlib.Path
                 The path to find the dbt project, as a working
                 directory for dbt commands to run
+
         """
         if isinstance(commands, str):
             commands = [commands]
@@ -71,10 +73,11 @@ def run_dbt_commands(
     dbt_project_directory: pathlib.Path,
     loggers: list[dbtLogger | type[dbtLogger]] | None = None,
 ) -> list[Manifest]:
-    """Executes dbt commands within a directory, optionally logs results.
+    """
+    Executes dbt commands within a directory, optionally logs results.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     commands : Union[str, list[str]]
         A single dbt command as a string or a list of dbt commands to
         be executed.
@@ -89,8 +92,8 @@ def run_dbt_commands(
         a `send` method that takes the dbt command results as an
         argument.
 
-    Returns:
-    --------
+    Returns
+    -------
     list[Manifest]
         A list of result objects from the executed dbt commands.
 
@@ -107,6 +110,7 @@ def run_dbt_commands(
     ...     dbt_project_directory=Path("/path/to/dbt/project"),
     ...     loggers=[dbtLoggerPython, dbtLoggerSlack]
     ... )
+
     """
     dbt_runner = dbtRunnerParsons(commands, dbt_project_directory)
 

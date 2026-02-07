@@ -27,8 +27,8 @@ class Targets:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("targets"))
         logger.info(f"Found {tbl.num_rows} targets.")
         return tbl
@@ -40,11 +40,12 @@ class Targets:
         Args:
             target_id : int
                 The target id.
+
         Returns:
             dict
                 The target
-        """
 
+        """
         r = self.connection.get_request(f"targets/{target_id}")
         logger.info(f"Found target {target_id}.")
         return r
@@ -56,8 +57,8 @@ class Targets:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         response = self.connection.get_request(f"targetExportJobs/{export_job_id}")
         job_status = response.get("jobStatus")
         if job_status == "Complete":
@@ -68,16 +69,18 @@ class Targets:
         else:
             raise TargetsFailed(f"Target export failed for {export_job_id}")
 
-    def create_target_export(self, target_id, webhook_url=None):
+    def create_target_export(self, target_id):
         """
         Create new target export job
 
         Args:
-            target_id : int
+            target_id: int
                 The target id the export job is creating for.
+
         Returns:
             dict
                 The target export job ID
+
         """
         target_export = {"targetId": target_id}
 

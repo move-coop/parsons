@@ -31,8 +31,10 @@ class Redash:
             Specify time between polling for refreshed queries (Defaults to 3 seconds)
         verify: bool
             For https requests, should the certificate be verified (Defaults to True)
+
     Returns:
         Redash Class
+
     """
 
     def __init__(
@@ -90,8 +92,10 @@ class Redash:
         Args:
             data_source_id: int or str
                 ID of data source.
+
         Returns:
             Data source json object
+
         """
         res = self.session.get(f"{self.base_url}/api/data_sources/{data_source_id}")
         self._catch_runtime_error(res)
@@ -108,7 +112,7 @@ class Redash:
                 Name of data source.
             type: str
                 Type of data source.
-            dbname: str
+            dbName: str
                 Database name of data source.
             host: str
                 Host of data source.
@@ -118,8 +122,10 @@ class Redash:
                 Port of data source.
             user: str
                 Username of data source.
+
         Returns:
             ``None``
+
         """
         self._catch_runtime_error(
             self.session.post(
@@ -156,8 +162,10 @@ class Redash:
                 If you set this with REDASH_QUERY_PARAMS environment variable instead of passing
                 the values, then you must include the "p_" prefixes and it should be a single
                 url-encoded string as you would see it in the URL bar.
+
         Returns:
             Table Class
+
         """
         query_id = check("REDASH_QUERY_ID", query_id, optional=True)
         params_from_env = check("REDASH_QUERY_PARAMS", "", optional=True)
@@ -200,8 +208,10 @@ class Redash:
             query_api_key: str
                 If you did not supply a user_api_key on the Redash object, then you can
                 supply a query_api_key to get cached results back anonymously.
+
         Returns:
             Table Class
+
         """
         query_id = check("REDASH_QUERY_ID", query_id)
         query_api_key = check("REDASH_QUERY_API_KEY", query_api_key, optional=True)
@@ -244,9 +254,12 @@ class Redash:
                 then this is a dict that will pass the parameters in the POST.
                 We add the "p_" prefix for parameters, so if your query had ?p_datelimit=....
                 in the url, you should just set 'datelimit' in params here.
+            **kwargs: kwargs
+                Additional parameters
 
         Returns:
             Table Class
+
         """
         initargs = {
             a: kwargs.get(a)

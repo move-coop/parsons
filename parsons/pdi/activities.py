@@ -7,7 +7,9 @@ class Activities:
         super().__init__()
 
     def get_activities(self, limit: int = None):
-        """Get a list of Activities.
+        """
+        Get a list of Activities.
+
         Args:
             limit: int
                 Specify limit to return.
@@ -15,6 +17,7 @@ class Activities:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(self.url_activites, limit=limit)
 
@@ -31,12 +34,14 @@ class Activities:
     def get_activity(self, id: str):
         """
         Get a Activity by id.
+
         Args:
             id: str
                 The Activity id
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(f"{self.url_activites}/{id}")
 

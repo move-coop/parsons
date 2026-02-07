@@ -18,8 +18,10 @@ class Quickbase:
         user_token: str
             The Quickbase account user token (API key). Not required if
             ``QUICKBASE_USER_TOKEN`` env variable is set.
+
     Returns:
         Quickbase Class
+
     """
 
     def __init__(self, hostname=None, user_token=None):
@@ -43,8 +45,10 @@ class Quickbase:
         Args:
             app_id: str
                 Identifies which Quickbase app from which to fetch tables.
+
         Returns:
             Table Class
+
         """
         return Table(
             self.client.request(f"{self.api_hostname}/tables?appId={app_id}", "GET").json()
@@ -57,10 +61,12 @@ class Quickbase:
         https://help.quickbase.com/api-guide/componentsquery.html
 
         Args:
-            from: str
+            table_from: str
                 The ID of a Quickbase resource (i.e. a table) to query.
+
         Returns:
             Table Class
+
         """
         req_resp = self.client.request(
             f"{self.api_hostname}/records/query", "POST", json={"from": table_from}

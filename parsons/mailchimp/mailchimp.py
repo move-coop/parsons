@@ -16,8 +16,10 @@ class Mailchimp:
         api_key:
             The Mailchimp-provided application key. Not required if
             ``MAILCHIMP_API_KEY`` env variable set.
+
     Returns:
         Mailchimp Class
+
     """
 
     def __init__(self, api_key=None):
@@ -83,6 +85,7 @@ class Mailchimp:
 
         Returns:
             Table Class
+
         """
         params = {
             "fields": fields,
@@ -176,6 +179,7 @@ class Mailchimp:
 
         Returns:
             Table Class
+
         """
         params = {
             "fields": fields,
@@ -305,6 +309,7 @@ class Mailchimp:
 
         Returns:
             Table Class
+
         """
         params = {
             "fields": fields,
@@ -373,6 +378,7 @@ class Mailchimp:
 
         Returns:
             Table Class
+
         """
         params = {
             "fields": fields,
@@ -416,6 +422,7 @@ class Mailchimp:
 
         Returns:
             Table Class
+
         """
         params = {
             "fields": fields,

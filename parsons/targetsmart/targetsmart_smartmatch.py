@@ -1,4 +1,5 @@
-"""Implements client routine to allow execution of TargetSmart SmartMatch
+"""
+Implements client routine to allow execution of TargetSmart SmartMatch
 workflows.
 
 TargetSmart SmartMatch API doc:
@@ -69,7 +70,8 @@ def _smartmatch_download(url, writer):
 
 
 def _add_join_id(input_table):
-    """`matchback_id` is added to the raw input table so the results can later be
+    """
+    `matchback_id` is added to the raw input table so the results can later be
     joined back. Integer sequence values are used. If the column already exists
     in the raw input, it is renamed to `__matchback_id` and restored after
     result join.
@@ -92,9 +94,7 @@ def _prepare_input(intable, tmpdir):
 
 
 class SmartMatch:
-    """
-    Works as a mixin to the TargetSmartAPI class.
-    """
+    """Works as a mixin to the TargetSmartAPI class."""
 
     def __init__(self):
         # Set by TargetSmartAPI constructor
@@ -134,7 +134,8 @@ class SmartMatch:
         keep_smartmatch_input_file=False,
         keep_smartmatch_output_gz_file=False,
     ):
-        """Submit the contact list records available in the Parsons table ``input_table`` to
+        """
+        Submit the contact list records available in the Parsons table ``input_table`` to
         TargetSmart SmartMatch.
 
         * `SmartMatch overview <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`_
@@ -191,8 +192,8 @@ class SmartMatch:
                 match indicator, ``vb.voterbase_id``, and zero or more additional data
                 element fields based on your TargetSmart account configuration.
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         # If `input_table` is a Parsons table, convert it to a Petl table.
         if hasattr(input_table, "table"):
             input_table = input_table.table

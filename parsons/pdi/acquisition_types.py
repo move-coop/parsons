@@ -8,7 +8,9 @@ class AcquisitionTypes:
         super().__init__()
 
     def get_acquisition_types(self, limit: int = None):
-        """Get a list of Acquisition Types.
+        """
+        Get a list of Acquisition Types.
+
         Args:
             limit: int
                 Specify limit to return.
@@ -16,6 +18,7 @@ class AcquisitionTypes:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(self.url_acqtypes, limit=limit)
 
@@ -64,21 +67,25 @@ class AcquisitionTypes:
     def get_acquisition_type(self, id: str):
         """
         Get a Acquisition Type by id.
+
         Args:
             id: str
                 The Acquisition Type id
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(f"{self.url_acqtypes}/{id}")
 
     def delete_acquisition_type(self, id: str):
         """
         Delete a Acquisition Type by id.
+
         Args:
             id: str
                 The Acquisition Type id
+
         """
         return self._request(f"{self.url_acqtypes}/{id}", req_type="DELETE")
 

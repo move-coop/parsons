@@ -30,44 +30,53 @@ class DatabaseCreateStatement:
 
     # This will allow child classes to modify how these columns are handled.
     def _rename_reserved_word(self, col, index=None):
-        """Return the renamed column.
+        """
+        Return the renamed column.
 
         Args:
             col: str
                 The column to rename.
             index: int
                 (Optional) The index of the column.
+
         Returns:
             str
                 The rename column.
+
         """
         return f"{col}_"
 
     def _rename_duped(self, col, index):
-        """Return the renamed column.
+        """
+        Return the renamed column.
 
         Args:
             col: str
                 The column to rename.
             index: int
                 (Optional) The index of the column.
+
         Returns:
             str
                 The rename column.
+
         """
         return f"{col}_{index}"
 
     def get_bigger_int(self, int1, int2):
-        """Return the bigger of the two ints.
+        """
+        Return the bigger of the two ints.
 
         Args:
             int1: str
                 The string representation if an int type.
             int2: str
                 The string representation if an int type.
+
         Returns:
             str
                 A string representation of the higher of the two int types.
+
         """
         WEIGHTS = {
             self.SMALLINT: 100,
@@ -79,14 +88,17 @@ class DatabaseCreateStatement:
         return int1 if WEIGHTS.get(int1, -1) >= WEIGHTS.get(int2, -1) else int2
 
     def is_valid_sql_num(self, val):
-        """Check whether val is a valid sql number.
+        """
+        Check whether val is a valid sql number.
 
         Args:
             val: any
                 The values to check.
+
         Returns:
             bool
                 Whether or not the value is a valid sql number.
+
         """
         # Python accepts numbers with single-underscore separators such as
         # 100_000 (evals to 100000)
@@ -112,7 +124,8 @@ class DatabaseCreateStatement:
             return False
 
     def detect_data_type(self, value, cmp_type=None):
-        """Detect the higher of value's type cmp_type.
+        """
+        Detect the higher of value's type cmp_type.
 
         1. check if it's a string
         2. check if it's a number
@@ -125,9 +138,11 @@ class DatabaseCreateStatement:
             cmp_type: str
                 The string representation of a type to compare with
                 ``value``'s type.
+
         Returns:
             str
                 The string representation of the higher of the two types.
+
         """
         # Stop if the compare type is already a varchar
         # varchar is the highest data type.
@@ -171,7 +186,8 @@ class DatabaseCreateStatement:
         return result
 
     def format_column(self, col, index="", replace_chars=None, col_prefix="_"):
-        """Format the column to meet database contraints.
+        """
+        Format the column to meet database contraints.
 
         Formats the columns as follows:
             1. Coverts to lowercase (if case insensitive)
@@ -189,9 +205,11 @@ class DatabaseCreateStatement:
             col_prefix: str
                 The prefix to use when the column is empty or starts with an
                 invalid character.
+
         Returns:
             str
                 The formatted column.
+
         """
         replace_chars = replace_chars or self.REPLACE_CHARS
 
@@ -219,7 +237,8 @@ class DatabaseCreateStatement:
         return col
 
     def format_columns(self, cols, **kwargs):
-        """Format the columns to meet database contraints.
+        """
+        Format the columns to meet database contraints.
 
         This method relies on ``format_column`` to handle most changes. It
         only handles duplicated columns. Options to ``format_column`` can be
@@ -230,9 +249,11 @@ class DatabaseCreateStatement:
                 The columns to format.
             kwargs: dicts
                 Keyword arguments to pass to ``format_column``.
+
         Returns:
             list
                 The formatted columns.
+
         """
         formatted_cols = []
 

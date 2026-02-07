@@ -40,6 +40,7 @@ class Salesforce:
 
     Returns:
         Salesforce class
+
     """
 
     def __init__(
@@ -89,8 +90,8 @@ class Salesforce:
                 in `__c`
         Returns:
             Ordered Dict of all the object's meta data in Salesforce
-        """
 
+        """
         return getattr(self.client, object).describe()
 
     def describe_fields(self, object):
@@ -101,8 +102,8 @@ class Salesforce:
                 object names end in `__c`
         Returns:
             Dict of all the object's field meta data in Salesforce
-        """
 
+        """
         return json.loads(json.dumps(getattr(self.client, object).describe()["fields"]))
 
     def query(self, soql):
@@ -111,10 +112,11 @@ class Salesforce:
             soql: str
                 The desired query in Salesforce SOQL language (SQL with additional limitations).
                 For reference, see the `Salesforce SOQL documentation <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_.
+
         Returns:
             list of dicts with Salesforce data
-        """
 
+        """
         q = self.client.query_all(soql)
         q = json.loads(json.dumps(q))
         logger.info(f"Found {q['totalSize']} results")
@@ -132,14 +134,15 @@ class Salesforce:
                 A Parsons Table with data for inserting records. Column names must match object
                 field API names, though case and order need not match. Note that custom field
                 names end in `__c`.
+
         Returns:
             list of dicts that have the following data:
             * success: boolean
             * created: boolean (if new record is created)
             * id: str (id of record created, if successful)
             * errors: list of dicts (with error details)
-        """
 
+        """
         r = getattr(self.client.bulk, object).insert(data_table.to_dicts())
         s = [x for x in r if x.get("success") is True]
         logger.info(
@@ -159,14 +162,15 @@ class Salesforce:
                 A Parsons Table with data for updating records. Must contain one column named
                 `id`. Column names must match object field API names, though case and order need
                 not match. Note that custom field names end in `__c`.
-            Returns:
+
+        Returns:
                 list of dicts that have the following data:
                 * success: boolean
                 * created: boolean (if new record is created)
                 * id: str (id of record altered, if successful)
                 * errors: list of dicts (with error details)
-        """
 
+        """
         r = getattr(self.client.bulk, object).update(data_table.to_dicts())
         s = [x for x in r if x.get("success") is True]
         logger.info(
@@ -189,14 +193,15 @@ class Salesforce:
             id_col: str
                 The column name in `data_table` that stores the record ID. Required even if all
                 records are new/inserted.
-            Returns:
+
+        Returns:
                 list of dicts that have the following data:
                 * success: boolean
                 * created: boolean (if new record is created)
                 * id: str (id of record created or altered, if successful)
                 * errors: list of dicts (with error details)
-        """
 
+        """
         r = getattr(self.client.bulk, object).upsert(data_table.to_dicts(), id_col)
         s = [x for x in r if x.get("success") is True]
         logger.info(
@@ -223,8 +228,8 @@ class Salesforce:
                 * created: boolean (if new record is created)
                 * id: str (id of record deleted, if successful)
                 * errors: list of dicts (with error details)
-        """
 
+        """
         if hard_delete:
             r = getattr(self.client.bulk, object).hard_delete(id_table.to_dicts())
         else:
@@ -244,6 +249,7 @@ class Salesforce:
 
         Returns:
             `simple-salesforce Salesforce object`
+
         """
         if not self._client:
             # Create a Salesforce client to use to make bulk calls

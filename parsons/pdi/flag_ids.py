@@ -10,7 +10,8 @@ class FlagIDs:
         super().__init__()
 
     def get_flag_ids(self, limit=None):
-        """Get a list of flag ids.
+        """
+        Get a list of flag ids.
 
         Args:
             limit: int
@@ -19,11 +20,13 @@ class FlagIDs:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(self.url_flag_ids, limit=limit)
 
     def get_flag_id(self, id):
-        """Get a specified flag id.
+        """
+        Get a specified flag id.
 
         Args:
             id: str
@@ -32,11 +35,13 @@ class FlagIDs:
         Returns:
             dict
                 FlagID object.
+
         """
         return self._request(f"{self.url_flag_ids}/{id}")
 
     def create_flag_id(self, flag_id, is_default, flag_description=None, compile=None):
-        """Save a new flag id.
+        """
+        Save a new flag id.
 
         Args:
             flag_id: str
@@ -55,6 +60,7 @@ class FlagIDs:
         Returns:
             str
                 The identifier for the new flag id.
+
         """
         payload = {
             "flagId": flag_id,
@@ -67,7 +73,8 @@ class FlagIDs:
         return data["id"]
 
     def delete_flag_id(self, id):
-        """Delete a flag id.
+        """
+        Delete a flag id.
 
         NOTE: The function returns True (even if the id doesn't exist) unless
         there is an error.
@@ -79,13 +86,15 @@ class FlagIDs:
         Returns:
             bool
                 True if the operation is successful.
+
         """
         self._request(f"{self.url_flag_ids}/{id}", req_type="DELETE")
 
         return True
 
     def update_flag_id(self, id, flag_id, is_default, flag_description=None, compile=None):
-        """Update a flag id.
+        """
+        Update a flag id.
 
         Args:
             id: str
@@ -105,6 +114,7 @@ class FlagIDs:
         Returns:
             str
                 The identifier for the udpated flag id.
+
         """
         payload = {
             "flagId": flag_id,

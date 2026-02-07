@@ -23,17 +23,18 @@ class SurveyQuestions:
                 ``Archived``, and ``Inactive``.
             name: str
                 Filter to survey questions with names begin with the input.
-            type: str
+            sq_type: str
                 Filter to survey questions of a given type.
             question: str
                 Filter to survey questions with script questions that contain the given input.
             cycle: str
                 Filter to survey suestions with the given cycle. A year in the format "YYYY".
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if statuses is None:
             statuses = ["Active"]
         params = {
@@ -56,11 +57,12 @@ class SurveyQuestions:
         Args:
             survey_question_id: int
                 The survey question id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         r = self.connection.get_request(f"surveyQuestions/{survey_question_id}")
         logger.info(f"Found survey question {survey_question_id}.")
         return r
@@ -100,8 +102,8 @@ class SurveyQuestions:
                 `Optional`; Defaults to 11 (API Input)
             date_canvassed : str
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
-        """
 
+        """
         response = {
             "surveyQuestionId": survey_question_id,
             "surveyResponseId": survey_response_id,

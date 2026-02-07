@@ -21,7 +21,8 @@ logger = logging.getLogger(__name__)
 
 
 class GoogleCloudStorage:
-    """Google Cloud Storage connector utility
+    """
+    Google Cloud Storage connector utility
 
     This class requires application credentials in the form of a
     json or google oauth2 Credentials object. It can be passed in the
@@ -58,6 +59,7 @@ class GoogleCloudStorage:
         project: str
             The project which the client is acting on behalf of. If not passed
             then will use the default inferred environment.
+
     Returns:
         GoogleCloudStorage Class
 
@@ -90,8 +92,8 @@ class GoogleCloudStorage:
 
         Returns:
             List of buckets
-        """
 
+        """
         buckets = [b.name for b in self.client.list_buckets()]
         logger.info(f"Found {len(buckets)}.")
         return buckets
@@ -105,8 +107,8 @@ class GoogleCloudStorage:
                 The name of the bucket
         Returns:
             boolean
-        """
 
+        """
         if bucket_name in self.list_buckets():
             logger.debug(f"{bucket_name} exists.")
             return True
@@ -123,8 +125,8 @@ class GoogleCloudStorage:
                 The name of bucket
         Returns:
             GoogleCloud Storage bucket
-        """
 
+        """
         if self.client.lookup_bucket(bucket_name):
             bucket = self.client.get_bucket(bucket_name)
         else:
@@ -140,10 +142,11 @@ class GoogleCloudStorage:
         Args:
             bucket_name: str
                 A globally unique name for the bucket.
+
         Returns:
             ``None``
-        """
 
+        """
         # TODO: Allow user to set all of the bucket parameters
 
         self.client.create_bucket(bucket_name)
@@ -161,8 +164,8 @@ class GoogleCloudStorage:
                 Delete blobs in the bucket, if it is not empty
         Returns:
             ``None``
-        """
 
+        """
         bucket = self.get_bucket(bucket_name)
         bucket.delete(force=delete_blobs)
         logger.info(f"{bucket_name} bucket deleted.")
@@ -195,8 +198,8 @@ class GoogleCloudStorage:
                 https://cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.blob.Blob
         Returns:
             A list of blob names (or `Blob` objects if `include_file_details` is invoked)
-        """
 
+        """
         blobs = self.client.list_blobs(
             bucket_name, max_results=max_results, prefix=prefix, match_glob=match_glob
         )
@@ -218,8 +221,8 @@ class GoogleCloudStorage:
                 The name of the blob
         Returns:
             boolean
-        """
 
+        """
         if blob_name in self.list_blobs(bucket_name):
             logger.debug(f"{blob_name} exists.")
             return True
@@ -238,8 +241,8 @@ class GoogleCloudStorage:
                 A blob name
         Returns:
             A Google Storage blob object
-        """
 
+        """
         bucket = self.get_bucket(bucket_name)
         blob = bucket.get_blob(blob_name)
         logger.debug(f"Got {blob_name} object from {bucket_name} bucket.")
@@ -258,8 +261,8 @@ class GoogleCloudStorage:
                 The local path of the file to upload
         Returns:
             ``None``
-        """
 
+        """
         bucket = self.get_bucket(bucket_name)
         blob = storage.Blob(blob_name, bucket)
 
@@ -281,11 +284,12 @@ class GoogleCloudStorage:
                 The local path where the file will be downloaded. If not specified, a temporary
                 file will be created and returned, and that file will be removed automatically
                 when the script is done running.
+
         Returns:
             str
                 The path of the downloaded file
-        """
 
+        """
         if not local_path:
             local_path = files.create_temp_file_for_path("TEMPTHING")
 
@@ -310,8 +314,8 @@ class GoogleCloudStorage:
                 The blob name
         Returns:
             ``None``
-        """
 
+        """
         blob = self.get_blob(bucket_name, blob_name)
         blob.delete()
         logger.info(f"{blob_name} blob in {bucket_name} bucket deleted.")
@@ -342,6 +346,7 @@ class GoogleCloudStorage:
 
         Returns:
             String representation of file URI in GCS
+
         """
         bucket = storage.Bucket(self.client, name=bucket_name)
         blob = storage.Blob(blob_name, bucket)
@@ -392,8 +397,8 @@ class GoogleCloudStorage:
         Returns:
             url:
                 A link to download the object
-        """
 
+        """
         bucket = self.client.bucket(bucket_name)
         blob = bucket.blob(blob_name)
         url = blob.generate_signed_url(
@@ -432,6 +437,7 @@ class GoogleCloudStorage:
                 Access key to authenticate storage transfer
             aws_secret_access_key (str):
                 Secret key to authenticate storage transfer
+
         """
         if source not in ["gcs", "s3"]:
             raise ValueError(f"Blob transfer only supports gcs and s3 sources [source={source}]")
@@ -552,6 +558,7 @@ class GoogleCloudStorage:
 
         Returns:
             String represetnation of URI
+
         """
         return f"gs://{bucket}/{name}"
 
@@ -565,6 +572,7 @@ class GoogleCloudStorage:
 
         Returns:
             Tuple of strings with bucket_name and blob_name
+
         """
         # TODO: make this more robust with regex?
         remove_protocol = gcs_uri.replace("gs://", "")
@@ -606,8 +614,8 @@ class GoogleCloudStorage:
 
         Returns:
             String representation of decompressed GCS URI
-        """
 
+        """
         compression_params = {
             "zip": {
                 "file_extension": ".zip",
@@ -649,7 +657,6 @@ class GoogleCloudStorage:
         Handles `.gzip` decompression and streams blob contents
         to a decompressed storage object
         """
-
         compressed_filepath = kwargs.pop("compressed_filepath")
         decompressed_blob_name = kwargs.pop("decompressed_blob_name")
         bucket_name = kwargs.pop("bucket_name")
@@ -665,7 +672,6 @@ class GoogleCloudStorage:
         Handles `.zip` decompression and streams blob contents
         to a decompressed storage object
         """
-
         compressed_filepath = kwargs.pop("compressed_filepath")
         decompressed_blob_name = kwargs.pop("decompressed_blob_name")
         decompressed_blob_in_archive = decompressed_blob_name.split("/")[-1]

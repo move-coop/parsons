@@ -16,8 +16,10 @@ class Phone2Action:
         app_key: str
             The Phone2Action provided application key. Not required if ``PHONE2ACTION_APP_KEY``
             env variable set.
+
     Returns:
         Phone2Action Class
+
     """
 
     def __init__(self, app_id=None, app_key=None):
@@ -49,6 +51,7 @@ class Phone2Action:
             page: int
                 Page number of data to fetch; if this is specified, call will only return one
                 page.
+
         Returns:
             A dict of parsons tables:
                 * emails
@@ -58,6 +61,7 @@ class Phone2Action:
                 * ids
                 * fields
                 * advocates
+
         """
         return self.capitol_canary.get_advocates(state, campaign_id, updated_since, page)
 
@@ -84,11 +88,12 @@ class Phone2Action:
             include_content: boolean
                 If true, include campaign content fields, which may vary. This may cause
                 sync errors.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         return self.capitol_canary.get_campaigns(
             state, zip, include_generic, include_private, include_content
         )
@@ -163,6 +168,7 @@ class Phone2Action:
                 Additional fields on the advocate to update
         Returns:
             The int ID of the created advocate.
+
         """
         return self.capitol_canary.create_advocate(
             campaigns,
@@ -230,6 +236,7 @@ class Phone2Action:
                 opted out, they cannot be opted back in.
             **kwargs:
                 Additional fields on the advocate to update
+
         """
         return self.capitol_canary.update_advocate(
             advocate_id,

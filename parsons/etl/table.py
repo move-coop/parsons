@@ -15,12 +15,14 @@ DIRECT_INDEX_WARNING_COUNT = 10
 
 
 class _EmptyDefault(Enum):
-    """Default argument for Table()
+    """
+    Default argument for Table()
 
     This is used because Table(None) should not be allowed, but we
     need a default argument that isn't the mutable []
 
-    See https://stackoverflow.com/a/76606310 for discussion."""
+    See https://stackoverflow.com/a/76606310 for discussion.
+    """
 
     token = 0
 
@@ -42,6 +44,7 @@ class Table(ETL, ToFrom):
             The original data source from which the data was pulled (optional)
         name: str
             The name of the table (optional)
+
     """
 
     def __init__(
@@ -116,18 +119,16 @@ class Table(ETL, ToFrom):
         return petl.nrows(head_one) > 0
 
     def _repr_html_(self):
-        """
-        Leverage Petl functionality to display well formatted tables in Jupyter Notebook.
-        """
-
+        """Leverage Petl functionality to display well formatted tables in Jupyter Notebook."""
         return self.table._repr_html_()
 
     @property
     def num_rows(self):
         """
         Returns:
-            int
-                Number of rows in the table
+        int
+            Number of rows in the table
+
         """
         return petl.nrows(self.table)
 
@@ -146,8 +147,9 @@ class Table(ETL, ToFrom):
     def columns(self):
         """
         Returns:
-            list
-                List of the table's column names
+        list
+            List of the table's column names
+
         """
         return list(petl.header(self.table))
 
@@ -157,7 +159,6 @@ class Table(ETL, ToFrom):
         Returns the first value in the table. Useful for database queries that only
         return a single value.
         """
-
         try:
             return self.data[0][0]
 
@@ -175,8 +176,8 @@ class Table(ETL, ToFrom):
             dict
                 A dictionary of the row with the column as the key and the cell
                 as the value.
-        """
 
+        """
         self._index_count += 1
         if self._index_count >= DIRECT_INDEX_WARNING_COUNT:
             logger.warning(
@@ -201,8 +202,8 @@ class Table(ETL, ToFrom):
         Returns:
             list
                 A list of data in the column.
-        """
 
+        """
         if column_name in self.columns:
             return list(self.table[column_name])
 
@@ -217,7 +218,6 @@ class Table(ETL, ToFrom):
         Use this if petl's lazy-loading behavior is causing you problems, eg. if you want to read
         data from a file immediately.
         """
-
         self.table = petl.wrap(petl.tupleoftuples(self.table))
 
     def materialize_to_file(self, file_path=None):
@@ -233,11 +233,12 @@ class Table(ETL, ToFrom):
             file_path: str
                 The path to the file to materialize the table to; if not specified, a temp file
                 will be created.
+
         Returns:
             str
                 Path to the temp file that now contains the table
-        """
 
+        """
         # Load the data in batches, and "pickle" the rows to a temp file.
         # (We pickle rather than writing to, say, a CSV, so that we maintain
         # all the type information for each field.)
@@ -260,8 +261,8 @@ class Table(ETL, ToFrom):
 
         Returns:
             bool
-        """
 
+        """
         if not isinstance(self.table, petl.util.base.Table):
             return False
 
@@ -282,6 +283,6 @@ class Table(ETL, ToFrom):
                 The column name
         Returns:
             bool
-        """
 
+        """
         return petl.nrows(petl.selectnotnone(self.table, column)) == 0

@@ -52,11 +52,12 @@ class Person:
             state: str
                 Two character state code. Required if ``search_id_type`` of ``smartvan``,
                 ``votebuilder`` or ``voter``.
-        `Returns`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
             raise KeyError(f"Search ID type '{search_id_type}' requires state kwarg")
 
@@ -157,11 +158,12 @@ class Person:
                 By default, up to the first 10 characters of the search last name are used for
                 finding relative matches. This value must be between 3 and 10. This parameter is
                 ignored if last_name_exact is enabled.
-        `Returns`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if (latitude is None or longitude is None) and address is None:
             raise ValueError("Lat/Long or Address required")
 
@@ -211,10 +213,11 @@ class Person:
             table: parsons table
                 See :ref:`parsons-table`. One row per phone number,
                 up to 500 phone numbers.
+
         Returns:
             See :ref:`parsons-table` for output options.
-        """
 
+        """
         url = self.connection.uri + "person/phone-search"
 
         args = {"phones": list(petl.values(table.table, 0))}
@@ -276,8 +279,8 @@ class Service:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if search_type == "zip" and None in [zip5, zip4]:
             raise ValueError("Search type 'zip' requires 'zip5' and 'zip4' arguments")
 
@@ -347,22 +350,23 @@ class Voter:
                 Optional; The person's home city
             zip_code: str
                 Optional; Numeric characters. Trailing wildcard allowed
-            age; int
+            age: int
                 Optional; One or more integers. Trailing wildcard allowed
-            dob; str
+            dob: str
                 Optional; Numeric characters in YYYYMMDD format. Trailing wildcard allowed
-            phone; str
+            phone: str
                 Optional; Integer followed by 0 or more * or integers
             email: str
                 Optional; Alphanumeric character followed by 0 or more * or legal characters
                 (alphanumeric, @, -, .)
             unparsed_full_address: str
                 Optional; One or more alphanumeric characters. No wildcards.
-        `Returns`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         url = self.connection.uri + "voter/voter-registration-check"
 
         if None in [first_name, last_name, state]:

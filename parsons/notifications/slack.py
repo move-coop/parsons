@@ -47,9 +47,11 @@ class Slack:
                 Mix and match channel types by providing a list of any
                 combination of `public_channel`, `private_channel`,
                 `mpim` (aka group messages), or `im` (aka 1-1 messages).
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         if types is None:
             types = ["public_channel"]
@@ -83,11 +85,12 @@ class Slack:
                 `id` and `name` and `deleted` status are returned. See
                 https://api.slack.com/methods/users.list for a full list of
                 available fields. `Notes:` nested fields are unpacked.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if fields is None:
             fields = ["id", "name", "deleted", "profile_real_name_normalized", "profile_email"]
         tbl = self._paginate_request("users_list", "members", include_locale=True)
@@ -147,8 +150,8 @@ class Slack:
         Returns:
             `dict`:
                 A response json
-        """
 
+        """
         if "as_user" in kwargs:
             warnings.warn(
                 "as_user is a deprecated argument on message_channel().",
@@ -206,9 +209,11 @@ class Slack:
             is_binary: bool
                 If True, open this file in binary mode. This is needed if
                 uploading binary files. Defaults to False.
+
         Returns:
             `dict`:
                 A response json
+
         """
         if filetype is None and "." in filename:
             filetype = filename.split(".")[-1]
@@ -283,6 +288,7 @@ class Slack:
 
         Returns:
             str: Channel ID
+
         """
         # If it's already a channel ID (starts with C, D, or G), return as-is
         if channel and channel[0] in ("C", "D", "G"):

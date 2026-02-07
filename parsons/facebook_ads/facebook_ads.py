@@ -31,6 +31,7 @@ class FacebookAds:
             A Facebook access token. Required if env var FB_ACCESS_TOKEN is not populated.
         ad_account_id: str
             A Facebook ad account ID. Required if env var FB_AD_ACCOUNT_ID isnot populated.
+
     """
 
     # The data columns that are valid for creating a custom audience.
@@ -155,8 +156,8 @@ class FacebookAds:
         Returns:
             Table
                 The prepared table
-        """
 
+        """
         # Copy the table to avoid messing up the source table
         t = copy.deepcopy(users_table)
 
@@ -229,8 +230,8 @@ class FacebookAds:
 
         Returns:
             ID of the created audience
-        """
 
+        """
         if not self._is_valid_data_source(data_source):
             raise KeyError("Invalid data_source provided")
 
@@ -251,8 +252,8 @@ class FacebookAds:
         Args:
             audience_id: str
                 The ID of the custom audience to delete.
-        """
 
+        """
         CustomAudience(audience_id).api_delete()
 
     @staticmethod
@@ -349,7 +350,6 @@ class FacebookAds:
                 Parsons table
 
         """
-
         logger.info(
             f"Adding custom audience users from provided table with {users_table.num_rows} rows"
         )

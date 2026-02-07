@@ -7,7 +7,8 @@ class Locations:
         super().__init__()
 
     def get_locations(self, limit=None):
-        """Get a list of PDI Locations
+        """
+        Get a list of PDI Locations
 
         Args:
             limit: int
@@ -16,12 +17,13 @@ class Locations:
         Returns:
             parsons.Table
                 A Parsons table containing all requested location data.
-        """
 
+        """
         return self._request(self.locations_url, limit=limit)
 
     def create_location(self, address: str, name: str):
-        """Create a new PDI address
+        """
+        Create a new PDI address
         Args:
             address: str
                A full address including street number, city, state, and zip.
@@ -31,7 +33,6 @@ class Locations:
             dict
                 Response from PDI in dictionary object
         """
-
         payload = {"locationName": name, "locationAddress": address}
         return self._request(self.locations_url, req_type="POST", post_data=payload)
 

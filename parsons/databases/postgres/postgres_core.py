@@ -33,8 +33,8 @@ class PostgresCore(PostgresCreateStatement):
 
         Returns:
             Psycopg2 `connection` object
-        """
 
+        """
         # Create a psycopg2 connection and cursor
         conn = psycopg2.connect(
             user=self.username,
@@ -101,7 +101,6 @@ class PostgresCore(PostgresCreateStatement):
                 See :ref:`parsons-table` for output options.
 
         """
-
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
@@ -125,8 +124,8 @@ class PostgresCore(PostgresCreateStatement):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         with self.cursor(connection) as cursor:
             logger.debug(f"SQL Query: {sql}")
             cursor.execute(sql, parameters)
@@ -178,11 +177,12 @@ class PostgresCore(PostgresCreateStatement):
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``,
                 or ``truncate`` the table.
+
         Returns:
             bool
                 True if the table needs to be created, False otherwise.
-        """
 
+        """
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 
@@ -220,6 +220,7 @@ class PostgresCore(PostgresCreateStatement):
         Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
+
         """
         with self.connection() as connection:
             return self.table_exists_with_connection(table_name, connection, view)

@@ -25,6 +25,7 @@ class GoogleDrive:
             by the Google Developer Console, or a path string pointing to credentials
             saved on disk, or a google.oauth2.credentials.Credentials object. Required
             if env variable ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
+
     """
 
     def __init__(
@@ -204,8 +205,10 @@ class GoogleDrive:
                 The ID of the destination folder. If not provided, copies to the same parent folder.
             new_name: str
                 The name for the copied file. If not provided, Drive will use "Copy of [original name]".
+
         Returns:
             str: The ID of the newly created copy
+
         """
         body = {}
         if new_name:
@@ -223,8 +226,8 @@ class GoogleDrive:
                 this is the ID of the object you are hoping to share
         Returns:
             permission dict
-        """
 
+        """
         p = self.client.permissions().list(fileId=file_id).execute()
 
         return p
@@ -257,6 +260,7 @@ class GoogleDrive:
                 Options are -- user, group, domain, anyone
         Returns:
             List of permission objects
+
         """
         if role not in [
             "owner",
@@ -302,6 +306,7 @@ class GoogleDrive:
                 the email address of the intended new owner
         Returns:
             None
+
         """
         permissions = self.client.permissions().list(fileId=file_id).execute()
 

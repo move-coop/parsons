@@ -9,7 +9,7 @@ class Airmeet:
     """
     Instantiate class.
 
-       Args:
+    Args:
             airmeet_uri: string
                 The URI of the Airmeet API endpoint. Not required. The default
                 is https://api-gateway.airmeet.com/prod/. You can set an
@@ -23,6 +23,7 @@ class Airmeet:
         For instructions on how to generate an access key and secret key set,
         see `Airmeet's Event Details API documentation
         <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
+
     """
 
     def __init__(self, airmeet_uri=None, airmeet_access_key=None, airmeet_secret_key=None):
@@ -37,8 +38,10 @@ class Airmeet:
                 The Airmeet API access key.
             airmeet_secret_key: string
                 The Airmeet API secret key.
+
         Returns:
             ``None``
+
         """
         self.uri = check_env.check("AIRMEET_URI", airmeet_uri, optional=True) or AIRMEET_DEFAULT_URI
         self.client = APIConnector(self.uri)
@@ -70,8 +73,10 @@ class Airmeet:
                 <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
             **kwargs:
                 Additional parameters to include in the request.
+
         Returns:
             ``None``
+
         """
         results = []
         cursor_after = ""  # For getting the next set of results
@@ -108,6 +113,7 @@ class Airmeet:
         Returns:
             Parsons.Table
                 List of Airmeets
+
         """
         return self._get_all_pages(url="airmeets", page_size=500)
 
@@ -127,9 +133,11 @@ class Airmeet:
                 'registrationDate' (the default).
             sorting_direction: string
                 Can be either 'ASC' or 'DESC' (the default).
+
         Returns:
             Parsons.Table
                 List of participants for the Airmeet event
+
         """
         participants = []  # List to hold all participants
         page_size = 1000  # Maximum number of results per page
@@ -172,9 +180,11 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of sessions for this Airmeet event
+
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/info")
         return Table(response["sessions"])
@@ -190,8 +200,10 @@ class Airmeet:
             lists_to_tables: bool
                 If True, will convert any dictionary values that are lists
                 to Tables.
+
         Returns:
             Dict containing the Airmeet data
+
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/info")
         if lists_to_tables:
@@ -207,9 +219,11 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of custom registration fields for this Airmeet event
+
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/custom-fields")
         return Table(response["customFields"])
@@ -228,9 +242,11 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of attendees for this Airmeet event
+
         """
         return self._get_all_pages(url=f"airmeet/{airmeet_id}/attendees", page_size=50)
 
@@ -248,9 +264,11 @@ class Airmeet:
         Args:
             session_id: string
                 The id of the session.
+
         Returns:
             Parsons.Table
                 List of attendees for this session
+
         """
         return self._get_all_pages(url=f"session/{session_id}/attendees", page_size=50)
 
@@ -264,9 +282,11 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of booths for this Airmeet
+
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/booths")
         return Table(response["booths"] or [])
@@ -290,9 +310,11 @@ class Airmeet:
                 The id of the Airmeet.
             booth_id: string
                 The id of the booth.
+
         Returns:
             Parsons.Table
                 List of attendees for this booth
+
         """
         return self._get_all_pages(
             url=f"airmeet/{airmeet_id}/booth/{booth_id}/booth-attendance", page_size=50
@@ -308,10 +330,12 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of users. For each user, the value for the "polls"
                 key is a list of poll questions and answers for that user.
+
         """
         return self._get_all_pages(url=f"airmeet/{airmeet_id}/polls", page_size=50)
 
@@ -322,10 +346,12 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of users. For each user, the value for the "questions"
                 key is a list of that user's questions.
+
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/questions")
         return Table(response["data"])
@@ -340,9 +366,11 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of event tracks
+
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/tracks")
         return Table(response["tracks"])
@@ -361,9 +389,11 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of UTM parameters captured during registration
+
         """
         return self._get_all_pages(url=f"airmeet/{airmeet_id}/utms", page_size=50)
 
@@ -384,9 +414,11 @@ class Airmeet:
             session_id: string
                 (optional) If provided, limits results to only the recording
                 of the specified session.
+
         Returns:
             Parsons.Table
                 List of session recordings
+
         """
         kwargs = {}
         if session_id:
@@ -412,9 +444,11 @@ class Airmeet:
             session_id: string
                 (optional) If provided, limits results to only attendees of
                 the specified session.
+
         Returns:
             Parsons.Table
                 List of event replay attendees
+
         """
         attendees = self._get_all_pages(
             url=f"airmeet/{airmeet_id}/event-replay-attendees", page_size=50

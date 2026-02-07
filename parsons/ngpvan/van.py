@@ -59,6 +59,7 @@ class VAN(
             One of ``MyVoters``, ``MyMembers``, ``MyCampaign``, or ``EveryAction``
     Returns:
         VAN object
+
     """
 
     def __init__(

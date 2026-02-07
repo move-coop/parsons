@@ -43,6 +43,7 @@ class Alchemer:
 
     Returns:
         Alchemer Class
+
     """
 
     def __init__(self, api_token=None, api_token_secret=None, api_version="v5"):
@@ -69,8 +70,8 @@ class Alchemer:
 
         Returns:
             Table Class
-        """
 
+        """
         r = self._client.api.survey.list(page)
         data = r["data"]
 
@@ -100,8 +101,8 @@ class Alchemer:
 
         Returns:
             Table Class
-        """
 
+        """
         r = self._client.api.surveyresponse.list(survey_id, page)
         logger.info(f"{survey_id}: {r['total_count']} responses.")
         data = r["data"]

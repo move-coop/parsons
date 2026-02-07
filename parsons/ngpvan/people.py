@@ -40,7 +40,7 @@ class People:
                 The person's first name
             last_name: str
                 The person's last name
-            dob: str
+            date_of_birth: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
             email: str
                 The person's email address
@@ -55,10 +55,11 @@ class People:
             kwargs:
                 Any additional keyword arguments will be passed to
                 the EveryAction API for matching.
+
         Returns:
             A person dict object
-        """
 
+        """
         logger.info(f"Finding {first_name} {last_name}.")
 
         return self._people_search(
@@ -98,8 +99,8 @@ class People:
             fields: The fields to return. Leave as default for all available fields
         Returns:
             A person dict object
-        """
 
+        """
         logger.info("Finding a match for json details.")
 
         return self._people_search(match_json=match_json)
@@ -135,7 +136,7 @@ class People:
                 The person's first name
             last_name: str
                 The person's last name
-            dob: str
+            date_of_birth: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
             email: str
                 The person's email address
@@ -152,8 +153,8 @@ class People:
                 5 digit zip code
         Returns:
             A person dict
-        """
 
+        """
         return self._people_search(
             id=id,
             id_type=id_type,
@@ -185,10 +186,11 @@ class People:
                 Defaults to ``vanid``.
             match_json: dict
                 A dictionary of values to match against and save.
+
         Returns:
             A person dict
-        """
 
+        """
         return self._people_search(id=id, id_type=id_type, match_json=match_json, create=True)
 
     def upsert_person(
@@ -208,15 +210,17 @@ class People:
         Create or update a person record.
 
         .. note::
-            Person find must include the following minimum combinations.
 
-              - first_name, last_name, email
-              - first_name, last_name, phone
-              - first_name, last_name, zip5, date_of_birth
-              - first_name, last_name, street_number, street_name, zip5
-              - email_address
+            Person find must include the following minimum combinations:
+
+            - first_name, last_name, email
+            - first_name, last_name, phone
+            - first_name, last_name, zip5, date_of_birth
+            - first_name, last_name, street_number, street_name, zip5
+            - email_address
 
         .. warning::
+
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.
 
         Args:
@@ -224,7 +228,7 @@ class People:
                 The person's first name
             last_name: str
                 The person's last name
-            dob: str
+            date_of_birth: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
             email: Union[str, list[dict[str, Union[str, bool]]], None]
                 The person's email address or a list of email dicts.
@@ -244,10 +248,11 @@ class People:
             kwargs:
                 Any additional keyword arguments will be passed to
                 the EveryAction API for matching.
+
         Returns:
             A person dict
-        """
 
+        """
         return self._people_search(
             first_name=first_name,
             last_name=last_name,
@@ -286,10 +291,11 @@ class People:
         Args:
             match_json: dict
                 A dictionary of values to match against and save.
+
         Returns:
             A person dict
-        """
 
+        """
         return self._people_search(match_json=match_json, create=True)
 
     def _people_search(
@@ -421,10 +427,11 @@ class People:
                 ``reported_demographics``, ``suppressions``, ``cases``, ``custom_properties``,
                 ``districts``, ``election_records``, ``membership_statuses``, ``notes``,
                 ``organization_roles``, ``scores``, ``disclosure_field_values``.
+
         Returns:
             A person dict
-        """
 
+        """
         # Change end point based on id type
         if expand_fields is None:
             expand_fields = [
@@ -471,8 +478,10 @@ class People:
         Args:
             vanid: str
                 The person's VAN ID.
+
         Returns:
             Success or error.
+
         """
         url = f"people/{vanid}"
         r = self.connection.delete_request(url)
@@ -510,10 +519,11 @@ class People:
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
             phone: str
                 `Optional`; Phone number of any type (Work, Cell, Home)
+
         Returns:
             ``None``
-        """
 
+        """
         logger.info(f"Applying result code {result_code_id} to {id_type} {id}.")
         self.apply_response(
             id,
@@ -563,8 +573,8 @@ class People:
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
 
         ** NOT IMPLEMENTED **
-        """
 
+        """
         """
         response = {"volunteerActivityId": volunteer_activity_id,
                     "action": self._action_parse(action),
@@ -627,6 +637,7 @@ class People:
                 `Optional`; a valid Campaign ID.
             skip_matching: boolean
                 `Optional`; if set to true, skips matching/de-duping of contact history. Defaults to a null value, aka false.
+
         Returns:
             ``True`` if successful
 
@@ -642,7 +653,6 @@ class People:
             van.apply_response(5222, response)
 
         """
-
         # Set url based on id_type
         if id_type == "vanid":
             url = f"people/{id}/canvassResponses"
@@ -694,8 +704,8 @@ class People:
                 The relationship id indicating the type of relationship
         Returns:
             ``None``
-        """
 
+        """
         json = {"relationshipId": relationship_id, "vanId": vanid_2}
 
         self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
@@ -715,8 +725,8 @@ class People:
                 such as ``dwid``
         Returns:
             ``None``
-        """
 
+        """
         # Set url based on id_type
         url = f"people/{id}/codes" if id_type == "vanid" else f"people/{id_type}:{id}/codes"
 
@@ -740,10 +750,11 @@ class People:
                 The VANID of the primary contact record.
             source_vanid: str
                 The VANID of the source contact record.
+
         Returns:
             The VANID of the primary contact record.
-        """
 
+        """
         url = f"people/{source_vanid}/mergeInto"
         json = {"vanId": primary_vanid}
 

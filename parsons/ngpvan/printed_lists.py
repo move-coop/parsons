@@ -29,8 +29,8 @@ class PrintedLists:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         params = {
             "generatedAfter": generated_after,
             "generatedBefore": generated_before,
@@ -55,8 +55,8 @@ class PrintedLists:
                 The printed list number
         Returns:
             dict
-        """
 
+        """
         r = self.connection.get_request(f"printedLists/{printed_list_number}")
         logger.info(f"Found printed list {printed_list_number}.")
         return r

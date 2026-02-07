@@ -12,7 +12,8 @@ class Flags:
         self.url_flags = self.base_url + flags_endpoint
 
     def get_flags(self, start_date, end_date, limit=None):
-        """Get a list of flags.
+        """
+        Get a list of flags.
 
         Args:
             start_date: str
@@ -25,6 +26,7 @@ class Flags:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         try:
             start_date = parse(start_date).date().isoformat()
@@ -69,8 +71,10 @@ class Flags:
     def delete_flag(self, id: str):
         """
         Delete a Flag by id.
+
         Args:
             id: str
                 The Flag id
+
         """
         return self._request(f"self.url_flags/{id}", req_type="DELETE")

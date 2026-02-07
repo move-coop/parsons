@@ -49,6 +49,7 @@ class PDI(
                 Defaults to False. If True, requests will be made to a sandbox
                 account. This requires separate qa credentials and api
                 token.
+
         """
         if qa_url:
             self.base_url = "https://apiqa.bluevote.com"

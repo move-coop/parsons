@@ -22,8 +22,8 @@ class Scores:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("scores"))
         logger.info(f"Found {tbl.num_rows} scores.")
         return tbl
@@ -37,8 +37,8 @@ class Scores:
                 The score id
         Returns:
             dict
-        """
 
+        """
         r = self.connection.get_request(f"scores/{score_id}")
         logger.info(f"Found score {score_id}.")
         return r
@@ -54,11 +54,12 @@ class Scores:
             created_after: str
                 Filter score updates to those created after date. Use "YYYY-MM-DD"
                 format.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         params = {
             "createdBefore": created_before,
             "createdAfter": created_after,
@@ -76,13 +77,13 @@ class Scores:
         """
         Get a score update object
 
-            Args:
+        Args:
                 score_update_id : int
                         The score update id
             Returns:
                 dict
-        """
 
+        """
         r = self.connection.get_request(f"scoreUpdates/{score_update_id}")
         logger.info(f"Returning score update {score_update_id}.")
         return r
@@ -99,8 +100,8 @@ class Scores:
                 One of 'pending approval', 'approved', 'disapproved'
         Returns:
             ``None``
-        """
 
+        """
         if status not in ["pending approval", "approved", "disapproved", "canceled"]:
             raise ValueError(
                 """Valid inputs for status are, 'pending approval','approved','disapproved','canceled'"""
@@ -146,37 +147,44 @@ class Scores:
                     * - ``score_id``
                       - The score slot id.
 
-                Example:
+                **Example:**
 
                 .. highlight:: python
 
                 .. code-block:: python
 
-                  [{'score1_id' : int, score1_column': str}
-                   {'score2_id' : int, score2_column': str}]
+                    [
+                        {'score1_id' : int, score1_column': str}
+                        {'score2_id' : int, score2_column': str}
+                    ]
 
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
+
             email: str
                 An email address to send job load status updates.
+
             auto_approve: boolean
                 If the scores are within the expected tolerance of deviation from the
                 average values provided, then score will be automatically approved.
-            approve_tolderance: float
+
+            approve_tolerance: float
                 The deviation from the average scores allowed in order to automatically
                 approve the score. Maximum of .1.
+
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
+
         Returns:
             int
                The score load job id.
 
         .. [1] NGPVAN asks that you load multiple scores in a single call to reduce the load
            on their servers.
-        """
 
+        """
         # Move to cloud storage
         file_name = str(uuid.uuid1())
         url = cloud_storage.post_file(tbl, url_type, file_path=file_name + ".zip", **url_kwargs)
@@ -241,7 +249,7 @@ class FileLoadingJobs:
         delimiter="csv",
         header=True,
         quotes=True,
-        description=None,
+        description: str = "A description",
         email=None,
         auto_average=None,
         auto_tolerance=None,
@@ -278,11 +286,12 @@ class FileLoadingJobs:
                 The fault tolerance of the VAN calculated average compared to the ``auto_average``.
                 The tolerance must be less than 10% of the difference between the maximum and
                 minimum possible acceptable values of the score.
+
         Returns:
             dict
                 The file load id
-        """
 
+        """
         columns = [{"name": c} for c in columns]
 
         # To Do: Validate that it is a .zip file. Not entirely sure if this is possible
@@ -294,7 +303,7 @@ class FileLoadingJobs:
         delimiter = delimiter.capitalize()
 
         json = {
-            "description": "A description",
+            "description": description,
             "file": {
                 "columnDelimiter": delimiter,
                 "columns": columns,
@@ -336,7 +345,7 @@ class FileLoadingJobs:
         delimiter="csv",
         header=True,
         quotes=True,
-        description=None,
+        description: str = "A description",
         email=None,
     ):
         """
@@ -371,10 +380,11 @@ class FileLoadingJobs:
 
             email: str
                 A valid email address in which file loading status will be sent.
+
         Returns:
             The file load job id
-        """
 
+        """
         columns = [{"name": c} for c in columns]
 
         # To Do: Validate that it is a .zip file. Not entirely sure if this is possible
@@ -386,7 +396,7 @@ class FileLoadingJobs:
         delimiter = delimiter.capitalize()
 
         json = {
-            "description": "A description",
+            "description": description,
             "file": {
                 "columnDelimiter": delimiter,
                 "columns": columns,

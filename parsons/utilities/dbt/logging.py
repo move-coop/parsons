@@ -50,7 +50,8 @@ class dbtLogger(ABC):
 
     @abstractmethod
     def send(self, manifests: list[Manifest]) -> None:
-        """The send method is called to execute logging.
+        """
+        The send method is called to execute logging.
 
         manifests are passed to this method directly (rather
         than on initialization) so that the logger class can be
@@ -191,7 +192,8 @@ class dbtLoggerSlack(dbtLoggerMarkdown):
 
 
 class dbtLoggerDatabase(dbtLogger, ABC):
-    """Log dbt artifacts by loading to a database.
+    """
+    Log dbt artifacts by loading to a database.
 
     This class is an abstract base class for logging dbt artifacts to
     a database.
@@ -205,7 +207,8 @@ class dbtLoggerDatabase(dbtLogger, ABC):
         extra_run_table_fields: dict,
         **copy_kwargs,
     ) -> None:
-        """Initialize the logger.
+        """
+        Initialize the logger.
 
         Args:
             database_connector: A DatabaseConnector object.
@@ -213,6 +216,7 @@ class dbtLoggerDatabase(dbtLogger, ABC):
             destination_table_nodes: The name of the table to log node information.
             extra_run_table_fields: A dictionary of additional fields to include in the run table.
             **copy_kwargs: Additional keyword arguments to pass to the `copy` method.
+
         """
         self.db_connector = database_connector
         self.destination_table_runs = destination_table_runs

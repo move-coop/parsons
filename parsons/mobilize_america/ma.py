@@ -23,6 +23,7 @@ class MobilizeAmerica:
 
     Returns:
         MobilizeAmerica Class
+
     """
 
     def __init__(self, api_key=None):
@@ -90,11 +91,12 @@ class MobilizeAmerica:
         Args:
             updated_since: str
                 Filter to organizations updated since given date (ISO Date)
-        `Returns`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         return Table(
             self._request_paginate(
                 self.uri + "organizations",
@@ -109,8 +111,10 @@ class MobilizeAmerica:
         Args:
             organization_id: int
                 ID of the organization to query.
-        `Returns`
+
+        Returns:
             Parsons Table
+
         """
         url = self.uri + "organizations/" + str(organization_id) + "/promoted_organizations"
         return Table(self._request_paginate(url, auth=True))
@@ -156,10 +160,10 @@ class MobilizeAmerica:
 
                 If ``max_timeslots`` is 0, no timeslot columns will be included.
 
-        `Returns`
+        Returns:
             :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
-        """
 
+        """
         if isinstance(organization_id, (str, int)):
             organization_id = [organization_id]
 
@@ -261,10 +265,10 @@ class MobilizeAmerica:
 
                 If ``max_timeslots`` is 0, no timeslot columns will be included.
 
-        `Returns`
+        Returns:
             :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
-        """
 
+        """
         args = {
             "updated_since": date_to_timestamp(updated_since),
             "timeslot_start": self._time_parse(timeslot_start),
@@ -311,11 +315,12 @@ class MobilizeAmerica:
                 Filter events by a single or multiple organization ids
             updated_since: str
                 Filter to events updated since given date (ISO Date)
-        `Returns`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if isinstance(organization_id, (str, int)):
             organization_id = [organization_id]
 
@@ -338,9 +343,11 @@ class MobilizeAmerica:
                 Request people associated with a single or multiple organization ids
             updated_since: str
                 Filter to people updated since given date (ISO Date)
-        `Returns`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         if isinstance(organization_id, collections.abc.Iterable):
             data = Table()
@@ -365,9 +372,11 @@ class MobilizeAmerica:
                 Filter attendances by an organization id
             updated_since: str
                 Filter to attendances updated since given date (ISO Date)
-        `Returns`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         url = self.uri + "organizations/" + str(organization_id) + "/attendances"
         args = {"updated_since": date_to_timestamp(updated_since)}

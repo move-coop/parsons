@@ -19,8 +19,10 @@ class Twilio:
         auth_token: str
             The Twilio auth token. Not required if ``TWILIO_AUTH_TOKEN`` env variable is
             passed.
+
     Returns:
         Twilio class
+
     """
 
     def __init__(self, account_sid=None, auth_token=None):
@@ -45,8 +47,8 @@ class Twilio:
                 The Twilio account sid
         Returns:
             dict
-        """
 
+        """
         r = self.client.api.accounts(account_sid)
         logger.info(f"Retrieved {account_sid} account.")
         return r.__dict__
@@ -60,11 +62,12 @@ class Twilio:
                 Filter to name of the account
             status: str
                 Filter to an account status of ``active``, ``closed`` or ``suspended``.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         r = self.client.api.accounts.list(friendly_name=name, status=status)
         tbl = self._table_convert(r)
 
@@ -99,11 +102,12 @@ class Twilio:
                 ``yearly``.
             exclude_null: boolean
                 Exclude rows that have no usage.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         # Add populated arguments
         args = {"category": category, "start_date": start_date, "end_date": end_date}
         args = json_format.remove_empty_keys(args)
@@ -157,11 +161,12 @@ class Twilio:
                 Filter to messages only sent before the specified date (ex. ``2019-01-01``).
             date_sent_after: str
                 Filter to messages only sent after the specified date (ex. ``2019-01-01``).
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         r = self.client.messages.list(
             to=to,
             from_=from_,

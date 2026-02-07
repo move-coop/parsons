@@ -18,8 +18,8 @@ class RedshiftSchema:
                 The type of permissions to grant. Supports `select`, `all`, etc. (For
                 full list, see the
                 `Redshift GRANT docs <https://docs.aws.amazon.com/redshift/latest/dg/r_GRANT.html>`_)
-        """
 
+        """
         if not self.schema_exists(schema):
             self.query(f"create schema {schema}")
             self.query(f"grant usage on schema {schema} to group {group}")
@@ -37,8 +37,8 @@ class RedshiftSchema:
                 The type of permissions to grant. Supports `select`, `all`, etc. (For
                 full list, see the
                 `Redshift GRANT docs <https://docs.aws.amazon.com/redshift/latest/dg/r_GRANT.html>`_)
-        """
 
+        """
         sql = f"""
             grant usage on schema {schema} to group {group};
             grant {permissions_type} on all tables in schema {schema} to group {group};

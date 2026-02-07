@@ -87,6 +87,7 @@ for module_path, connector_name in (
     ("parsons.mobilize_america.ma", "MobilizeAmerica"),
     ("parsons.nation_builder.nation_builder", "NationBuilder"),
     ("parsons.newmode.newmode", "Newmode"),
+    ("parsons.openfield.openfield", "OpenField"),
     ("parsons.ngpvan.van", "VAN"),
     ("parsons.notifications.gmail", "Gmail"),
     ("parsons.notifications.slack", "Slack"),

@@ -43,17 +43,23 @@ class Flags:
 
     def create_flags(self, flag_list: list):
         """
-        Save a list of flags, each flag must look like the dictionary below
-        [
-            {
-                "pdiId": "string",
-                "flagEntryDate": An end date formatted like yyyy-MM-dd.,
-                "acquisitionTypeId": "string",
-                "flagId": "string",
-                "questionId": "string",
-                "contactId": "string"
-            }
-        ]
+        Save a list of flags.
+
+        Each flag must look like the dictionary below:
+
+        .. code-block:: python
+
+            [
+                {
+                    "pdiId": "string",
+                    "flagEntryDate": An end date formatted like yyyy-MM-dd.,
+                    "acquisitionTypeId": "string",
+                    "flagId": "string",
+                    "questionId": "string",
+                    "contactId": "string"
+                }
+            ]
+
         """
         if "pdiId" not in list(flag_list[0].keys()):
             raise ValueError("missing required key")

@@ -66,8 +66,6 @@ class SupporterGroups:
         Args:
             supporter_group_id: int
                 The supporter group id
-        Returns:
-            ``None``
 
         """
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}")
@@ -83,8 +81,6 @@ class SupporterGroups:
                 The supporter group id
             vanid: int
                 The vanid of the person to apply
-        Returns:
-            ``None``
 
         """
         r = self.connection.put_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
@@ -100,8 +96,6 @@ class SupporterGroups:
                 The supporter group id
             vanid: int
                 The vanid of the person to remove
-        Returns:
-            ``None``
 
         """
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")

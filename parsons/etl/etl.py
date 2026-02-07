@@ -822,19 +822,17 @@ class ETL:
 
         return Table(petl.select(self.table, *filters))
 
-    def remove_null_rows(self, columns, null_value=None):
+    def remove_null_rows(self, columns, null_value=None) -> None:
         """
         Remove rows if the values in a column are ``None``. If multiple columns
         are passed as list, it will remove all rows with null values in any
         of the passed columns.
 
         Args:
-            column: str or list
+            columns: str or list
                 The column or columns to analyze
             null_value: int or float or str
                 The null value
-        Returns:
-            ``None``
 
         """
         if isinstance(columns, str):
@@ -855,7 +853,7 @@ class ETL:
 
         return new_dict
 
-    def stack(self, *tables, missing=None):
+    def stack(self, *tables, missing=None) -> None:
         """
         Stack Parsons tables on top of one another.
 
@@ -867,8 +865,6 @@ class ETL:
                 A single table, or a list of tables
             missing: bool
                 The value to use when padding missing values
-        Returns:
-            ``None``
 
         """
         if type(tables) not in [list, tuple]:
@@ -877,7 +873,7 @@ class ETL:
 
         self.table = petl.stack(self.table, *petl_tables, missing=missing)
 
-    def concat(self, *tables, missing=None):
+    def concat(self, *tables, missing=None) -> None:
         """
         Concatenates one or more tables onto this one.
 
@@ -890,8 +886,6 @@ class ETL:
                 A single table, or a list of tables
             missing: bool
                 The value to use when padding missing values
-        Returns:
-            ``None``
 
         """
         if type(tables) not in [list, tuple]:

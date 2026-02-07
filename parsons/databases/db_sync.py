@@ -52,7 +52,7 @@ class DBSync:
         order_by=None,
         verify_row_count=True,
         **kwargs,
-    ):
+    ) -> None:
         """
         Full sync of table from a source database to a destination database. This will
         wipe all data from the destination table.
@@ -75,9 +75,6 @@ class DBSync:
                 are the same at the end of the sync.
             **kwargs: args
                 Optional copy arguments for destination database.
-
-        Returns:
-            ``None``
 
         """
         # Create the table objects
@@ -122,7 +119,7 @@ class DBSync:
         distinct_check=True,
         verify_row_count=True,
         **kwargs,
-    ):
+    ) -> None:
         """
         Incremental sync of table from a source database to a destination database
         using an incremental primary key.
@@ -143,9 +140,6 @@ class DBSync:
                 are the same at the end of the sync.
             **kwargs: args
                 Optional copy arguments for destination database.
-
-        Returns:
-            ``None``
 
         """
         # Create the table objects
@@ -213,7 +207,9 @@ class DBSync:
 
         logger.info(f"{source_table} synced to {destination_table}.")
 
-    def copy_rows(self, source_table_name, destination_table_name, cutoff, order_by, **kwargs):
+    def copy_rows(
+        self, source_table_name, destination_table_name, cutoff, order_by, **kwargs
+    ) -> int:
         """
         Copy the rows from the source to the destination.
 
@@ -228,9 +224,6 @@ class DBSync:
                 Column to use to order the data to ensure a stable sort.
             **kwargs: args
                 Optional copy arguments for destination database.
-
-        Returns:
-            ``None``
 
         """
         # Create the table objects

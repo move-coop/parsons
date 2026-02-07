@@ -88,11 +88,13 @@ class Events:
         Args:
             event_id: int
                 The event id.
+
             expand_fields: list
                 A list of fields for which to include data. If a field is omitted,
                 ``None`` will be returned for that field. Can be ``locations``,
                 ``codes``, ``shifts``, ``roles``, ``notes``, ``financialProgram``,
                 ``ticketCategories``, ``voterRegistrationBatches`.`
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -237,9 +239,6 @@ class Events:
         Args:
             event_id: int
                 The event id.
-
-        Returns:
-            ``None``
 
         """
         r = self.connection.delete_request(f"events/{event_id}")

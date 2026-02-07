@@ -151,8 +151,6 @@ class Signups:
                 The status_id to update
             location_id: int
                 The location_id to update
-        Returns:
-            ``None``
 
         """
         #  Get the signup object
@@ -177,8 +175,6 @@ class Signups:
         Args:
             event_signup_id: int
                 A valid event signup id
-        Returns:
-            ``None``
 
         """
         r = self.connection.delete_request(f"signups/{event_signup_id}")

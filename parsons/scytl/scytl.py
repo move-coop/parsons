@@ -423,7 +423,7 @@ class Scytl:
 
         return data
 
-    def get_summary_results(self, force_update=False) -> list[dict] | None:
+    def get_summary_results(self, force_update: bool = False) -> list[dict] | None:
         """
         Fetch the latest summary results for the given election, across all contests.
 
@@ -435,7 +435,8 @@ class Scytl:
                 If this is False, the connector will check to see if the current version
                 matches the previously fetched version of the results.
                 If the version has not been changed, no results will be fetched or returned.
-                Default: false
+                If not provided, defaults to false.
+
         Returns:
             list[dict]
                 The list should contain entries for each candidate in each office.
@@ -480,7 +481,7 @@ class Scytl:
                 If this is False, the connector will check to see if the current version
                 matches the previously fetched version of the results.
                 If the version has not been changed, no results will be fetched or returned.
-                Default: false
+                If not provided, defaults to false.
 
         Returns:
             list[dict]: Entries for each candidate in each office, per vote method and county.
@@ -565,12 +566,12 @@ class Scytl:
         Args:
             county_names: list[str]
                 The list of counties to get precinct-level results for.
-                Default: None (get all counties)
+                If not provided, defaults to None, which gets results for all counties.
             force_update: bool
                 If this is False, the connector will check to see if the current
                 version matches the previously fetched version of the results.
                 If the version has not been changed, no results will be fetched or returned.
-                Default: false
+                If not provided, defaults to false.
 
         Returns:
             tuple[list[str], list[dict]]: A tuple containing:

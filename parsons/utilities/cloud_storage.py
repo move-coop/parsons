@@ -29,9 +29,6 @@ def post_file(tbl, type, file_path=None, quoting=csv.QUOTE_MINIMAL, **file_stora
         **file_storage_args: kwargs
             Optional arguments specific to the file storage.
 
-    Returns:
-        ``None``
-
     """
     if type.upper() == "S3":
         # Overwrite the file_path if key is passed

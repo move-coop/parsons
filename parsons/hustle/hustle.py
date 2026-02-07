@@ -398,9 +398,6 @@ class Hustle:
             tag_ids: list
                 A list of tag ids.
 
-        Returns:
-                ``None``
-
         """
         lead = {
             "firstName": first_name,
@@ -417,7 +414,7 @@ class Hustle:
         lead = json_format.remove_empty_keys(lead)
         logger.info(f"Generating lead for {first_name} {last_name}.")
         resp = self._request(f"groups/{group_id}/leads", req_type="POST", payload=lead)
-        return resp  # type: ignore
+        return resp
 
     def create_leads(self, table: Table, group_id: str | None = None) -> Table:
         """

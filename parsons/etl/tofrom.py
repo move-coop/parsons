@@ -666,7 +666,7 @@ class ToFrom:
         db=None,
         port=None,
         **copy_args,
-    ):
+    ) -> None:
         r"""
         Write a table to a Redshift database. Note, this requires you to pass
         AWS S3 credentials or store them as environmental variables.
@@ -687,9 +687,6 @@ class ToFrom:
             **copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy`` for options.
 
-        Returns:
-            ``None``
-
         """
         from parsons.databases.redshift import Redshift
 
@@ -705,7 +702,7 @@ class ToFrom:
         db=None,
         port=None,
         **copy_args,
-    ):
+    ) -> None:
         r"""
         Write a table to a Postgres database.
 
@@ -725,9 +722,6 @@ class ToFrom:
             **copy_args: kwargs
                 See :func:`~parsons.databases.Postgres.copy`` for options.
 
-        Returns:
-            ``None``
-
         """
         from parsons.databases.postgres import Postgres
 
@@ -740,7 +734,7 @@ class ToFrom:
         app_creds: str | None = None,
         project: str | None = None,
         **kwargs,
-    ):
+    ) -> None:
         """
         Write a table to BigQuery
 
@@ -756,9 +750,6 @@ class ToFrom:
             **kwargs: kwargs
                 Additional keyword arguments passed into the `.copy()` function (`if_exists`,
                 `max_errors`, etc.)
-
-        Returns:
-            ``None``
 
         """
         from parsons import GoogleBigQuery as BigQuery

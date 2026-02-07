@@ -416,9 +416,11 @@ class People:
         Args:
             id: str
                 A valid id
+
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``. Defaults to ``vanid``.
+
             expand_fields: list
                 A list of fields for which to include data. If a field is omitted,
                 ``None`` will be returned for that field. Can be ``contribution_history``,
@@ -497,7 +499,7 @@ class People:
         input_type_id=None,
         date_canvassed=None,
         phone=None,
-    ):
+    ) -> None:
         """
         Apply a canvass result to a person. Use this end point for attempts that do not
         result in a survey response or an activist code (e.g. Not Home).
@@ -519,9 +521,6 @@ class People:
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
             phone: str
                 `Optional`; Phone number of any type (Work, Cell, Home)
-
-        Returns:
-            ``None``
 
         """
         logger.info(f"Applying result code {result_code_id} to {id_type} {id}.")
@@ -691,7 +690,7 @@ class People:
 
         return self.connection.post_request(url, json=json)
 
-    def create_relationship(self, vanid_1, vanid_2, relationship_id):
+    def create_relationship(self, vanid_1, vanid_2, relationship_id) -> None:
         """
         Create a relationship between two individuals
 
@@ -702,8 +701,6 @@ class People:
                 The vanid of the secondary individual; the spoke
             relationship_id : int
                 The relationship id indicating the type of relationship
-        Returns:
-            ``None``
 
         """
         json = {"relationshipId": relationship_id, "vanId": vanid_2}
@@ -711,7 +708,7 @@ class People:
         self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
         logger.info(f"Relationship {vanid_1} to {vanid_2} created.")
 
-    def apply_person_code(self, id, code_id, id_type="vanid"):
+    def apply_person_code(self, id, code_id, id_type="vanid") -> None:
         """
         Apply a code to a person.
 
@@ -723,8 +720,6 @@ class People:
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
-        Returns:
-            ``None``
 
         """
         # Set url based on id_type

@@ -71,8 +71,8 @@ class Locations:
                 ZIP, ZIP+4, Postal Code, Post code, etc.
 
         Returns:
-                int
-                    A location id.
+            int
+                A location id.
 
         """
         location = {
@@ -97,8 +97,6 @@ class Locations:
         Args:
             location_id: int
                 The location id
-        Returns:
-            ``None``
 
         """
         r = self.connection.delete_request(f"locations/{location_id}")

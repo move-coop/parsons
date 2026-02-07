@@ -96,13 +96,14 @@ class ActionKit:
 
         return exception_message
 
-    def get_user(self, user_id):
+    def get_user(self, user_id: int):
         """
         Get a user.
 
         Args:
             user_id: int
                 The user id of the record to get.
+                TODO: is this really an int?
 
         Returns:
             User json object
@@ -125,7 +126,7 @@ class ActionKit:
 
         return list(resp["fields"].keys())
 
-    def create_user(self, email, **kwargs):
+    def create_user(self, email: str, **kwargs):
         """
         Create a user.
 
@@ -148,16 +149,16 @@ class ActionKit:
             **kwargs,
         )
 
-    def add_phone(self, user_id, phone_type, phone):
+    def add_phone(self, user_id: str, phone_type: str, phone: str):
         """
         Add a phone number to a user.
 
         Args:
-            user_id: string
+            user_id: str
                 The id of the user.
-            phone_type: string
+            phone_type: str
                 The type of the phone (e.g., "Home").
-            phone: string
+            phone: str
                 The phone number.
 
         Returns:
@@ -172,21 +173,19 @@ class ActionKit:
             phone=phone,
         )
 
-    def delete_actionfield(self, actionfield_id):
+    def delete_actionfield(self, actionfield_id: int) -> None:
         """
         Delete an actionfield.
 
         Args:
             actionfield_id: int
                 The id of the actionfield to delete
-        Returns:
-            ``None``
 
         """
         resp = self.conn.delete(self._base_endpoint("actionfield", actionfield_id))
         logger.info(f"{resp.status_code}: {actionfield_id}")
 
-    def update_user(self, user_id, **kwargs):
+    def update_user(self, user_id, **kwargs) -> requests.Response:
         """
         Update a user.
 
@@ -199,7 +198,8 @@ class ActionKit:
                 manual/api/rest/actionprocessing.html>`__.
 
         Returns:
-            ``HTTP response from the patch request``
+            requests.Response
+                HTTP response from the patch request
 
         """
         resp = self.conn.patch(self._base_endpoint("user", user_id), data=json.dumps(kwargs))
@@ -207,7 +207,7 @@ class ActionKit:
 
         return resp
 
-    def update_phone(self, phone_id, **kwargs):
+    def update_phone(self, phone_id, **kwargs) -> requests.Response:
         """
         Update a phone record.
 
@@ -219,7 +219,8 @@ class ActionKit:
                 at the /rest/v1/phone/schema/ path on any ActionKit instance.
 
         Returns:
-            ``HTTP response from the patch request``
+            requests.Response
+                HTTP response from the patch request
 
         """
         resp = self.conn.patch(self._base_endpoint("phone", phone_id), data=json.dumps(kwargs))
@@ -269,7 +270,7 @@ class ActionKit:
         """
         return self.paginated_get("event", limit=limit, **kwargs)
 
-    def update_event(self, event_id, **kwargs):
+    def update_event(self, event_id, **kwargs) -> None:
         """
         Update an event.
 
@@ -280,9 +281,6 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`__.
-
-        Returns:
-            ``None``
 
         """
         resp = self.conn.patch(self._base_endpoint("event", event_id), data=json.dumps(kwargs))
@@ -313,7 +311,7 @@ class ActionKit:
             value=value,
         )
 
-    def update_event_field(self, eventfield_id, name, value):
+    def update_event_field(self, eventfield_id, name, value) -> None:
         """
         Update an event field.
 
@@ -324,9 +322,6 @@ class ActionKit:
                 The name of the event field.
             value: string
                 The value of the event field.
-
-        Returns:
-            ``None``
 
         """
         resp = self.conn.patch(
@@ -340,7 +335,7 @@ class ActionKit:
         )
         logger.info(f"{resp.status_code}: {eventfield_id}")
 
-    def get_blackholed_email(self, email):
+    def get_blackholed_email(self, email) -> Table:
         """
         Get a blackholed email. A blackholed email is an email that has been prevented from
         receiving bulk and transactional emails from ActionKit. `Documentation <https://\
@@ -399,15 +394,13 @@ class ActionKit:
             **kwargs,
         )
 
-    def delete_user(self, user_id):
+    def delete_user(self, user_id) -> None:
         """
         Delete a user.
 
         Args:
             user_id: int
                 The user id of the person to delete
-        Returns:
-            ``None``
 
         """
         resp = self.conn.delete(self._base_endpoint("user", user_id))
@@ -766,7 +759,7 @@ class ActionKit:
             **kwargs,
         )
 
-    def update_event_signup(self, event_signup_id, **kwargs):
+    def update_event_signup(self, event_signup_id, **kwargs) -> None:
         """
         Update an event signup.
 
@@ -779,9 +772,6 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`__.
-
-        Returns:
-            ``None``
 
         """
         resp = self.conn.patch(
@@ -1018,7 +1008,7 @@ class ActionKit:
             endpoint="order", entity_id=order_id, exception_message="Order not found"
         )
 
-    def update_order(self, order_id, **kwargs):
+    def update_order(self, order_id, **kwargs) -> None:
         """
         Update an order.
 
@@ -1029,9 +1019,6 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`__.
-
-        Returns:
-            ``None``
 
         """
         resp = self.conn.patch(self._base_endpoint("order", order_id), data=json.dumps(kwargs))
@@ -1077,7 +1064,7 @@ class ActionKit:
             exception_message="Orderrecurring not found",
         )
 
-    def cancel_orderrecurring(self, recurring_id):
+    def cancel_orderrecurring(self, recurring_id) -> requests.Response:
         """
         Cancel a recurring order.
 
@@ -1085,15 +1072,12 @@ class ActionKit:
             recurring_id: int
                 The id of the recurring order to update (NOT the order_id)
 
-        Returns:
-            ``None``
-
         """
         resp = self.conn.post(self._base_endpoint("orderrecurring", str(recurring_id) + "/cancel"))
         logger.info(f"{resp.status_code}: {recurring_id}")
         return resp
 
-    def update_orderrecurring(self, orderrecurring_id, **kwargs):
+    def update_orderrecurring(self, orderrecurring_id: int, **kwargs) -> None:
         """
         Update a recurring order.
 
@@ -1105,9 +1089,6 @@ class ActionKit:
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`__.
 
-        Returns:
-            ``None``
-
         """
         resp = self.conn.patch(
             self._base_endpoint("orderrecurring", orderrecurring_id),
@@ -1115,7 +1096,7 @@ class ActionKit:
         )
         logger.info(f"{resp.status_code}: {orderrecurring_id}")
 
-    def get_orders(self, limit=None, **kwargs):
+    def get_orders(self, limit: int | None = None, **kwargs):
         """
         Get multiple orders.
 
@@ -1142,7 +1123,7 @@ class ActionKit:
         """
         return self.paginated_get("order", limit=limit, **kwargs)
 
-    def update_paymenttoken(self, paymenttoken_id, **kwargs):
+    def update_paymenttoken(self, paymenttoken_id, **kwargs) -> requests.Response:
         """
         Update a saved payment token.
 
@@ -1155,7 +1136,7 @@ class ActionKit:
                 manual/api/rest/actionprocessing.html>`__.
 
         Returns:
-            ``HTTP response``
+            requests.Response
 
         """
         resp = self.conn.patch(
@@ -1239,7 +1220,7 @@ class ActionKit:
             exception_message="Survey question not found",
         )
 
-    def update_survey_question(self, survey_question_id, **kwargs):
+    def update_survey_question(self, survey_question_id, **kwargs) -> None:
         """
         Update a survey question.
 
@@ -1252,9 +1233,6 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`__.
-
-        Returns:
-            ``None``
 
         """
         resp = self.conn.patch(
@@ -1281,7 +1259,7 @@ class ActionKit:
             **kwargs,
         )
 
-    def update_transaction(self, transaction_id, **kwargs):
+    def update_transaction(self, transaction_id, **kwargs) -> None:
         """
         Update a transaction.
 
@@ -1292,9 +1270,6 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`__.
-
-        Returns:
-            ``None``
 
         """
         resp = self.conn.patch(
@@ -1362,7 +1337,7 @@ class ActionKit:
             **kwargs,
         )
 
-    def update_import_action(self, action_id, **kwargs):
+    def update_import_action(self, action_id, **kwargs) -> requests.Response:
         """
         Update an import action.
 
@@ -1374,7 +1349,8 @@ class ActionKit:
                 at the /rest/v1/importaction/schema/ path on any ActionKit instance.
 
         Returns:
-            ``HTTP response from the patch request``
+            requests.Response
+                HTTP response from the patch request
 
         """
         resp = self.conn.patch(
@@ -1390,7 +1366,7 @@ class ActionKit:
         import_page,
         autocreate_user_fields=False,
         user_fields_only=False,
-    ):
+    ) -> dict:
         """
         Bulk upload a csv file of new users or user updates.
         If you are uploading a table object, use bulk_upload_table instead.

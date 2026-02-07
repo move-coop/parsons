@@ -244,7 +244,7 @@ class S3:
             logger.debug(f"Did not find {key} in {bucket}.")
             return False
 
-    def create_bucket(self, bucket):
+    def create_bucket(self, bucket) -> None:
         """
         Create an s3 bucket.
 
@@ -266,13 +266,11 @@ class S3:
         Args:
             bucket: str
                 The name of the bucket to create
-        Returns:
-            ``None``
 
         """
         self.client.create_bucket(Bucket=bucket)
 
-    def put_file(self, bucket, key, local_path, acl="bucket-owner-full-control", **kwargs):
+    def put_file(self, bucket, key, local_path, acl="bucket-owner-full-control", **kwargs) -> None:
         """
         Uploads an object to an S3 bucket
 
@@ -293,7 +291,7 @@ class S3:
         """
         self.client.upload_file(local_path, bucket, key, ExtraArgs={"ACL": acl, **kwargs})
 
-    def remove_file(self, bucket, key):
+    def remove_file(self, bucket, key) -> None:
         """
         Deletes an object from an S3 bucket
 
@@ -302,8 +300,6 @@ class S3:
                 The bucket name
             key: str
                 The object key
-        Returns:
-            ``None``
 
         """
         self.client.delete_object(Bucket=bucket, Key=key)
@@ -373,7 +369,7 @@ class S3:
         public_read=False,
         remove_original=False,
         **kwargs,
-    ):
+    ) -> None:
         """
         Transfer files between s3 buckets
 
@@ -403,9 +399,6 @@ class S3:
                 Additional arguments for the S3 API call. See `AWS download_file docs
                 <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.copy>`_
                 for more info.
-
-        Returns:
-            ``None``
 
         """
         # If prefix, get all files for the prefix

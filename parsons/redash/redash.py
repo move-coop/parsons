@@ -101,7 +101,9 @@ class Redash:
         self._catch_runtime_error(res)
         return res.json()
 
-    def update_data_source(self, data_source_id, name, type, dbName, host, password, port, user):
+    def update_data_source(
+        self, data_source_id, name, type, dbName, host, password, port, user
+    ) -> None:
         """
         Update a data source.
 
@@ -122,9 +124,6 @@ class Redash:
                 Port of data source.
             user: str
                 Username of data source.
-
-        Returns:
-            ``None``
 
         """
         self._catch_runtime_error(

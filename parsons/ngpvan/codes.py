@@ -217,9 +217,6 @@ class Codes:
             code_id: int
                 The code id.
 
-        Returns:
-            ``None``
-
         """
         r = self.connection.delete_request(f"codes/{code_id}")
         logger.info(f"Code {code_id} deleted.")

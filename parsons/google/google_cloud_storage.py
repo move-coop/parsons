@@ -135,7 +135,7 @@ class GoogleCloudStorage:
         logger.debug(f"Returning {bucket_name} object")
         return bucket
 
-    def create_bucket(self, bucket_name):
+    def create_bucket(self, bucket_name) -> None:
         """
         Create a bucket.
 
@@ -143,16 +143,13 @@ class GoogleCloudStorage:
             bucket_name: str
                 A globally unique name for the bucket.
 
-        Returns:
-            ``None``
-
         """
         # TODO: Allow user to set all of the bucket parameters
 
         self.client.create_bucket(bucket_name)
         logger.info(f"Created {bucket_name} bucket.")
 
-    def delete_bucket(self, bucket_name, delete_blobs=False):
+    def delete_bucket(self, bucket_name, delete_blobs=False) -> None:
         """
         Delete a bucket. Will fail if not empty unless ``delete_blobs`` argument
         is set to ``True``.
@@ -162,8 +159,6 @@ class GoogleCloudStorage:
                 The name of the bucket
             delete_blobs: bool
                 Delete blobs in the bucket, if it is not empty
-        Returns:
-            ``None``
 
         """
         bucket = self.get_bucket(bucket_name)
@@ -248,7 +243,7 @@ class GoogleCloudStorage:
         logger.debug(f"Got {blob_name} object from {bucket_name} bucket.")
         return blob
 
-    def put_blob(self, bucket_name, blob_name, local_path, **kwargs):
+    def put_blob(self, bucket_name, blob_name, local_path, **kwargs) -> None:
         """
         Puts a blob (aka file) in a bucket
 
@@ -259,8 +254,6 @@ class GoogleCloudStorage:
                 The name of blob to be stored in the bucket
             local_path: str
                 The local path of the file to upload
-        Returns:
-            ``None``
 
         """
         bucket = self.get_bucket(bucket_name)
@@ -303,7 +296,7 @@ class GoogleCloudStorage:
 
         return local_path
 
-    def delete_blob(self, bucket_name, blob_name):
+    def delete_blob(self, bucket_name, blob_name) -> None:
         """
         Delete a blob
 
@@ -312,8 +305,6 @@ class GoogleCloudStorage:
                 The bucket name
             blob_name: str
                 The blob name
-        Returns:
-            ``None``
 
         """
         blob = self.get_blob(bucket_name, blob_name)

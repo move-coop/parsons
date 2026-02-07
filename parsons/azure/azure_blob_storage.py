@@ -1,10 +1,17 @@
 import logging
 import os
 from pathlib import Path
+from typing import Literal
 from urllib.parse import urlparse
 
 from azure.core.exceptions import ResourceNotFoundError
-from azure.storage.blob import BlobServiceClient, ContentSettings, generate_blob_sas
+from azure.storage.blob import (
+    BlobServiceClient,
+    ContainerClient,
+    ContentSettings,
+    PublicAccess,
+    generate_blob_sas,
+)
 
 from parsons.utilities import check_env, files
 
@@ -42,7 +49,7 @@ class AzureBlobStorage:
         credential=None,
         account_domain="blob.core.windows.net",
         account_url=None,
-    ):
+    ) -> None:
         self.account_url = os.getenv("AZURE_ACCOUNT_URL", account_url)
         self.credential = check_env.check("AZURE_CREDENTIAL", credential)
         if not self.account_url:
@@ -58,7 +65,7 @@ class AzureBlobStorage:
             self.account_domain = ".".join(parsed_url.netloc.split(".")[1:])
         self.client = BlobServiceClient(account_url=self.account_url, credential=self.credential)
 
-    def list_containers(self):
+    def list_containers(self) -> list[str]:
         """
         Returns a list of container names for the storage account
 
@@ -71,15 +78,13 @@ class AzureBlobStorage:
         logger.info(f"Found {len(container_names)} containers.")
         return container_names
 
-    def container_exists(self, container_name):
+    def container_exists(self, container_name) -> bool:
         """
         Verify that a container exists within the storage account
 
         Args:
             container_name: str
                 The name of the container
-        Returns:
-            bool
 
         """
         container_client = self.get_container(container_name)
@@ -91,21 +96,25 @@ class AzureBlobStorage:
             logger.info(f"{container_name} does not exist.")
             return False
 
-    def get_container(self, container_name):
+    def get_container(self, container_name) -> ContainerClient:
         """
         Returns a container client
 
         Args:
             container_name: str
                 The name of the container
-        Returns:
-            `ContainerClient`
 
         """
         logger.info(f"Returning {container_name} container client")
         return self.client.get_container_client(container_name)
 
-    def create_container(self, container_name, metadata=None, public_access=None, **kwargs):
+    def create_container(
+        self,
+        container_name,
+        metadata=None,
+        public_access: PublicAccess | Literal["container", "blob"] | None = None,
+        **kwargs,
+    ) -> ContainerClient:
         """
         Create a container
 
@@ -114,16 +123,12 @@ class AzureBlobStorage:
                 The name of the container
             metadata: Optional[dict[str, str]]
                 A dict with metadata to associated with the container.
-            public_access: Optional[Union[PublicAccess, str]]
-                Settings for public access on the container, can be 'container' or 'blob' if not
-                ``None``
+            public_access: Optional[Union[PublicAccess, Literal["container", "blob"]]
+                Settings for public access on the container, if provided can be 'container' or 'blob'
             kwargs:
                 Additional arguments to be supplied to the Azure Blob Storage API. See `Azure Blob
                 Storage SDK documentation <https://docs.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobserviceclient?view=azure-python#create-container-name--metadata-none--public-access-none----kwargs->`__
                 for more info.
-
-        Returns:
-            `ContainerClient`
 
         """
         container_client = self.client.create_container(
@@ -132,21 +137,19 @@ class AzureBlobStorage:
         logger.info(f"Created {container_name} container.")
         return container_client
 
-    def delete_container(self, container_name):
+    def delete_container(self, container_name) -> None:
         """
         Delete a container.
 
         Args:
             container_name: str
                 The name of the container
-        Returns:
-            ``None``
 
         """
         self.client.delete_container(container_name)
         logger.info(f"{container_name} container deleted.")
 
-    def list_blobs(self, container_name, name_starts_with=None):
+    def list_blobs(self, container_name: str, name_starts_with: str | None = None) -> list[str]:
         """
         List all of the names of blobs in a container
 
@@ -231,8 +234,8 @@ class AzureBlobStorage:
             expiry: Optional[Union[datetime, str]]
                 The datetime when the URL should expire. Defaults to UTC.
             start: Optional[Union[datetime, str]]
-                The datetime when the URL should become valid. Defaults to UTC. If it is ``None``,
-                the URL becomes active when it is first created.
+                The datetime when the URL should become valid. Defaults to UTC.
+                If not provided, the URL becomes active when it is first created.
 
         Returns:
             str
@@ -257,7 +260,7 @@ class AzureBlobStorage:
         )
         return f"{self.account_url}/{container_name}/{blob_name}?sas={sas}"
 
-    def _get_content_settings_from_dict(self, kwargs_dict):
+    def _get_content_settings_from_dict(self, kwargs_dict) -> tuple[ContentSettings | None, dict]:
         """
         Removes any keys for ``ContentSettings`` from a dict and returns a tuple of the generated
         settings or ``None`` and a dict with the settings keys removed.
@@ -358,7 +361,7 @@ class AzureBlobStorage:
 
         return local_path
 
-    def delete_blob(self, container_name, blob_name):
+    def delete_blob(self, container_name, blob_name) -> None:
         """
         Delete a blob in a specified container.
 
@@ -367,8 +370,6 @@ class AzureBlobStorage:
                 The container name
             blob_name: str
                 The blob name
-        Returns:
-            ``None``
 
         """
         blob_client = self.get_blob(container_name, blob_name)

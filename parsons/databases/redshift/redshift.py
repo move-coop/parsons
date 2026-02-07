@@ -1161,7 +1161,7 @@ class Redshift(
 
         return tbl
 
-    def alter_varchar_column_widths(self, tbl, table_name, drop_dependencies=False):
+    def alter_varchar_column_widths(self, tbl, table_name, drop_dependencies=False) -> None:
         """
         Alter the width of a varchar columns in a Redshift table to match the widths
         of a Parsons table. The columns are matched by column name and not their
@@ -1172,9 +1172,6 @@ class Redshift(
                 A Parsons table
             table_name:
                 The target table name (e.g. ``my_schema.my_table``)
-
-        Returns:
-            ``None``
 
         """
         # Make the Parsons table column names match valid Redshift names

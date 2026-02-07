@@ -26,7 +26,7 @@ class Airmeet:
 
     """
 
-    def __init__(self, airmeet_uri=None, airmeet_access_key=None, airmeet_secret_key=None):
+    def __init__(self, airmeet_uri=None, airmeet_access_key=None, airmeet_secret_key=None) -> None:
         """
         Authenticate with the Airmeet API and update the connection headers
         with the access token.
@@ -38,9 +38,6 @@ class Airmeet:
                 The Airmeet API access key.
             airmeet_secret_key: string
                 The Airmeet API secret key.
-
-        Returns:
-            ``None``
 
         """
         self.uri = check_env.check("AIRMEET_URI", airmeet_uri, optional=True) or AIRMEET_DEFAULT_URI
@@ -73,9 +70,6 @@ class Airmeet:
                 <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
             **kwargs:
                 Additional parameters to include in the request.
-
-        Returns:
-            ``None``
 
         """
         results = []

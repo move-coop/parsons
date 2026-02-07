@@ -55,21 +55,21 @@ class Contacts:
 
     def create_contact(
         self,
-        name_prefix="",
-        first_name="",
-        last_name="",
-        middle_name="",
-        name_suffix="",
-        nickname="",
-        occupation="",
-        employer="",
+        name_prefix: str = "",
+        first_name: str = "",
+        last_name: str = "",
+        middle_name: str = "",
+        name_suffix: str = "",
+        nickname: str = "",
+        occupation: str = "",
+        employer: str = "",
         volunteer_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
         donor_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
         member_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
-        date_of_birth=None,
+        date_of_birth: str = None,
         gender: Literal["F", "M", "U"] | None = None,
-        email="",
-        pdi_id=None,
+        email: str = "",
+        pdi_id: str = None,
     ):
         """
         Create new contact.
@@ -147,19 +147,19 @@ class Contacts:
 
     def update_contact(
         self,
-        id,
-        first_name,
-        last_name,
-        name_prefix="",
-        middle_name="",
-        name_suffix="",
-        nickname="",
-        occupation="",
-        employer="",
+        id: str,
+        first_name: str,
+        last_name: str,
+        name_prefix: str = "",
+        middle_name: str = "",
+        name_suffix: str = "",
+        nickname: str = "",
+        occupation: str = "",
+        employer: str = "",
         volunteer_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
         donor_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
         member_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
-        date_of_birth=None,
+        date_of_birth: str = None,
         gender: Literal["F", "M", "U"] = "U",
     ):
         """
@@ -226,7 +226,7 @@ class Contacts:
         contact_id: int,
         phone_number: str,
         phone_type: Literal["Home", "Work", "Direct", "Mobile", "Fax", "Other"] = "Mobile",
-        primary=True,
+        primary: bool = True,
         extension="",
     ):
         """
@@ -266,9 +266,10 @@ class Contacts:
 
         return response
 
-    def add_email(self, contact_id: int, email: str, primary=True):
+    def add_email(self, contact_id: int, email: str, primary: bool = True):
         """
-        Add an email address to a contact
+        Add an email address to a contact.
+
         Args:
             contact_id: int
                 Unique ID of the contact you'd like to apply the email to

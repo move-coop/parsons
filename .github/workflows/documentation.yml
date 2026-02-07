@@ -45,7 +45,7 @@ jobs:
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-linkcheck.outcome)
 
       - uses: github/codeql-action/upload-sarif@cdefb33c0f6224e58673d9004f47f7cb3e328b89
-        if: ( success() || failure() ) && contains("success", steps.convert-linkcheck.outcome)
+        if: ( success() || failure() ) && contains('["success"]', steps.convert-linkcheck.outcome)
         with:
           sarif_file: docs/_build/linkcheck/results.sarif
 

@@ -1059,7 +1059,7 @@ class ActionNetwork:
                When None, no filter is applied.
 
         Returns:
-           A  JSON with all the outreaches entries related to the advocacy_campaign_id
+            A  JSON with all the outreaches entries related to the advocacy_campaign_id
         Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
 
@@ -1905,8 +1905,6 @@ class ActionNetwork:
                 The number of entries to return. When None, returns all entries.
             per_page:
                 The number of entries per page to return. 25 maximum.
-
-        Returns:
 
         """
         if page:

@@ -63,7 +63,7 @@ class ChangedEntities:
             date_to: str
                 The end date to search. Must be less than 90 days in the
                 past. Must be``iso8601`` formatted date (``2021-10-11``).
-            include_inactive: boolean
+            include_inactive: bool
                 Include inactive records
             requested_fields: list
                 A list of optional requested fields to include. These options can be accessed through

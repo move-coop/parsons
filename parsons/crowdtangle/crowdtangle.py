@@ -237,7 +237,7 @@ class CrowdTangle:
             end_date: str
                 Filter to the latest date at which a post could be posted.
                 The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
-            include_summary: boolean
+            include_summary: bool
                 Adds a ``summary`` column with account statistics for each platform
                 that has posted this link. It will look beyond the count
                 requested to summarize across the time searched.

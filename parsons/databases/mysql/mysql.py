@@ -144,7 +144,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 A connection object obtained from ``mysql.connection()``
             parameters: list
                 A list of python variables to be converted into SQL values in your query
-            commit: boolean
+            commit: bool
                 Whether to commit the transaction immediately. If ``False`` the transaction will
                 be committed when the connection goes out of scope and is closed (or you can
                 commit manually with ``connection.commit()``).

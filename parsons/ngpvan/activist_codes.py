@@ -77,7 +77,7 @@ class ActivistCodes:
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
-            omit_contact: boolean
+            omit_contact: bool
                 If set to false the contact history will be updated with a contact
                 attempt.
 

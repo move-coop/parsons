@@ -481,11 +481,9 @@ class Scytl:
                 matches the previously fetched version of the results.
                 If the version has not been changed, no results will be fetched or returned.
                 Default: false
-        Returns:
-            list[dict]
-                The list should contain entries for each candidate in each office,
-                per vote method and per county.
 
+        Returns:
+            list[dict]: Entries for each candidate in each office, per vote method and county.
                 If fetching for a state, results will look like:
                 - state
                 - county_name
@@ -575,30 +573,27 @@ class Scytl:
                 Default: false
 
         Returns:
-            list[str]
-                The list of county names that could not be fetched
+            tuple[list[str], list[dict]]: A tuple containing:
+                - missing_counties (list[str]): A list of county names where data
+                  could not be fetched (no detailed or summary results found).
+                - parsed_data (list[dict]): A list of dictionaries representing results
+                  per candidate, office, vote method, and precinct.
 
-            list[dict]
-                The list should contain entries for each candidate in
-                each office, per vote method, county, and precinct.
-
-                Each row will contain the following:
-                - state
-                - county_name
-                - county_id
-                - office
-                - ballots_cast
-                - reg_voters
-                - vote_method (note: some administrators choose to differentiate
-                  results by vote method, while others do not)
-                - candidate_name
-                - candidate_party (many administrators do not use this feature
-                  and instead include the party in the candidate name)
-                - precinct_name
-                - recorded_votes (votes cast for the candidate with this vote method in this county)
-                - voter_turnout
-                - percent_reporting
-                - timestamp_last_updated
+                Each dictionary in `parsed_data` contains:
+                - state (str): State identifier.
+                - county_name (str): Name of the county.
+                - county_id (str): Unique identifier for the county.
+                - office (str): The office/contest name.
+                - ballots_cast (int): Total ballots cast.
+                - reg_voters (int): Total registered voters.
+                - vote_method (str): Method of voting (if provided by administrator).
+                - candidate_name (str): Name of the candidate.
+                - candidate_party (str): Candidate's party affiliation (if provided).
+                - precinct_name (str): Name of the precinct.
+                - recorded_votes (int): Votes for the candidate in this precinct/method.
+                - voter_turnout (float): Turnout percentage.
+                - percent_reporting (float): Reporting progress for the precinct.
+                - timestamp_last_updated (str): The time the data was last updated.
 
         """
         version_num = self._get_version(self.administrator, self.election_id)

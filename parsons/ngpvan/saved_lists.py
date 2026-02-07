@@ -110,9 +110,9 @@ class SavedLists:
                 The column name of the VAN ID column in the file. Must be VAN ID.
             delimiter: str
                 The file delimiter used.
-            header: boolean
+            header: bool
                 Whether or not the source file has a header row.
-            quotes: boolean
+            quotes: bool
                  Whether or not fields are enclosed in quotation marks within each
                  column of the file.
             overwrite: int
@@ -213,7 +213,7 @@ class SavedLists:
             id_type: str
                 The primary key type. The options, beyond ``vanid`` are specific to your
                 instance of VAN.
-            replace: boolean
+            replace: bool
                 Replace saved list if already exists.
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See

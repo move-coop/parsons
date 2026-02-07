@@ -83,12 +83,13 @@ class Targets:
 
         Returns:
             dict: The target export job ID
+
         """
         if webhook_url is not None:
             warnings.warn(
                 "The 'webhook_url' parameter is deprecated and will be removed in a future version.",
                 category=DeprecationWarning,
-                stacklevel=2
+                stacklevel=2,
             )
 
         target_export = {"targetId": target_id}

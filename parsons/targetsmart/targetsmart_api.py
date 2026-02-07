@@ -143,12 +143,12 @@ class Person:
             composite_score_max: int
                 An integer in range [1 - 100]. Filter out results with composite score
                 greater than this value.
-            last_name_exact: boolean
+            last_name_exact: bool
                 By default, the full last name is used for finding matches if the length of the
                 last name is not longer than 10 characters. As an example, “anders” is less likely
                 to match to “anderson” with this enabled. Disable this option if you are using
                 either ``last_name_is_prefix`` or ``last_name_prefix_length``.
-            last_name_is_prefix: boolean
+            last_name_is_prefix: bool
                 By default, the full last name is used for finding matches. Enable this parameter
                 if your search last name is truncated. This can be common for some client
                 applications that for various reasons do not have full last names. Use this

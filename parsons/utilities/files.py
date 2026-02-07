@@ -244,7 +244,7 @@ def extract_file_name(file_path=None, include_suffix=True):
 
     file_path: str
         The file path
-    include_suffix: boolean
+    include_suffix: bool
         If True, includes full file name with suffix. If False returns the
         file name without the suffix (e.g. "myfile.zip" vs. "myfile").
     """

@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 logger = logging.getLogger(__name__)
 
@@ -148,14 +149,14 @@ class Events:
         activity_name: str,
         start_datetime: str,
         end_datetime: str,
-        description=None,
-        all_day=False,
-        recurrencetype=None,
-        recurrence_end_datetime=None,
-        host_phone=None,
-        host_email=None,
-        website=None,
-        signup_goal=None,
+        description: str | None = None,
+        all_day: bool = False,
+        recurrencetype: str | None = None,
+        recurrence_end_datetime: str | None = None,
+        host_phone: str | None = None,
+        host_email: str | None = None,
+        website: str | None = None,
+        signup_goal: int | None = None,
     ):
         """
         Create event in a specified calendar with an associated activity. The activty will
@@ -247,10 +248,10 @@ class Events:
         activity_name: str,
         start_datetime: str,
         end_datetime: str,
-        description=None,
-        recurrencetype=None,
-        recurrence_end_datetime=None,
-        signup_goal=None,
+        description: str | None = None,
+        recurrencetype: str | None = None,
+        recurrence_end_datetime: str | None = None,
+        signup_goal: int | None = None,
     ):
         """
         Create event in a specified calendar with an associated activity
@@ -313,32 +314,40 @@ class Events:
         self,
         event_id: str,
         contact_id: str,
-        status: str,
-        attended: bool,
-        confirmed=False,
-        specific_occurrence_start=None,
+        status: Literal[
+            "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed", ""
+        ] = None,
+        attended: bool = False,
+        confirmed: bool = False,
+        specific_occurrence_start: str | None = None,
     ):
         """
         Create a PDI event invitation indicating a contact has been registered for an event
+
         Args:
             event_id: str
                 The ID of the event to write the RSVP to
+
             contact_id: str
                 The ID of the contact to which the invitation belongs
+
             status: str
-                Options are: "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled",
-                "No-Show", "Completed", and ""
-            attended: boolean
+
+            attended: bool
                 Indicates whether contact attended event
-            confirmed: boolean
+
+            confirmed: bool
                 Indicates whether invitation confirmed they will attend the event. Defaults to
                 False
+
             specific_occurrence_start: str
                 If invitation is for a specific occurrence of a recurring event, then the start
                 datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ
+
         Returns:
             dict
                 Response from PDI in dictionary object
+
         """
         event_invitation_payload = {
             "contactId": contact_id,
@@ -362,33 +371,42 @@ class Events:
         invitation_id: str,
         event_id: str,
         contact_id: str,
-        status=None,
-        attended=None,
-        confirmed=None,
-        specific_occurrence_start=None,
+        status: Literal[
+            "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed", ""
+        ] = None,
+        attended: bool = False,
+        confirmed: bool = False,
+        specific_occurrence_start: str | None = None,
     ):
         """
         Modify a PDI event invitation
+
         Args:
             invitation_id: str
                 The ID of the event invitation
+
             event_id: str
                 The ID of the event that corresponds to the invitation
+
             contact_id: str
                 The ID of the contact to which the invitation belongs
+
             status: str
-                Options are: "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled",
-                "No-Show", "Completed", and ""
-            attended: boolean
+
+            attended: bool
                 Indicates whether contact attended event
-            confirmed: boolean
+
+            confirmed: bool
                 Indicates whether invitation confirmed they will attend the event
+
             specific_occurrence_start: str
                 If invitation is for a specific occurrence of a recurring event, then the start
                 datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ
+
         Returns:
             dict
                 Response from PDI in dictionary object
+
         """
         event_invitation_payload = {"contactId": contact_id}
 
@@ -412,31 +430,39 @@ class Events:
         self,
         eventactivityid: str,
         contact_id: str,
-        status: str,
-        completed: bool,
-        confirmed=False,
-        specific_occurrence_start=None,
+        status: Literal[
+            "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed", ""
+        ] = None,
+        completed: bool = False,
+        confirmed: bool = False,
+        specific_occurrence_start: str | None = None,
     ):
         """
         Create an activity assignement
+
         Args:
             eventactivityid: str
                 The ID of the specific event activity you'd like to assign a contact
+
             contact_id: str
                 The ID of the contact to which the assignment belongs
+
             status: str
-                Options are: "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled",
-                "No-Show", "Completed", and ""
-            completed: boolean
+
+            completed: bool
                 Indicates whether contact attended event
-            confirmed: boolean
+
+            confirmed: bool
                 Indicates whether invitation confirmed they will attend the event
+
             specific_occurrence_start: str
                 If invitation is for a specific occurrence of a recurring event, then the start
                 datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ
+
         Returns:
             dict
                 Response from PDI in dictionary object
+
         """
         assignment_payload = {
             "rsvpStatus": status,
@@ -460,33 +486,41 @@ class Events:
         activityassignementid: str,
         eventactivityid: str,
         contact_id: str,
-        status=None,
-        completed=None,
-        confirmed=None,
-        specific_occurrence_start=None,
+        status: Literal[
+            "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed", ""
+        ] = None,
+        completed: bool = False,
+        confirmed: bool = False,
+        specific_occurrence_start: str | None = None,
     ):
         """
         Create an activity assignement
         Args:
             activityassignementid: str
                 Id of the specific event activity assignement you want to modify
+
             eventactivityid: str
                 The ID of the specific event activity you'd like to assign a contact
+
             contact_id: str
                 The ID of the contact to which the assignment belongs
+
             status: str
-                Options are: "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled",
-                "No-Show", "Completed", and ""
-            completed: boolean
+
+            completed: bool
                 Indicates whether contact attended event
-            confirmed: boolean
+
+            confirmed: bool
                 Indicates whether invitation confirmed they will attend the event
+
             specific_occurrence_start: str
                 If invitation is for a specific occurrence of a recurring event, then the start
                 datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ
+
         Returns:
             dict
                 Response from PDI in dictionary object
+
         """
         assignment_payload = {
             "contactId": contact_id,
@@ -510,7 +544,9 @@ class Events:
 
         return response
 
-    def get_event_activity_assignments(self, start_date, end_date, expand, limit=None):
+    def get_event_activity_assignments(
+        self, start_date: str, end_date: str, expand: bool, limit: int | None = None
+    ):
         """
         Get a list of event activity assignments.
         Relevant API docs:

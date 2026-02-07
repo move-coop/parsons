@@ -276,7 +276,7 @@ class Mailchimp:
                 A unique identifier for the email address across all Mailchimp
                 lists. This parameter can be found in any links with Ecommerce
                 Tracking enabled.
-            vip_only: boolean
+            vip_only: bool
                 A filter to return only the list's VIP members. Passing true
                 will restrict results to VIP list members, passing false will
                 return all list members.

@@ -116,7 +116,7 @@ class PostgresCore(PostgresCreateStatement):
                 A connection object obtained from ``redshift.connection()``
             parameters: list
                 A list of python variables to be converted into SQL values in your query
-            commit: boolean
+            commit: bool
                 Whether to commit the transaction immediately. If ``False`` the transaction will
                 be committed when the connection goes out of scope and is closed (or you can
                 commit manually with ``connection.commit()``).
@@ -214,7 +214,7 @@ class PostgresCore(PostgresCreateStatement):
         Args:
             table_name: str
                 The table name and schema (e.g. ``myschema.mytable``).
-            view: boolean
+            view: bool
                 Check to see if a view exists by the same name. Defaults to ``True``.
 
         Returns:

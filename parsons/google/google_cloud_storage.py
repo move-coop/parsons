@@ -160,7 +160,7 @@ class GoogleCloudStorage:
         Args:
             bucket_name: str
                 The name of the bucket
-            delete_blobs: boolean
+            delete_blobs: bool
                 Delete blobs in the bucket, if it is not empty
         Returns:
             ``None``

@@ -67,7 +67,7 @@ class ToFrom:
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
-            index_header: boolean
+            index_header: bool
                 Prepend index to column names; Defaults to False.
             caption: str
                 A caption to include with the html table.
@@ -252,7 +252,7 @@ class ToFrom:
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
-            write_header: boolean
+            write_header: bool
                 Include header in output
             csv_name: str
                 If ``zip`` compression (either specified or inferred), the name of csv file
@@ -352,7 +352,7 @@ class ToFrom:
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
-            write_header: boolean
+            write_header: bool
                 Include header in output
             if_exists: str
                 If archive already exists, one of 'replace' or 'append'
@@ -473,7 +473,7 @@ class ToFrom:
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
-            write_header: boolean
+            write_header: bool
                 Include header in output
             rsa_private_key_file str
                 Absolute path to a private RSA key used
@@ -534,15 +534,15 @@ class ToFrom:
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
-            write_header: boolean
+            write_header: bool
                 Include header in output
-            public_url: boolean
+            public_url: bool
                 Create a public link to the file
             public_url_expire: 3600
                 The time, in seconds, until the url expires if ``public_url`` set to ``True``.
             acl: str
                 The S3 permissions on the file
-            use_env_token: boolean
+            use_env_token: bool
                 Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
                 to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` env
                 variable even if the ``aws_session_token`` argument was not passed in.
@@ -619,9 +619,9 @@ class ToFrom:
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
-            write_header: boolean
+            write_header: bool
                 Include header in output
-            public_url: boolean
+            public_url: bool
                 Create a public link to the file
             public_url_expires: 60
                 The time, in minutes, until the url expires if ``public_url`` set to ``True``.
@@ -814,7 +814,7 @@ class ToFrom:
                 The column to use as the sortkey for the table.
             sortkey2: str
                 The second column in a compound sortkey for the table.
-            wait: boolean
+            wait: bool
                 Wait for write job to complete before exiting method.
 
         """
@@ -1094,7 +1094,7 @@ class ToFrom:
         Args:
             dataframe: dataframe
                 A valid Pandas dataframe objectt
-            include_index: boolean
+            include_index: bool
                 Include index column
 
         """

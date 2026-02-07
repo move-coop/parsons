@@ -142,7 +142,7 @@ class MobilizeAmerica:
             timeslot_end: str
                 Filter by a timeslot end of events using ``>``,``>=``,``<``,``<=``
                 operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``)
-            timeslot_table: boolean
+            timeslot_table: bool
                 Return timeslots as a separate long table. Useful for extracting
                 to databases.
             max_timeslots: int
@@ -227,7 +227,7 @@ class MobilizeAmerica:
             timeslot_end: str
                 Filter by a timeslot end of events using ``>``,``>=``,``<``,``<=``
                 operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``)
-            timeslot_table: boolean
+            timeslot_table: bool
                 Return timeslots as a separate long table. Useful for extracting
                 to databases.
             zipcode: str

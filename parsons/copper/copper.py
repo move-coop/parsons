@@ -115,7 +115,7 @@ class Copper:
             `filters: dict`
                 Optional; pass additional parameters to filter the records returned.
                 See `Copper documentation <https://developer.copper.com/?version=latest#9c15869b-c894-4fa2-9346-d65a6602c129>`__ for choices
-            `tidy: boolean or int`
+            `tidy: bool or int`
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
                 If 'int': adds rows to original table if max rows per key <= given number
@@ -141,7 +141,7 @@ class Copper:
             `filters: dict`
                 Optional; pass additional parameters to filter the records returned.
                 See `Copper documentation <https://developer.copper.com/?version=latest#0b4f267f-3180-4041-861c-13f3cf17bcf9>`__ for choices
-            `tidy: boolean or int`
+            `tidy: bool or int`
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
                 If 'int': adds rows to original table if max rows per key <= given number

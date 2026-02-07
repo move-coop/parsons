@@ -1,3 +1,6 @@
+from typing import Literal
+
+
 class Contacts:
     """A class to access the contacts PDI API endpoint."""
 
@@ -19,12 +22,19 @@ class Contacts:
         Get a list of Contacts.
 
         Args:
-            email: str, email address
-            phone: str, phone number
-            first_name: str, first name
-            last_name: str, last name
-            zip_code: str, zip code
-            search_by_email: bool, whether to search using email address
+            email: str
+
+            phone: str
+
+            first_name: str
+
+            last_name: str
+
+            zip_code: str
+
+            search_by_email: bool
+                Whether to search using email address
+
             limit: int
                 The number of contacts to return.
 
@@ -53,41 +63,52 @@ class Contacts:
         nickname="",
         occupation="",
         employer="",
-        volunteer_status="",
-        donor_status="",
-        member_status="",
+        volunteer_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
+        donor_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
+        member_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
         date_of_birth=None,
-        gender=None,
+        gender: Literal["F", "M", "U"] | None = None,
         email="",
         pdi_id=None,
     ):
         """
-        Create new contact
+        Create new contact.
+
         Args:
-            pdiId (string, optional): The pdi identifier. pdiId field is ignored when updating. ,
-            namePrefix (string): The name prefix.
-            firstName (string): The first name.
-            middleName (string): The middle name.
-            lastName (string): The last name.
-            nameSuffix (string): The name suffix.
-            nickname (string): The nickname.
-            occupation (string): The occupation.
-            employer (string): The employer.
-            volunteerStatus (string): The volunteer status.
-            Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            donorStatus (string): The donor status.
-            Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            memberStatus (string): The member status.
-            Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            dateOfBirth (string, optional): The date of birth.
-            Format allowed: yyyy-MM-dd ,
-            gender (string, optional): The gender.
-            emailAddress (string, optional): The email.
-            Options are: "F", "M", "U"
+            name_prefix: str
+
+            first_name: str
+
+            last_name: str
+
+            middle_name: str
+
+            name_suffix: str
+
+            nickname: str
+
+            occupation: str
+
+            employer: str
+
+            volunteer_status: Literal["Prospect", "Active", "Inactive", "None", ""]
+
+            donor_status: Literal["Prospect", "Active", "Inactive", "None", ""]
+
+            member_status: Literal["Prospect", "Active", "Inactive", "None", ""]
+
+            date_of_birth: str, optional
+                Format allowed: yyyy-MM-dd.
+
+            gender: Literal["F", "M", "U"], optional
+
+            email: str
+
+            pdi_id: str, optional
 
         Returns:
             parsons.Table
-                A Parsons table of all the data.
+                A Parsons table of the contact data.
 
         """
         payload = {
@@ -135,37 +156,49 @@ class Contacts:
         nickname="",
         occupation="",
         employer="",
-        volunteer_status="",
-        donor_status="",
-        member_status="",
+        volunteer_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
+        donor_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
+        member_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
         date_of_birth=None,
-        gender="U",
+        gender: Literal["F", "M", "U"] = "U",
     ):
         """
-        Update Contact
+        Update Contact.
+
         Args:
-            namePrefix (string): The name prefix.
-            firstName (string): The first name.
-            middleName (string): The middle name.
-            lastName (string): The last name.
-            nameSuffix (string): The name suffix.
-            nickname (string): The nickname.
-            occupation (string): The occupation.
-            employer (string): The employer.
-            volunteerStatus (string): The volunteer status.
-            Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            donorStatus (string): The donor status.
-            Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            memberStatus (string): The member status.
-            Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            dateOfBirth (string, optional): The date of birth.
-            Format allowed: yyyy-MM-dd ,
-            gender (string, optional): The gender.
-            Options are: "F", "M", "U"
+            id: str:
+                pdi_id
+
+            first_name: str
+
+            last_name: str
+
+            name_prefix: str
+
+            middle_name: str
+
+            name_suffix: str
+
+            nickname: str
+
+            occupation: str
+
+            employer: str
+
+            volunteer_status: Literal["Prospect", "Active", "Inactive", "None", ""]
+
+            donor_status: Literal["Prospect", "Active", "Inactive", "None", ""]
+
+            member_status: Literal["Prospect", "Active", "Inactive", "None", ""]
+
+            date_of_birth: str, optional
+                Format allowed: yyyy-MM-dd.
+
+            gender: Literal["F", "M", "U"], optional
 
         Returns:
             parsons.Table
-                A Parsons table of all the data.
+                A Parsons table of the contact data.
 
         """
         payload = {
@@ -186,12 +219,13 @@ class Contacts:
         res = self._request(f"{self.url_contacts}/{id}", req_type="PUT", post_data=payload)
         if res["code"] == 201:
             return True
+        return None
 
     def add_phone(
         self,
         contact_id: int,
         phone_number: str,
-        phone_type="Mobile",
+        phone_type: Literal["Home", "Work", "Direct", "Mobile", "Fax", "Other"] = "Mobile",
         primary=True,
         extension="",
     ):
@@ -200,16 +234,22 @@ class Contacts:
         Args:
             contact_id: int
                 Unique ID of the contact you'd like to apply the phone_number to
+
             phone_number: str
+
             phone_type: str
-                Options are `Home`, `Work`, `Direct`, `Mobile`, `Fax`, and `Other. Defaults to
-                `Mobile`
+                Options are "Home", "Work", "Direct", "Mobile", "Fax", and "Other".
+                Defaults to "Mobile".
+
             primary: bool
                 True indicates that this phone number is the contact's primary phone number
+
             extension: str
+
         Returns:
             dict
                 Response from PDI
+
         """
         payload = {
             "phoneNumber": phone_number,
@@ -232,12 +272,16 @@ class Contacts:
         Args:
             contact_id: int
                 Unique ID of the contact you'd like to apply the email to
+
             email: str
+
             primary: bool
                 True indicates that this email address is the contact's primary email
+
         Returns:
             dict
                 Response from PDI
+
         """
         payload = {"emailAddress": email, "isPrimary": primary}
 

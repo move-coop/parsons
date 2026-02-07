@@ -50,7 +50,7 @@ class CivisClient:
                 Number of seconds to wait between checks for query completion.
             hidden: bool, optional
                 If ``True`` (the default), this job will not appear in the Civis UI.
-            wait: boolean
+            wait: bool
                 If ``True``, will wait for query to finish executing before exiting
                 the method. If ``False``, returns the future object.
 
@@ -118,7 +118,7 @@ class CivisClient:
                 The column to use as the sortkey for the table.
             sortkey2: str
                 The second column in a compound sortkey for the table.
-            wait: boolean
+            wait: bool
                 Wait for write job to complete before exiting method. If ``False``, returns
                 the future object.
 

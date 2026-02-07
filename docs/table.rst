@@ -367,9 +367,9 @@ The following methods allow you to manipulate the Parsons table data.
 .. autoclass:: parsons.etl.etl.ETL
    :inherited-members:
 
-*********
+***************
 Materialize API
-*********
+***************
 
 .. autoclass:: parsons.etl.table.Table
    :members: materialize, materialize_to_file

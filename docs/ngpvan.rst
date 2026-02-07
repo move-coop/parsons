@@ -70,6 +70,7 @@ Common Workflows
 ===========
 Bulk Import
 ===========
+
 For some methods, VAN allows you to bulk import multiple records to create or modify them.
 
 The bulk upload endpoint requires access to files on the public internet as it runs the upload
@@ -223,6 +224,7 @@ Loading a score is a multi-step process. Once a score is set to approved, loadin
 ===========================
 People: Add Survey Response
 ===========================
+
 The following workflow can be used to apply survey questions, activist codes
 and canvass responses.
 
@@ -357,9 +359,9 @@ Codes
 .. autoclass:: parsons.ngpvan.van.Codes
    :inherited-members:
 
-=====
+=============
 Contact Notes
-=====
+=============
 
 .. autoclass:: parsons.ngpvan.van.ContactNotes
    :inherited-members:
@@ -371,9 +373,9 @@ Custom Fields
 .. autoclass:: parsons.ngpvan.van.CustomFields
    :inherited-members:
 
-======
+=====
 Email
-======
+=====
 
 .. autoclass:: parsons.ngpvan.van.Email
    :inherited-members:
@@ -418,9 +420,9 @@ Locations
 .. autoclass:: parsons.ngpvan.van.Locations
    :inherited-members:
 
-===========
+=============
 Printed Lists
-===========
+=============
 
 .. note::
 

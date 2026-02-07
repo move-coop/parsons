@@ -982,18 +982,18 @@ class ToFrom:
     def from_postgres(cls, sql, username=None, password=None, host=None, db=None, port=None):
         """
         Args:
-        sql: str
-            A valid SQL statement
-        username: str
-            Required if env variable ``PGUSER`` not populated
-        password: str
-            Required if env variable ``PGPASSWORD`` not populated
-        host: str
-            Required if env variable ``PGHOST`` not populated
-        db: str
-            Required if env variable ``PGDATABASE`` not populated
-        port: int
-            Required if env variable ``PGPORT`` not populated.
+            sql: str
+                A valid SQL statement
+            username: str
+                Required if env variable ``PGUSER`` not populated
+            password: str
+                Required if env variable ``PGPASSWORD`` not populated
+            host: str
+                Required if env variable ``PGHOST`` not populated
+            db: str
+                Required if env variable ``PGDATABASE`` not populated
+            port: int
+                Required if env variable ``PGPORT`` not populated.
 
         """
         from parsons.databases.postgres import Postgres

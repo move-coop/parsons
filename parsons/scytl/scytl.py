@@ -123,7 +123,7 @@ class Scytl:
                 The election id for the given election as a string
         Returns:
             str
-            The version id as a string
+                The version id as a string
 
         """
         config_version_url = CURRENT_VERSION_URL_TEMPLATE.format(
@@ -145,7 +145,7 @@ class Scytl:
                 The expected name of the file in the zipfile to read
         Returns:
             bytes
-            The unzipped file as bytes
+                The unzipped file as bytes
 
         """
         with BytesIO() as zipdata:
@@ -174,7 +174,7 @@ class Scytl:
                 The latest version ID of the election as a string
         Returns:
             dict[str, CountyDetails]
-            A dictionary mapping county names to their sub-election information
+                A dictionary mapping county names to their sub-election information
 
         """
         county_dict = {}
@@ -224,7 +224,7 @@ class Scytl:
                 id, and last updated datetime
         Returns:
             list[dict]
-            The list of election results by precinct and vote method in the file.
+                The list of election results by precinct and vote method in the file.
 
         """
         tree = ET.fromstring(county_data)
@@ -306,7 +306,7 @@ class Scytl:
                 The two-letter state code for the state associated with the file
         Returns:
             list[dict]
-            The list of election results by state and vote method in the file.
+                The list of election results by state and vote method in the file.
 
         """
         root = ET.fromstring(state_data)
@@ -389,7 +389,7 @@ class Scytl:
                 The name of the county associated with the summary file
         Returns:
             list[dict]
-            The list of election results by candidate.
+                The list of election results by candidate.
 
         """
         summary_csv_zip_url = SUMMARY_CSV_ZIP_URL_TEMPLATE.format(
@@ -428,31 +428,31 @@ class Scytl:
         Fetch the latest summary results for the given election, across all contests.
 
         Please note that all electoral entities administer their elections differently,
-            so not all values will be populated if the entity doesn't provide them.
+        so not all values will be populated if the entity doesn't provide them.
 
         Args:
             force_update: bool
                 If this is False, the connector will check to see if the current version
-                    matches the previously fetched version of the results.
-                    If the version has not been changed, no results will be fetched or returned.
+                matches the previously fetched version of the results.
+                If the version has not been changed, no results will be fetched or returned.
                 Default: false
         Returns:
             list[dict]
-            The list should contain entries for each candidate in each office.
-            Each row will contain the following:
-            - state
-            - county_name (if applicable)
-            - office
-            - ballots_cast (in the contest)
-            - reg_voters (eligible for the contest)
-            - counties_reporting
-            - total_counties
-            - precincts_reporting
-            - total_precincts
-            - candidate_name
-            - candidate_party (many administrators do not use this feature
-                and instead include the party in the candidate name)
-            - recorded_votes (votes cast for the candidate)
+                The list should contain entries for each candidate in each office.
+                Each row will contain the following:
+                - state
+                - county_name (if applicable)
+                - office
+                - ballots_cast (in the contest)
+                - reg_voters (eligible for the contest)
+                - counties_reporting
+                - total_counties
+                - precincts_reporting
+                - total_precincts
+                - candidate_name
+                - candidate_party (many administrators do not use this feature
+                  and instead include the party in the candidate name)
+                - recorded_votes (votes cast for the candidate)
 
         """
         version_num = self._get_version(self.administrator, self.election_id)
@@ -473,54 +473,54 @@ class Scytl:
         Fetch the latest detailed results by geography for the given election, across all contests.
 
         Please note that all electoral entities administer their elections differently,
-            so not all values will be populated if the entity doesn't provide them.
+        so not all values will be populated if the entity doesn't provide them.
 
         Args:
             force_update: bool
                 If this is False, the connector will check to see if the current version
-                    matches the previously fetched version of the results.
-                    If the version has not been changed, no results will be fetched or returned.
+                matches the previously fetched version of the results.
+                If the version has not been changed, no results will be fetched or returned.
                 Default: false
         Returns:
             list[dict]
-            The list should contain entries for each candidate in each office,
+                The list should contain entries for each candidate in each office,
                 per vote method and per county.
 
-            If fetching for a state, results will look like:
-            - state
-            - county_name
-            - office
-            - ballots_cast
-            - reg_voters
-            - precincts_reporting
-            - total_precincts
-            - vote_method (note: some administrators choose to differentiate
-                results by vote method, while others do not)
-            - candidate_name
-            - candidate_party (many administrators do not use this
-                feature and instead include the party in the candidate name)
-            - recorded_votes (votes cast for the candidate
-                with this vote method in this county)
-            - timestamp_last_updated
+                If fetching for a state, results will look like:
+                - state
+                - county_name
+                - office
+                - ballots_cast
+                - reg_voters
+                - precincts_reporting
+                - total_precincts
+                - vote_method (note: some administrators choose to differentiate
+                  results by vote method, while others do not)
+                - candidate_name
+                - candidate_party (many administrators do not use this
+                  feature and instead include the party in the candidate name)
+                - recorded_votes (votes cast for the candidate
+                  with this vote method in this county)
+                - timestamp_last_updated
 
-            If fetching for a county, results will look like:
-            - state
-            - county_name
-            - county_id
-            - office
-            - ballots_cast
-            - reg_voters
-            - vote_method (note: some administrators choose to
-                differentiate results by vote method, while others do not)
-            - candidate_name
-            - candidate_party (many administrators do not use this
-                feature and instead include the party in the candidate name)
-            - precinct_name
-            - recorded_votes (votes cast for the candidate
-                with this vote method in this county)
-            - voter_turnout
-            - percent_reporting
-            - timestamp_last_updated
+                If fetching for a county, results will look like:
+                - state
+                - county_name
+                - county_id
+                - office
+                - ballots_cast
+                - reg_voters
+                - vote_method (note: some administrators choose to
+                  differentiate results by vote method, while others do not)
+                - candidate_name
+                - candidate_party (many administrators do not use this
+                  feature and instead include the party in the candidate name)
+                - precinct_name
+                - recorded_votes (votes cast for the candidate
+                  with this vote method in this county)
+                - voter_turnout
+                - percent_reporting
+                - timestamp_last_updated
 
         """
         version_num = self._get_version(self.administrator, self.election_id)
@@ -552,17 +552,17 @@ class Scytl:
     ) -> tuple[list[str], list[dict]]:
         """
         Fetch the latest detailed results for the given election for all participating counties
-            with detailed results, across all contests.
+        with detailed results, across all contests.
 
         Some counties may not have detailed results. If so, this will attempt
-            to fetch the summary results for that county. If no results exist for either,
-            the county name will be appended to the missing_counties list.
+        to fetch the summary results for that county. If no results exist for either,
+        the county name will be appended to the missing_counties list.
 
         After the first fetch, only the counties with updates will be returned,
-            previous results will not be included.
+        previous results will not be included.
 
         Please note that all electoral entities administer their elections differently,
-            so not all values will be populated if the entity doesn't provide them.
+        so not all values will be populated if the entity doesn't provide them.
 
         Args:
             county_names: list[str]
@@ -570,34 +570,35 @@ class Scytl:
                 Default: None (get all counties)
             force_update: bool
                 If this is False, the connector will check to see if the current
-                    version matches the previously fetched version of the results.
-                    If the version has not been changed, no results will be fetched or returned.
+                version matches the previously fetched version of the results.
+                If the version has not been changed, no results will be fetched or returned.
                 Default: false
 
         Returns:
             list[str]
-            The list of county names that could not be fetched
+                The list of county names that could not be fetched
 
             list[dict]
-            The list should contain entries for each candidate in
+                The list should contain entries for each candidate in
                 each office, per vote method, county, and precinct.
-            Each row will contain the following:
-            - state
-            - county_name
-            - county_id
-            - office
-            - ballots_cast
-            - reg_voters
-            - vote_method (note: some administrators choose to differentiate
-                results by vote method, while others do not)
-            - candidate_name
-            - candidate_party (many administrators do not use this feature
-                and instead include the party in the candidate name)
-            - precinct_name
-            - recorded_votes (votes cast for the candidate with this vote method in this county)
-            - voter_turnout
-            - percent_reporting
-            - timestamp_last_updated
+
+                Each row will contain the following:
+                - state
+                - county_name
+                - county_id
+                - office
+                - ballots_cast
+                - reg_voters
+                - vote_method (note: some administrators choose to differentiate
+                  results by vote method, while others do not)
+                - candidate_name
+                - candidate_party (many administrators do not use this feature
+                  and instead include the party in the candidate name)
+                - precinct_name
+                - recorded_votes (votes cast for the candidate with this vote method in this county)
+                - voter_turnout
+                - percent_reporting
+                - timestamp_last_updated
 
         """
         version_num = self._get_version(self.administrator, self.election_id)

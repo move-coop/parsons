@@ -357,14 +357,14 @@ class ActionKit:
         """
         return self.paginated_get("blackholedemail", email=email)
 
-    def blackhole_email(self, email):
+    def blackhole_email(self, email: str):
         """
         Prevent an email from receiving bulk and transactional emails from ActionKit.
         `Documentation <https://docs.actionkit.com/docs/manual/guide/\
         mailings_tools.html#blackhole>`_.
 
         Args:
-            user_id: str
+            email: str
                 Email to blackhole
         Returns:
             API location of new resource

@@ -27,7 +27,7 @@ class Alchemer:
     """
     Instantiate Alchemer Class
 
-    `Args:`
+    Args:
         api_token:
             The Alchemer-provided application token. Not required if
             ``ALCHEMER_API_TOKEN`` env variable set.
@@ -41,8 +41,9 @@ class Alchemer:
             ``ALCHEMER_API_VERSION`` env variable set.
             Default v5
 
-    `Returns:`
+    Returns:
         Alchemer Class
+
     """
 
     def __init__(self, api_token=None, api_token_secret=None, api_version="v5"):
@@ -62,15 +63,15 @@ class Alchemer:
         """
         Get a table of lists under the account.
 
-        `Args:`
+        Args:
             page : int
                 Retrieve a specific page of responses. If not given,
                 then all pages are retrieved.
 
-        `Returns:`
+        Returns:
             Table Class
-        """
 
+        """
         r = self._client.api.survey.list(page)
         data = r["data"]
 
@@ -90,7 +91,7 @@ class Alchemer:
         """
         Get the responses for a given survey.
 
-        `Args:`
+        Args:
             survey_id: string
                 The id of survey for which to retrieve the responses.
 
@@ -98,10 +99,10 @@ class Alchemer:
                 Retrieve a specific page of responses. If not given,
                 then all pages are retrieved.
 
-        `Returns:`
+        Returns:
             Table Class
-        """
 
+        """
         r = self._client.api.surveyresponse.list(survey_id, page)
         logger.info(f"{survey_id}: {r['total_count']} responses.")
         data = r["data"]

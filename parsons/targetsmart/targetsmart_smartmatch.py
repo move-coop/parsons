@@ -1,4 +1,5 @@
-"""Implements client routine to allow execution of TargetSmart SmartMatch
+"""
+Implements client routine to allow execution of TargetSmart SmartMatch
 workflows.
 
 TargetSmart SmartMatch API doc:
@@ -69,7 +70,8 @@ def _smartmatch_download(url, writer):
 
 
 def _add_join_id(input_table):
-    """`matchback_id` is added to the raw input table so the results can later be
+    """
+    `matchback_id` is added to the raw input table so the results can later be
     joined back. Integer sequence values are used. If the column already exists
     in the raw input, it is renamed to `__matchback_id` and restored after
     result join.
@@ -92,9 +94,7 @@ def _prepare_input(intable, tmpdir):
 
 
 class SmartMatch:
-    """
-    Works as a mixin to the TargetSmartAPI class.
-    """
+    """Works as a mixin to the TargetSmartAPI class."""
 
     def __init__(self):
         # Set by TargetSmartAPI constructor
@@ -134,7 +134,8 @@ class SmartMatch:
         keep_smartmatch_input_file=False,
         keep_smartmatch_output_gz_file=False,
     ):
-        """Submit the contact list records available in the Parsons table ``input_table`` to
+        """
+        Submit the contact list records available in the Parsons table ``input_table`` to
         TargetSmart SmartMatch.
 
         * `SmartMatch overview <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`_
@@ -161,7 +162,7 @@ class SmartMatch:
         from this location. You may delete this data when it is no longer
         needed.
 
-        `Args:`
+        Args:
             input_table: Parsons or Petl table
                 A Parsons table with `header field names supported by SmartMatch <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_. Required.
             disable_automatic_matchback_id_creation: bool
@@ -184,15 +185,15 @@ class SmartMatch:
                 Optionally keep the CSV input file that is uploaded in ``tmp_location`` for later use. Default of False.
             keep_smartmatch_output_gz_file: bool
                 Optionally keep the gzip compressed output file in ``tmp_location`` for later use. The uncompressed output file is always retained in ``tmp_location``. Default of False
-        `Returns:`
+        Returns:
             Parsons Table
                 A Parsons table wrapping the SmartMatch execution output file records. Each record will
                 include the input record fields followed by columns named ``tsmart_match_code``, a
                 match indicator, ``vb.voterbase_id``, and zero or more additional data
                 element fields based on your TargetSmart account configuration.
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         # If `input_table` is a Parsons table, convert it to a Petl table.
         if hasattr(input_table, "table"):
             input_table = input_table.table

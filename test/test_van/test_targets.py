@@ -97,7 +97,7 @@ class TestTargets(unittest.TestCase):
         )
 
         # Test that it doesn't throw and error
-        r = self.van.create_target_export(target_id, webhook_url=None)
+        r = self.van.create_target_export(target_id)
 
         assert r == export_job_id
 

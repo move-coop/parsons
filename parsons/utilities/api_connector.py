@@ -1,5 +1,6 @@
 import logging
 import urllib.parse
+from typing import Literal
 
 from requests import request as _request
 from requests.exceptions import HTTPError
@@ -18,7 +19,7 @@ class APIConnector:
     of utilities that can be mixed and matched to, hopefully, meet the needs of the specific
     API.
 
-    `Args:`
+    Args:
         uri: str
             The base uri for the api. Must include a trailing '/' (e.g. ``http://myapi.com/v1/``)
         headers: dict
@@ -31,8 +32,9 @@ class APIConnector:
         data_key: str
             The name of the key in the response json where the data is contained. Required
             if the data is nested in the response json
-    `Returns`:
+    Returns:
         APIConnector class
+
     """
 
     def __init__(self, uri, headers=None, auth=None, pagination_key=None, data_key=None):
@@ -50,7 +52,7 @@ class APIConnector:
         """
         Base request using requests libary.
 
-        `Args:`
+        Args:
             url: str
                 The url request string; if ``url`` is a relative URL, it will be joined with
                 the ``uri`` of the ``APIConnector`; if ``url`` is an absolute URL, it will
@@ -69,8 +71,9 @@ class APIConnector:
                 error. In most cases, this should be True, however in some cases, if you
                 are looping through data, you might want to ignore individual failures.
 
-        `Returns:`
+        Returns:
             requests response
+
         """
         full_url = urllib.parse.urljoin(self.uri, url)
 
@@ -84,7 +87,9 @@ class APIConnector:
             params=params,
         )
 
-    def get_request(self, url, params=None, return_format="json"):
+    def get_request(
+        self, url: str, params=None, return_format: Literal["json", "content"] = "json"
+    ):
         """
         Make a GET request.
 
@@ -93,10 +98,12 @@ class APIConnector:
                 A complete and valid url for the api request
             params: dict
                 The request parameters
+            return_format: Literal["json", "content"]
+                The format to return the data in
         Returns:
                 A requests response object
-        """
 
+        """
         r = self.request(url, "GET", params=params)
         self.validate_response(r)
 
@@ -112,7 +119,7 @@ class APIConnector:
         """
         Make a POST request.
 
-        `Args:`
+        Args:
             url: str
                 A complete and valid url for the api request
             params: dict
@@ -123,10 +130,11 @@ class APIConnector:
                 A JSON object to post
             success_codes: int
                 The expected success code to be returned. If not provided, accepts 200, 201, 202, and 204.
-        `Returns:`
-            A requests response object
-        """
 
+        Returns:
+            A requests response object
+
+        """
         if success_codes is None:
             success_codes = [200, 201, 202, 204]
         r = self.request(url, "POST", params=params, data=data, json=json)
@@ -153,10 +161,11 @@ class APIConnector:
                 The request parameters
             success_codes: int
                 The expected success codes to be returned. If not provided, accepts 200, 201, 204.
+
         Returns:
                 A requests response object or status code
-        """
 
+        """
         if success_codes is None:
             success_codes = [200, 201, 204]
         r = self.request(url, "DELETE", params=params)
@@ -186,10 +195,11 @@ class APIConnector:
                 The request parameters
             success_codes: int
                 The expected success codes to be returned. If not provided, accepts 200, 201, 204.
+
         Returns:
                 A requests response object
-        """
 
+        """
         if success_codes is None:
             success_codes = [200, 201, 204]
         r = self.request(url, "PUT", params=params, data=data, json=json)
@@ -206,7 +216,7 @@ class APIConnector:
         """
         Make a PATCH request.
 
-        `Args:`
+        Args:
             url: str
                 A complete and valid url for the api request
             params: dict
@@ -217,10 +227,11 @@ class APIConnector:
                 A JSON object to post
             success_codes: int
                 The expected success codes to be returned. If not provided, accepts 200, 201, and 204.
-        `Returns:`
-            A requests response object
-        """
 
+        Returns:
+            A requests response object
+
+        """
         if success_codes is None:
             success_codes = [200, 201, 204]
         r = self.request(url, "PATCH", params=params, data=data, json=json)
@@ -240,11 +251,11 @@ class APIConnector:
         Validate that the response is not an error code. If it is, then raise an error
         and display the error message.
 
-        `Args:`
+        Args:
             resp: object
                 A response object
-        """
 
+        """
         if resp.status_code >= 400:
             if resp.reason:
                 message = f"HTTP error occurred ({resp.status_code}): {resp.reason}"
@@ -265,14 +276,14 @@ class APIConnector:
         data. This is useful in dealing with requests that might return multiple records, while
         others might return only a single record.
 
-        `Args:`
+        Args:
             resp:
                 A response dictionary
-        `Returns:`
+        Returns:
             dict
                 A dictionary of data.
-        """
 
+        """
         # TODO: Some response jsons are enclosed in a list. Need to deal with unpacking and/or
         # not assuming that it is going to be a dict.
 
@@ -294,13 +305,13 @@ class APIConnector:
         Check to determine if there is a next page. This requires that the response json
         contains a pagination key that is empty if there is not a next page.
 
-        `Args:`
+        Args:
             resp:
                 A response dictionary
         `Returns:
             boolean
-        """
 
+        """
         if self.pagination_key and self.pagination_key in resp:
             if resp[self.pagination_key]:
                 return True
@@ -308,10 +319,7 @@ class APIConnector:
             return False
 
     def json_check(self, resp):
-        """
-        Check to see if a response has a json included in it.
-        """
-
+        """Check to see if a response has a json included in it."""
         try:
             resp.json()
             return True

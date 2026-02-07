@@ -13,15 +13,17 @@ class Sisense:
     """
     Instantiate the Sisense class.
 
-    `Args:`
+    Args:
         site_name: str
             The name of the site. Not required if the ``SISENSE_SITE_NAME``
             environmental variable is set.
         api_key: str
             The Sisense API Key. Not required if the ``SISENSE_API_KEY``
             environmental variable is set.
-    `Returns:`
+
+    Returns:
         Sisense class
+
     """
 
     def __init__(self, site_name=None, api_key=None):
@@ -36,18 +38,21 @@ class Sisense:
 
     def publish_shared_dashboard(self, dashboard_id, chart_id=None, **kwargs):
         """
-        This method publishes a dashboard or chart using the provided arguments.
+        Publish a dashboard or chart using the provided arguments.
+
         For available options, see the `API documentation <https://dtdocs.sisense.com/article/embed-api-options>`_.
 
-        `Args:`
+        Args:
             dashboard_id: str or int
                 The ID of the dashboard (required).
             chart_id: str or int
                 The ID of the chart. Only required for publishing individual charts.
             **kwargs:
                 Optional arguments.
-        `Returns:`
+
+        Returns:
             Response (dict containing the URL) or an error
+
         """
         payload = {"dashboard": dashboard_id, "chart": chart_id, **kwargs}
         return self.api.post_request("shared_dashboard/create", data=json.dumps(payload))
@@ -56,11 +61,13 @@ class Sisense:
         """
         List all shares of a given dashboard.
 
-        `Args:`
+        Args:
             dashboard_id: str or int
                 The ID the dashboard (required).
-        `Returns:`
+
+        Returns:
             Response or an error
+
         """
         payload = {"dashboard": dashboard_id}
         return self.api.post_request("shared_dashboard/list", data=json.dumps(payload))
@@ -74,11 +81,13 @@ class Sisense:
 
         The token is '9dda9dda-9dda-9dda-9dda-9dda9dda9dda'.
 
-        `Args:`
+        Args:
             token: str or int
                 The token of the shared dashboard (required).
-        `Returns:`
+
+        Returns:
             Response or an error
+
         """
         payload = {"token": token}
         return self.api.post_request("shared_dashboard/delete", data=json.dumps(payload))

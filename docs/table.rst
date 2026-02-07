@@ -3,7 +3,6 @@
 Parsons Table
 =============
 
-
 ********
 Overview
 ********
@@ -69,8 +68,6 @@ From Parsons Table
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_dicts`
       - Dicts
       - Write a table as a list of dicts
-
-
 .. [1] Requires optional installation of Pandas package by running ``pip install pandas``.
 
 ================
@@ -193,8 +190,6 @@ of commonly used methods. The full list can be found in the API section.
       - Coalesce values from one or more source columns
     * - :py:meth:`~parsons.etl.etl.ETL.map_columns`
       - Standardizes column names based on multiple possible values
-
-
 **Row Transformations**
 
 .. list-table::
@@ -213,8 +208,6 @@ of commonly used methods. The full list can be found in the API section.
       - Removes rows with null values in specified columns
     * - :py:meth:`~parsons.etl.etl.ETL.deduplicate`
       - Removes duplicate rows based on optional key(s), and optionally sorts
-
-
 **Extraction and Reshaping**
 
 .. list-table::
@@ -231,8 +224,6 @@ of commonly used methods. The full list can be found in the API section.
       - Take a column with nested data and create a new long table
     * - :py:meth:`~parsons.etl.etl.ETL.unpack_nested_columns_as_rows`
       - Unpack list or dict values from one column into separate rows
-
-
 ======================
 Parsons Table Indexing
 ======================
@@ -362,23 +353,25 @@ Basic Pipelines
     van = VAN(db='MyVoters')
     van.events().to_s3_csv('my-van-bucket','myevents.csv')
 
-
 *************
 To & From API
 *************
+
 .. autoclass:: parsons.etl.tofrom.ToFrom
    :inherited-members:
 
 ******************
 Transformation API
 ******************
+
 The following methods allow you to manipulate the Parsons table data.
 
 .. autoclass:: parsons.etl.etl.ETL
    :inherited-members:
 
-*********
+***************
 Materialize API
-*********
+***************
+
 .. autoclass:: parsons.etl.table.Table
    :members: materialize, materialize_to_file

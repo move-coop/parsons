@@ -9,7 +9,7 @@ class Controlshift:
     For more info on setup, see:
     https://developers.controlshiftlabs.com/#authenticated-rest-api-quickstart-guide
 
-    `Args:`
+    Args:
         hostname: str
             The URL for the homepage/login page of the organization's Controlshift
             instance (e.g. https://demo.controlshift.app). Not required if
@@ -20,8 +20,10 @@ class Controlshift:
         client_secret: str
             The Client Secret for your REST API Application. Not required if
             ``CONTROLSHIFT_CLIENT_SECRET`` env variable is set.
-    `Returns:`
+
+    Returns:
         Controlshift Class
+
     """
 
     def __init__(self, hostname=None, client_id=None, client_secret=None):

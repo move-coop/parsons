@@ -10,7 +10,7 @@ class DBSync:
     Sync tables between databases. Works with ``Postgres``, ``Redshift``, ``MySQL``
     databases.
 
-    `Args:`
+    Args:
         source_db: Database connection object
             A database object.
         destination_db: Database connection object
@@ -24,8 +24,10 @@ class DBSync:
         retries: int
             The number of times to retry if there is an error processing a
             chunk of data. The default value is 0.
-    `Returns:`
+
+    Returns:
         A DBSync object.
+
     """
 
     def __init__(
@@ -50,12 +52,12 @@ class DBSync:
         order_by=None,
         verify_row_count=True,
         **kwargs,
-    ):
+    ) -> None:
         """
         Full sync of table from a source database to a destination database. This will
         wipe all data from the destination table.
 
-        `Args:`
+        Args:
             source_table: str
                 Full table path (e.g. ``my_schema.my_table``)
             destination_table: str
@@ -73,10 +75,8 @@ class DBSync:
                 are the same at the end of the sync.
             **kwargs: args
                 Optional copy arguments for destination database.
-        `Returns:`
-            ``None``
-        """
 
+        """
         # Create the table objects
         source_tbl = self.source_db.table(source_table)
         destination_tbl = self.dest_db.table(destination_table)
@@ -119,12 +119,12 @@ class DBSync:
         distinct_check=True,
         verify_row_count=True,
         **kwargs,
-    ):
+    ) -> None:
         """
         Incremental sync of table from a source database to a destination database
         using an incremental primary key.
 
-        `Args:`
+        Args:
             source_table: str
                 Full table path (e.g. ``my_schema.my_table``)
             destination_table: str
@@ -140,10 +140,8 @@ class DBSync:
                 are the same at the end of the sync.
             **kwargs: args
                 Optional copy arguments for destination database.
-        `Returns:`
-            ``None``
-        """
 
+        """
         # Create the table objects
         source_tbl = self.source_db.table(source_table)
         destination_tbl = self.dest_db.table(destination_table)
@@ -209,11 +207,13 @@ class DBSync:
 
         logger.info(f"{source_table} synced to {destination_table}.")
 
-    def copy_rows(self, source_table_name, destination_table_name, cutoff, order_by, **kwargs):
+    def copy_rows(
+        self, source_table_name, destination_table_name, cutoff, order_by, **kwargs
+    ) -> int:
         """
         Copy the rows from the source to the destination.
 
-        `Args:`
+        Args:
             source_table_name: str
                 Full table path (e.g. ``my_schema.my_table``)
             destination_table_name: str
@@ -224,10 +224,8 @@ class DBSync:
                 Column to use to order the data to ensure a stable sort.
             **kwargs: args
                 Optional copy arguments for destination database.
-        `Returns:`
-            ``None``
-        """
 
+        """
         # Create the table objects
         source_table = self.source_db.table(source_table_name)
 
@@ -315,10 +313,7 @@ class DBSync:
 
     @staticmethod
     def _check_column_match(source_table_obj, destination_table_obj):
-        """
-        Ensure that the columns from each table match
-        """
-
+        """Ensure that the columns from each table match"""
         if source_table_obj.columns != destination_table_obj.columns:
             raise ValueError(
                 """Destination table columns do not match source table columns.
@@ -327,10 +322,7 @@ class DBSync:
 
     @staticmethod
     def _row_count_verify(source_table_obj, destination_table_obj):
-        """
-        Ensure the the rows of the source table and the destination table match
-        """
-
+        """Ensure the the rows of the source table and the destination table match"""
         source_row_count = source_table_obj.num_rows
         dest_row_count = destination_table_obj.num_rows
 
@@ -351,7 +343,6 @@ class DBSync:
         Create the empty table in the destination database based on the source
         database schema structure. This method utilizes the Alchemy subclass.
         """
-
         # Try to create the destination using the source table's schema; if that doesn't work,
         # then we will lean on "copy" when loading the data to create the destination
         try:

@@ -11,6 +11,7 @@ provides methods to fetch tickets, contacts, companies, and agents. Results are 
 as Parsons Tables.
 
 .. note::
+
   Authentication
     To use the ``Freshdesk`` class, you must provide the subdomain of your Freshdesk account and an API Key,
     which can be found by logging into Freshdesk and following the instructions in the
@@ -56,5 +57,5 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.Freshdesk
+.. autoclass:: parsons.Freshdesk
    :inherited-members:

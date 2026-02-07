@@ -38,12 +38,13 @@ def create_temp_file(suffix=None):
     """
     Create a temp file that will exist as long as the current script is running.
 
-    `Args:`
+    Args:
         suffix: str
             A suffix/extension to add to the end of the temp file name
-    `Returns:`
+    Returns:
         str
             The path of the temp file
+
     """
     temp_file = TempFile(suffix=suffix)
     _temp_files.append(temp_file)
@@ -54,9 +55,10 @@ def create_temp_directory():
     """
     Create a temp directory that will exist as long as the current script is running.
 
-    `Returns:`
+    Returns:
         str
             The path of the temp directory
+
     """
     temp_dir = TempDirectory()
     _temp_directories.append(temp_dir)
@@ -68,14 +70,15 @@ def create_temp_file_for_path(path):
     Creates a temp file that will exist as long as the current script is running, and with
     a file name mimicking that of the provided path.
 
-    `Args:`
+    Args:
         path: str
             Path (or just file name) of the file you want the temp file to mimick.
-    `Returns:`
+
+    Returns:
         str
             The path of the temp file
-    """
 
+    """
     # Add the appropriate compression suffix to the file, so other libraries that check the
     # file's extension will know that it is compressed.
     # TODO Make this more robust, maybe even using the entire remote file name as the suffix.
@@ -91,14 +94,14 @@ def close_temp_file(path):
     files to be closed and deleted. Eg. If you're running into system limits on open file
     descriptors.
 
-    `Args:`
+    Args:
         path: str
             Path of a temp file created by ``create_temp_file``
-    `Returns:`
+    Returns:
         bool
             Whether the temp file was found and closed
-    """
 
+    """
     for temp_file in _temp_files:
         if temp_file.name == path:
             # Call remove explicitly to clean up, because we can't always assume that de-refencing
@@ -118,14 +121,14 @@ def cleanup_temp_directory(path):
     files to be closed and deleted. Eg. If you're running into system limits on open file
     descriptors.
 
-    `Args:`
+    Args:
         path: str
             Path of a temp directory created by ``create_temp_directory``
-    `Returns:`
+    Returns:
         bool
             Whether the temp directory was found and closed
-    """
 
+    """
     for temp_dir in _temp_directories:
         if temp_dir.name == path:
             # Call remove explicitly to clean up, because we can't always assume that de-refencing
@@ -141,13 +144,13 @@ def track_temp_file(path):
     """
     Start tracking a file as a "temp" file that needs to be cleaned up by Parsons.
 
-
-    `Args:`
+    Args:
         path: str
             The path of the file to start tracking
-    `Returns:`
+    Returns:
         str
             The path of the file to start tracking
+
     """
     temp_file = TempFile(path)
     _temp_files.append(temp_file)
@@ -193,12 +196,14 @@ def read_file(path):
     """
     Return the contents of file. Currently support `.gz` compressed files.
 
-    `Args:`
+    Args:
         path: str
             The path to the file to read.
-    `Returns:`
+
+    Returns:
         str
             The contents of a files.
+
     """
     compression = compression_type_for_path(path)
 
@@ -215,7 +220,6 @@ def string_to_temp_file(string, suffix=None):
     Create a temporary file from a string. Currently used for packages
     that require credentials to be stored as a file.
     """
-
     temp_file = Path(create_temp_file(suffix=suffix))
 
     temp_file.write_text(string)
@@ -228,7 +232,6 @@ def zip_check(file_path, compression_type):
     Check if the file suffix or the compression type indicates that it is
     a zip file.
     """
-
     if file_path and file_path.split("/")[-1].split(".")[-1] == "zip":
         return True
 
@@ -241,11 +244,10 @@ def extract_file_name(file_path=None, include_suffix=True):
 
     file_path: str
         The file path
-    include_suffix: boolean
+    include_suffix: bool
         If True, includes full file name with suffix. If False returns the
         file name without the suffix (e.g. "myfile.zip" vs. "myfile").
     """
-
     if not file_path:
         return None
 
@@ -259,14 +261,15 @@ def has_data(file_path):
     """
     Check if a file has any data in it.
 
-    `Args:`
+    Args:
         file_path: str
             The file path.
-    `Returns:`
+
+    Returns:
         boolean
             ``True`` if data in the file and ``False`` if not.
-    """
 
+    """
     return Path(file_path).stat().st_size != 0
 
 
@@ -274,12 +277,17 @@ def generate_tempfile(suffix=None, create=False):
     """
     Create a new temp file with a unique filename.
 
-    `Args:`
+    Args:
         suffix: str
             The suffix to give the file path in order to advertise the file/mime type of the file.
-    `Returns`
+
+        create: bool
+            Whether to create the tempfile or just return a path for a file that may not exist.
+
+    Returns:
         str
             The path of the newly created temp file.
+
     """
     # _get_candidate_names gives us an iterator that will keep trying to generate a random filename.
     # It's not ideal to use a "protected" function from another module, but this function does some
@@ -347,9 +355,10 @@ class TempDirectory:
         process, the reference to the os module may be None'd out as part of garbage collection.
         So, we want to make sure we have a reference to the function saved somewhere.
 
-        `Args:`
-            unlink: function
+        Args:
+            cleanup: function
                 Function to use for removing the file from disk.
+
         """
         # Only try to unlink if we have a valid file path and we haven't yet called close.
         if self.name and not self.remove_called:
@@ -377,9 +386,10 @@ class TempFile:
     file handle with its exclusive read lock. So we wrote, TempFile to not hold onto the open
     file handle.
 
-    `Args:`
+    Args:
         suffix: str
             The suffix to give the file path in order to advertise the file/mime type of the file.
+
     """
 
     def __init__(self, name=None, suffix=None):
@@ -398,9 +408,10 @@ class TempFile:
         process, the reference to the os module may be None'd out as part of garbage collection.
         So, we want to make sure we have a reference to the function saved somewhere.
 
-        `Args:`
+        Args:
             unlink: function
                 Function to use for removing the file from disk.
+
         """
         # Only try to unlink if we have a valid file path and we haven't yet called close.
         if self.name and not self.remove_called:

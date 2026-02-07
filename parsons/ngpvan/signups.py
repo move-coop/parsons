@@ -17,16 +17,17 @@ class Signups:
         or event. You must pass one of ``event_id`` or ``event_type_id``
         but not both.
 
-        `Args:`
+        Args:
             event_id: int
                 A valid event id.
             event_type_id: int
                 A valid event type id.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if event_id is None and event_type_id is None:
             raise ValueError("One of event_id or event_type_id must be populated")
 
@@ -46,14 +47,15 @@ class Signups:
         """
         Get the signup history of a person.
 
-        `Args:`
+        Args:
             vanid: int
                 A valid vanid associated with a person.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("signups", params={"vanID": vanid}))
         logger.info(f"Found {tbl.num_rows} signups for {vanid}.")
         return self._unpack_signups(tbl)
@@ -62,14 +64,14 @@ class Signups:
         """
         Get the signup history of an event.
 
-        `Args:`
+        Args:
             event_id: int
                 A valid event_id associated with an event
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("signups", params={"eventId": event_id}))
         logger.info(f"Found {tbl.num_rows} signups for event {event_id}.")
         return self._unpack_signups(tbl)
@@ -78,14 +80,15 @@ class Signups:
         """
         Get a single signup object.
 
-        `Args:`
+        Args:
             event_signup_id: int
                 A valid event_signup_id associated with a signup.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         r = self.connection.get_request(f"signups/{event_signup_id}")
         logger.info(f"Found sign up {event_signup_id}.")
         return r
@@ -94,7 +97,7 @@ class Signups:
         """
         Create a new signup for an event.
 
-        `Args:`
+        Args:
             vanid: int
                 A valid vanid of the person to signup for the event.
             event_id: int
@@ -107,11 +110,11 @@ class Signups:
                 A status_id of the person
             location_id:
                 A location_id for the event
-        `Returns:`
+        Returns:
             Int
                 The event signup id
-        """
 
+        """
         signup = {
             "person": {"vanId": vanid},
             "event": {"eventId": event_id},
@@ -137,7 +140,7 @@ class Signups:
         Update a signup object. All of the kwargs will update the values associated
         with them.
 
-        `Args:`
+        Args:
             event_signup_id: int
                 A valid event signup id
             shift_id: int
@@ -148,10 +151,8 @@ class Signups:
                 The status_id to update
             location_id: int
                 The location_id to update
-        `Returns:`
-            ``None``
-        """
 
+        """
         #  Get the signup object
         signup = self.connection.get_request(f"signups/{event_signup_id}")
 
@@ -171,13 +172,11 @@ class Signups:
         """
         Delete a signup object
 
-        `Args:`
+        Args:
             event_signup_id: int
                 A valid event signup id
-        `Returns:`
-            ``None``
-        """
 
+        """
         r = self.connection.delete_request(f"signups/{event_signup_id}")
         logger.info(f"Signup {event_signup_id} deleted.")
         return r

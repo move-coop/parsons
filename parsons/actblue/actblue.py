@@ -15,7 +15,7 @@ class ActBlue:
     """
     Instantiate class.
 
-       `Args:`
+    Args:
             actblue_client_uuid: str
                 The ActBlue provided Client UUID. Not required if ``ACTBLUE_CLIENT_UUID`` env
                 variable set.
@@ -33,6 +33,7 @@ class ActBlue:
                 ```ACTBLUE_MAX_RETRIES``` env variable can be set, which will override this parameter.
         For instructions on how to generate a Client UUID and Client Secret set,
         visit https://secure.actblue.com/docs/csv_api#authentication.
+
     """
 
     def __init__(
@@ -62,7 +63,7 @@ class ActBlue:
         """
         POST request to ActBlue API to begin generating the CSV.
 
-        `Args:`
+        Args:
             csv_type: str
                 Type of CSV you are requesting.
                 Options:
@@ -81,11 +82,11 @@ class ActBlue:
             date_range_end: str
                 End of date range to withdraw contribution data (exclusive). Ex: '2020-02-01'
 
-        `Returns:`
+        Returns:
             Response of POST request; a successful response includes 'id', a unique identifier for
             the CSV being generated.
-        """
 
+        """
         body = {
             "csv_type": csv_type,
             "date_range_start": date_range_start,
@@ -99,13 +100,14 @@ class ActBlue:
         """
         GET request to retrieve download_url for generated CSV.
 
-        `Args:`
+        Args:
             csv_id: str
                 Unique identifier of the CSV you requested.
 
-        `Returns:`
+        Returns:
             While CSV is being generated, 'None' is returned. When CSV is ready, the method returns
             the download_url.
+
         """
         response = self.client.get_request(url=f"csvs/{csv_id}")
         if response.get("download_url") is None and response.get("status") != "in_progress":
@@ -118,16 +120,16 @@ class ActBlue:
         Poll the GET request method to check whether CSV generation has finished, signified by the
         presence of a download_url.
 
-        `Args:`
+        Args:
             csv_id: str
                 Unique identifier of the CSV you requested.
 
-        `Returns:`
+        Returns:
             Download URL from which you can download the generated CSV, valid for 10 minutes after
             retrieval. Null until CSV has finished generating. Keep this URL secure because until
             it expires, it could be used by anyone to download the CSV.
-        """
 
+        """
         logger.info("Request received. Please wait while ActBlue generates this data.")
         download_url = None
         tries = 0
@@ -147,7 +149,7 @@ class ActBlue:
         """
         Get specified contribution data from CSV API as Parsons table.
 
-        `Args:`
+        Args:
             csv_type: str
                 Type of CSV you are requesting.
                 Options:
@@ -168,7 +170,7 @@ class ActBlue:
             **csvargs:
                 Any additional arguments will be passed to Table.from_csv as keyword arguments.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 Contents of the generated contribution CSV. List of columns:
 
@@ -195,8 +197,8 @@ class ActBlue:
                 Smart Boost Shown, Bump Recurring Seen, Bump Recurring Succeeded,
                 Weekly to Monthly Rollover Date, Weekly Recurring Sunset, Recurring Type,
                 Recurring Pledged, Paypal, Kind, Managed Entity Name, Managed Entity Committee Name
-        """
 
+        """
         post_request_response = self.post_request(csv_type, date_range_start, date_range_end)
         csv_id = post_request_response["id"]
         download_url = self.poll_for_download_url(csv_id)

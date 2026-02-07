@@ -24,7 +24,7 @@ class Events:
         """
         Get events.
 
-        `Args:`
+        Args:
             code_ids: str
                 Filter by code id.
             event_type_ids: str
@@ -42,11 +42,12 @@ class Events:
                 ``None`` will be returned for that field. Can be ``locations``, ``codes``,
                 ``shifts``,``roles``, ``notes``, ``financialProgram``, ``ticketCategories``,
                 ``onlineForms``.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if expand_fields is None:
             expand_fields = [
                 "locations",
@@ -84,19 +85,21 @@ class Events:
         """
         Get an event.
 
-        `Args:`
+        Args:
             event_id: int
                 The event id.
+
             expand_fields: list
                 A list of fields for which to include data. If a field is omitted,
                 ``None`` will be returned for that field. Can be ``locations``,
                 ``codes``, ``shifts``, ``roles``, ``notes``, ``financialProgram``,
                 ``ticketCategories``, ``voterRegistrationBatches`.`
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if expand_fields is None:
             expand_fields = [
                 "locations",
@@ -134,9 +137,9 @@ class Events:
         voter_registration_batches=None,
     ):
         """
-        Create an event
+        Create an event.
 
-        `Args:`
+        Args:
             name: str
                 A name for this event, no longer than 500 characters.
             short_name: str
@@ -153,6 +156,7 @@ class Events:
                 A list of dicts with shifts formatted as:
 
                 .. highlight:: python
+
                 .. code-block:: python
 
                     [
@@ -170,11 +174,11 @@ class Events:
 
             description: str
                 An optional description for this Event, no longer than 500 characters.
-            editable: boolean
+            editable: bool
                 If ``True``, prevents modification of this event by any users other than the
                 user associated the API key. Setting this to true effectively makes
                 the event read-only in the VAN interface.
-            publicly_viewable: boolean
+            publicly_viewable: bool
                 Used by NGP VAN’s website platform to indicate whether this event can be
                 viewed publicly.
             location_ids: list
@@ -184,11 +188,12 @@ class Events:
                 that at most one source code and any number of tags, may be applied to an event.
             notes: list
                 A list of notes
-        `Returns:`
+
+        Returns:
             int
               The event code.
-        """
 
+        """
         if shifts is None:
             shifts = [{"name": "Default Shift", "startTime": start_date, "endTime": end_date}]
         else:
@@ -231,13 +236,11 @@ class Events:
         """
         Delete an event.
 
-        `Args:`
+        Args:
             event_id: int
                 The event id.
-        `Returns:`
-            ``None``
-        """
 
+        """
         r = self.connection.delete_request(f"events/{event_id}")
         logger.info(f"Event {event_id} deleted.")
         return r
@@ -246,7 +249,7 @@ class Events:
         """
         Add shifts to an event
 
-        `Args:`
+        Args:
             event_id: int
                 The event id.
             shift_name: str
@@ -255,11 +258,12 @@ class Events:
                 The start time for the shift (``iso8601`` formatted date).
             end_time: str
                 The end time of the shift (``iso8601`` formatted date).
-        `Returns:`
+
+        Returns:
             int
               The shift id.
-        """
 
+        """
         shift = {"name": shift_name, "startTime": start_time, "endTime": end_time}
 
         r = self.connection.post_request(f"events/{event_id}/shifts", json=shift)
@@ -270,11 +274,11 @@ class Events:
         """
         Get event types.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("events/types"))
         logger.info(f"Found {tbl.num_rows} events.")
         return tbl

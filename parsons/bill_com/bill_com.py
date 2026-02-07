@@ -7,17 +7,18 @@ from parsons import Table
 
 class BillCom:
     """
-    `Args:`
-        user_name: str
-            The Bill.com username
-        password: str
-            The Bill.com password
-        org_id: str
-            The Bill.com organization id
-        dev_key: str
-            The Bill.com dev key
-        api_url:
-            The Bill.com end point url
+    Args:
+    user_name: str
+        The Bill.com username
+    password: str
+        The Bill.com password
+    org_id: str
+        The Bill.com organization id
+    dev_key: str
+        The Bill.com dev key
+    api_url:
+        The Bill.com end point url
+
     """
 
     def __init__(self, user_name, password, org_id, dev_key, api_url):
@@ -35,15 +36,16 @@ class BillCom:
 
     def _get_payload(self, data):
         """
-        `Args:`
+        Args:
             data: dict
                 A dictionary containing the payload to be sent in the request.
                 The dev_key and sessionId should not be included as they are
                 dealt with separately.
 
-        `Returns:`
+        Returns:
             A dictionary of the payload to be sent in the request with the
             dev_key and sessionId added.
+
         """
         return {
             "devKey": self.dev_key,
@@ -53,7 +55,7 @@ class BillCom:
 
     def _post_request(self, data, action, object_name):
         """
-        `Args:`
+        Args:
             data: dict
                 A dictionary containing the payload to be sent in the request.
                 The dev_key and sessionId should not be included as they are
@@ -64,10 +66,10 @@ class BillCom:
             object_name: str
                 The id of the object. Possible values are "User", "Customer", and "Invoice".
 
-        `Returns:`
+        Returns:
             A dictionary containing the JSON response from the post request.
-        """
 
+        """
         if action == "Read":
             url = f"{self.api_url}Crud/{action}/{object_name}.json"
         elif action == "Create":
@@ -83,7 +85,7 @@ class BillCom:
 
     def _get_request_response(self, data, action, object_name, field="response_data"):
         """
-        `Args:`
+        Args:
             data: dict
                 A dictionary containing the payload to be sent in the request.
                 The dev_key and sessionId should not be included as they are
@@ -96,8 +98,9 @@ class BillCom:
             field: str
                 The JSON field where the response data is stored. Defaults to "response_data".
 
-        `Returns:`
+        Returns:
             A dictionary containing the choosen field from the JSON response from the post request.
+
         """
         r = self._post_request(data, action, object_name)[field]
 
@@ -109,7 +112,7 @@ class BillCom:
     def _paginate_list(self, response, data, object_name, field="response_data"):
         """
         Internal method to paginate through and concatenate results of lists larger than max
-        `Args:`
+        Args:
             response: list of dicts
                 Data from an initial list call
             data: dict
@@ -117,7 +120,6 @@ class BillCom:
             object_name: str
                 Name of the object being listed
         """
-
         r_table = Table(response)
         max_ct = data["max"]
 
@@ -130,7 +132,7 @@ class BillCom:
 
     def get_user_list(self, start_user=0, max_user=999, **kwargs):
         """
-        `Args:`
+        Args:
             start_user: int
                 The index of first user to return. Starts from 0 (not 1).
             max_user: str
@@ -138,8 +140,9 @@ class BillCom:
             **kwargs:
                 Any other fields to pass
 
-        `Returns:`
+        Returns:
             A Parsons Table of user information for every user from start_user to max_user.
+
         """
         data = {"start": start_user, "max": max_user, **kwargs}
 
@@ -147,7 +150,7 @@ class BillCom:
 
     def get_customer_list(self, start_customer=0, max_customer=999, **kwargs):
         """
-        `Args:`
+        Args:
             start_customer: int
                 The index of first customer to return. Starts from 1 (not 0).
             max_customer: str
@@ -155,9 +158,10 @@ class BillCom:
             **kwargs:
                 Any other fields to pass
 
-        `Returns:`
+        Returns:
             A Parsons Table of customer information for every user from start_customer
             to max_customer.
+
         """
         data = {"start": start_customer, "max": max_customer, **kwargs}
 
@@ -165,7 +169,7 @@ class BillCom:
 
     def get_invoice_list(self, start_invoice=0, max_invoice=999, **kwargs):
         """
-        `Args:`
+        Args:
             start_invoice: int
                 The index of first customer to return. Starts from 1 (not 0).
             max_invoice: str
@@ -173,9 +177,10 @@ class BillCom:
             **kwargs:
                 Any other fields to pass
 
-        `Returns:`
+        Returns:
             A list of dictionaries of invoice information for every invoice from start_invoice
             to max_invoice.
+
         """
         data = {"start": start_invoice, "max": max_invoice, **kwargs}
 
@@ -183,37 +188,39 @@ class BillCom:
 
     def read_customer(self, customer_id):
         """
-        `Args:`
+        Args:
             customer_id: str
                 The id of the customer to query
 
-        `Returns:`
+        Returns:
             A dictionary of the customer's information.
+
         """
         data = {"id": customer_id}
         return self._get_request_response(data, "Read", "Customer")
 
     def read_invoice(self, invoice_id):
         """
-        `Args:`
+        Args:
             invoice_id: str
                 The id of the invoice to query
 
-        `Returns:`
+        Returns:
             A dictionary of the invoice information.
+
         """
         data = {"id": invoice_id}
         return self._get_request_response(data, "Read", "Invoice")
 
     def check_customer(self, customer1, customer2):
         """
-        `Args:`
+        Args:
             customer1: dict
                 A dictionary of data on customer1
             customer2: dict
                 A dictionary of data on customer2
 
-        `Returns:`
+        Returns:
             True if either
                 1. customer1 and customer2 have the same id
                 OR
@@ -230,7 +237,7 @@ class BillCom:
 
     def get_or_create_customer(self, customer_name, customer_email, **kwargs):
         """
-        `Args:`
+        Args:
             customer_name: str
                 The name of the customer
             customer_email: str
@@ -239,10 +246,11 @@ class BillCom:
             **kwargs:
                 Any other fields to store about the customer.
 
-        `Returns:`
+        Returns:
             A dictionary of the customer's information including an id.
             If the customer already exists, this function will not
             create a new id and instead use the existing id.
+
         """
         customer = {"name": customer_name, "email": customer_email, **kwargs}
 
@@ -259,7 +267,7 @@ class BillCom:
         self, customer_id, invoice_number, invoice_date, due_date, invoice_line_items, **kwargs
     ):
         """
-        `Args:`
+        Args:
             customer_id: str
                 The customer's id
             invoice_number: str
@@ -276,8 +284,9 @@ class BillCom:
             **kwargs:
                 Any other invoice details to pass.
 
-        `Returns:`
+        Returns:
             A dictionary of the invoice's information including an id.
+
         """
         for invoice_line_item in invoice_line_items:
             if "entity" not in invoice_line_item:
@@ -298,7 +307,7 @@ class BillCom:
         self, invoice_id, from_user_id, to_email_addresses, message_subject, message_body, **kwargs
     ):
         """
-        `Args:`
+        Args:
             invoice_id: str
                 The id of the invoice to send
             from_user_id: str
@@ -312,8 +321,9 @@ class BillCom:
             **kwargs:
                 Any other details for sending the invoice
 
-        `Returns:`
+        Returns:
             A dictionary of the sent invoice.
+
         """
         data = {
             "invoiceId": invoice_id,

@@ -17,7 +17,7 @@ def query_through_ssh(
     query,
 ):
     """
-    `Args:`
+    Args:
         ssh_host:
             The host for the SSH connection
         ssh_port:
@@ -39,8 +39,9 @@ def query_through_ssh(
         query:
             The SQL query to execute
 
-    `Returns:`
+    Returns:
         A list of records resulting from the query or None if something went wrong
+
     """
     output = None
     server = None

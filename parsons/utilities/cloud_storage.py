@@ -10,13 +10,13 @@ Google Cloud Storage.
 
 def post_file(tbl, type, file_path=None, quoting=csv.QUOTE_MINIMAL, **file_storage_args):
     """
-    This utility method is a generalizable method for moving files to an
-    online file storage class. It is used by methods that require access
-    to a file via a public url (e.g. VAN).
+    Move files to an online file storage class.
+
+    Used by methods that require access to a file via a public url (e.g. VAN).
 
     **S3 is the only option allowed.**
 
-    `Args:`
+    Args:
         tbl: object
             parsons.Table
         type: str
@@ -26,12 +26,10 @@ def post_file(tbl, type, file_path=None, quoting=csv.QUOTE_MINIMAL, **file_stora
             the **file_storage_args.
         quoting: attr
             The type of quoting to use for the csv.
-        **kwargs: kwargs
-                Optional arguments specific to the file storage.
-    `Returns:`
-        ``None``
-    """
+        **file_storage_args: kwargs
+            Optional arguments specific to the file storage.
 
+    """
     if type.upper() == "S3":
         # Overwrite the file_path if key is passed
         if "key" in file_storage_args:

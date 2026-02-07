@@ -3,9 +3,9 @@ Amazon Web Services
 
 Parsons provides utility functions and/or connectors for three different `AWS services <https://aws.amazon.com/>`_.
 
-* :ref:`Lambda <aws_lambda>`: AWS's `serverless computing platform <https://aws.amazon.com/lambda/>`_
-* :ref:`S3 <aws_s3>`: AWS's `object storage service <https://aws.amazon.com/s3/>`_
-* :ref:`Redshift <redshift>`: AWS's `data warehousing service <https://aws.amazon.com/redshift/>`_, with two additional classes providing utility functions.
+* :ref:`Lambda <aws_lambda>`: AWS's `serverless computing platform <https://aws.amazon.com/lambda/>`__
+* :ref:`S3 <aws_s3>`: AWS's `object storage service <https://aws.amazon.com/s3/>`__
+* :ref:`Redshift <redshift>`: AWS's `data warehousing service <https://aws.amazon.com/redshift/>`__, with two additional classes providing utility functions.
 
   * :ref:`redshift_table_and_view_api`: Methods for managing tables and views
   * :ref:`redshift_schema_api`: Methods for managing schema
@@ -76,7 +76,6 @@ API
 
 .. autofunction:: parsons.aws.event_command
 
-
 ***
 S3
 ***
@@ -92,6 +91,7 @@ to store and access data objects. It is a wrapper around the AWS SDK `boto3 <htt
 It provides methods to upload and download files from S3 as well as manipulate buckets.
 
 .. note::
+
   Authentication
     Access to S3 is controlled through AWS Identity and Access Management (IAM) users in the `AWS Managerment Console <https://aws.amazon.com/console/>`_ .
     Users can be granted granular access to AWS resources, including S3. IAM users are provisioned keys, which are required to access the S3 class.
@@ -143,8 +143,8 @@ Temporary Credentials
 =====================
 
 The S3 API supports creating temporary credentials for one-off operations, such as pushing a file to a particular key in a particular bucket.
-For example, the Mapbox API allows you to request temporary credentials that grant you access to a bucket where you can upload map data. 
-When S3 returns a set of temporary credentials it also returns a session token that needs to be included with the standard credentials for 
+For example, the Mapbox API allows you to request temporary credentials that grant you access to a bucket where you can upload map data.
+When S3 returns a set of temporary credentials it also returns a session token that needs to be included with the standard credentials for
 them to be accepted. The ``S3`` class can be passed a session token as an environmental variable (``AWS_SESSION_TOKEN``) or as a keyword argument.
 
 .. code-block:: python
@@ -177,8 +177,9 @@ In addition to the core API integration provided by the ``Redshift`` class, Pars
 managing schemas and tables. See :ref:`redshift_table_and_view_api` and :ref:`redshift_schema_api` for more information.
 
 .. note::
+
    S3 Credentials
-      Redshift only allows data to be copied to the database via S3. As such, the the :meth:`copy` and :meth:`copy_s3()`
+      Redshift only allows data to be copied to the database via S3. As such, the the :meth:`copy` and :meth:`copy_s3`
       methods require S3 credentials and write access on an S3 Bucket, which will be used for storing data en route to
       Redshift. See the `API documentation <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html>`_
       for more information about AWS Redshift authorization.

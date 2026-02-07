@@ -15,7 +15,7 @@ class Salesforce:
 
     Supports the password and `client_credentials <https://help.salesforce.com/s/articleView?id=xcloud.connected_app_client_credentials_setup.htm&type=5>`_ authentication methods.
 
-    `Args:`
+    Args:
         username: str
             The Salesforce username (usually an email address). Not required if
             ``SALESFORCE_USERNAME`` env variable is passed. Used in the 'password' auth method.
@@ -38,8 +38,9 @@ class Salesforce:
         authentication_method: str
             the method to use for authentication. defaults to "password". Not required if ``SALESFORCE_AUTHENTICATION_METHOD`` env variable is passed.
 
-    `Returns:`
+    Returns:
         Salesforce class
+
     """
 
     def __init__(
@@ -83,38 +84,39 @@ class Salesforce:
 
     def describe_object(self, object):
         """
-        `Args:`
+        Args:
             object: str
                 The API name of the type of record to describe. Note that custom object names end
                 in `__c`
-        `Returns:`
+        Returns:
             Ordered Dict of all the object's meta data in Salesforce
-        """
 
+        """
         return getattr(self.client, object).describe()
 
     def describe_fields(self, object):
         """
-        `Args:`
+        Args:
             object: str
                 The API name of the type of record on whose fields you want data. Note that custom
                 object names end in `__c`
-        `Returns:`
+        Returns:
             Dict of all the object's field meta data in Salesforce
-        """
 
+        """
         return json.loads(json.dumps(getattr(self.client, object).describe()["fields"]))
 
     def query(self, soql):
         """
-        `Args:`
+        Args:
             soql: str
                 The desired query in Salesforce SOQL language (SQL with additional limitations).
                 For reference, see the `Salesforce SOQL documentation <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_.
-        `Returns:`
-            list of dicts with Salesforce data
-        """
 
+        Returns:
+            list of dicts with Salesforce data
+
+        """
         q = self.client.query_all(soql)
         q = json.loads(json.dumps(q))
         logger.info(f"Found {q['totalSize']} results")
@@ -124,7 +126,7 @@ class Salesforce:
         """
         Insert new records of the desired object into Salesforce
 
-        `Args:`
+        Args:
             object: str
                 The API name of the type of record to insert. Note that custom object names end
                 in `__c`
@@ -132,14 +134,15 @@ class Salesforce:
                 A Parsons Table with data for inserting records. Column names must match object
                 field API names, though case and order need not match. Note that custom field
                 names end in `__c`.
-        `Returns:`
+
+        Returns:
             list of dicts that have the following data:
-            * success: boolean
-            * created: boolean (if new record is created)
+            * success: bool
+            * created: bool (if new record is created)
             * id: str (id of record created, if successful)
             * errors: list of dicts (with error details)
-        """
 
+        """
         r = getattr(self.client.bulk, object).insert(data_table.to_dicts())
         s = [x for x in r if x.get("success") is True]
         logger.info(
@@ -151,7 +154,7 @@ class Salesforce:
         """
         Update existing records of the desired object in Salesforce
 
-        `Args:`
+        Args:
             object: str
                 The API name of the type of record to update. Note that custom object names end
                 in `__c`
@@ -159,14 +162,15 @@ class Salesforce:
                 A Parsons Table with data for updating records. Must contain one column named
                 `id`. Column names must match object field API names, though case and order need
                 not match. Note that custom field names end in `__c`.
-            `Returns:`
+
+        Returns:
                 list of dicts that have the following data:
-                * success: boolean
-                * created: boolean (if new record is created)
+                * success: bool
+                * created: bool (if new record is created)
                 * id: str (id of record altered, if successful)
                 * errors: list of dicts (with error details)
-        """
 
+        """
         r = getattr(self.client.bulk, object).update(data_table.to_dicts())
         s = [x for x in r if x.get("success") is True]
         logger.info(
@@ -178,7 +182,7 @@ class Salesforce:
         """
         Insert new records and update existing ones of the desired object in Salesforce
 
-        `Args:`
+        Args:
             object: str
                 The API name of the type of record to upsert. Note that custom object names end
                 in `__c`
@@ -189,14 +193,15 @@ class Salesforce:
             id_col: str
                 The column name in `data_table` that stores the record ID. Required even if all
                 records are new/inserted.
-            `Returns:`
+
+        Returns:
                 list of dicts that have the following data:
-                * success: boolean
-                * created: boolean (if new record is created)
+                * success: bool
+                * created: bool (if new record is created)
                 * id: str (id of record created or altered, if successful)
                 * errors: list of dicts (with error details)
-        """
 
+        """
         r = getattr(self.client.bulk, object).upsert(data_table.to_dicts(), id_col)
         s = [x for x in r if x.get("success") is True]
         logger.info(
@@ -208,23 +213,23 @@ class Salesforce:
         """
         Delete existing records of the desired object in Salesforce
 
-        `Args:`
+        Args:
             object: str
                 The API name of the type of record to delete. Note that custom object names end
                 in `__c`
             id_table: obj
                 A Parsons Table of record IDs to delete. Note that 'Id' is the default Salesforce
                 record ID field name.
-            hard_delete: boolean
+            hard_delete: bool
                 If true, will permanently delete record instead of moving it to trash
-            `Returns:`
+            Returns:
                 list of dicts that have the following data:
-                * success: boolean
-                * created: boolean (if new record is created)
+                * success: bool
+                * created: bool (if new record is created)
                 * id: str (id of record deleted, if successful)
                 * errors: list of dicts (with error details)
-        """
 
+        """
         if hard_delete:
             r = getattr(self.client.bulk, object).hard_delete(id_table.to_dicts())
         else:
@@ -242,8 +247,9 @@ class Salesforce:
         Get the Salesforce client to use for making all calls. For more information, check the
         `Simple Salesforce Documentation <https://simple-salesforce.readthedocs.io/en/latest/>`_
 
-        `Returns:`
+        Returns:
             `simple-salesforce Salesforce object`
+
         """
         if not self._client:
             # Create a Salesforce client to use to make bulk calls

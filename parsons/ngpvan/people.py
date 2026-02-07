@@ -35,12 +35,12 @@ class People:
               - first_name, last_name, street_number, street_name, zip5
               - email_address
 
-        `Args:`
+        Args:
             first_name: str
                 The person's first name
             last_name: str
                 The person's last name
-            dob: str
+            date_of_birth: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
             email: str
                 The person's email address
@@ -55,10 +55,11 @@ class People:
             kwargs:
                 Any additional keyword arguments will be passed to
                 the EveryAction API for matching.
-        `Returns:`
-            A person dict object
-        """
 
+        Returns:
+            A person dict object
+
+        """
         logger.info(f"Finding {first_name} {last_name}.")
 
         return self._people_search(
@@ -92,14 +93,14 @@ class People:
             A full list of possible values for the json, and its structure can be found
             `here <https://docs.ngpvan.com/reference/people#peoplefind>`_.
 
-        `Args:`
+        Args:
             match_json: dict
                 A dictionary of values to match against.
             fields: The fields to return. Leave as default for all available fields
-        `Returns:`
+        Returns:
             A person dict object
-        """
 
+        """
         logger.info("Finding a match for json details.")
 
         return self._people_search(match_json=match_json)
@@ -125,7 +126,7 @@ class People:
         .. warning::
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.
 
-        `Args:`
+        Args:
             id: str
                 A valid id
             id_type: str
@@ -135,7 +136,7 @@ class People:
                 The person's first name
             last_name: str
                 The person's last name
-            dob: str
+            date_of_birth: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
             email: str
                 The person's email address
@@ -150,10 +151,10 @@ class People:
                 Street Name
             zip: str
                 5 digit zip code
-        `Returns:`
+        Returns:
             A person dict
-        """
 
+        """
         return self._people_search(
             id=id,
             id_type=id_type,
@@ -177,7 +178,7 @@ class People:
             A full list of possible values for the json, and its structure can be found
             `here <https://docs.ngpvan.com/reference/people#peoplevanid>`_.
 
-        `Args:`
+        Args:
             id: str
                 A valid id
             id_type: str
@@ -185,10 +186,11 @@ class People:
                 Defaults to ``vanid``.
             match_json: dict
                 A dictionary of values to match against and save.
-        `Returns:`
-            A person dict
-        """
 
+        Returns:
+            A person dict
+
+        """
         return self._people_search(id=id, id_type=id_type, match_json=match_json, create=True)
 
     def upsert_person(
@@ -208,23 +210,25 @@ class People:
         Create or update a person record.
 
         .. note::
-            Person find must include the following minimum combinations.
 
-              - first_name, last_name, email
-              - first_name, last_name, phone
-              - first_name, last_name, zip5, date_of_birth
-              - first_name, last_name, street_number, street_name, zip5
-              - email_address
+            Person find must include the following minimum combinations:
+
+            - first_name, last_name, email
+            - first_name, last_name, phone
+            - first_name, last_name, zip5, date_of_birth
+            - first_name, last_name, street_number, street_name, zip5
+            - email_address
 
         .. warning::
+
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.
 
-        `Args:`
+        Args:
             first_name: str
                 The person's first name
             last_name: str
                 The person's last name
-            dob: str
+            date_of_birth: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
             email: Union[str, list[dict[str, Union[str, bool]]], None]
                 The person's email address or a list of email dicts.
@@ -244,10 +248,11 @@ class People:
             kwargs:
                 Any additional keyword arguments will be passed to
                 the EveryAction API for matching.
-        `Returns:`
-            A person dict
-        """
 
+        Returns:
+            A person dict
+
+        """
         return self._people_search(
             first_name=first_name,
             last_name=last_name,
@@ -283,13 +288,14 @@ class People:
         .. warning::
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.
 
-        `Args:`
+        Args:
             match_json: dict
                 A dictionary of values to match against and save.
-        `Returns:`
-            A person dict
-        """
 
+        Returns:
+            A person dict
+
+        """
         return self._people_search(match_json=match_json, create=True)
 
     def _people_search(
@@ -407,12 +413,14 @@ class People:
         """
         Returns a single person record using their VANID or external id.
 
-        `Args:`
+        Args:
             id: str
                 A valid id
+
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``. Defaults to ``vanid``.
+
             expand_fields: list
                 A list of fields for which to include data. If a field is omitted,
                 ``None`` will be returned for that field. Can be ``contribution_history``,
@@ -421,10 +429,11 @@ class People:
                 ``reported_demographics``, ``suppressions``, ``cases``, ``custom_properties``,
                 ``districts``, ``election_records``, ``membership_statuses``, ``notes``,
                 ``organization_roles``, ``scores``, ``disclosure_field_values``.
-        `Returns:`
-            A person dict
-        """
 
+        Returns:
+            A person dict
+
+        """
         # Change end point based on id type
         if expand_fields is None:
             expand_fields = [
@@ -468,11 +477,13 @@ class People:
         """
         Suppress the given VANID in databases where contact records can be suppressed.
 
-        `Args:`
+        Args:
             vanid: str
                 The person's VAN ID.
-        `Returns:`
+
+        Returns:
             Success or error.
+
         """
         url = f"people/{vanid}"
         r = self.connection.delete_request(url)
@@ -488,12 +499,12 @@ class People:
         input_type_id=None,
         date_canvassed=None,
         phone=None,
-    ):
+    ) -> None:
         """
         Apply a canvass result to a person. Use this end point for attempts that do not
         result in a survey response or an activist code (e.g. Not Home).
 
-        `Args:`
+        Args:
             id: str
                 A valid person id
             result_code_id : int
@@ -510,10 +521,8 @@ class People:
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
             phone: str
                 `Optional`; Phone number of any type (Work, Cell, Home)
-        `Returns:`
-            ``None``
-        """
 
+        """
         logger.info(f"Applying result code {result_code_id} to {id_type} {id}.")
         self.apply_response(
             id,
@@ -540,7 +549,7 @@ class People:
         """
         Apply or remove a volunteer action to or from a person.
 
-        `Args:`
+        Args:
             id: str
                 A valid person id
             id_type: str
@@ -563,8 +572,8 @@ class People:
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
 
         ** NOT IMPLEMENTED **
-        """
 
+        """
         """
         response = {"volunteerActivityId": volunteer_activity_id,
                     "action": self._action_parse(action),
@@ -596,7 +605,7 @@ class People:
         conform to the VAN API `response object
         format <https://docs.ngpvan.com/reference/canvass-responses>`_.
 
-        `Args:`
+        Args:
             id: str
                 A valid person id
             response: dict
@@ -617,7 +626,7 @@ class People:
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
             responses : list or dict
                 The responses to apply.
-            omit_contact: boolean
+            omit_contact: bool
                 Omit adding contact history to the response. This is particularly
                 useful when adding activist codes that are not based on contact
                 attempts.
@@ -625,9 +634,10 @@ class People:
                 `Optional`; Phone number of any type (Work, Cell, Home)
             campaignId: int
                 `Optional`; a valid Campaign ID.
-            skip_matching: boolean
+            skip_matching: bool
                 `Optional`; if set to true, skips matching/de-duping of contact history. Defaults to a null value, aka false.
-        `Returns:`
+
+        Returns:
             ``True`` if successful
 
         .. code-block:: python
@@ -640,8 +650,8 @@ class People:
                          "type": "SurveyResponse"}
                         ]
             van.apply_response(5222, response)
-        """
 
+        """
         # Set url based on id_type
         if id_type == "vanid":
             url = f"people/{id}/canvassResponses"
@@ -680,31 +690,29 @@ class People:
 
         return self.connection.post_request(url, json=json)
 
-    def create_relationship(self, vanid_1, vanid_2, relationship_id):
+    def create_relationship(self, vanid_1, vanid_2, relationship_id) -> None:
         """
         Create a relationship between two individuals
 
-        `Args:`
+        Args:
             vanid_1 : int
                 The vanid of the primary individual; aka the node
             vanid_2 : int
                 The vanid of the secondary individual; the spoke
             relationship_id : int
                 The relationship id indicating the type of relationship
-        `Returns:`
-            ``None``
-        """
 
+        """
         json = {"relationshipId": relationship_id, "vanId": vanid_2}
 
         self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
         logger.info(f"Relationship {vanid_1} to {vanid_2} created.")
 
-    def apply_person_code(self, id, code_id, id_type="vanid"):
+    def apply_person_code(self, id, code_id, id_type="vanid") -> None:
         """
         Apply a code to a person.
 
-        `Args:`
+        Args:
             id: str
                 A valid person id.
             code_id: int
@@ -712,10 +720,8 @@ class People:
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
-        `Returns:`
-            ``None``
-        """
 
+        """
         # Set url based on id_type
         url = f"people/{id}/codes" if id_type == "vanid" else f"people/{id_type}:{id}/codes"
 
@@ -734,15 +740,16 @@ class People:
         more information see the
         `VAN API documentation here <https://docs.ngpvan.com/reference/peoplevanidmergeinto>`_
 
-        `Args:`
+        Args:
             primary_vanid: str
                 The VANID of the primary contact record.
             source_vanid: str
                 The VANID of the source contact record.
-        `Returns:`
-            The VANID of the primary contact record.
-        """
 
+        Returns:
+            The VANID of the primary contact record.
+
+        """
         url = f"people/{source_vanid}/mergeInto"
         json = {"vanId": primary_vanid}
 

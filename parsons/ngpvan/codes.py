@@ -15,7 +15,7 @@ class Codes:
         """
         Get codes.
 
-        `Args:`
+        Args:
             name : str
                 Filter by name of code.
             supported_entities: str
@@ -24,11 +24,12 @@ class Codes:
                 Filter by parent code id.
             code_type: str
                 Filter by code type.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         params = {
             "name": name,
             "supportedEntities": supported_entities,
@@ -45,14 +46,15 @@ class Codes:
         """
         Get a code.
 
-        `Args:`
+        Args:
             code_id : int
                 The code id.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         c = self.connection.get_request(f"codes/{code_id}")
         logger.debug(c)
         logger.info(f"Found code {code_id}.")
@@ -62,11 +64,11 @@ class Codes:
         """
         Get code types.
 
-        `Returns:`
+        Returns:
             list
                 A list of code types.
-        """
 
+        """
         lst = self.connection.get_request("codeTypes")
         logger.info(f"Found {len(lst)} code types.")
         return lst
@@ -82,7 +84,7 @@ class Codes:
         """
         Create a code.
 
-        `Args:`
+        Args:
             name: str
                 The name of the code.
             parent_code_id: int
@@ -96,6 +98,7 @@ class Codes:
                 code. You can find supported entities with the :meth:`code_supported_entities`
 
                 .. highlight:: python
+
                 .. code-block:: python
 
                     [
@@ -110,8 +113,8 @@ class Codes:
                          'end_time': '12-31-2018T14:00:00'
                         }
                     ]
-        """
 
+        """
         json = {
             "parentCodeId": parent_code_id,
             "name": name,
@@ -147,7 +150,7 @@ class Codes:
         """
         Update a code.
 
-        `Args:`
+        Args:
             code_id: int
                 The code id.
             name: str
@@ -163,6 +166,7 @@ class Codes:
                 code. You can find supported entities with the :meth:`code_supported_entities`
 
                 .. highlight:: python
+
                 .. code-block:: python
 
                     [
@@ -177,8 +181,8 @@ class Codes:
                          'end_time': '12-31-2018T14:00:00'
                         }
                     ]
-        """
 
+        """
         post_data = {}
 
         if name:
@@ -209,13 +213,11 @@ class Codes:
         """
         Delete a code.
 
-        `Args:`
+        Args:
             code_id: int
                 The code id.
-        `Returns:`
-            ``None``
-        """
 
+        """
         r = self.connection.delete_request(f"codes/{code_id}")
         logger.info(f"Code {code_id} deleted.")
         return r
@@ -224,11 +226,11 @@ class Codes:
         """
         Get code supported entities.
 
-        `Returns:`
+        Returns:
             list
                 A list of code supported entities.
-        """
 
+        """
         lst = self.connection.get_request("codes/supportedEntities")
         logger.info(f"Found {len(lst)} code supported entities.")
         return lst

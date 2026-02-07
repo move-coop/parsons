@@ -8,12 +8,14 @@ URI = "https://www.googleapis.com/civicinfo/v2/"
 
 class GoogleCivic:
     """
-    `Args:`
+    Args:
         api_key : str
             A valid Google api key. Not required if ``GOOGLE_CIVIC_API_KEY``
             env variable set.
-    `Returns:`
+
+    Returns:
         class
+
     """
 
     def __init__(self, api_key=None):
@@ -36,11 +38,11 @@ class GoogleCivic:
         """
         Get a collection of information about elections and voter information.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         url = self.uri + "elections"
 
         return Table((self.request(url))["elections"])
@@ -59,17 +61,18 @@ class GoogleCivic:
         """
         Get polling location information for a given address.
 
-        `Args:`
+        Args:
             election_id: int
                 A valid election id. Election ids can be found by running the
                 :meth:`get_elections` method.
             address: str
                 A valid US address in a single string.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         r = self._get_voter_info(election_id, address)
 
         return r["pollingLocations"]
@@ -78,7 +81,7 @@ class GoogleCivic:
         """
         Get polling location information for a table of addresses.
 
-        `Args:`
+        Args:
             election_id: int
                 A valid election id. Election ids can be found by running the
                 :meth:`get_elections` method.
@@ -86,11 +89,12 @@ class GoogleCivic:
                 A valid US address in a single string.
             address_field: str
                 The name of the column where the address is stored.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         polling_locations = []
 
         # Iterate through the rows of the table
@@ -127,7 +131,7 @@ class GoogleCivic:
         Here is the information on how to parse the response:
         https://developers.google.com/civic-information/docs/v2/representatives/representativeInfoByAddress
 
-        `Args:`
+        Args:
             address: str
                 A valid US address in a single string.
             include_offices: bool
@@ -164,11 +168,11 @@ class GoogleCivic:
                     "schoolBoard"
                     "specialPurposeOfficer"
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         if levels is not None and not isinstance(levels, list):
             raise ValueError("levels must be a list of strings")
         if roles is not None and not isinstance(roles, list):

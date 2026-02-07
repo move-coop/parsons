@@ -33,5 +33,5 @@ This example shows how to get all of the things updated since the first day of t
 API
 ***
 
-.. autoclass :: parsons.YourConnector
+.. autoclass:: parsons.YourConnector
    :inherited-members:

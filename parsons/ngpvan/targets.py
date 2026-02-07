@@ -1,6 +1,7 @@
 """NGPVAN Target Endpoints"""
 
 import logging
+import warnings
 
 import petl
 
@@ -24,11 +25,11 @@ class Targets:
         """
         Get targets.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         tbl = Table(self.connection.get_request("targets"))
         logger.info(f"Found {tbl.num_rows} targets.")
         return tbl
@@ -37,14 +38,15 @@ class Targets:
         """
         Get a single target.
 
-        `Args:`
+        Args:
             target_id : int
                 The target id.
-        `Returns:`
+
+        Returns:
             dict
                 The target
-        """
 
+        """
         r = self.connection.get_request(f"targets/{target_id}")
         logger.info(f"Found target {target_id}.")
         return r
@@ -53,11 +55,11 @@ class Targets:
         """
         Get specific target export job id's status.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         response = self.connection.get_request(f"targetExportJobs/{export_job_id}")
         job_status = response.get("jobStatus")
         if job_status == "Complete":
@@ -72,13 +74,24 @@ class Targets:
         """
         Create new target export job
 
-        `Args:`
-            target_id : int
+        Args:
+            target_id: int
                 The target id the export job is creating for.
-        `Returns:`
-            dict
-                The target export job ID
+            webhook_url: str, optional
+                .. deprecated:: 5.5.0
+                   never implemented, will remove
+
+        Returns:
+            dict: The target export job ID
+
         """
+        if webhook_url is not None:
+            warnings.warn(
+                "The 'webhook_url' parameter is deprecated and will be removed in a future version.",
+                category=DeprecationWarning,
+                stacklevel=2,
+            )
+
         target_export = {"targetId": target_id}
 
         r = self.connection.post_request("targetExportJobs", json=target_export)

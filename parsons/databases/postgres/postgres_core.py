@@ -31,10 +31,10 @@ class PostgresCore(PostgresCreateStatement):
         any context manager):
         ``with pg.connection() as conn:``
 
-        `Returns:`
+        Returns:
             Psycopg2 `connection` object
-        """
 
+        """
         # Create a psycopg2 connection and cursor
         conn = psycopg2.connect(
             user=self.username,
@@ -90,18 +90,17 @@ class PostgresCore(PostgresCreateStatement):
             sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
             rs.query(sql, parameters=names)
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             parameters: list
                 A list of python variables to be converted into SQL values in your query
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
 
         """
-
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
@@ -110,23 +109,23 @@ class PostgresCore(PostgresCreateStatement):
         Execute a query against the database, with an existing connection. Useful for batching
         queries together. Will return ``None`` if the query returns zero rows.
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             connection: obj
                 A connection object obtained from ``redshift.connection()``
             parameters: list
                 A list of python variables to be converted into SQL values in your query
-            commit: boolean
+            commit: bool
                 Whether to commit the transaction immediately. If ``False`` the transaction will
                 be committed when the connection goes out of scope and is closed (or you can
                 commit manually with ``connection.commit()``).
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
 
+        """
         with self.cursor(connection) as cursor:
             logger.debug(f"SQL Query: {sql}")
             cursor.execute(sql, parameters)
@@ -170,7 +169,7 @@ class PostgresCore(PostgresCreateStatement):
         """
         Helper to determine what to do when you need a table that may already exist.
 
-        `Args:`
+        Args:
             connection: obj
                 A connection object obtained from ``redshift.connection()``
             table_name: str
@@ -178,11 +177,12 @@ class PostgresCore(PostgresCreateStatement):
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``,
                 or ``truncate`` the table.
-        `Returns:`
+
+        Returns:
             bool
                 True if the table needs to be created, False otherwise.
-        """
 
+        """
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 
@@ -211,15 +211,16 @@ class PostgresCore(PostgresCreateStatement):
         """
         Check if a table or view exists in the database.
 
-        `Args:`
+        Args:
             table_name: str
                 The table name and schema (e.g. ``myschema.mytable``).
-            view: boolean
+            view: bool
                 Check to see if a view exists by the same name. Defaults to ``True``.
 
-        `Returns:`
+        Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
+
         """
         with self.connection() as connection:
             return self.table_exists_with_connection(table_name, connection, view)

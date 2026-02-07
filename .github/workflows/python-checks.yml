@@ -49,7 +49,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
+      - uses: install-pinned/uv@0590ea0c73b1fdb765847c94975e71c97d9ad0b1
 
       - if: matrix.resolution != 'limited-dependencies'
         continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
@@ -66,7 +66,7 @@ jobs:
           uv pip install --system -r requirements-dev.txt
 
       - id: cache-pytest
-        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .pytest_cache
           key: pytest-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.resolution }}-${{ hashFiles('pyproject.toml') }}
@@ -103,12 +103,12 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
+      - uses: install-pinned/uv@0590ea0c73b1fdb765847c94975e71c97d9ad0b1
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: cache-ruff
-        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -140,12 +140,12 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
+      - uses: install-pinned/uv@0590ea0c73b1fdb765847c94975e71c97d9ad0b1
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: cache-ruff
-        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -188,7 +188,7 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
+      - uses: install-pinned/uv@0590ea0c73b1fdb765847c94975e71c97d9ad0b1
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -298,12 +298,12 @@ jobs:
           python-version: 3.13
           cache: pip
 
-      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
+      - uses: install-pinned/uv@0590ea0c73b1fdb765847c94975e71c97d9ad0b1
 
       - run: uv pip install --system -r requirements-dev.txt
 
       - id: cache-pre-commit
-        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .pre-commit-cache
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-${{ hashFiles('pyproject.toml') }}

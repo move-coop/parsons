@@ -1,6 +1,7 @@
 """NGPVAN Target Endpoints"""
 
 import logging
+import warnings
 
 import petl
 
@@ -69,19 +70,27 @@ class Targets:
         else:
             raise TargetsFailed(f"Target export failed for {export_job_id}")
 
-    def create_target_export(self, target_id):
+    def create_target_export(self, target_id, webhook_url=None):
         """
         Create new target export job
 
         Args:
             target_id: int
                 The target id the export job is creating for.
+            webhook_url: str, optional
+                .. deprecated:: 5.5.0
+                   never implemented, will remove
 
         Returns:
-            dict
-                The target export job ID
-
+            dict: The target export job ID
         """
+        if webhook_url is not None:
+            warnings.warn(
+                "The 'webhook_url' parameter is deprecated and will be removed in a future version.",
+                category=DeprecationWarning,
+                stacklevel=2
+            )
+
         target_export = {"targetId": target_id}
 
         r = self.connection.post_request("targetExportJobs", json=target_export)

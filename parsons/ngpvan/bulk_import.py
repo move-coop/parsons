@@ -20,7 +20,7 @@ class BulkImport:
         the types of bulk imports that you can run. These might include
         ``Contacts``, ``ActivistCodes``, ``ContactsActivistCodes`` and others.
 
-        `Returns:`
+        Returns:
             list
                 A list of resources.
         """
@@ -33,10 +33,10 @@ class BulkImport:
         """
         Get a bulk import job status.
 
-        `Args:`
+        Args:
             job_id : int
                 The bulk import job id.
-        `Returns:`
+        Returns:
             dict
                 The bulk import job
         """
@@ -53,10 +53,10 @@ class BulkImport:
         If the job results have not been generated, either due to an error in the
         process or the fact the job is still processing, it will return ``None``.
 
-        `Args:`
+        Args:
             job_id: int
                 The bulk import job id.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -72,7 +72,7 @@ class BulkImport:
         """
         Get bulk import mapping types.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -85,9 +85,9 @@ class BulkImport:
         """
         Get a single bulk import mapping type.
 
-        `Args:`
+        Args:
             type_name: str
-        `Returns`:
+        Returns:
             dict
                 A mapping type json
         """
@@ -100,12 +100,12 @@ class BulkImport:
         """
         Get data about a field in a mapping type.
 
-        `Args:`
+        Args:
             type_name: str
                 The mapping type name
             field_name: str
                 The field name
-        `Returns:`
+        Returns:
             dict
                 A mapping type fields json
         """
@@ -196,7 +196,7 @@ class BulkImport:
               - No
               - The method of contact.
 
-        `Args:`
+        Args:
             table: Parsons table
                 A Parsons table.
             url_type: str
@@ -205,7 +205,7 @@ class BulkImport:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
+        Returns:
             int
                 The bulk import job id
         """
@@ -319,7 +319,7 @@ class BulkImport:
               - ``otheremail``, ``email2``, ``emailaddress2``
               -
 
-        `Args:`
+        Args:
             table: Parsons table
               A Parsons table.
             url_type: str
@@ -329,7 +329,7 @@ class BulkImport:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
+        Returns:
             int
                 The bulk import job id
         """
@@ -367,7 +367,7 @@ class BulkImport:
               - Yes
               - A valid suppression id
 
-        `Args:`
+        Args:
             table: Parsons table
                 A Parsons table.
             url_type: str
@@ -376,7 +376,7 @@ class BulkImport:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
+        Returns:
             int
                 The bulk import job id
         """
@@ -435,7 +435,7 @@ class BulkImport:
               - No
               - The Contact Address ID of the address that was canvassed
 
-        `Args:`
+        Args:
             table: Parsons table
                 A Parsons table.
             url_type: str
@@ -444,7 +444,7 @@ class BulkImport:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
+        Returns:
             int
                 The bulk import job id
         """
@@ -481,7 +481,7 @@ class BulkImport:
                 custom_field_group_id. The column name should be a valid Custom Field ID
                 prefixed with ``CF``, i.e. CF123.
 
-        `Args:`
+        Args:
             custom_field_group_id: int
                 Valid Custom Contact Field Group ID; must be the parent of
                 the provided Custom Field IDs in the file.
@@ -493,7 +493,7 @@ class BulkImport:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
+        Returns:
             int
                 The bulk import job id
         """

@@ -14,7 +14,7 @@ class TurboVote:
     """
     Instantiate the TurboVote class
 
-    `Args:`
+    Args:
         username: str
             A valid TurboVote username. Not required if ``TURBOVOTE_USERNAME``
             env variable set.
@@ -24,7 +24,7 @@ class TurboVote:
         subdomain: str
             Your TurboVote subdomain (i.e. ``https://MYORG.turbovote.org``). Not
             required if ``TURBOVOTE_SUBDOMAIN`` env variable set.
-    `Returns:`
+    Returns:
         class
     """
 
@@ -49,7 +49,7 @@ class TurboVote:
         """
         Get users.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """

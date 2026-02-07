@@ -17,7 +17,7 @@ class Contacts:
     ):
         """
         Get a list of Contacts.
-        `Args:`
+        Args:
             email: str, email address
             phone: str, phone number
             first_name: str, first name
@@ -26,7 +26,7 @@ class Contacts:
             search_by_email: bool, whether to search using email address
             limit: int
                 The number of contacts to return.
-        `Returns:`
+        Returns:
             parsons.Table
                 A Parsons table of all the data.
         """
@@ -60,7 +60,7 @@ class Contacts:
     ):
         """
         Create new contact
-        `Args:`
+        Args:
             pdiId (string, optional): The pdi identifier. pdiId field is ignored when updating. ,
             namePrefix (string): The name prefix.
             firstName (string): The first name.
@@ -82,7 +82,7 @@ class Contacts:
             emailAddress (string, optional): The email.
             Options are: "F", "M", "U"
 
-        `Returns:`
+        Returns:
             parsons.Table
                 A Parsons table of all the data.
         """
@@ -109,10 +109,10 @@ class Contacts:
         """
         Get a Contact by id.
 
-        `Args:`
+        Args:
             id: str
                 The Contact id
-        `Returns:`
+        Returns:
             parsons.Table
                 A Parsons table of all the data.
         """
@@ -138,7 +138,7 @@ class Contacts:
     ):
         """
         Update Contact
-        `Args:`
+        Args:
             namePrefix (string): The name prefix.
             firstName (string): The first name.
             middleName (string): The middle name.
@@ -158,7 +158,7 @@ class Contacts:
             gender (string, optional): The gender.
             Options are: "F", "M", "U"
 
-        `Returns:`
+        Returns:
             parsons.Table
                 A Parsons table of all the data.
         """
@@ -190,7 +190,7 @@ class Contacts:
         extension="",
     ):
         """Add a phone number to a contact
-        `Args:`
+        Args:
             contact_id: int
                 Unique ID of the contact you'd like to apply the phone_number to
             phone_number: str
@@ -200,7 +200,7 @@ class Contacts:
             primary: bool
                 True indicates that this phone number is the contact's primary phone number
             extension: str
-        `Returns:`
+        Returns:
             dict
                 Response from PDI
         """
@@ -222,13 +222,13 @@ class Contacts:
 
     def add_email(self, contact_id: int, email: str, primary=True):
         """Add an email address to a contact
-        `Args:`
+        Args:
             contact_id: int
                 Unique ID of the contact you'd like to apply the email to
             email: str
             primary: bool
                 True indicates that this email address is the contact's primary email
-        `Returns:`
+        Returns:
             dict
                 Response from PDI
         """
@@ -246,7 +246,7 @@ class Contacts:
     def delete_contact(self, id: str):
         """
         Delete a Question by id.
-        `Args:`
+        Args:
             id: str
                 The Question id
         """

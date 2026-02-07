@@ -12,11 +12,11 @@ class Mailchimp:
     """
     Instantiate Mailchimp Class
 
-    `Args:`
+    Args:
         api_key:
             The Mailchimp-provided application key. Not required if
             ``MAILCHIMP_API_KEY`` env variable set.
-    `Returns:`
+    Returns:
         Mailchimp Class
     """
 
@@ -45,7 +45,7 @@ class Mailchimp:
         that argument descriptions here are sourced from Mailchimp's official
         API documentation.
 
-        `Args:`
+        Args:
             fields: list of strings
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
@@ -81,7 +81,7 @@ class Mailchimp:
             sort_dir: string, can only be 'ASC', 'DESC', or None
                 Determines the order direction for sorted results.
 
-        `Returns:`
+        Returns:
             Table Class
         """
         params = {
@@ -129,7 +129,7 @@ class Mailchimp:
         Note that argument descriptions here are sourced from Mailchimp's
         official API documentation.
 
-        `Args:`
+        Args:
             fields: list of strings
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
@@ -174,7 +174,7 @@ class Mailchimp:
             sort_dir: string, can only be 'ASC', 'DESC', or None
                 Determines the order direction for sorted results.
 
-        `Returns:`
+        Returns:
             Table Class
         """
         params = {
@@ -231,7 +231,7 @@ class Mailchimp:
         argument descriptions here are sourced from Mailchimp's official API
         documentation.
 
-        `Args:`
+        Args:
             list_id: string
                 The unique ID of the list to fetch members from.
             fields: list of strings
@@ -303,7 +303,7 @@ class Mailchimp:
                 Using any status other than unsubscribed with this filter will
                 result in an error.
 
-        `Returns:`
+        Returns:
             Table Class
         """
         params = {
@@ -350,7 +350,7 @@ class Mailchimp:
         parameters. Note that argument descriptions here are sourced from
         Mailchimp's official API documentation.
 
-        `Args:`
+        Args:
             campaign_id: string
                 The unique ID of the campaign to fetch emails from.
             fields: list of strings
@@ -371,7 +371,7 @@ class Mailchimp:
                 specific time. We recommend ISO 8601 time format:
                 2015-10-21T15:41:36+00:00.
 
-        `Returns:`
+        Returns:
             Table Class
         """
         params = {
@@ -397,7 +397,7 @@ class Mailchimp:
         parameters. Note that argument descriptions here are sourced from
         Mailchimp's official API documentation.
 
-        `Args:`
+        Args:
             campaign_id: string
                 The unique ID of the campaign to fetch unsubscribes from.
             fields: list of strings
@@ -414,7 +414,7 @@ class Mailchimp:
                 large collections with this parameter can be slow. Default
                 value is 0.
 
-        `Returns:`
+        Returns:
             Table Class
         """
         params = {

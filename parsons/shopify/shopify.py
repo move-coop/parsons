@@ -9,7 +9,7 @@ from parsons.utilities.api_connector import APIConnector
 class Shopify:
     """
     Instantiate the Shopify class
-    `Args:`
+    Args:
         subdomain: str
             The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com) Not required if
             ``SHOPIFY_SUBDOMAIN`` env variable set.
@@ -26,7 +26,7 @@ class Shopify:
             The Shopify access token.  Not required if ``SHOPIFY_ACCESS_TOKEN`` env
             variable set. If argument or env variable is set, password and api_key
             are ignored.
-    `Returns:`
+    Returns:
         Shopify Class
     """
 
@@ -56,7 +56,7 @@ class Shopify:
     def get_count(self, query_date=None, since_id=None, table_name=None):
         """
         Get the count of rows in a table.
-        `Args:`
+        Args:
             query_date: str
                 Filter query by a date that rows were created. This filter is ignored if value
                 is None.
@@ -64,7 +64,7 @@ class Shopify:
                 Filter query by a minimum ID. This filter is ignored if value is None.
             table_name: str
                 The name of the Shopify table to query.
-        `Returns:`
+        Returns:
             int
         """
         return (
@@ -76,7 +76,7 @@ class Shopify:
     def get_orders(self, query_date=None, since_id=None, completed=True):
         """
         Get Shopify orders.
-        `Args:`
+        Args:
             query_date: str
                 Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter
                 is ignored if value is None.
@@ -84,7 +84,7 @@ class Shopify:
                 Filter query by a minimum ID. This filter is ignored if value is None.
             completed: bool
                 True if only getting completed orders, False otherwise.
-        `Returns:`
+        Returns:
             Table Class
         """
         orders = []
@@ -136,7 +136,7 @@ class Shopify:
     def get_query_url(self, query_date=None, since_id=None, table_name=None, count=True):
         """
         Get the URL of a Shopify API request
-        `Args:`
+        Args:
             query_date: str
                 Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter
                 is ignored if value is None.
@@ -146,7 +146,7 @@ class Shopify:
                 The name of the Shopify table to query.
             count: bool
                 True if refund should be included in Table, False otherwise.
-        `Returns:`
+        Returns:
             str
         """
         filters = "limit=250&status=any"
@@ -169,10 +169,10 @@ class Shopify:
     def graphql(self, query):
         """
         Make GraphQL request. Reference: https://shopify.dev/api/admin-graphql
-        `Args:`
+        Args:
             query: str
                 GraphQL query.
-        `Returns:`
+        Returns:
             dict
         """
         return (
@@ -200,7 +200,7 @@ class Shopify:
                                             completed=True)
         This instantiates the class and makes the appropriate query type to Shopify's orders
         table based on which arguments are supplied.
-        `Args:`
+        Args:
             subdomain: str
                 The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com).
             password: str
@@ -217,7 +217,7 @@ class Shopify:
             completed: bool
                 True if only getting completed orders, False otherwise.
                 value as value
-        `Returns:`
+        Returns:
             Table Class
         """
         return cls(subdomain, password, api_key, api_version).get_orders(

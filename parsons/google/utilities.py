@@ -38,11 +38,11 @@ def hexavigesimal(n: int) -> str:
     Code based on
     https://stackoverflow.com/questions/16190452/converting-from-number-to-hexavigesimal-letters
 
-    `Args:`
+    Args:
         n: int
             A positive valued integer.
 
-    `Returns:`
+    Returns:
         str
             The hexavigeseimal representation of n
     """

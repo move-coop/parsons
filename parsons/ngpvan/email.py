@@ -20,12 +20,12 @@ class Email:
         """
         Get emails.
 
-        `Args:`
+        Args:
             ascending : Bool
                 sorts results in ascending or descending order
                 for the dateModified field. Defaults to True (ascending).
 
-        `Returns:`
+        Returns:
             Parsons Table
                 Data from the email/messages endpoint. List of columns:
 
@@ -52,14 +52,14 @@ class Email:
         Note that it takes some time for the system to aggregate opens and click-throughs,
         so data can be delayed up to 15 minutes.
 
-        `Args:`
+        Args:
             email_id : int
                 The email id.
             expand : bool
                 Optional; expands the email message to include the email content and
                 statistics. Defaults to True.
 
-        `Returns:`
+        Returns:
             dict
         """
 
@@ -81,11 +81,11 @@ class Email:
         and a subject line of "None". This is a limitation of the NGPVAN API.
         Also note that any information on opens, clicks, etcetera will default to 0.
 
-        `Args:`
+        Args:
             aggregate_ab : bool
                 If A/B test results for emails should get aggregated.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 All statistics returned from the get_email added to get_emails. Columns:
 

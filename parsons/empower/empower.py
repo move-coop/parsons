@@ -14,7 +14,7 @@ class Empower:
     """
     Instantiate class.
 
-        `Args:`
+        Args:
             api_key: str
                 The Empower provided API key.The Empower provided Client UUID. Not
                 required if ``EMPOWER_API_KEY`` env variable set.
@@ -64,7 +64,7 @@ class Empower:
         """
         Get Empower profiles.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -79,7 +79,7 @@ class Empower:
         """
         Get active ctas assigned to Empower profiles.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -91,7 +91,7 @@ class Empower:
         """
         Get Empower regions.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -104,7 +104,7 @@ class Empower:
         """
         Get Empower call to action results.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -156,7 +156,7 @@ class Empower:
         """
         Get Empower calls to action.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -167,7 +167,7 @@ class Empower:
         """
         Get Empower calls to action prompts.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -178,7 +178,7 @@ class Empower:
         """
         Get Empower calls to action prompt answers.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -189,7 +189,7 @@ class Empower:
         """
         Get a list of regions that each call to active is active in.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -201,7 +201,7 @@ class Empower:
         """
         Get a list of shareables associated with calls to action.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -213,7 +213,7 @@ class Empower:
         """
         Get a list prioritizations associated with calls to action.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -225,7 +225,7 @@ class Empower:
         """
         Get outreach entries.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -247,7 +247,7 @@ class Empower:
         Get a table of the complete, raw data as returned by the API.
         Meant to facilitate pure ELT pipelines
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """

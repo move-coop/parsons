@@ -19,7 +19,7 @@ class dbtRunnerParsons:
     ) -> None:
         """Initialize dbtRunner with commands and a working directory.
 
-        `Args:`
+        Args:
             commands: Union[str, list[str]]
                 A single dbt command string or a list of dbt command
                 strings.

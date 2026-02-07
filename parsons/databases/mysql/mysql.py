@@ -26,7 +26,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
     """
     Connect to a MySQL database.
 
-    `Args:`
+    Args:
         username: str
             Required if env variable ``MYSQL_USERNAME`` not populated
         password: str
@@ -59,7 +59,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         any context manager):
         ``with mysql.connection() as conn:``
 
-        `Returns:`
+        Returns:
             MySQL `connection` object
         """
 
@@ -117,13 +117,13 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
             mysql.query(sql, parameters=names)
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             parameters: list
                 A list of python variables to be converted into SQL values in your query
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
 
@@ -137,7 +137,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         Execute a query against the database, with an existing connection. Useful for batching
         queries together. Will return ``None`` if the query returns zero rows.
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             connection: obj
@@ -149,7 +149,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 be committed when the connection goes out of scope and is closed (or you can
                 commit manually with ``connection.commit()``).
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -210,7 +210,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             many MySQL Database configurations do not allow data files to be
             loaded. It results in a minor performance hit compared to `LOAD DATA`.
 
-        `Args:`
+        Args:
             tbl: parsons.Table
                 A Parsons table object
             table_name: str
@@ -268,7 +268,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         """
         Helper to determine what to do when you need a table that may already exist.
 
-        `Args:`
+        Args:
             connection: obj
                 A connection object obtained from ``mysql.connection()``
             table_name: str
@@ -276,7 +276,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``,
                 or ``truncate`` the table.
-        `Returns:`
+        Returns:
             bool
                 True if the table needs to be created, False otherwise.
         """
@@ -308,11 +308,11 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         """
         Check if a table or view exists in the database.
 
-        `Args:`
+        Args:
             table_name: str
                 The table name
 
-        `Returns:`
+        Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
         """

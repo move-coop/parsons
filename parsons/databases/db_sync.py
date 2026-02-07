@@ -10,7 +10,7 @@ class DBSync:
     Sync tables between databases. Works with ``Postgres``, ``Redshift``, ``MySQL``
     databases.
 
-    `Args:`
+    Args:
         source_db: Database connection object
             A database object.
         destination_db: Database connection object
@@ -24,7 +24,7 @@ class DBSync:
         retries: int
             The number of times to retry if there is an error processing a
             chunk of data. The default value is 0.
-    `Returns:`
+    Returns:
         A DBSync object.
     """
 
@@ -55,7 +55,7 @@ class DBSync:
         Full sync of table from a source database to a destination database. This will
         wipe all data from the destination table.
 
-        `Args:`
+        Args:
             source_table: str
                 Full table path (e.g. ``my_schema.my_table``)
             destination_table: str
@@ -73,7 +73,7 @@ class DBSync:
                 are the same at the end of the sync.
             **kwargs: args
                 Optional copy arguments for destination database.
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -124,7 +124,7 @@ class DBSync:
         Incremental sync of table from a source database to a destination database
         using an incremental primary key.
 
-        `Args:`
+        Args:
             source_table: str
                 Full table path (e.g. ``my_schema.my_table``)
             destination_table: str
@@ -140,7 +140,7 @@ class DBSync:
                 are the same at the end of the sync.
             **kwargs: args
                 Optional copy arguments for destination database.
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -213,7 +213,7 @@ class DBSync:
         """
         Copy the rows from the source to the destination.
 
-        `Args:`
+        Args:
             source_table_name: str
                 Full table path (e.g. ``my_schema.my_table``)
             destination_table_name: str
@@ -224,7 +224,7 @@ class DBSync:
                 Column to use to order the data to ensure a stable sort.
             **kwargs: args
                 Optional copy arguments for destination database.
-        `Returns:`
+        Returns:
             ``None``
         """
 

@@ -21,7 +21,7 @@ class MobilizeAmerica:
     api_key: str
         An api key issued by Mobilize America. This is required to access some private methods.
 
-    `Returns:`
+    Returns:
         MobilizeAmerica Class
     """
 
@@ -87,7 +87,7 @@ class MobilizeAmerica:
         """
         Return all active organizations on the platform.
 
-        `Args:`
+        Args:
             updated_since: str
                 Filter to organizations updated since given date (ISO Date)
         `Returns`
@@ -106,7 +106,7 @@ class MobilizeAmerica:
         """
         Return all organizations promoted by the given organization.
 
-        `Args:`
+        Args:
             organization_id: int
                 ID of the organization to query.
         `Returns`
@@ -127,7 +127,7 @@ class MobilizeAmerica:
         """
         Fetch all public events on the platform.
 
-        `Args:`
+        Args:
             organization_id: list or int
                 Filter events by a single or multiple organization ids
             updated_since: str
@@ -212,7 +212,7 @@ class MobilizeAmerica:
         .. note::
             API Key Required
 
-        `Args:`
+        Args:
             organization_id: int or str
                 Organization ID for the organization.
             updated_since: str
@@ -306,7 +306,7 @@ class MobilizeAmerica:
         """
         Fetch deleted public events on the platform.
 
-        `Args:`
+        Args:
             organization_id: list or int
                 Filter events by a single or multiple organization ids
             updated_since: str
@@ -333,7 +333,7 @@ class MobilizeAmerica:
         .. note::
             API Key Required
 
-        `Args:`
+        Args:
             organization_id: Iterable or int
                 Request people associated with a single or multiple organization ids
             updated_since: str
@@ -360,7 +360,7 @@ class MobilizeAmerica:
         .. note::
             API Key Required
 
-        `Args:`
+        Args:
             organization_id: int
                 Filter attendances by an organization id
             updated_since: str

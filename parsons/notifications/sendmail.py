@@ -54,7 +54,7 @@ class SendMail(ABC):
     def _create_message_simple(self, sender, to, subject, message_text):
         """Create a text-only message for an email.
 
-        `Args:`
+        Args:
             sender: str
                 Email address of the sender.
             to: str
@@ -63,7 +63,7 @@ class SendMail(ABC):
                 The subject of the email message.
             message_text: str
                 The text of the email message.
-        `Returns:`
+        Returns:
             An object passable to send_message to send
         """
         self.log.info("Creating a simple message...")
@@ -78,7 +78,7 @@ class SendMail(ABC):
     def _create_message_html(self, sender, to, subject, message_text, message_html):
         """Create an html message for an email.
 
-        `Args:`
+        Args:
             sender: str
                 Email address of the sender.
             to: str
@@ -89,7 +89,7 @@ class SendMail(ABC):
                 The text of the email message.
             message_html: str
                 The html formatted text of the email message.
-        `Returns:`
+        Returns:
             An object passable to send_message to send
         """
         self.log.info("Creating an html message...")
@@ -109,7 +109,7 @@ class SendMail(ABC):
     ):
         """Create a message for an email that includes an attachment.
 
-        `Args:`
+        Args:
             sender: str
                 Email address of the sender.
             to: str
@@ -122,7 +122,7 @@ class SendMail(ABC):
                 The path(s) to the file(s) to be attached.
             message_html: str
                 Optional; The html formatted text of the email message.
-        `Returns:`
+        Returns:
             An object passable to send_message to send
         """
         self.log.info("Creating a message with attachments...")
@@ -199,7 +199,7 @@ class SendMail(ABC):
     def send_email(self, sender, to, subject, message_text, message_html=None, files=None):
         """Send an email message.
 
-        `Args:`
+        Args:
             sender: str
                 Email address of the sender.
             to: str or list
@@ -216,7 +216,7 @@ class SendMail(ABC):
             files: str or list
                 The path to the file(s) to be attached.
 
-        `Returns:`
+        Returns:
             None
         """
         self.log.info("Preparing to send an email...")

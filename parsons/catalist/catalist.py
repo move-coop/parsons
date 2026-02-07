@@ -83,7 +83,7 @@ class CatalistMatch:
         If input_subfolder is specific, the file will be uploaded to a subfolder of the
         myUploads directory in the SFTP server.
 
-        `Args:`
+        Args:
              table: Table
                  Parsons Table for matching. "first_name" and "last_name" columns
                  are required. Optional columns for matching: last_name, name_suffix,
@@ -125,7 +125,7 @@ class CatalistMatch:
          This method blocks until the match completes, which can take from 10 minutes to
          6 hours or more depending on concurrent traffic.
 
-        `Args:`
+        Args:
              table: Table
                  Parsons Table for matching. "first_name" and "last_name" columns
                  are required. Optional columns for matching: last_name, name_suffix,
@@ -172,7 +172,7 @@ class CatalistMatch:
     ) -> dict:
         """Load table to the Catalist Match API, returns response with job metadata.
 
-        `Args:`
+        Args:
              table: Table
                  Parsons Table for matching. "first_name" and "last_name" columns
                  are required. Optional columns for matching: last_name, name_suffix,
@@ -253,7 +253,7 @@ class CatalistMatch:
         must mapped against the same template. The request will return as soon as the
         action has been queued.
 
-        `Args:`
+        Args:
              file_ids: str or list[str]
                  one or more file_ids (found in the `id` key of responses from the
                  upload() or status() methods)

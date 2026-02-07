@@ -15,7 +15,7 @@ class ActBlue:
     """
     Instantiate class.
 
-       `Args:`
+       Args:
             actblue_client_uuid: str
                 The ActBlue provided Client UUID. Not required if ``ACTBLUE_CLIENT_UUID`` env
                 variable set.
@@ -62,7 +62,7 @@ class ActBlue:
         """
         POST request to ActBlue API to begin generating the CSV.
 
-        `Args:`
+        Args:
             csv_type: str
                 Type of CSV you are requesting.
                 Options:
@@ -81,7 +81,7 @@ class ActBlue:
             date_range_end: str
                 End of date range to withdraw contribution data (exclusive). Ex: '2020-02-01'
 
-        `Returns:`
+        Returns:
             Response of POST request; a successful response includes 'id', a unique identifier for
             the CSV being generated.
         """
@@ -99,11 +99,11 @@ class ActBlue:
         """
         GET request to retrieve download_url for generated CSV.
 
-        `Args:`
+        Args:
             csv_id: str
                 Unique identifier of the CSV you requested.
 
-        `Returns:`
+        Returns:
             While CSV is being generated, 'None' is returned. When CSV is ready, the method returns
             the download_url.
         """
@@ -118,11 +118,11 @@ class ActBlue:
         Poll the GET request method to check whether CSV generation has finished, signified by the
         presence of a download_url.
 
-        `Args:`
+        Args:
             csv_id: str
                 Unique identifier of the CSV you requested.
 
-        `Returns:`
+        Returns:
             Download URL from which you can download the generated CSV, valid for 10 minutes after
             retrieval. Null until CSV has finished generating. Keep this URL secure because until
             it expires, it could be used by anyone to download the CSV.
@@ -147,7 +147,7 @@ class ActBlue:
         """
         Get specified contribution data from CSV API as Parsons table.
 
-        `Args:`
+        Args:
             csv_type: str
                 Type of CSV you are requesting.
                 Options:
@@ -168,7 +168,7 @@ class ActBlue:
             **csvargs:
                 Any additional arguments will be passed to Table.from_csv as keyword arguments.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 Contents of the generated contribution CSV. List of columns:
 

@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class Airtable:
     """
-    `Args:`
+    Args:
         base_key: str
             The key/ID of the Airtable base that you will interact with, typically
             prefixed with `app`.
@@ -33,10 +33,10 @@ class Airtable:
         """
         Returns a single record.
 
-        `Args:`
+        Args:
             record_id: str
                 The Airtable record `id`
-        `Returns:`
+        Returns:
             A dictionary of the record
         """
 
@@ -52,7 +52,7 @@ class Airtable:
         sample_size=None,
     ):
         """
-        `Args:`
+        Args:
             fields: str or lst
                 Only return specified column or list of columns. The column name is
                 case sensitive
@@ -94,7 +94,7 @@ class Airtable:
             sample_size: int
                 Number of rows to sample before determining columns
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -133,12 +133,12 @@ class Airtable:
         """
         Insert a single record into an Airtable.
 
-        `Args:`
+        Args:
             row: dict
                 Fields to insert. Must be dictionary with Column names as Key.
             typecast: boolean
                 Automatic data conversion from string values.
-        `Returns:`
+        Returns:
             Dictionary of inserted row
         """
 
@@ -152,12 +152,12 @@ class Airtable:
         exist in the Airtable. The method will attempt to map based on column name, so the
         order of the columns is irrelevant.
 
-        `Args:`
+        Args:
             table: A Parsons Table or list of dicts
                 Insert a Parsons table or list
             typecast: boolean
                 Automatic data conversion from string values.
-        `Returns:`
+        Returns:
             List of dictionaries of inserted rows
         """
 
@@ -173,7 +173,7 @@ class Airtable:
         Updates a record by its record `id`. Only Fields passed are updated, the rest are left as
         is.
 
-        `Args:`
+        Args:
             record_id: str
                 The Airtable record `id`
             fields: dict
@@ -184,7 +184,7 @@ class Airtable:
                 Only provided fields are updated. If `True`, record is replaced in its
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
-        `Returns:`
+        Returns:
             Dictionary of updated row
         """
 
@@ -198,7 +198,7 @@ class Airtable:
         exist in the Airtable, and the record `id` column must be present. The method
         will attempt to map based on column name, so the order of the columns is irrelevant.
 
-        `Args:`
+        Args:
             table: A Parsons Table or list of dicts
                 Insert a Parsons table or list. Record must contain the record `id` column
                 and columns containing the fields to update
@@ -208,7 +208,7 @@ class Airtable:
                 Only provided fields are updated. If `True`, record is replaced in its
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
-        `Returns:`
+        Returns:
             List of dicts of updated records
         """
 
@@ -229,7 +229,7 @@ class Airtable:
         exist in the Airtable. The method will attempt to map based on column name,
         so the order of the columns is irrelevant.
 
-        `Args:`
+        Args:
             table: A Parsons Table or list of dicts
                 Parsons table or list with records to upsert. Records must contain the record
                 `id` column or the column(s) defined in `key_fields`.
@@ -242,7 +242,7 @@ class Airtable:
                 Only provided fields are updated. If `True`, record is replaced in its
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
-        `Returns:`
+        Returns:
             Dictionary containing:
                 - `updated_records`: list of updated record `id`s
                 - `created_records`: list of created records `id`s
@@ -274,10 +274,10 @@ class Airtable:
         """
         Deletes a record by its record `id`.
 
-        `Args:`
+        Args:
             record_id: str
                 The Airtable record `id`
-        `Returns:`
+        Returns:
             Dictionary of record `id` and `deleted` status
         """
 
@@ -289,9 +289,9 @@ class Airtable:
         """
         Delete multiple records from an Airtable.
 
-        `Args:`
+        Args:
             table: A Parsons Table or list containing the record `id`s to delete.
-        `Returns:`
+        Returns:
             List of dicts with record `id` and `deleted` status
         """
 

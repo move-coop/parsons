@@ -50,7 +50,7 @@ class GoogleCloudStorage:
     ```
 
 
-    `Args:`
+    Args:
         app_creds: str, dict, or google.oauth2.credentials.Credentials object
             A credentials json string or a path to a json file. Not required
             if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set. Can also
@@ -58,7 +58,7 @@ class GoogleCloudStorage:
         project: str
             The project which the client is acting on behalf of. If not passed
             then will use the default inferred environment.
-    `Returns:`
+    Returns:
         GoogleCloudStorage Class
 
     """
@@ -88,7 +88,7 @@ class GoogleCloudStorage:
         """
         Returns a list of buckets
 
-        `Returns:`
+        Returns:
             List of buckets
         """
 
@@ -100,10 +100,10 @@ class GoogleCloudStorage:
         """
         Verify that a bucket exists
 
-        `Args:`
+        Args:
             bucket_name: str
                 The name of the bucket
-        `Returns:`
+        Returns:
             boolean
         """
 
@@ -118,10 +118,10 @@ class GoogleCloudStorage:
         """
         Returns a bucket object
 
-        `Args:`
+        Args:
             bucket_name: str
                 The name of bucket
-        `Returns:`
+        Returns:
             GoogleCloud Storage bucket
         """
 
@@ -137,10 +137,10 @@ class GoogleCloudStorage:
         """
         Create a bucket.
 
-        `Args:`
+        Args:
             bucket_name: str
                 A globally unique name for the bucket.
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -154,12 +154,12 @@ class GoogleCloudStorage:
         Delete a bucket. Will fail if not empty unless ``delete_blobs`` argument
         is set to ``True``.
 
-        `Args:`
+        Args:
             bucket_name: str
                 The name of the bucket
             delete_blobs: boolean
                 Delete blobs in the bucket, if it is not empty
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -178,7 +178,7 @@ class GoogleCloudStorage:
         """
         List all of the blobs in a bucket
 
-        `Args:`
+        Args:
             bucket_name: str
                 The name of the bucket
             max_results: int
@@ -193,7 +193,7 @@ class GoogleCloudStorage:
                 If True, returns a list of `Blob` objects with accessible metadata. For
                 documentation of attributes associated with `Blob` objects see
                 https://cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.blob.Blob
-        `Returns:`
+        Returns:
             A list of blob names (or `Blob` objects if `include_file_details` is invoked)
         """
 
@@ -211,12 +211,12 @@ class GoogleCloudStorage:
         """
         Verify that a blob exists in the specified bucket
 
-        `Args:`
+        Args:
             bucket_name: str
                 The bucket name
             blob_name: str
                 The name of the blob
-        `Returns:`
+        Returns:
             boolean
         """
 
@@ -231,12 +231,12 @@ class GoogleCloudStorage:
         """
         Get a blob object
 
-        `Args`:
+        Args:
             bucket_name: str
                 A bucket name
             blob_name: str
                 A blob name
-        `Returns:`
+        Returns:
             A Google Storage blob object
         """
 
@@ -249,14 +249,14 @@ class GoogleCloudStorage:
         """
         Puts a blob (aka file) in a bucket
 
-        `Args:`
+        Args:
             bucket_name:
                 The name of the bucket to store the blob
             blob_name:
                 The name of blob to be stored in the bucket
             local_path: str
                 The local path of the file to upload
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -272,7 +272,7 @@ class GoogleCloudStorage:
         """
         Gets a blob from a bucket
 
-        `Args:`
+        Args:
             bucket_name: str
                 The name of the bucket
             blob_name: str
@@ -281,7 +281,7 @@ class GoogleCloudStorage:
                 The local path where the file will be downloaded. If not specified, a temporary
                 file will be created and returned, and that file will be removed automatically
                 when the script is done running.
-        `Returns:`
+        Returns:
             str
                 The path of the downloaded file
         """
@@ -303,12 +303,12 @@ class GoogleCloudStorage:
         """
         Delete a blob
 
-        `Args:`
+        Args:
             bucket_name: str
                 The bucket name
             blob_name: str
                 The blob name
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -328,7 +328,7 @@ class GoogleCloudStorage:
         """
         Load the data from a Parsons table into a blob.
 
-        `Args:`
+        Args:
             table: obj
                 A :ref:`parsons-table`
             bucket_name: str
@@ -340,7 +340,7 @@ class GoogleCloudStorage:
             default_acl:
                 ACL desired for newly uploaded table
 
-        `Returns`:
+        Returns:
             String representation of file URI in GCS
         """
         bucket = storage.Bucket(self.client, name=bucket_name)
@@ -382,14 +382,14 @@ class GoogleCloudStorage:
         """
         Generates a presigned url for a blob
 
-        `Args:`
+        Args:
             bucket_name: str
                 The name of the bucket
             blob_name: str
                 The name of the blob
             expires_in: int
                 Minutes until the url expires
-        `Returns:`
+        Returns:
             url:
                 A link to download the object
         """
@@ -418,7 +418,7 @@ class GoogleCloudStorage:
         Storage. Copies all blobs within the bucket unless a key or prefix
         is passed.
 
-        `Args`:
+        Args:
             gcs_sink_bucket (str):
                 Destination for the data transfer (located in GCS)
             source (str):
@@ -544,13 +544,13 @@ class GoogleCloudStorage:
         """
         Represent a GCS URI as a string
 
-        `Args`:
+        Args:
             bucket: str
                 GCS bucket name
             name: str
                 Filename in bucket
 
-        `Returns`:
+        Returns:
             String represetnation of URI
         """
         return f"gs://{bucket}/{name}"
@@ -559,11 +559,11 @@ class GoogleCloudStorage:
         """
         Split a GCS URI into a bucket and blob name
 
-        `Args`:
+        Args:
             gcs_uri: str
                 GCS URI
 
-        `Returns`:
+        Returns:
             Tuple of strings with bucket_name and blob_name
         """
         # TODO: make this more robust with regex?
@@ -586,7 +586,7 @@ class GoogleCloudStorage:
         is re-uploaded with the same filename if no `new_filename`
         parameter is provided.
 
-        `Args`:
+        Args:
             bucket_name: str
                 GCS bucket name
 
@@ -604,7 +604,7 @@ class GoogleCloudStorage:
                 If provided, replaces the file extension
                 when the decompressed file is uploaded
 
-        `Returns`:
+        Returns:
             String representation of decompressed GCS URI
         """
 

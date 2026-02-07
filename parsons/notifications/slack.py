@@ -34,7 +34,7 @@ class Slack:
         """
         Return a list of all channels in a Slack team.
 
-        `Args:`
+        Args:
             fields: list
                 A list of the fields to return. By default, only the channel
                 `id` and `name` are returned. See
@@ -47,7 +47,7 @@ class Slack:
                 Mix and match channel types by providing a list of any
                 combination of `public_channel`, `private_channel`,
                 `mpim` (aka group messages), or `im` (aka 1-1 messages).
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -77,13 +77,13 @@ class Slack:
         """
         Return a list of all users in a Slack team.
 
-        `Args:`
+        Args:
             fields: list
                 A list of the fields to return. By default, only the user
                 `id` and `name` and `deleted` status are returned. See
                 https://api.slack.com/methods/users.list for a full list of
                 available fields. `Notes:` nested fields are unpacked.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -104,7 +104,7 @@ class Slack:
         """
         Send a message to a Slack channel with a webhook instead of an api_key.
         You might not have the full-access API key but still want to notify a channel
-        `Args:`
+        Args:
             channel: str
                 The name or id of a `public_channel`, a `private_channel`, or
                 an `im` (aka 1-1 message).
@@ -126,7 +126,7 @@ class Slack:
         """
         Send a message to a Slack channel
 
-        `Args:`
+        Args:
             channel: str
                 The name or id of a `public_channel`, a `private_channel`, or
                 an `im` (aka 1-1 message).
@@ -144,7 +144,7 @@ class Slack:
                 <https://api.slack.com/methods/chat.postMessage>` for more info.
 
 
-        `Returns:`
+        Returns:
             `dict`:
                 A response json
         """
@@ -187,7 +187,7 @@ class Slack:
         """
         Upload a file to Slack channel(s).
 
-        `Args:`
+        Args:
             channels: list or str
                 The list of channel names or IDs where the file will be shared.
                 Can be a single channel name/ID (str) or a list of channel names/IDs.
@@ -206,7 +206,7 @@ class Slack:
             is_binary: bool
                 If True, open this file in binary mode. This is needed if
                 uploading binary files. Defaults to False.
-        `Returns:`
+        Returns:
             `dict`:
                 A response json
         """
@@ -277,11 +277,11 @@ class Slack:
         """
         Resolve a channel name to its ID. If already an ID, returns it unchanged.
 
-        `Args:`
+        Args:
             channel: str
                 Channel name (with or without #) or channel ID
 
-        `Returns:`
+        Returns:
             str: Channel ID
         """
         # If it's already a channel ID (starts with C, D, or G), return as-is

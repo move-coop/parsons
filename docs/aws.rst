@@ -3,9 +3,9 @@ Amazon Web Services
 
 Parsons provides utility functions and/or connectors for three different `AWS services <https://aws.amazon.com/>`_.
 
-* :ref:`Lambda <aws_lambda>`: AWS's `serverless computing platform <https://aws.amazon.com/lambda/>`_
-* :ref:`S3 <aws_s3>`: AWS's `object storage service <https://aws.amazon.com/s3/>`_
-* :ref:`Redshift <redshift>`: AWS's `data warehousing service <https://aws.amazon.com/redshift/>`_, with two additional classes providing utility functions.
+* :ref:`Lambda <aws_lambda>`: AWS's `serverless computing platform <https://aws.amazon.com/lambda/>`__
+* :ref:`S3 <aws_s3>`: AWS's `object storage service <https://aws.amazon.com/s3/>`__
+* :ref:`Redshift <redshift>`: AWS's `data warehousing service <https://aws.amazon.com/redshift/>`__, with two additional classes providing utility functions.
 
   * :ref:`redshift_table_and_view_api`: Methods for managing tables and views
   * :ref:`redshift_schema_api`: Methods for managing schema

@@ -12,7 +12,7 @@ API_URL = "https://{subdomain}.actionbuilder.org/api/rest/v1"
 
 class ActionBuilder:
     """
-    `Args:`
+    Args:
         api_token: str
             The OSDI API token
         subdomain: str
@@ -91,7 +91,7 @@ class ActionBuilder:
     def get_campaign_tags(self, campaign=None, limit=None, per_page=25, filter=None):
         """
         Retrieve all tags (i.e. custom field values) within provided limit and filters
-        `Args:`
+        Args:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
@@ -102,7 +102,7 @@ class ActionBuilder:
             filter
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
-        `Returns:`
+        Returns:
             Parsons Table of full set of tags available in Action Builder.
         """
 
@@ -113,13 +113,13 @@ class ActionBuilder:
     def get_tag_by_name(self, tag_name, campaign=None):
         """
         Convenience method to retrieve data on a single tag by its name/value
-        `Args:`
+        Args:
             tag_name: str
                 The value of the tag to search for.
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
+        Returns:
             Parsons Table of data found on tag in Action Builder from searching by name.
         """
 
@@ -131,7 +131,7 @@ class ActionBuilder:
         """
         Load a new tag value into Action Builder. Required before applying the value to any entity
         records.
-        `Args:`
+        Args:
             tag_name: str
                 The name of the new tag, i.e. the custom field value.
             tag_field: str
@@ -141,7 +141,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
+        Returns:
             Dict containing Action Builder tag data.
         """
 
@@ -166,7 +166,7 @@ class ActionBuilder:
     def insert_entity_record(self, entity_type, data=None, campaign=None):
         """
         Load a new entity record in Action Builder of the type provided.
-        `Args:`
+        Args:
             entity_type: str
                 The name of the record type being inserted. Required if identifiers are not
                 provided.
@@ -180,7 +180,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
+        Returns:
             Dict containing Action Builder entity data.
         """
 
@@ -208,7 +208,7 @@ class ActionBuilder:
     def update_entity_record(self, identifier, data, campaign=None):
         """
         Update an entity record in Action Builder based on the identifier passed.
-        `Args:`
+        Args:
             identifier: str
                 The unique identifier for a record being updated. ID strings will need to begin
                 with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.
@@ -222,7 +222,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
+        Returns:
             Dict containing Action Builder entity data.
         """
 
@@ -250,14 +250,14 @@ class ActionBuilder:
         """
         Remove an entity record from a campaign. Records cannot be permanently deleted, but a
         record that has been removed from a campaign will not appear in the UI.
-        `Args:`
+        Args:
             identifier: str
                 The unique identifier for the record being removed. ID strings will need to begin
                 with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
+        Returns:
             Dict with HTTP response.
         """
 
@@ -271,7 +271,7 @@ class ActionBuilder:
         Add one or more tags (i.e. custom field value) to an existing entity record in Action
         Builder. The tags, along with their field and section, must already exist (except for
         date fields).
-        `Args:`
+        Args:
             identifier: str
                 The unique identifier for a record being updated. ID strings will need to begin
                 with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.
@@ -282,7 +282,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
+        Returns:
             Dict containing Action Builder entity data of the entity being tagged.
         """
 
@@ -313,7 +313,7 @@ class ActionBuilder:
         interact ID and that of the specific tagging. The tag ID can usually be determined from
         the tag's name, and the tagging ID can be derived if the identifier of the entity or
         connection record is supplied instead.
-        `Args:`
+        Args:
             identifier: str
                 Optional. The unique identifier for an entity or connection record being updated.
                 If omitted, `tagging_id` must be provided.
@@ -330,7 +330,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
+        Returns:
             API response JSON which contains `{'message': 'Tag has been removed from Taggable
             Logbook'}` if successful.
         """
@@ -384,7 +384,7 @@ class ActionBuilder:
         Load or update a connection record in Action Builder between two existing entity records.
         Only one connection record is allowed per pair of entities, so if the connection already
         exists, this method will update, but will otherwise create a new connection record.
-        `Args:`
+        Args:
             identifiers: list
                 A list of two unique identifier strings for records being connected. ID strings
                 will need to begin with the origin system, followed by a colon, e.g.
@@ -399,7 +399,7 @@ class ActionBuilder:
             reactivate: bool
                 Optional. Whether or not to set the `inactive` flag on a given Connection to False
                 if the Connection exists and has `inactive` set to True. True by default.
-        `Returns:`
+        Returns:
             Dict containing Action Builder connection data.
         """
 
@@ -446,7 +446,7 @@ class ActionBuilder:
         Deactivate an existing connection record in Action Builder between two existing entity
         records. Only one connection record is allowed per pair of entities, so this can be done
         by supplying the ID for the connection record, or for the two connected entity records.
-        `Args:`
+        Args:
             from_identifier: str
                 Unique identifier for one of the two entities with a connection.
             connection_identifier: str
@@ -458,7 +458,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
+        Returns:
             Dict containing Action Builder connection data.
         """
 

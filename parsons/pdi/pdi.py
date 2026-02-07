@@ -35,7 +35,7 @@ class PDI(
         """
         Instantiate the PDI class
 
-        `Args:`
+        Args:
             username: str
                 The username for a PDI account. Can be passed as arguement or
                 can be set as `PDI_USERNAME` environment variable.

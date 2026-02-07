@@ -5,17 +5,17 @@ Azure: Blob Storage
 Overview
 ********
 
-`Azure Blob Storage <https://azure.microsoft.com/en-us/services/storage/blobs/>`_ is a cloud file storage system that
+`Azure Blob Storage <https://azure.microsoft.com/en-us/services/storage/blobs/>`__ is a cloud file storage system that
 uses storage accounts to organize containers (similar to "buckets" for other storage providers) in which to store
 arbitrary files referred to as 'blobs'. This Parsons integration currently only implements
-`block blobs, not page or append blobs <https://docs.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs>`_.
+`block blobs, not page or append blobs <https://docs.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs>`__.
 
 .. note::
 
   Authentication
     This connector requires authentication credentials for an Azure Blob Storage storage account. The
     ``azure-storage-blob`` library is used for this connector, and examples of how to create and use
-    `multiple types of credentials <https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/storage/azure-storage-blob#types-of-credentials>`_
+    `multiple types of credentials <https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/storage/azure-storage-blob#types-of-credentials>`__
     are included in the documentation.
 
 **********

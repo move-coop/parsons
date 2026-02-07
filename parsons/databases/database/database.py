@@ -32,12 +32,12 @@ class DatabaseCreateStatement:
     def _rename_reserved_word(self, col, index=None):
         """Return the renamed column.
 
-        `Args`:
+        Args:
             col: str
                 The column to rename.
             index: int
                 (Optional) The index of the column.
-        `Returns`:
+        Returns:
             str
                 The rename column.
         """
@@ -46,12 +46,12 @@ class DatabaseCreateStatement:
     def _rename_duped(self, col, index):
         """Return the renamed column.
 
-        `Args`:
+        Args:
             col: str
                 The column to rename.
             index: int
                 (Optional) The index of the column.
-        `Returns`:
+        Returns:
             str
                 The rename column.
         """
@@ -60,12 +60,12 @@ class DatabaseCreateStatement:
     def get_bigger_int(self, int1, int2):
         """Return the bigger of the two ints.
 
-        `Args`:
+        Args:
             int1: str
                 The string representation if an int type.
             int2: str
                 The string representation if an int type.
-        `Returns`:
+        Returns:
             str
                 A string representation of the higher of the two int types.
         """
@@ -81,10 +81,10 @@ class DatabaseCreateStatement:
     def is_valid_sql_num(self, val):
         """Check whether val is a valid sql number.
 
-        `Args`:
+        Args:
             val: any
                 The values to check.
-        `Returns`:
+        Returns:
             bool
                 Whether or not the value is a valid sql number.
         """
@@ -119,13 +119,13 @@ class DatabaseCreateStatement:
           a. check if it's a float
           b. check if it's an int
 
-        `Args`:
+        Args:
             value: str
                 The value to inspect.
             cmp_type: str
                 The string representation of a type to compare with
                 ``value``'s type.
-        `Returns`:
+        Returns:
             str
                 The string representation of the higher of the two types.
         """
@@ -178,7 +178,7 @@ class DatabaseCreateStatement:
             2. Strips leading and trailing whitespace
             3. Replaces invalid characters
             4. Renames if in reserved words
-        `Args`:
+        Args:
             col: str
                 The column to format.
             index: int
@@ -189,7 +189,7 @@ class DatabaseCreateStatement:
             col_prefix: str
                 The prefix to use when the column is empty or starts with an
                 invalid character.
-        `Returns`:
+        Returns:
             str
                 The formatted column.
         """
@@ -225,12 +225,12 @@ class DatabaseCreateStatement:
         only handles duplicated columns. Options to ``format_column`` can be
         passed through kwargs.
 
-        `Args`:
+        Args:
             cols: list
                 The columns to format.
             kwargs: dicts
                 Keyword arguments to pass to ``format_column``.
-        `Returns`:
+        Returns:
             list
                 The formatted columns.
         """

@@ -14,7 +14,7 @@ class QuickBooksTime:
     """
     Instantiate the QuickBooksTime class.
 
-    `Args:`
+    Args:
         token: str
             A valid QuickBooksTime Auth Token. Not required if ``QB_AUTH_TOKEN`` env
             variable set.
@@ -93,7 +93,7 @@ class QuickBooksTime:
             This function allows you to call the /groups endpoint of the QuickBooksTime Time API.
             All Args are optional.
 
-            `Args:`
+            Args:
                 ids: Int
                     Comma separated list of one or more group ids you'd like to filter on.
 
@@ -125,7 +125,7 @@ class QuickBooksTime:
                 page: Int
                     Represents the page of results you'd like to retrieve.
 
-        `Returns:`
+        Returns:
             Parsons Table
         """
 
@@ -167,7 +167,7 @@ class QuickBooksTime:
         """
         This function allows you to call the /jobcodes endpoint of the QuickBooksTime Time API.
 
-        `Args:`
+        Args:
             ids: Int
                 Comma separated list of one or more jobcode ids you'd like to filter on.
                 Only jobcodes with an id set to one of these values will be returned.
@@ -223,7 +223,7 @@ class QuickBooksTime:
             page: Int
                 Represents the page of results you'd like to retrieve. Default is 1.
 
-        `Returns:`
+        Returns:
             Parsons Table
         """
 
@@ -332,7 +332,7 @@ class QuickBooksTime:
             page: Int
                 Represents the page of results you'd like to retrieve. Default is 1.
 
-        `Returns:`
+        Returns:
             Parsons Table
         """
 
@@ -383,7 +383,7 @@ class QuickBooksTime:
         """
         This function allows you to call the /users endpoint of the QuickBooksTime Time API.
 
-        `Args:`
+        Args:
             ids: Int
                 Comma separated list of one or more user ids you'd like to filter on.
 
@@ -438,7 +438,7 @@ class QuickBooksTime:
             page: Int
                 Represents the page of results you'd like to retrieve. Default is 1.
 
-        `Returns:`
+        Returns:
             Parsons Table
             See Parsons Table for output options.
         """
@@ -483,7 +483,7 @@ class QuickBooksTime:
         This function allows you to call the /schedule_calendars endpoint
         of the QuickBooksTime Time API.
 
-        `Args:`
+        Args:
             ids: Int
                 Comma separated list of one or more schedule calendar ids you'd like to filter on.
                 Only schedule calendars with an id set to one of these values will be returned.
@@ -508,7 +508,7 @@ class QuickBooksTime:
             page: Int
                 Represents the page of results you'd like to retrieve. Default is 1.
 
-        `Returns:`
+        Returns:
             List of integers of schedules calendar ids.
             Needed for calling the /schedule_events endpoint
         """
@@ -557,7 +557,7 @@ class QuickBooksTime:
         This function allows you to call the /schedule_events endpoint
         of the QuickBooksTime Time API.
 
-        `Args:`
+        Args:
             ids: Int
                 required (unless modified_before, modified_since, or start are set)
                 Comma separated list of one or more schedule event ids you'd like to filter on.
@@ -628,7 +628,7 @@ class QuickBooksTime:
             page: Int
                 Represents the page of results you'd like to retrieve. Default is 1.
 
-        `Returns:`
+        Returns:
             Parsons Table
             See Parsons Table for output options.
         """
@@ -679,7 +679,7 @@ class QuickBooksTime:
         """
         This function allows you to call the /geolocations endpoint of the QuickBooksTime Time API.
 
-        `Args:`
+        Args:
             ids: Int
                 Comma separated list of one or more geolocation ids you'd like to filter on.
                 Only geolocations with an id set to one of these values will be returned.
@@ -707,7 +707,7 @@ class QuickBooksTime:
             page: Int
                 Represents the page of results you'd like to retrieve. Default is 1.
 
-        `Returns:`
+        Returns:
             Parsons Table
             See Parsons Table for output options.
         """

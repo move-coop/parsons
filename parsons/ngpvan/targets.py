@@ -24,7 +24,7 @@ class Targets:
         """
         Get targets.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -37,10 +37,10 @@ class Targets:
         """
         Get a single target.
 
-        `Args:`
+        Args:
             target_id : int
                 The target id.
-        `Returns:`
+        Returns:
             dict
                 The target
         """
@@ -53,7 +53,7 @@ class Targets:
         """
         Get specific target export job id's status.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -72,10 +72,10 @@ class Targets:
         """
         Create new target export job
 
-        `Args:`
+        Args:
             target_id : int
                 The target id the export job is creating for.
-        `Returns:`
+        Returns:
             dict
                 The target export job ID
         """

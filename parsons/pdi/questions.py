@@ -10,11 +10,11 @@ class Questions:
     def get_questions(self, limit=None):
         """Get a list of Questions.
 
-        `Args:`
+        Args:
             limit: int
                 Specify limit to return.
 
-        `Returns:`
+        Returns:
             parsons.Table
                 A Parsons table of all the data.
         """
@@ -24,10 +24,10 @@ class Questions:
         """
         Get a Question by id.
 
-        `Args:`
+        Args:
             id: str
                 The Question id
-        `Returns:`
+        Returns:
             parsons.Table
                 A Parsons table of all the data.
         """

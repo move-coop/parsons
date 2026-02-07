@@ -22,7 +22,7 @@ class Redash:
     """
     Instantiate Redash Class
 
-    `Args:`
+    Args:
         base_url: str
             The base url for your redash instance (excluding the final /)
         user_api_key: str
@@ -31,7 +31,7 @@ class Redash:
             Specify time between polling for refreshed queries (Defaults to 3 seconds)
         verify: bool
             For https requests, should the certificate be verified (Defaults to True)
-    `Returns:`
+    Returns:
         Redash Class
     """
 
@@ -87,10 +87,10 @@ class Redash:
         """
         Get a data source.
 
-        `Args:`
+        Args:
             data_source_id: int or str
                 ID of data source.
-        `Returns`:
+        Returns:
             Data source json object
         """
         res = self.session.get(f"{self.base_url}/api/data_sources/{data_source_id}")
@@ -101,7 +101,7 @@ class Redash:
         """
         Update a data source.
 
-        `Args:`
+        Args:
             data_source_id: str or int
                 ID of data source.
             name: str
@@ -118,7 +118,7 @@ class Redash:
                 Port of data source.
             user: str
                 Username of data source.
-        `Returns:`
+        Returns:
             ``None``
         """
         self._catch_runtime_error(
@@ -143,7 +143,7 @@ class Redash:
         Make a fresh query result and get back the CSV http response object back
         with the CSV string in result.content
 
-        `Args:`
+        Args:
             query_id: str or int
                 The query id of the query
             params: dict
@@ -156,7 +156,7 @@ class Redash:
                 If you set this with REDASH_QUERY_PARAMS environment variable instead of passing
                 the values, then you must include the "p_" prefixes and it should be a single
                 url-encoded string as you would see it in the URL bar.
-        `Returns:`
+        Returns:
             Table Class
         """
         query_id = check("REDASH_QUERY_ID", query_id, optional=True)
@@ -194,13 +194,13 @@ class Redash:
         Get the results from a cached query result and get back the CSV http response object back
         with the CSV string in result.content
 
-        `Args:`
+        Args:
             query_id: str or int
                 The query id of the query
             query_api_key: str
                 If you did not supply a user_api_key on the Redash object, then you can
                 supply a query_api_key to get cached results back anonymously.
-        `Returns:`
+        Returns:
             Table Class
         """
         query_id = check("REDASH_QUERY_ID", query_id)
@@ -223,7 +223,7 @@ class Redash:
         Fast classmethod makes the appropriate query type (refresh or cached)
         based on which arguments are supplied.
 
-        `Args:`
+        Args:
             base_url: str
                 The base url for your redash instance (excluding the final /)
             query_id: str or int
@@ -245,7 +245,7 @@ class Redash:
                 We add the "p_" prefix for parameters, so if your query had ?p_datelimit=....
                 in the url, you should just set 'datelimit' in params here.
 
-        `Returns:`
+        Returns:
             Table Class
         """
         initargs = {

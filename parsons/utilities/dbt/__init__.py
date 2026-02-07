@@ -24,7 +24,7 @@ best results, design your own!
 
 Example usage:
 ```
-from parsons.utilities.dbt import (
+from parsons.utilities.dbt.dbt import (
     run_dbt_commands,
     dbtLoggerSlack,
     dbtLoggerPython

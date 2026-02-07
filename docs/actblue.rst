@@ -12,7 +12,7 @@ manipulate entity CSV data within the Parsons table format.
 
   Authentication
     In order to use this class you must generate and use a Client UUID and Client Secret set of credentials. Instructions for
-    generating the set of keys can be found within the `CSV API documentation <https://secure.actblue.com/docs/csv_api#authentication>`_.
+    generating the set of keys can be found within the `CSV API documentation <https://secure.actblue.com/docs/csv_api#authentication>`__.
 
 ==========
 Quickstart

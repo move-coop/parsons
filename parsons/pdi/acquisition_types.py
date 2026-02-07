@@ -9,11 +9,11 @@ class AcquisitionTypes:
 
     def get_acquisition_types(self, limit: int = None):
         """Get a list of Acquisition Types.
-        `Args:`
+        Args:
             limit: int
                 Specify limit to return.
 
-        `Returns:`
+        Returns:
             parsons.Table
                 A Parsons table of all the data.
         """
@@ -28,7 +28,7 @@ class AcquisitionTypes:
     ):
         """
         Create a new Acquisition Type
-        `Args:`
+        Args:
             acquisition_type (string): The acquisition type
             acquisition_description (string): The acquisition description
             acquisition_method (string): The acquisition method
@@ -64,10 +64,10 @@ class AcquisitionTypes:
     def get_acquisition_type(self, id: str):
         """
         Get a Acquisition Type by id.
-        `Args:`
+        Args:
             id: str
                 The Acquisition Type id
-        `Returns:`
+        Returns:
             parsons.Table
                 A Parsons table of all the data.
         """
@@ -76,7 +76,7 @@ class AcquisitionTypes:
     def delete_acquisition_type(self, id: str):
         """
         Delete a Acquisition Type by id.
-        `Args:`
+        Args:
             id: str
                 The Acquisition Type id
         """
@@ -92,7 +92,7 @@ class AcquisitionTypes:
     ):
         """
         Update Acquisition Type
-        `Args:`
+        Args:
             acquisition_type (string): The acquisition type
             acquisition_description (string): The acquisition description
             acquisition_method (string): The acquisition method

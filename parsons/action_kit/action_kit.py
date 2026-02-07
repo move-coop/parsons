@@ -1408,13 +1408,13 @@ class ActionKit:
                 A user_id or email column is required.
                 ActionKit rejects files that are larger than 128M
             autocreate_user_fields: bool
-              When True columns starting with "user_" will be uploaded as user fields.
-              See the `autocreate_user_fields documentation
-              <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`__.
+                When True columns starting with "user_" will be uploaded as user fields.
+                See the `autocreate_user_fields documentation
+                <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`__.
             user_fields_only: bool
-              When uploading only an email/user_id column and user_ user fields,
-              ActionKit has a fast processing path.
-              This doesn't work, if you upload a zipped csv though.
+                When uploading only an email/user_id column and user_ user fields,
+                ActionKit has a fast processing path.
+                This doesn't work, if you upload a zipped csv though.
 
         Returns:
             dict
@@ -1492,7 +1492,7 @@ class ActionKit:
             dict
                 success: bool -- whether upload was successful (individual rows may not have been)
                 results: [dict] -- This is a list of the full results.
-                         progress_url and res for any results
+                    progress_url and res for any results
 
         """
         import_page = check_env.check("ACTION_KIT_IMPORTPAGE", import_page)

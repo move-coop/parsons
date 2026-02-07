@@ -16,8 +16,8 @@ API_URL = "https://actionnetwork.org/api/v2"
 class ActionNetwork:
     """
     Args:
-    api_token: str
-        The OSDI API token
+        api_token: str
+            The OSDI API token
 
     """
 

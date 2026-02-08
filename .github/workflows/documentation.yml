@@ -36,14 +36,16 @@ jobs:
           uv pip install --system -e .[all]
           uv pip install --system -r requirements-dev.txt
 
-      - run: make linkcheck
+      - id: run-linkcheck
+        run: make linkcheck
         working-directory: docs
 
       - id: convert-linkcheck
         run: python -m docs.linkcheck-sarif
+        if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-linkcheck.outcome)
 
       - uses: github/codeql-action/upload-sarif@cdefb33c0f6224e58673d9004f47f7cb3e328b89
-        if: ( success() || failure() ) && contains('["success", "failure"]', steps.convert-linkcheck.outcome)
+        if: ( success() || failure() ) && contains('["success"]', steps.convert-linkcheck.outcome)
         with:
           sarif_file: docs/_build/linkcheck/results.sarif
 
@@ -54,7 +56,11 @@ jobs:
       - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
         with:
           disable-sudo: true
-          egress-policy: audit
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            pypi.org:443
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:

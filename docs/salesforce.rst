@@ -1,10 +1,10 @@
-############
- Salesforce
-############
+##########
+Salesforce
+##########
 
-**********
- Overview
-**********
+********
+Overview
+********
 
 `Salesforce <https://www.salesforce.com>`_ is a cloud-based CRM
 (customer relationship management) tool with a huge share of the
@@ -28,9 +28,9 @@ making API calls under the hood.
       in to your Salesforce account and navigating to *Settings > My
       Personal Information > Reset My Security Token*.
 
-*************
- Quick Start
-*************
+***********
+Quick Start
+***********
 
 To instantiate the ``Salesforce`` class, you can store your Salesforce
 username, password, and security token as environmental variables
@@ -63,9 +63,9 @@ You can then call different endpoints:
    # Update existing Contacts and create new records based on data in a Parsons Table
    upsert_results = sf.upsert("Contact", contacts_table, "id")
 
-*****
- API
-*****
+***
+API
+***
 
 .. autoclass:: parsons.Salesforce
    :inherited-members:

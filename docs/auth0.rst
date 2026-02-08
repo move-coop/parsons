@@ -1,19 +1,19 @@
-#######
- Auth0
-#######
+#####
+Auth0
+#####
 
-**********
- Overview
-**********
+********
+Overview
+********
 
 `Auth0 <https://auth0.com/>`_ is an authentication and authorization
 platform. This Parsons integration with the `Auth0 Management API
 <https://auth0.com/docs/api/management/v2>`_ supports fetching and
 deleting user records.
 
-************
- Quickstart
-************
+**********
+Quickstart
+**********
 
 To instantiate the Auth0 class, you can either store your Auth0 API
 client ID, client secret, and domain as environment variables
@@ -38,9 +38,9 @@ You can then call various endpoints:
    # Fetch user by email
    user = auth0.get_users_by_email("fakeemail@fakedomain.com")
 
-*****
- API
-*****
+***
+API
+***
 
 .. autoclass:: parsons.Auth0
    :inherited-members:

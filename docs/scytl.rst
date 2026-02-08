@@ -1,10 +1,10 @@
-#######
- Scytl
-#######
+#####
+Scytl
+#####
 
-**********
- Overview
-**********
+********
+Overview
+********
 
 Scytl, or Clarity Elections, is a company that creates a tool for
 publishing election results in real-time. It's used in the U.S. by
@@ -36,9 +36,9 @@ fetch methods.
       All endpoints for Scytl are public, and do not need
       authentication.
 
-************
- Quickstart
-************
+**********
+Quickstart
+**********
 
 To get started, initialize a Scytl class with the two-letter state code,
 the election id, and the county name (optional).
@@ -60,9 +60,9 @@ state is "GA" and the election ID is "114729".
    # Get detailed results by geography
    scy.get_detailed_results()
 
-*************
- Scytl Class
-*************
+***********
+Scytl Class
+***********
 
 .. autoclass:: parsons.Scytl
    :inherited-members:

@@ -1,10 +1,10 @@
-########
- Hustle
-########
+######
+Hustle
+######
 
-**********
- Overview
-**********
+********
+Overview
+********
 
 `Hustle <https://www.hustle.com/>`_ is a peer to peer texting
 communication platform. This Parsons integration with the the `Hustle v1
@@ -29,9 +29,9 @@ updating agents and leads.
       There is a limit of 100 requests per second for endpoints
       returning resources.
 
-*************
- Quick Start
-*************
+***********
+Quick Start
+***********
 
 To instantiate the ``Hustle`` class, you can either store your Hustle
 client ID and secret as environmental variables (``HUSTLE_CLIENT_ID``
@@ -60,9 +60,9 @@ arguments:
    group_id = "MYGROUP"
    hustle.create_leads(leads, group_id)
 
-*****
- API
-*****
+***
+API
+***
 
 .. autoclass:: parsons.Hustle
    :inherited-members:

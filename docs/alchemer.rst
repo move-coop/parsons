@@ -16,7 +16,7 @@ class allows users to retrieve surveys and survey results.
 
   Authentication
     To use the class, you need to provide an Alchemer API token and API token secret. For more information,
-    see Alchemer API `authentication documentation <https://apihelp.alchemer.com/help/authentication>`_.
+    see Alchemer API `authentication documentation <https://apihelp.alchemer.com/help/authentication>`__.
 
 ***********
 Quick Start

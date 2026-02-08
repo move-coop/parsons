@@ -42,9 +42,9 @@ variables (``QUICKBASE_HOSTNAME`` and ``QUICKBASE_USER_TOKEN``) or pass them in 
    # Get all data from a given table
    qb.query_records(table_from='my_table_id')
 
-**************
+***************
 Quickbase Class
-**************
+***************
 
 .. autoclass:: parsons.Quickbase
     :inherited-members:

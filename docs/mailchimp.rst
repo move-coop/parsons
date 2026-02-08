@@ -1,10 +1,10 @@
-###########
- Mailchimp
-###########
+#########
+Mailchimp
+#########
 
-**********
- Overview
-**********
+********
+Overview
+********
 
 `Mailchimp <https://www.mailchimp.com>`_ is a platform used for creating
 and sending mass emails. `The Mailchimp API
@@ -25,9 +25,9 @@ emails, and unsubscribes.
       see the Mailchimp help page about `API Keys
       <https://mailchimp.com/help/about-api-keys/>`_.
 
-*************
- Quick Start
-*************
+***********
+Quick Start
+***********
 
 To instantiate the Mailchimp class, you can either store your Mailchimp
 API key as an environmental variable (``MAILCHIMP_API_KEY``) or pass it
@@ -52,9 +52,9 @@ as an argument.
    # Get all unsubscribes from a campaign
    unsubscribes = mc.get_unsubscribes("dd693a3e74")
 
-*****
- API
-*****
+***
+API
+***
 
 .. autoclass:: parsons.mailchimp.Mailchimp
    :inherited-members:

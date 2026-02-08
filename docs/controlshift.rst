@@ -1,5 +1,5 @@
 Controlshift
-=========
+============
 
 ********
 Overview
@@ -34,9 +34,9 @@ variables (``CONTROLSHIFT_HOSTNAME``, ``CONTROLSHIFT_CLIENT_ID``, and ``CONTROLS
    # Get all petitions
    cs.get_petitions()
 
-**************
+******************
 Controlshift Class
-**************
+******************
 
 .. autoclass:: parsons.Controlshift
     :inherited-members:

@@ -5,8 +5,8 @@ Airtable
 Overview
 ********
 
-The Airtable class allows you to interact with an `Airtable <https://airtable.com/>`_ base. In order to use this class
-you must generate an Airtable personal access token which can be found in your Airtable `settings <https://airtable.com/create/tokens>`_.
+The Airtable class allows you to interact with an `Airtable <https://airtable.com/>`__ base. In order to use this class
+you must generate an Airtable personal access token which can be found in your Airtable `settings <https://airtable.com/create/tokens>`__.
 
 .. note::
 

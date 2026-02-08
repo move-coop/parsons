@@ -1,10 +1,10 @@
-########
- Twilio
-########
+######
+Twilio
+######
 
-**********
- Overview
-**********
+********
+Overview
+********
 
 `Twilio <https://twilio.com>`_ is a messaging platform that allows you
 to programmatically send and receive SMS messages, send and receive
@@ -22,9 +22,9 @@ account usage data.
       For more information about authentication, see the `Twilio API
       documentation <https://www.twilio.com/docs/iam/credentials/api>`_.
 
-*************
- Quick Start
-*************
+***********
+Quick Start
+***********
 
 Get Account Usage
 =================
@@ -59,9 +59,9 @@ them in as arguments:
         # Get messages sent to a specific phone number
         twilio.get_messages(to='9995675309')
 
-*****
- API
-*****
+***
+API
+***
 
 .. autoclass:: parsons.Twilio
    :inherited-members:

@@ -14,7 +14,7 @@ Bulk upload of new users and user updates is also supported.
 .. note::
 
   Authentication
-    ActionKit requires `HTTP Basic Auth <https://en.wikipedia.org/wiki/Basic_access_authentication>`_.
+    ActionKit requires `HTTP Basic Auth <https://en.wikipedia.org/wiki/Basic_access_authentication>`__.
     Clients with an ActionKit account can obtain the domain, username, and password needed
     to access the ActionKit API. See the `ActionKit REST API Authentication <https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#authentication>`_
     documentation for more information on obtaining ActionKit API credentials.

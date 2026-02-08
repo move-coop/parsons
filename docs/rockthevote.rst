@@ -1,10 +1,10 @@
-###############
- Rock the Vote
-###############
+#############
+Rock the Vote
+#############
 
-**********
- Overview
-**********
+********
+Overview
+********
 
 `Rock the Vote <https://www.rockthevote.org/>`_ is an online
 registration tool. This Parsons connector makes use of Rock the Vote's
@@ -17,9 +17,9 @@ registration tool. This Parsons connector makes use of Rock the Vote's
       In order to authenticate with the API, users must specify the ID
       and API key of the RTV partner organization for the data.
 
-************
- QuickStart
-************
+**********
+QuickStart
+**********
 
 To use the ``RockTheVote`` class you can either store the partner ID and
 API key as an environmental variable (``RTV_PARTNER_ID`` and
@@ -59,9 +59,9 @@ fetching of the data.
    # Get registration report
    registrants = rtv.get_registration_report(report_id)
 
-*****
- API
-*****
+***
+API
+***
 
 .. autoclass:: parsons.rockthevote.rtv.RockTheVote
    :inherited-members:

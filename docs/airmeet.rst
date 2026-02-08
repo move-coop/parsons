@@ -5,9 +5,9 @@ Airmeet
 Overview
 ********
 
-`Airmeet <https://www.airmeet.com/>`_ is a webinar platform. This connector supports
+`Airmeet <https://www.airmeet.com/>`__ is a webinar platform. This connector supports
 fetching events ("Airmeets"), sessions, participants, and other event data via the
-`Airmeet Public API for Event Details <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
+`Airmeet Public API for Event Details <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`__.
 
 .. note::
 

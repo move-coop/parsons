@@ -1,10 +1,10 @@
-###########
- Formstack
-###########
+#########
+Formstack
+#########
 
-**********
- Overview
-**********
+********
+Overview
+********
 
 `Formstack <https://www.formstack.com/>`_ is a service that provides an
 advanced online form builder. This connector allows you to load data
@@ -23,9 +23,9 @@ from the Formstack API.
       `api_token` keyword argument, or you can set the environment
       variable ``FORMSTACK_API_TOKEN``.
 
-*************
- Quick Start
-*************
+***********
+Quick Start
+***********
 
 To instantiate the ``Formstack`` class, you can either store your access
 token in the ``FORMSTACK_API_TOKEN`` environment variable or pass it in
@@ -57,9 +57,9 @@ as an argument.
 
        print(forms)
 
-*****
- API
-*****
+***
+API
+***
 
 .. autoclass:: parsons.formstack.Formstack
    :inherited-members:

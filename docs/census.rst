@@ -72,7 +72,9 @@ This example pulls the population of the US in 2019 from the ACS 1-year estimate
 
 This example pulls data on payroll by industry in Virginia from the 2017 Economic Census.
 
-***API***
+***
+API
+***
 
 .. autoclass:: parsons.Census
    :inherited-members:

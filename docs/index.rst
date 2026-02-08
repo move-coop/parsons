@@ -19,14 +19,17 @@ was built and is maintained by The Movement Cooperative.
 
 The Movement Cooperative
 ========================
+
 The Movement Cooperative is a member led organization focused on providing data, tools and strategic support for the progressive community. Our mission is to break down technological barriers for organizations that fight for social justice.
 
 License and Usage
 =================
+
 Usage of Parsons is governed by a `modified Apache License with author attribution statement <https://github.com/move-coop/parsons/blob/main/LICENSE.md>`_.
 
 Resources
 =========
+
 * Documentation: `<https://move-coop.github.io/parsons/html/index.html>`_
 * Source Code: `<https://github.com/move-coop/parsons>`_
 * Project Website: `<https://www.parsonsproject.org/>`_
@@ -43,6 +46,7 @@ We also have a Parsons Docker container hosted on `DockerHub <https://hub.docker
 
 QuickStart
 ==========
+
 .. code-block:: python
 
   # VAN - Download activist codes to a CSV
@@ -80,6 +84,7 @@ QuickStart
 
 Design Goals
 ============
+
 The goal of Parsons is to make the movement of data between systems as easy and straightforward as possible. Simply put, we seek to reduce the lines of code that are written by the progressive community. Not only is this a waste of time, but we rarely have the capacity and resources to fully unittest our scripts.
 
 .. image:: /_static/parsons_diagram.png
@@ -88,6 +93,7 @@ Parsons seeks to be flexible from a data ingestion and output perspective, while
 
 Logging
 =======
+
 Parsons uses the `native python logging system <https://docs.python.org/3/howto/logging.html>`_. By default, log output will go to the console and look like:
 
 .. code-block:: none
@@ -144,7 +150,8 @@ export PIP_NO_BINARY=parsons
 export PARSONS_LIMITED_DEPENDENCIES=true
 pip install parsons[google,ngpvan]
 ```
-*** Don't import from the root Parsons package ***
+
+***Don't import from the root Parsons package ***
 
 Throughout the Parsons documentation, users are encouraged to load Parsons classes like so:
 
@@ -160,6 +167,7 @@ environment variable means you will **NOT** be able to import using the `from pa
 pattern. Instead, you will need to import directly from the package where a class is defined
 (e.g. `from parsons.etl import Table`). Using this method, you may see as much as an 8x
 decrease in memory usage for Parsons!
+
 Indices and tables
 ==================
 

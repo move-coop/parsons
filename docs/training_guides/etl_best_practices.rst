@@ -21,7 +21,7 @@ Introduction
 
 Have you ever tried to get data from one platform or system to another? Doing so can be quite a pain, especially if you have to manually download and upload individual files. Luckily, websites and apps often have APIs, which stands for application programming interfaces. These are gateways that let us move data into and out of a system using code.
 
-**ETL**, which stands for Extract, Transform, and Load is the process by which we extract data from one systems API, transform that data so that it’s compatible with a second system's API, and then loading that data into that second system.
+**ETL**, which stands for Extract, Transform, and Load is the process by which we extract data from one systems API, transform that data so that it's compatible with a second system's API, and then loading that data into that second system.
 
 The format that source system gives us data is often different from the format that another system likes receiving data! Everyone thinks their way is best.
 Not so good for the movement, good for data engineers' job security. ;)

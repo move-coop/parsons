@@ -1,10 +1,10 @@
-######
- Zoom
-######
+####
+Zoom
+####
 
-**********
- Overview
-**********
+********
+Overview
+********
 
 `Zoom <https://zoom.us>`_ is a video conferencing platform. This
 connector supports fetching users, fetching meetings, fetching metadata
@@ -24,9 +24,9 @@ for past meetings, and fetching participants of past meetings via the
       ``Zoom`` connector read permission on endpoints of your choosing
       (`meetings`, `webinars`, `reports`, etc.)
 
-*************
- Quick Start
-*************
+***********
+Quick Start
+***********
 
 To instantiate the ``Zoom`` class, you can either store your Zoom
 account ID, client ID, and client secret as environmental variables
@@ -54,9 +54,9 @@ pass them in as arguments.
    # Get the list of participants in a past meeting
    participants_tbl = zoom.get_past_meeting_participants("my_meeting_id")
 
-*****
- API
-*****
+***
+API
+***
 
 .. autoclass:: parsons.Zoom
    :inherited-members:

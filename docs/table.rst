@@ -2,6 +2,7 @@
 
 Parsons Table
 =============
+
 ********
 Overview
 ********
@@ -351,6 +352,7 @@ Basic Pipelines
     #VAN Events to an s3 bucket
     van = VAN(db='MyVoters')
     van.events().to_s3_csv('my-van-bucket','myevents.csv')
+
 *************
 To & From API
 *************
@@ -367,9 +369,9 @@ The following methods allow you to manipulate the Parsons table data.
 .. autoclass:: parsons.etl.etl.ETL
    :inherited-members:
 
-*********
+***************
 Materialize API
-*********
+***************
 
 .. autoclass:: parsons.etl.table.Table
    :members: materialize, materialize_to_file

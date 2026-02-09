@@ -1,22 +1,18 @@
 #
 # Configuration file for the Sphinx documentation builder.
 #
+
 # This file does only contain a selection of the most common options. For a
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
 # -- Path setup --------------------------------------------------------------
 
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use Path.absolute() to make it absolute, like shown here.
-#
+import subprocess
 import sys
 from pathlib import Path
 
-# import parsons
-# sys.path.insert(0, Path(".").absolute())
-sys.path.insert(0, Path("../").absolute())
+sys.path.insert(0, str(Path("../").absolute()))
 
 # -- Project information -----------------------------------------------------
 
@@ -29,12 +25,7 @@ version = ""
 # The full version, including alpha/beta/rc tags
 release = ""
 
-
 # -- General configuration ---------------------------------------------------
-
-# If your documentation needs a minimal Sphinx version, state it here.
-#
-# needs_sphinx = '1.0'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -43,6 +34,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.coverage",
     "sphinx.ext.imgmath",
+    "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "myst_parser",
     "sphinx_multiversion",
@@ -78,14 +70,12 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "_template.rst"]
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
-
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -117,13 +107,10 @@ except NameError:
 
 html_context["display_versions_lower_left"] = True
 
-
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = "Parsonsdoc"
-
-
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {
@@ -154,13 +141,11 @@ latex_documents = [
     ),
 ]
 
-
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [(master_doc, "parsons", "Parsons Documentation", [author], 1)]
-
 
 # -- Options for Texinfo output ----------------------------------------------
 
@@ -179,18 +164,33 @@ texinfo_documents = [
     ),
 ]
 
-
 # -- Extension configuration -------------------------------------------------
 
-# sphinx-multiversion
 
-DOCUMENTED_VERSIONS = ["v0.18.1", "v0.18.0", "v0.17.0", "v0.16.0", "v0.15.0", "v0.14.0"]
+# sphinx-multiversion
+def get_git_tags() -> list[str]:
+    """Query git for tags."""
+    try:
+        tags = subprocess.check_output(
+            ["git", "tag", "-l", "--sort=-v:refname"], encoding="utf-8", stderr=subprocess.DEVNULL
+        ).splitlines()
+        return [tag for tag in tags if tag.startswith("v")]
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return []
+
+
+DOCUMENTED_VERSIONS = get_git_tags()
 
 # Whitelist pattern for branches
 smv_branch_whitelist = r"^stable|latest$"  # creates version for latest master/main branch
 
 # Get tags to whitelist from DOCUMENTED_VERSIONS const
 smv_tag_whitelist = "|".join(["^" + version + "$" for version in DOCUMENTED_VERSIONS])
+
+# Allow sphinx-multiversion to use local branches
+smv_remote_whitelist = None
+
+# sphinxcontrib-googleanalytics
 
 # Adds Google Analytics tracking code to the HTML output
 googleanalytics_id = "G-L2YB7WHTRG"

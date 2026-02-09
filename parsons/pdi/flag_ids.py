@@ -10,51 +10,49 @@ class FlagIDs:
         super().__init__()
 
     def get_flag_ids(self, limit=None):
-        """Get a list of flag ids.
+        """
+        Get a list of flag ids.
 
-        `Args:`
-            limit: int
-                Specify limit to return.
+        Args:
+            limit (int, optional): Specify limit to return. Defaults to None.
 
-        `Returns:`
-            parsons.Table
-                A Parsons table of all the data.
+        Returns:
+            parsons.Table: A Parsons table of all the data.
+
         """
         return self._request(self.url_flag_ids, limit=limit)
 
     def get_flag_id(self, id):
-        """Get a specified flag id.
+        """
+        Get a specified flag id.
 
-        `Args:`
-            id: str
-                The flag id identifier.
+        Args:
+            id (str): The flag id identifier.
 
-        `Returns:`
-            dict
-                FlagID object.
+        Returns:
+            dict: FlagID object.
+
         """
         return self._request(f"{self.url_flag_ids}/{id}")
 
     def create_flag_id(self, flag_id, is_default, flag_description=None, compile=None):
-        """Save a new flag id.
+        """
+        Save a new flag id.
 
-        `Args:`
-            flag_id: str
-                The flag id type. One of: "AMM", "BNH", "BNM", "DEAD", "DNC",
+        Args:
+            flag_id (str): The flag id type. One of: "AMM", "BNH", "BNM", "DEAD", "DNC",
                 "DNR", "ENDR", "GTD", "HH", "L2VT", "LBO", "LM", "LO", "LS",
                 "LSD", "LSR", "MAYBE", "MOV", "NAH", "NO", "REF", "SO", "SS",
                 "SUP", "U", "UL2VT", "VL2VT", "VOL", "VTD".
-            is_default: bool
-                The default.
-            flag_description: str
-                (Optional) The flag id description.
-            compile: str
-                 (Optional) The compile.
+            is_default (bool): The default.
+            flag_description: Str
+                (Optional) The flag id description. Defaults to None.
+            compile: Str
+                (Optional) The compile. Defaults to None.
 
+        Returns:
+            str: The identifier for the new flag id.
 
-        `Returns:`
-            str
-                The identifier for the new flag id.
         """
         payload = {
             "flagId": flag_id,
@@ -67,44 +65,41 @@ class FlagIDs:
         return data["id"]
 
     def delete_flag_id(self, id):
-        """Delete a flag id.
+        """
+        Delete a flag id.
 
-        NOTE: The function returns True (even if the id doesn't exist) unless
-        there is an error.
+        NOTE: The function returns True (even if the id doesn't exist) unless there is an error.
 
-        `Args:`
-            id: str
-                The flag id identifier.
+        Args:
+            id (str): The flag id identifier.
 
-        `Returns:`
-            bool
-                True if the operation is successful.
+        Returns:
+            bool: True if the operation is successful.
+
         """
         self._request(f"{self.url_flag_ids}/{id}", req_type="DELETE")
 
         return True
 
     def update_flag_id(self, id, flag_id, is_default, flag_description=None, compile=None):
-        """Update a flag id.
+        """
+        Update a flag id.
 
-        `Args:`
-            id: str
-                The flag id identifier.
-            flag_id: str
-                The flag id type. One of: "AMM", "BNH", "BNM", "DEAD", "DNC",
+        Args:
+            id (str): The flag id identifier.
+            flag_id (str): The flag id type. One of: "AMM", "BNH", "BNM", "DEAD", "DNC",
                 "DNR", "ENDR", "GTD", "HH", "L2VT", "LBO", "LM", "LO", "LS",
                 "LSD", "LSR", "MAYBE", "MOV", "NAH", "NO", "REF", "SO", "SS",
                 "SUP", "U", "UL2VT", "VL2VT", "VOL", "VTD".
-            is_default: bool
-                The default.
-            flag_description: str
-                (Optional) The flag id description.
-            compile: str
-                 (Optional) The compile.
+            is_default (bool): The default.
+            flag_description: Str
+                (Optional) The flag id description. Defaults to None.
+            compile: Str
+                (Optional) The compile. Defaults to None.
 
-        `Returns:`
-            str
-                The identifier for the udpated flag id.
+        Returns:
+            str: The identifier for the udpated flag id.
+
         """
         payload = {
             "flagId": flag_id,

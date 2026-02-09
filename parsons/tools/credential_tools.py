@@ -9,21 +9,19 @@ PREFIX = "PRSNSENV"
 
 
 def decode_credential(credential, save_path=None, export=True, echo=False):
-    """Decode an encoded credential to a Python object.
+    """
+    Decode an encoded credential to a Python object.
 
-    `Args:`
-        credential: str
-            An encoded credential.
-        save_path: str
-            The path for where to save the decoded credential.
-        export: bool
-            A flag for whether to export the decoded object to the environment.
-            Defaults to true.
-        echo: bool
-            A flag for whether to print the decoded object. Defaults to False.
-    `Returns:`
-        dict
-            The decoded object.
+    Args:
+        credential (str): An encoded credential.
+        save_path (str, optional): The path for where to save the decoded credential. Defaults to None.
+        export (bool, optional): A flag for whether to export the decoded object to the environment.
+            Defaults to True.
+        echo (bool, optional): A flag for whether to print the decoded object. Defaults to False.
+
+    Returns:
+        dict: The decoded object.
+
     """
     x = len(PREFIX)
     if credential[:x] != PREFIX:
@@ -48,14 +46,15 @@ def decode_credential(credential, save_path=None, export=True, echo=False):
 
 
 def encode_from_json_str(credential):
-    """Encode credential(s) from a json string.
+    """
+    Encode credential(s) from a json string.
 
-    `Args:`
-        credential: str
-            The credential json string to be encoded.
-    `Returns:`
-        str
-            The encoded credential.
+    Args:
+        credential (str): The credential json string to be encoded.
+
+    Returns:
+        str: The encoded credential.
+
     """
     data = json.loads(credential)
 
@@ -66,14 +65,15 @@ def encode_from_json_str(credential):
 
 
 def encode_from_json_file(credential_file):
-    """Encode credential(s) from a json file.
+    """
+    Encode credential(s) from a json file.
 
-    `Args:`
-        credential_file: str
-            The path to the json file with the credential to be encoded.
-    `Returns:`
-        str
-            The encoded credential.
+    Args:
+        credential_file (str): The path to the json file with the credential to be encoded.
+
+    Returns:
+        str: The encoded credential.
+
     """
     with Path(credential_file).open(mode="r") as f:
         data = json.load(f)
@@ -85,14 +85,15 @@ def encode_from_json_file(credential_file):
 
 
 def encode_from_env(env_variables):
-    """Encode credential(s) from the current environment.
+    """
+    Encode credential(s) from the current environment.
 
-    `Args:`
-        env_variables: list
-            The list of credentials from the environment to be encoded.
-    `Returns:`
-        str
-            The encoded credential.
+    Args:
+        env_variables: List The list of credentials from the environment to be encoded.
+
+    Returns:
+        str: The encoded credential.
+
     """
     data = {}
     for var in env_variables:
@@ -105,14 +106,15 @@ def encode_from_env(env_variables):
 
 
 def encode_from_dict(credential):
-    """Encode credential(s) from a dictionary.
+    """
+    Encode credential(s) from a dictionary.
 
-    `Args:`
-        credential: dict
-            The list of credentials from the environment to be encoded.
-    `Returns:`
-        str
-            The encoded credential.
+    Args:
+        credential (dict): The list of credentials from the environment to be encoded.
+
+    Returns:
+        str: The encoded credential.
+
     """
     data_str = json.dumps(credential)
     encoded_str = PREFIX + b64encode(bytes(data_str, "utf-8")).decode("utf-8")
@@ -153,19 +155,17 @@ def encode_from_dict(credential):
 )
 @click.option("-s", "suppress", is_flag=True, default=False, help=("Suppress the output."))
 def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=False):
-    """A command line tool to encode and decode credentials.
+    r"""
+    A command line tool to encode and decode credentials.
 
-    Use this tool when the credentials for a service are split into multiple
-    parts, and you'd rather deal with them as one variable. For example, to
-    connect to a Redshift database, you need 5 parts: username, password,
-    database name, host name, and port. With this tool, you could encode those
-    5 pieces into one string variable, which can be stored as an environment
-    variable, in another credential storage system like Civis's, or whatever
-    you need.
+    Use this tool when the credentials for a service are split into multiple parts, and you'd rather deal with them as
+    one variable. For example, to connect to a Redshift database, you need 5 parts: username, password, database name,
+    host name, and port. With this tool, you could encode those
+    5 pieces into one string variable, which can be stored as an environment variable, in another credential storage
+    system like Civis's, or whatever you need.
 
-    When encoding (-e, --encode) credentials, the valid types are json string,
-    path to a josn file, or a list. If passing a list, comma-separate with no
-    space, the names of the environment variables to encode.
+    When encoding (-e, --encode) credentials, the valid types are json string, path to a josn file, or a list.
+    If passing a list, comma-separate with no space, the names of the environment variables to encode.
 
     Encoding examples:
     \b

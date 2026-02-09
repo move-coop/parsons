@@ -15,14 +15,15 @@ REQUEST_SLEEP = 10  # CT has a rather agressive 6 requests per minute rate limit
 
 class CrowdTangle:
     """
-    Instantiate CrowdTangle Class
+    Instantiate CrowdTangle Class.
 
-    `Args:`
-        api_key: str
-            A valid CrowdTangle API key. Not required if ``CROWDTANGLE_API_KEY`` env
-            variable set.
-    `Returns:`
+    Args:
+        api_key (str, optional): A valid CrowdTangle API key. Not required if ``CROWDTANGLE_API_KEY`` env variable
+            set. Defaults to None.
+
+    Returns:
         CrowdTangle Class
+
     """
 
     def __init__(self, api_key=None):
@@ -105,32 +106,27 @@ class CrowdTangle:
         """
         Return a set of posts for the given parameters.
 
-        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Posts>`_
-        for more information.
+        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Posts>`__ for more information.
 
         .. warning::
           Rate limit is 2 calls / minute.
 
-        `Args:`
-            start_date: str
-                Filter to the earliest date at which a post could be posted.
+        Args:
+            search_term: Defaults to None.
+            min_interations: Defaults to None.
+            start_date (str, optional): Filter to the earliest date at which a post could be posted.
                 The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
-            end_date: str
-                Filter to the latest date at which a post could be posted.
+                Defaults to None.
+            end_date (str, optional): Filter to the latest date at which a post could be posted.
                 The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
-            language: str
-                Filter to 2-character Locale code. Some languages require more
-                than two characters: Chinese (Simplified) is zh-CN and
-                Chinese (Traditional) is zh-TW.
-            list_ids: list
-                Filter to the ids of lists or saved searches to retrieve.
-            min_interactions: int
-                Filter to posts with total interactions above this threshold.
-            search_team: str
-                Returns only posts that match this search term. For multiple terms, separate
-                with commas for OR, use quotes for phrases.
-            types: list
-                Filter to post types including:
+                Defaults to None.
+            language (str, optional): Filter to 2-character Locale code. Some languages require more than two
+                characters: Chinese (Simplified) is zh-CN and Chinese (Traditional) is zh-TW. Defaults to None.
+            list_ids: List Filter to the ids of lists or saved searches to retrieve. Defaults to None.
+            min_interactions (int): Filter to posts with total interactions above this threshold.
+            search_team (str): Returns only posts that match this search term. For multiple terms, separate with
+                commas for OR, use quotes for phrases.
+            types: List Filter to post types including:
                 * ``episode``
                 * ``extra_clip``
                 * ``link``
@@ -146,18 +142,16 @@ class CrowdTangle:
                 * ``vine``
                 * ``youtube``
 
-                If you want all live videos (whether currently or formerly live),
-                pass include both ``live_video`` and ``live_video_complete``
-                parameters.
+                If you want all live videos (whether currently or formerly live), pass include both
+                ``live_video`` and ``live_video_complete`` parameters.
 
-                The ``video`` type does not mean all videos, it refers to videos
-                that are not ``native_video``, ``youtube`` or ``vine``.
+                The ``video`` type does not mean all videos, it refers to videos that are not
+                ``native_video``, ``youtube`` or ``vine``. Defaults to None.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         args = {
             "startDate": start_date,
             "endDate": end_date,
@@ -178,30 +172,27 @@ class CrowdTangle:
         """
         Return leaderboard data.
 
-        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Leaderboard>`_
-        for more information.
+        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Leaderboard>`__ for more information.
 
         .. warning::
           Rate limit is 6 calls / minute.
 
-        `Args:`
-            start_date: str
-                Filter to the earliest date at which a post could be posted.
+        Args:
+            start_date (str, optional): Filter to the earliest date at which a post could be posted.
                 The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
-            end_date: str
-                Filter to the latest date at which a post could be posted.
+                Defaults to None.
+            end_date (str, optional): Filter to the latest date at which a post could be posted.
                 The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
-            list_ids: list
-                Filter to the ids of lists or saved searches to retrieve.
-            account_ids: list
-                A list of CrowdTangle accountIds to retrieve leaderboard data for.
+                Defaults to None.
+            list_ids: List Filter to the ids of lists or saved searches to retrieve. Defaults to None.
+            account_ids (list, optional): A list of CrowdTangle accountIds to retrieve leaderboard data for.
                 This and ``list_id`` are mutually exclusive; if both are sent, the
-                ``account_ids`` value will be used.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+                ``account_ids`` value will be used. Defaults to None.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         args = {
             "startDate": start_date,
             "endDate": end_date,
@@ -216,37 +207,32 @@ class CrowdTangle:
 
     def get_links(self, link, start_date=None, end_date=None, include_summary=None, platforms=None):
         """
-        Return up to 100 posts based on a specific link. It is strongly recommended to
-        use the ``start_date`` parameter to limit queries to relevant dates.
+        Return up to 100 posts based on a specific link.
 
-        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Links>`_
-        for more information.
+        It is strongly recommended to use the ``start_date`` parameter to limit queries to relevant dates.
+
+        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Links>`__ for more information.
 
         .. warning::
           Rate limit is 2 calls / minute.
 
-        `Args:`
-            link: str
-                The link to filter posts to.
-            start_date: str
-                Filter to the earliest date at which a post could be posted.
+        Args:
+            link (str): The link to filter posts to.
+            start_date (str, optional): Filter to the earliest date at which a post could be posted.
                 The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
-            end_date: str
-                Filter to the latest date at which a post could be posted.
+                Defaults to None.
+            end_date (str, optional): Filter to the latest date at which a post could be posted.
                 The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
-            include_summary: boolean
-                Adds a ``summary`` column with account statistics for each platform
-                that has posted this link. It will look beyond the count
-                requested to summarize across the time searched.
-                Requires a value for ``start_date``.
-            platforms: list
-                Filter by platforms
+                Defaults to None.
+            include_summary (bool, optional): Adds a ``summary`` column with account statistics for each platform
+                that has posted this link. It will look beyond the count requested to summarize across the time
+                searched. Requires a value for ``start_date``. Defaults to None.
+            platforms: List Filter by platforms. Defaults to None.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         args = {
             "link": link,
             "startDate": start_date,

@@ -284,7 +284,8 @@ class TestSlack(unittest.TestCase):
 
         # Test deprecation of as_user kwarg
         with pytest.warns(
-            DeprecationWarning, match="as_user is a deprecated argument on message_channel()"
+            DeprecationWarning,
+            match="as_user is a deprecated argument on message_channel()",
         ):
             self.slack.message_channel(
                 "C1H9RESGL", "Here's a message for you", as_user="randomvalue"

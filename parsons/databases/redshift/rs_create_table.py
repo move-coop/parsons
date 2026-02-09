@@ -28,16 +28,17 @@ class RedshiftCreateTable(DatabaseCreateStatement):
 
     # the default behavior is f"{col}_"
     def _rename_reserved_word(self, col, index):
-        """Return the renamed column.
+        """
+        Return the renamed column.
 
-        `Args`:
-            col: str
-                The column to rename.
-            index: int
+        Args:
+            col (str): The column to rename.
+            index: Int
                 (Optional) The index of the column.
-        `Returns`:
-            str
-                The rename column.
+
+        Returns:
+            str: The rename column.
+
         """
         return f"col_{index}"
 

@@ -15,24 +15,21 @@ class ParsonsBraintreeError(Exception):
 class Braintree:
     """
     Braintree is a payment processor.
-    `Args:`
-        merchant_id: str
-            Braintree merchant id -- probably a 16-char alphanumeric.
-            Not required if ``BRAINTREE_MERCHANT_ID`` env variable is set.
-        public_key: str
-            Braintree public key -- probably a (different) 16-char alphanumeric.
+
+    Args:
+        merchant_id (str): Braintree merchant id -- probably a 16-char alphanumeric. Not required if
+            ``BRAINTREE_MERCHANT_ID`` env variable is set.
+        public_key (str): Braintree public key -- probably a (different) 16-char alphanumeric.
             Not required if ``BRAINTREE_PUBLIC_KEY`` env variable is set.
-        private_key: str
-            Braintree private key -- probably a 32-char alphanumeric.
-            Not required if ``BRAINTREE_PRIVATE_KEY`` env variable is set.
-        timeout: int
-            Optionally change the timeout from default of 200 seconds.
-            Can also be passed with env var ``BRAINTREE_TIMEOUT``.
-        production: bool
-            Defaults to True.  If you are testing in a Sandbox,
-            set this to False.
-    `Returns:`
+        private_key (str): Braintree private key -- probably a 32-char alphanumeric. Not required if
+            ``BRAINTREE_PRIVATE_KEY`` env variable is set.
+        timeout (int): Optionally change the timeout from default of 200 seconds. Can also be passed with env var
+            ``BRAINTREE_TIMEOUT``.
+        production (bool, optional): If you are testing in a Sandbox, set this to False. Defaults to True.
+
+    Returns:
         Braintree class
+
     """
 
     query_types = {
@@ -202,35 +199,34 @@ class Braintree:
     def get_disputes(self, start_date=None, end_date=None, query_list=None, query_dict=None):
         """
         Get a table of disputes based on query parameters.
-        There are three ways to pass query arguments: Pass a start_date and end_date
-        together for a date range, or pass a query_list or query_dict argument.
 
-        `Args:`
-            start_date: date or str
-                Start date of the dispute range. Requires `end_date` arg. e.g. '2020-11-03'
-            end_date: date or str
-                End date of the dispute range. Requires `start_date` arg. e.g. '2020-11-03'
-            query_list: list of braintree.DisputeSearch
-                You can use the `braintree.DisputeSearch
-                <https://developers.braintreepayments.com/reference/request/dispute/search/python>`_
-                to create a manual list of query parameters.
-            query_dict: jsonable-dict
-                query_dict is basically the same as query_list, except instead of using their API
-                objects, you can pass it in pure dictionary form.
-                Some examples:
+        There are three ways to pass query arguments: Pass a start_date and end_date together for a date range, or pass
+        a query_list or query_dict argument.
 
-                    .. highlight:: python
+        Args:
+            start_date: Date or str Start date of the dispute range. Requires `end_date` arg.
+                e.g. '2020-11-03'. Defaults to None.
+            end_date: Date or str End date of the dispute range. Requires `start_date` arg.
+                e.g. '2020-11-03'. Defaults to None.
+            query_list: List of braintree.DisputeSearch You can use the `braintree.DisputeSearch
+                <https://developers.braintreepayments.com/reference/request/dispute/search/python>`_ to create a manual
+                list of query parameters. Defaults to None.
+            query_dict: Jsonable-dict query_dict is basically the same as query_list, except instead of using their
+                API objects, you can pass it in pure dictionary form. Some examples:
 
-                    .. code-block:: python
+                .. highlight:: python
 
-                      # The start_date/end_date arguments are the same as
-                      {"effective_date": {"between": [start_date, end_date]}}
-                      # some other examples
-                      {"merchant_account_id": {"in_list": [123, 456]}}
-                      {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                .. code-block:: python
 
-        `Returns:`
-            Table Class
+                # The start_date/end_date arguments are the same as
+                {"effective_date": {"between": [start_date, end_date]}}
+                # some other examples
+                {"merchant_account_id": {"in_list": [123, 456]}}
+                {"created_at": {"greater_than_or_equal": "2020-03-10"}}. Defaults to None.
+
+        Returns:
+            Table
+
         """
         collection = self._get_collection(
             "dispute",
@@ -263,51 +259,46 @@ class Braintree:
     ):
         """
         Get a table of subscriptions based on query parameters.
-        There are three ways to pass query arguments:
-        Pass a disbursement_start_date and disbursement_end_date together
+
+        There are three ways to pass query arguments: Pass a disbursement_start_date and disbursement_end_date together
         for a date range, or pass a query_list or query_dict argument.
 
-        `Args:`
-            start_date: date or str
-                Start date of the subscription range. Requires `end_date` arg.
-                e.g. '2020-11-03'
-            end_date: date or str
-                End date of the subscription range. Requires `start_date` arg.
-                e.g. '2020-11-03'
-            query_list: list of braintree.SubscriptionSearch
-                You can use the `braintree.SubscriptionSearch
-                <https://developers.braintreepayments.com/reference/request/subscription/search/python>`_
-                to create a manual list of query parameters.
-            query_dict: jsonable-dict
-                query_dict is basically the same as query_list, except instead of using their API
-                objects, you can pass it in pure dictionary form.
-                Some examples:
+        Args:
+            start_date: Date or str Start date of the subscription range. Requires `end_date` arg.
+                e.g. '2020-11-03'. Defaults to None.
+            end_date: Date or str End date of the subscription range. Requires `start_date` arg.
+                e.g. '2020-11-03'. Defaults to None.
+            query_list: List of braintree.SubscriptionSearch You can use the
+                `braintree.SubscriptionSearch
+                <https://developers.braintreepayments.com/reference/request/subscription/search/python>`_ to create a
+                manual list of query parameters. Defaults to None.
+            query_dict: Jsonable-dict query_dict is basically the same as query_list, except instead of using their
+                API objects, you can pass it in pure dictionary form. Some examples:
 
-                    .. highlight:: python
+                .. highlight:: python
 
-                    .. code-block:: python
+                .. code-block:: python
 
-                      # The start_date/end_date arguments are the same as
-                      {"created_at": {"between": [start_date, end_date]}}
-                      # some other examples
-                      {"merchant_account_id": {"in_list": [123, 456]}}
-                      {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                # The start_date/end_date arguments are the same as
+                {"created_at": {"between": [start_date, end_date]}}
+                # some other examples
+                {"merchant_account_id": {"in_list": [123, 456]}}
+                {"created_at": {"greater_than_or_equal": "2020-03-10"}}. Defaults to None.
+            include_transactions (bool, optional): If this is true, include the full collection of transaction
+                objects. Otherwise, just return a list of transaction IDs. Defaults to False.
+            just_ids (bool, optional): While querying a list of subscription ids is a single, fast query to
+                Braintree's API, getting all data for each subscription is force-paginated at
+                50-records per request. If you just need a count or the list of ids, then set
+                `just_ids=True` and it will return a single column with `id` instead of all table columns.
+                Defaults to False.
+            table_of_ids: Table with an `id` column -- i.e. a table returned from
+                `just_ids=True` Subsequently, after calling this with `just_ids`, you can prune/alter the ids table and
+                then pass the table back to get the full data. These are somewhat-niche use-cases, but occasionally
+                crucial when a search result returns 1000s of ids. Defaults to None.
 
-            include_transactions: bool
-                If this is true, include the full collection of transaction objects.
-                Otherwise, just return a list of transaction IDs.
-            just_ids: bool
-                While querying a list of subscription ids is a single, fast query to Braintree's
-                API, getting all data for each subscription is force-paginated at 50-records per
-                request. If you just need a count or the list of ids, then set `just_ids=True` and
-                it will return a single column with `id` instead of all table columns.
-            table_of_ids: Table with an `id` column -- i.e. a table returned from `just_ids=True`
-                Subsequently, after calling this with `just_ids`, you can prune/alter the ids table
-                and then pass the table back to get the full data.
-                These are somewhat-niche use-cases, but occasionally crucial
-                when a search result returns 1000s of ids.
-        `Returns:`
-            Table Class
+        Returns:
+            Table
+
         """
         collection = self._get_collection(
             "subscription",
@@ -348,48 +339,44 @@ class Braintree:
     ):
         """
         Get a table of transactions based on query parameters.
-        There are three ways to pass query arguments:
-        Pass a disbursement_start_date and disbursement_end_date together
+
+        There are three ways to pass query arguments: Pass a disbursement_start_date and disbursement_end_date together
         for a date range, or pass a query_list or query_dict argument.
 
-        `Args:`
-            disbursement_start_date: date or str
-                Start date of the disbursement range. Requires `disbursement_end_date` arg.
-                e.g. '2020-11-03'
-            disbursement_end_date: date or str
-                End date of the disbursement range. Requires `disbursement_start_date` arg.
-                e.g. '2020-11-03'
-            query_list: list of braintree.TransactionSearch
-                You can use the `braintree.TransactionSearch
-                <https://developers.braintreepayments.com/reference/request/transaction/search/python>`_
-                to create a manual list of query parameters.
-            query_dict: jsonable-dict
-                query_dict is basically the same as query_list, except instead of using their API
-                objects, you can pass it in pure dictionary form.
-                Some examples:
+        Args:
+            disbursement_start_date: Date or str Start date of the disbursement range. Requires
+                `disbursement_end_date` arg. e.g. '2020-11-03'. Defaults to None.
+            disbursement_end_date: Date or str End date of the disbursement range. Requires
+                `disbursement_start_date` arg. e.g. '2020-11-03'. Defaults to None.
+            query_list: List of braintree.TransactionSearch You can use the
+                `braintree.TransactionSearch
+                <https://developers.braintreepayments.com/reference/request/transaction/search/python>`_ to create a
+                manual list of query parameters. Defaults to None.
+            query_dict: Jsonable-dict query_dict is basically the same as query_list, except instead of using their
+                API objects, you can pass it in pure dictionary form. Some examples:
 
-                    .. highlight:: python
+                .. highlight:: python
 
-                    .. code-block:: python
+                .. code-block:: python
 
-                      # The disbursement_start_date/disbursement_end_date arguments are the same as
-                      {"disbursement_date": {"between": [start_date, end_date]}}
-                      # some other examples
-                      {"merchant_account_id": {"in_list": [123, 456]}}
-                      {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                # The disbursement_start_date/disbursement_end_date arguments are the same as
+                {"disbursement_date": {"between": [start_date, end_date]}}
+                # some other examples
+                {"merchant_account_id": {"in_list": [123, 456]}}
+                {"created_at": {"greater_than_or_equal": "2020-03-10"}}. Defaults to None.
+            just_ids (bool, optional): While querying a list of transaction ids is a single, fast query to
+                Braintree's API, getting all data for each transaction is force-paginated at
+                50-records per request. If you just need a count or the list of ids, then set
+                `just_ids=True` and it will return a single column with `id` instead of all table columns.
+                Defaults to False.
+            table_of_ids: Table with an `id` column -- i.e. a table returned from
+                `just_ids=True` Subsequently, after calling this with `just_ids`, you can prune/alter the ids table and
+                then pass the table back to get the full data. These are somewhat-niche use-cases, but occasionally
+                crucial when a search result returns 1000s of ids. Defaults to None.
 
-            just_ids: bool
-                While querying a list of transaction ids is a single, fast query to Braintree's API,
-                getting all data for each transaction is force-paginated at 50-records per request.
-                If you just need a count or the list of ids, then set `just_ids=True` and
-                it will return a single column with `id` instead of all table columns.
-            table_of_ids: Table with an `id` column -- i.e. a table returned from `just_ids=True`
-                Subsequently, after calling this with `just_ids`, you can prune/alter the ids table
-                and then pass the table back to get the full data.
-                These are somewhat-niche use-cases, but occasionally crucial
-                when a search result returns 1000s of ids.
-        `Returns:`
-            Table Class
+        Returns:
+            Table
+
         """
         collection = self._get_collection(
             "transaction",
@@ -513,10 +500,9 @@ class Braintree:
 
     def _get_query_objects(self, query_type, **queryparams):
         """
-        Examples:
-        disbursement_date={'between': ['2020-03-20', '2020-03-27']}
-        merchant_account_id={'in_list': [123, 456]}
-        created_at={'greater_than_or_equal': '2020-03-10'}
+        Examples: disbursement_date={'between': ['2020-03-20', '2020-03-27']} merchant_account_id={'in_list': [123,
+        456]} created_at={'greater_than_or_equal':
+        '2020-03-10'}
         """
         queries = []
         for node, filters in queryparams.items():

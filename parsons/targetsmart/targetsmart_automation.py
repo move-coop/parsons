@@ -1,4 +1,5 @@
-"""**TargetSmart Automation**
+"""
+**TargetSmart Automation**
 
 Parsons provides methods for interacting with TargetSmart Automation Workflows,
 a solution for executing custom file processing workflows programmatically. In
@@ -46,7 +47,8 @@ logger = logging.getLogger(__name__)
 class TargetSmartAutomation:
     """
     * `Automation overview <https://docs.targetsmart.com/my_tsmart/automation/overview.html>`_
-    * `Automation integration doc <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`_
+    * `Automation integration doc
+    <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`_
     """
 
     def __init__(self, sftp_username=None, sftp_password=None):
@@ -71,7 +73,8 @@ class TargetSmartAutomation:
         call_back=None,
         remove_files=True,
     ):
-        """Submit a file for custom data processing using the TargetSmart Automation workflow solution.
+        """
+        Submit a file for custom data processing using the TargetSmart Automation workflow solution.
 
         .. warning::
             Table Columns
@@ -87,31 +90,22 @@ class TargetSmartAutomation:
               <mailto:support@targetsmart.com>`_ for support.
 
         Args:
-            table: Parsons Table Object
-                A table object with the required columns. Each workflow type
-                requires the input file to meet the requirements provided by
-                TargetSmart. You can locate the input and output layouts for
-                your available workflows using the My TargetSmart Automation
-                console.
-            job_type: str
-                The workflow name to execute. **This is case sensitive.**. You
-                can locate the workflow names and other information by visiting
-                the Automation console in My TargetSmart.
-            job_name: str
-                Optional job execution name.
-            emails: list
-                A list of emails that will received status notifications. This
-                is useful in debugging failed jobs.
-            call_back: str
-                A callback url to which the status will be posted. See
-                `TargetSmart documentation <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`_
-                for more details.
-            remove_files: boolean
-                Remove the configuration, file to be matched and matched file from
-                the TargetSmart SFTP upon completion or failure of match.
+            table: A table object with the required columns. Each workflow type requires the input file to meet the
+                requirements provided by TargetSmart. You can locate the input and output layouts for your available
+                workflows using the My TargetSmart Automation console.
+            job_type (str): The workflow name to execute. **This is case sensitive.**. You can locate the workflow
+                names and other information by visiting the Automation console in My TargetSmart.
+            job_name (str, optional): Optional job execution name. Defaults to None.
+            emails (list, optional): A list of emails that will received status notifications.
+                This is useful in debugging failed jobs. Defaults to None.
+            call_back (str, optional): A callback url to which the status will be posted. See
+                `TargetSmart documentation
+                <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`_ for more details.
+                Defaults to None.
+            remove_files (bool, optional): Remove the configuration, file to be matched and matched file from the
+                TargetSmart SFTP upon completion or failure of match. Defaults to True.
 
         """
-
         # Generate a match job
         job_name = job_name or str(uuid.uuid1())
 
@@ -151,9 +145,11 @@ class TargetSmartAutomation:
         return tbl
 
     def execute(self, *args, **kwargs):
-        """Most Automation workflows perform list matching. However, it is possible that
-        a custom workflow might be provisioned for a client for other types of
-        file processing. The ``execute`` method is provided as an alias for the
+        """
+        Most Automation workflows perform list matching.
+
+        However, it is possible that a custom workflow might be provisioned for a client for other types of file
+        processing. The ``execute`` method is provided as an alias for the
         ``match`` method which may be a confusing name in these cases.
         """
         self.match(*args, **kwargs)

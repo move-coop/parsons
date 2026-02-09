@@ -9,17 +9,17 @@ logger = logging.getLogger(__name__)
 
 class Quickbase:
     """
-    Instantiate the Quickbase class
+    Instantiate the Quickbase class.
 
-    `Args:`
-        hostname: str
-            The URL for the homepage/login page of the organization's Quickbase
-            instance (e.g. demo.quickbase.com).
-        user_token: str
-            The Quickbase account user token (API key). Not required if
-            ``QUICKBASE_USER_TOKEN`` env variable is set.
-    `Returns:`
+    Args:
+        hostname (str, optional): The URL for the homepage/login page of the organization's Quickbase instance (e.g.
+            demo.quickbase.com). Defaults to None.
+        user_token (str, optional): The Quickbase account user token (API key). Not required if
+            ``QUICKBASE_USER_TOKEN`` env variable is set. Defaults to None.
+
+    Returns:
         Quickbase Class
+
     """
 
     def __init__(self, hostname=None, user_token=None):
@@ -36,15 +36,18 @@ class Quickbase:
 
     def get_app_tables(self, app_id=None):
         """
-        Query records in a Quickbase table. This follows the patterns laid out
-        in Quickbase query documentaiton, located here:
+        Query records in a Quickbase table.
+
+        This follows the patterns laid out in Quickbase query documentaiton, located here:
         https://help.quickbase.com/api-guide/componentsquery.html
 
-        `Args:`
-            app_id: str
-                Identifies which Quickbase app from which to fetch tables.
-        `Returns:`
-            Table Class
+        Args:
+            app_id (str, optional): Identifies which Quickbase app from which to fetch tables.
+                Defaults to None.
+
+        Returns:
+            Table
+
         """
         return Table(
             self.client.request(f"{self.api_hostname}/tables?appId={app_id}", "GET").json()
@@ -52,15 +55,18 @@ class Quickbase:
 
     def query_records(self, table_from=None):
         """
-        Query records in a Quickbase table. This follows the patterns laid out
-        in Quickbase query documentaiton, located here:
+        Query records in a Quickbase table.
+
+        This follows the patterns laid out in Quickbase query documentaiton, located here:
         https://help.quickbase.com/api-guide/componentsquery.html
 
-        `Args:`
-            from: str
-                The ID of a Quickbase resource (i.e. a table) to query.
-        `Returns:`
-            Table Class
+        Args:
+            table_from (str, optional): The ID of a Quickbase resource (i.e. a table) to query.
+                Defaults to None.
+
+        Returns:
+            Table
+
         """
         req_resp = self.client.request(
             f"{self.api_hostname}/records/query", "POST", json={"from": table_from}

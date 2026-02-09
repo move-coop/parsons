@@ -25,7 +25,7 @@ class TestQuickBooksTime(unittest.TestCase):
         pass
 
     @requests_mock.Mocker()
-    def test_qb_get_request(self, mock_request, end_point="groups"):  # noqa PT028
+    def test_qb_get_request(self, mock_request, end_point="groups"):  # noqa: PT028
         # Arrange
 
         querystring = {"page": 1}

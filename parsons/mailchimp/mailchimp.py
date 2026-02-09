@@ -1,5 +1,6 @@
 import logging
 import re
+from typing import Literal
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -10,14 +11,15 @@ logger = logging.getLogger(__name__)
 
 class Mailchimp:
     """
-    Instantiate Mailchimp Class
+    Instantiate Mailchimp Class.
 
-    `Args:`
-        api_key:
-            The Mailchimp-provided application key. Not required if
-            ``MAILCHIMP_API_KEY`` env variable set.
-    `Returns:`
+    Args:
+        api_key: The Mailchimp-provided application key. Not required if
+            ``MAILCHIMP_API_KEY`` env variable set. Defaults to None.
+
+    Returns:
         Mailchimp Class
+
     """
 
     def __init__(self, api_key=None):
@@ -41,48 +43,39 @@ class Mailchimp:
         sort_dir=None,
     ):
         """
-        Get a table of lists under the account based on query parameters. Note
-        that argument descriptions here are sourced from Mailchimp's official
-        API documentation.
+        Get a table of lists under the account based on query parameters.
 
-        `Args:`
-            fields: list of strings
-                A comma-separated list of fields to return. Reference
-                parameters of sub-objects with dot notation.
-            exclude_fields: list of strings
-                A comma-separated list of fields to exclude. Reference
-                parameters of sub-objects with dot notation.
-            count: int
-                The number of records to return. Default value is 10. Maximum
-                value is 1000.
-            offset: int
-                The number of records from a collection to skip. Iterating over
-                large collections with this parameter can be slow. Default
-                value is 0.
-            before_date_created: string
-                Restrict response to lists created before the set date. We
-                recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-            since_date_created: string
-                Restrict results to lists created after the set date. We
-                recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-            before_campaign_last_sent: string
-                Restrict results to lists created before the last campaign send
-                date. We recommend ISO 8601 time format:
-                2015-10-21T15:41:36+00:00.
-            since_campaign_last_sent: string
-                Restrict results to lists created after the last campaign send
-                date. We recommend ISO 8601 time format:
-                2015-10-21T15:41:36+00:00.
-            email: string
-                Restrict results to lists that include a specific subscriber's
-                email address.
-            sort_field: string, can only be 'date_created' or None
-                Returns files sorted by the specified field.
-            sort_dir: string, can only be 'ASC', 'DESC', or None
-                Determines the order direction for sorted results.
+        Note that argument descriptions here are sourced from Mailchimp's official API documentation.
 
-        `Returns:`
-            Table Class
+        Args:
+            fields: List of strings A comma-separated list of fields to return. Reference parameters of sub-objects
+                with dot notation. Defaults to None.
+            exclude_fields: List of strings A comma-separated list of fields to exclude. Reference parameters of
+                sub-objects with dot notation. Defaults to None.
+            count (int, optional): The number of records to return. Default value is 10. Maximum value is 1000.
+                Defaults to None.
+            offset (int, optional): The number of records from a collection to skip. Iterating over large
+                collections with this parameter can be slow. Default value is 0. Defaults to None.
+            before_date_created (str, optional): Restrict response to lists created before the set date.
+                We recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00. Defaults to None.
+            since_date_created (str, optional): Restrict results to lists created after the set date.
+                We recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00. Defaults to None.
+            before_campaign_last_sent (str, optional): Restrict results to lists created before the last campaign
+                send date. We recommend ISO 8601 time format:
+                2015-10-21T15:41:36+00:00. Defaults to None.
+            since_campaign_last_sent (str, optional): Restrict results to lists created after the last campaign send
+                date. We recommend ISO 8601 time format:
+                2015-10-21T15:41:36+00:00. Defaults to None.
+            email (str, optional): Restrict results to lists that include a specific subscriber's email address.
+                Defaults to None.
+            sort_field: String, can only be 'date_created' or None Returns files sorted by the specified field.
+                Defaults to None.
+            sort_dir: String, can only be 'ASC', 'DESC', or None Determines the order direction for sorted results.
+                Defaults to None.
+
+        Returns:
+            Table
+
         """
         params = {
             "fields": fields,
@@ -112,8 +105,8 @@ class Mailchimp:
         exclude_fields=None,
         count=None,
         offset=None,
-        type=None,
-        status=None,
+        type: Literal["regular", "plaintext", "absplit", "rss", "variate"] | None = None,
+        status: Literal["save", "paused", "schedule", "sending", "sent"] | None = None,
         before_send_time=None,
         since_send_time=None,
         before_create_time=None,
@@ -121,61 +114,48 @@ class Mailchimp:
         list_id=None,
         folder_id=None,
         member_id=None,
-        sort_field=None,
-        sort_dir=None,
+        sort_field: Literal["create_time", "send_time"] | None = None,
+        sort_dir: Literal["asc", "desc"] | None = None,
     ):
         """
         Get a table of campaigns under the account based on query parameters.
-        Note that argument descriptions here are sourced from Mailchimp's
-        official API documentation.
 
-        `Args:`
-            fields: list of strings
-                A comma-separated list of fields to return. Reference
-                parameters of sub-objects with dot notation.
-            exclude_fields: list of strings
-                A comma-separated list of fields to exclude. Reference
-                parameters of sub-objects with dot notation.
-            count: int
-                The number of records to return. Default value is 10. Maximum
-                value is 1000.
-            offset: int
-                The number of records from a collection to skip. Iterating over
-                large collections with this parameter can be slow. Default
-                value is 0.
-            type: string, can only be 'regular', 'plaintext', 'absplit', 'rss',
-            'variate', or None
-                The campaign type.
-            status: string, can only be 'save', 'paused', 'schedule',
-            'sending', 'sent', or None
-                The status of the campaign.
-            before_send_time: string
-                Restrict the response to campaigns sent before the set time. We
-                recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-            since_send_time: string
-                Restrict the response to campaigns sent after the set time. We
-                recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-            before_create_time: string
-                Restrict the response to campaigns created before the set time.
-                We recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-            since_create_time: string
-                Restrict the response to campaigns created after the set time.
-                We recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-            list_id: string
-                The unique id for the list.
-            folder_id: string
-                The unique folder id.
-            member_id: string
-                Retrieve campaigns sent to a particular list member. Member ID
-                is The MD5 hash of the lowercase version of the list member’s
-                email address.
-            sort_field: string, can only be 'create_time', 'send_time', or None
-                Returns files sorted by the specified field.
-            sort_dir: string, can only be 'ASC', 'DESC', or None
-                Determines the order direction for sorted results.
+        Note that argument descriptions here are sourced from Mailchimp's official API documentation.
 
-        `Returns:`
-            Table Class
+        Args:
+            fields: List[str] A comma-separated list of fields to return. Reference parameters of sub-objects with
+                dot notation. Defaults to None.
+            exclude_fields: List[str] A comma-separated list of fields to exclude. Reference parameters of
+                sub-objects with dot notation. Defaults to None.
+            count (int, optional): The number of records to return. Default value is 10. Maximum value is 1000.
+                Defaults to None.
+            offset (int, optional): The number of records from a collection to skip. Iterating over large
+                collections with this parameter can be slow. Default value is 0. Defaults to None.
+            type (Literal["regular", "plaintext", "absplit", "rss", "variate"] | None, optional): The campaign type.
+                Defaults to None.
+            status (Literal["save", "paused", "schedule", "sending", "sent"] | None, optional): The status of the
+                campaign. Defaults to None.
+            before_send_time (str, optional): Restrict the response to campaigns sent before the set time.
+                We recommend ISO 8601 time format ``2015-10-21T15:41:36+00:00``. Defaults to None.
+            since_send_time (str, optional): Restrict the response to campaigns sent after the set time.
+                We recommend ISO 8601 time format ``2015-10-21T15:41:36+00:00``. Defaults to None.
+            before_create_time (str, optional): Restrict the response to campaigns created before the set time.
+                We recommend ISO 8601 time format ``2015-10-21T15:41:36+00:00``. Defaults to None.
+            since_create_time (str, optional): Restrict the response to campaigns created after the set time.
+                We recommend ISO 8601 time format ``2015-10-21T15:41:36+00:00``. Defaults to None.
+            list_id (str, optional): The unique id for the list. Defaults to None.
+            folder_id (str, optional): The unique folder id. Defaults to None.
+            member_id (str, optional): Retrieve campaigns sent to a particular list member.
+                Member ID is the MD5 hash of the lowercase version of the list member's email address.
+                Defaults to None.
+            sort_field (Literal["create_time", "send_time"] | None, optional): Returns files sorted by the specified
+                field. Defaults to None.
+            sort_dir (Literal["asc", "desc"] | None, optional): Determines the order direction for sorted results.
+                Defaults to None.
+
+        Returns:
+            Table
+
         """
         params = {
             "fields": fields,
@@ -211,7 +191,10 @@ class Mailchimp:
         count=None,
         offset=None,
         email_type=None,
-        status=None,
+        status: Literal[
+            "subscribed", "unsubscribed", "cleaned", "pending", "transactional", "archived"
+        ]
+        | None = None,
         since_timestamp_opt=None,
         before_timestamp_opt=None,
         since_last_changed=None,
@@ -220,91 +203,68 @@ class Mailchimp:
         vip_only=False,
         interest_category_id=None,
         interest_ids=None,
-        interest_match=None,
-        sort_field=None,
-        sort_dir=None,
+        interest_match: Literal["any", "all", "none"] | None = None,
+        sort_field: Literal["timestamp_opt", "timestamp_signup", "last_changed"] | None = None,
+        sort_dir: Literal["asc", "desc"] | None = None,
         since_last_campaign=None,
         unsubscribed_since=None,
-    ):
+    ) -> Table:
         """
-        Get a table of members in a list based on query parameters. Note that
-        argument descriptions here are sourced from Mailchimp's official API
-        documentation.
+        Get a table of members in a list based on query parameters.
 
-        `Args:`
-            list_id: string
-                The unique ID of the list to fetch members from.
-            fields: list of strings
-                A comma-separated list of fields to return. Reference
-                parameters of sub-objects with dot notation.
-            exclude_fields: list of fields as strings
-                A comma-separated list of fields to exclude. Reference
-                parameters of sub-objects with dot notation.
-            count: int
-                The number of records to return. Default value is 10. Maximum
-                value is 1000.
-            offset: int
-                The number of records from a collection to skip. Iterating over
-                large collections with this parameter can be slow. Default
-                value is 0.
-            email_type: string
-                The email type.
-            status: string, can only be 'subscribed', 'unsubscribed',
-            'cleaned', 'pending', 'transactional', 'archived', or None
-                The subscriber's status.
-            since_timestamp_opt: string
-                Restrict results to subscribers who opted-in after the set
-                timeframe. We recommend ISO 8601 time format:
-                2015-10-21T15:41:36+00:00.
-            before_timestamp_opt: string
-                Restrict results to subscribers who opted-in before the set
-                timeframe. We recommend ISO 8601 time format:
-                2015-10-21T15:41:36+00:00.
-            since_last_changed: string
-                Restrict results to subscribers whose information changed after
-                the set timeframe. We recommend ISO 8601 time format:
-                2015-10-21T15:41:36+00:00.
-            before_last_changed: string
-                Restrict results to subscribers whose information changed
-                before the set timeframe. We recommend ISO 8601 time format:
-                2015-10-21T15:41:36+00:00.
-            unique_email_id: string
-                A unique identifier for the email address across all Mailchimp
-                lists. This parameter can be found in any links with Ecommerce
-                Tracking enabled.
-            vip_only: boolean
-                A filter to return only the list's VIP members. Passing true
-                will restrict results to VIP list members, passing false will
-                return all list members.
-            interest_category_id: string
-                The unique id for the interest category.
-            interest_ids: list of strings
-                Used to filter list members by interests. Must be accompanied
-                by interest_category_id and interest_match. The value must be a
-                comma separated list of interest ids present for any supplied
-                interest categories.
-            interest_match: string, can only be 'any', 'all', 'none', or None
-                Used to filter list members by interests. Must be accompanied
-                by interest_category_id and interest_ids. "any" will match a
-                member with any of the interest supplied, "all" will only match
-                members with every interest supplied, and "none" will match
-                members without any of the interest supplied.
-            sort_field: string, can only be 'timestamp_opt',
-            'timestamp_signup', 'last_changed', or None
-                Returns files sorted by the specified field.
-            sort_dir: string, can only be 'ASC', 'DESC', or None
-                Determines the order direction for sorted results.
-            since_last_campaign: string
-                Filter subscribers by those
-                subscribed/unsubscribed/pending/cleaned since last email
-                campaign send. Member status is required to use this filter.
-            unsubscribed_since: string
-                Filter subscribers by those unsubscribed since a specific date.
-                Using any status other than unsubscribed with this filter will
-                result in an error.
+        Note that argument descriptions here are sourced from Mailchimp's official API documentation.
 
-        `Returns:`
-            Table Class
+        Args:
+            list_id (str): The unique ID of the list to fetch members from.
+            fields: List[str] A comma-separated list of fields to return. Reference parameters of sub-objects with
+                dot notation. Defaults to None.
+            exclude_fields: List[str] A comma-separated list of fields to exclude. Reference parameters of
+                sub-objects with dot notation. Defaults to None.
+            count (int, optional): The number of records to return. Default value is 10. Maximum value is 1000.
+                Defaults to None.
+            offset (int, optional): The number of records from a collection to skip. Iterating over large
+                collections with this parameter can be slow. Default value is 0. Defaults to None.
+            email_type (str, optional): The email type. Defaults to None.
+            status (Literal["subscribed", "unsubscribed", "cleaned", "pending", "transactional", "archived"], optional):
+                The subscriber's status. Defaults to None.
+            since_timestamp_opt (str, optional): Restrict results to subscribers who opted-in after the set
+                timeframe. We recommend ISO 8601 time format ``2015-10-21T15:41:36+00:00``. Defaults to None.
+            before_timestamp_opt (str, optional): Restrict results to subscribers who opted-in before the set
+                timeframe. We recommend ISO 8601 time format ``2015-10-21T15:41:36+00:00``. Defaults to None.
+            since_last_changed (str, optional): Restrict results to subscribers whose information changed after the
+                set timeframe. We recommend ISO 8601 time format
+                ``2015-10-21T15:41:36+00:00``. Defaults to None.
+            before_last_changed (str, optional): Restrict results to subscribers whose information changed before
+                the set timeframe. We recommend ISO 8601 time format
+                ``2015-10-21T15:41:36+00:00``. Defaults to None.
+            unique_email_id (str, optional): A unique identifier for the email address across all Mailchimp lists.
+                This parameter can be found in any links with Ecommerce Tracking enabled. Defaults to None.
+            vip_only (bool, optional): A filter to return only the list's VIP members. Passing true will restrict
+                results to VIP list members, passing false will return all list members. Defaults to False.
+            interest_category_id (str, optional): The unique id for the interest category.
+                Defaults to None.
+            interest_ids: List[str] Used to filter list members by interests. Must be accompanied by
+                interest_category_id and interest_match. The value must be a comma separated list of interest ids
+                present for any supplied interest categories. Defaults to None.
+            interest_match (Literal["any", "all", "none"] | None, optional):
+                Used to filter list members by interests. Must be accompanied by
+                interest_category_id and interest_ids.
+                - "any" will match a member with any of the interest supplied
+                - "all" will only match members with every interest supplied
+                - "none" will match members without any of the interest supplied. Defaults to None.
+            sort_field (Literal["timestamp_opt", "timestamp_signup", "last_changed"] | None, optional):
+                Returns files sorted by the specified field. Defaults to None.
+            sort_dir (Literal["asc", "desc"] | None, optional): Determines the
+                order direction for sorted results. Defaults to None.
+            since_last_campaign (str, optional): Filter subscribers by those subscribed/unsubscribed/pending/cleaned
+                since last email campaign send. Member status is required to use this filter. Defaults to None.
+            unsubscribed_since (str, optional): Filter subscribers by those unsubscribed since a specific date.
+                Using any status other than unsubscribed with this filter will result in an error.
+                Defaults to None.
+
+        Returns:
+            Table
+
         """
         params = {
             "fields": fields,
@@ -346,33 +306,27 @@ class Mailchimp:
         since=None,
     ):
         """
-        Get a table of individual emails from a campaign based on query
-        parameters. Note that argument descriptions here are sourced from
-        Mailchimp's official API documentation.
+        Get a table of individual emails from a campaign based on query parameters.
 
-        `Args:`
-            campaign_id: string
-                The unique ID of the campaign to fetch emails from.
-            fields: list of strings
-                A comma-separated list of fields to return. Reference
-                parameters of sub-objects with dot notation.
-            exclude_fields: list of strings
-                A comma-separated list of fields to exclude. Reference
-                parameters of sub-objects with dot notation.
-            count: int
-                The number of records to return. Default value is 10. Maximum
-                value is 1000.
-            offset: int
-                The number of records from a collection to skip. Iterating over
-                large collections with this parameter can be slow. Default
-                value is 0.
-            since: string
-                Restrict results to email activity events that occur after a
-                specific time. We recommend ISO 8601 time format:
-                2015-10-21T15:41:36+00:00.
+        Note that argument descriptions here are sourced from Mailchimp's official API documentation.
 
-        `Returns:`
-            Table Class
+        Args:
+            campaign_id (str): The unique ID of the campaign to fetch emails from.
+            fields: List of strings A comma-separated list of fields to return. Reference parameters of sub-objects
+                with dot notation. Defaults to None.
+            exclude_fields: List of strings A comma-separated list of fields to exclude. Reference parameters of
+                sub-objects with dot notation. Defaults to None.
+            count (int, optional): The number of records to return. Default value is 10. Maximum value is 1000.
+                Defaults to None.
+            offset (int, optional): The number of records from a collection to skip. Iterating over large
+                collections with this parameter can be slow. Default value is 0. Defaults to None.
+            since (str, optional): Restrict results to email activity events that occur after a specific time.
+                We recommend ISO 8601 time format:
+                2015-10-21T15:41:36+00:00. Defaults to None.
+
+        Returns:
+            Table
+
         """
         params = {
             "fields": fields,
@@ -393,29 +347,24 @@ class Mailchimp:
         self, campaign_id, fields=None, exclude_fields=None, count=None, offset=None
     ):
         """
-        Get a table of unsubscribes associated with a campaign based on query
-        parameters. Note that argument descriptions here are sourced from
-        Mailchimp's official API documentation.
+        Get a table of unsubscribes associated with a campaign based on query parameters.
 
-        `Args:`
-            campaign_id: string
-                The unique ID of the campaign to fetch unsubscribes from.
-            fields: list of strings
-                A comma-separated list of fields to return. Reference
-                parameters of sub-objects with dot notation.
-            exclude_fields: list of strings
-                A comma-separated list of fields to exclude. Reference
-                parameters of sub-objects with dot notation.
-            count: int
-                The number of records to return. Default value is 10. Maximum
-                value is 1000.
-            offset: int
-                The number of records from a collection to skip. Iterating over
-                large collections with this parameter can be slow. Default
-                value is 0.
+        Note that argument descriptions here are sourced from Mailchimp's official API documentation.
 
-        `Returns:`
-            Table Class
+        Args:
+            campaign_id (str): The unique ID of the campaign to fetch unsubscribes from.
+            fields: List of strings A comma-separated list of fields to return. Reference parameters of sub-objects
+                with dot notation. Defaults to None.
+            exclude_fields: List of strings A comma-separated list of fields to exclude. Reference parameters of
+                sub-objects with dot notation. Defaults to None.
+            count (int, optional): The number of records to return. Default value is 10. Maximum value is 1000.
+                Defaults to None.
+            offset (int, optional): The number of records from a collection to skip. Iterating over large
+                collections with this parameter can be slow. Default value is 0. Defaults to None.
+
+        Returns:
+            Table
+
         """
         params = {
             "fields": fields,

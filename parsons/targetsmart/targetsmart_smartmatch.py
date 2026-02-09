@@ -1,4 +1,5 @@
-"""Implements client routine to allow execution of TargetSmart SmartMatch
+"""
+Implements client routine to allow execution of TargetSmart SmartMatch
 workflows.
 
 TargetSmart SmartMatch API doc:
@@ -69,10 +70,11 @@ def _smartmatch_download(url, writer):
 
 
 def _add_join_id(input_table):
-    """`matchback_id` is added to the raw input table so the results can later be
-    joined back. Integer sequence values are used. If the column already exists
-    in the raw input, it is renamed to `__matchback_id` and restored after
-    result join.
+    """
+    `matchback_id` is added to the raw input table so the results can later be joined back.
+
+    Integer sequence values are used. If the column already exists in the raw input, it is renamed to `__matchback_id`
+    and restored after result join.
     """
     if INTERNAL_JOIN_ID in input_table.fieldnames():
         input_table = input_table.rename(INTERNAL_JOIN_ID, INTERNAL_JOIN_ID_CONFLICT)
@@ -92,9 +94,7 @@ def _prepare_input(intable, tmpdir):
 
 
 class SmartMatch:
-    """
-    Works as a mixin to the TargetSmartAPI class.
-    """
+    """Works as a mixin to the TargetSmartAPI class."""
 
     def __init__(self):
         # Set by TargetSmartAPI constructor
@@ -134,65 +134,67 @@ class SmartMatch:
         keep_smartmatch_input_file=False,
         keep_smartmatch_output_gz_file=False,
     ):
-        """Submit the contact list records available in the Parsons table ``input_table`` to
-        TargetSmart SmartMatch.
+        """
+        Submit the contact list records available in the Parsons table ``input_table`` to TargetSmart SmartMatch.
 
         * `SmartMatch overview <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`_
-        * `SmartMatch API doc <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html>`_
-        * `Supported input header field identifiers <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_
+        * `SmartMatch API doc
+        <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html>`_
+        * `Supported input header field identifiers
+        <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_
 
-        Your application provides a contact list which will be matched to
-        TargetSmart’s database of voting age individuals.
+        Your application provides a contact list which will be matched to TargetSmart's database of voting age
+        individuals.
 
-        `TargetSmart Client Services <mailto:support@targetsmart.com>`_
-        provisions SmartMatch for your API key, configuring the fields from the
-        TargetSmart Data Dictionary that will be appended to each matched
-        record.
+        `TargetSmart Client Services <mailto:support@targetsmart.com>`_ provisions SmartMatch for your API key,
+        configuring the fields from the TargetSmart Data Dictionary that will be appended to each matched record.
 
-        This method blocks until TargetSmart has completed the remote workflow
-        execution. The execution time can take minutes to hours to complete
-        depending on the file size, the types of field identifiers present, and
-        TargetSmart system load. SmartMatch executions cannot be canceled once
-        submitted to TargetSmart.
+        This method blocks until TargetSmart has completed the remote workflow execution. The execution time can take
+        minutes to hours to complete depending on the file size, the types of field identifiers present, and TargetSmart
+        system load. SmartMatch executions cannot be canceled once submitted to TargetSmart.
 
-        Since Parsons Petl tables are lazy, the SmartMatch output file is always
-        retained in ``tmp_location``. If your Parsons-based ETL workflow fails
-        downstream it may be beneficial to recover the raw SmartMatch output
-        from this location. You may delete this data when it is no longer
-        needed.
+        Since Parsons Petl tables are lazy, the SmartMatch output file is always retained in
+        ``tmp_location``. If your Parsons-based ETL workflow fails downstream it may be beneficial to recover the raw
+        SmartMatch output from this location. You may delete this data when it is no longer needed.
 
-        `Args:`
-            input_table: Parsons or Petl table
-                A Parsons table with `header field names supported by SmartMatch <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_. Required.
-            disable_automatic_matchback_id_creation: bool
-                Set to True to disable auto creation of matchback_id. Default of False.
-            max_matches: int
-                By default only a single best match is returned for an input record. Increase to return additional potentially accurate matches for each input record. Value between 1-10. Default of 1.
-            include_email: bool
-                Set to True to include appended email values for matched records. This is only applicable if your TargetSmart account is configued to return email data. Additional charges may apply if True. Default of False.
-            include_landline: bool
-                Set to True to include appended landline phone number values for matched records. This is only applicable if your TargetSmart account is configued to return landline phone data. Additional charges may apply if True. Default of False.
-            include_wireless: bool
-                Set to True to include appended wireless phone number values for matched records. This is only applicable if your TargetSmart account is configued to return wireless phone data. Additional charges may apply if True. Default of False.
-            include_voip: bool
-                Set to True to include appended VOIP phone number values for matched records. This is only applicable if your TargetSmart account is configued to return VOIP phone data. Additional charges may apply if True. Default of False.
-            tmp_location: str
-                Optionally provide a local directory path where input/output CSV files will be stored. Useful to recover CSV output if downstream ETL processing fails. If not specified, a system tmp location is used. Default of None.
-            join_with_input_table: bool
-                Set to True to include input table in ouput parsons table. Default is True.
-            keep_smartmatch_input_file: bool
-                Optionally keep the CSV input file that is uploaded in ``tmp_location`` for later use. Default of False.
-            keep_smartmatch_output_gz_file: bool
-                Optionally keep the gzip compressed output file in ``tmp_location`` for later use. The uncompressed output file is always retained in ``tmp_location``. Default of False
-        `Returns:`
-            Parsons Table
-                A Parsons table wrapping the SmartMatch execution output file records. Each record will
-                include the input record fields followed by columns named ``tsmart_match_code``, a
-                match indicator, ``vb.voterbase_id``, and zero or more additional data
-                element fields based on your TargetSmart account configuration.
-                See :ref:`parsons-table` for output options.
+        Args:
+            input_table: Parsons or Petl table A Parsons table with `header field names supported by SmartMatch
+                <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_.
+                Required.
+            disable_automatic_matchback_id_creation (bool, optional): Set to True to disable auto creation of
+                matchback_id. Default of False. Defaults to False.
+            max_matches (int, optional): Increase to return additional potentially accurate matches for each input
+                record. Value between 1-10. Default of 1. Defaults to 1.
+            include_email (bool, optional): Set to True to include appended email values for matched records.
+                This is only applicable if your TargetSmart account is configued to return email data.
+                Additional charges may apply if True. Default of False. Defaults to False.
+            include_landline (bool, optional): Set to True to include appended landline phone number values for
+                matched records. This is only applicable if your TargetSmart account is configued to return landline
+                phone data. Additional charges may apply if True. Default of False. Defaults to False.
+            include_wireless (bool, optional): Set to True to include appended wireless phone number values for
+                matched records. This is only applicable if your TargetSmart account is configued to return wireless
+                phone data. Additional charges may apply if True. Default of False. Defaults to False.
+            include_voip (bool, optional): Set to True to include appended VOIP phone number values for matched
+                records. This is only applicable if your TargetSmart account is configued to return VOIP phone data.
+                Additional charges may apply if True. Default of False. Defaults to False.
+            tmp_location (str, optional): Optionally provide a local directory path where input/output CSV files
+                will be stored. Useful to recover CSV output if downstream ETL processing fails.
+                If not specified, a system tmp location is used. Default of None. Defaults to None.
+            join_with_input_table (bool, optional): Set to True to include input table in ouput parsons table.
+                Defaults to True.
+            keep_smartmatch_input_file (bool, optional): Optionally keep the CSV input file that is uploaded in
+                ``tmp_location`` for later use. Default of False. Defaults to False.
+            keep_smartmatch_output_gz_file (bool, optional): Optionally keep the gzip compressed output file in
+                ``tmp_location`` for later use. The uncompressed output file is always retained in ``tmp_location``.
+                Default of False. Defaults to False.
+
+        Returns:
+            Parsons Table: A Parsons table wrapping the SmartMatch execution output file records.
+                Each record will include the input record fields followed by columns named
+                ``tsmart_match_code``, a match indicator, ``vb.voterbase_id``, and zero or more additional data element
+                fields based on your TargetSmart account configuration. See :ref:`parsons-table` for output options.
+
         """
-
         # If `input_table` is a Parsons table, convert it to a Petl table.
         if hasattr(input_table, "table"):
             input_table = input_table.table

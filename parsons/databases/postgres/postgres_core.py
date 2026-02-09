@@ -24,17 +24,17 @@ class PostgresCore(PostgresCreateStatement):
     def connection(self):
         """
         Generate a Postgres connection.
-        The connection is set up as a python "context manager", so it will be closed
-        automatically (and all queries committed) when the connection goes out of scope.
 
-        When using the connection, make sure to put it in a ``with`` block (necessary for
-        any context manager):
+        The connection is set up as a python "context manager", so it will be closed automatically
+        (and all queries committed) when the connection goes out of scope.
+
+        When using the connection, make sure to put it in a ``with`` block (necessary for any context manager):
         ``with pg.connection() as conn:``
 
-        `Returns:`
+        Returns:
             Psycopg2 `connection` object
-        """
 
+        """
         # Create a psycopg2 connection and cursor
         conn = psycopg2.connect(
             user=self.username,
@@ -66,12 +66,12 @@ class PostgresCore(PostgresCreateStatement):
 
     def query(self, sql: str, parameters: list | None = None) -> Table | None:
         """
-        Execute a query against the database. Will return ``None`` if the query returns zero rows.
+        Execute a query against the database.
 
-        To include python variables in your query, it is recommended to pass them as parameters,
-        following the `psycopg style <http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries>`_.
-        Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
-        injection attacks.
+        Will return ``None`` if the query returns zero rows. To include python variables in your query, it is
+        recommended to pass them as parameters, following the `psycopg style
+        <http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries>`_. Using the ``parameters``
+        argument ensures that values are escaped properly, and avoids SQL injection attacks.
 
         **Parameter Examples**
 
@@ -90,43 +90,37 @@ class PostgresCore(PostgresCreateStatement):
             sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
             rs.query(sql, parameters=names)
 
-        `Args:`
-            sql: str
-                A valid SQL statement
-            parameters: list
-                A list of python variables to be converted into SQL values in your query
+        Args:
+            sql (str): A valid SQL statement.
+            parameters (list | None, optional): A list of python variables to be converted into SQL values in your
+                query. Defaults to None.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
 
         """
-
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
     def query_with_connection(self, sql, connection, parameters=None, commit=True):
         """
-        Execute a query against the database, with an existing connection. Useful for batching
-        queries together. Will return ``None`` if the query returns zero rows.
+        Execute a query against the database, with an existing connection.
 
-        `Args:`
-            sql: str
-                A valid SQL statement
-            connection: obj
-                A connection object obtained from ``redshift.connection()``
-            parameters: list
-                A list of python variables to be converted into SQL values in your query
-            commit: boolean
-                Whether to commit the transaction immediately. If ``False`` the transaction will
-                be committed when the connection goes out of scope and is closed (or you can
-                commit manually with ``connection.commit()``).
+        Useful for batching queries together. Will return ``None`` if the query returns zero rows.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Args:
+            sql (str): A valid SQL statement.
+            connection: Obj A connection object obtained from ``redshift.connection()``.
+            parameters (list, optional): A list of python variables to be converted into SQL values in your query.
+                Defaults to None.
+            commit (bool, optional): Whether to commit the transaction immediately. If ``False`` the transaction
+                will be committed when the connection goes out of scope and is closed
+                (or you can commit manually with ``connection.commit()``). Defaults to True.
+
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         with self.cursor(connection) as cursor:
             logger.debug(f"SQL Query: {sql}")
             cursor.execute(sql, parameters)
@@ -170,19 +164,16 @@ class PostgresCore(PostgresCreateStatement):
         """
         Helper to determine what to do when you need a table that may already exist.
 
-        `Args:`
-            connection: obj
-                A connection object obtained from ``redshift.connection()``
-            table_name: str
-                The table to check
-            if_exists: str
-                If the table already exists, either ``fail``, ``append``, ``drop``,
-                or ``truncate`` the table.
-        `Returns:`
-            bool
-                True if the table needs to be created, False otherwise.
-        """
+        Args:
+            connection: Obj A connection object obtained from ``redshift.connection()``.
+            table_name (str): The table to check.
+            if_exists (str): If the table already exists, either ``fail``, ``append``, ``drop``, or ``truncate`` the
+                table.
 
+        Returns:
+            bool: True if the table needs to be created, False otherwise.
+
+        """
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 
@@ -211,15 +202,14 @@ class PostgresCore(PostgresCreateStatement):
         """
         Check if a table or view exists in the database.
 
-        `Args:`
-            table_name: str
-                The table name and schema (e.g. ``myschema.mytable``).
-            view: boolean
-                Check to see if a view exists by the same name. Defaults to ``True``.
+        Args:
+            table_name (str): The table name and schema (e.g. ``myschema.mytable``).
+            view (bool, optional): Check to see if a view exists by the same name. Defaults to True.
 
-        `Returns:`
-            boolean
+        Returns:
+            bool:
                 ``True`` if the table exists and ``False`` if it does not.
+
         """
         with self.connection() as connection:
             return self.table_exists_with_connection(table_name, connection, view)

@@ -35,16 +35,14 @@ def hexavigesimal(n: int) -> str:
     Converts an integer value to the type of strings you see on spreadsheets
     (A, B,...,Z, AA, AB, ...).
 
-    Code based on
-    https://stackoverflow.com/questions/16190452/converting-from-number-to-hexavigesimal-letters
+    Code based on https://stackoverflow.com/questions/16190452/converting-from-number-to-hexavigesimal-letters
 
-    `Args:`
-        n: int
-            A positive valued integer.
+    Args:
+        n (int): A positive valued integer.
 
-    `Returns:`
-        str
-            The hexavigeseimal representation of n
+    Returns:
+        str: The hexavigeseimal representation of n.
+
     """
     if n < 1:
         raise ValueError(f"This function only works for positive integers. Provided value {n}.")

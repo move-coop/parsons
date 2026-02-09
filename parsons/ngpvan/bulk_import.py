@@ -16,15 +16,15 @@ class BulkImport:
 
     def get_bulk_import_resources(self):
         """
-        Get bulk import resources that available to the user. These define
-        the types of bulk imports that you can run. These might include
+        Get bulk import resources that available to the user.
+
+        These define the types of bulk imports that you can run. These might include
         ``Contacts``, ``ActivistCodes``, ``ContactsActivistCodes`` and others.
 
-        `Returns:`
-            list
-                A list of resources.
-        """
+        Returns:
+            list: A list of resources.
 
+        """
         r = self.connection.get_request("bulkImportJobs/resources")
         logger.info(f"Found {len(r)} bulk import resources.")
         return r
@@ -33,34 +33,33 @@ class BulkImport:
         """
         Get a bulk import job status.
 
-        `Args:`
-            job_id : int
-                The bulk import job id.
-        `Returns:`
-            dict
-                The bulk import job
-        """
+        Args:
+            job_id (int): The bulk import job id.
 
+        Returns:
+            dict: The bulk import job.
+
+        """
         r = self.connection.get_request(f"bulkImportJobs/{job_id}")
         logger.info(f"Found bulk import job {job_id}.")
         return r
 
     def get_bulk_import_job_results(self, job_id):
         """
-        Get result file of a bulk upload job. This will include one row
-        per record processed as well as the status of each.
+        Get result file of a bulk upload job.
 
-        If the job results have not been generated, either due to an error in the
-        process or the fact the job is still processing, it will return ``None``.
+        This will include one row per record processed as well as the status of each.
 
-        `Args:`
-            job_id: int
-                The bulk import job id.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        If the job results have not been generated, either due to an error in the process or the fact the job is still
+        processing, it will return ``None``.
+
+        Args:
+            job_id (int): The bulk import job id.
+
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         r = self.get_bulk_import_job(job_id)
         logger.info(f"Bulk Import Job Status: {r['status']}")
         if r["status"] == "Completed":
@@ -72,11 +71,10 @@ class BulkImport:
         """
         Get bulk import mapping types.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
 
+        """
         tbl = Table(self.connection.get_request("bulkImportMappingTypes"))
         logger.info(f"Found {tbl.num_rows} bulk import mapping types.")
         return tbl
@@ -85,13 +83,13 @@ class BulkImport:
         """
         Get a single bulk import mapping type.
 
-        `Args:`
-            type_name: str
-        `Returns`:
-            dict
-                A mapping type json
-        """
+        Args:
+            type_name: Str.
 
+        Returns:
+            dict: A mapping type json.
+
+        """
         r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}")
         logger.info(f"Found {type_name} bulk import mapping type.")
         return r
@@ -100,16 +98,14 @@ class BulkImport:
         """
         Get data about a field in a mapping type.
 
-        `Args:`
-            type_name: str
-                The mapping type name
-            field_name: str
-                The field name
-        `Returns:`
-            dict
-                A mapping type fields json
-        """
+        Args:
+            type_name (str): The mapping type name.
+            field_name (str): The field name.
 
+        Returns:
+            dict: A mapping type fields json.
+
+        """
         r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}/{field_name}/values")
         logger.info(f"Found {type_name} bulk import mapping type field values.")
         return r
@@ -170,8 +166,7 @@ class BulkImport:
         """
         Bulk apply activist codes.
 
-        The table may include the following columns. The first column
-        must be ``vanid``.
+        The table may include the following columns. The first column must be ``vanid``.
 
         .. list-table::
             :widths: 25 25 50
@@ -196,20 +191,17 @@ class BulkImport:
               - No
               - The method of contact.
 
-        `Args:`
-            table: Parsons table
-                A Parsons table.
-            url_type: str
-                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+        Args:
+            tbl: Table A Parsons table.
+            url_type (str): The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type. See
+            **url_kwargs: Kwargs Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
-            int
-                The bulk import job id
-        """
 
+        Returns:
+            int: The bulk import job id.
+
+        """
         return self.post_bulk_import(
             tbl,
             url_type,
@@ -221,8 +213,9 @@ class BulkImport:
 
     def bulk_upsert_contacts(self, tbl, url_type, result_fields=None, **url_kwargs):
         """
-        Bulk create or update contact records. Provide a Parsons table of contact data to
-        create or update records.
+        Bulk create or update contact records.
+
+        Provide a Parsons table of contact data to create or update records.
 
         .. note::
             * The first column of the table must be VANID.
@@ -319,21 +312,18 @@ class BulkImport:
               - ``otheremail``, ``email2``, ``emailaddress2``
               -
 
-        `Args:`
-            table: Parsons table
-              A Parsons table.
-            url_type: str
-              The cloud file storage to use to post the file. Currently only ``S3``.
-            results_fields: list
-              A list of fields to include in the results file.
-            **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type. See
+        Args:
+            tbl: Table A Parsons table.
+            url_type (str): The cloud file storage to use to post the file. Currently only ``S3``.
+            result_fields (list, optional): A list of fields to include in the results file.
+                Defaults to None.
+            **url_kwargs: Kwargs Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
-            int
-                The bulk import job id
-        """
 
+        Returns:
+            int: The bulk import job id.
+
+        """
         tbl = tbl.map_columns(CONTACTS_COLUMN_MAP, exact_match=False)
 
         return self.post_bulk_import(
@@ -350,8 +340,7 @@ class BulkImport:
         """
         Bulk apply contact suppression codes.
 
-        The table may include the following columns. The first column
-        must be ``vanid``.
+        The table may include the following columns. The first column must be ``vanid``.
 
         .. list-table::
             :widths: 25 25 50
@@ -367,20 +356,17 @@ class BulkImport:
               - Yes
               - A valid suppression id
 
-        `Args:`
-            table: Parsons table
-                A Parsons table.
-            url_type: str
-                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+        Args:
+            tbl: Table A Parsons table.
+            url_type (str): The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type. See
+            **url_kwargs: Kwargs Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
-            int
-                The bulk import job id
-        """
 
+        Returns:
+            int: The bulk import job id.
+
+        """
         return self.post_bulk_import(
             tbl,
             url_type,
@@ -394,8 +380,7 @@ class BulkImport:
         """
         Bulk apply contact canvass results.
 
-        The table may include the following columns. The first column
-        must be ``vanid``.
+        The table may include the following columns. The first column must be ``vanid``.
 
         .. list-table::
             :widths: 25 25 50
@@ -435,20 +420,17 @@ class BulkImport:
               - No
               - The Contact Address ID of the address that was canvassed
 
-        `Args:`
-            table: Parsons table
-                A Parsons table.
-            url_type: str
-                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+        Args:
+            tbl: Table A Parsons table.
+            url_type (str): The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type. See
+            **url_kwargs: Kwargs Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
-            int
-                The bulk import job id
-        """
 
+        Returns:
+            int: The bulk import job id.
+
+        """
         return self.post_bulk_import(
             tbl,
             url_type,
@@ -462,8 +444,7 @@ class BulkImport:
         """
         Bulk apply contact custom fields.
 
-        The table may include the following columns. The first column
-        must be ``vanid``.
+        The table may include the following columns. The first column must be ``vanid``.
 
         .. list-table::
             :widths: 25 25 60
@@ -481,23 +462,19 @@ class BulkImport:
                 custom_field_group_id. The column name should be a valid Custom Field ID
                 prefixed with ``CF``, i.e. CF123.
 
-        `Args:`
-            custom_field_group_id: int
-                Valid Custom Contact Field Group ID; must be the parent of
-                the provided Custom Field IDs in the file.
-            table: Parsons table
-                A Parsons table.
-            url_type: str
-                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+        Args:
+            custom_field_group_id (int): Valid Custom Contact Field Group ID; must be the parent of the provided
+                Custom Field IDs in the file.
+            tbl: Table A Parsons table.
+            url_type (str): The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type. See
+            **url_kwargs: Kwargs Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
-            int
-                The bulk import job id
-        """
 
+        Returns:
+            int: The bulk import job id.
+
+        """
         mapping_types = [
             {
                 "name": "ApplyContactCustomFields",

@@ -11,25 +11,21 @@ from parsons.utilities import files, zip_archive
 class ToFrom:
     def to_dataframe(self, index=None, exclude=None, columns=None, coerce_float=False):
         """
-        Outputs table as a Pandas Dataframe
+        Outputs table as a Pandas Dataframe.
 
-        `Args:`
-            index: str, list
-                Field of array to use as the index, alternately a specific set
-                of input labels to use
-            exclude: list
-                Columns or fields to exclude
-            columns: list
-                Column names to use. If the passed data do not have names
-                associated with them, this argument provides names for the
-                columns. Otherwise this argument indicates the order of the
-                columns in the result (any names not found in the data will
-                become all-NA columns)
-        `Returns:`
-            dataframe
-                Pandas DataFrame object
+        Args:
+            coerce_float: Defaults to False.
+            index: Str, list Field of array to use as the index, alternately a specific set of input labels to use.
+                Defaults to None.
+            exclude: List Columns or fields to exclude. Defaults to None.
+            columns: List Column names to use. If the passed data do not have names associated with them, this
+                argument provides names for the columns. Otherwise this argument indicates the order of the columns in
+                the result (any names not found in the data will become all-NA columns). Defaults to None.
+
+        Returns:
+            dataframe: Pandas DataFrame object.
+
         """
-
         return petl.todataframe(
             self.table,
             index=index,
@@ -56,31 +52,24 @@ class ToFrom:
                 If a file already exists at the given location, it will be
                 overwritten.
 
-        `Args:`
-            local_path: str
-                The path to write the html locally. If not specified, a temporary file will be
-                created and returned, and that file will be removed automatically when the script
-                is done running.
-            encoding: str
-                The encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
-            errors: str
-                Raise an Error if encountered
-            index_header: boolean
-                Prepend index to column names; Defaults to False.
-            caption: str
-                A caption to include with the html table.
-            tr_style: str or callable
-                Style to be applied to the table row.
-            td_styles: str, dict or callable
-                Styles to be applied to the table cells.
-            truncate: int
-                Length of cell data.
-        `Returns:`
-            str
-                The path of the new file
-        """
+        Args:
+            local_path (str, optional): The path to write the html locally. If not specified, a temporary file will
+                be created and returned, and that file will be removed automatically when the script is done running.
+                Defaults to None.
+            encoding (str, optional): The encoding type for `csv.writer()
+                <https://docs.python.org/2/library/csv.html#csv.writer/>`_. Defaults to None.
+            errors (str, optional): Raise an Error if encountered. Defaults to "strict".
+            index_header (bool, optional): Prepend index to column names;. Defaults to False.
+            caption (str, optional): A caption to include with the html table. Defaults to None.
+            tr_style (str | Callable, optional): Style to be applied to the table row. Defaults to None.
+            td_styles (Str | dict | Callable, optional): Styles to be applied to the table cells.
+                Defaults to None.
+            truncate (int, optional): Length of cell data. Defaults to None.
 
+        Returns:
+            str: The path of the new file.
+
+        """
         if not local_path:
             local_path = files.create_temp_file(suffix=".html")
 
@@ -104,82 +93,64 @@ class ToFrom:
         """
         Outputs table to an Avro file.
 
-        In order to use this method, you must have the `fastavro` library installed.
-        If using limited dependencies, you can install it with `pip install parsons[avro]`.
+        In order to use this method, you must have the `fastavro` library installed. If using limited dependencies, you
+        can install it with `pip install parsons[avro]`.
 
         Write the table into a new avro file according to schema passed.
 
-        This method assume that each column has values with the same type
-        for all rows of the source `table`.
+        This method assume that each column has values with the same type for all rows of the source
+        `table`.
 
-        Avro is a data serialization framework that is generally is faster
-        and safer than text formats like Json, XML or CSV.
+        Avro is a data serialization framework that is generally is faster and safer than text formats like Json, XML or
+        CSV.
 
-        `Args:`
-            target: str
-                the file path for creating the avro file.
-                Note that if a file already exists at the given location, it will be
-                overwritten.
-            schema: dict
-                defines the rows field structure of the file.
-                Check fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) and Avro schema [reference](https://avro.apache.org/docs/1.8.2/spec.html#schemas) for details.
-            sample: int, optional
-                defines how many rows are inspected
-                for discovering the field types and building a schema for the avro file
-                when the `schema` argument is not passed. Default is 9.
-            codec: str, optional
-                The `codec` argument (string, optional) sets the compression codec used to
-                shrink data in the file. It can be 'null', 'deflate' (default), 'bzip2' or
-                'snappy', 'zstandard', 'lz4', 'xz' (if installed)
-            compression_level: int, optional
-                sets the level of compression to use with the specified codec (if the codec supports it)
-            avro_args: kwargs
-                Additionally there are support for passing extra options in the
-                argument `**avro_args` that are fowarded directly to fastavro. [Check the
-                fastavro documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
+        Args:
+            **avro_args
+            compression_level: Defaults to None.
+            codec: Defaults to "deflate".
+            sample: Defaults to 9.
+            schema: Defaults to None.
+            target
+            Example usage for writing files:: >>> # set up a Avro file to demonstrate with
+                >>> table2 = [['name', 'friends', 'age'],
+                ...           ['Bob', 42, 33],
+                ...           ['Jim', 13, 69],
+                ...           ['Joe', 86, 17],
+                ...           ['Ted', 23, 51]]
+                ...
+                >>> schema2 = {
+                ...     'doc': 'Some people records.',
+                ...     'name': 'People',
+                ...     'namespace': 'test',
+                ...     'type': 'record',
+                ...     'fields': [
+                ...         {'name': 'name', 'type': 'string'},
+                ...         {'name': 'friends', 'type': 'int'},
+                ...         {'name': 'age', 'type': 'int'},
+                ...     ]
+                ... }
+                ...
+                >>> # now demonstrate writing with toavro()
+                >>> from parsons import Table
 
-        Example usage for writing files::
+                >>> Table.toavro(table2, 'example.file2.avro', schema=schema2)
+                ...
+                >>> # this was what was saved above
+                >>> tbl2 = Table.fromavro('example.file2.avro')
+                >>> tbl2
+                +-------+---------+-----+
+                | name  | friends | age |
+                +=======+=========+=====+
+                | 'Bob' |      42 |  33 |
+                +-------+---------+-----+
+                | 'Jim' |      13 |  69 |
+                +-------+---------+-----+
+                | 'Joe' |      86 |  17 |
+                +-------+---------+-----+
+                | 'Ted' |      23 |  51 |
+                +-------+---------+-----+.
 
-            >>> # set up a Avro file to demonstrate with
-            >>> table2 = [['name', 'friends', 'age'],
-            ...           ['Bob', 42, 33],
-            ...           ['Jim', 13, 69],
-            ...           ['Joe', 86, 17],
-            ...           ['Ted', 23, 51]]
-            ...
-            >>> schema2 = {
-            ...     'doc': 'Some people records.',
-            ...     'name': 'People',
-            ...     'namespace': 'test',
-            ...     'type': 'record',
-            ...     'fields': [
-            ...         {'name': 'name', 'type': 'string'},
-            ...         {'name': 'friends', 'type': 'int'},
-            ...         {'name': 'age', 'type': 'int'},
-            ...     ]
-            ... }
-            ...
-            >>> # now demonstrate writing with toavro()
-            >>> from parsons import Table
-
-            >>> Table.toavro(table2, 'example.file2.avro', schema=schema2)
-            ...
-            >>> # this was what was saved above
-            >>> tbl2 = Table.fromavro('example.file2.avro')
-            >>> tbl2
-            +-------+---------+-----+
-            | name  | friends | age |
-            +=======+=========+=====+
-            | 'Bob' |      42 |  33 |
-            +-------+---------+-----+
-            | 'Jim' |      13 |  69 |
-            +-------+---------+-----+
-            | 'Joe' |      86 |  17 |
-            +-------+---------+-----+
-            | 'Ted' |      23 |  51 |
-            +-------+---------+-----+
         """
-
         return petl.toavro(
             self.table,
             target,
@@ -196,25 +167,22 @@ class ToFrom:
 
         Write the table into an existing avro file according to schema passed.
 
-        This method assume that each column has values with the same type
-        for all rows of the source `table`.
+        This method assume that each column has values with the same type for all rows of the source
+        `table`.
 
-        `Args:`
-            target: str
-                the file path for creating the avro file.
-            schema: dict
-                defines the rows field structure of the file.
-                Check fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) and Avro schema [reference](https://avro.apache.org/docs/1.8.2/spec.html#schemas) for details.
-            sample: int, optional
-                defines how many rows are inspected
-                for discovering the field types and building a schema for the avro file
-                when the `schema` argument is not passed. Default is 9.
-            avro_args: kwargs
-                Additionally there are support for passing extra options in the
-                argument `**avro_args` that are fowarded directly to fastavro. Check the
-                fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
+        Args:
+            target (str): The file path for creating the avro file.
+            schema: Dict defines the rows field structure of the file. Check fastavro
+                [documentation](https://fastavro.readthedocs.io/en/latest/) and Avro schema
+                [reference](https://avro.apache.org/docs/1.8.2/spec.html#schemas) for details.
+                Defaults to None.
+            sample: Int, optional defines how many rows are inspected for discovering the field types and building a
+                schema for the avro file when the `schema` argument is not passed. Defaults to 9.
+            **avro_args: Kwargs Additionally there are support for passing extra options in the argument
+                `**avro_args` that are fowarded directly to fastavro. Check the fastavro
+                [documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
+
         """
-
         return petl.appendavro(self.table, target, schema=schema, sample=sample, **avro_args)
 
     def to_csv(
@@ -228,41 +196,35 @@ class ToFrom:
         **csvargs,
     ):
         r"""
-        Outputs table to a CSV. Additional key word arguments are passed to ``csv.writer()``. So,
-        e.g., to override the delimiter from the default CSV dialect, provide the delimiter
-        keyword argument.
+        Outputs table to a CSV.
+
+        Additional key word arguments are passed to ``csv.writer()``. So, e.g., to override the delimiter from the
+        default CSV dialect, provide the delimiter keyword argument.
 
         .. warning::
                 If a file already exists at the given location, it will be
                 overwritten.
 
-        `Args:`
-            local_path: str
-                The path to write the csv locally. If it ends in ".gz" or ".zip", the file will be
-                compressed. If not specified, a temporary file will be created and returned,
-                and that file will be removed automatically when the script is done running.
-            temp_file_compression: str
-                If a temp file is requested (ie. no ``local_path`` is specified), the compression
-                type for that file. Currently "None", "gzip" or "zip" are supported.
-                If a ``local_path`` is specified, this argument is ignored.
-            encoding: str
-                The CSV encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
-            errors: str
-                Raise an Error if encountered
-            write_header: boolean
-                Include header in output
-            csv_name: str
-                If ``zip`` compression (either specified or inferred), the name of csv file
-                within the archive.
-            **csvargs: kwargs
-                ``csv_writer`` optional arguments
+        Args:
+            local_path (str, optional): The path to write the csv locally. If it ends in ".gz" or ".zip", the file
+                will be compressed. If not specified, a temporary file will be created and returned, and that file will
+                be removed automatically when the script is done running. Defaults to None.
+            temp_file_compression (str, optional): If a temp file is requested (ie. no ``local_path`` is specified),
+                the compression type for that file. Currently "None", "gzip" or "zip" are supported.
+                If a ``local_path`` is specified, this argument is ignored. Defaults to None.
+            encoding (str, optional): The CSV encoding type for `csv.writer()
+                <https://docs.python.org/2/library/csv.html#csv.writer/>`_. Defaults to None.
+            errors (str, optional): Raise an Error if encountered. Defaults to "strict".
+            write_header (bool, optional): Include header in output. Defaults to True.
+            csv_name (str, optional): If ``zip`` compression (either specified or inferred), the name of csv file
+                within the archive. Defaults to None.
+            **csvargs: Kwargs
+                ``csv_writer`` optional arguments.
 
-        `Returns:`
-            str
-                The path of the new file
+        Returns:
+            str: The path of the new file.
+
         """
-
         # If a zip archive.
         if files.zip_check(local_path, temp_file_compression):
             return self.to_zip_csv(
@@ -294,27 +256,22 @@ class ToFrom:
         r"""
         Appends table to an existing CSV.
 
-        Additional additional key word arguments
-        are passed to ``csv.writer()``. So, e.g., to override the delimiter
+        Additional additional key word arguments are passed to ``csv.writer()``. So, e.g., to override the delimiter
         from the default CSV dialect, provide the delimiter keyword argument.
 
-        `Args:`
-            local_path: str
-                The local path of an existing CSV file. If it ends in ".gz", the file will
-                be compressed.
-            encoding: str
-                The CSV encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
-            errors: str
-                Raise an Error if encountered
-            **csvargs: kwargs
-                ``csv_writer`` optional arguments
+        Args:
+            local_path (str): The local path of an existing CSV file. If it ends in ".gz", the file will be
+                compressed.
+            encoding (str, optional): The CSV encoding type for `csv.writer()
+                <https://docs.python.org/2/library/csv.html#csv.writer/>`_. Defaults to None.
+            errors (str, optional): Raise an Error if encountered. Defaults to "strict".
+            **csvargs: Kwargs
+                ``csv_writer`` optional arguments.
 
-        `Returns:`
-            str
-                The path of the file
+        Returns:
+            str: The path of the file.
+
         """
-
         petl.appendcsv(self.table, source=local_path, encoding=encoding, errors=errors, **csvargs)
         return local_path
 
@@ -329,39 +286,34 @@ class ToFrom:
         **csvargs,
     ):
         r"""
-        Outputs table to a CSV in a zip archive. Additional key word arguments are passed to
-        ``csv.writer()``. So, e.g., to override the delimiter from the default CSV dialect,
-        provide the delimiter keyword argument. Use thismethod if you would like to write
-        multiple csv files to the same archive.
+        Outputs table to a CSV in a zip archive.
+
+        Additional key word arguments are passed to
+        ``csv.writer()``. So, e.g., to override the delimiter from the default CSV dialect, provide the delimiter
+        keyword argument. Use thismethod if you would like to write multiple csv files to the same archive.
 
         .. warning::
                 If a file already exists in the archive, it will be overwritten.
 
-        `Args:`
-            archive_path: str
-                The path to zip achive. If not specified, a temporary file will be created and
-                returned, and that file will be removed automatically when the script is done
-                running.
-            csv_name: str
-                The name of the csv file to be stored in the archive. If ``None`` will use
-                the archive name.
-            encoding: str
-                The CSV encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
-            errors: str
-                Raise an Error if encountered
-            write_header: boolean
-                Include header in output
-            if_exists: str
-                If archive already exists, one of 'replace' or 'append'
-            **csvargs: kwargs
-                ``csv_writer`` optional arguments
+        Args:
+            archive_path (str, optional): The path to zip achive. If not specified, a temporary file will be created
+                and returned, and that file will be removed automatically when the script is done running.
+                Defaults to None.
+            csv_name (str, optional): The name of the csv file to be stored in the archive.
+                If ``None`` will use the archive name. Defaults to None.
+            encoding (str, optional): The CSV encoding type for `csv.writer()
+                <https://docs.python.org/2/library/csv.html#csv.writer/>`_. Defaults to None.
+            errors (str, optional): Raise an Error if encountered. Defaults to "strict".
+            write_header (bool, optional): Include header in output. Defaults to True.
+            if_exists (str, optional): If archive already exists, one of 'replace' or 'append'.
+                Defaults to "replace".
+            **csvargs: Kwargs
+                ``csv_writer`` optional arguments.
 
-        `Returns:`
-            str
-                The path of the archive
+        Returns:
+            str: The path of the archive.
+
         """
-
         if not archive_path:
             archive_path = files.create_temp_file(suffix=".zip")
 
@@ -378,26 +330,22 @@ class ToFrom:
 
         .. warning::
                 If a file already exists at the given location, it will be
-                overwritten.
+                overwritten........
 
-        `Args:`
-            local_path: str
-                The path to write the JSON locally. If it ends in ".gz", it will be
-                compressed first. If not specified, a temporary file will be created and returned,
-                and that file will be removed automatically when the script is done running.
-            temp_file_compression: str
-                If a temp file is requested (ie. no ``local_path`` is specified), the compression
-                type for that file. Currently "None" and "gzip" are supported.
-                If a ``local_path`` is specified, this argument is ignored.
-            line_delimited: bool
-                Whether the file will be line-delimited JSON (with a row on each line), or a proper
-                JSON file.
+        Args:
+            local_path (str, optional): The path to write the JSON locally. If it ends in ".gz", it will be
+                compressed first. If not specified, a temporary file will be created and returned, and that file will be
+                removed automatically when the script is done running. Defaults to None.
+            temp_file_compression (str, optional): If a temp file is requested (ie. no ``local_path`` is specified),
+                the compression type for that file. Currently "None" and "gzip" are supported.
+                If a ``local_path`` is specified, this argument is ignored. Defaults to None.
+            line_delimited (bool, optional): Whether the file will be line-delimited JSON (with a row on each line),
+                or a proper JSON file. Defaults to False.
 
-        `Returns:`
-            str
-                The path of the new file
+        Returns:
+            str: The path of the new file.
+
         """
-
         if not local_path:
             suffix = ".json" + files.suffix_for_compression_type(temp_file_compression)
             local_path = files.create_temp_file(suffix=suffix)
@@ -432,10 +380,10 @@ class ToFrom:
         """
         Output table as a list of dicts.
 
-        `Returns:`
+        Returns:
             list
-        """
 
+        """
         return list(petl.dicts(self.table))
 
     def to_sftp_csv(
@@ -453,33 +401,25 @@ class ToFrom:
         **csvargs,
     ):
         r"""
-        Writes the table to a CSV file on a remote SFTP server
+        Writes the table to a CSV file on a remote SFTP server.
 
-        `Args:`
-            remote_path: str
-                The remote path of the file. If it ends in '.gz', the file will be compressed.
-            host: str
-                The remote host
-            username: str
-                The username to access the SFTP server
-            password: str
-                The password to access the SFTP server
-            port: int
-                The port number of the SFTP server
-            encoding: str
-                The CSV encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
-            errors: str
-                Raise an Error if encountered
-            write_header: boolean
-                Include header in output
-            rsa_private_key_file str
-                Absolute path to a private RSA key used
-                to authenticate stfp connection
-            **csvargs: kwargs
-                ``csv_writer`` optional arguments
+        Args:
+            rsa_private_key_file: Defaults to None.
+            compression: Defaults to None.
+            remote_path (str): The remote path of the file. If it ends in '.gz', the file will be compressed.
+            host (str): The remote host.
+            username (str): The username to access the SFTP server.
+            password (str): The password to access the SFTP server.
+            port (int, optional): The port number of the SFTP server. Defaults to 22.
+            encoding (str, optional): The CSV encoding type for `csv.writer()
+                <https://docs.python.org/2/library/csv.html#csv.writer/>`_. Defaults to None.
+            errors (str, optional): Raise an Error if encountered. Defaults to "strict".
+            write_header (bool, optional): Include header in output. Defaults to True.
+            rsa_private_key_file str: Absolute path to a private RSA key used to authenticate stfp connection.
+            **csvargs: Kwargs
+                ``csv_writer`` optional arguments.
+
         """
-
         from parsons.sftp import SFTP
 
         sftp = SFTP(host, username, password, port, rsa_private_key_file)
@@ -512,44 +452,37 @@ class ToFrom:
         **csvargs,
     ):
         r"""
-        Writes the table to an s3 object as a CSV
+        Writes the table to an s3 object as a CSV.
 
-        `Args:`
-            bucket: str
-                The s3 bucket to upload to
-            key: str
-                The s3 key to name the file. If it ends in '.gz' or '.zip', the file will be
-                compressed.
-            aws_access_key_id: str
-                Required if not included as environmental variable
-            aws_secret_access_key: str
-                Required if not included as environmental variable
-            compression: str
-                The compression type for the s3 object. Currently "None", "zip" and "gzip" are
-                supported. If specified, will override the key suffix.
-            encoding: str
-                The CSV encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
-            errors: str
-                Raise an Error if encountered
-            write_header: boolean
-                Include header in output
-            public_url: boolean
-                Create a public link to the file
-            public_url_expire: 3600
-                The time, in seconds, until the url expires if ``public_url`` set to ``True``.
-            acl: str
-                The S3 permissions on the file
-            use_env_token: boolean
-                Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
-                to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` env
-                variable even if the ``aws_session_token`` argument was not passed in.
-            **csvargs: kwargs
-                ``csv_writer`` optional arguments
-        `Returns:`
+        Args:
+            public_url_expires: Defaults to 3600.
+            bucket (str): The s3 bucket to upload to.
+            key (str): The s3 key to name the file. If it ends in '.gz' or '.zip', the file will be compressed.
+            aws_access_key_id (str, optional): Required if not included as environmental variable.
+                Defaults to None.
+            aws_secret_access_key (str, optional): Required if not included as environmental variable.
+                Defaults to None.
+            compression (str, optional): The compression type for the s3 object. Currently "None", "zip" and
+                "gzip" are supported. If specified, will override the key suffix. Defaults to None.
+            encoding (str, optional): The CSV encoding type for `csv.writer()
+                <https://docs.python.org/2/library/csv.html#csv.writer/>`_. Defaults to None.
+            errors (str, optional): Raise an Error if encountered. Defaults to "strict".
+            write_header (bool, optional): Include header in output. Defaults to True.
+            public_url (bool, optional): Create a public link to the file. Defaults to False.
+            public_url_expire: 3600 The time, in seconds, until the url expires if
+                ``public_url`` set to ``True``.
+            acl (str, optional): The S3 permissions on the file. Defaults to "bucket-owner-full-control".
+            use_env_token (bool, optional): Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3.
+                Defaults to ``True``. Set to ``False`` in order to ignore the
+                ``AWS_SESSION_TOKEN`` env variable even if the ``aws_session_token`` argument was not passed in.
+                Defaults to True.
+            **csvargs: Kwargs
+                ``csv_writer`` optional arguments.
+
+        Returns:
             Public url if specified. If not ``None``.
-        """
 
+        """
         compression = compression or files.compression_type_for_path(key)
 
         csv_name = files.extract_file_name(key, include_suffix=False) + ".csv"
@@ -597,38 +530,30 @@ class ToFrom:
         r"""
         Writes the table to a Google Cloud Storage blob as a CSV.
 
-        `Args:`
-            bucket_name: str
-                The bucket to upload to
-            blob_name: str
-                The blob to name the file. If it ends in '.gz' or '.zip', the file will be
-                compressed.
-            app_creds: str
-                A credentials json string or a path to a json file. Not required
-                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
-            project: str
-                The project which the client is acting on behalf of. If not passed
-                then will use the default inferred environment.
-            compression: str
-                The compression type for the csv. Currently "None", "zip" and "gzip" are
-                supported. If specified, will override the key suffix.
-            encoding: str
-                The CSV encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
-            errors: str
-                Raise an Error if encountered
-            write_header: boolean
-                Include header in output
-            public_url: boolean
-                Create a public link to the file
-            public_url_expire: 60
-                The time, in minutes, until the url expires if ``public_url`` set to ``True``.
-            **csvargs: kwargs
-                ``csv_writer`` optional arguments
-        `Returns:`
-            Public url if specified. If not ``None``.
-        """
+        Args:
+            gcs_client: Defaults to None.
+            bucket_name (str): The bucket to upload to.
+            blob_name (str): The blob to name the file. If it ends in '.gz' or '.zip', the file will be compressed.
+            app_creds (str, optional): A credentials json string or a path to a json file.
+                Not required if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set. Defaults to None.
+            project (str, optional): The project which the client is acting on behalf of. If not passed then will
+                use the default inferred environment. Defaults to None.
+            compression (str, optional): The compression type for the csv. Currently "None", "zip" and
+                "gzip" are supported. If specified, will override the key suffix. Defaults to None.
+            encoding (str, optional): The CSV encoding type for `csv.writer()
+                <https://docs.python.org/2/library/csv.html#csv.writer/>`_. Defaults to None.
+            errors (str, optional): Raise an Error if encountered. Defaults to "strict".
+            write_header (bool, optional): Include header in output. Defaults to True.
+            public_url (bool, optional): Create a public link to the file. Defaults to False.
+            public_url_expires: 60 The time, in minutes, until the url expires if ``public_url`` set to ``True``.
+                Defaults to 60.
+            **csvargs: Kwargs
+                ``csv_writer`` optional arguments.
 
+        Returns:
+            Public url if specified. If not ``None``.
+
+        """
         compression = compression or files.compression_type_for_path(blob_name)
 
         csv_name = files.extract_file_name(blob_name, include_suffix=False) + ".csv"
@@ -664,31 +589,26 @@ class ToFrom:
         db=None,
         port=None,
         **copy_args,
-    ):
+    ) -> None:
         r"""
-        Write a table to a Redshift database. Note, this requires you to pass
-        AWS S3 credentials or store them as environmental variables.
+        Write a table to a Redshift database.
+
+        Note, this requires you to pass AWS S3 credentials or store them as environmental variables.
 
         Args:
-            table_name: str
-                The table name and schema (``my_schema.my_table``) to point the file.
-            username: str
-                Required if env variable ``REDSHIFT_USERNAME`` not populated
-            password: str
-                Required if env variable ``REDSHIFT_PASSWORD`` not populated
-            host: str
-                Required if env variable ``REDSHIFT_HOST`` not populated
-            db: str
-                Required if env variable ``REDSHIFT_DB`` not populated
-            port: int
-                Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
-            **copy_args: kwargs
-                See :func:`~parsons.databases.Redshift.copy`` for options.
+            table_name (str): The table name and schema (``my_schema.my_table``) to point the file.
+            username (str, optional): Required if env variable ``REDSHIFT_USERNAME`` not populated.
+                Defaults to None.
+            password (str, optional): Required if env variable ``REDSHIFT_PASSWORD`` not populated.
+                Defaults to None.
+            host (str, optional): Required if env variable ``REDSHIFT_HOST`` not populated.
+                Defaults to None.
+            db (str, optional): Required if env variable ``REDSHIFT_DB`` not populated. Defaults to None.
+            port (int, optional): Required if env variable ``REDSHIFT_PORT`` not populated.
+                Port 5439 is typical. Defaults to None.
+            **copy_args: Kwargs See :func:`~parsons.databases.Redshift.copy`` for options.
 
-        Returns:
-            ``None``
         """
-
         from parsons.databases.redshift import Redshift
 
         rs = Redshift(username=username, password=password, host=host, db=db, port=port)
@@ -703,30 +623,21 @@ class ToFrom:
         db=None,
         port=None,
         **copy_args,
-    ):
+    ) -> None:
         r"""
         Write a table to a Postgres database.
 
         Args:
-            table_name: str
-                The table name and schema (``my_schema.my_table``) to point the file.
-            username: str
-                Required if env variable ``PGUSER`` not populated
-            password: str
-                Required if env variable ``PGPASSWORD`` not populated
-            host: str
-                Required if env variable ``PGHOST`` not populated
-            db: str
-                Required if env variable ``PGDATABASE`` not populated
-            port: int
-                Required if env variable ``PGPORT`` not populated.
-            **copy_args: kwargs
-                See :func:`~parsons.databases.Postgres.copy`` for options.
+            table_name (str): The table name and schema (``my_schema.my_table``) to point the file.
+            username (str, optional): Required if env variable ``PGUSER`` not populated. Defaults to None.
+            password (str, optional): Required if env variable ``PGPASSWORD`` not populated.
+                Defaults to None.
+            host (str, optional): Required if env variable ``PGHOST`` not populated. Defaults to None.
+            db (str, optional): Required if env variable ``PGDATABASE`` not populated. Defaults to None.
+            port (int, optional): Required if env variable ``PGPORT`` not populated. Defaults to None.
+            **copy_args: Kwargs See :func:`~parsons.databases.Postgres.copy`` for options.
 
-        Returns:
-            ``None``
         """
-
         from parsons.databases.postgres import Postgres
 
         pg = Postgres(username=username, password=password, host=host, db=db, port=port)
@@ -738,27 +649,22 @@ class ToFrom:
         app_creds: str | None = None,
         project: str | None = None,
         **kwargs,
-    ):
+    ) -> None:
         """
-        Write a table to BigQuery
+        Write a table to BigQuery.
 
-        `Args`:
-            table_name: str
-                Table name to write to in BigQuery; this should be in `schema.table` format
-            app_creds: str
-                A credentials json string or a path to a json file. Not required
-                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
-            project: str
-                The project which the client is acting on behalf of. If not passed
-                then will use the default inferred environment.
-            **kwargs: kwargs
-                Additional keyword arguments passed into the `.copy()` function (`if_exists`,
-                `max_errors`, etc.)
+        Args:
+            table_name (str): Table name to write to in BigQuery; this should be in
+                `schema.table` format.
+            app_creds (str | None, optional): A credentials json string or a path to a json file.
+                Not required if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set. Defaults to None.
+            project (str | None, optional): The project which the client is acting on behalf of.
+                If not passed then will use the default inferred environment. Defaults to None.
+            **kwargs: Kwargs Additional keyword arguments passed into the `.copy()` function
+                (`if_exists`,
+                `max_errors`, etc.).
 
-        `Returns`:
-            ``None``
         """
-
         from parsons import GoogleBigQuery as BigQuery
 
         bq = BigQuery(app_creds=app_creds, project=project)
@@ -782,40 +688,32 @@ class ToFrom:
         **civisargs,
     ):
         """
-        Write the table to a Civis Redshift cluster. Additional key word
-        arguments can passed to `civis.io.dataframe_to_civis()
+        Write the table to a Civis Redshift cluster.
+
+        Additional key word arguments can passed to `civis.io.dataframe_to_civis()
         <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_
 
-        `Args`
-            table: str
-                The schema and table you want to upload to. E.g.,
-                'scratch.table'. Schemas or tablenames with periods must be
-                double quoted, e.g. 'scratch."my.table"'.
-            api_key: str
-                Your Civis API key. If not given, the CIVIS_API_KEY environment
-                variable will be used.
-            db: str or int
-                The Civis Database. Can be database name or ID
-            max_errors: int
-                The maximum number of rows with errors to remove from
-                the import before failing.
-            diststyle: str
-                The distribution style for the table. One of `'even'`, `'all'`
-                or `'key'`.
-            existing_table_rows: str
-                The behaviour if a table with the requested name already
-                exists. One of `'fail'`, `'truncate'`, `'append'` or `'drop'`.
-                Defaults to `'fail'`.
-            distkey: str
-                The column to use as the distkey for the table.
-            sortkey1: str
-                The column to use as the sortkey for the table.
-            sortkey2: str
-                The second column in a compound sortkey for the table.
-            wait: boolean
-                Wait for write job to complete before exiting method.
-        """
+        Args:
+            **civisargs
+            table (str): The schema and table you want to upload to. E.g.,
+                'scratch.table'. Schemas or tablenames with periods must be double quoted, e.g.
+                'scratch."my.table"'.
+            api_key (str, optional): Your Civis API key. If not given, the CIVIS_API_KEY environment variable will
+                be used. Defaults to None.
+            db (str | int, optional): The Civis Database. Can be database name or ID. Defaults to None.
+            max_errors (int, optional): The maximum number of rows with errors to remove from the import before
+                failing. Defaults to None.
+            diststyle (str, optional): The distribution style for the table. One of `'even'`, `'all'` or
+                `'key'`. Defaults to None.
+            existing_table_rows (str, optional): The behaviour if a table with the requested name already exists.
+                One of `'fail'`, `'truncate'`, `'append'` or `'drop'`. Defaults to "fail".
+            distkey (str, optional): The column to use as the distkey for the table. Defaults to None.
+            sortkey1 (str, optional): The column to use as the sortkey for the table. Defaults to None.
+            sortkey2 (str, optional): The second column in a compound sortkey for the table.
+                Defaults to None.
+            wait (bool, optional): Wait for write job to complete before exiting method. Defaults to True.
 
+        """
         from parsons.civis.civisclient import CivisClient
 
         civis = CivisClient(db=db, api_key=api_key)
@@ -837,39 +735,36 @@ class ToFrom:
         r"""
         Create a ``parsons table`` from an Avro file.
 
-        `Args:`
-            local_path: str
-                The path to the Avro file.
-            limit: int, optional
-                The maximum number of rows to extract. Default is ``None`` (all rows).
-            skips: int, optional
-                The number of rows to skip from the start. Default is 0.
-            \**avro_args: kwargs
-                Additional arguments passed to `fastavro.reader`.
+        Args:
+            **avro_args
+            cls
+            local_path (str): The path to the Avro file.
+            limit: Int, optional The maximum number of rows to extract. Defaults to None.
+            skips: Int, optional The number of rows to skip from the start. Defaults to 0.
+            \**avro_args: Kwargs Additional arguments passed to `fastavro.reader`.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         return cls(petl.fromavro(local_path, limit=limit, skips=skips, **avro_args))
 
     @classmethod
     def from_csv(cls, local_path, **csvargs):
         r"""
-        Create a ``parsons table`` object from a CSV file
+        Create a ``parsons table`` object from a CSV file.
 
-        `Args:`
-            local_path: obj
-                A csv formatted local path, url or ftp. If this is a
-                file path that ends in ".gz", the file will be decompressed first.
-            **csvargs: kwargs
-                ``csv_reader`` optional arguments
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Args:
+            cls
+            local_path: Obj A csv formatted local path, url or ftp. If this is a file path that ends in ".gz", the
+                file will be decompressed first.
+            **csvargs: Kwargs
+                ``csv_reader`` optional arguments.
+
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
         is_remote_file = bool(any(map(local_path.startswith, remote_prefixes)))
 
@@ -883,16 +778,16 @@ class ToFrom:
         """
         Create a ``parsons table`` object from a string representing a CSV.
 
-        `Args:`
-            str: str
-                The string object to convert to a table
-            **csvargs: kwargs
-                ``csv_reader`` optional arguments
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Args:
+            cls
+            str (str): The string object to convert to a table.
+            **csvargs: Kwargs
+                ``csv_reader`` optional arguments.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         bytesio = io.BytesIO(str.encode("utf-8"))
         memory_source = petl.io.sources.MemorySource(bytesio.read())
         return cls(petl.fromcsv(memory_source, **csvargs))
@@ -900,40 +795,38 @@ class ToFrom:
     @classmethod
     def from_columns(cls, cols, header=None):
         """
-        Create a ``parsons table`` from a list of lists organized as columns
+        Create a ``parsons table`` from a list of lists organized as columns.
 
-        `Args:`
-            cols: list
-                A list of lists organized as columns
-            header: list
-                List of column names. If not specified, will use dummy column names
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Args:
+            cls
+            cols (list): A list of lists organized as columns.
+            header (list, optional): Column names. If not specified, will use dummy column names.
+                Defaults to None.
+
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         return cls(petl.fromcolumns(cols, header=header))
 
     @classmethod
     def from_json(cls, local_path, header=None, line_delimited=False):
         """
-        Create a ``parsons table`` from a json file
+        Create a ``parsons table`` from a json file.
 
-        `Args:`
-            local_path: list
-                A JSON formatted local path, url or ftp. If this is a
-                file path that ends in ".gz", the file will be decompressed first.
-            header: list
-                List of columns to use for the destination table. If omitted, columns will
-                be inferred from the initial data in the file.
-            line_delimited: bool
-                Whether the file is line-delimited JSON (with a row on each line), or a proper
-                JSON file.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Args:
+            cls
+            local_path (list): A JSON formatted local path, url or ftp. If this is a file path that ends in ".gz",
+                the file will be decompressed first.
+            header (list[str], optional): Columns to use for the destination table. If omitted, columns will be
+                inferred from the initial data in the file. Defaults to None.
+            line_delimited (bool, optional): Whether the file is line-delimited JSON (with a row on each line), or a
+                proper JSON file. Defaults to False.
+
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         if line_delimited:
             open_fn = gzip.open if files.is_gzip_path(local_path) else open
 
@@ -951,25 +844,23 @@ class ToFrom:
 
         To pull an entire Redshift table, use a query like ``SELECT * FROM tablename``.
 
-        `Args:`
-            sql: str
-                A valid SQL statement
-            username: str
-                Required if env variable ``REDSHIFT_USERNAME`` not populated
-            password: str
-                Required if env variable ``REDSHIFT_PASSWORD`` not populated
-            host: str
-                Required if env variable ``REDSHIFT_HOST`` not populated
-            db: str
-                Required if env variable ``REDSHIFT_DB`` not populated
-            port: int
-                Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
+        Args:
+            cls
+            sql (str): A valid SQL statement.
+            username (str, optional): Required if env variable ``REDSHIFT_USERNAME`` not populated.
+                Defaults to None.
+            password (str, optional): Required if env variable ``REDSHIFT_PASSWORD`` not populated.
+                Defaults to None.
+            host (str, optional): Required if env variable ``REDSHIFT_HOST`` not populated.
+                Defaults to None.
+            db (str, optional): Required if env variable ``REDSHIFT_DB`` not populated. Defaults to None.
+            port (int, optional): Required if env variable ``REDSHIFT_PORT`` not populated.
+                Port 5439 is typical. Defaults to None.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         from parsons.databases.redshift import Redshift
 
         rs = Redshift(username=username, password=password, host=host, db=db, port=port)
@@ -978,21 +869,19 @@ class ToFrom:
     @classmethod
     def from_postgres(cls, sql, username=None, password=None, host=None, db=None, port=None):
         """
-        Args:
-            sql: str
-                A valid SQL statement
-            username: str
-                Required if env variable ``PGUSER`` not populated
-            password: str
-                Required if env variable ``PGPASSWORD`` not populated
-            host: str
-                Required if env variable ``PGHOST`` not populated
-            db: str
-                Required if env variable ``PGDATABASE`` not populated
-            port: int
-                Required if env variable ``PGPORT`` not populated.
-        """
+        From postgres.
 
+        Args:
+            cls
+            sql (str): A valid SQL statement.
+            username (str, optional): Required if env variable ``PGUSER`` not populated. Defaults to None.
+            password (str, optional): Required if env variable ``PGPASSWORD`` not populated.
+                Defaults to None.
+            host (str, optional): Required if env variable ``PGHOST`` not populated. Defaults to None.
+            db (str, optional): Required if env variable ``PGDATABASE`` not populated. Defaults to None.
+            port (int, optional): Required if env variable ``PGPORT`` not populated. Defaults to None.
+
+        """
         from parsons.databases.postgres import Postgres
 
         pg = Postgres(username=username, password=password, host=host, db=db, port=port)
@@ -1011,24 +900,23 @@ class ToFrom:
         r"""
         Create a ``parsons table`` from a key in an S3 bucket.
 
-        `Args:`
-            bucket: str
-                The S3 bucket.
-            key: str
-                The S3 key
-            from_manifest: bool
-                If True, treats `key` as a manifest file and loads all urls into a `parsons.Table`.
-                Defaults to False.
-            aws_access_key_id: str
-                Required if not included as environmental variable.
-            aws_secret_access_key: str
-                Required if not included as environmental variable.
-            **csvargs: kwargs
-                ``csv_reader`` optional arguments
-        `Returns:`
-            `parsons.Table` object
-        """
+        Args:
+            cls
+            bucket (str): The S3 bucket.
+            key (str): The S3 key.
+            from_manifest (bool, optional): If True, treats `key` as a manifest file and loads all urls into a
+                `parsons.Table`. Defaults to False.
+            aws_access_key_id (str, optional): Required if not included as environmental variable.
+                Defaults to None.
+            aws_secret_access_key (str, optional): Required if not included as environmental variable.
+                Defaults to None.
+            **csvargs: Kwargs
+                ``csv_reader`` optional arguments.
 
+        Returns:
+            `parsons.Table` object
+
+        """
         from parsons.aws import S3
 
         s3 = S3(aws_access_key_id, aws_secret_access_key)
@@ -1061,22 +949,19 @@ class ToFrom:
 
         To pull an entire BigQuery table, use a query like ``SELECT * FROM {{ table }}``.
 
-        `Args`:
-            sql: str
-                A valid SQL statement
-            app_creds: str
-                A credentials json string or a path to a json file. Not required
-                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
-            project: str
-                The project which the client is acting on behalf of. If not passed
-                then will use the default inferred environment.
+        Args:
+            cls
+            sql (str): A valid SQL statement.
+            app_creds (str, optional): A credentials json string or a path to a json file.
+                Not required if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set. Defaults to None.
+            project (str, optional): The project which the client is acting on behalf of. If not passed then will
+                use the default inferred environment. Defaults to None.
             TODO - Should users be able to pass in kwargs here? For parameters?
 
-        `Returns`:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
 
+        """
         from parsons import GoogleBigQuery as BigQuery
 
         bq = BigQuery(app_creds=app_creds, project=project)
@@ -1088,11 +973,10 @@ class ToFrom:
         """
         Create a ``parsons table`` from a Pandas dataframe.
 
-        `Args:`
-            dataframe: dataframe
-                A valid Pandas dataframe objectt
-            include_index: boolean
-                Include index column
-        """
+        Args:
+            cls
+            dataframe: Dataframe A valid Pandas dataframe objectt.
+            include_index (bool, optional): Include index column. Defaults to False.
 
+        """
         return cls(petl.fromdataframe(dataframe, include_index=include_index))

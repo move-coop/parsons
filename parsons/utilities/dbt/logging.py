@@ -50,14 +50,12 @@ class dbtLogger(ABC):
 
     @abstractmethod
     def send(self, manifests: list[Manifest]) -> None:
-        """The send method is called to execute logging.
+        """
+        The send method is called to execute logging.
 
-        manifests are passed to this method directly (rather
-        than on initialization) so that the logger class can be
-        initialized before the dbt commands have been run. This is
-        mostly necessary for loggers that need to be initialized with
-        credentials or options before being provided to the
-        run_dbt_commands method.
+        manifests are passed to this method directly (rather than on initialization) so that the logger class can be
+        initialized before the dbt commands have been run. This is mostly necessary for loggers that need to be
+        initialized with credentials or options before being provided to the run_dbt_commands method.
         """
         self.commands = manifests
         log_text = self.format_result()  # noqa
@@ -191,10 +189,10 @@ class dbtLoggerSlack(dbtLoggerMarkdown):
 
 
 class dbtLoggerDatabase(dbtLogger, ABC):
-    """Log dbt artifacts by loading to a database.
+    """
+    Log dbt artifacts by loading to a database.
 
-    This class is an abstract base class for logging dbt artifacts to
-    a database.
+    This class is an abstract base class for logging dbt artifacts to a database.
     """
 
     def __init__(
@@ -205,14 +203,16 @@ class dbtLoggerDatabase(dbtLogger, ABC):
         extra_run_table_fields: dict,
         **copy_kwargs,
     ) -> None:
-        """Initialize the logger.
+        """
+        Initialize the logger.
 
         Args:
-            database_connector: A DatabaseConnector object.
-            destination_table_runs: The name of the table to log run information.
-            destination_table_nodes: The name of the table to log node information.
-            extra_run_table_fields: A dictionary of additional fields to include in the run table.
+            database_connector (DatabaseConnector): A DatabaseConnector object.
+            destination_table_runs (str): The name of the table to log run information.
+            destination_table_nodes (str): The name of the table to log node information.
+            extra_run_table_fields (dict): A dictionary of additional fields to include in the run table.
             **copy_kwargs: Additional keyword arguments to pass to the `copy` method.
+
         """
         self.db_connector = database_connector
         self.destination_table_runs = destination_table_runs

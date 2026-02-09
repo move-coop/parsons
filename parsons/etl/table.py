@@ -15,12 +15,13 @@ DIRECT_INDEX_WARNING_COUNT = 10
 
 
 class _EmptyDefault(Enum):
-    """Default argument for Table()
+    """
+    Default argument for Table()
 
-    This is used because Table(None) should not be allowed, but we
-    need a default argument that isn't the mutable []
+    This is used because Table(None) should not be allowed, but we need a default argument that isn't the mutable []
 
-    See https://stackoverflow.com/a/76606310 for discussion."""
+    See https://stackoverflow.com/a/76606310 for discussion........
+    """
 
     token = 0
 
@@ -30,18 +31,19 @@ _EMPTYDEFAULT = _EmptyDefault.token
 
 class Table(ETL, ToFrom):
     """
-    Create a Parsons Table. Accepts one of the following:
+    Create a Parsons Table.
+
+    Accepts one of the following:
     - A list of lists, with list[0] holding field names, and the other lists holding data
     - A list of dicts
     - A petl table
 
-    `Args:`
-        lst: list
-            See above for accepted list formats
-        source: str
-            The original data source from which the data was pulled (optional)
-        name: str
-            The name of the table (optional)
+    Args:
+        lst (list | tuple | petl.util.base.Table | _EmptyDefault, optional): See above for accepted list formats.
+            Defaults to _EMPTYDEFAULT.
+        source (str): The original data source from which the data was pulled (optional).
+        name (str): The name of the table (optional).
+
     """
 
     def __init__(
@@ -116,18 +118,17 @@ class Table(ETL, ToFrom):
         return petl.nrows(head_one) > 0
 
     def _repr_html_(self):
-        """
-        Leverage Petl functionality to display well formatted tables in Jupyter Notebook.
-        """
-
+        """Leverage Petl functionality to display well formatted tables in Jupyter Notebook."""
         return self.table._repr_html_()
 
     @property
     def num_rows(self):
         """
-        `Returns:`
-            int
-                Number of rows in the table
+        Num rows.
+
+        Returns:
+            int: Number of rows in the table.
+
         """
         return petl.nrows(self.table)
 
@@ -145,19 +146,21 @@ class Table(ETL, ToFrom):
     @property
     def columns(self):
         """
-        `Returns:`
-            list
-                List of the table's column names
+        Columns function.
+
+        Returns:
+            list: List of the table's column names.
+
         """
         return list(petl.header(self.table))
 
     @property
     def first(self):
         """
-        Returns the first value in the table. Useful for database queries that only
-        return a single value.
-        """
+        Returns the first value in the table.
 
+        Useful for database queries that only return a single value.
+        """
         try:
             return self.data[0][0]
 
@@ -167,16 +170,15 @@ class Table(ETL, ToFrom):
 
     def row_data(self, row_index):
         """
-        Returns a row in table
+        Returns a row in table.
 
-        `Args:`
-            row_index: int
-        `Returns:`
-            dict
-                A dictionary of the row with the column as the key and the cell
-                as the value.
+        Args:
+            row_index (int)
+
+        Returns:
+            dict: A dictionary of the row with the column as the key and the cell as the value.
+
         """
-
         self._index_count += 1
         if self._index_count >= DIRECT_INDEX_WARNING_COUNT:
             logger.warning(
@@ -195,14 +197,13 @@ class Table(ETL, ToFrom):
         """
         Returns the data in the column as a list.
 
-        `Args:`
-            column_name: str
-                The name of the column
-        `Returns`:
-            list
-                A list of data in the column.
-        """
+        Args:
+            column_name (str): The name of the column.
 
+        Returns:
+            list: A list of data in the column.
+
+        """
         if column_name in self.columns:
             return list(self.table[column_name])
 
@@ -211,33 +212,30 @@ class Table(ETL, ToFrom):
 
     def materialize(self):
         """
-        "Materializes" a Table, meaning all data is loaded into memory and all pending
-        transformations are applied.
+        "Materializes" a Table, meaning all data is loaded into memory and all pending transformations are applied.
 
-        Use this if petl's lazy-loading behavior is causing you problems, eg. if you want to read
-        data from a file immediately.
+        Use this if petl's lazy-loading behavior is causing you problems, eg. if you want to read data from a file
+        immediately.
         """
-
         self.table = petl.wrap(petl.tupleoftuples(self.table))
 
     def materialize_to_file(self, file_path=None):
         """
         "Materializes" a Table, meaning all pending transformations are applied.
 
-        Unlike the original materialize function, this method does not bring the data into memory,
-        but instead loads the data into a local temp file.
+        Unlike the original materialize function, this method does not bring the data into memory, but instead loads the
+        data into a local temp file.
 
         This method updates the current table in place.
 
-        `Args:`
-            file_path: str
-                The path to the file to materialize the table to; if not specified, a temp file
-                will be created.
-        `Returns:`
-            str
-                Path to the temp file that now contains the table
-        """
+        Args:
+            file_path (str, optional): The path to the file to materialize the table to; if not specified, a temp
+                file will be created. Defaults to None.
 
+        Returns:
+            str: Path to the temp file that now contains the table.
+
+        """
         # Load the data in batches, and "pickle" the rows to a temp file.
         # (We pickle rather than writing to, say, a CSV, so that we maintain
         # all the type information for each field.)
@@ -255,13 +253,14 @@ class Table(ETL, ToFrom):
 
     def is_valid_table(self):
         """
-        Performs some simple checks on a Table. Specifically, verifies that we have a valid petl
-        table within the Parsons Table.
+        Performs some simple checks on a Table.
 
-        `Returns:`
+        Specifically, verifies that we have a valid petl table within the Parsons Table.
+
+        Returns:
             bool
-        """
 
+        """
         if not isinstance(self.table, petl.util.base.Table):
             return False
 
@@ -274,14 +273,15 @@ class Table(ETL, ToFrom):
 
     def empty_column(self, column):
         """
-        Checks if a given column is empty. Returns ``True`` if empty and ``False``
-        if not empty.
+        Checks if a given column is empty.
 
-        `Args:`
-            column: str
-                The column name
-        `Returns:`
+        Returns ``True`` if empty and ``False`` if not empty.
+
+        Args:
+            column (str): The column name.
+
+        Returns:
             bool
-        """
 
+        """
         return petl.nrows(petl.selectnotnone(self.table, column)) == 0

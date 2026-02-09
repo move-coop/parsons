@@ -16,11 +16,10 @@ class ActivistCodes:
         """
         Get activist codes.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
 
+        """
         tbl = Table(self.connection.get_request("activistCodes"))
         logger.info(f"Found {tbl.num_rows} activist codes.")
         return tbl
@@ -29,14 +28,13 @@ class ActivistCodes:
         """
         Get an activist code.
 
-        `Args:`
-            activist_code_id : int
-                The activist code id.
-        `Returns:`
-            dict
-                The activist code
-        """
+        Args:
+            activist_code_id (int): The activist code id.
 
+        Returns:
+            dict: The activist code.
+
+        """
         r = self.connection.get_request(f"activistCodes/{activist_code_id}")
         logger.info(f"Found activist code {activist_code_id}.")
         return r
@@ -66,43 +64,28 @@ class ActivistCodes:
         """
         Apply an activist code to or from a person.
 
-        `Args:`
-            id: str
-                A valid person id
-            activist_code_id: int
-                A valid activist code id
-            action: str
-                Either 'apply' or 'remove'
-            id_type: str
-                A known person identifier type available on this VAN instance
-                such as ``dwid``
-            omit_contact: boolean
-                If set to false the contact history will be updated with a contact
-                attempt.
-        Returns:
-            ``None``
-        """
+        Args:
+            id (str): A valid person id.
+            activist_code_id (int): A valid activist code id.
+            id_type (str, optional): A known person identifier type available on this VAN instance such as
+                ``dwid``. Defaults to "vanid".
+            omit_contact (bool, optional): If set to false the contact history will be updated with a contact
+                attempt. Defaults to True.
 
+        """
         return self.toggle_activist_code(
             id, activist_code_id, "Apply", id_type=id_type, omit_contact=omit_contact
         )
 
-    def remove_activist_code(self, id, activist_code_id, id_type="vanid"):
+    def remove_activist_code(self, id, activist_code_id, id_type="vanid") -> None:
         """
         Remove an activist code to or from a person.
 
-        `Args:`
-            id: str
-                A valid person id
-            activist_code_id: int
-                A valid activist code id
-            action: str
-                Either 'apply' or 'remove'
-            id_type: str
-                A known person identifier type available on this VAN instance
-                such as ``dwid``
-        Returns:
-            ``None``
-        """
+        Args:
+            id (str): A valid person id.
+            activist_code_id (int): A valid activist code id.
+            id_type (str, optional): A known person identifier type available on this VAN instance such as
+                ``dwid``. Defaults to "vanid".
 
+        """
         return self.toggle_activist_code(id, activist_code_id, "Remove", id_type=id_type)

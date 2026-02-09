@@ -19,15 +19,14 @@ class SavedLists:
         """
         Get saved lists.
 
-        `Args:`
-            folder_id: int
-                Filter by the id for a VAN folder. If included returns only
-                the saved lists in the folder
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Args:
+            folder_id (int, optional): Filter by the id for a VAN folder. If included returns only the saved lists
+                in the folder. Defaults to None.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         tbl = Table(self.connection.get_request("savedLists", params={"folderId": folder_id}))
         logger.info(f"Found {tbl.num_rows} saved lists.")
         return tbl
@@ -36,13 +35,13 @@ class SavedLists:
         """
         Returns a saved list object.
 
-        `Args:`
-            saved_list_id: int
-                The saved list id.
-        `Returns:`
-            dict
-        """
+        Args:
+            saved_list_id (int): The saved list id.
 
+        Returns:
+            dict
+
+        """
         r = self.connection.get_request(f"savedLists/{saved_list_id}")
         logger.info(f"Found saved list {saved_list_id}.")
         return r
@@ -51,14 +50,13 @@ class SavedLists:
         """
         Download the vanids associated with a saved list.
 
-        `Args:`
-            saved_list_id: int
-                The saved list id.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Args:
+            saved_list_id (int): The saved list id.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         ej = ExportJobs(self.connection)
         job = ej.export_job_create(saved_list_id)
 
@@ -84,45 +82,33 @@ class SavedLists:
         **url_kwargs,
     ):
         """
-        Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
-        must be shared on the target folder.
+        Upload a saved list.
 
-        `Args:`
-            tbl: parsons.Table
-                A parsons table object containing one column of person ids.
-            url_type: str
-                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+        Invalid or unmatched person id records will be ignored. Your api user must be shared on the target folder.
+
+        Args:
+            tbl: Parsons.Table A parsons table object containing one column of person ids.
+            url_type (str): The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            folder_id: int
-                The folder id where the list will be stored.
-            list_name: str
-                The saved list name.
-            description: str
-                Description of the file upload job and the list.
-            callback_url: string
-                The configured HTTP listener to which successful list loads will send
-                a standard webhook.
-            columns: list
-                A list of column names contained in the file.
-            id_column : str
-                The column name of the VAN ID column in the file. Must be VAN ID.
-            delimiter: str
-                The file delimiter used.
-            header: boolean
-                Whether or not the source file has a header row.
-            quotes: boolean
-                 Whether or not fields are enclosed in quotation marks within each
-                 column of the file.
-            overwrite: int
-                Replace saved list if already exists. Pass in the list id of the
-                existing list that you would like to overwrite.
-            **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type. See
+            folder_id (int): The folder id where the list will be stored.
+            list_name (str): The saved list name.
+            description (str): Description of the file upload job and the list.
+            callback_url (str): The configured HTTP listener to which successful list loads will send a standard
+                webhook.
+            columns (list): A list of column names contained in the file.
+            id_column (str): The column name of the VAN ID column in the file. Must be VAN ID.
+            delimiter (str, optional): The file delimiter used. Defaults to "csv".
+            header (bool, optional): Whether or not the source file has a header row. Defaults to True.
+            quotes (bool, optional): Whether or not fields are enclosed in quotation marks within each column of the
+                file. Defaults to True.
+            overwrite (int, optional): Replace saved list if already exists. Pass in the list id of the existing
+                list that you would like to overwrite. Defaults to None.
+            **url_kwargs: Kwargs Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
-            dict
-                Upload results information included the number of matched and saved
-                records in your list.
+
+        Returns:
+            dict: Upload results information included the number of matched and saved records in your list.
+
         """
         rando = str(uuid.uuid1())
         file_name = rando + ".csv"
@@ -190,34 +176,27 @@ class SavedLists:
         **url_kwargs,
     ):
         """
-            .. warning::
+        .. warning::
                .. deprecated:: 0.X Use :func:`parsons.VAN.upload_saved_list_rest` instead.
 
-        Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
-        must be shared on the target folder.
+        Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user must be shared on the
+        target folder.
 
-        `Args:`
-            tbl: parsons.Table
-                A parsons table object containing one column of person ids.
-            list_name: str
-                The saved list name.
-            folder_id: int
-                The folder id where the list will be stored.
-            url_type: str
-                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+        Args:
+            tbl: Parsons.Table A parsons table object containing one column of person ids.
+            list_name (str): The saved list name.
+            folder_id (int): The folder id where the list will be stored.
+            url_type (str): The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            id_type: str
-                The primary key type. The options, beyond ``vanid`` are specific to your
-                instance of VAN.
-            replace: boolean
-                Replace saved list if already exists.
-            **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type. See
+            id_type (str, optional): The primary key type. The options, beyond ``vanid`` are specific to your
+                instance of VAN. Defaults to "vanid".
+            replace (bool, optional): Replace saved list if already exists. Defaults to False.
+            **url_kwargs: Kwargs Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
-            dict
-                Upload results information included the number of matched and saved
-                records in your list.
+
+        Returns:
+            dict: Upload results information included the number of matched and saved records in your list.
+
         """
         # Move to cloud storage
         file_name = str(uuid.uuid1())
@@ -283,11 +262,10 @@ class Folders:
         """
         Get all folders owned or shared with the API user.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
 
+        """
         tbl = Table(self.connection.get_request("folders"))
         logger.info(f"Found {tbl.num_rows} folders.")
         return tbl
@@ -296,14 +274,13 @@ class Folders:
         """
         Get a folder owned by or shared with the API user.
 
-        `Args:`
-            folder_id: int
-                The folder id.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Args:
+            folder_id (int): The folder id.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         r = self.connection.get_request(f"folders/{folder_id}")
         logger.info(f"Found folder {folder_id}.")
         return r
@@ -315,13 +292,12 @@ class ExportJobs:
 
     def get_export_job_types(self):
         """
-        Get export job types
+        Get export job types.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         tbl = Table(self.connection.get_request("exportJobTypes"))
         logger.info(f"Found {tbl.num_rows} export job types.")
         return tbl
@@ -330,22 +306,18 @@ class ExportJobs:
         """
         Creates an export job
 
-        Currently, this is only used for exporting saved lists. It is
-        recommended that you use the :meth:`saved_list_download` method
-        instead.
+        Currently, this is only used for exporting saved lists. It is recommended that you use the
+        :meth:`saved_list_download` method instead........
 
-        `Args:`
-            list_id: int
-                This is where you should input the list id
-            export_type: int
-                The export type id, which defines the columns to export
-            webhookUrl:
-                A webhook to include to notify as to the status of the export
-        `Returns:`
-            dict
-                The export job object
+        Args:
+            list_id (int): This is where you should input the list id.
+            export_type (int): The export type id, which defines the columns to export.
+            webhookUrl: A webhook to include to notify as to the status of the export.
+
+        Returns:
+            dict: The export job object.
+
         """
-
         json = {
             "savedListId": str(list_id),
             "type": str(export_type),
@@ -360,14 +332,13 @@ class ExportJobs:
         """
         Get an export job.
 
-        `Args:`
-            export_job_id: int
-                The xxport job id.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Args:
+            export_job_id (int): The xxport job id.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         r = self.connection.get_request(f"exportJobs/{export_job_id}")
         logger.info(f"Found export job {export_job_id}.")
         return r

@@ -20,17 +20,14 @@ MAX_FB_AUDIENCE_API_USERS = 10000
 
 class FacebookAds:
     """
-    Instantiate the FacebookAds class
+    Instantiate the FacebookAds class.
 
-    `Args:`
-        app_id: str
-            A Facebook app ID. Required if env var FB_APP_ID is not populated.
-        app_secret: str
-            A Facebook app secret. Required if env var FB_APP_SECRET is not populated.
-        access_token: str
-            A Facebook access token. Required if env var FB_ACCESS_TOKEN is not populated.
-        ad_account_id: str
-            A Facebook ad account ID. Required if env var FB_AD_ACCOUNT_ID isnot populated.
+    Args:
+        app_id (str): A Facebook app ID. Required if env var FB_APP_ID is not populated.
+        app_secret (str): A Facebook app secret. Required if env var FB_APP_SECRET is not populated.
+        access_token (str): A Facebook access token. Required if env var FB_ACCESS_TOKEN is not populated.
+        ad_account_id (str): A Facebook ad account ID. Required if env var FB_AD_ACCOUNT_ID isnot populated.
+
     """
 
     # The data columns that are valid for creating a custom audience.
@@ -142,21 +139,18 @@ class FacebookAds:
     @staticmethod
     def get_match_table_for_users_table(users_table):
         """
-        Prepared an input table for matching into a FB custom audience, by identifying which
-        columns are supported for matching, renaming those columns to what FB expects, and
-        cutting away the other columns.
+        Prepared an input table for matching into a FB custom audience, by identifying which columns are supported for
+        matching, renaming those columns to what FB expects, and cutting away the other columns.
 
         See ``FacebookAds.create_custom_audience`` for more details.
 
-        `Args`:
-            users_table: Table
-                The source table for matching
+        Args:
+            users_table: Table The source table for matching.
 
-        `Returns:`
-            Table
-                The prepared table
+        Returns:
+            Table: The prepared table.
+
         """
-
         # Copy the table to avoid messing up the source table
         t = copy.deepcopy(users_table)
 
@@ -216,21 +210,17 @@ class FacebookAds:
         """
         Creates a FB custom audience.
 
-        `Args:`
-            name: str
-                The name of the custom audience
-            data_source: str
-                One of ``USER_PROVIDED_ONLY``, ``PARTNER_PROVIDED_ONLY``, or
-                ``BOTH_USER_AND_PARTNER_PROVIDED``.
-                This tells FB whether the data for a custom audience was provided by actual users,
-                or acquired via partners. FB requires you to specify.
-            description: str
-                Optional. The description of the custom audience
+        Args:
+            name (str): The name of the custom audience.
+            data_source (str): One of ``USER_PROVIDED_ONLY``, ``PARTNER_PROVIDED_ONLY``, or
+                ``BOTH_USER_AND_PARTNER_PROVIDED``. This tells FB whether the data for a custom audience was provided by
+                actual users, or acquired via partners. FB requires you to specify.
+            description: The description of the custom audience. Defaults to None.
 
-        `Returns:`
+        Returns:
             ID of the created audience
-        """
 
+        """
         if not self._is_valid_data_source(data_source):
             raise KeyError("Invalid data_source provided")
 
@@ -248,11 +238,10 @@ class FacebookAds:
         """
         Deletes a FB custom audience.
 
-        `Args:`
-            audience_id: str
-                The ID of the custom audience to delete.
-        """
+        Args:
+            audience_id (str): The ID of the custom audience to delete.
 
+        """
         CustomAudience(audience_id).api_delete()
 
     @staticmethod
@@ -279,9 +268,9 @@ class FacebookAds:
         """
         Adds user data to a custom audience.
 
-        Each user row in the provided table should have at least one of the supported columns
-        defined. Otherwise the row will be ignored. Beyond that, the rows may have any other
-        non-supported columns filled out, and those will all be ignored.
+        Each user row in the provided table should have at least one of the supported columns defined.
+        Otherwise the row will be ignored. Beyond that, the rows may have any other non-supported columns filled out,
+        and those will all be ignored.
 
         .. list-table::
             :widths: 20 80
@@ -296,11 +285,13 @@ class FacebookAds:
             * - Last Name
               - ``ln``, ``last``, ``last name``, ``vb_tsmart_last_name``
             * - Phone Number
-              - ``phone``, ``phone number``, ``cell``, ``landline``, ``vb_voterbase_phone``, ``vb_voterbase_phone_wireless``
+              - ``phone``, ``phone number``, ``cell``, ``landline``, ``vb_voterbase_phone``,
+        ``vb_voterbase_phone_wireless``
             * - City
               - ``ct``, ``city``, ``vb_vf_reg_city``, ``vb_tsmart_city``
             * - State
-              - ``st``, ``state``, ``state code``, ``vb_vf_source_state``, ``vb_tsmart_state``, ``vb_vf_reg_state``, ``vb_vf_reg_cass_state``
+              - ``st``, ``state``, ``state code``, ``vb_vf_source_state``, ``vb_tsmart_state``,
+        ``vb_vf_reg_state``, ``vb_vf_reg_cass_state``
             * - Zip Code
               - ``zip``, ``zip code``, ``vb_vf_reg_zip``, ``vb_tsmart_zip``
             * - County
@@ -316,40 +307,34 @@ class FacebookAds:
             * - Date of Birth
               - ``dob``, ``vb_voterbase_dob``, ``vb_tsmart_dob`` (Format: YYYYMMDD)
 
-        The column names will be normalized before comparing to this list - eg. removing
-        whitespace and punctuation - so you don't need to match exactly.
+        The column names will be normalized before comparing to this list - eg. removing whitespace and punctuation - so
+        you don't need to match exactly.
 
-        If more than one of your columns map to a single FB key, then for each row we'll use any
-        non-null value for those columns.
-        Eg. If you have both ``vb_voterbase_phone`` and ``vb_voterbase_phone_wireless`` (which
-        both map to the FB "phone" key), then for each person in your table, we'll try to pick one
-        valid phone number.
+        If more than one of your columns map to a single FB key, then for each row we'll use any non-null value for
+        those columns. Eg. If you have both ``vb_voterbase_phone`` and
+        ``vb_voterbase_phone_wireless`` (which both map to the FB "phone" key), then for each person in your table,
+        we'll try to pick one valid phone number.
 
         For details of the expected data formats for each column type, see
-        `Facebook Audience API <https://developers.facebook.com/docs/marketing-api/audiences-api>`_,
-        under "Hashing and Normalization for Multi-Key".
+        `Facebook Audience API <https://developers.facebook.com/docs/marketing-api/audiences-api>`_, under "Hashing and
+        Normalization for Multi-Key".
 
-        Note that you shouldn't have to do normalization on your data, as long as it's
-        reasonably close to what FB expects. Eg. It will convert "Male" to "m", and " JoSH"
-        to "josh".
+        Note that you shouldn't have to do normalization on your data, as long as it's reasonably close to what FB
+        expects. Eg. It will convert "Male" to "m", and " JoSH" to "josh".
 
-        FB will attempt to match the data to users in their system. You won't be able to find out
-        which users were matched. But if you provide enough data, FB will tell you roughly how many
-        of them were matched. (You can find the custom audience in your business account at
-        https://business.facebook.com).
+        FB will attempt to match the data to users in their system. You won't be able to find out which users were
+        matched. But if you provide enough data, FB will tell you roughly how many of them were matched.
+        (You can find the custom audience in your business account at https://business.facebook.com).
 
-        Note that because FB's matching is so opaque, it will hide lots of data issues. Eg. if you
-        use "United States" instead of "US" for the "country" field, the API will appear to accept
-        it, when in reality it is probably ignoring that field. So read the docs if you're worried.
+        Note that because FB's matching is so opaque, it will hide lots of data issues. Eg. if you use "United States"
+        instead of "US" for the "country" field, the API will appear to accept it, when in reality it is probably
+        ignoring that field. So read the docs if you're worried.
 
-        `Args:`
-            audience_id: str
-                The ID of the custom audience to delete.
-            users_table: obj
-                Parsons table
+        Args:
+            audience_id (str): The ID of the custom audience to delete.
+            users_table: Obj Parsons table.
 
         """
-
         logger.info(
             f"Adding custom audience users from provided table with {users_table.num_rows} rows"
         )

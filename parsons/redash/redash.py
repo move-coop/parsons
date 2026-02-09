@@ -20,19 +20,22 @@ class RedashQueryFailed(Exception):
 
 class Redash:
     """
-    Instantiate Redash Class
+    Instantiate Redash Class.
 
-    `Args:`
-        base_url: str
-            The base url for your redash instance (excluding the final /)
-        user_api_key: str
-            The user API key found in the User's profile screen
-        pause_time int
-            Specify time between polling for refreshed queries (Defaults to 3 seconds)
-        verify: bool
-            For https requests, should the certificate be verified (Defaults to True)
-    `Returns:`
+    Args:
+        timeout: Defaults to 0.
+        pause_time: Defaults to 3.
+        base_url (str, optional): The base url for your redash instance (excluding the final /).
+            Defaults to None.
+        user_api_key (str, optional): The user API key found in the User's profile screen.
+            Defaults to None.
+        pause_time int: Specify time between polling for refreshed queries (. Defaults to 3 seconds).
+        verify (bool, optional): For https requests, should the certificate be verified (.
+            Defaults to True.
+
+    Returns:
         Redash Class
+
     """
 
     def __init__(
@@ -87,39 +90,33 @@ class Redash:
         """
         Get a data source.
 
-        `Args:`
-            data_source_id: int or str
-                ID of data source.
-        `Returns`:
+        Args:
+            data_source_id (str | int): ID of data source.
+
+        Returns:
             Data source json object
+
         """
         res = self.session.get(f"{self.base_url}/api/data_sources/{data_source_id}")
         self._catch_runtime_error(res)
         return res.json()
 
-    def update_data_source(self, data_source_id, name, type, dbName, host, password, port, user):
+    def update_data_source(
+        self, data_source_id, name, type, dbName, host, password, port, user
+    ) -> None:
         """
         Update a data source.
 
-        `Args:`
-            data_source_id: str or int
-                ID of data source.
-            name: str
-                Name of data source.
-            type: str
-                Type of data source.
-            dbname: str
-                Database name of data source.
-            host: str
-                Host of data source.
-            password: str
-                Password of data source.
-            port: int or str
-                Port of data source.
-            user: str
-                Username of data source.
-        `Returns:`
-            ``None``
+        Args:
+            data_source_id (str | int): ID of data source.
+            name (str): Name of data source.
+            type (str): Type of data source.
+            dbName (str): Database name of data source.
+            host (str): Host of data source.
+            password (str): Password of data source.
+            port (str | int): Port of data source.
+            user (str): Username of data source.
+
         """
         self._catch_runtime_error(
             self.session.post(
@@ -140,24 +137,22 @@ class Redash:
 
     def get_fresh_query_results(self, query_id=None, params=None):
         """
-        Make a fresh query result and get back the CSV http response object back
-        with the CSV string in result.content
+        Make a fresh query result and get back the CSV http response object back with the CSV string in result.content.
 
-        `Args:`
-            query_id: str or int
-                The query id of the query
-            params: dict
-                If there are values for the redash query parameters
-                (described https://redash.io/help/user-guide/querying/query-parameters
-                e.g. "{{datelimit}}" in the query),
-                then this is a dict that will pass the parameters in the POST.
-                We add the "p_" prefix for parameters, so if your query had ?p_datelimit=....
-                in the url, you should just set 'datelimit' in params here.
-                If you set this with REDASH_QUERY_PARAMS environment variable instead of passing
-                the values, then you must include the "p_" prefixes and it should be a single
-                url-encoded string as you would see it in the URL bar.
-        `Returns:`
-            Table Class
+        Args:
+            query_id (str | int, optional): The query id of the query. Defaults to None.
+            params: Dict If there are values for the redash query parameters
+                (described https://redash.io/help/user-guide/querying/query-parameters e.g.
+                "{{datelimit}}" in the query), then this is a dict that will pass the parameters in the POST.
+                We add the `p_` prefix for parameters, so if your query had
+                ?p_datelimit=.... in the url, you should just set 'datelimit' in params here. If you set this with
+                REDASH_QUERY_PARAMS environment variable instead of passing the values, then you must include the `p_`
+                prefixes and it should be a single url-encoded string as you would see it in the URL bar.
+                Defaults to None.
+
+        Returns:
+            Table
+
         """
         query_id = check("REDASH_QUERY_ID", query_id, optional=True)
         params_from_env = check("REDASH_QUERY_PARAMS", "", optional=True)
@@ -191,17 +186,17 @@ class Redash:
 
     def get_cached_query_results(self, query_id=None, query_api_key=None):
         """
-        Get the results from a cached query result and get back the CSV http response object back
-        with the CSV string in result.content
+        Get the results from a cached query result and get back the CSV http response object back with the CSV string in
+        result.content
 
-        `Args:`
-            query_id: str or int
-                The query id of the query
-            query_api_key: str
-                If you did not supply a user_api_key on the Redash object, then you can
-                supply a query_api_key to get cached results back anonymously.
-        `Returns:`
-            Table Class
+        Args:
+            query_id (str | int, optional): The query id of the query. Defaults to None.
+            query_api_key (str, optional): If you did not supply a user_api_key on the Redash object, then you can
+                supply a query_api_key to get cached results back anonymously. Defaults to None.
+
+        Returns:
+            Table
+
         """
         query_id = check("REDASH_QUERY_ID", query_id)
         query_api_key = check("REDASH_QUERY_API_KEY", query_api_key, optional=True)
@@ -220,33 +215,24 @@ class Redash:
     @classmethod
     def load_to_table(cls, refresh=True, **kwargs):
         """
-        Fast classmethod makes the appropriate query type (refresh or cached)
-        based on which arguments are supplied.
+        Fast classmethod makes the appropriate query type (refresh or cached) based on which arguments are supplied.
 
-        `Args:`
-            base_url: str
-                The base url for your redash instance (excluding the final /)
-            query_id: str or int
-                The query id of the query
-            user_api_key: str
-                The user API key found in the User's profile screen required for refresh queries
-            query_api_key: str
-                If you did not supply a user_api_key on the Redash object, then you can
-                supply a query_api_key to get cached results back anonymously.
-            pause_time int
-                Specify time between polling for refreshed queries (Defaults to 3 seconds)
-            verify: bool
-                For https requests, should the certificate be verified (Defaults to True)
-            refresh: bool
-                Refresh results or cached. (Defaults to True unless a query_api_key IS supplied)
-            params: dict
-                For refresh queries, if there are parameters in the query,
-                then this is a dict that will pass the parameters in the POST.
-                We add the "p_" prefix for parameters, so if your query had ?p_datelimit=....
-                in the url, you should just set 'datelimit' in params here.
+        Args:
+            cls
+            refresh (bool, optional): Refresh results or cached. (. Defaults to True.
+            **kwargs: Base_url: str The base url for your redash instance (excluding the final
+                /) query_id: str or int The query id of the query user_api_key: str The user API key found in the User's
+                profile screen required for refresh queries query_api_key: str If you did not supply a user_api_key on
+                the Redash object, then you can supply a query_api_key to get cached results back anonymously.
+                pause_time int Specify time between polling for refreshed queries (Defaults to 3 seconds) verify: bool
+                For https requests, should the certificate be verified ( params: dict For refresh queries, if there are
+                parameters in the query, then this is a dict that will pass the parameters in the POST.
+                We add the `p_` prefix for parameters, so if your query had
+                ?p_datelimit=.... in the url, you should just set 'datelimit' in params here. Defaults to True).
 
-        `Returns:`
-            Table Class
+        Returns:
+            Table
+
         """
         initargs = {
             a: kwargs.get(a)

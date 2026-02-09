@@ -35,7 +35,7 @@ DEFAULT_VINTAGE = "Current_Current"
 
 
 class CensusGeocode:
-    """Fetch results from the Census Geocoder"""
+    r"""Fetch results from the Census Geocode."""
 
     _url = "https://geocoding.geo.census.gov/geocoder/{returntype}/{searchtype}"
     returntypes = ["geographies", "locations"]
@@ -68,8 +68,7 @@ class CensusGeocode:
     }
 
     def __init__(self, benchmark=None, vintage=None):
-        """
-        Arguments:
+        """Arguments:
             benchmark (str): A name that references the version of the locator to use.
                 See https://geocoding.geo.census.gov/geocoder/benchmarks
             vintage (str): The geography part of the desired vintage.
@@ -139,8 +138,7 @@ class CensusGeocode:
         return self._fetch("address", fields, **kwargs)
 
     def onelineaddress(self, address, **kwargs):
-        """
-        Geocode an an address passed as one string.
+        """Geocode an an address passed as one string.
 
         e.g. "4600 Silver Hill Rd, Suitland, MD 20746"
         """
@@ -152,8 +150,7 @@ class CensusGeocode:
         return self._fetch("onelineaddress", fields, **kwargs)
 
     def set_benchmark(self, benchmark):
-        """
-        Set the Census Geocoding API benchmark the class will use.
+        """Set the Census Geocoding API benchmark the class will use.
 
         See: https://geocoding.geo.census.gov/geocoder/vintages?form
         """
@@ -162,8 +159,7 @@ class CensusGeocode:
 
     @property
     def benchmark(self):
-        """
-        Give the Census Geocoding API benchmark the class is using.
+        """Give the Census Geocoding API benchmark the class is using.
 
         See: https://geocoding.geo.census.gov/geocoder/benchmarks
         """
@@ -171,8 +167,7 @@ class CensusGeocode:
         return getattr(self, "_benchmark")
 
     def set_vintage(self, vintage):
-        """
-        Set the Census Geocoding API vintage the class will use.
+        """Set the Census Geocoding API vintage the class will use.
 
         See: https://geocoding.geo.census.gov/geocoder/vintages?form
         """
@@ -181,8 +176,7 @@ class CensusGeocode:
 
     @property
     def vintage(self):
-        """
-        Give the Census Geocoding API vintage the class is using.
+        """Give the Census Geocoding API vintage the class is using.
 
         See: https://geocoding.geo.census.gov/geocoder/vintages?form
         """
@@ -257,13 +251,12 @@ class CensusGeocode:
             f.close()
 
     def addressbatch(self, data, **kwargs):
-        """
-        Send either a CSV file or data to the addressbatch API.
+        """Send either a CSV file or data to the addressbatch API.
 
         According to the Census, "there is currently an upper limit of 10,000 records per batch file."
 
-        If a file, can either be a file-like with a `read()` method, or a `str` that's a path to the
-        file. Either way, it must have no header and have fields id,street,city,state,zip
+        If a file, can either be a file-like with a `read()` method, or a `str` that's a path to the file.
+        Either way, it must have no header and have fields id,street,city,state,zip
 
         If data, should be an iterable of dicts with the above fields (although ID is optional).
         """

@@ -1,4 +1,5 @@
-"""Class for Box API.
+"""
+Class for Box API.
 
 To get authentication info (this eventually belongs in the docs for
 this connector):
@@ -33,28 +34,26 @@ DEFAULT_FOLDER_ID = "0"
 
 
 class Box:
-    """Box is a file storage provider.
+    """
+    Box is a file storage provider.
 
-    `Args:`
-        client_id: str
-            Box client (account) id -- probably a 16-char alphanumeric.
-            Not required if ``BOX_CLIENT_ID`` env variable is set.
-        client_secret: str
-            Box private key -- probably a 32-char alphanumeric.
-            Not required if ``BOX_CLIENT_SECRET`` env variable is set.
-        access_token: str
-            Box developer access token -- probably a 32-char alphanumeric.
-            Note that this is only valid for developer use only, and should not
-            be used when creating and maintaining access for typical users.
-            Not required if ''BOX_ACCESS_TOKEN'' env variable is set.
-    `Returns:`
-            Box class
+    Args:
+        client_id (str, optional): Box client (account) id -- probably a 16-char alphanumeric.
+            Not required if ``BOX_CLIENT_ID`` env variable is set. Defaults to None.
+        client_secret (str, optional): Box private key -- probably a 32-char alphanumeric.
+            Not required if ``BOX_CLIENT_SECRET`` env variable is set. Defaults to None.
+        access_token (str, optional): Box developer access token -- probably a 32-char alphanumeric.
+            Note that this is only valid for developer use only, and should not be used when creating and maintaining
+            access for typical users. Not required if ''BOX_ACCESS_TOKEN'' env variable is set.
+            Defaults to None.
 
-    *NOTE*: All path-based methods in this class use an intermediate
-    method that looks up the relevant folder/file id by successive API
-    calls. This can be slow for long paths or intermediate folders
-    that contain many items. If performance is an issue, please use the
-    corresponding folder_id/file_id methods for each function.
+    Returns:
+        *NOTE*: All path-based methods in this class use an intermediate.
+        method that looks up the relevant folder/file id by successive API
+        calls. This can be slow for long paths or intermediate folders
+        that contain many items. If performance is an issue, please use the
+        corresponding folder_id/file_id methods for each function.
+
     """
 
     # In what formats can we upload/save Tables to Box? For now csv and JSON.
@@ -71,15 +70,16 @@ class Box:
         self.client = boxsdk.Client(oauth)
 
     def create_folder(self, path) -> str:
-        """Create a Box folder.
+        """
+        Create a Box folder.
 
-        `Args`:
-            path: str
-               Path to the folder to be created. If no slashes are present,
-               path will be name of folder created in the default folder.
+        Args:
+            path (str): Path to the folder to be created. If no slashes are present, path will be name of folder
+                created in the default folder.
 
-        `Returns`:
+        Returns:
             str: The Box id of the newly-created folder.
+
         """
         if "/" in path:
             parent_folder_path, folder_name = path.rsplit(sep="/", maxsplit=1)
@@ -90,72 +90,78 @@ class Box:
         return self.create_folder_by_id(folder_name, parent_folder_id=parent_folder_id)
 
     def create_folder_by_id(self, folder_name, parent_folder_id=DEFAULT_FOLDER_ID) -> str:
-        """Create a Box folder.
+        """
+        Create a Box folder.
 
-        `Args`:
-            folder_name: str
-               The name to give to the new folder.
-            parent_folder_id: str
-               Folder id of the parent folder in which to create the new folder. If
-               omitted, the default folder will be used.
+        Args:
+            folder_name (str): The name to give to the new folder.
+            parent_folder_id (str, optional): Folder id of the parent folder in which to create the new folder.
+                If omitted, the default folder will be used. Defaults to DEFAULT_FOLDER_ID.
 
-        `Returns`:
+        Returns:
             str: The Box id of the newly-created folder.
+
         """
         subfolder = self.client.folder(parent_folder_id).create_subfolder(folder_name)
         return subfolder.id
 
     def delete_folder(self, path) -> None:
-        """Delete a Box folder.
+        """
+        Delete a Box folder.
 
-        `Args`:
-            folder_id: str
-               Path to the folder to delete.
+        Args:
+            path
+            folder_id (str): Path to the folder to delete.
+
         """
         folder_id = self.get_item_id(path)
         self.delete_folder_by_id(folder_id=folder_id)
 
     def delete_folder_by_id(self, folder_id) -> None:
-        """Delete a Box folder.
+        """
+        Delete a Box folder.
 
-        `Args`:
-            folder_id: str
-               The Box id of the folder to delete.
+        Args:
+            folder_id (str): The Box id of the folder to delete.
+
         """
         self.client.folder(folder_id=folder_id).delete()
 
     def delete_file(self, path) -> None:
-        """Delete a Box file.
+        """
+        Delete a Box file.
 
-        `Args`:
-            path: str
-              Path to the file to delete.
+        Args:
+            path (str): Path to the file to delete.
+
         """
         file_id = self.get_item_id(path)
         self.delete_file_by_id(file_id=file_id)
 
     def delete_file_by_id(self, file_id) -> None:
-        """Delete a Box file.
+        """
+        Delete a Box file.
 
-        `Args`:
-            file_id: str
-              The Box id of the file to delete.
+        Args:
+            file_id (str): The Box id of the file to delete.
+
         """
         self.client.file(file_id=file_id).delete()
 
     def list(self, path="", item_type=None) -> Table:
-        """Return a Table of Box files and/or folders found at a path.
+        """
+        Return a Table of Box files and/or folders found at a path.
 
-        `Args`:
-            path:str
-               If specified, the slash-separated path of the folder to be listed.
-               If omitted, the default folder will be used.
-            item_type: str
-               Optionally which type of items should be returned, typically either
-               `file` or `folder`. If omitted, all items will be returned.
+        Args:
+            path: Defaults to "".
+            path:str: If specified, the slash-separated path of the folder to be listed. If omitted, the default
+                folder will be used.
+            item_type (str, optional): Optionally which type of items should be returned, typically either
+                `file` or `folder`. If omitted, all items will be returned. Defaults to None.
 
-        `Returns`: Table
+        Returns:
             A Parsons table of items in the folder and their attributes.
+
         """
         folder_id = self.get_item_id(path) if path else DEFAULT_FOLDER_ID
         return self.list_items_by_id(folder_id=folder_id, item_type=item_type)
@@ -170,42 +176,48 @@ class Box:
         return items
 
     def list_files_by_id(self, folder_id=DEFAULT_FOLDER_ID) -> Table:
-        """List all Box files in a folder.
+        """
+        List all Box files in a folder.
 
-        `Args`:
-            folder_id: str
-               The Box id of the folder in which to search. If omitted,
-               search in the default folder.
-        `Returns`: Table
+        Args:
+            folder_id (str, optional): The Box id of the folder in which to search. If omitted, search in the
+                default folder. Defaults to DEFAULT_FOLDER_ID.
+
+        Returns:
             A Parsons table of files and their attributes.
+
         """
         return self.list_items_by_id(folder_id=folder_id, item_type="file")
 
     def list_folders_by_id(self, folder_id=DEFAULT_FOLDER_ID) -> Table:
-        """List all Box folders.
+        """
+        List all Box folders.
 
-        `Args`:
-            folder_id: str
-               The Box id of the folder in which to search. If omitted,
-               search in the default folder.
-        `Returns`: Table
+        Args:
+            folder_id (str, optional): The Box id of the folder in which to search. If omitted, search in the
+                default folder. Defaults to DEFAULT_FOLDER_ID.
+
+        Returns:
             A Parsons table of folders and their attributes.
+
         """
         return self.list_items_by_id(folder_id=folder_id, item_type="folder")
 
     def upload_table(self, table, path="", format="csv") -> boxsdk.object.file.File:
-        """Save the passed table to Box.
+        """
+        Save the passed table to Box.
 
-        `Args`:
-            table:Table
-               The Parsons table to be saved.
-            path: str
-               Optionally, file path to filename where table should be saved.
-            format: str
-               For now, only 'csv' and 'json'; format in which to save table.
+        Args:
+            table
+            table:Table: The Parsons table to be saved.
+            path (str, optional): Optionally, file path to filename where table should be saved.
+                Defaults to "".
+            format (str, optional): For now, only 'csv' and 'json'; format in which to save table.
+                Defaults to "csv".
 
-        `Returns`: BoxFile
+        Returns:
             A Box File object
+
         """
         if "/" in path:
             folder_path, file_name = path.rsplit(sep="/", maxsplit=1)
@@ -221,22 +233,22 @@ class Box:
     def upload_table_to_folder_id(
         self, table, file_name, folder_id=DEFAULT_FOLDER_ID, format="csv"
     ) -> boxsdk.object.file.File:
-        """Save the passed table to Box.
-
-        `Args`:
-            table:Table
-               The Parsons table to be saved.
-            file_name: str
-               The filename under which it should be saved in Box.
-            folder_id: str
-               Optionally, the id of the subfolder in which it should be saved.
-            format: str
-               For now, only 'csv' and 'json'; format in which to save table.
-
-        `Returns`: BoxFile
-            A Box File object
         """
+        Save the passed table to Box.
 
+        Args:
+            table
+            table:Table: The Parsons table to be saved.
+            file_name (str): The filename under which it should be saved in Box.
+            folder_id (str, optional): Optionally, the id of the subfolder in which it should be saved.
+                Defaults to DEFAULT_FOLDER_ID.
+            format (str, optional): For now, only 'csv' and 'json'; format in which to save table.
+                Defaults to "csv".
+
+        Returns:
+            A Box File object
+
+        """
         if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(
                 f'Format argument to upload_table() must be in one of {self.ALLOWED_FILE_FORMATS}; found "{format}"'
@@ -261,20 +273,18 @@ class Box:
         return new_file
 
     def download_file(self, path: str, local_path: str = None) -> str:
-        """Download a Box object to a local file.
+        """
+        Download a Box object to a local file.
 
-        `Args`:
-            path: str
-                The slash-separated path to the file in Box.
-            local_path: str
-                The local path where the file will be downloaded. If not
-                specified, a temporary file will be created and returned, and
-                that file will be removed automatically when the script is done
-                running.
+        Args:
+            path (str): The slash-separated path to the file in Box.
+            local_path (str, optional): The local path where the file will be downloaded. If not specified, a
+                temporary file will be created and returned, and that file will be removed automatically when the script
+                is done running. Defaults to None.
 
-        `Returns:`
-            str
-                The path of the new file
+        Returns:
+            str: The path of the new file.
+
         """
         if not local_path:
             # Temp file will be around as long as enclosing process is running,
@@ -289,31 +299,33 @@ class Box:
         return local_path
 
     def get_table(self, path, format="csv") -> Table:
-        """Get a table that has been saved to Box in csv or JSON format.
+        """
+        Get a table that has been saved to Box in csv or JSON format.
 
-        `Args`:
-            path: str
-                The slash-separated path to the file containing the table.
-            format: str
-                 Format in which Table has been saved; for now, only 'csv' or 'json'.
+        Args:
+            path (str): The slash-separated path to the file containing the table.
+            format (str, optional): Format in which Table has been saved; for now, only 'csv' or 'json'.
+                Defaults to "csv".
 
-        `Returns`: Table
+        Returns:
             A Parsons Table.
+
         """
         file_id = self.get_item_id(path)
         return self.get_table_by_file_id(file_id=file_id, format=format)
 
     def get_table_by_file_id(self, file_id, format="csv") -> Table:
-        """Get a table that has been saved to Box in csv or JSON format.
+        """
+        Get a table that has been saved to Box in csv or JSON format.
 
-        `Args`:
-            file_id: str
-                The Box file_id of the table to be retrieved.
-            format: str
-                 Format in which Table has been saved; for now, only 'csv' or 'json'.
+        Args:
+            file_id (str): The Box file_id of the table to be retrieved.
+            format (str, optional): Format in which Table has been saved; for now, only 'csv' or 'json'.
+                Defaults to "csv".
 
-        `Returns`: Table
+        Returns:
             A Parsons Table.
+
         """
         if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(
@@ -336,22 +348,18 @@ class Box:
             )  # pragma: no cover
 
     def get_item_id(self, path, base_folder_id=DEFAULT_FOLDER_ID) -> str:
-        """Given a path-like object, try to return the id for the file or
-        folder at the end of the path.
+        """
+        Given a path-like object, try to return the id for the file or folder at the end of the path.
 
         *NOTE*: This method makes one API call for each level in
-        `path`, so can be slow for long paths or intermediate folders
-        containing very many items.
+        `path`, so can be slow for long paths or intermediate folders containing very many items.
 
-        `Args`:
-            path: str
-                A slash-separated path from the base folder to the file or
-                folder in question.
-            base_folder_id: str
-                 What to use as the base folder for the path. By default, use
-                 the default folder.
+        Args:
+            path (str): A slash-separated path from the base folder to the file or folder in question.
+            base_folder_id (str, optional): What to use as the base folder for the path. the default folder.
+                Defaults to DEFAULT_FOLDER_ID.
 
-        `Returns`: Table
+        Returns:
             A Parsons Table.
 
         """

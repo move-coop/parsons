@@ -12,20 +12,19 @@ TURBOVOTE_URI = "https://turbovote-admin-http-api.prod.democracy.works/"
 
 class TurboVote:
     """
-    Instantiate the TurboVote class
+    Instantiate the TurboVote class.
 
-    `Args:`
-        username: str
-            A valid TurboVote username. Not required if ``TURBOVOTE_USERNAME``
-            env variable set.
-        password: str
-            A valid TurboVote password. Not required if ``TURBOVOTE_PASSWORD``
-            env variable set.
-        subdomain: str
-            Your TurboVote subdomain (i.e. ``https://MYORG.turbovote.org``). Not
-            required if ``TURBOVOTE_SUBDOMAIN`` env variable set.
-    `Returns:`
+    Args:
+        username (str, optional): A valid TurboVote username. Not required if ``TURBOVOTE_USERNAME`` env variable
+            set. Defaults to None.
+        password (str, optional): A valid TurboVote password. Not required if ``TURBOVOTE_PASSWORD`` env variable
+            set. Defaults to None.
+        subdomain (str, optional): Your TurboVote subdomain (i.e. ``https://MYORG.turbovote.org``).
+            Not required if ``TURBOVOTE_SUBDOMAIN`` env variable set. Defaults to None.
+
+    Returns:
         class
+
     """
 
     def __init__(self, username=None, password=None, subdomain=None):
@@ -49,11 +48,10 @@ class TurboVote:
         """
         Get users.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
 
+        """
         url = self.uri + f"partners/{self.subdomain}.turbovote.org/users"
 
         headers = {"Authorization": f"Bearer {self._get_token()}"}

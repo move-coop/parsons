@@ -22,15 +22,19 @@ class PrintedLists:
         """
         Get printed lists.
 
-        `Args:`
-            folder_id: int
-                Filter by the id for a VAN folder. If included returns only
-                the saved lists in the folder
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Args:
+            turf_name: Defaults to None.
+            folder_name: Defaults to None.
+            created_by: Defaults to None.
+            generated_before: Defaults to None.
+            generated_after: Defaults to None.
+            folder_id (int): Filter by the id for a VAN folder. If included returns only the saved lists in the
+                folder.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         params = {
             "generatedAfter": generated_after,
             "generatedBefore": generated_before,
@@ -50,13 +54,13 @@ class PrintedLists:
         """
         Returns a printed list object.
 
-        `Args:`
-            printed_list_number: int
-                The printed list number
-        `Returns:`
-            dict
-        """
+        Args:
+            printed_list_number (int): The printed list number.
 
+        Returns:
+            dict
+
+        """
         r = self.connection.get_request(f"printedLists/{printed_list_number}")
         logger.info(f"Found printed list {printed_list_number}.")
         return r

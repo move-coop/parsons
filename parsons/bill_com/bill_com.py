@@ -7,17 +7,15 @@ from parsons import Table
 
 class BillCom:
     """
-    `Args:`
-        user_name: str
-            The Bill.com username
-        password: str
-            The Bill.com password
-        org_id: str
-            The Bill.com organization id
-        dev_key: str
-            The Bill.com dev key
-        api_url:
-            The Bill.com end point url
+    Init function.
+
+    Args:
+        user_name (str): The Bill.com username.
+        password (str): The Bill.com password.
+        org_id (str): The Bill.com organization id.
+        dev_key (str): The Bill.com dev key.
+        api_url (str): The Bill.com end point url.
+
     """
 
     def __init__(self, user_name, password, org_id, dev_key, api_url):
@@ -35,15 +33,16 @@ class BillCom:
 
     def _get_payload(self, data):
         """
-        `Args:`
-            data: dict
-                A dictionary containing the payload to be sent in the request.
-                The dev_key and sessionId should not be included as they are
-                dealt with separately.
+        Get payload.
 
-        `Returns:`
+        Args:
+            data (dict): A dictionary containing the payload to be sent in the request. The dev_key and sessionId
+                should not be included as they are dealt with separately.
+
+        Returns:
             A dictionary of the payload to be sent in the request with the
             dev_key and sessionId added.
+
         """
         return {
             "devKey": self.dev_key,
@@ -53,21 +52,20 @@ class BillCom:
 
     def _post_request(self, data, action, object_name):
         """
-        `Args:`
-            data: dict
-                A dictionary containing the payload to be sent in the request.
-                The dev_key and sessionId should not be included as they are
-                dealt with separately.
-            action: str
-                The action to be taken on the given object.
-                Possible values are "List", "Read", "Create", and "Send".
-            object_name: str
-                The id of the object. Possible values are "User", "Customer", and "Invoice".
+        Post request.
 
-        `Returns:`
+        Args:
+            data (dict): A dictionary containing the payload to be sent in the request. The dev_key and sessionId
+                should not be included as they are dealt with separately.
+            action (str): The action to be taken on the given object. Possible values are "List",
+                "Read", "Create", and "Send".
+            object_name (str): The id of the object. Possible values are "User", "Customer", and
+                "Invoice".
+
+        Returns:
             A dictionary containing the JSON response from the post request.
-        """
 
+        """
         if action == "Read":
             url = f"{self.api_url}Crud/{action}/{object_name}.json"
         elif action == "Create":
@@ -83,21 +81,21 @@ class BillCom:
 
     def _get_request_response(self, data, action, object_name, field="response_data"):
         """
-        `Args:`
-            data: dict
-                A dictionary containing the payload to be sent in the request.
-                The dev_key and sessionId should not be included as they are
-                dealt with separately.
-            action: str
-                The action to be taken on the given object.
-                Possible values are "List", "Read", "Create", and "Send".
-            object_name: str
-                The id of the object. Possible values are "User", "Customer", and "Invoice".
-            field: str
-                The JSON field where the response data is stored. Defaults to "response_data".
+        Get request response.
 
-        `Returns:`
-            A dictionary containing the choosen field from the JSON response from the post request.
+        Args:
+            data (dict): A dictionary containing the payload to be sent in the request. The dev_key and sessionId
+                should not be included as they are dealt with separately.
+            action (str): The action to be taken on the given object. Possible values are "List",
+                "Read", "Create", and "Send".
+            object_name (str): The id of the object. Possible values are "User", "Customer", and
+                "Invoice".
+            field (str, optional): The JSON field where the response data is stored. Defaults to
+                "response_data". Defaults to "response_data".
+
+        Returns:
+            A dictionary containing the choosen field from the JSON response from the post: Request.
+
         """
         r = self._post_request(data, action, object_name)[field]
 
@@ -108,16 +106,15 @@ class BillCom:
 
     def _paginate_list(self, response, data, object_name, field="response_data"):
         """
-        Internal method to paginate through and concatenate results of lists larger than max
-        `Args:`
-            response: list of dicts
-                Data from an initial list call
-            data: dict
-                Start, max, and kwargs from initial list call
-            object_name: str
-                Name of the object being listed
-        """
+        Internal method to paginate through and concatenate results of lists larger than max.
 
+        Args:
+            field: Defaults to "response_data".
+            response: List of dicts Data from an initial list call.
+            data: Dict Start, max, and kwargs from initial list call.
+            object_name (str): Name of the object being listed.
+
+        """
         r_table = Table(response)
         max_ct = data["max"]
 
@@ -130,16 +127,17 @@ class BillCom:
 
     def get_user_list(self, start_user=0, max_user=999, **kwargs):
         """
-        `Args:`
-            start_user: int
-                The index of first user to return. Starts from 0 (not 1).
-            max_user: str
-                The index of the max user to return
-            **kwargs:
-                Any other fields to pass
+        Get user list.
 
-        `Returns:`
+        Args:
+            start_user (int, optional): The index of first user to return. Starts from 0 (not 1).
+                Defaults to 0.
+            max_user (str, optional): The index of the max user to return. Defaults to 999.
+            **kwargs: Any other fields to pass.
+
+        Returns:
             A Parsons Table of user information for every user from start_user to max_user.
+
         """
         data = {"start": start_user, "max": max_user, **kwargs}
 
@@ -147,17 +145,18 @@ class BillCom:
 
     def get_customer_list(self, start_customer=0, max_customer=999, **kwargs):
         """
-        `Args:`
-            start_customer: int
-                The index of first customer to return. Starts from 1 (not 0).
-            max_customer: str
-                The index of the max customer to return
-            **kwargs:
-                Any other fields to pass
+        Get customer list.
 
-        `Returns:`
+        Args:
+            start_customer (int, optional): The index of first customer to return. Starts from 1 (not 0).
+                Defaults to 0.
+            max_customer (str, optional): The index of the max customer to return. Defaults to 999.
+            **kwargs: Any other fields to pass.
+
+        Returns:
             A Parsons Table of customer information for every user from start_customer
             to max_customer.
+
         """
         data = {"start": start_customer, "max": max_customer, **kwargs}
 
@@ -165,17 +164,18 @@ class BillCom:
 
     def get_invoice_list(self, start_invoice=0, max_invoice=999, **kwargs):
         """
-        `Args:`
-            start_invoice: int
-                The index of first customer to return. Starts from 1 (not 0).
-            max_invoice: str
-                The index of the max customer to return
-            **kwargs:
-                Any other fields to pass
+        Get invoice list.
 
-        `Returns:`
+        Args:
+            start_invoice (int, optional): The index of first customer to return. Starts from 1 (not 0).
+                Defaults to 0.
+            max_invoice (str, optional): The index of the max customer to return. Defaults to 999.
+            **kwargs: Any other fields to pass.
+
+        Returns:
             A list of dictionaries of invoice information for every invoice from start_invoice
             to max_invoice.
+
         """
         data = {"start": start_invoice, "max": max_invoice, **kwargs}
 
@@ -183,41 +183,44 @@ class BillCom:
 
     def read_customer(self, customer_id):
         """
-        `Args:`
-            customer_id: str
-                The id of the customer to query
+        Read customer.
 
-        `Returns:`
+        Args:
+            customer_id (str): The id of the customer to query.
+
+        Returns:
             A dictionary of the customer's information.
+
         """
         data = {"id": customer_id}
         return self._get_request_response(data, "Read", "Customer")
 
     def read_invoice(self, invoice_id):
         """
-        `Args:`
-            invoice_id: str
-                The id of the invoice to query
+        Read invoice.
 
-        `Returns:`
+        Args:
+            invoice_id (str): The id of the invoice to query.
+
+        Returns:
             A dictionary of the invoice information.
+
         """
         data = {"id": invoice_id}
         return self._get_request_response(data, "Read", "Invoice")
 
     def check_customer(self, customer1, customer2):
         """
-        `Args:`
-            customer1: dict
-                A dictionary of data on customer1
-            customer2: dict
-                A dictionary of data on customer2
+        Check customer.
 
-        `Returns:`
-            True if either
-                1. customer1 and customer2 have the same id
-                OR
-                2. customer1 has no id and customer1 customer2 have the same email address
+        Args:
+            customer1 (dict): A dictionary of data on customer1.
+            customer2 (dict): A dictionary of data on customer2.
+
+        Returns:
+            True if either:
+                1. customer1 and customer2 have the same id OR
+                2. customer1 has no id and customer1 customer2 have the same email address.
             False otherwise
 
         """
@@ -230,19 +233,19 @@ class BillCom:
 
     def get_or_create_customer(self, customer_name, customer_email, **kwargs):
         """
-        `Args:`
-            customer_name: str
-                The name of the customer
-            customer_email: str
-                The customer's email
-        `Keyword Args:`
-            **kwargs:
-                Any other fields to store about the customer.
+        Get or create customer.
 
-        `Returns:`
+        Args:
+            **kwargs
+            customer_email
+            customer_name
+            `Keyword Args:`: **kwargs: Any other fields to store about the customer.
+
+        Returns:
             A dictionary of the customer's information including an id.
             If the customer already exists, this function will not
             create a new id and instead use the existing id.
+
         """
         customer = {"name": customer_name, "email": customer_email, **kwargs}
 
@@ -259,25 +262,21 @@ class BillCom:
         self, customer_id, invoice_number, invoice_date, due_date, invoice_line_items, **kwargs
     ):
         """
-        `Args:`
-            customer_id: str
-                The customer's id
-            invoice_number: str
-                The invoice number. Every invoice must have a distinct
-                invoice number.
-            invoice_date: str
-                The invoice date. This can be the date the invoice was
-                generated of any other relevant date.
-            due_date: str
-                The date on which the invoice is due.
-            invoice_line_items: list
-                A list of dicts, one for each line item in the invoice.
-                The only required field is "quantity".
-            **kwargs:
-                Any other invoice details to pass.
+        Create invoice.
 
-        `Returns:`
+        Args:
+            customer_id (str): The customer's id.
+            invoice_number (str): The invoice number. Every invoice must have a distinct invoice number.
+            invoice_date (str): The invoice date. This can be the date the invoice was generated of any other
+                relevant date.
+            due_date (str): The date on which the invoice is due.
+            invoice_line_items (list): A list of dicts, one for each line item in the invoice.
+                The only required field is "quantity".
+            **kwargs: Any other invoice details to pass.
+
+        Returns:
             A dictionary of the invoice's information including an id.
+
         """
         for invoice_line_item in invoice_line_items:
             if "entity" not in invoice_line_item:
@@ -298,22 +297,19 @@ class BillCom:
         self, invoice_id, from_user_id, to_email_addresses, message_subject, message_body, **kwargs
     ):
         """
-        `Args:`
-            invoice_id: str
-                The id of the invoice to send
-            from_user_id: str
-                The id of the Bill.com user from whom to send the email
-            to_email_addresses:
-                The customer's email address
-            message_subject:
-                The subject of the email to send to the customer
-            message_body:
-                The body of the email to send to the customer
-            **kwargs:
-                Any other details for sending the invoice
+        Send invoice.
 
-        `Returns:`
+        Args:
+            invoice_id (str): The id of the invoice to send.
+            from_user_id (str): The id of the Bill.com user from whom to send the email.
+            to_email_addresses: The customer's email address.
+            message_subject: The subject of the email to send to the customer.
+            message_body: The body of the email to send to the customer.
+            **kwargs: Any other details for sending the invoice.
+
+        Returns:
             A dictionary of the sent invoice.
+
         """
         data = {
             "invoiceId": invoice_id,

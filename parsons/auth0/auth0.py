@@ -13,17 +13,19 @@ logger = logging.getLogger(__name__)
 
 class Auth0:
     """
-    Instantiate the Auth0 class
+    Instantiate the Auth0 class.
 
-    `Args:`
-        client_id: str
-            The Auth0 client ID. Not required if ``AUTH0_CLIENT_ID`` env variable set.
-        client_secret: str
-            The Auth0 client secret. Not required if ``AUTH0_CLIENT_SECRET`` env variable set.
-        domain: str
-            The Auth0 domain. Not required if ``AUTH0_DOMAIN`` env variable set.
-    `Returns:`
+    Args:
+        client_id (str, optional): The Auth0 client ID. Not required if ``AUTH0_CLIENT_ID`` env variable set.
+            Defaults to None.
+        client_secret (str, optional): The Auth0 client secret. Not required if ``AUTH0_CLIENT_SECRET`` env variable
+            set. Defaults to None.
+        domain (str, optional): The Auth0 domain. Not required if ``AUTH0_DOMAIN`` env variable set.
+            Defaults to None.
+
+    Returns:
         Auth0 Class
+
     """
 
     def __init__(self, client_id=None, client_secret=None, domain=None):
@@ -50,11 +52,12 @@ class Auth0:
         """
         Delete Auth0 user.
 
-        `Args:`
-            id: str
-                The user ID of the record to delete.
-        `Returns:`
+        Args:
+            id (str): The user ID of the record to delete.
+
+        Returns:
             int
+
         """
         return requests.delete(
             f"{self.base_url}/api/v2/users/{id}", headers=self.headers
@@ -64,11 +67,12 @@ class Auth0:
         """
         Get Auth0 users by email.
 
-        `Args:`
-            email: str
-                The user email of the record to get.
-        `Returns:`
-            Table Class
+        Args:
+            email (str): The user email of the record to get.
+
+        Returns:
+            Table
+
         """
         url = f"{self.base_url}/api/v2/users-by-email"
         val = requests.get(url, headers=self.headers, params={"email": email})
@@ -89,23 +93,19 @@ class Auth0:
         """
         Upsert Auth0 users by email.
 
-        `Args:`
-            email: str
-                The user email of the record to get.
-            username: optional str
-                Username to set for user
-            given_name: optional str
-                Given to set for user
-            family_name: optional str
-                Family name to set for user
-            app_metadata: optional dict
-                App metadata to set for user
-            user_metadata: optional dict
-                User metadata to set for user
-        `Returns:`
-            Requests Response object
-        """
+        Args:
+            connection: Defaults to "Username-Password-Authentication".
+            email (str): The user email of the record to get.
+            username (str, optional): Username to set for user. Defaults to None.
+            given_name (str, optional): Given to set for user. Defaults to None.
+            family_name (str, optional): Family name to set for user. Defaults to None.
+            app_metadata (dict, optional): App metadata to set for user. Defaults to None.
+            user_metadata (dict, optional): User metadata to set for user. Defaults to None.
 
+        Returns:
+            Requests Response object
+
+        """
         if user_metadata is None:
             user_metadata = {}
         if app_metadata is None:
@@ -142,13 +142,14 @@ class Auth0:
         """
         Blocks Auth0 users by email - setting the "blocked" attribute on Auth0's API.
 
-        `Args:`
-            user_id: str
-                Auth0 user id
-            connection: optional str
-                Name of auth0 connection (default to Username-Password-Authentication)
-        `Returns:`
+        Args:
+            user_id (str): Auth0 user id.
+            connection (str, optional): Name of auth0 connection (. Defaults to
+                "Username-Password-Authentication". Defaults to "Username-Password-Authentication".
+
+        Returns:
             Requests Response object
+
         """
         payload = json.dumps({"connection": connection, "blocked": True})
         ret = requests.patch(
@@ -164,11 +165,13 @@ class Auth0:
         """
         Retrieves all Auth0 users using the batch jobs endpoint.
 
-        `Args:`
-            connection: optional str
-                Name of auth0 connection (default to Username-Password-Authentication)
-        `Returns:`
+        Args:
+            connection (str, optional): Name of auth0 connection (. Defaults to
+                "Username-Password-Authentication". Defaults to "Username-Password-Authentication".
+
+        Returns:
             Requests Response object
+
         """
         connection_id = self.get_connection_id(connection)
         url = f"{self.base_url}/api/v2/jobs/users-exports"
@@ -221,13 +224,14 @@ class Auth0:
 
     def get_connection_id(self, connection_name):
         """
-        Retrieves an Auth0 connection_id corresponding to a specific connection name
+        Retrieves an Auth0 connection_id corresponding to a specific connection name.
 
-        `Args:`
-            connection_name: str
-                Name of auth0 connection
-        `Returns:`
+        Args:
+            connection_name (str): Name of auth0 connection.
+
+        Returns:
             Connection ID string
+
         """
         url = f"{self.base_url}/api/v2/connections"
 

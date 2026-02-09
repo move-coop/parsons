@@ -1,11 +1,11 @@
 import os
 
 
-def check(env: str, field: str | None, optional: bool | None = False) -> str | None:
+def check(env: str, field: str | None, optional: bool = False) -> str | None:
     """
-    Check if an environment variable has been set. If it has not been set
-    and the passed field or arguments have not been passed, then raise an
-    error.
+    Check if an environment variable has been set.
+
+    If it has not been set and the passed field or arguments have not been passed, then raise an error.
     """
     if field:
         return field
@@ -16,3 +16,4 @@ def check(env: str, field: str | None, optional: bool | None = False) -> str | N
             raise KeyError(
                 f"No {env} found. Store as environment variable or pass as an argument."
             ) from e
+        return None

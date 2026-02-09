@@ -17,30 +17,23 @@ def query_through_ssh(
     query,
 ):
     """
-    `Args:`
-        ssh_host:
-            The host for the SSH connection
-        ssh_port:
-            The port for the SSH connection
-        ssh_username:
-            The username for the SSH connection
-        ssh_password:
-            The password for the SSH connection
-        db_host:
-            The host for the db connection
-        db_port:
-            The port for the db connection
-        db_name:
-            The name of the db database
-        db_username:
-            The username for the db database
-        db_password:
-            The password for the db database
-        query:
-            The SQL query to execute
+    Query through ssh.
 
-    `Returns:`
+    Args:
+        ssh_host: The host for the SSH connection.
+        ssh_port: The port for the SSH connection.
+        ssh_username: The username for the SSH connection.
+        ssh_password: The password for the SSH connection.
+        db_host: The host for the db connection.
+        db_port: The port for the db connection.
+        db_name: The name of the db database.
+        db_username: The username for the db database.
+        db_password: The password for the db database.
+        query: The SQL query to execute.
+
+    Returns:
         A list of records resulting from the query or None if something went wrong
+
     """
     output = None
     server = None

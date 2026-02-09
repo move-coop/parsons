@@ -30,44 +30,46 @@ class DatabaseCreateStatement:
 
     # This will allow child classes to modify how these columns are handled.
     def _rename_reserved_word(self, col, index=None):
-        """Return the renamed column.
+        """
+        Return the renamed column.
 
-        `Args`:
-            col: str
-                The column to rename.
-            index: int
-                (Optional) The index of the column.
-        `Returns`:
-            str
-                The rename column.
+        Args:
+            col (str): The column to rename.
+            index: Int
+                (Optional) The index of the column. Defaults to None.
+
+        Returns:
+            str: The rename column.
+
         """
         return f"{col}_"
 
     def _rename_duped(self, col, index):
-        """Return the renamed column.
+        """
+        Return the renamed column.
 
-        `Args`:
-            col: str
-                The column to rename.
-            index: int
+        Args:
+            col (str): The column to rename.
+            index: Int
                 (Optional) The index of the column.
-        `Returns`:
-            str
-                The rename column.
+
+        Returns:
+            str: The rename column.
+
         """
         return f"{col}_{index}"
 
     def get_bigger_int(self, int1, int2):
-        """Return the bigger of the two ints.
+        """
+        Return the bigger of the two ints.
 
-        `Args`:
-            int1: str
-                The string representation if an int type.
-            int2: str
-                The string representation if an int type.
-        `Returns`:
-            str
-                A string representation of the higher of the two int types.
+        Args:
+            int1 (str): The string representation if an int type.
+            int2 (str): The string representation if an int type.
+
+        Returns:
+            str: A string representation of the higher of the two int types.
+
         """
         WEIGHTS = {
             self.SMALLINT: 100,
@@ -78,15 +80,16 @@ class DatabaseCreateStatement:
 
         return int1 if WEIGHTS.get(int1, -1) >= WEIGHTS.get(int2, -1) else int2
 
-    def is_valid_sql_num(self, val):
-        """Check whether val is a valid sql number.
+    def is_valid_sql_num(self, val) -> bool:
+        """
+        Check whether val is a valid sql number.
 
-        `Args`:
-            val: any
-                The values to check.
-        `Returns`:
-            bool
-                Whether or not the value is a valid sql number.
+        Args:
+            val: The values to check.
+
+        Returns:
+            bool: Whether or not the value is a valid sql number.
+
         """
         # Python accepts numbers with single-underscore separators such as
         # 100_000 (evals to 100000)
@@ -112,22 +115,22 @@ class DatabaseCreateStatement:
             return False
 
     def detect_data_type(self, value, cmp_type=None):
-        """Detect the higher of value's type cmp_type.
+        """
+        Detect the higher of value's type cmp_type.
 
         1. check if it's a string
         2. check if it's a number
           a. check if it's a float
           b. check if it's an int
 
-        `Args`:
-            value: str
-                The value to inspect.
-            cmp_type: str
-                The string representation of a type to compare with
-                ``value``'s type.
-        `Returns`:
-            str
-                The string representation of the higher of the two types.
+        Args:
+            value (str): The value to inspect.
+            cmp_type (str, optional): The string representation of a type to compare with
+                ``value``'s type. Defaults to None.
+
+        Returns:
+            str: The string representation of the higher of the two types.
+
         """
         # Stop if the compare type is already a varchar
         # varchar is the highest data type.
@@ -171,27 +174,28 @@ class DatabaseCreateStatement:
         return result
 
     def format_column(self, col, index="", replace_chars=None, col_prefix="_"):
-        """Format the column to meet database contraints.
+        """
+        Format the column to meet database contraints.
 
         Formats the columns as follows:
             1. Coverts to lowercase (if case insensitive)
             2. Strips leading and trailing whitespace
             3. Replaces invalid characters
             4. Renames if in reserved words
-        `Args`:
-            col: str
-                The column to format.
-            index: int
-                (Optional) The index of the column. Used if the column is empty.
-            replace_chars: dict
-                A dictionary of invalid characters and their replacements. If
-                ``None`` uses {" ": "_"}
-            col_prefix: str
-                The prefix to use when the column is empty or starts with an
-                invalid character.
-        `Returns`:
-            str
-                The formatted column.
+
+        Args:
+            col (str): The column to format.
+            index: Int
+                (Optional) The index of the column. Used if the column is empty. Defaults to "".
+            replace_chars (dict, optional): A dictionary of invalid characters and their replacements.
+                If
+                ``None`` uses {" ": "_"}. Defaults to None.
+            col_prefix (str, optional): The prefix to use when the column is empty or starts with an invalid
+                character. Defaults to "_".
+
+        Returns:
+            str: The formatted column.
+
         """
         replace_chars = replace_chars or self.REPLACE_CHARS
 
@@ -219,20 +223,19 @@ class DatabaseCreateStatement:
         return col
 
     def format_columns(self, cols, **kwargs):
-        """Format the columns to meet database contraints.
+        """
+        Format the columns to meet database contraints.
 
-        This method relies on ``format_column`` to handle most changes. It
-        only handles duplicated columns. Options to ``format_column`` can be
-        passed through kwargs.
+        This method relies on ``format_column`` to handle most changes. It only handles duplicated columns.
+        Options to ``format_column`` can be passed through kwargs.
 
-        `Args`:
-            cols: list
-                The columns to format.
-            kwargs: dicts
-                Keyword arguments to pass to ``format_column``.
-        `Returns`:
-            list
-                The formatted columns.
+        Args:
+            cols: List The columns to format.
+            **kwargs: Dicts Keyword arguments to pass to ``format_column``.
+
+        Returns:
+            list: The formatted columns.
+
         """
         formatted_cols = []
 

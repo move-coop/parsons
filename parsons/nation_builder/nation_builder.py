@@ -13,16 +13,16 @@ logger = logging.getLogger(__name__)
 
 class NationBuilder:
     """
-    Instantiate the NationBuilder class
+    Instantiate the NationBuilder class.
 
-    `Args:`
-        slug: str
-            The Nation Builder slug Not required if ``NB_SLUG`` env variable set. The slug is the
-            nation slug of the nation from which your application is requesting approval to retrieve
-            data via the NationBuilder API. For example, your application's user could provide this
-            slug via a text field in your application.
-        access_token: str
-            The Nation Builder access_token Not required if ``NB_ACCESS_TOKEN`` env variable set.
+    Args:
+        slug (str | None, optional): The Nation Builder slug Not required if ``NB_SLUG`` env variable set.
+            The slug is the nation slug of the nation from which your application is requesting approval to retrieve
+            data via the NationBuilder API. For example, your application's user could provide this slug via a text
+            field in your application. Defaults to None.
+        access_token (str | None, optional): The Nation Builder access_token Not required if
+            ``NB_ACCESS_TOKEN`` env variable set. Defaults to None.
+
     """
 
     def __init__(self, slug: str | None = None, access_token: str | None = None) -> None:
@@ -81,8 +81,11 @@ class NationBuilder:
 
     def get_people(self) -> Table:
         """
-        `Returns:`
+        Get people.
+
+        Returns:
             A Table of all people stored in Nation Builder.
+
         """
         data = []
         original_url = "people"
@@ -119,18 +122,16 @@ class NationBuilder:
 
     def update_person(self, person_id: str, person: dict[str, Any]) -> dict[str, Any]:
         """
-        This method updates a person with the provided id to have the provided data. It returns a
-        full representation of the updated person.
+        Update a person with the provided id to have the provided data.
 
-        `Args:`
-            person_id: str
-                Nation Builder person id.
-            data: dict
-                Nation builder person object.
-                For example {"email": "user@example.com", "tags": ["foo", "bar"]}
-                Docs: https://nationbuilder.com/people_api
-        `Returns:`
+        Args:
+            person_id (str): Nation Builder person id.
+            person (dict[str, Any]): Nation builder person object. For example {"email":
+                "user@example.com", "tags": ["foo", "bar"]} Docs: https://nationbuilder.com/people_api.
+
+        Returns:
             A person object with the updated data.
+
         """
         if person_id is None:
             raise ValueError("person_id can't be None")
@@ -154,9 +155,9 @@ class NationBuilder:
         """
         Updates a matched person or creates a new one if the person doesn't exist.
 
-        This method attempts to match the input person resource to a person already in the
-        nation. If a match is found, the matched person is updated. If a match is not found, a new
-        person is created. Matches are found by including one of the following IDs in the request:
+        This method attempts to match the input person resource to a person already in the nation.
+        If a match is found, the matched person is updated. If a match is not found, a new person is created.
+        Matches are found by including one of the following IDs in the request:
 
             - civicrm_id
             - county_file_id
@@ -169,16 +170,16 @@ class NationBuilder:
             - twitter_login
             - van_id
 
-        `Args:`
-            data: dict
-                Nation builder person object.
-                For example {"email": "user@example.com", "tags": ["foo", "bar"]}
-                Docs: https://nationbuilder.com/people_api
-        `Returns:`
-            A tuple of `created` and `person` object with the updated data. If the request fails
-            the method will return a tuple of `False` and `None`.
-        """
+        Args:
+            person (dict[str, Any])
+            data: Dict Nation builder person object. For example {"email": "user@example.com",
+                "tags": ["foo", "bar"]} Docs: https://nationbuilder.com/people_api.
 
+        Returns:
+            A tuple of `created` and `person` object with the updated data.: If the request fails.
+            the method will return a tuple of `False` and `None`.
+
+        """
         _required_keys = [
             "civicrm_id",
             "county_file_id",

@@ -33,22 +33,18 @@ class PDI(
 ):
     def __init__(self, username=None, password=None, api_token=None, qa_url=False):
         """
-        Instantiate the PDI class
+        Instantiate the PDI class.
 
-        `Args:`
-            username: str
-                The username for a PDI account. Can be passed as arguement or
-                can be set as `PDI_USERNAME` environment variable.
-            password: str
-                The password for a PDI account. Can be passed as arguement or
-                can be set as `PDI_PASSWORD` environment variable.
-            api_token: str
-                The api_token for a PDI account. Can be passed as arguement or
-                can be set as `PDI_API_TOKEN` environment variable.
-            qa_url: bool
-                Defaults to False. If True, requests will be made to a sandbox
-                account. This requires separate qa credentials and api
-                token.
+        Args:
+            username (str, optional): The username for a PDI account. Can be passed as arguement or can be set as
+                `PDI_USERNAME` environment variable. Defaults to None.
+            password (str, optional): The password for a PDI account. Can be passed as arguement or can be set as
+                `PDI_PASSWORD` environment variable. Defaults to None.
+            api_token (str, optional): The api_token for a PDI account. Can be passed as arguement or can be set as
+                `PDI_API_TOKEN` environment variable. Defaults to None.
+            qa_url (bool, optional): If True, requests will be made to a sandbox account. This requires separate qa
+                credentials and api token. Defaults to False.
+
         """
         if qa_url:
             self.base_url = "https://apiqa.bluevote.com"

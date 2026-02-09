@@ -1,4 +1,7 @@
 import csv
+from typing import Literal
+
+from parsons import Table
 
 """
 This utility method is a generalizable method for moving files to an
@@ -8,30 +11,29 @@ Google Cloud Storage.
 """
 
 
-def post_file(tbl, type, file_path=None, quoting=csv.QUOTE_MINIMAL, **file_storage_args):
+def post_file(
+    tbl: Table,
+    type: Literal["S3", "GCS"],
+    file_path=None,
+    quoting: int = csv.QUOTE_MINIMAL,
+    **file_storage_args,
+):
     """
-    This utility method is a generalizable method for moving files to an
-    online file storage class. It is used by methods that require access
-    to a file via a public url (e.g. VAN).
+    Move files to an online file storage class.
+
+    Used by methods that require access to a file via a public url (e.g. VAN).
 
     **S3 is the only option allowed.**
 
-    `Args:`
-        tbl: object
-            parsons.Table
-        type: str
-            ``S3`` or ``GCS`` (Google Cloud Storage)
-        file_path: str
-            The file path to store the file. Not required if provided with
-            the **file_storage_args.
-        quoting: attr
-            The type of quoting to use for the csv.
-        **kwargs: kwargs
-                Optional arguments specific to the file storage.
-    `Returns:`
-        ``None``
-    """
+    Args:
+        tbl (Table)
+        type (Literal["S3", "GCS"])
+        file_path (str, optional): The file path to store the file. Not required if provided via
+            ``**file_storage_args``. Defaults to None.
+        quoting (int, optional): The type of quoting to use for the csv. Defaults to csv.QUOTE_MINIMAL.
+        **file_storage_args: Kwargs Optional arguments specific to the file storage.
 
+    """
     if type.upper() == "S3":
         # Overwrite the file_path if key is passed
         if "key" in file_storage_args:

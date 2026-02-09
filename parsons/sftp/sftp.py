@@ -15,26 +15,23 @@ logger = logging.getLogger(__name__)
 
 class SFTP:
     """
-    Instantiate SFTP Class
+    Instantiate SFTP Class.
 
-    `Args:`
-        host: str
-            The host name
-        username: str
-            The user name
-        password: str
-            The password
-        port: int
-            Specify if different than the standard port 22
-        rsa_private_key_file: str or None
-            Optional absolute path to a private RSA key used
-            to authenticate stfp connection
-        paramiko_pkey: paramiko.rsakey.RSAKey or None
-            Optionally pass a paramiko RSAKey object directly
-        timeout: int
-            Timeout argument for use when getting files through SFTP.
-    `Returns:`
+    Args:
+        host (str): The host name.
+        username (str): The user name.
+        password (str): The password.
+        port (int, optional): Specify if different than the standard port 22. Defaults to 22.
+        rsa_private_key_file (str | None, optional): Absolute path to a private RSA key used to authenticate stfp
+            connection. Defaults to None.
+        paramiko_pkey (paramiko.rsakey.RSAKey | None, optional): Paramiko.rsakey.RSAKey or None Optionally pass a
+            paramiko RSAKey object directly. Defaults to None.
+        timeout (int | None, optional): Timeout argument for use when getting files through SFTP.
+            Defaults to None.
+
+    Returns:
         SFTP Class
+
     """
 
     def __init__(
@@ -71,8 +68,8 @@ class SFTP:
 
         Returns:
             SFTP Connection object
-        """
 
+        """
         transport = paramiko.Transport((self.host, self.port))
         pkey = self.paramiko_pkey
         if self.rsa_private_key_file:
@@ -93,17 +90,16 @@ class SFTP:
 
     def list_directory(self, remote_path=".", connection=None):
         """
-        List the contents of a directory
+        List the contents of a directory.
 
-        `Args:`
-            remote_path: str
-                The remote path of the directory
-            connection: obj
-                An SFTP connection object
-        `Returns:`
+        Args:
+            remote_path (str, optional): The remote path of the directory. Defaults to ".".
+            connection: Obj An SFTP connection object. Defaults to None.
+
+        Returns:
             list of files and subdirectories in the provided directory
-        """
 
+        """
         if connection:
             return connection.listdir(path=remote_path)
         else:
@@ -112,15 +108,13 @@ class SFTP:
 
     def make_directory(self, remote_path, connection=None):
         """
-        Makes a new directory on the SFTP server
+        Makes a new directory on the SFTP server.
 
-        `Args:`
-            remote_path: str
-                The remote path of the directory
-            connection: obj
-                An SFTP connection object
+        Args:
+            remote_path (str): The remote path of the directory.
+            connection: Obj An SFTP connection object. Defaults to None.
+
         """
-
         if connection:
             connection.mkdir(remote_path)
         else:
@@ -129,15 +123,13 @@ class SFTP:
 
     def remove_directory(self, remote_path, connection=None):
         """
-        Remove a directory from the SFTP server
+        Remove a directory from the SFTP server.
 
-        `Args:`
-            remote_path: str
-                The remote path of the directory
-            connection: obj
-                An SFTP connection object
+        Args:
+            remote_path (str): The remote path of the directory.
+            connection: Obj An SFTP connection object. Defaults to None.
+
         """
-
         if connection:
             connection.rmdir(remote_path)
         else:
@@ -152,28 +144,21 @@ class SFTP:
         export_chunk_size: int | None = None,
     ):
         """
-        Download a file from the SFTP server
+        Download a file from the SFTP server.
 
-        `Args:`
-            remote_path: str
-                The remote path of the file to download
+        Args:
+            remote_path (str): The remote path of the file to download.
+            local_path (str, optional): The local path where the file will be downloaded. If not specified, a
+                temporary file will be created and returned, and that file will be removed automatically when the script
+                is done running. Defaults to None.
+            connection: Obj An SFTP connection object. Defaults to None.
+            export_chunk_size (int | None, optional): Optional. Size in bytes to iteratively export from the remote
+                server. Defaults to None.
 
-            local_path: str
-                The local path where the file will be downloaded. If not specified, a temporary
-                file will be created and returned, and that file will be removed automatically
-                when the script is done running.
+        Returns:
+            str: The path of the local file.
 
-            connection: obj
-                An SFTP connection object
-
-            export_chunk_size: int
-                Optional. Size in bytes to iteratively export from the remote server.
-
-        `Returns:`
-            str
-                The path of the local file
         """
-
         if not local_path:
             local_path = file_utilities.create_temp_file_for_path(remote_path)
 
@@ -206,24 +191,17 @@ class SFTP:
         self, remote_path: str, local_path: str, connection, export_chunk_size: int
     ) -> None:
         """
-        Download a file in chunked-increments from the remote host to the local path
+        Download a file in chunked-increments from the remote host to the local path.
 
-        `Args:`
-            remote_path: str
-                The remote path of the file to download
+        Args:
+            remote_path (str): The remote path of the file to download.
+            local_path (str): The local path where the file will be downloaded. If not specified, a temporary file
+                will be created and returned, and that file will be removed automatically when the script is done
+                running.
+            connection: Obj An SFTP connection object.
+            export_chunk_size (int): Optional. Size in bytes to iteratively export from the remote server.
 
-            local_path: str
-                The local path where the file will be downloaded. If not specified, a temporary
-                file will be created and returned, and that file will be removed automatically
-                when the script is done running.
-
-            connection: obj
-                An SFTP connection object
-
-            export_chunk_size: int
-                Optional. Size in bytes to iteratively export from the remote server.
         """
-
         logger.info(f"Reading from {remote_path} to {local_path} in {export_chunk_size}B chunks")
 
         with connection.open(remote_path, "rb") as _remote_file:
@@ -252,27 +230,25 @@ class SFTP:
         local_paths=None,
     ):
         """
-        Download a list of files, either by providing the list explicitly, providing directories
-        that contain files to download, or both.
+        Download a list of files, either by providing the list explicitly, providing directories that contain files to
+        download, or both.
 
-        `Args:`
-            files_to_download: list
-                A list of full remote paths (can be relative) to files to download
-            remote: str or list
-                A path to a remote directory or a list of paths
-            connection: obj
-                An SFTP connection object
-            pattern: str
-                A regex pattern with which to select file names. Defaults to None, in which case
-                all files will be selected.
-            local_paths: list
-                A list of paths to which to save the selected files. Defaults to None. If it is not
-                the same length as the files to be fetched, temporary files are used instead.
-        `Returns:`
-            list
-                Local paths where the files are saved.
+        Args:
+            files_to_download (list, optional): A list of full remote paths (can be relative) to files to download.
+                Defaults to None.
+            remote (str | list[str], optional): A path to a remote directory or a list of paths.
+                Defaults to None.
+            connection: Obj An SFTP connection object. Defaults to None.
+            pattern (str, optional): A regex pattern with which to select file names. all files will be selected.
+                Defaults to None.
+            local_paths (list, optional): A list of paths to which to save the selected files.
+                If it is not the same length as the files to be fetched, temporary files are used instead.
+                Defaults to None.
+
+        Returns:
+            list: Local paths where the files are saved.
+
         """
-
         if not (files_to_download or remote):
             raise ValueError(
                 "You must provide either `files_to_download`, `remote`, or both, as "
@@ -318,19 +294,16 @@ class SFTP:
         """
         Download a csv from the server and convert into a Parsons table.
 
-        The file may be compressed with gzip, or zip, but may not contain
-        multiple files in the archive.
+        The file may be compressed with gzip, or zip, but may not contain multiple files in the archive.
 
-        `Args:`
-            remote_path: str
-                The remote path of the file to download
-            connection: obj
-                An SFTP connection object
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Args:
+            remote_path (str): The remote path of the file to download.
+            connection: Obj An SFTP connection object. Defaults to None.
+
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         if not file_utilities.valid_table_suffix(remote_path):
             raise ValueError("File type cannot be converted to a Parsons table.")
 
@@ -341,7 +314,7 @@ class SFTP:
         return result
 
     def _progress(self, transferred: int, to_be_transferred: int) -> None:
-        """Return progress every 5 MB"""
+        """Return progress every 5 MB."""
         if self._convert_bytes_to_megabytes(transferred) % 5 != 0:
             return
         logger.info(
@@ -353,17 +326,14 @@ class SFTP:
         self, local_path: str, remote_path: str, connection=None, verbose: bool = True
     ) -> None:
         """
-        Put a file on the SFTP server
+        Put a file on the SFTP server.
 
-        `Args:`
-            local_path: str
-                The local path of the source file
-            remote_path: str
-                The remote path of the new file
-            connection: obj
-                An SFTP connection object
-            verbose: bool
-                Log progress every 5MB. Defaults to True.
+        Args:
+            local_path (str): The local path of the source file.
+            remote_path (str): The remote path of the new file.
+            connection: Obj An SFTP connection object. Defaults to None.
+            verbose (bool, optional): Log progress every 5MB. Defaults to True.
+
         """
         callback = self._progress if verbose else None
         if connection:
@@ -374,15 +344,13 @@ class SFTP:
 
     def remove_file(self, remote_path, connection=None):
         """
-        Delete a file on the SFTP server
+        Delete a file on the SFTP server.
 
-        `Args:`
-            remote_path: str
-                The remote path of the file
-            connection: obj
-                An SFTP connection object
+        Args:
+            remote_path (str): The remote path of the file.
+            connection: Obj An SFTP connection object. Defaults to None.
+
         """
-
         if connection:
             connection.remove(remote_path)
         else:
@@ -391,19 +359,18 @@ class SFTP:
 
     def get_file_size(self, remote_path, connection=None):
         """
-        Get the size of a file in MB on the SFTP server. The file is
-        not downloaded locally.
+        Get the size of a file in MB on the SFTP server.
 
-        `Args:`
-            remote_path: str
-                The remote path of the file
-            connection: obj
-                An SFTP connection object
-        `Returns:`
-            int
-                The file size in MB.
+        The file is not downloaded locally.
+
+        Args:
+            remote_path (str): The remote path of the file.
+            connection: Obj An SFTP connection object. Defaults to None.
+
+        Returns:
+            int: The file size in MB.
+
         """
-
         if connection:
             size = connection.file(remote_path, "r")._get_size()
         else:
@@ -437,17 +404,15 @@ class SFTP:
         """
         List the subdirectories of a directory on the remote server.
 
-        `Args:`
-            remote_path: str
-                The remote directory whose subdirectories will be listed
-            connection: obj
-                An SFTP connection object
-            pattern: str
-                A regex pattern with which to select full directory paths. Defaults to None, in
-                which case all subdirectories will be selected.
-        `Returns:`
-            list
-                The subdirectories in `remote_path`.
+        Args:
+            remote_path (str): The remote directory whose subdirectories will be listed.
+            connection: Obj An SFTP connection object. Defaults to None.
+            pattern (str, optional): A regex pattern with which to select full directory paths.
+                which case all subdirectories will be selected. Defaults to None.
+
+        Returns:
+            list: The subdirectories in `remote_path`.
+
         """
         return self._list_contents(remote_path, connection, dir_pattern=pattern)[0]
 
@@ -456,17 +421,15 @@ class SFTP:
         """
         List the files in a directory on the remote server.
 
-        `Args:`
-            remote_path: str
-                The remote directory whose files will be listed
-            connection: obj
-                An SFTP connection object
-            pattern: str
-                A regex pattern with which to select file names. Defaults to None, in which case
-                all files will be selected.
-        `Returns:`
-            list
-                The files in `remote_path`.
+        Args:
+            remote_path (str): The remote directory whose files will be listed.
+            connection: Obj An SFTP connection object. Defaults to None.
+            pattern (str, optional): A regex pattern with which to select file names. all files will be selected.
+                Defaults to None.
+
+        Returns:
+            list: The files in `remote_path`.
+
         """
         return self._list_contents(remote_path, connection, file_pattern=pattern)[1]
 
@@ -481,32 +444,26 @@ class SFTP:
         max_depth=2,
     ):
         """
-        Recursively walks a directory, fetching all subdirectories and files (as long as
-        they match `dir_pattern` and `file_pattern`, respectively) and the maximum directory
-        depth hasn't been exceeded. Optionally downloads discovered files.
+        Recursively walks a directory, fetching all subdirectories and files (as long as they match
+        `dir_pattern` and `file_pattern`, respectively) and the maximum directory depth hasn't been exceeded.
+        Optionally downloads discovered files.
 
-        `Args:`
-            remote_path: str
-                The top level directory to walk
-            connection: obj
-                An SFTP connection object
-            download: bool
-                Whether to download discovered files
-            dir_pattern: str
-                A regex pattern with which to select directories. Defaults to None, in which case
-                all directories will be selected.
-            file_pattern: str
-                A regex pattern with which to select files. Defaults to None, in which case
-                all files will be selected.
-            max_depth: int
-                A limit on how many directories deep to traverse.  The default, 2, will search the
-                contents of `remote_path` and its subdirectories.
-        `Returns:`
-            tuple
-                A list of directories touched and a list of files.  If the files were downloaded
-                the file list will consist of local paths, if not, remote paths.
+        Args:
+            remote_path (str): The top level directory to walk.
+            connection: Obj An SFTP connection object. Defaults to None.
+            download (bool, optional): Whether to download discovered files. Defaults to False.
+            dir_pattern (str, optional): A regex pattern with which to select directories.
+                all directories will be selected. Defaults to None.
+            file_pattern (str, optional): A regex pattern with which to select files. all files will be selected.
+                Defaults to None.
+            max_depth (int, optional): A limit on how many directories deep to traverse. The default, 2, will search
+                the contents of `remote_path` and its subdirectories. Defaults to 2.
+
+        Returns:
+            tuple: A list of directories touched and a list of files.  If the files were downloaded the file list
+                will consist of local paths, if not, remote paths.
+
         """
-
         if max_depth > 3:
             logger.warning(
                 f"Calling `walk_tree` with `max_depth` {max_depth}.  "

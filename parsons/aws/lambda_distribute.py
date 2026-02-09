@@ -35,10 +35,7 @@ class TestStorage:
 
 
 class S3Storage:
-    """
-    These methods are pretty specialized, so we keep them
-    inside this file rather than s3.py
-    """
+    """These methods are pretty specialized, so we keep them inside this file rather than s3.py."""
 
     def __init__(self, use_env_token=True):
         self.s3 = S3(use_env_token=use_env_token)
@@ -47,9 +44,7 @@ class S3Storage:
         return self.s3.client.put_object(Bucket=bucket, Key=key, Body=object_bytes, **kwargs)
 
     def get_range(self, bucket, key, rangestart, rangeend):
-        """
-        Gets an explicit byte-range of an S3 file
-        """
+        """Gets an explicit byte-range of an S3 file."""
         # bytes is INCLUSIVE for the rangeend parameter, unlike python
         # so e.g. while python returns 2 bytes for data[2:4]
         # Range: bytes=2-4 will return 3!! So we subtract 1
@@ -77,8 +72,8 @@ def distribute_task_csv(
     use_s3_env_token=True,
 ):
     """
-    The same as distribute_task, but instead of a table, the
-    first argument is bytes of a csv encoded into utf8.
+    The same as distribute_task, but instead of a table, the first argument is bytes of a csv encoded into utf8.
+
     This function is used by distribute_task() which you should use instead.
     """
     global FAKE_STORAGE
@@ -159,47 +154,35 @@ def distribute_task(
     """
     Distribute processing rows in a table across multiple AWS Lambda invocations.
 
-    `Args:`
-        table: Parsons Table
-           Table of data you wish to distribute processing across Lambda invocations
-           of `func_to_run` argument.
-        func_to_run: function
-           The function you want to run whose
-           first argument will be a subset of table
-        bucket: str
-           The bucket name to use for s3 upload to process the whole table
-           Not required if you set environment variable ``S3_TEMP_BUCKET``
-        func_kwargs: dict
-           If the function has other arguments to pass along with `table`
-           then provide them as a dict here. They must all be JSON-able.
-        func_class: class
-           If the function is a classmethod or function on a class,
-           then pass the pure class here.
-           E.g. If you passed `ActionKit.bulk_upload_table`,
-           then you would pass `ActionKit` here.
-        func_class_kwargs: dict
-           If it is a class function, and the class must be instantiated,
-           then pass the kwargs to instantiate the class here.
-           E.g. If you passed `ActionKit.bulk_upload_table` as the function,
-           then you would pass {'domain': ..., 'username': ... etc} here.
-           This must all be JSON-able data.
-        catch: bool
-           Lambda will retry running an event three times if there's an
-           exception -- if you want to prevent this, set `catch=True`
-           and then it will catch any errors and stop retries.
-           The error will be in CloudWatch logs with string "Distribute Error"
-           This might be important if row-actions are not idempotent and your
-           own function might fail causing repeats.
-        group_count: int
-           Set this to how many rows to process with each Lambda invocation (Default: 100)
-        storage: str
-           Debugging option: Defaults to "s3". To test distribution locally without s3,
-           set to "local".
-        use_s3_env_token: str
-           If storage is set to "s3", sets the use_env_token parameter on the S3 storage.
-    `Returns:`
+    Args:
+        table: Table of data you wish to distribute processing across Lambda invocations of `func_to_run` argument.
+        func_to_run: Function The function you want to run whose first argument will be a subset of table.
+        bucket (str, optional): The bucket name to use for s3 upload to process the whole table Not required if you
+            set environment variable ``S3_TEMP_BUCKET``. Defaults to None.
+        func_kwargs: Dict If the function has other arguments to pass along with `table` then provide them as a dict
+            here. They must all be JSON-able. Defaults to None.
+        func_class: Class If the function is a classmethod or function on a class, then pass the pure class here.
+            E.g. If you passed `ActionKit.bulk_upload_table`, then you would pass
+            `ActionKit` here. Defaults to None.
+        func_class_kwargs: Dict If it is a class function, and the class must be instantiated, then pass the kwargs
+            to instantiate the class here. E.g. If you passed
+            `ActionKit.bulk_upload_table` as the function, then you would pass {'domain': ...,
+            'username': ... etc} here. This must all be JSON-able data. Defaults to None.
+        catch (bool, optional): Lambda will retry running an event three times if there's an exception -- if you
+            want to prevent this, set `catch=True` and then it will catch any errors and stop retries.
+            The error will be in CloudWatch logs with string "Distribute Error" This might be important if row-actions
+            are not idempotent and your own function might fail causing repeats. Defaults to False.
+        group_count (int, optional): Set this to how many rows to process with each Lambda invocation (.
+            Defaults to 100.
+        storage (str, optional): Debugging option: To test distribution locally without s3, set to "local".
+            Defaults to "s3".
+        use_s3_env_token (str, optional): If storage is set to "s3", sets the use_env_token parameter on the S3
+            storage. Defaults to True.
+
+    Returns:
         Debug information -- do not rely on the output, as it will change
         depending on how this method is invoked.
+
     """
     if storage not in ("s3", "local"):
         raise DistributeTaskException("storage argument must be s3 or local")

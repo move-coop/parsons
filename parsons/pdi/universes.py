@@ -11,25 +11,24 @@ class Universes:
         """
         Get a list of Universes.
 
-        `Args:`
-            limit: int
-                The number of universes to return.
-        `Returns:`
-            parsons.Table
-                A Parsons table of all the data.
-        """
+        Args:
+            limit (int, optional): The number of universes to return. Defaults to None.
 
+        Returns:
+            parsons.Table: A Parsons table of all the data.
+
+        """
         return self._request(self.url_universes, limit=limit)
 
     def get_universe(self, id: str):
         """
         Get a Universe by id.
 
-        `Args:`
-            id: str
-                The Universe id
-        `Returns:`
-            parsons.Table
-                A Parsons table of all the data.
+        Args:
+            id (str): The Universe id.
+
+        Returns:
+            parsons.Table: A Parsons table of all the data.
+
         """
         return self._request(f"{self.url_universes}/{id}")

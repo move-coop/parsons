@@ -8,16 +8,16 @@ class CivisClient:
     """
     Instantiate the Civis class.
 
-    `Args:`
-        db: str or int
-            The Civis Redshift database. Can be a database id or the name of the
-            database.
-        api_key: str
-            The Civis api key.
-        **kwargs: args
-            Option settings for the client that are `described in the documentation <https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient>`_.
-    `Returns:`
+    Args:
+        db (str | int, optional): The Civis Redshift database. Can be a database id or the name of the database.
+            Defaults to None.
+        api_key (str, optional): The Civis api key. Defaults to None.
+        **kwargs: Args Option settings for the client that are `described in the documentation
+            <https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient>`_.
+
+    Returns:
         Civis class
+
     """
 
     def __init__(self, db=None, api_key=None, **kwargs):
@@ -30,32 +30,31 @@ class CivisClient:
         can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`_.
         """
 
-    def query(self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True):
+    def query(
+        self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True
+    ) -> Table | civis.futures.CivisFuture:
         """
         Execute a SQL statement as a Civis query.
 
-        Run a query that may return no results or where only a small
-        preview is required. To execute a query that returns a large number
-        of rows, see :func:`~civis.io.read_civis_sql`.
+        Run a query that may return no results or where only a small preview is required. To execute a query that
+        returns a large number of rows, see
+        :func:`~civis.io.read_civis_sql`.
 
-        `Args`
-            sql: str
-                The SQL statement to execute.
-            preview_rows: int, optional
-                The maximum number of rows to return. No more than 100 rows can be
-                returned at once.
-            polling_interval: int or float, optional
-                Number of seconds to wait between checks for query completion.
-            hidden: bool, optional
-                If ``True`` (the default), this job will not appear in the Civis UI.
-            wait: boolean
-                If ``True``, will wait for query to finish executing before exiting
-                the method. If ``False``, returns the future object.
-        `Returns`
-            Parsons Table or ``civis.CivisFuture``
-                See :ref:`parsons-table` for output options.
+        Args:
+            sql (str): The SQL statement to execute.
+            preview_rows: Int, optional The maximum number of rows to return. No more than 100 rows can be returned
+                at once. Defaults to 10.
+            polling_interval (int | float, optional): Number of seconds to wait between checks for query completion.
+                Defaults to None.
+            hidden (bool, optional): If ``True`` (the default), this job will not appear in the Civis UI.
+                Defaults to True.
+            wait (bool, optional): If ``True``, will wait for query to finish executing before exiting the method.
+                If ``False``, returns the future object. Defaults to True.
+
+        Returns:
+            Table or civis.futures.CivisFuture: See :ref:`parsons-table` for output options.
+
         """
-
         fut = civis.io.query_civis(
             sql,
             self.db,
@@ -88,40 +87,37 @@ class CivisClient:
         sortkey2=None,
         wait=True,
         **civisargs,
-    ):
+    ) -> civis.futures.CivisFuture | None:
         """
-        Write the table to a Civis Redshift cluster. Additional key word
-        arguments can passed to `civis.io.dataframe_to_civis()  <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_
+        Write the table to a Civis Redshift cluster.
 
-        `Args`
-            table_obj: obj
-                A Parsons Table object
-            table: str
-                The schema and table you want to upload to. E.g., 'scratch.table'. Schemas
-                or tablenames with periods must be double quoted, e.g. 'scratch."my.table"'.
-            api_key: str
-                Your Civis API key. If not given, the CIVIS_API_KEY environment variable will be
-                used.
-            max_errors: int
-                The maximum number of rows with errors to remove from the import before failing.
-            existing_table_rows: str
-                The behaviour if a table with the requested name already exists. One of
-                `'fail'`, `'truncate'`, `'append'` or `'drop'`. Defaults to `'fail'`.
-            diststyle: str
-                The distribution style for the table. One of `'even'`, `'all'` or `'key'`.
-            distkey: str
-                The column to use as the distkey for the table.
-            sortkey1: str
-                The column to use as the sortkey for the table.
-            sortkey2: str
-                The second column in a compound sortkey for the table.
-            wait: boolean
-                Wait for write job to complete before exiting method. If ``False``, returns
-                the future object.
-        `Returns`
-            ``None`` or ``civis.CivisFuture``
+        Additional key word arguments can passed to `civis.io.dataframe_to_civis()
+        <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_
+
+        Args:
+            **civisargs
+            table_obj: Obj A Parsons Table object.
+            table (str): The schema and table you want to upload to. E.g., 'scratch.table'.
+                Schemas or tablenames with periods must be double quoted, e.g. 'scratch."my.table"'.
+            api_key (str): Your Civis API key. If not given, the CIVIS_API_KEY environment variable will be used.
+            max_errors (int, optional): The maximum number of rows with errors to remove from the import before
+                failing. Defaults to None.
+            existing_table_rows (str, optional): The behaviour if a table with the requested name already exists.
+                One of
+                `'fail'`, `'truncate'`, `'append'` or `'drop'`. Defaults to "fail".
+            diststyle (str, optional): The distribution style for the table. One of `'even'`, `'all'` or
+                `'key'`. Defaults to None.
+            distkey (str, optional): The column to use as the distkey for the table. Defaults to None.
+            sortkey1 (str, optional): The column to use as the sortkey for the table. Defaults to None.
+            sortkey2 (str, optional): The second column in a compound sortkey for the table.
+                Defaults to None.
+            wait (bool, optional): Wait for write job to complete before exiting method. If ``False``, returns the
+                future object. Defaults to True.
+
+        Returns:
+            ``None`` or ``civis.futures.CivisFuture``
+
         """
-
         fut = civis.io.dataframe_to_civis(
             table_obj.to_dataframe(),
             database=self.db,

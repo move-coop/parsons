@@ -50,15 +50,17 @@ class VAN(
     Introspection,
 ):
     """
-    Returns the VAN class
+    Returns the VAN class.
 
-    `Args:`
-        api_key : str
-            A valid api key Not required if ``VAN_API_KEY`` env variable set.
-        db: str
-            One of ``MyVoters``, ``MyMembers``, ``MyCampaign``, or ``EveryAction``
-    `Returns:`
+    Args:
+        api_key (str | None, optional): A valid api key Not required if ``VAN_API_KEY`` env variable set.
+            Defaults to None.
+        db (Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"] | None, optional): Str One of
+            ``MyVoters``, ``MyMembers``, ``MyCampaign``, or ``EveryAction``. Defaults to None.
+
+    Returns:
         VAN object
+
     """
 
     def __init__(

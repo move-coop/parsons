@@ -1,4 +1,5 @@
-"""Utility for running and logging output from dbt commands
+"""
+Utility for running and logging output from dbt commands
 
 Enable this utility by installing parsons with a dbt extra:
 `pip install parsons[dbt-redshift]`
@@ -24,8 +25,8 @@ best results, design your own!
 
 Example usage:
 ```
-from parsons.utilities.dbt import (
-    run_dbt_commands,
+from parsons.utilities.dbt.dbt import run_dbt_commands
+from parsons.utilities.dbt.logging import (
     dbtLoggerSlack,
     dbtLoggerPython
 )

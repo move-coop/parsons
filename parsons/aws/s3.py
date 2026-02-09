@@ -47,23 +47,21 @@ class S3:
     """
     Instantiate the S3 class.
 
-    `Args:`
-        aws_access_key_id: str
-            The AWS access key id. Not required if the ``AWS_ACCESS_KEY_ID`` env variable
-            is set.
-        aws_secret_access_key: str
-            The AWS secret access key. Not required if the ``AWS_SECRET_ACCESS_KEY`` env
-            variable is set.
-        aws_session_token: str
-            The AWS session token. Optional. Can also be stored in the ``AWS_SESSION_TOKEN``
-            env variable. Used for accessing S3 with temporary credentials.
-        use_env_token: boolean
-            Controls use of the ``AWS_SESSION_TOKEN`` environment variable. Defaults
-            to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
-            variable even if the ``aws_session_token`` argument was not passed in.
+    Args:
+        aws_access_key_id (str, optional): The AWS access key id. Not required if the ``AWS_ACCESS_KEY_ID`` env
+            variable is set. Defaults to None.
+        aws_secret_access_key (str, optional): The AWS secret access key. Not required if the
+            ``AWS_SECRET_ACCESS_KEY`` env variable is set. Defaults to None.
+        aws_session_token (str, optional): The AWS session token. Optional. Can also be stored in the
+            ``AWS_SESSION_TOKEN`` env variable. Used for accessing S3 with temporary credentials.
+            Defaults to None.
+        use_env_token (bool, optional): Controls use of the ``AWS_SESSION_TOKEN`` environment variable.
+            Defaults to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment variable
+            even if the ``aws_session_token`` argument was not passed in. Defaults to True.
 
-    `Returns:`
+    Returns:
         S3 class.
+
     """
 
     def __init__(
@@ -90,24 +88,24 @@ class S3:
         """
         List all buckets to which you have access.
 
-        `Returns:`
+        Returns:
             list
-        """
 
+        """
         return [bucket.name for bucket in self.s3.buckets.all()]
 
     def bucket_exists(self, bucket):
         """
         Determine if a bucket exists and you have access to it.
 
-        `Args:`
-            bucket: str
-                The bucket name
-        `Returns:`
-            boolean
-                ``True`` if the bucket exists and ``False`` if not.
-        """
+        Args:
+            bucket (str): The bucket name.
 
+        Returns:
+            bool:
+                ``True`` if the bucket exists and ``False`` if not.
+
+        """
         try:
             # If we can list the keys, the bucket definitely exists. We do this check since
             # it will account for buckets that live on other AWS accounts and that we
@@ -132,29 +130,27 @@ class S3:
         """
         List the keys in a bucket, along with extra info about each one.
 
-        `Args:`
-            bucket: str
-                The bucket name
-            prefix: str
-                Limits the response to keys that begin with the specified prefix.
-            suffix: str
-                Limits the response to keys that end with specified suffix
-            regex: str
-                Limits the reponse to keys that match a regex pattern
-            date_modified_before: datetime.datetime
-                Limits the response to keys with date modified before
-            date_modified_after: datetime.datetime
-                Limits the response to keys with date modified after
-            kwargs:
-                Additional arguments for the S3 API call. See `AWS ListObjectsV2 documentation
+        Args:
+            bucket (str): The bucket name.
+            prefix (str, optional): Limits the response to keys that begin with the specified prefix.
+                Defaults to None.
+            suffix (str, optional): Limits the response to keys that end with specified suffix.
+                Defaults to None.
+            regex (str, optional): Limits the reponse to keys that match a regex pattern. Defaults to None.
+            date_modified_before: Datetime.datetime Limits the response to keys with date modified before.
+                Defaults to None.
+            date_modified_after: Datetime.datetime Limits the response to keys with date modified after.
+                Defaults to None.
+            **kwargs: Additional arguments for the S3 API call. See `AWS ListObjectsV2 documentation
                 <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.list_objects_v2>`_
                 for more info.
-        `Returns:`
-            dict
-                Dict mapping the keys to info about each key. The info includes 'LastModified',
-                'Size', and 'Owner'.
-        """
 
+        Returns:
+            dict: Dict mapping the keys to info about each key. The info includes
+                'LastModified',
+                'Size', and 'Owner'.
+
+        """
         keys_dict = {}
         logger.debug(f"Fetching keys in {bucket} bucket")
 
@@ -223,16 +219,15 @@ class S3:
         """
         Determine if a key exists in a bucket.
 
-        `Args:`
-            bucket: str
-                The bucket name
-            key: str
-                The object key
-        `Returns:`
-            boolean
-                ``True`` if key exists and ``False`` if not.
-        """
+        Args:
+            bucket (str): The bucket name.
+            key (str): The object key.
 
+        Returns:
+            bool:
+                ``True`` if key exists and ``False`` if not.
+
+        """
         key_count = len(self.list_keys(bucket, prefix=key))
 
         if key_count > 0:
@@ -242,7 +237,7 @@ class S3:
             logger.debug(f"Did not find {key} in {bucket}.")
             return False
 
-    def create_bucket(self, bucket):
+    def create_bucket(self, bucket) -> None:
         """
         Create an s3 bucket.
 
@@ -261,74 +256,56 @@ class S3:
             collide, you'll see errors like `IllegalLocationConstraintException` or
             `BucketAlreadyExists`.
 
-        `Args:`
-            bucket: str
-                The name of the bucket to create
-        `Returns:`
-            ``None``
-        """
+        Args:
+            bucket (str): The name of the bucket to create.
 
+        """
         self.client.create_bucket(Bucket=bucket)
 
-    def put_file(self, bucket, key, local_path, acl="bucket-owner-full-control", **kwargs):
+    def put_file(self, bucket, key, local_path, acl="bucket-owner-full-control", **kwargs) -> None:
         """
-        Uploads an object to an S3 bucket
+        Uploads an object to an S3 bucket.
 
-        `Args:`
-            bucket: str
-                The bucket name
-            key: str
-                The object key
-            local_path: str
-                The local path of the file to upload
-            acl: str
-                The S3 permissions on the file
-            kwargs:
-                Additional arguments for the S3 API call. See `AWS Put Object documentation
-                <https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html>`_ for more
-                info.
+        Args:
+            bucket (str): The bucket name.
+            key (str): The object key.
+            local_path (str): The local path of the file to upload.
+            acl (str, optional): The S3 permissions on the file. Defaults to "bucket-owner-full-control".
+            **kwargs: Additional arguments for the S3 API call. See `AWS Put Object documentation
+                <https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html>`_ for more info.
+
         """
-
         self.client.upload_file(local_path, bucket, key, ExtraArgs={"ACL": acl, **kwargs})
 
-    def remove_file(self, bucket, key):
+    def remove_file(self, bucket, key) -> None:
         """
-        Deletes an object from an S3 bucket
+        Deletes an object from an S3 bucket.
 
-        `Args:`
-            bucket: str
-                The bucket name
-            key: str
-                The object key
-        `Returns:`
-            ``None``
+        Args:
+            bucket (str): The bucket name.
+            key (str): The object key.
+
         """
-
         self.client.delete_object(Bucket=bucket, Key=key)
 
     def get_file(self, bucket, key, local_path=None, **kwargs):
         """
-        Download an object from S3 to a local file
+        Download an object from S3 to a local file.
 
-        `Args:`
-            local_path: str
-                The local path where the file will be downloaded. If not specified, a temporary
-                file will be created and returned, and that file will be removed automatically
-                when the script is done running.
-            bucket: str
-                The bucket name
-            key: str
-                The object key
-            kwargs:
-                Additional arguments for the S3 API call. See `AWS download_file documentation
+        Args:
+            local_path (str, optional): The local path where the file will be downloaded. If not specified, a
+                temporary file will be created and returned, and that file will be removed automatically when the script
+                is done running. Defaults to None.
+            bucket (str): The bucket name.
+            key (str): The object key.
+            **kwargs: Additional arguments for the S3 API call. See `AWS download_file documentation
                 <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.download_file>`_
                 for more info.
 
-        `Returns:`
-            str
-                The path of the new file
-        """
+        Returns:
+            str: The path of the new file.
 
+        """
         if not local_path:
             local_path = files.create_temp_file_for_path(key)
 
@@ -340,18 +317,15 @@ class S3:
         """
         Generates a presigned url for an s3 object.
 
-        `Args:`
-            bucket: str
-                The bucket name
-            key: str
-                The object name
-            expires_in: int
-                The time, in seconds, until the url expires
-        `Returns:`
-            Url:
-                A link to download the object
-        """
+        Args:
+            bucket (str): The bucket name.
+            key (str): The object name.
+            expires_in (int, optional): The time, in seconds, until the url expires. Defaults to 3600.
 
+        Returns:
+            Url: A link to download the object.
+
+        """
         return self.client.generate_presigned_url(
             ClientMethod="get_object",
             Params={"Bucket": bucket, "Key": key},
@@ -371,40 +345,31 @@ class S3:
         public_read=False,
         remove_original=False,
         **kwargs,
-    ):
+    ) -> None:
         """
-        Transfer files between s3 buckets
+        Transfer files between s3 buckets.
 
-        `Args:`
-            origin_bucket: str
-                The origin bucket
-            origin_key: str
-                The origin file or prefix
-            destination_bucket: str
-                The destination bucket
-            destination_key: str
-                If `None` then will retain the `origin key`. If set to prefix will move all
-                to new prefix
-            suffix: str
-                Limits the response to keys that end with specified suffix
-            regex: str
-                Limits the reponse to keys that match a regex pattern
-            date_modified_before: datetime.datetime
-                Limits the response to keys with date modified before
-            date_modified_after: datetime.datetime
-                Limits the response to keys with date modified after
-            public_read: bool
-                If the keys should be set to `public-read`
-            remove_original: bool
-                If the original keys should be removed after transfer
-            kwargs:
-                Additional arguments for the S3 API call. See `AWS download_file docs
+        Args:
+            origin_bucket (str): The origin bucket.
+            origin_key (str): The origin file or prefix.
+            destination_bucket (str): The destination bucket.
+            destination_key (str, optional): If `None` then will retain the `origin key`. If set to prefix will move
+                all to new prefix. Defaults to None.
+            suffix (str, optional): Limits the response to keys that end with specified suffix.
+                Defaults to None.
+            regex (str, optional): Limits the reponse to keys that match a regex pattern. Defaults to None.
+            date_modified_before: Datetime.datetime Limits the response to keys with date modified before.
+                Defaults to None.
+            date_modified_after: Datetime.datetime Limits the response to keys with date modified after.
+                Defaults to None.
+            public_read (bool, optional): If the keys should be set to `public-read`. Defaults to False.
+            remove_original (bool, optional): If the original keys should be removed after transfer.
+                Defaults to False.
+            **kwargs: Additional arguments for the S3 API call. See `AWS download_file docs
                 <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.copy>`_
                 for more info.
-        `Returns:`
-            ``None``
-        """
 
+        """
         # If prefix, get all files for the prefix
         if origin_key.endswith("/"):
             resp = self.list_keys(
@@ -450,16 +415,14 @@ class S3:
         """
         Grabs a type of bucket based on naming convention.
 
-        `Args:`
-            subname: str
-                This will most commonly be a 'vendor'
+        Args:
+            bucket_subname
+            subname (str): This will most commonly be a 'vendor'.
 
-        `Returns:`
-            list
-                list of buckets
+        Returns:
+            list: List of buckets.
 
         """
-
         all_buckets = self.list_buckets()
         buckets = [x for x in all_buckets if bucket_subname in x.split("-")]
 

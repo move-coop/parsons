@@ -5,23 +5,23 @@ from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 
 class Controlshift:
     """
-    Instantiate the Controlshift class. Requires an API Application integration.
-    For more info on setup, see:
+    Instantiate the Controlshift class.
+
+    Requires an API Application integration. For more info on setup, see:
     https://developers.controlshiftlabs.com/#authenticated-rest-api-quickstart-guide
 
-    `Args:`
-        hostname: str
-            The URL for the homepage/login page of the organization's Controlshift
-            instance (e.g. https://demo.controlshift.app). Not required if
-            ``CONTROLSHIFT_HOSTNAME`` env variable is set.
-        client_id: str
-            The Client ID for your REST API Application. Not required if
-            ``CONTROLSHIFT_CLIENT_ID`` env variable is set.
-        client_secret: str
-            The Client Secret for your REST API Application. Not required if
-            ``CONTROLSHIFT_CLIENT_SECRET`` env variable is set.
-    `Returns:`
+    Args:
+        hostname (str, optional): The URL for the homepage/login page of the organization's Controlshift instance
+            (e.g. https://demo.controlshift.app). Not required if
+            ``CONTROLSHIFT_HOSTNAME`` env variable is set. Defaults to None.
+        client_id (str, optional): The Client ID for your REST API Application. Not required if
+            ``CONTROLSHIFT_CLIENT_ID`` env variable is set. Defaults to None.
+        client_secret (str, optional): The Client Secret for your REST API Application. Not required if
+            ``CONTROLSHIFT_CLIENT_SECRET`` env variable is set. Defaults to None.
+
+    Returns:
         Controlshift Class
+
     """
 
     def __init__(self, hostname=None, client_id=None, client_secret=None):
@@ -44,11 +44,10 @@ class Controlshift:
 
     def get_petitions(self) -> Table:
         """
-        Get a full list of all petitions, including ones that are unlaunched or otherwise not
-        visible to the public.
+        Get a full list of all petitions, including ones that are unlaunched or otherwise not visible to the public.
 
         `Return:`
-            Table Class
+            Table
         """
         next_page = 1
         petitions = []

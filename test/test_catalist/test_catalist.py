@@ -12,7 +12,7 @@ TEST_SFTP_PASSWORD = "password"
 
 
 def table_for_test(include_last_name: bool = True) -> Table:
-    """parsons Table for tests"""
+    """Parsons Table for tests"""
     table = Table(
         [
             {"first_name": "John", "last_name": "Doe"},

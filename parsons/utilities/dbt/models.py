@@ -24,7 +24,7 @@ class Manifest:
         return result
 
     def filter_results(self, **kwargs) -> list[NodeResult]:
-        """Subset of results based on filter"""
+        """Subset of results based on filter."""
         filtered_results = [
             result
             for result in self.dbt_manifest

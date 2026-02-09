@@ -16,15 +16,16 @@ BATCH_SIZE = 999
 
 class CensusGeocoder:
     """
-    Instantiate the CensusGecoder Class
+    Instantiate the CensusGecoder Class.
 
-    `Args:`
-        benchmark: str
-            The US Census benchmark file to utilize. By default the current benchmark is used,
-            but other options can found `here <https://geocoding.geo.census.gov/geocoder/benchmarks>`_.
-        vintage: str
-            The US Census vintage file to utilize. By default the current vintage is used, but
-            other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`_.
+    Args:
+        benchmark (str, optional): The US Census benchmark file to utilize. but other options can found
+            `here <https://geocoding.geo.census.gov/geocoder/benchmarks>`__. Defaults to
+            "Public_AR_Current". Defaults to "Public_AR_Current".
+        vintage (str, optional): The US Census vintage file to utilize. other options can be found `here
+            <https://geocoding.geo.census.gov/geocoder/vintages?form>`__. Defaults to
+            "Current_Current". Defaults to "Current_Current".
+
     """
 
     def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current"):
@@ -32,20 +33,21 @@ class CensusGeocoder:
 
     def geocode_onelineaddress(self, address, return_type="geographies"):
         """
-        Geocode a single line address. Does not require parsing of city and zipcode field. Returns
-        geocode as well as other census block data. If the service is unable to geocode the address
-        it will return an empty list.
+        Geocode a single line address.
 
-        `Args:`
-            address: str
-                A valid US address
-            return_type: str
-                ``geographies`` will return information about the Census geographies
-                while ``locations`` will information about the address.
-        `Returns`:
+        Does not require parsing of city and zipcode field. Returns geocode as well as other census block data.
+        If the service is unable to geocode the address it will return an empty list.
+
+        Args:
+            address (str): A valid US address.
+            return_type: Str
+                ``geographies`` will return information about the Census geographies while
+                ``locations`` will information about the address. Defaults to "geographies".
+
+        Returns:
             dict
-        """
 
+        """
         geo = self.cg.onelineaddress(address, returntype=return_type)
         self._log_result(geo)
         return geo
@@ -59,25 +61,23 @@ class CensusGeocoder:
         return_type="geographies",
     ):
         """
-        Geocode an address by specifying address fields. Returns the geocode as well as other
-        census block data.
+        Geocode an address by specifying address fields.
 
-        `Args:`
-            address_line: str
-                A valid address line
-            city: str
-                A valid city
-            state: str
-                A valid two character state abbreviation (e.g. 'IL')
-            zipcode: int
-                A valid five digit zipcode (e.g. 60622)
-            return_type: str
-                ``geographies`` will return information about the Census geographies
-                while ``locations`` will information about the address.
-        `Returns:`
+        Returns the geocode as well as other census block data.
+
+        Args:
+            address_line (str): A valid address line.
+            city (str, optional): A valid city. Defaults to None.
+            state (str, optional): A valid two character state abbreviation (e.g. 'IL'). Defaults to None.
+            zipcode (int, optional): A valid five digit zipcode (e.g. 60622). Defaults to None.
+            return_type: Str
+                ``geographies`` will return information about the Census geographies while
+                ``locations`` will information about the address. Defaults to "geographies".
+
+        Returns:
             dict
-        """
 
+        """
         geo = self.cg.address(address_line, city=city, state=state, zipcode=zipcode)
         self._log_result(geo)
         return geo
@@ -99,13 +99,13 @@ class CensusGeocoder:
             * - state
             * - zip
 
-        `Args:`
-            table: Parsons Table
-                A Parsons table
-        `Returns:`
-            A Parsons table
-        """
+        Args:
+            table: Table A Parsons table.
 
+        Returns:
+            A Parsons table
+
+        """
         logger.info(f"Geocoding {table.num_rows} records.")
         if set(table.columns) != {"id", "street", "city", "state", "zip"}:
             msg = (
@@ -139,15 +139,14 @@ class CensusGeocoder:
         """
         Return census data on coordinates.
 
-        `Args`
-            latitude: int
-                A valid latitude in the United States
-            longitude: int
-                A valid longitude in the United States
-        `Returns:`
-           dict
-        """
+        Args:
+            latitude (int): A valid latitude in the United States.
+            longitude (int): A valid longitude in the United States.
 
+        Returns:
+            dict
+
+        """
         geo = self.cg.coordinates(x=longitude, y=latitude)
         if len(geo["States"]) == 0:
             logger.info("Coordinate not found.")

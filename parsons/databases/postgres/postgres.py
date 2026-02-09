@@ -13,22 +13,18 @@ logger = logging.getLogger(__name__)
 
 class Postgres(PostgresCore, Alchemy, DatabaseConnector):
     """
-    A Postgres class to connect to database. Credentials can be passed from a ``.pgpass`` file
-    stored in your home directory or with environmental variables.
+    A Postgres class to connect to database.
+
+    Credentials can be passed from a ``.pgpass`` file stored in your home directory or with environmental variables.
 
     Args:
-        username: str
-            Required if env variable ``PGUSER`` not populated
-        password: str
-            Required if env variable ``PGPASSWORD`` not populated
-        host: str
-            Required if env variable ``PGHOST`` not populated
-        db: str
-            Required if env variable ``PGDATABASE`` not populated
-        port: int
-            Required if env variable ``PGPORT`` not populated.
-        timeout: int
-            Seconds to timeout if connection not established.
+        username (str, optional): Required if env variable ``PGUSER`` not populated. Defaults to None.
+        password (str, optional): Required if env variable ``PGPASSWORD`` not populated. Defaults to None.
+        host (str, optional): Required if env variable ``PGHOST`` not populated. Defaults to None.
+        db (str, optional): Required if env variable ``PGDATABASE`` not populated. Defaults to None.
+        port (int, optional): Required if env variable ``PGPORT`` not populated. Defaults to 5432.
+        timeout (int, optional): Seconds to timeout if connection not established. Defaults to 10.
+
     """
 
     def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
@@ -63,21 +59,18 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         """
         Copy a :ref:`parsons-table` to Postgres.
 
-        `Args:`
-            tbl: parsons.Table
-                A Parsons table object
-            table_name: str
-                The destination schema and table (e.g. ``my_schema.my_table``)
-            if_exists: str
-                If the table already exists, either ``fail``, ``append``, ``drop``
-                or ``truncate`` the table.
-            strict_length: bool
-                If the database table needs to be created, strict_length determines whether
-                the created table's column sizes will be sized to exactly fit the current data,
-                or if their size will be rounded up to account for future values being larger
-                then the current dataset. Defaults to ``False``.
-        """
+        Args:
+            tbl (Table): Parsons.Table A Parsons table object.
+            table_name (str): The destination schema and table (e.g.
+                ``my_schema.my_table``).
+            if_exists (str, optional): If the table already exists, either ``fail``,
+                ``append``, ``drop`` or ``truncate`` the table. Defaults to "fail".
+            strict_length (bool, optional): If the database table needs to be created, strict_length determines
+                whether the created table's column sizes will be sized to exactly fit the current data, or if their size
+                will be rounded up to account for future values being larger then the current dataset.
+                Defaults to False.
 
+        """
         with self.connection() as connection:
             # Auto-generate table
             if self._create_table_precheck(connection, table_name, if_exists):

@@ -24,14 +24,13 @@ class MobileCommons:
     """
     Instantiate the MobileCommons class.
 
-    `Args:`
-        api_key: str
-            A valid API Key created by a MobileCommons account. Not required if
-            ``MOBILECOMMONS_PASSWORD`` env variable is set.
-        company_id: str
-            The company id of the MobileCommons organization to connect to. Not required if
-            API key is for an account associated with only one MobileCommons
-            organization.
+    Args:
+        api_key (str, optional): A valid API Key created by a MobileCommons account. Not required if
+            ``MOBILECOMMONS_PASSWORD`` env variable is set. Defaults to None.
+        company_id (str, optional): The company id of the MobileCommons organization to connect to.
+            Not required if API key is for an account associated with only one MobileCommons organization.
+            Defaults to None.
+
     """
 
     def __init__(self, api_key=None, company_id=None):
@@ -49,28 +48,24 @@ class MobileCommons:
         limit=None,
     ):
         """
-        A function for GET requests that handles MobileCommons xml responses and pagination
+        A function for GET requests that handles MobileCommons xml responses and pagination.
 
-        `Args:`
-            endpoint: str
-                The endpoint, which will be appended to the base URL for each request
-            first_data_key: str
-                The first key used to extract the desired data from the response dictionary derived
-                from the xml response. E.g. 'broadcasts'
-            second_data_key: str
-                The second key used to extract the desired data from the response dictionary derived
-                from the xml response. The value of this key is a list of values. E.g. 'broadcast'
-            params: dict
-                Parameters to be passed into GET request
-            elements_to_unpack: list
-                A list of elements that contain dictionaries to be unpacked into new columns in the
-                final table
-            limit: int
-                The maximum number of rows to return
-        `Returns:`
-            Parsons table with requested data
+        Args:
+            endpoint (str): The endpoint, which will be appended to the base URL for each request.
+            first_data_key (str): The first key used to extract the desired data from the response dictionary
+                derived from the xml response. E.g. 'broadcasts'.
+            second_data_key (str): The second key used to extract the desired data from the response dictionary
+                derived from the xml response. The value of this key is a list of values. E.g.
+                'broadcast'.
+            params: Dict Parameters to be passed into GET request.
+            elements_to_unpack (list, optional): A list of elements that contain dictionaries to be unpacked into
+                new columns in the final table. Defaults to None.
+            limit (int, optional): The maximum number of rows to return. Defaults to None.
+
+        Returns:
+            Table: Requested data.
+
         """
-
         # Create a table to compile results from different pages in
         final_table = Table()
         # Max page_limit is 1000 for MC
@@ -160,11 +155,11 @@ class MobileCommons:
 
     def _check_response_status_code(self, response):
         """
-        A helper function that checks the status code of a response and raises an error if the
-        response code is not 200
+        A helper function that checks the status code of a response and raises an error if the response code is not 200.
 
-        `Args:`
-            response: requests package response object
+        Args:
+            response: Requests package response object.
+
         """
         if response.status_code != 200:
             error = f"Response Code {str(response.status_code)}"
@@ -175,16 +170,16 @@ class MobileCommons:
 
     def _parse_get_request(self, endpoint, params):
         """
-        A helper function that sends a get request to MobileCommons and then parses XML responses in
-        order to return the response as a dictionary
+        A helper function that sends a get request to MobileCommons and then parses XML responses in order to return the
+        response as a dictionary
 
-        `Args:`
-            endpoint: str
-                The endpoint, which will be appended to the base URL for each request
-            params: dict
-                Parameters to be passed into GET request
-        `Returns:`
+        Args:
+            endpoint (str): The endpoint, which will be appended to the base URL for each request.
+            params: Dict Parameters to be passed into GET request.
+
+        Returns:
             xml response parsed into list or dictionary
+
         """
         response = self.client.request(endpoint, "GET", params=params)
 
@@ -200,17 +195,16 @@ class MobileCommons:
 
     def _mc_post_request(self, endpoint, params):
         """
-        A function for POST requests that handles MobileCommons xml responses
+        A function for POST requests that handles MobileCommons xml responses.
 
-        `Args:`
-            endpoint: str
-                The endpoint, which will be appended to the base URL for each request
-            params: dict
-                Parameters to be passed into GET request
-        `Returns:`
+        Args:
+            endpoint (str): The endpoint, which will be appended to the base URL for each request.
+            params: Dict Parameters to be passed into GET request.
+
+        Returns:
             xml response parsed into list or dictionary
-        """
 
+        """
         response = self.client.request(endpoint, "POST", params=params)
 
         response_dict = xmltodict.parse(
@@ -225,26 +219,23 @@ class MobileCommons:
         self, first_date=None, last_date=None, status=None, campaign_id=None, limit=None
     ):
         """
-        A function for get broadcasts
+        A function for get broadcasts.
 
-        `Args:`
-            first_date: str
-                The date of the earliest possible broadcast you'd like returned. All common date
-                format should work (e.g. mm/dd/yy or yyyy-mm-dd)
-            last_date: str
-                The date of the latest possible broadcast you'd like returned. All common date
-                format should work (e.g. mm/dd/yy or yyyy-mm-dd)
-            status: str
-                'draft', 'scheduled', or 'generated'
-            campaign_id: int
-                Specify to return broadcasts from a specific campaign
-            limit: int
-                Max rows you want returned
+        Args:
+            first_date (str, optional): The date of the earliest possible broadcast you'd like returned.
+                All common date format should work (e.g. mm/dd/yy or yyyy-mm-dd). Defaults to None.
+            last_date (str, optional): The date of the latest possible broadcast you'd like returned.
+                All common date format should work (e.g. mm/dd/yy or yyyy-mm-dd). Defaults to None.
+            status: Str
+                'draft', 'scheduled', or 'generated'. Defaults to None.
+            campaign_id (int, optional): Specify to return broadcasts from a specific campaign.
+                Defaults to None.
+            limit (int, optional): Max rows you want returned. Defaults to None.
 
-        `Returns:`
-            Parsons table with requested broadcasts
+        Returns:
+            Table: Requested broadcasts.
+
         """
-
         params = {
             "start_time": _format_date(first_date),
             "end_time": _format_date(last_date),
@@ -271,29 +262,24 @@ class MobileCommons:
         limit: int = None,
     ):
         """
-        A function for getting subscribers of a specified campaign
+        A function for getting subscribers of a specified campaign.
 
-        `Args:`
-            campaign_id: int
-                The campaign for which you'd like to get subscribers. You can get this from the url
-                of the campaign's page after select a campaign at
-                https://secure.mcommons.com/campaigns
-            first_date: str
-                The date of the earliest possible subscription returned. All common date
-                format should work (e.g. mm/dd/yy or yyyy-mm-dd)
-            last_date: str
-                The date of the latest possible subscription you'd like returned. All common date
-                format should work (e.g. mm/dd/yy or yyyy-mm-dd)
-            opt_in_path_id: int
-                Optional parameter to narrow results to on particular opt-in path. You can get this
-                from the url of the opt in paths page https://secure.mcommons.com/opt_in_paths
-            limit: int
-                Max rows you want returned
+        Args:
+            campaign_id (int): The campaign for which you'd like to get subscribers. You can get this from the url
+                of the campaign's page after select a campaign at https://secure.mcommons.com/campaigns.
+            first_date (str, optional): The date of the earliest possible subscription returned.
+                All common date format should work (e.g. mm/dd/yy or yyyy-mm-dd). Defaults to None.
+            last_date (str, optional): The date of the latest possible subscription you'd like returned.
+                All common date format should work (e.g. mm/dd/yy or yyyy-mm-dd). Defaults to None.
+            opt_in_path_id (int, optional): Optional parameter to narrow results to on particular opt-in path.
+                You can get this from the url of the opt in paths page https://secure.mcommons.com/opt_in_paths.
+                Defaults to None.
+            limit (int, optional): Max rows you want returned. Defaults to None.
 
-        `Returns:`
-            Parsons table with requested broadcasts
+        Returns:
+            Table: Requested broadcasts.
+
         """
-
         params = {
             "campaign_id": campaign_id,
             "from": _format_date(first_date),
@@ -320,31 +306,26 @@ class MobileCommons:
         limit: int = None,
     ):
         """
-        A function for getting profiles, which are MobileCommons people records
+        A function for getting profiles, which are MobileCommons people records.
 
-        `Args:`
-            phones: list
-                A list of phone numbers including country codes for which you want profiles returned
-                MobileCommons claims to recognize most formats.
-            first_date: str
-                The date of the earliest possible subscription returned. All common date
-                format should work (e.g. mm/dd/yy or yyyy-mm-dd).
-            last_date: str
-                The date of the latest possible subscription you'd like returned. All common date
-                format should work (e.g. mm/dd/yy or yyyy-mm-dd).
-            include_custom_columns: bool
-                Optional parameter to that, if set to True, will return custom column values for
-                profiles as a list of dictionaries contained within a column.
-            include_subscriptions: bool
-                Optional parameter to that, if set to True, will return a list of campaigns a
-                given profile is subscribed to in a single column
-            limit: int
-                Max rows you want returned
+        Args:
+            phones (list, optional): A list of phone numbers including country codes for which you want profiles
+                returned MobileCommons claims to recognize most formats. Defaults to None.
+            first_date (str, optional): The date of the earliest possible subscription returned.
+                All common date format should work (e.g. mm/dd/yy or yyyy-mm-dd). Defaults to None.
+            last_date (str, optional): The date of the latest possible subscription you'd like returned.
+                All common date format should work (e.g. mm/dd/yy or yyyy-mm-dd). Defaults to None.
+            include_custom_columns (bool, optional): Optional parameter to that, if set to True, will return custom
+                column values for profiles as a list of dictionaries contained within a column.
+                Defaults to False.
+            include_subscriptions (bool, optional): Optional parameter to that, if set to True, will return a list
+                of campaigns a given profile is subscribed to in a single column. Defaults to False.
+            limit (int, optional): Max rows you want returned. Defaults to None.
 
-        `Returns:`
-            Parsons table with requested broadcasts
+        Returns:
+            Table: Requested broadcasts.
+
         """
-
         custom_cols = "true" if include_custom_columns else "false"
         subscriptions = "true" if include_subscriptions else "false"
 
@@ -383,36 +364,26 @@ class MobileCommons:
         custom_column_values=None,
     ):
         """
-        A function for creating or updating a single MobileCommons profile
+        A function for creating or updating a single MobileCommons profile.
 
-        `Args:`
-            phone: str
-                Phone number to assign profile
-            first_name: str
-                Profile first name
-            last_name: str
-                Profile last name
-            zip: str
-                Profile 5-digit postal code
-            addressline1: str
-                Profile address line 1
-            addressline2: str
-                Profile address line 2
-            city: str
-                Profile city
-            state: str
-                Profile state
-            opt_in_path_id: str
-                ID of the opt-in path to send new profile through. This will determine the welcome
-                text they receive.
-            custom_column_values: dict
-                Dictionary with custom column names as keys and custom column values
-                as dictionary values
+        Args:
+            phone (str): Phone number to assign profile.
+            first_name (str, optional): Profile first name. Defaults to None.
+            last_name (str, optional): Profile last name. Defaults to None.
+            zip (str, optional): Profile 5-digit postal code. Defaults to None.
+            addressline1 (str, optional): Profile address line 1. Defaults to None.
+            addressline2 (str, optional): Profile address line 2. Defaults to None.
+            city (str, optional): Profile city. Defaults to None.
+            state (str, optional): Profile state. Defaults to None.
+            opt_in_path_id (str, optional): ID of the opt-in path to send new profile through.
+                This will determine the welcome text they receive. Defaults to None.
+            custom_column_values: Dict Dictionary with custom column names as keys and custom column values as
+                dictionary values. Defaults to None.
 
-        `Returns:`
+        Returns:
             ID of created/updated  profile
-        """
 
+        """
         params = {
             "phone_number": phone,
             "first_name": first_name,

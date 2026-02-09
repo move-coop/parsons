@@ -9,8 +9,7 @@ class Email:
     """
     Instantiate the Email class.
 
-    You can find the docs for the NGP VAN Email API here:
-    https://docs.ngpvan.com/reference/email-overview
+    You can find the docs for the NGP VAN Email API here: https://docs.ngpvan.com/reference/email-overview
     """
 
     def __init__(self, van_connection):
@@ -20,17 +19,16 @@ class Email:
         """
         Get emails.
 
-        `Args:`
-            ascending : Bool
-                sorts results in ascending or descending order
-                for the dateModified field. Defaults to True (ascending).
+        Args:
+            ascending (bool, optional): Sorts results in ascending or descending order for the dateModified field.
+                Defaults to True.
 
-        `Returns:`
-            Parsons Table
-                Data from the email/messages endpoint. List of columns:
+        Returns:
+            Parsons Table: Data from the email/messages endpoint. List of columns:
 
-                foreignMessageId, name, createdBy, dateCreated, dateScheduled, campaignID,
-                dateModified, emailMessageContent
+                foreignMessageId, name, createdBy, dateCreated, dateScheduled, campaignID, dateModified,
+                emailMessageContent.
+
         """
         if ascending:
             params = {
@@ -49,20 +47,18 @@ class Email:
         """
         Get an email.
 
-        Note that it takes some time for the system to aggregate opens and click-throughs,
-        so data can be delayed up to 15 minutes.
+        Note that it takes some time for the system to aggregate opens and click-throughs, so data can be delayed up to
+        15 minutes.
 
-        `Args:`
-            email_id : int
-                The email id.
-            expand : bool
-                Optional; expands the email message to include the email content and
+        Args:
+            email_id (int): The email id.
+            expand (bool, optional): Optional; expands the email message to include the email content and
                 statistics. Defaults to True.
 
-        `Returns:`
+        Returns:
             dict
-        """
 
+        """
         params = {
             "$expand": (
                 "emailMessageContent, EmailMessageContentDistributions" if expand else None
@@ -77,24 +73,23 @@ class Email:
         """
         Get stats for all emails, aggregating any A/B tests.
 
-        Note: Pending emails will have a dateScheduled of "0001-01-01T00:00:00Z"
-        and a subject line of "None". This is a limitation of the NGPVAN API.
-        Also note that any information on opens, clicks, etcetera will default to 0.
+        Note: Pending emails will have a dateScheduled of "0001-01-01T00:00:00Z" and a subject line of "None".
+        This is a limitation of the NGPVAN API. Also note that any information on opens, clicks, etcetera will default
+        to 0.
 
-        `Args:`
-            aggregate_ab : bool
-                If A/B test results for emails should get aggregated.
+        Args:
+            aggregate_ab (bool, optional): If A/B test results for emails should get aggregated.
+                Defaults to True.
 
-        `Returns:`
-            Parsons Table
-                All statistics returned from the get_email added to get_emails. Columns:
+        Returns:
+            Parsons Table: All statistics returned from the get_email added to get_emails.
+                Columns:
 
-                name, createdBy, dateCreated, dateModified, dateScheduled, foreignMessageId,
-                recipientCount, bounceCount, contributionCount, contributionTotal,
-                formSubmissionCount, linksClickedCount, machineOpenCount, openCount,
-                unsubscribeCount, subject
+                name, createdBy, dateCreated, dateModified, dateScheduled, foreignMessageId, recipientCount,
+                bounceCount, contributionCount, contributionTotal, formSubmissionCount, linksClickedCount,
+                machineOpenCount, openCount, unsubscribeCount, subject.
+
         """
-
         email_list = []
 
         final_email_list = []

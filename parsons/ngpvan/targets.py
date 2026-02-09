@@ -1,6 +1,7 @@
 """NGPVAN Target Endpoints"""
 
 import logging
+import warnings
 
 import petl
 
@@ -24,11 +25,10 @@ class Targets:
         """
         Get targets.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
 
+        """
         tbl = Table(self.connection.get_request("targets"))
         logger.info(f"Found {tbl.num_rows} targets.")
         return tbl
@@ -37,14 +37,13 @@ class Targets:
         """
         Get a single target.
 
-        `Args:`
-            target_id : int
-                The target id.
-        `Returns:`
-            dict
-                The target
-        """
+        Args:
+            target_id (int): The target id.
 
+        Returns:
+            dict: The target.
+
+        """
         r = self.connection.get_request(f"targets/{target_id}")
         logger.info(f"Found target {target_id}.")
         return r
@@ -53,11 +52,10 @@ class Targets:
         """
         Get specific target export job id's status.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
 
+        """
         response = self.connection.get_request(f"targetExportJobs/{export_job_id}")
         job_status = response.get("jobStatus")
         if job_status == "Complete":
@@ -70,14 +68,16 @@ class Targets:
 
     def create_target_export(self, target_id, webhook_url=None):
         """
-        Create new target export job
+        Create new target export job.
 
-        `Args:`
-            target_id : int
-                The target id the export job is creating for.
-        `Returns:`
-            dict
-                The target export job ID
+        Args:
+            target_id (int): The target id the export job is creating for.
+            webhook_url (str, optional): .. deprecated:: 5.5.0 never implemented, will remove.
+                Defaults to None.
+
+        Returns:
+            dict: The target export job ID.
+
         """
         if webhook_url is not None:
             warnings.warn(

@@ -8,15 +8,15 @@ class Questions:
         super().__init__()
 
     def get_questions(self, limit=None):
-        """Get a list of Questions.
+        """
+        Get a list of Questions.
 
-        `Args:`
-            limit: int
-                Specify limit to return.
+        Args:
+            limit (int, optional): Specify limit to return. Defaults to None.
 
-        `Returns:`
-            parsons.Table
-                A Parsons table of all the data.
+        Returns:
+            parsons.Table: A Parsons table of all the data.
+
         """
         return self._request(self.url_questions, limit=limit)
 
@@ -24,12 +24,12 @@ class Questions:
         """
         Get a Question by id.
 
-        `Args:`
-            id: str
-                The Question id
-        `Returns:`
-            parsons.Table
-                A Parsons table of all the data.
+        Args:
+            id (str): The Question id.
+
+        Returns:
+            parsons.Table: A Parsons table of all the data.
+
         """
         return self._request(f"{self.url_questions}/{id}")
 
@@ -46,14 +46,14 @@ class Questions:
         *args,
     ):
         """
-        answer_options:[
-                {
-                "id": "string",
-                "flagId": "string",
-                "displayDescription": "string",
-                "displayCode": "string"
-                }
-            ]
+        Answer_options:[
+            {
+            "id": "string",
+            "flagId": "string",
+            "displayDescription": "string",
+            "displayCode": "string"
+            }
+        ]
         """
         payload = {
             "question": question,

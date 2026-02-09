@@ -26,12 +26,11 @@ except ImportError:
 
 def event_command(event, context):
     """
-    Minimal `shim <https://en.wikipedia.org/wiki/Shim_(computing)>`_
-    to add to the top lambda handler function to enable distributed tasks
+    Minimal `shim <https://en.wikipedia.org/wiki/Shim_(computing)>`_ to add to the top lambda handler function to enable
+    distributed tasks
 
-    The rest of this library is compatible with zappa.async library.
-    If you have deployed your app with `Zappa <https://github.com/Miserlou/Zappa>`_,
-    then you do NOT need to add this shim.
+    The rest of this library is compatible with zappa.async library. If you have deployed your app with `Zappa
+    <https://github.com/Miserlou/Zappa>`_, then you do NOT need to add this shim.
     """
     if not set(event).intersection({"task_path", "args", "kwargs"}):
         return False  # did not match an event command
@@ -107,10 +106,7 @@ def run(
 
 
 def import_and_get_task(task_path, instance_init_kwargs=None):
-    """
-    Given a modular path to a function, import that module
-    and return the function.
-    """
+    """Given a modular path to a function, import that module and return the function."""
     module, function = task_path.rsplit(".", 1)
     app_module = importlib.import_module(module)
     class_func = function.split("|")
@@ -131,9 +127,7 @@ def import_and_get_task(task_path, instance_init_kwargs=None):
 
 
 def get_func_task_path(func, method_class=None):
-    """
-    Format the modular task path for a function via inspection.
-    """
+    """Format the modular task path for a function via inspection."""
     module_path = inspect.getmodule(method_class or func).__name__
     func_name = func.__name__
 

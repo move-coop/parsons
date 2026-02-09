@@ -41,22 +41,19 @@ class Person:
 
     def data_enhance(self, search_id, search_id_type="voterbase", state=None):
         """
-        Searches for a record based on an id or phone or email address
+        Searches for a record based on an id or phone or email address.
 
-        `Args:`
-            search_id: str
-                The primary key or email address or phone number
-            search_id_type: str
-                One of ``voterbase``, ``exacttrack``, ``phone``,
-                ``email``, ``smartvan``, ``votebuilder``, ``voter``, ``household``.
-            state: str
-                Two character state code. Required if ``search_id_type`` of ``smartvan``,
-                ``votebuilder`` or ``voter``.
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Args:
+            search_id (str): The primary key or email address or phone number.
+            search_id_type (str, optional): One of ``voterbase``, ``exacttrack``, ``phone``,
+                ``email``, ``smartvan``, ``votebuilder``, ``voter``, ``household``. Defaults to "voterbase".
+            state (str, optional): Two character state code. Required if ``search_id_type`` of ``smartvan``,
+                ``votebuilder`` or ``voter``. Defaults to None.
+
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
             raise KeyError(f"Search ID type '{search_id_type}' requires state kwarg")
 
@@ -105,63 +102,50 @@ class Person:
         address_type="reg",
     ):
         """
-        Search for a person based on a specified radius
+        Search for a person based on a specified radius.
 
-        `Args`:
-            first_name: str
-                One or more alpha characters. Required
-            last_name: str
-                One or more alpha characters. Required
-            middle_name: str
-                One or more alpha characters
-            name_suffix: str
-                One or more alpha characters
-            latitude: float
-                Floating point number (e.g. 33.738987255507)
-            longitude: float
-                Floating point number (e.g. -116.40833849559)
-            address: str
-                Any geocode-able address
-            address_type: str
-                ``reg`` for registration (default) or ``tsmart`` for TargetSmart
-            radius_size: int
-                A positive integer where combined with ``radius_unit`` does not exceed 120 miles
-            radius_unit: str
-                One of ``meters``, ``feet``, ``miles`` (default), or ``kilometers``.
-            max_results: int
-                Default of ``10``. An integer in range [0 - 100]
-            gender: str
-                Default of ``a``. One of ``m``, ``f``, ``u``, ``a``.
-            age_min: int
-                A positive integer
-            age_max: int
-                A positive integer
-            composite_score_min: int
-                An integer in range [1 - 100]. Filter out results with composite score
-                less than this value.
-            composite_score_max: int
-                An integer in range [1 - 100]. Filter out results with composite score
-                greater than this value.
-            last_name_exact: boolean
-                By default, the full last name is used for finding matches if the length of the
-                last name is not longer than 10 characters. As an example, “anders” is less likely
-                to match to “anderson” with this enabled. Disable this option if you are using
-                either ``last_name_is_prefix`` or ``last_name_prefix_length``.
-            last_name_is_prefix: boolean
-                By default, the full last name is used for finding matches. Enable this parameter
-                if your search last name is truncated. This can be common for some client
-                applications that for various reasons do not have full last names. Use this
-                parameter along with ``last_name_prefix_length`` to configure the length of the last
-                name prefix. This parameter is ignored if ``last_name_exact`` is enabled.
-            last_name_prefix_length: int
-                By default, up to the first 10 characters of the search last name are used for
-                finding relative matches. This value must be between 3 and 10. This parameter is
-                ignored if last_name_exact is enabled.
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Args:
+            first_name (str): One or more alpha characters. Required.
+            last_name (str): One or more alpha characters. Required.
+            middle_name (str, optional): One or more alpha characters. Defaults to None.
+            name_suffix (str, optional): One or more alpha characters. Defaults to None.
+            latitude: Float Floating point number (e.g. 33.738987255507). Defaults to None.
+            longitude: Float Floating point number (e.g. -116.40833849559). Defaults to None.
+            address (str, optional): Any geocode-able address. Defaults to None.
+            address_type: Str
+                ``reg`` for registration (default) or ``tsmart`` for TargetSmart. Defaults to "reg".
+            radius_size (int, optional): A positive integer where combined with ``radius_unit`` does not exceed 120
+                miles. Defaults to 10.
+            radius_unit (str, optional): One of ``meters``, ``feet``, ``miles`` (default), or
+                ``kilometers``. Defaults to "miles".
+            max_results (int, optional): Default of ``10``. An integer in range [0 - 100].
+                Defaults to 10.
+            gender (str, optional): Default of ``a``. One of ``m``, ``f``, ``u``, ``a``. Defaults to "a".
+            age_min (int, optional): A positive integer. Defaults to None.
+            age_max (int, optional): A positive integer. Defaults to None.
+            composite_score_min (int, optional): An integer in range [1 - 100]. Filter out results with composite
+                score less than this value. Defaults to 1.
+            composite_score_max (int, optional): An integer in range [1 - 100]. Filter out results with composite
+                score greater than this value. Defaults to 100.
+            last_name_exact: Bool
+
+                last name is not longer than 10 characters. As an example, “anders” is less likely to match to
+                “anderson” with this enabled. Disable this option if you are using either ``last_name_is_prefix`` or
+                ``last_name_prefix_length``. Defaults to True.
+            last_name_is_prefix (bool, optional): Enable this parameter if your search last name is truncated.
+                This can be common for some client applications that for various reasons do not have full last names.
+                Use this parameter along with
+                ``last_name_prefix_length`` to configure the length of the last name prefix. This parameter is ignored
+                if ``last_name_exact`` is enabled. Defaults to False.
+            last_name_prefix_length: Int
+
+                finding relative matches. This value must be between 3 and 10. This parameter is ignored if
+                last_name_exact is enabled. Defaults to 10.
+
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
-
         if (latitude is None or longitude is None) and address is None:
             raise ValueError("Lat/Long or Address required")
 
@@ -204,17 +188,17 @@ class Person:
 
     def phone(self, table):
         """
-        Match based on a list of 500 phones numbers. Table
-        can contain up to 500 phone numbers to match
+        Match based on a list of 500 phones numbers.
 
-        `Args:`
-            table: parsons table
-                See :ref:`parsons-table`. One row per phone number,
-                up to 500 phone numbers.
-        `Returns:`
+        Table can contain up to 500 phone numbers to match
+
+        Args:
+            table: Table See :ref:`parsons-table`. One row per phone number, up to 500 phone numbers.
+
+        Returns:
             See :ref:`parsons-table` for output options.
-        """
 
+        """
         url = self.connection.uri + "person/phone-search"
 
         args = {"phones": list(petl.values(table.table, 0))}
@@ -237,8 +221,9 @@ class Service:
         longitude=None,
     ):
         """
-        Return district information based on a geographic point. The method allows you to
-        search based on the following:
+        Return district information based on a geographic point.
+
+        The method allows you to search based on the following:
 
         .. list-table::
             :widths: 30 30 30
@@ -257,27 +242,20 @@ class Service:
               - ``point``
               - ``latitude``, ``longitude``
 
-        `Args`:
-            search_type: str
-                The type of district search to perform. One of ``zip``, ``address``
-                or ``point``.
-            address: str
-                An uparsed full address
-            zip5: str
-                The USPS Zip5 code
-            zip4: str
-                The USPS Zip4 code
-            state: str
-                The two character state code
-            latitude: float or str
-                Valid latitude floating point
-            longitude: float or str
-                Valid longitude floating point
-        `Returns`:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Args:
+            search_type (str, optional): The type of district search to perform. One of ``zip``, ``address`` or
+                ``point``. Defaults to "zip".
+            address (str, optional): An uparsed full address. Defaults to None.
+            zip5 (str, optional): The USPS Zip5 code. Defaults to None.
+            zip4 (str, optional): The USPS Zip4 code. Defaults to None.
+            state (str, optional): The two character state code. Defaults to None.
+            latitude: Float or str Valid latitude floating point. Defaults to None.
+            longitude: Float or str Valid longitude floating point. Defaults to None.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         if search_type == "zip" and None in [zip5, zip4]:
             raise ValueError("Search type 'zip' requires 'zip5' and 'zip4' arguments")
 
@@ -332,37 +310,33 @@ class Voter:
 
         A search must include the at minimum first name, last name and state.
 
-        `Args:`
-            first_name: str
-                Required; One or more alpha characters. Trailing wildcard allowed
-            last_name: str
-                Required; One or more alpha characters. Trailing wildcard allowed
-            state: str
-                Required; Two character state code (e.g. ``NY``)
-            street_number: str
-                Optional; One or more alpha characters. Trailing wildcard allowed
-            street_name: str
-                Optional; One or more alpha characters. Trailing wildcard allowed
-            city: str
-                Optional; The person's home city
-            zip_code: str
-                Optional; Numeric characters. Trailing wildcard allowed
-            age; int
-                Optional; One or more integers. Trailing wildcard allowed
-            dob; str
-                Optional; Numeric characters in YYYYMMDD format. Trailing wildcard allowed
-            phone; str
-                Optional; Integer followed by 0 or more * or integers
-            email: str
-                Optional; Alphanumeric character followed by 0 or more * or legal characters
-                (alphanumeric, @, -, .)
-            unparsed_full_address: str
-                Optional; One or more alphanumeric characters. No wildcards.
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Args:
+            first_name (str, optional): Required; One or more alpha characters. Trailing wildcard allowed.
+                Defaults to None.
+            last_name (str, optional): Required; One or more alpha characters. Trailing wildcard allowed.
+                Defaults to None.
+            state (str, optional): Required; Two character state code (e.g. ``NY``). Defaults to None.
+            street_number (str, optional): Optional; One or more alpha characters. Trailing wildcard allowed.
+                Defaults to None.
+            street_name (str, optional): Optional; One or more alpha characters. Trailing wildcard allowed.
+                Defaults to None.
+            city (str, optional): Optional; The person's home city. Defaults to None.
+            zip_code (str, optional): Optional; Numeric characters. Trailing wildcard allowed.
+                Defaults to None.
+            age (int, optional): Optional; One or more integers. Trailing wildcard allowed.
+                Defaults to None.
+            dob (str, optional): Optional; Numeric characters in YYYYMMDD format. Trailing wildcard allowed.
+                Defaults to None.
+            phone (str, optional): Optional; Integer followed by 0 or more * or integers. Defaults to None.
+            email (str, optional): Optional; Alphanumeric character followed by 0 or more * or legal characters
+                (alphanumeric, @, -, .). Defaults to None.
+            unparsed_full_address (str, optional): Optional; One or more alphanumeric characters.
+                No wildcards. Defaults to None.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         url = self.connection.uri + "voter/voter-registration-check"
 
         if None in [first_name, last_name, state]:

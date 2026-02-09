@@ -15,14 +15,13 @@ class ContactNotes:
         """
         Get custom fields.
 
-        `Args:`
-            van_id : str
-                VAN ID for the person to get notes for.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Args:
+            van_id (str): VAN ID for the person to get notes for.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         tbl = Table(self.connection.get_request(f"people/{van_id}/notes"))
         logger.info(f"Found {tbl.num_rows} custom fields.")
         return tbl
@@ -39,31 +38,26 @@ class ContactNotes:
         result_code_id=None,
     ):
         """
-        Create a contact note
+        Create a contact note.
 
-        `Args:`
-            van_id: str
-                VAN ID for the person this note will be applied to.
-            text: str
-                The content of the note.
-            is_view_restricted: bool
-                Set to true if the note should be restricted only to certain users within
-                the current context; set to false if the note may be viewed by any user
-                in the current context.
-            note_category_id: int
-                Optional; if set, the note category for this note.
-            contact_type_id: str
-                Defaults to 82 if no value is set. This value results in a null contact type in EA.
-            input_type_id: str
-                Defaults to 11 if no value is set. If the value is 11,
-                the input type in EA will be listed as "API"
-            date_canvassed: date
-                Defaults to current date if no value is set. Dates should be formatted in ISO8601 standard.
-            result_code_id: str
-                Defaults to 205 if no value is set. This value results in a "Contacted" result in EA.
-        `Returns:`
-            int
-              The note ID.
+        Args:
+            van_id (str): VAN ID for the person this note will be applied to.
+            text (str): The content of the note.
+            is_view_restricted (bool): Set to true if the note should be restricted only to certain users within the
+                current context; set to false if the note may be viewed by any user in the current context.
+            note_category_id (int, optional): Optional; if set, the note category for this note.
+                Defaults to None.
+            contact_type_id (str, optional): This value results in a null contact type in EA.
+                Defaults to None.
+            input_type_id (str, optional): If the value is 11, the input type in EA will be listed as "API".
+                Defaults to None.
+            date_canvassed: Date Dates should be formatted in ISO8601 standard. Defaults to None.
+            result_code_id (str, optional): This value results in a "Contacted" result in EA.
+                Defaults to None.
+
+        Returns:
+            int: The note ID.
+
         """
         note = {"text": text, "isViewRestricted": is_view_restricted}
         if note_category_id is not None:

@@ -13,7 +13,8 @@ from parsons.notifications.sendmail import EmptyListError, SendMail
 
 @pytest.fixture
 def dummy_sendmail():
-    """Have to create a dummy class that inherits from SendMail and defines a couple
+    """
+    Have to create a dummy class that inherits from SendMail and defines a couple
     of methods in order to test out the methods that aren't abstract.
     """
 

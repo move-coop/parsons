@@ -10,17 +10,15 @@ logger = logging.getLogger(__name__)
 
 class Airtable:
     """
-    `Args:`
-        base_key: str
-            The key/ID of the Airtable base that you will interact with, typically
-            prefixed with `app`.
-        table_name: str
-            The name or key/ID of the table in the base. The table name is the
-            equivalent of the sheet name in Excel or GoogleDocs. The ID can be
-            found in the URL and is typically prefixed with `tbl`.
-        personal_access_token: str
-            The Airtable personal access token. Not required if ``AIRTABLE_PERSONAL_ACCESS_TOKEN``
-            env variable set.
+    Init function.
+
+    Args:
+        base_key (str): The key/ID of the Airtable base that you will interact with, typically prefixed with `app`.
+        table_name (str): The name or key/ID of the table in the base. The table name is the equivalent of the sheet
+            name in Excel or GoogleDocs. The ID can be found in the URL and is typically prefixed with `tbl`.
+        personal_access_token (str, optional): The Airtable personal access token. Not required if
+            ``AIRTABLE_PERSONAL_ACCESS_TOKEN`` env variable set. Defaults to None.
+
     """
 
     def __init__(self, base_key, table_name, personal_access_token=None):
@@ -33,13 +31,13 @@ class Airtable:
         """
         Returns a single record.
 
-        `Args:`
-            record_id: str
-                The Airtable record `id`
-        `Returns:`
-            A dictionary of the record
-        """
+        Args:
+            record_id (str): The Airtable record `id`.
 
+        Returns:
+            A dictionary of the record
+
+        """
         return self.client.get(record_id)
 
     def get_records(
@@ -52,22 +50,20 @@ class Airtable:
         sample_size=None,
     ):
         """
-        `Args:`
-            fields: str or lst
-                Only return specified column or list of columns. The column name is
-                case sensitive
-            max_records: int
-                The maximum total number of records that will be returned.
-            view: str
-                If set, only the records in that view will be returned. The records will be
-                sorted according to the order of the view.
-            formula: str
-                The formula will be evaluated for each record, and if the result
-                is not 0, false, "", NaN, [], or #Error! the record will be included
-                in the response.
+        Get records.
 
-                If combined with view, only records in that view which satisfy the
-                formula will be returned. For example, to only include records where
+        Args:
+            fields (str | list, optional): Only return specified column or list of columns.
+                The column name is case sensitive. Defaults to None.
+            max_records (int, optional): The maximum total number of records that will be returned.
+                Defaults to None.
+            view (str, optional): If set, only the records in that view will be returned. The records will be sorted
+                according to the order of the view. Defaults to None.
+            formula (str, optional): The formula will be evaluated for each record, and if the result is not
+                0, false, "", NaN, [], or #Error! the record will be included in the response.
+
+                If combined with view, only records in that view which satisfy the formula will be returned.
+                For example, to only include records where
                 ``COLUMN_A`` isn't empty, pass in: ``"NOT({COLUMN_A}='')"``
 
                 For more information see
@@ -79,26 +75,20 @@ class Airtable:
 
                 Usage - Text Column contains:
 
-                ``airtable.get_all(formula="FIND('SomeSubText', {COLUMN_STR})=1")``
-
-            sort: str or lst
-                Specifies how the records will be ordered. If you set the view parameter, the
-                returned records in that view will be sorted by these fields. If sorting by
-                multiple columns, column names can be passed as a list. Sorting Direction is
-                ascending by default, but can be reversed by prefixing the column name with a minus
-                sign -.
+                ``airtable.get_all(formula="FIND('SomeSubText', {COLUMN_STR})=1")``. Defaults to None.
+            sort (str | list, optional): Specifies how the records will be ordered. If you set the view parameter,
+                the returned records in that view will be sorted by these fields. If sorting by multiple columns, column
+                names can be passed as a list. Sorting Direction is ascending sign -.
 
                 Example usage:
-                ``airtable.get_records(sort=['ColumnA', '-ColumnB'])``
+                ``airtable.get_records(sort=['ColumnA', '-ColumnB'])``. Defaults to None.
+            sample_size (int, optional): Number of rows to sample before determining columns.
+                Defaults to None.
 
-            sample_size: int
-                Number of rows to sample before determining columns
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
         """
-
         if isinstance(fields, str):
             fields = [fields]
         # Raises an error if sort is None type. Thus, only adding if populated.
@@ -133,34 +123,33 @@ class Airtable:
         """
         Insert a single record into an Airtable.
 
-        `Args:`
-            row: dict
-                Fields to insert. Must be dictionary with Column names as Key.
-            typecast: boolean
-                Automatic data conversion from string values.
-        `Returns:`
-            Dictionary of inserted row
-        """
+        Args:
+            row (dict): Fields to insert. Must be dictionary with Column names as Key.
+            typecast (bool, optional): Automatic data conversion from string values. Defaults to False.
 
+        Returns:
+            Dictionary of inserted row
+
+        """
         resp = self.client.create(row, typecast=typecast)
         logger.info("Record inserted")
         return resp
 
     def insert_records(self, table, typecast=False):
         """
-        Insert multiple records into an Airtable. The columns in your Parsons table must
-        exist in the Airtable. The method will attempt to map based on column name, so the
-        order of the columns is irrelevant.
+        Insert multiple records into an Airtable.
 
-        `Args:`
-            table: A Parsons Table or list of dicts
-                Insert a Parsons table or list
-            typecast: boolean
-                Automatic data conversion from string values.
-        `Returns:`
+        The columns in your Parsons table must exist in the Airtable. The method will attempt to map based on column
+        name, so the order of the columns is irrelevant.
+
+        Args:
+            table (Table | list[dict]): Insert a Parsons table or list.
+            typecast (bool, optional): Automatic data conversion from string values. Defaults to False.
+
+        Returns:
             List of dictionaries of inserted rows
-        """
 
+        """
         if isinstance(table, Table):
             table = table.to_dicts()
 
@@ -170,48 +159,45 @@ class Airtable:
 
     def update_record(self, record_id, fields, typecast=False, replace=False):
         """
-        Updates a record by its record `id`. Only Fields passed are updated, the rest are left as
-        is.
+        Updates a record by its record `id`.
 
-        `Args:`
-            record_id: str
-                The Airtable record `id`
-            fields: dict
-                Fields to insert. Must be dictionary with Column names as Key.
-            typecast: boolean
-                Automatic data conversion from string values.
-            replace: boolean
-                Only provided fields are updated. If `True`, record is replaced in its
-                entirety by provided fields; if a field is not included its value
-                will bet set to null.
-        `Returns:`
+        Only Fields passed are updated, the rest are left as is.
+
+        Args:
+            record_id (str): The Airtable record `id`.
+            fields (dict): Fields to insert. Must be dictionary with Column names as Key.
+            typecast (bool, optional): Automatic data conversion from string values. Defaults to False.
+            replace (bool, optional): Only provided fields are updated. If `True`, record is replaced in its
+                entirety by provided fields; if a field is not included its value will bet set to null.
+                Defaults to False.
+
+        Returns:
             Dictionary of updated row
-        """
 
+        """
         resp = self.client.update(record_id, fields, typecast=typecast, replace=replace)
         logger.info(f"{record_id} updated")
         return resp
 
     def update_records(self, table, typecast=False, replace=False):
         """
-        Update multiple records into an Airtable. The columns in your Parsons table must
-        exist in the Airtable, and the record `id` column must be present. The method
-        will attempt to map based on column name, so the order of the columns is irrelevant.
+        Update multiple records into an Airtable.
 
-        `Args:`
-            table: A Parsons Table or list of dicts
-                Insert a Parsons table or list. Record must contain the record `id` column
-                and columns containing the fields to update
-            typecast: boolean
-                Automatic data conversion from string values.
-            replace: boolean
-                Only provided fields are updated. If `True`, record is replaced in its
-                entirety by provided fields; if a field is not included its value
-                will bet set to null.
-        `Returns:`
+        The columns in your Parsons table must exist in the Airtable, and the record `id` column must be present.
+        The method will attempt to map based on column name, so the order of the columns is irrelevant.
+
+        Args:
+            table (Table | list[dict]): Insert a Parsons table or list. Record must contain the record `id` column
+                and columns containing the fields to update.
+            typecast (bool, optional): Automatic data conversion from string values. Defaults to False.
+            replace (bool, optional): Only provided fields are updated. If `True`, record is replaced in its
+                entirety by provided fields; if a field is not included its value will bet set to null.
+                Defaults to False.
+
+        Returns:
             List of dicts of updated records
-        """
 
+        """
         # the update/upsert API call expects a dict/object shape of:
         # { id: string, fields: { column_name: value, ... } }
         # the map_update_fields helper will convert the flat table field
@@ -224,31 +210,28 @@ class Airtable:
 
     def upsert_records(self, table, key_fields=None, typecast=False, replace=False):
         """
-        Update and/or create records, either using `id` (if included) or using a set of
-        fields (`key_fields`) to look for matches. The columns in your Parsons table must
-        exist in the Airtable. The method will attempt to map based on column name,
-        so the order of the columns is irrelevant.
+        Update and/or create records, either using `id` (if included) or using a set of fields
+        (`key_fields`) to look for matches. The columns in your Parsons table must exist in the Airtable.
+        The method will attempt to map based on column name, so the order of the columns is irrelevant.
 
-        `Args:`
-            table: A Parsons Table or list of dicts
-                Parsons table or list with records to upsert. Records must contain the record
+        Args:
+            table: Table or list of dicts Parsons table or list with records to upsert. Records must contain the
+                record
                 `id` column or the column(s) defined in `key_fields`.
-            key_fields: list of str
-              List of field names that Airtable should use to match records in the input
-              with existing records.
-            typecast: boolean
-                Automatic data conversion from string values.
-            replace: boolean
-                Only provided fields are updated. If `True`, record is replaced in its
-                entirety by provided fields; if a field is not included its value
-                will bet set to null.
-        `Returns:`
+            key_fields: List of str List of field names that Airtable should use to match records in the input with
+                existing records. Defaults to None.
+            typecast (bool, optional): Automatic data conversion from string values. Defaults to False.
+            replace (bool, optional): Only provided fields are updated. If `True`, record is replaced in its
+                entirety by provided fields; if a field is not included its value will bet set to null.
+                Defaults to False.
+
+        Returns:
             Dictionary containing:
                 - `updated_records`: list of updated record `id`s
                 - `created_records`: list of created records `id`s
-                - `records`: list of records
-        """
+                - `records`: list of records.
 
+        """
         # the update/upsert API call expects a dict/object shape of:
         # { id: string, fields: { column_name: value, ... } }
         # the map_update_fields helper will convert the flat table field
@@ -274,13 +257,13 @@ class Airtable:
         """
         Deletes a record by its record `id`.
 
-        `Args:`
-            record_id: str
-                The Airtable record `id`
-        `Returns:`
-            Dictionary of record `id` and `deleted` status
-        """
+        Args:
+            record_id (str): The Airtable record `id`.
 
+        Returns:
+            Dictionary of record `id` and `deleted` status
+
+        """
         resp = self.client.delete(record_id)
         logger.info(f"{record_id} updated")
         return resp
@@ -289,12 +272,13 @@ class Airtable:
         """
         Delete multiple records from an Airtable.
 
-        `Args:`
-            table: A Parsons Table or list containing the record `id`s to delete.
-        `Returns:`
-            List of dicts with record `id` and `deleted` status
-        """
+        Args:
+            table: Table or list containing the record `id`s to delete.
 
+        Returns:
+            List of dicts with record `id` and `deleted` status
+
+        """
         if isinstance(table, Table):
             table = table.to_dicts()
 

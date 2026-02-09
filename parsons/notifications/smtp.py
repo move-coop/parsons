@@ -5,21 +5,18 @@ from parsons.utilities.check_env import check
 
 
 class SMTP(SendMail):
-    """Create a SMTP object, for sending emails.
+    """
+    Create a SMTP object, for sending emails.
 
-    `Args:`
-        host: str
-            The host of the SMTP server
-        port: int
-            The port of the SMTP server (Default is 587 for TLS)
-        username: str
-            The username of the SMTP server login
-        password: str
-            The password of the SMTP server login
-        tls: bool
-            Defaults to True -- pass "0" or "False" to SMTP_TLS to disable
-        close_manually: bool
-            When set to True, send_message will not close the connection
+    Args:
+        host (str, optional): The host of the SMTP server. Defaults to None.
+        port (int, optional): The port of the SMTP server (. Defaults to None.
+        username (str, optional): The username of the SMTP server login. Defaults to None.
+        password (str, optional): The password of the SMTP server login. Defaults to None.
+        tls (bool, optional): Defaults to None.
+        close_manually (bool, optional): When set to True, send_message will not close the connection.
+            Defaults to False.
+
     """
 
     def __init__(
@@ -50,13 +47,16 @@ class SMTP(SendMail):
         return self.conn
 
     def _send_message(self, message):
-        """Send an email message.
+        """
+        Send an email message.
 
-        `Args:`
-            message: `MIME object <https://docs.python.org/2/library/email.mime.html>`
-                i.e. the objects created by the create_* instance methods
-        `Returns:`
+        Args:
+            message: `MIME object <https://docs.python.org/2/library/email.mime.html>` i.e.
+                the objects created by the create_* instance methods.
+
+        Returns:
             dict of refused To addresses (otherwise None)
+
         """
         self.log.info("Sending a message...")
         try:

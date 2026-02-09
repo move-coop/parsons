@@ -19,10 +19,11 @@ class MobilizeAmerica:
     Instantiate MobilizeAmerica Class
 
     api_key: str
-        An api key issued by Mobilize America. This is required to access some private methods.
+        An api key issued by Mobilize America. This is required to access some private methods........
 
-    `Returns:`
+    Returns:
         MobilizeAmerica Class
+
     """
 
     def __init__(self, api_key=None):
@@ -87,14 +88,14 @@ class MobilizeAmerica:
         """
         Return all active organizations on the platform.
 
-        `Args:`
-            updated_since: str
-                Filter to organizations updated since given date (ISO Date)
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Args:
+            updated_since (str, optional): Filter to organizations updated since given date (ISO Date).
+                Defaults to None.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         return Table(
             self._request_paginate(
                 self.uri + "organizations",
@@ -106,11 +107,12 @@ class MobilizeAmerica:
         """
         Return all organizations promoted by the given organization.
 
-        `Args:`
-            organization_id: int
-                ID of the organization to query.
-        `Returns`
+        Args:
+            organization_id (int): ID of the organization to query.
+
+        Returns:
             Parsons Table
+
         """
         url = self.uri + "organizations/" + str(organization_id) + "/promoted_organizations"
         return Table(self._request_paginate(url, auth=True))
@@ -127,39 +129,37 @@ class MobilizeAmerica:
         """
         Fetch all public events on the platform.
 
-        `Args:`
-            organization_id: list or int
-                Filter events by a single or multiple organization ids
-            updated_since: str
-                Filter to events updated since given date (ISO Date)
-            timeslot_start: str
-                Filter by a timeslot start of events using ``>``,``>=``,``<``,``<=``
-                operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``)
-            timeslot_end: str
-                Filter by a timeslot end of events using ``>``,``>=``,``<``,``<=``
-                operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``)
-            timeslot_table: boolean
-                Return timeslots as a separate long table. Useful for extracting
-                to databases.
-            max_timeslots: int
-                If not returning a timeslot table, will unpack time slots. If do not
-                set this kwarg, it will add a column for each time slot. The argument
-                limits the number of columns and discards any additional timeslots
-                after that.
+        Args:
+            timeslots_table: Defaults to False.
+            organization_id (int | list[int], optional): Filter events by a single or multiple organization ids.
+                Defaults to None.
+            updated_since (str, optional): Filter to events updated since given date (ISO Date).
+                Defaults to None.
+            timeslot_start (str, optional): Filter by a timeslot start of events using
+                ``>``,``>=``,``<``,``<=`` operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``).
+                Defaults to None.
+            timeslot_end (str, optional): Filter by a timeslot end of events using ``>``,``>=``,``<``,``<=``
+                operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``). Defaults to None.
+            timeslots_table (bool, optional): Return timeslots as a separate long table. Useful for extracting to
+                databases. Defaults to False.
+            max_timeslots (int, optional): If not returning a timeslot table, will unpack time slots.
+                If do not set this kwarg, it will add a column for each time slot. The argument limits the number of
+                columns and discards any additional timeslots after that.
 
-                For example: If there are 20 timeslots associated with your event,
-                and you set the max time slots to 5, it will only return the first 5
-                time slots as ``time_slot_0``, ``time_slot_1`` etc.
+                For example: If there are 20 timeslots associated with your event, and you set the max time slots to 5,
+                it will only return the first 5 time slots as ``time_slot_0``,
+                ``time_slot_1`` etc.
 
-                This is helpful in situations where you have a regular sync
-                running and want to ensure that the column headers remain static.
+                This is helpful in situations where you have a regular sync running and want to ensure that the column
+                headers remain static.
 
-                If ``max_timeslots`` is 0, no timeslot columns will be included.
+                If ``max_timeslots`` is 0, no timeslot columns will be included. Defaults to None.
 
-        `Returns`
-            :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
+        Returns:
+            :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table:
+                <parsons-table>`].
+
         """
-
         if isinstance(organization_id, (str, int)):
             organization_id = [organization_id]
 
@@ -205,66 +205,59 @@ class MobilizeAmerica:
         max_timeslots=None,
     ):
         """
-        Fetch all public events for an organization. This includes both events owned
-        by the organization (as indicated by the organization field on the event object)
+        Fetch all public events for an organization.
+
+        This includes both events owned by the organization (as indicated by the organization field on the event object)
         and events of other organizations promoted by this specified organization.
 
         .. note::
             API Key Required
 
-        `Args:`
-            organization_id: int or str
-                Organization ID for the organization.
-            updated_since: str
-                Filter to events updated since given date (ISO Date)
-            timeslot_start: str
-                Filter by a timeslot start of events using ``>``,``>=``,``<``,``<=``
-                operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``)
-            timeslot_end: str
-                Filter by a timeslot end of events using ``>``,``>=``,``<``,``<=``
-                operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``)
-            timeslot_table: boolean
-                Return timeslots as a separate long table. Useful for extracting
-                to databases.
-            zipcode: str
-                Filter by a Events' Locations' postal code. If present, returns Events
-                sorted by distance from zipcode. If present, virtual events will not be returned.
-            max_dist: str
-                Filter Events' Locations' distance from provided zipcode.
-            visibility: str
-                Either `PUBLIC` or `PRIVATE`. Private events only return if user is authenticated;
-                if `visibility=PRIVATE` and user doesn't have permission, no events returned.
-            exclude_full: bool
-                If `exclude_full=true`, filter out full Timeslots (and Events if all of an Event's
-                Timeslots are full)
-            is_virtual: bool
-                `is_virtual=false` will return only in-person events, while `is_virtual=true` will
-                return only virtual events. If excluded, return virtual and in-person events. Note
-                that providing a zipcode also implies `is_virtual=false`.
-            event_types:enum
-                The type of the event, one of: `CANVASS`, `PHONE_BANK`, `TEXT_BANK`, `MEETING`,
+        Args:
+            timeslots_table: Defaults to False.
+            organization_id (str | int): Organization ID for the organization.
+            updated_since (str, optional): Filter to events updated since given date (ISO Date).
+                Defaults to None.
+            timeslot_start (str, optional): Filter by a timeslot start of events using
+                ``>``,``>=``,``<``,``<=`` operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``).
+                Defaults to None.
+            timeslot_end (str, optional): Filter by a timeslot end of events using ``>``,``>=``,``<``,``<=``
+                operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``). Defaults to None.
+            timeslot_table (bool): Return timeslots as a separate long table. Useful for extracting to databases.
+            zipcode (str): Filter by a Events' Locations' postal code. If present, returns Events sorted by distance
+                from zipcode. If present, virtual events will not be returned.
+            max_dist (str): Filter Events' Locations' distance from provided zipcode.
+            visibility (str): Either `PUBLIC` or `PRIVATE`. Private events only return if user is authenticated; if
+                `visibility=PRIVATE` and user doesn't have permission, no events returned.
+            exclude_full (bool): If `exclude_full=true`, filter out full Timeslots (and Events if all of an Event's
+                Timeslots are full).
+            is_virtual: Bool
+                `is_virtual=false` will return only in-person events, while `is_virtual=true` will return only virtual
+                events. If excluded, return virtual and in-person events. Note that providing a zipcode also implies
+                `is_virtual=false`.
+            event_types:enum: The type of the event, one of: `CANVASS`, `PHONE_BANK`,
+                `TEXT_BANK`, `MEETING`,
                 `COMMUNITY`, `FUNDRAISER`, `MEET_GREET`, `HOUSE_PARTY`, `VOTER_REG`, `TRAINING`,
-                `FRIEND_TO_FRIEND_OUTREACH`, `DEBATE_WATCH_PARTY`, `ADVOCACY_CALL`, `OTHER`.
-                This list may expand in the future.
-            max_timeslots: int
-                If not returning a timeslot table, will unpack time slots. If do not
-                set this arg, it will add a column for each time slot. The argument
-                limits the number of columns and discards any additional timeslots
-                after that.
+                `FRIEND_TO_FRIEND_OUTREACH`, `DEBATE_WATCH_PARTY`, `ADVOCACY_CALL`, `OTHER`. This list may expand in the
+                future.
+            max_timeslots (int, optional): If not returning a timeslot table, will unpack time slots.
+                If do not set this arg, it will add a column for each time slot. The argument limits the number of
+                columns and discards any additional timeslots after that.
 
-                For example: If there are 20 timeslots associated with your event,
-                and you set the max time slots to 5, it will only return the first 5
-                time slots as ``time_slot_0``, ``time_slot_1`` etc.
+                For example: If there are 20 timeslots associated with your event, and you set the max time slots to 5,
+                it will only return the first 5 time slots as ``time_slot_0``,
+                ``time_slot_1`` etc.
 
-                This is helpful in situations where you have a regular sync
-                running and want to ensure that the column headers remain static.
+                This is helpful in situations where you have a regular sync running and want to ensure that the column
+                headers remain static.
 
-                If ``max_timeslots`` is 0, no timeslot columns will be included.
+                If ``max_timeslots`` is 0, no timeslot columns will be included. Defaults to None.
 
-        `Returns`
-            :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
+        Returns:
+            :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table:
+                <parsons-table>`].
+
         """
-
         args = {
             "updated_since": date_to_timestamp(updated_since),
             "timeslot_start": self._time_parse(timeslot_start),
@@ -306,16 +299,16 @@ class MobilizeAmerica:
         """
         Fetch deleted public events on the platform.
 
-        `Args:`
-            organization_id: list or int
-                Filter events by a single or multiple organization ids
-            updated_since: str
-                Filter to events updated since given date (ISO Date)
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Args:
+            organization_id (int | list[int], optional): Filter events by a single or multiple organization ids.
+                Defaults to None.
+            updated_since (str, optional): Filter to events updated since given date (ISO Date).
+                Defaults to None.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         if isinstance(organization_id, (str, int)):
             organization_id = [organization_id]
 
@@ -333,14 +326,14 @@ class MobilizeAmerica:
         .. note::
             API Key Required
 
-        `Args:`
-            organization_id: Iterable or int
-                Request people associated with a single or multiple organization ids
-            updated_since: str
-                Filter to people updated since given date (ISO Date)
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Args:
+            organization_id: Iterable or int Request people associated with a single or multiple organization ids.
+            updated_since (str, optional): Filter to people updated since given date (ISO Date).
+                Defaults to None.
+
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
         if isinstance(organization_id, collections.abc.Iterable):
             data = Table()
@@ -354,20 +347,20 @@ class MobilizeAmerica:
 
     def get_attendances(self, organization_id, updated_since=None):
         """
-        Fetch all attendances which were either promoted by the organization or
-        were for events owned by the organization.
+        Fetch all attendances which were either promoted by the organization or were for events owned by the
+        organization.
 
         .. note::
             API Key Required
 
-        `Args:`
-            organization_id: int
-                Filter attendances by an organization id
-            updated_since: str
-                Filter to attendances updated since given date (ISO Date)
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Args:
+            organization_id (int): Filter attendances by an organization id.
+            updated_since (str, optional): Filter to attendances updated since given date (ISO Date).
+                Defaults to None.
+
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
         """
         url = self.uri + "organizations/" + str(organization_id) + "/attendances"
         args = {"updated_since": date_to_timestamp(updated_since)}

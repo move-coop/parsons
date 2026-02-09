@@ -165,28 +165,28 @@ def assert_file_matches_table(local_path, table):
 
 
 @mark_live_test
-def test_get_file(live_sftp, simple_table):  # noqa F811
+def test_get_file(live_sftp, simple_table):  # noqa: F811
     local_path = file_util.create_temp_file()
     live_sftp.get_file(CSV_PATH, local_path=local_path)
     assert_file_matches_table(local_path, simple_table)
 
 
 @mark_live_test
-def test_get_table(live_sftp, simple_table):  # noqa F811
+def test_get_table(live_sftp, simple_table):  # noqa: F811
     file_util.create_temp_file()
     tbl = live_sftp.get_table(CSV_PATH)
     assert_matching_tables(tbl, simple_table)
 
 
 @mark_live_test
-def test_get_temp_file(live_sftp, simple_table):  # noqa F811
+def test_get_temp_file(live_sftp, simple_table):  # noqa: F811
     local_path = live_sftp.get_file(CSV_PATH)
     assert_file_matches_table(local_path, simple_table)
 
 
 @mark_live_test
 @pytest.mark.parametrize("compression", [None, "gzip"])
-def test_table_to_sftp_csv(live_sftp, simple_table, compression):  # noqa F811
+def test_table_to_sftp_csv(live_sftp, simple_table, compression):  # noqa: F811
     host = os.environ["SFTP_HOST"]
     username = os.environ["SFTP_USERNAME"]
     password = os.environ["SFTP_PASSWORD"]

@@ -24,29 +24,25 @@ class Events:
         """
         Get events.
 
-        `Args:`
-            code_ids: str
-                Filter by code id.
-            event_type_ids: str
-                Filter by event_type_ids.
-            rep_event_id: str
-                Filters to recurring events that are recurrences the passed event id.
-            starting_after: str
-                Events beginning after ``iso8601`` formatted date.
-            starting_before: str
-                Events beginning before ``iso8601`` formatted date.
-            district_field: str
-                Filter by district field.
-            expand_fields: list
-                A list of fields for which to include data. If a field is omitted,
+        Args:
+            code_ids (str, optional): Filter by code id. Defaults to None.
+            event_type_ids (str, optional): Filter by event_type_ids. Defaults to None.
+            rep_event_id (str, optional): Filters to recurring events that are recurrences the passed event id.
+                Defaults to None.
+            starting_after (str, optional): Events beginning after ``iso8601`` formatted date.
+                Defaults to None.
+            starting_before (str, optional): Events beginning before ``iso8601`` formatted date.
+                Defaults to None.
+            district_field (str, optional): Filter by district field. Defaults to None.
+            expand_fields (list, optional): A list of fields for which to include data. If a field is omitted,
                 ``None`` will be returned for that field. Can be ``locations``, ``codes``,
                 ``shifts``,``roles``, ``notes``, ``financialProgram``, ``ticketCategories``,
-                ``onlineForms``.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+                ``onlineForms``. Defaults to None.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         if expand_fields is None:
             expand_fields = [
                 "locations",
@@ -84,19 +80,17 @@ class Events:
         """
         Get an event.
 
-        `Args:`
-            event_id: int
-                The event id.
-            expand_fields: list
-                A list of fields for which to include data. If a field is omitted,
+        Args:
+            event_id (int): The event id.
+            expand_fields (list, optional): A list of fields for which to include data. If a field is omitted,
                 ``None`` will be returned for that field. Can be ``locations``,
                 ``codes``, ``shifts``, ``roles``, ``notes``, ``financialProgram``,
-                ``ticketCategories``, ``voterRegistrationBatches`.`
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+                ``ticketCategories``, ``voterRegistrationBatches`.`. Defaults to None.
 
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
+
+        """
         if expand_fields is None:
             expand_fields = [
                 "locations",
@@ -134,62 +128,53 @@ class Events:
         voter_registration_batches=None,
     ):
         """
-        Create an event
+        Create an event.
 
-        `Args:`
-            name: str
-                A name for this event, no longer than 500 characters.
-            short_name: str
-                A shorter name for this event, no longer than 12 characters.
-            start_date: str
-                The start date and time for this event.
-            end_date: str
-                The end date and time for this event that is after ``start_date``
-            event_type_id: int
-                A valid event type id.
-            roles: list
-                A list of valid role ids that correspond the with the event type.
-            shifts:
-                A list of dicts with shifts formatted as:
+        Args:
+            voter_registration_batches: Defaults to None.
+            district_field_value: Defaults to None.
+            name (str): A name for this event, no longer than 500 characters.
+            short_name (str): A shorter name for this event, no longer than 12 characters.
+            start_date (str): The start date and time for this event.
+            end_date (str): The end date and time for this event that is after ``start_date``.
+            event_type_id (int): A valid event type id.
+            roles (list): A list of valid role ids that correspond the with the event type.
+            shifts: A list of dicts with shifts formatted as:
 
                 .. highlight:: python
 
                 .. code-block:: python
 
-                    [
-                        {
-                         'name': 'Shift 1',
-                         'start_time': '12-31-2018T12:00:00',
-                         'end_time': '12-31-2018T13:00:00'
-                        }
-                        {
-                         'name': 'Shift 2',
-                         'start_time': '12-31-2018T13:00:00',
-                         'end_time': '12-31-2018T14:00:00'
-                        }
-                    ]
+                [
+                {
+                'name': 'Shift 1',
+                'start_time': '12-31-2018T12:00:00',
+                'end_time': '12-31-2018T13:00:00'
+                }
+                {
+                'name': 'Shift 2',
+                'start_time': '12-31-2018T13:00:00',
+                'end_time': '12-31-2018T14:00:00'
+                }
+                ]. Defaults to None.
+            description (str, optional): An optional description for this Event, no longer than 500 characters.
+                Defaults to None.
+            editable (bool, optional): If ``True``, prevents modification of this event by any users other than the
+                user associated the API key. Setting this to true effectively makes the event read-only in the VAN
+                interface. Defaults to False.
+            publicly_viewable (bool, optional): Used by NGP VAN's website platform to indicate whether this event
+                can be viewed publicly. Defaults to False.
+            location_ids (list, optional): A list of location_ids where the event is taking place.
+                Defaults to None.
+            code_ids (list, optional): A list of codes that are applied to this event for organizational purposes.
+                Note that at most one source code and any number of tags, may be applied to an event.
+                Defaults to None.
+            notes (list, optional): A list of notes. Defaults to None.
 
-            description: str
-                An optional description for this Event, no longer than 500 characters.
-            editable: boolean
-                If ``True``, prevents modification of this event by any users other than the
-                user associated the API key. Setting this to true effectively makes
-                the event read-only in the VAN interface.
-            publicly_viewable: boolean
-                Used by NGP VAN’s website platform to indicate whether this event can be
-                viewed publicly.
-            location_ids: list
-                A list of location_ids where the event is taking place
-            code_ids: list
-                A list of codes that are applied to this event for organizational purposes. Note
-                that at most one source code and any number of tags, may be applied to an event.
-            notes: list
-                A list of notes
-        `Returns:`
-            int
-              The event code.
+        Returns:
+            int: The event code.
+
         """
-
         if shifts is None:
             shifts = [{"name": "Default Shift", "startTime": start_date, "endTime": end_date}]
         else:
@@ -232,35 +217,28 @@ class Events:
         """
         Delete an event.
 
-        `Args:`
-            event_id: int
-                The event id.
-        `Returns:`
-            ``None``
-        """
+        Args:
+            event_id (int): The event id.
 
+        """
         r = self.connection.delete_request(f"events/{event_id}")
         logger.info(f"Event {event_id} deleted.")
         return r
 
     def add_event_shift(self, event_id, shift_name, start_time, end_time):
         """
-        Add shifts to an event
+        Add shifts to an event.
 
-        `Args:`
-            event_id: int
-                The event id.
-            shift_name: str
-                The name of the shift
-            start_time: str
-                The start time for the shift (``iso8601`` formatted date).
-            end_time: str
-                The end time of the shift (``iso8601`` formatted date).
-        `Returns:`
-            int
-              The shift id.
+        Args:
+            event_id (int): The event id.
+            shift_name (str): The name of the shift.
+            start_time (str): The start time for the shift (``iso8601`` formatted date).
+            end_time (str): The end time of the shift (``iso8601`` formatted date).
+
+        Returns:
+            int: The shift id.
+
         """
-
         shift = {"name": shift_name, "startTime": start_time, "endTime": end_time}
 
         r = self.connection.post_request(f"events/{event_id}/shifts", json=shift)
@@ -271,11 +249,10 @@ class Events:
         """
         Get event types.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table: See :ref:`parsons-table` for output options.
 
+        """
         tbl = Table(self.connection.get_request("events/types"))
         logger.info(f"Found {tbl.num_rows} events.")
         return tbl

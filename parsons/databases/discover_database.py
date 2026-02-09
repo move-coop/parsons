@@ -10,28 +10,30 @@ from parsons.google.google_bigquery import GoogleBigQuery as BigQuery
 def discover_database(
     default_connector: type[DatabaseConnector] | list[type[DatabaseConnector]] | None = None,
 ) -> DatabaseConnector:
-    """Create an appropriate ``DatabaseConnector`` based on environmental variables.
+    """
+    Create an appropriate ``DatabaseConnector`` based on environmental variables.
 
-    Will search the environmental variables for the proper credentials for the
-    Redshift, MySQL, Postgres, and BigQuery connectors. See the documentation
-    for the connectors to variables required to initialize them.
+    Will search the environmental variables for the proper credentials for the Redshift, MySQL, Postgres, and BigQuery
+    connectors. See the documentation for the connectors to variables required to initialize them.
 
     If no suitable configuration is found, will raise an error.
 
-    If multiple suitable configurations are found, will raise an error unless
-    a default connector class or list of classes is provided.
+    If multiple suitable configurations are found, will raise an error unless a default connector class or list of
+    classes is provided.
 
-    Note that the variables to be searched for are hard-coded in this function,
-    since they are unlikely to change. If that is done, for some reason, or a
-    new database connector is added, ``discover_database`` should be updated
+    Note that the variables to be searched for are hard-coded in this function, since they are unlikely to change.
+    If that is done, for some reason, or a new database connector is added,
+    ``discover_database`` should be updated
 
     Args:
-        default_connector: Optional, single Class or list of Classes inheriting from
-        DatabaseConnector to be used as default in case multiple database configurations
-        are detected.
+        default_connector (type[DatabaseConnector] | list[type[DatabaseConnector]], optional):
+            Single Class or list of Classes inheriting from. Defaults to None.
+            DatabaseConnector to be used as default in case multiple database configurations
+            are detected.
 
     Returns:
         DatabaseConnector: The database connector configured in the environment.
+
     """
     connectors = {
         "Redshift": Redshift,

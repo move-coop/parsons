@@ -14,14 +14,14 @@ logger = logging.getLogger(__name__)
 
 class GoogleDocs:
     """
-    A connector for Google Docs
+    A connector for Google Docs.
 
-    `Args:`
-        app_creds: dict | str | Credentials
-            Can be a dictionary of Google Drive API credentials, parsed from JSON provided
-            by the Google Developer Console, or a path string pointing to credentials
-            saved on disk, or a google.oauth2.credentials.Credentials object. Required
-            if env variable ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
+    Args:
+        app_creds (str | dict | Credentials | None, optional): Can be a dictionary of Google Drive API credentials,
+            parsed from JSON provided by the Google Developer Console, or a path string pointing to credentials saved on
+            disk, or a google.oauth2.credentials.Credentials object. Required if env variable
+            ``GOOGLE_DRIVE_CREDENTIALS`` is not populated. Defaults to None.
+
     """
 
     def __init__(

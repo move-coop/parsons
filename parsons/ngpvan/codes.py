@@ -84,25 +84,24 @@ class Codes:
             code_type (str, optional): The code type. ``Tag`` and ``SourceCode`` are valid values.
                 Defaults to "SourceCode".
             supported_entities (list, optional): A list of dicts that enumerate the searchability and applicability
-                rules of the code. You can find supported entities with the
-                :meth:`code_supported_entities`
+                rules of the code. You can find supported entities with the :meth:`code_supported_entities`. Defaults to None.
 
                 .. highlight:: python
 
                 .. code-block:: python
 
-                [
-                {
-                'name': 'Event',
-                'is_searchable': True,
-                'is_applicable': True
-                }
-                {
-                'name': 'Locations',
-                'start_time': '12-31-2018T13:00:00',
-                'end_time': '12-31-2018T14:00:00'
-                }
-                ]. Defaults to None.
+                    [
+                        {
+                            'name': 'Event',
+                            'is_searchable': True,
+                            'is_applicable': True
+                        }
+                        {
+                            'name': 'Locations',
+                            'start_time': '12-31-2018T13:00:00',
+                            'end_time': '12-31-2018T14:00:00'
+                        }
+                    ]
 
         """
         json = {

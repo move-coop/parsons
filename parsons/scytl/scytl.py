@@ -419,6 +419,7 @@ class Scytl:
         Returns:
             list[dict]: The list should contain entries for each candidate in each office.
                 Each row will contain the following:
+
                 - state
                 - county_name (if applicable)
                 - office

@@ -114,6 +114,7 @@ ignore = [
     "D400", # missing-trailing-period (D400)
     "D401", # non-imperative-mood (D401)
     "D415", # missing-terminal-punctuation (D415)
+    "D417", # undocumented-param (D417)
     # Pathlib stuff that isn't autofixable
     "PTH116", # os-stat (PTH116)
     "PTH118", # os-path-join (PTH118)

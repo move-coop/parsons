@@ -85,7 +85,7 @@ class Events:
             expand_fields (list, optional): A list of fields for which to include data. If a field is omitted,
                 ``None`` will be returned for that field. Can be ``locations``,
                 ``codes``, ``shifts``, ``roles``, ``notes``, ``financialProgram``,
-                ``ticketCategories``, ``voterRegistrationBatches`.`. Defaults to None.
+                ``ticketCategories``, ``voterRegistrationBatches``. Defaults to None.
 
         Returns:
             Table: See :ref:`parsons-table` for output options.

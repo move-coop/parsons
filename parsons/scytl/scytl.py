@@ -406,7 +406,7 @@ class Scytl:
 
     def get_summary_results(self, force_update: bool = False) -> list[dict] | None:
         """
-        Fetch the latest summary results for the given election, across all contests.
+        Fetch the latest summary results for the given election across all contests.
 
         Please note that all electoral entities administer their elections differently, so not all values will be
         populated if the entity doesn't provide them.
@@ -414,13 +414,11 @@ class Scytl:
         Args:
             force_update (bool, optional): If this is False, the connector will check to see if the current version
                 matches the previously fetched version of the results. If the version has not been changed, no results
-                will be fetched or returned. If not provided. Defaults to False.
+                will be fetched or returned. Defaults to False.
 
         Returns:
             list[dict]: The list should contain entries for each candidate in each office.
-
-                **Each row will contain the following**
-
+                Each row will contain the following:
                 - state
                 - county_name (if applicable)
                 - office
@@ -431,9 +429,9 @@ class Scytl:
                 - precincts_reporting
                 - total_precincts
                 - candidate_name
-                - candidate_party (many administrators do not use this feature and instead include the party in the
-                candidate name)
-                - recorded_votes (votes cast for the candidate).
+                - candidate_party (many administrators do not use this feature and
+                  instead include the party in the candidate name)
+                - recorded_votes (votes cast for the candidate)
 
         """
         version_num = self._get_version(self.administrator, self.election_id)

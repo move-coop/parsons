@@ -1,9 +1,9 @@
 Action Builder
 ==============
 
-********
+--------
 Overview
-********
+--------
 
 `Action Builder <https://actionbuilder.org/>`_ is an online tool for field organizing, with an
 original use-case designed for the Labor context. While it has essentially no built-in outreach
@@ -22,9 +22,9 @@ create custom record types. For more information, see
     ``tag_field`` and ``tag_section``, respectively (closer to the naming in the UI). Tags can be
     applied on Connections as well as on Entities.
 
-***********
+-----------
 Quick Start
-***********
+-----------
 
 To instantiate a class, you can either pass in the API token as an argument or set the
 ``ACTION_BUILDER_API_TOKEN`` environmental variable. The subdomain at which you access the UI must
@@ -44,9 +44,9 @@ may be passed to individual methods, instead.
 
     # Third approach: Include campaign argument
     bldr = ActionBuilder(
-    api_token = 'MY_API_TOKEN',
-    subdomain = 'yourorgsubdomain',
-    campaign = 'your-desired-campaign-id'
+        api_token = 'MY_API_TOKEN',
+        subdomain = 'yourorgsubdomain',
+        campaign = 'your-desired-campaign-id'
     )
 
 You can then call various endpoints:
@@ -83,9 +83,9 @@ You can then call various endpoints:
         tag_data = tag_data
     )
 
-***
+---
 API
-***
+---
 
 .. autoclass:: parsons.ActionBuilder
    :inherited-members:

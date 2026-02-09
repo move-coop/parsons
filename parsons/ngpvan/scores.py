@@ -129,27 +129,21 @@ class Scores:
             id_type (str, optional): Defaults to "vanid".
             tbl (Table): The table must contain the scores and first column in the table must contain the primary
                 key (e.g. vanid).
-            config (list): The score configuration. A list of dictionaries in which you specify the following
+            config (list): The score configuration.
+                A list of dictionaries in which you specify the following
 
-                .. list-table::
-                :widths: 20 80
-                :header-rows: 0
+                score_column: The name of the column where the score is housed.
+                score_id: The score slot id.
 
-                * - ``score_column``
-                - The name of the column where the score is housed.
-                * - ``score_id``
-                - The score slot id.
-
-                **Example:**
-
-                .. highlight:: python
+                **Example**
 
                 .. code-block:: python
 
-                [
-                {'score1_id' : int, score1_column': str}
-                {'score2_id' : int, score2_column': str}
-                ].
+                    [
+                        {'score1_id' : int, score1_column': str}
+                        {'score2_id' : int, score2_column': str}
+                    ].
+
             url_type (str): The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
             email (str | None, optional): An email address to send job load status updates.

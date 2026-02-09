@@ -1,9 +1,9 @@
 ActBlue
 =======
 
-********
+========
 Overview
-********
+========
 
 The ActBlue class allows you to interact with the ActBlue CSV API. Users of this Parsons integration can generate CSVs and
 manipulate entity CSV data within the Parsons table format.

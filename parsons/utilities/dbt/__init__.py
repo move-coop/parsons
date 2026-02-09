@@ -24,23 +24,23 @@ Parsons provides a few example dbtLogger child classes, but for
 best results, design your own!
 
 Example usage:
-```
-from parsons.utilities.dbt.dbt import run_dbt_commands
-from parsons.utilities.dbt.logging import (
-    dbtLoggerSlack,
-    dbtLoggerPython
-)
 
-run_dbt_commands(
-    commands=['run', 'test'],
-    dbt_project_directory='/home/ubuntu/code/dbt_project/',
-    loggers=[
-        dbtLoggerPython,
-        dbtLoggerSlack(slack_webhook=os.environ['SLACK_WEBHOOK'])
-    ]
-)
+.. code-block:: python
 
-```
+    from parsons.utilities.dbt.dbt import run_dbt_commands
+    from parsons.utilities.dbt.logging import (
+        dbtLoggerSlack,
+        dbtLoggerPython
+    )
+
+    run_dbt_commands(
+        commands=['run', 'test'],
+        dbt_project_directory='/home/ubuntu/code/dbt_project/',
+        loggers=[
+            dbtLoggerPython,
+            dbtLoggerSlack(slack_webhook=os.environ['SLACK_WEBHOOK'])
+        ]
+    )
 
 """
 

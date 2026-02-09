@@ -1026,32 +1026,31 @@ class ETL:
             ...     presorted=True)
             >>> ddl.table
 
+            +-------------------------+-----------------------------------------------------------------------+
+                | tablename               | ddl
+                     |
 
-        +-------------------------+-----------------------------------------------------------------------+
-            | tablename               | ddl
-                 |
+            +=========================+=======================================================================+
+                | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\nCREATE TABLE IF NOT EXISTS      |
+                |                         | db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW\n\t      |
+                |                         | ,db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW         |
+                |                         | \n\t,stusab VARCHAR(1024)   ENCODE RAW\n\t,state_name
+                     |
+                |                         | VARCHAR(1024)   ENCODE RAW\n\t,statens VARCHAR(1024) ENCODE
+                   |
+                |                         | RAW\n)\nDISTSTYLE EVEN\n;'
+                     |
 
-        +=========================+=======================================================================+
-            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\nCREATE TABLE IF NOT EXISTS      |
-            |                         | db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW\n\t      |
-            |                         | ,db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW         |
-            |                         | \n\t,stusab VARCHAR(1024)   ENCODE RAW\n\t,state_name
-                 |
-            |                         | VARCHAR(1024)   ENCODE RAW\n\t,statens VARCHAR(1024) ENCODE
-               |
-            |                         | RAW\n)\nDISTSTYLE EVEN\n;'
-                 |
-
-        +-------------------------+-----------------------------------------------------------------------+
+            +-------------------------+-----------------------------------------------------------------------+
 
         Args:
             **kwargs
-            columns: List The column(s) by which to group the rows.
-            reduce_func: Fun The function by which to reduce the rows. Should take the 2 arguments, the columns list
-                and the rows list and return a list.
-                `reducer(columns: list, rows: list) -> list;`.
-            headers: List The list of headers for modified table. The length of `headers` should match the length of
-                the list returned by the reduce function.
+            columns (list): The column(s) by which to group the rows.
+            reduce_func: Fun The function by which to reduce the rows.
+                Should take the 2 arguments, the columns list and the rows list and return a list.
+                ``e.g. reducer(columns: list, rows: list) -> list;``.
+            headers (list): The list of headers for modified table.
+                The length of `headers` should match the length of the list returned by the reduce function.
             presorted (bool, optional): If false, the row will be sorted. Defaults to False.
 
         Returns:

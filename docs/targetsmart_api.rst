@@ -5,6 +5,7 @@ TargetSmart Developer API
 
 `TargetSmart <https://targetsmart.com/>`_ provides access to voter and consumer data for the progressive community.
 
+--------
 Overview
 --------
 
@@ -38,8 +39,9 @@ the TargetSmart Client Services team. Please contact `TargetSmart Client
 Services <mailto:support@targetsmart.com>`_ to learn more or request
 adjustments.
 
+----------
 Quickstart
-==========
+----------
 
 To instantiate ``TargetSmartAPI``, you can either store your API Key as the environmental variable
 ``TS_API_KEY``, or pass it in as an argument:
@@ -64,9 +66,9 @@ You can then call various methods that correspond to TargetSmart endpoints:
    # Search for district information using an address
    ts_api.district(search_type='address', address='123 test st, Durham NC 27708')
 
-***
+---
 API
-***
+---
 
 .. autoclass:: parsons.TargetSmartAPI
    :inherited-members:

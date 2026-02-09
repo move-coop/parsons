@@ -276,8 +276,8 @@ class Events:
         Args:
             event_id (str): The ID of the event to write the RSVP to.
             contact_id (str): The ID of the contact to which the invitation belongs.
-            status (Literal["Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed"],
-                optional): Defaults to None.
+            status (Literal["Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed"], optional):
+                Defaults to None.
             attended (bool, optional): Indicates whether contact attended event. Defaults to False.
             confirmed (bool, optional): Indicates whether invitation confirmed they will attend the event.
                 Defaults to False. Defaults to False.
@@ -325,8 +325,8 @@ class Events:
             invitation_id (str): The ID of the event invitation.
             event_id (str): The ID of the event that corresponds to the invitation.
             contact_id (str): The ID of the contact to which the invitation belongs.
-            status (Literal["Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed"],
-                optional): Defaults to None.
+            status (Literal["Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed"], optional):
+                Defaults to None.
             attended (bool, optional): Indicates whether contact attended event. Defaults to False.
             confirmed (bool, optional): Indicates whether invitation confirmed they will attend the event.
                 Defaults to False.
@@ -373,8 +373,8 @@ class Events:
         Args:
             eventactivityid (str): The ID of the specific event activity you'd like to assign a contact.
             contact_id (str): The ID of the contact to which the assignment belongs.
-            status (Literal["Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed"],
-                optional): Defaults to None.
+            status (Literal["Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed"], optional):
+                Defaults to None.
             completed (bool, optional): Indicates whether contact attended event. Defaults to False.
             confirmed (bool, optional): Indicates whether invitation confirmed they will attend the event.
                 Defaults to False.
@@ -422,8 +422,8 @@ class Events:
             activityassignementid (str): Id of the specific event activity assignement you want to modify.
             eventactivityid (str): The ID of the specific event activity you'd like to assign a contact.
             contact_id (str): The ID of the contact to which the assignment belongs.
-            status (Literal["Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed"],
-                optional): Defaults to None.
+            status (Literal["Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed"], optional):
+                Defaults to None.
             completed (bool, optional): Indicates whether contact attended event. Defaults to False.
             confirmed (bool, optional): Indicates whether invitation confirmed they will attend the event.
                 Defaults to False.

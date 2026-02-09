@@ -46,11 +46,6 @@ def build_docs():
 
     git_base = ["git", "-C", str(ROOT_DIR)]
 
-    is_shallow = (ROOT_DIR / ".git" / "shallow").exists()
-    if is_shallow:
-        logger.warning("Shallow clone detected. Unshallowing for proper versioning...")
-        run_command([*git_base, "fetch", "--unshallow", "--tags"])
-
     logger.info("Updating local branch references...")
     run_command([*git_base, "branch", "-f", "latest"])
 

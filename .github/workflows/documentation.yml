@@ -64,7 +64,8 @@ jobs:
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
-          fetch-depth: 0
+          # If it's a push (main or major-release) or workflow_dispatch, get full history.
+          fetch-depth: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && 0 || 1 }}
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:

@@ -76,7 +76,7 @@ class GoogleAdmin:
         """
         Get aliases for a group.
 
-        `Google Admin API Documentation
+        `Google Admin API Documentation -- groups.aliases/list
         <https://developers.google.com/admin-sdk/directory/reference/rest/v1/groups.aliases/list>`_
 
         `Args:`
@@ -95,7 +95,7 @@ class GoogleAdmin:
         """
         Get all members in a group.
 
-        `Google Admin API Documentation
+        `Google Admin API Documentation -- manage-group-members#get_all_members
         <https://developers.google.com/admin-sdk/directory/v1/guides/manage-group-members#get_all_members>`_
 
         `Args:`
@@ -114,7 +114,7 @@ class GoogleAdmin:
         """
         Get all groups in a domain or account.
 
-        `Google Admin API Documentation
+        `Google Admin API Documentation -- manage-groups#get_all_domain_groups
         <https://developers.google.com/admin-sdk/directory/v1/guides/manage-groups#get_all_domain_groups>`_
 
         `Args:`

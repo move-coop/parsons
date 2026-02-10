@@ -47,11 +47,11 @@ and authorization token as environmental variables (``TWILIO_ACCOUNT_SID`` and
    # Get usage for a specific resource
    twilio.get_account_usage(category='sms-inbound')
 
-	# Get messages from a specific day
-	twilio.get_messages(date_sent='10-01-2019')
+   # Get messages from a specific day
+   twilio.get_messages(date_sent='10-01-2019')
 
-	# Get messages sent to a specific phone number
-	twilio.get_messages(to='9995675309')
+   # Get messages sent to a specific phone number
+   twilio.get_messages(to='9995675309')
 
 ***
 API

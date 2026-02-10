@@ -64,9 +64,9 @@ Windows Virtual Environments
 
 Start by installing virtualenvwrappers from source::
 
-  	git clone git://github.com/davidmarble/virtualenvwrapper-win.git
-  	cd virtualenvwrapper-win
-  	python setup.py install
+    git clone git://github.com/davidmarble/virtualenvwrapper-win.git
+    cd virtualenvwrapper-win
+    python setup.py install
 
 Not familiar with git? Read :ref:`our intro below<git-explainer>`.
 

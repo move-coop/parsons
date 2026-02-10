@@ -156,8 +156,8 @@ Git allows you to connect the work you're doing locally with a central shared re
 
 You can see all the remotes for a repository by typing the following command when within the repository: ``git remote -v``. (The -v stands for "verbose".) The result should look something like this::
 
-    origin	https://github.com/move-coop/parsons.git (fetch)
-    origin	https://github.com/move-coop/parsons.git (push)
+    origin https://github.com/move-coop/parsons.git (fetch)
+    origin https://github.com/move-coop/parsons.git (push)
 
 *Wait*, you might be asking, *what's this 'fetch' and 'pull' business?* **Fetch** is the command you use to get changes from a remote. **Push** is the command you use to send changes to a remote. Although the locations you fetch/pull from and push to can be different, practically speaking they're almost always the same.
 

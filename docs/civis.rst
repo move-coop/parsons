@@ -38,6 +38,6 @@ environmental variables (``CIVIS_DATABASE`` and ``CIVIS_API_KEY``) or pass them 
 API
 ***
 
-.. autoclass :: parsons.CivisClient
+.. autoclass:: parsons.CivisClient
    :inherited-members:
    :members:

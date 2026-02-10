@@ -56,5 +56,5 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.Freshdesk
+.. autoclass:: parsons.Freshdesk
    :inherited-members:

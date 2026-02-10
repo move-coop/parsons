@@ -57,5 +57,5 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.ActionKit
+.. autoclass:: parsons.ActionKit
    :inherited-members:

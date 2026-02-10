@@ -53,5 +53,5 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.Airtable
+.. autoclass:: parsons.Airtable
    :inherited-members:

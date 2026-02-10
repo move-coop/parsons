@@ -257,7 +257,7 @@ You can also retrieve represntative information such as offices, officals, etc.
 API
 ===
 
-.. autoclass :: parsons.google.google_civic.GoogleCivic
+.. autoclass:: parsons.google.google_civic.GoogleCivic
    :inherited-members:
 
 *************
@@ -312,7 +312,7 @@ You can then use the client to interact with Google Docs:
 API
 ===
 
-.. autoclass :: parsons.google.google_docs.GoogleDocs
+.. autoclass:: parsons.google.google_docs.GoogleDocs
    :inherited-members:
 
 *************

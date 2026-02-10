@@ -45,5 +45,5 @@ variables (``QUICKBASE_HOSTNAME`` and ``QUICKBASE_USER_TOKEN``) or pass them in 
 Quickbase Class
 ***************
 
-.. autoclass :: parsons.Quickbase
+.. autoclass:: parsons.Quickbase
     :inherited-members:

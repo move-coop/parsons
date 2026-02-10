@@ -55,5 +55,5 @@ as arguments:
 ***
 API
 ***
-.. autoclass :: parsons.braintree.Braintree
+.. autoclass:: parsons.braintree.Braintree
    :inherited-members:

@@ -76,5 +76,5 @@ This example pulls data on payroll by industry in Virginia from the 2017 Economi
 
 ***API***
 
-.. autoclass :: parsons.Census
+.. autoclass:: parsons.Census
    :inherited-members:

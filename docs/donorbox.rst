@@ -65,6 +65,6 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.Donorbox
+.. autoclass:: parsons.Donorbox
    :inherited-members:
 

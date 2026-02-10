@@ -47,5 +47,5 @@ as an environmental variable (``MAILCHIMP_API_KEY``) or pass it as an argument.
 ***
 API
 ***
-.. autoclass :: parsons.mailchimp.Mailchimp
+.. autoclass:: parsons.mailchimp.Mailchimp
    :inherited-members:

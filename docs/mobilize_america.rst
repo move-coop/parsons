@@ -47,5 +47,5 @@ variable ``MOBILIZE_AMERICA_API_KEY`` or by passing an ``api_key`` argument as s
 API
 ***
 
-.. autoclass :: parsons.MobilizeAmerica
+.. autoclass:: parsons.MobilizeAmerica
    :inherited-members:

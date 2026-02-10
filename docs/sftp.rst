@@ -49,6 +49,6 @@ it in a ``with`` block:
 API
 ***
 
-.. autoclass :: parsons.SFTP
+.. autoclass:: parsons.SFTP
    :inherited-members:
    :members:

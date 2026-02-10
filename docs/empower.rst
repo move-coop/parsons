@@ -45,5 +45,5 @@ You can then request tables in the following manner:
 API
 ***
 
-.. autoclass :: parsons.Empower
+.. autoclass:: parsons.Empower
    :inherited-members:

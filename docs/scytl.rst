@@ -39,5 +39,5 @@ To get these details, go to the website for the given election, and look in the 
 Scytl Class
 **************
 
-.. autoclass :: parsons.Scytl
+.. autoclass:: parsons.Scytl
     :inherited-members:

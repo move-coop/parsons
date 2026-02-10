@@ -55,5 +55,5 @@ You can then call different endpoints:
 ***
 API
 ***
-.. autoclass :: parsons.Salesforce
+.. autoclass:: parsons.Salesforce
    :inherited-members:

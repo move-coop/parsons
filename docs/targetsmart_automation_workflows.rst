@@ -73,5 +73,5 @@ You can then call these methods:
 API
 ===
 
-.. autoclass :: parsons.TargetSmartAutomation
+.. autoclass:: parsons.TargetSmartAutomation
    :inherited-members:

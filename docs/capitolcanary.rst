@@ -46,5 +46,5 @@ To instantiate the ``CapitolCanary`` class, you can either pass in the app ID an
 API
 ***
 
-.. autoclass :: parsons.CapitolCanary
+.. autoclass:: parsons.CapitolCanary
    :inherited-members:

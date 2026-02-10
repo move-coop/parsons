@@ -56,5 +56,5 @@ data.
 API
 ***
 
-.. autoclass :: parsons.rockthevote.rtv.RockTheVote
+.. autoclass:: parsons.rockthevote.rtv.RockTheVote
    :inherited-members:

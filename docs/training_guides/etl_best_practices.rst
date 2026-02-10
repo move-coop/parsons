@@ -463,7 +463,7 @@ We can now iterate through each of our new mobilize users. For each Mobilize use
     This try-except catches and handles only ValueErrors. All other errors will be "thrown" instead of "caught", which will halt/crash the script.
 
 
-Let's take a look inside the try statement. What are we trying to do? ::
+Let's take a look inside the try statement. What are we trying to do?::
 
     actionnetwork_user = my_actionnetwork_group.add_person(
         email_address=mobilize_user['email_address'],

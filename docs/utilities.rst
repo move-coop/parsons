@@ -3,9 +3,11 @@ Utilities
 *********
 
 .. _cloud-storage:
+
 =============
 Cloud Storage
 =============
+
 The Parsons cloud storage utility was created to interact with APIs that require access to files
 to run an asynchronous process. 
 
@@ -70,8 +72,10 @@ Below are the required and optional arguments utilizing Google Cloud Storage as 
       - Defaults is 60 minutes.
 
 .. _dbt:
+
 =============
 dbt Utilities
 =============
-.. autoclass:: parsons.utilities.dbt
+
+.. autoclass:: parsons.utilities.dbt.dbt
    :inherited-members:

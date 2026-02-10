@@ -190,6 +190,7 @@ Indices and tables
    box
    braintree
    capitolcanary
+   catalist
    census
    civis
    controlshift
@@ -260,6 +261,7 @@ Indices and tables
    use_cases/contribute_use_cases
    use_cases/civis_job_status_slack_alert
    use_cases/mysql_to_googlesheets
+   use_cases/opt_outs_to_everyaction
 
 .. toctree::
    :maxdepth: 1

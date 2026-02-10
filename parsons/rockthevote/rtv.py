@@ -112,6 +112,9 @@ class RockTheVote:
             f"for dates: {since_date} to {before_date}..."
         )
         response = self.client.request(report_url, "post", json=report_parameters)
+        print(response)
+        print(response.status_code)
+        print(response.json())
         if response.status_code != requests.codes.ok:
             raise RTVFailure("Couldn't create RTV registrations report")
 

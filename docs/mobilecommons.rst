@@ -1,5 +1,5 @@
 MobileCommons
-==========
+=============
 
 ********
 Overview
@@ -41,9 +41,9 @@ Then you can call various endpoints:
     # Create a new profile, return profile_id
     new_profile=create_profile(phone=3073991987, first_name='Jane', last_name='Fonda')
 
-
 ***
 API
 ***
+
 .. autoclass:: parsons.MobileCommons
    :inherited-members:

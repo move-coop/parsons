@@ -1,5 +1,5 @@
 Catalist
-=======
+========
 
 ********
 Overview
@@ -8,6 +8,7 @@ Overview
 The CatalistMatch class allows you to interact with the Catalist M Tool (match) API. Users of this Parsons integration can use the Parsons table format to send input files to the M Tool and receive back a matched version of that table.
 
 .. note::
+
   Authentication
     In order to use this class you must be provided with an OAuth Client ID and Client Secret from catalist, as well as SFTP credentials. You will also need to have Catalist whitelist the IP address you are using to access the M Tool.
 
@@ -43,7 +44,6 @@ You can then load a CSV as a Parsons table and submit it for matching, then save
     source_table = Table.from_csv(source_filepath)
     result_table = match.match(source_table)
     result_table.to_csv(result_filepath)
-
 
 ***
 API

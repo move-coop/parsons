@@ -25,7 +25,7 @@ To instantiate the CatalistMatch class, you must provide your ``client_id``, ``c
    $ export CATALIST_CLIENT_SECRET='MY_SECRET'
    $ export CATALIST_SFTP_USERNAME='MY_USERNAME'
    $ export CATALIST_SFTP_PASSWORD='MY_PASSWORD'
-		
+
 .. code-block:: python
 
    import os

@@ -29,7 +29,7 @@ and authorization token as environmental variables (``TWILIO_ACCOUNT_SID`` and
 ``TWILIO_AUTH_TOKEN``, respectively) or pass them in as arguments:
 
 .. code-block:: python
-	
+
    from parsons import Twilio
 
    # First approach: Use API credentials via environmental variables

@@ -9,13 +9,13 @@ Cloud Storage
 =============
 
 The Parsons cloud storage utility was created to interact with APIs that require access to files
-to run an asynchronous process. 
+to run an asynchronous process.
 
 The cloud storage utility is currently being utilitized primarily by the NGPVAN class
-methods such as :func:`~parsons.ngpvan.van.Scores.upload_scores` and 
+methods such as :func:`~parsons.ngpvan.van.Scores.upload_scores` and
 :func:`~parsons.ngpvan.van.SavedLists.upload_saved_list`.
 
-These methods have arguments specific their method, but all also contain the following cloud 
+These methods have arguments specific their method, but all also contain the following cloud
 storage arguments:
 
 * ``url_type`` - The type of cloud storage to utilize. Currently ``S3`` or ``GCS``.

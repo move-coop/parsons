@@ -18,7 +18,7 @@ and activity data. This Parsons class provides methods for extracting people, co
 Quickstart
 **********
 
-To instantiate the Copper class, you can either store the Copper user email and 
+To instantiate the Copper class, you can either store the Copper user email and
 API key as environmental variables (``COPPER_USER_EMAIL``, ``COPPER_API_KEY``)
 or pass them in as arguments:
 

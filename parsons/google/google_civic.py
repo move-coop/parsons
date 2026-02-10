@@ -12,6 +12,7 @@ class GoogleCivic:
         api_key : str
             A valid Google api key. Not required if ``GOOGLE_CIVIC_API_KEY``
             env variable set.
+
     `Returns:`
         class
     """
@@ -122,6 +123,7 @@ class GoogleCivic:
     ):
         """
         Get representative information for a given address.
+
         This method returns the raw JSON response from the Google Civic API.
         It is a complex response that is not easily parsed into a table.
         Here is the information on how to parse the response:
@@ -137,36 +139,40 @@ class GoogleCivic:
                 A list of office levels to filter by.
                 Only offices that serve at least one of these levels will be returned.
                 Divisions that don't contain a matching office will not be returned.
-                    Acceptable values are:
-                    "administrativeArea1"
-                    "administrativeArea2"
-                    "country"
-                    "international"
-                    "locality"
-                    "regional"
-                    "special"
-                    "subLocality1"
-                    "subLocality2"
+                Acceptable values are:
+
+                - "administrativeArea1"
+                - "administrativeArea2"
+                - "country"
+                - "international"
+                - "locality"
+                - "regional"
+                - "special"
+                - "subLocality1"
+                - "subLocality2"
+
             roles: list of str
                 A list of office roles to filter by.
                 Only offices fulfilling one of these roles will be returned.
                 Divisions that don't contain a matching office will not be returned.
-                    Acceptable values are:
-                    "deputyHeadOfGovernment"
-                    "executiveCouncil"
-                    "governmentOfficer"
-                    "headOfGovernment"
-                    "headOfState"
-                    "highestCourtJudge"
-                    "judge"
-                    "legislatorLowerBody"
-                    "legislatorUpperBody"
-                    "schoolBoard"
-                    "specialPurposeOfficer"
+                Acceptable values are:
+
+                - "deputyHeadOfGovernment"
+                - "executiveCouncil"
+                - "governmentOfficer"
+                - "headOfGovernment"
+                - "headOfState"
+                - "highestCourtJudge"
+                - "judge"
+                - "legislatorLowerBody"
+                - "legislatorUpperBody"
+                - "schoolBoard"
+                - "specialPurposeOfficer"
 
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if levels is not None and not isinstance(levels, list):

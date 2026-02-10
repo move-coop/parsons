@@ -13,7 +13,6 @@ class GoogleAdmin:
     """
     A connector for Google Admin.
 
-
     `Args:`
         app_creds: str
             A credentials json string or a path to a json file. Not required if
@@ -21,8 +20,10 @@ class GoogleAdmin:
         sub: str
             An email address that this service account will act on behalf of (via domain-wide
             delegation)
+
     `Returns:`
         GoogleAdmin Class
+
     """
 
     def __init__(self, app_creds=None, sub=None):
@@ -73,42 +74,55 @@ class GoogleAdmin:
 
     def get_aliases(self, group_key, params=None):
         """
-        Get aliases for a group. `Google Admin API Documentation <https://developers.google.com/\
-        admin-sdk/directory/reference/rest/v1/groups.aliases/list>`_
+        Get aliases for a group.
+
+        `Google Admin API Documentation
+        <https://developers.google.com/admin-sdk/directory/reference/rest/v1/groups.aliases/list>`_
 
         `Args:`
             group_key: str
                 The Google group id
             params: dict
                 A dictionary of fields for the GET request
+
         `Returns:`
             Table Class
+
         """
         return self._paginate_request("groups/" + group_key + "/aliases", "aliases", params)
 
     def get_all_group_members(self, group_key, params=None):
         """
-        Get all members in a group. `Google Admin API Documentation <https://developers.google.com/\
-        admin-sdk/directory/v1/guides/manage-group-members#get_all_members>`_
+        Get all members in a group.
+
+        `Google Admin API Documentation
+        <https://developers.google.com/admin-sdk/directory/v1/guides/manage-group-members#get_all_members>`_
 
         `Args:`
             group_key: str
                 The Google group id
             params: dict
                 A dictionary of fields for the GET request
+
         `Returns:`
             Table Class
+
         """
         return self._paginate_request("groups/" + group_key + "/members", "members", params)
 
     def get_all_groups(self, params=None):
         """
-        Get all groups in a domain or account. `Google Admin API Documentation <https://developers.\
-        google.com/admin-sdk/directory/v1/guides/manage-groups#get_all_domain_groups>`_
+        Get all groups in a domain or account.
+
+        `Google Admin API Documentation
+        <https://developers.google.com/admin-sdk/directory/v1/guides/manage-groups#get_all_domain_groups>`_
+
         `Args:`
             params: dict
                 A dictionary of fields for the GET request.
+
         `Returns:`
             Table Class
+
         """
         return self._paginate_request("groups", "groups", params)

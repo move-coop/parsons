@@ -653,6 +653,7 @@ class GoogleBigQuery(DatabaseConnector):
             **load_kwargs: kwargs
                 Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
+
         """
 
         self._validate_copy_inputs(
@@ -1656,17 +1657,22 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Extracts a BigQuery table to a Google Cloud Storage bucket.
 
-        Args:
-            dataset (str): The BigQuery dataset containing the table.
-            table_name (str): The name of the table to extract.
-            gcs_bucket (str): The GCS bucket where the table will be
-              exported.
-            gcs_blob_name (str): The name of the blob in the GCS
-              bucket.
-            project (Optional[str]): The Google Cloud project ID. If
-              not provided, the default project of the client is used.
-            gzip (bool): If True, the exported file will be compressed
-              using GZIP. Defaults to False.
+        `Args`:
+            dataset: str
+                The BigQuery dataset containing the table.
+            table_name: str
+                The name of the table to extract.
+            gcs_bucket: str
+                The GCS bucket where the table will be exported.
+            gcs_blob_name: str
+                The name of the blob in the GCS bucket.
+            project: Optional[str]
+                The Google Cloud project ID.
+                If not provided, the default project of the client is used.
+            gzip: bool
+                If True, the exported file will be compressed using GZIP.
+                Defaults to False.
+
         """
         if not job_config:
             logger.info("Using default job config as none was provided...")

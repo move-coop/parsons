@@ -23,6 +23,7 @@ To instantiate the ``CivisClient`` class, you can either store your database ide
 environmental variables (``CIVIS_DATABASE`` and ``CIVIS_API_KEY``) or pass them as keyword arguments.
 
 .. code-block:: python
+
    from parsons import CivisClient
 
    # First approach: Authorize with environmental variables

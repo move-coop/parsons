@@ -25,6 +25,7 @@ For fresh queries, a User API Key is also required, and can be specified with ei
 ``REDASH_USER_API_KEY`` or a keyword argument.
 
 .. code-block:: python
+
    from parsons import Redash
 
    # Instantiate class with the base URL and User API key as keyword arguments
@@ -40,6 +41,7 @@ Note that if you specify a Query API Key when loading a table, the method will f
 provided a User API Key when instantiating the class.
 
 .. code-block:: python
+
    # Pass a Query API Key to fetch cached results
    redash.load_to_table(query_api_key='my_query_api_key', query_id=1001)
 

@@ -194,9 +194,9 @@ the available blobs.
 ===
 API
 ===
+
 .. autoclass:: parsons.google.google_cloud_storage.GoogleCloudStorage
    :inherited-members:
-
 
 *****
 Civic
@@ -355,8 +355,8 @@ To instantiate the GoogleDrive class, you can either pass the constructor a dict
 You can then perform a variety of functions in Drive over API.
 
 .. code-block:: python
-   new_folder = drive.create_folder(name='My Folder')
 
+   new_folder = drive.create_folder(name='My Folder')
 
 ===
 API

@@ -632,14 +632,20 @@ class People:
 
         .. code-block:: python
 
-            response = [{"activistCodeId": 18917,
-                         "action": "Apply",
-                         "type": "ActivistCode"},
-                        {"surveyQuestionId": 109149,
-                         "surveyResponseId": 465468,
-                         "type": "SurveyResponse"}
-                        ]
+            response = [
+                {
+                    "activistCodeId": 18917,
+                    "action": "Apply",
+                    "type": "ActivistCode"
+                },
+                {
+                    "surveyQuestionId": 109149,
+                    "surveyResponseId": 465468,
+                    "type": "SurveyResponse"
+                }
+            ]
             van.apply_response(5222, response)
+
         """
 
         # Set url based on id_type

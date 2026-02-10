@@ -330,16 +330,21 @@ class ETL:
 
         .. code-block:: python
 
-            tbl = [{'fn': 'Jane'},
-                   {'lastname': 'Doe'},
-                   {'dob': '1980-01-01'}]
-            column_map = {'first_name': ['fn', 'first', 'firstname'],
-                          'last_name': ['ln', 'last', 'lastname'],
-                          'date_of_birth': ['dob', 'birthday']}
+            tbl = [
+                {'fn': 'Jane'},
+                {'lastname': 'Doe'},
+                {'dob': '1980-01-01'}]
+
+            column_map = {
+                'first_name': ['fn', 'first', 'firstname'],
+                'last_name': ['ln', 'last', 'lastname'],
+                'date_of_birth': ['dob', 'birthday']
+            }
 
             tbl.map_columns(column_map)
             print (tbl)
             >> {{'first_name': 'Jane', 'last_name': 'Doe', 'date_of_birth': '1908-01-01'}}
+
         """
 
         for col in self.columns:
@@ -369,19 +374,24 @@ class ETL:
 
         .. code-block:: python
 
-            tbl = [{'first': None},
-                   {'fn': 'Jane'},
-                   {'lastname': 'Doe'},
-                   {'dob': '1980-01-01'}]
+            tbl = [
+                {'first': None},
+                {'fn': 'Jane'},
+                {'lastname': 'Doe'},
+                {'dob': '1980-01-01'}
+            ]
 
-            column_map = {'first_name': ['fn', 'first', 'firstname'],
-                          'last_name': ['ln', 'last', 'lastname'],
-                          'date_of_birth': ['dob', 'birthday']}
+            column_map = {
+                'first_name': ['fn', 'first', 'firstname'],
+                'last_name': ['ln', 'last', 'lastname'],
+                'date_of_birth': ['dob', 'birthday']
+            }
 
             tbl.map_and_coalesce_columns(column_map)
 
             print (tbl)
             >> {{'first_name': 'Jane', 'last_name': 'Doe', 'date_of_birth': '1908-01-01'}}
+
         """
 
         for key, value in column_map.items():
@@ -699,25 +709,28 @@ class ETL:
 
         .. code-block:: python
 
-           # Begin with nested dicts in a column
-           json = [{'id': '5421',
+            # Begin with nested dicts in a column
+            json = [
+                {
+                    'id': '5421',
                     'name': 'Jane Green',
-                    'emails': [{'home': 'jane@gmail.com'},
-                               {'work': 'jane@mywork.com'}
-                              ]
-                   }
-                  ]
-           tbl = Table(json)
-           print (tbl)
-           >>> {'id': '5421', 'name': 'Jane Green', 'emails': [{'home': 'jane@gmail.com'}, {'work': 'jane@mywork.com'}]}
-           >>> {'id': '5421', 'name': 'Jane Green', 'emails': [{'home': 'jane@gmail.com'}, {'work': 'jane@mywork.com'}]}
+                    'emails': [
+                        {'home': 'jane@gmail.com'},
+                        {'work': 'jane@mywork.com'}
+                    ]
+                }
+            ]
+            tbl = Table(json)
+            print (tbl)
+            >>> {'id': '5421', 'name': 'Jane Green', 'emails': [{'home': 'jane@gmail.com'}, {'work': 'jane@mywork.com'}]}
+            >>> {'id': '5421', 'name': 'Jane Green', 'emails': [{'home': 'jane@gmail.com'}, {'work': 'jane@mywork.com'}]}
 
-           # Create skinny table of just the nested dicts
-           email_skinny = tbl.long_table(['id'], 'emails')
+            # Create skinny table of just the nested dicts
+            email_skinny = tbl.long_table(['id'], 'emails')
 
-           print (email_skinny)
-           >>> {'id': '5421', 'emails_home': 'jane@gmail.com', 'emails_work': None}
-           >>> {'id': '5421', 'emails_home': None, 'emails_work': 'jane@mywork.com'}
+            print (email_skinny)
+            >>> {'id': '5421', 'emails_home': 'jane@gmail.com', 'emails_work': None}
+            >>> {'id': '5421', 'emails_home': None, 'emails_work': 'jane@mywork.com'}
 
         `Args:`
             key: lst
@@ -1062,7 +1075,7 @@ class ETL:
 
             >>> reducer_fn = lambda columns, rows: [
             ...     f"{columns[0]}.{columns[1]}",
-            ...     '\\n'.join([row[2] for row in rows])]
+            ...     r"\n".join([row[2] for row in rows])]
             >>> ddl.reduce_rows(
             ...     ['schemaname', 'tablename'],
             ...     reducer_fn,
@@ -1154,7 +1167,7 @@ class ETL:
             >>> # https://petl.readthedocs.io/en/v1.6.0/transform.html#petl.transform.basics.skipcomments
             >>> tbl = Table([
             ...     ['col1', 'col2'],
-            ...     ['# this is a comment row',],
+            ...     ['# this is a comment row'],
             ...     ['a', 1],
             ...     ['#this is another comment', 'this is also ignored'],
             ...     ['b', 2]

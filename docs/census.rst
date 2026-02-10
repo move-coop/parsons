@@ -12,8 +12,6 @@ It has been tested with the ACS and Economic Survey endpoints.
   Authentication
     The API requires a key that you can get `here <https://www.census.gov/data/developers.html>`_ (click on the box that says "Request a KEY")
 
-
-
 ==========
 Quickstart
 ==========
@@ -34,8 +32,6 @@ variable or pass it as an argument:
 
    # Second approach: Pass API key as arguments
    actblue = ActBlue(api_key = 'MY_CENSUS_KEY')
-
-
 
 **Example 1**
 
@@ -70,7 +66,6 @@ This example pulls the population of the US in 2019 from the ACS 1-year estimate
 
    t = census.get_census(year, dataset_acronym, variables, location)
    print(t)
-
 
 This example pulls data on payroll by industry in Virginia from the 2017 Economic Census.
 

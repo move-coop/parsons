@@ -148,11 +148,12 @@ class Scores:
 
                 Example:
 
-                .. highlight:: python
                 .. code-block:: python
 
-                  [{'score1_id' : int, score1_column': str}
-                   {'score2_id' : int, score2_column': str}]
+                    [
+                        {'score1_id' : int, score1_column': str},
+                        {'score2_id' : int, score2_column': str}
+                    ]
 
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
@@ -359,13 +360,16 @@ class FileLoadingJobs:
             score_map : list
                 A list of dicts that adheres to the following syntax
 
-                .. highlight:: python
                 .. code-block:: python
 
-                    [{'score_id' : int,
-                      'score_column': str,
-                      'auto_average': float,
-                      'auto_tolerance': float }]
+                    [
+                        {
+                            'score_id' : int,
+                            'score_column': str,
+                            'auto_average': float,
+                            'auto_tolerance': float
+                        }
+                    ]
 
             email: str
                 A valid email address in which file loading status will be sent.

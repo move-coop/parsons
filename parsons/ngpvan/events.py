@@ -152,19 +152,18 @@ class Events:
             shifts:
                 A list of dicts with shifts formatted as:
 
-                .. highlight:: python
                 .. code-block:: python
 
                     [
                         {
-                         'name': 'Shift 1',
-                         'start_time': '12-31-2018T12:00:00',
-                         'end_time': '12-31-2018T13:00:00'
-                        }
+                            'name': 'Shift 1',
+                            'start_time': '12-31-2018T12:00:00',
+                            'end_time': '12-31-2018T13:00:00'
+                        },
                         {
-                         'name': 'Shift 2',
-                         'start_time': '12-31-2018T13:00:00',
-                         'end_time': '12-31-2018T14:00:00'
+                            'name': 'Shift 2',
+                            'start_time': '12-31-2018T13:00:00',
+                            'end_time': '12-31-2018T14:00:00'
                         }
                     ]
 

@@ -21,6 +21,7 @@ with by specifying the Company ID in the ``company_id`` parameter. To find the C
 `Company and Users page <https://secure.mcommons.com/companies/>`_.
 
 .. code-block:: python
+
    from parsons import MobileCommons
 
    # Pass credentials via environmental variables for account has access to only one MobileCommons company
@@ -35,6 +36,7 @@ with by specifying the Company ID in the ``company_id`` parameter. To find the C
 Then you can call various endpoints:
 
 .. code-block:: python
+
     # Return all MobileCommons subscribers in a table
     subscribers = get_campaign_subscribers(campaign_id=1234567)
 

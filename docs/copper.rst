@@ -9,10 +9,10 @@ Overview
 and activity data. This Parsons class provides methods for extracting people, companies and actions.
 
 .. note::
-	Getting Your API Key
-		- Sign into Copper
-		- Click on ``Settings`` (gear icon) and then ``API Keys``
-		- Click the ``GENERATE API KEY`` button
+    Getting Your API Key
+        - Sign into Copper
+        - Click on ``Settings`` (gear icon) and then ``API Keys``
+        - Click the ``GENERATE API KEY`` button
 
 **********
 Quickstart
@@ -36,25 +36,25 @@ You can then call various endpoints:
 
 .. code-block:: python
 
-	# Get people
+    # Get people
 
-	# This will unpack the people json as a dict of Parsons Tables. 
-	people_tbls = copper.get_people()
+    # This will unpack the people json as a dict of Parsons Tables.
+    people_tbls = copper.get_people()
 
-	# You can then save the tables as csvs
-	for k, v in people_tbls.items():
-		v.to_csv(f'{k}_copper.csv')
+    # You can then save the tables as csvs
+    for k, v in people_tbls.items():
+        v.to_csv(f'{k}_copper.csv')
 
-	# Or you send the tables to a database
-	pg = Postgres()
-	for k, v in people_tbls.items():
-		v.to_postgres(f'copper.{k}', if_exists='drop')
+    # Or you send the tables to a database
+    pg = Postgres()
+    for k, v in people_tbls.items():
+        v.to_postgres(f'copper.{k}', if_exists='drop')
 
-	# Get companies
+    # Get companies
 
-	# Get companies modified since a date, unix time. This will unpack the companies
-	json as a dict of Parsons Tables. 
-	company_tbls = copper.get_companies({'minimum_modified_date': 1599674523})
+    # Get companies modified since a date, unix time. This will unpack the companies
+    json as a dict of Parsons Tables.
+    company_tbls = copper.get_companies({'minimum_modified_date': 1599674523})
 
 
 ***

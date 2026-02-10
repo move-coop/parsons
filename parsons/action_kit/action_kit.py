@@ -251,6 +251,7 @@ class ActionKit:
                 .. code-block:: python
 
                     ak.get_events(name__contains="FirstName")
+
         `Returns:`
             Parsons.Table
                 The events data.
@@ -485,6 +486,7 @@ class ActionKit:
                         "field__name": "example_event_field_name",
                         "field__value": "Example event field value",
                     }
+
             exclude: dictionary
                 A dictionary for excluding by the attributes of the event or related object.
                 Uses the same format as the filters argument.
@@ -865,6 +867,7 @@ class ActionKit:
                 .. code-block:: python
 
                     ak.paginated_get(name__contains="FirstName")
+
         `Returns:`
             Parsons.Table
                 The objects data.
@@ -921,6 +924,7 @@ class ActionKit:
                 .. code-block:: python
 
                     ak.paginated_get(name__contains="FirstName")
+
         `Returns:`
             Parsons.Table
                 The objects data.
@@ -1083,6 +1087,7 @@ class ActionKit:
                 .. code-block:: python
 
                     ak.get_orders(import_id="my-import-123")
+
         `Returns:`
             Parsons.Table
                 The orders data.
@@ -1260,6 +1265,7 @@ class ActionKit:
                 .. code-block:: python
 
                     ak.get_transactions(order="order-1")
+
         `Returns:`
             Parsons.Table
                 The transactions data.

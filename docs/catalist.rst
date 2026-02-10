@@ -19,6 +19,7 @@ Quickstart
 To instantiate the CatalistMatch class, you must provide your ``client_id``, ``client_secret``, ``sftp_username`` and ``sftp_password`` values as arguments:
 
 .. code-block:: sh
+
    # In bash, set your environment variables like so:
    $ export CATALIST_CLIENT_ID='MY_UUID'
    $ export CATALIST_CLIENT_SECRET='MY_SECRET'

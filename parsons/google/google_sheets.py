@@ -437,23 +437,28 @@ class GoogleSheets:
 
             # Color the background of 'A2:B2' cell range yellow,
             # change horizontal alignment, text color and font size
-            gs.format_cells.format(sheet_id, "A2:B2", {
-                "backgroundColor": {
-                    "red": 0.0,
-                    "green": 0.0,
-                    "blue": 0.0
-                    },
-                "horizontalAlignment": "CENTER",
-                "textFormat": {
-                    "foregroundColor": {
-                        "red": 1.0,
-                        "green": 1.0,
+            gs.format_cells.format(
+                sheet_id,
+                "A2:B2",
+                {
+                    "backgroundColor": {
+                        "red": 0.0,
+                        "green": 0.0,
                         "blue": 0.0
+                    },
+                    "horizontalAlignment": "CENTER",
+                    "textFormat": {
+                        "foregroundColor": {
+                            "red": 1.0,
+                            "green": 1.0,
+                            "blue": 0.0
                         },
                         "fontSize": 12,
                         "bold": True
-                        }
-                    }, worksheet=0)
+                    }
+                },
+                worksheet=0
+            )
 
         """
 

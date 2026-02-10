@@ -372,11 +372,11 @@ class RedshiftTableUtilities:
             .. code-block:: python
 
                 {
-                'data_type': str,
-                'max_length': int or None,
-                'max_precision': int or None,
-                'max_scale': int or None,
-                'is_nullable': bool
+                    'data_type': str,
+                    'max_length': int or None,
+                    'max_precision': int or None,
+                    'max_scale': int or None,
+                    'is_nullable': bool
                 }
 
         """

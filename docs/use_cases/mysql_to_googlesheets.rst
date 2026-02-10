@@ -1,6 +1,6 @@
-===============
+=============================
 MySQL to Google Sheets Export
-===============
+=============================
 
 ActionKit, a commonly used tool in the progressive ecosystem, provides its clients with access to their data in a MySQL database, which is very useful for data practitioners who write SQL but less so for users who do not write code. 350.org needed a way to track their progress to their annual key performance indicators (KPIs) that relied on ActionKit data but was accessible by many staff across the organization. Together with the Movement Cooperative (TMC) they were able to create a solution using the Parsons MySQL Database and Google Sheets classes.
 

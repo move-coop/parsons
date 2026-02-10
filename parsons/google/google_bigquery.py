@@ -378,7 +378,7 @@ class GoogleBigQuery(DatabaseConnector):
                 ID of job to fetch
             location: str
                 Location where the job was run
-            **job_kwargs: kwargs
+            `**job_kwargs`: kwargs
                 Other arguments to pass to the underlying get_job
                 call on the BigQuery client.
         """
@@ -469,7 +469,7 @@ class GoogleBigQuery(DatabaseConnector):
                 columns and data types as the template table.
             max_timeout: int
                 The maximum number of seconds to wait for a request before the job fails.
-            **load_kwargs: kwargs
+            `**load_kwargs`: kwargs
                 Other arguments to pass to the underlying load_table_from_uri
                 call on the BigQuery client.
         """
@@ -650,7 +650,7 @@ class GoogleBigQuery(DatabaseConnector):
                 columns and data types as the template table.
             max_timeout: int
                 The maximum number of seconds to wait for a request before the job fails.
-            **load_kwargs: kwargs
+            `**load_kwargs`: kwargs
                 Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
 
@@ -863,7 +863,7 @@ class GoogleBigQuery(DatabaseConnector):
                 The maximum number of seconds to wait for a request before the job fails.
             convert_dict_list_columns_to_json: bool
                 If set to True, will convert any dict or list columns (which cannot by default be successfully loaded to BigQuery to JSON strings)
-            **load_kwargs: kwargs
+            `**load_kwargs`: kwargs
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
 
@@ -961,7 +961,7 @@ class GoogleBigQuery(DatabaseConnector):
                 The maximum number of seconds to wait for a request before the job fails.
             convert_dict_list_columns_to_json: bool
                 If set to True, will convert any dict or list columns (which cannot by default be successfully loaded to BigQuery to JSON strings)
-            **load_kwargs: kwargs
+            `**load_kwargs`: kwargs
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
         """
@@ -1156,7 +1156,7 @@ class GoogleBigQuery(DatabaseConnector):
                 Instead of specifying a table_obj (set the first argument to None),
                 set this to True and include :func:`~parsons.databases.bigquery.Bigquery.copy_s3`
                 arguments to upsert a pre-existing s3 file into the target_table
-            **copy_args: kwargs
+            `**copy_args`: kwargs
                 See :func:`~parsons.databases.bigquery.BigQuery.copy` for options.
         """
         if not self.table_exists(target_table):

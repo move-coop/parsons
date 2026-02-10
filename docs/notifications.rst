@@ -219,6 +219,3 @@ API
 ***
 .. autoclass:: parsons.SMTP
   :inherited-members:
-
-
-

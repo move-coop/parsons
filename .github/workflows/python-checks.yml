@@ -243,12 +243,43 @@ jobs:
           name: python-coverage-comment-action
           path: python-coverage-comment-action.txt
 
+  sphinx-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            pypi.org:443
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
+
+      - run: |
+          uv pip install --system -e .[all]
+          uv pip install --system -r requirements-dev.txt
+
+      - run: sphinx-lint docs
+
+      - run: sphinx-lint parsons
+
   pre-commit:
     runs-on: ubuntu-latest
     needs:
+      - bandit
       - ruff-format
       - ruff-check
-      - bandit
+      - sphinx-lint
 
     permissions:
       contents: write

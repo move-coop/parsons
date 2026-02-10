@@ -41,14 +41,13 @@ class GoogleCloudStorage:
 
     For example, to pass in credentials from a parent shell that is
     authenticated with gcloud auth:
-    ```
-    from google.auth import default
 
-    app_creds, _ = default()
+    .. code-block:: python
 
-    gcs = GoogleCloudStorage(app_creds=app_creds)
-    ```
+        from google.auth import default
 
+        app_creds, _ = default()
+        gcs = GoogleCloudStorage(app_creds=app_creds)
 
     `Args:`
         app_creds: str, dict, or google.oauth2.credentials.Credentials object

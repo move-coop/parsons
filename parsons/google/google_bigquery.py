@@ -84,24 +84,24 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
         schema_definition: list
         This function expects a list of dictionaries in the following format:
 
-        ```
-        schema_definition = [
-            {
-                "name": column_name,
-                "field_type": [INTEGER, STRING, FLOAT, etc.]
-            },
-            {
-                "name": column_name,
-                "field_type": [INTEGER, STRING, FLOAT, etc.],
-                "mode": "REQUIRED"
-            },
-            {
-                "name": column_name,
-                "field_type": [INTEGER, STRING, FLOAT, etc.],
-                "default_value_expression": CURRENT_TIMESTAMP()
-            }
-        ]
-        ```
+        .. code-block:: python
+
+            schema_definition = [
+                {
+                    "name": column_name,
+                    "field_type": [INTEGER, STRING, FLOAT, etc.]
+                },
+                {
+                    "name": column_name,
+                    "field_type": [INTEGER, STRING, FLOAT, etc.],
+                    "mode": "REQUIRED"
+                },
+                {
+                    "name": column_name,
+                    "field_type": [INTEGER, STRING, FLOAT, etc.],
+                    "default_value_expression": CURRENT_TIMESTAMP()
+                }
+            ]
 
     `Returns`:
         List of instantiated `SchemaField` objects
@@ -443,12 +443,14 @@ class GoogleBigQuery(DatabaseConnector):
                 the encoded string to split the data in its raw, binary state.
             schema: list
                 BigQuery expects a list of dictionaries in the following format
-                ```
-                schema = [
-                    {"name": "column_name", "type": STRING},
-                    {"name": "another_column_name", "type": INT}
-                ]
-                ```
+
+                .. code-block:: python
+
+                    schema = [
+                        {"name": "column_name", "type": STRING},
+                        {"name": "another_column_name", "type": INT}
+                    ]
+
             job_config: object
                 A LoadJobConfig object to provide to the underlying call to load_table_from_uri
                 on the BigQuery client. The function will create its own if not provided. Note
@@ -625,12 +627,14 @@ class GoogleBigQuery(DatabaseConnector):
                 the encoded string to split the data in its raw, binary state.
             schema: list
                 BigQuery expects a list of dictionaries in the following format
-                ```
-                schema = [
-                    {"name": "column_name", "type": STRING},
-                    {"name": "another_column_name", "type": INT}
-                ]
-                ```
+
+                .. code-block:: python
+
+                    schema = [
+                        {"name": "column_name", "type": STRING},
+                        {"name": "another_column_name", "type": INT}
+                    ]
+
             job_config: object
                 A LoadJobConfig object to provide to the underlying call to load_table_from_uri
                 on the BigQuery client. The function will create its own if not provided. Note

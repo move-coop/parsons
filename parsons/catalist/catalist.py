@@ -36,24 +36,24 @@ class CatalistMatch:
     Accessing the Catalist sftp bucket and Match API both require the source IP address
     to be explicitly white-listed by Catalist.
 
-    Example usage:
-    ```
-    tbl = Table.from_csv(...)
-    client = CatalistMatch(...)
-    match_result = client.match(tbl)
-    ```
+    .. highlight:: python
+
+    Example usage::
+
+        tbl = Table.from_csv(...)
+        client = CatalistMatch(...)
+        match_result = client.match(tbl)
 
     Note that matching can take from 10 minutes up to 6 hours or longer to complete, so
     you may want to think strategically about how to await completion without straining
     your compute resources on idling.
 
-    To separate submitting the job and fetching the result:
-    ```
-    tbl = Table.from_csv(...)
-    client = CatalistMatch(...)
-    response = client.upload(tbl)
-    match_result = client.await_completion(response["id"])
-    ```
+    To separate submitting the job and fetching the result::
+
+        tbl = Table.from_csv(...)
+        client = CatalistMatch(...)
+        response = client.upload(tbl)
+        match_result = client.await_completion(response["id"])
 
     """
 

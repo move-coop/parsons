@@ -31,16 +31,16 @@ class DatabaseConnector(ABC):
             In this simple example, we are not using type annotations in our code. We don't need
             to think about exactly what class is being passed in. Python will figure it out.
 
-            ```python
-            def my_database_function(db):
+            .. code-block:: python
+
+                def my_database_function(db):
                     some_data = get_some_data()
                     db.copy("some_table", some_data)
 
-            # These will all just work:
-            my_database_function(Redshift())
-            my_database_function(MySQL())
-            my_database_functon(BigQuery())
-            ```
+                # These will all just work:
+                my_database_function(Redshift())
+                my_database_function(MySQL())
+                my_database_functon(BigQuery())
 
         2. You only use one database in your work - No
 

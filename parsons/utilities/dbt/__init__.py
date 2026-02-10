@@ -1,10 +1,13 @@
 """Utility for running and logging output from dbt commands
 
 Enable this utility by installing parsons with a dbt extra:
-`pip install parsons[dbt-redshift]`
-or `pip install parsons[dbt-postgres]`
-or `pip install parsons[dbt-snowflake]`
-or `pip install parsons[dbt-bigquery]`
+
+.. code-block:: bash
+
+    pip install parsons[dbt-redshift]
+    pip install parsons[dbt-postgres]
+    pip install parsons[dbt-snowflake]
+    pip install parsons[dbt-bigquery]
 
 To run dbt commands, you will need to have a dbt project directory
 somewhere on the local filesystem.
@@ -23,23 +26,23 @@ Parsons provides a few example dbtLogger child classes, but for
 best results, design your own!
 
 Example usage:
-```
-from parsons.utilities.dbt import (
-    run_dbt_commands,
-    dbtLoggerSlack,
-    dbtLoggerPython
-)
 
-run_dbt_commands(
-    commands=['run', 'test'],
-    dbt_project_directory='/home/ubuntu/code/dbt_project/',
-    loggers=[
-        dbtLoggerPython,
-        dbtLoggerSlack(slack_webhook=os.environ['SLACK_WEBHOOK'])
-    ]
-)
+.. code-block:: python
 
-```
+    from parsons.utilities.dbt import (
+        run_dbt_commands,
+        dbtLoggerSlack,
+        dbtLoggerPython
+    )
+
+    run_dbt_commands(
+        commands=['run', 'test'],
+        dbt_project_directory='/home/ubuntu/code/dbt_project/',
+        loggers=[
+            dbtLoggerPython,
+            dbtLoggerSlack(slack_webhook=os.environ['SLACK_WEBHOOK'])
+        ]
+    )
 
 """
 

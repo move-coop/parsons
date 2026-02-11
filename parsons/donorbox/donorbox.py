@@ -14,7 +14,7 @@ class Donorbox:
     """
     Instantiate Donorbox class.
 
-       Args:
+    Args:
             donorbox_account_email: str
                 The email associated with your Donorbox account. Can be passed as
                 argument or set as ``DONORBOX_ACCOUNT_EMAIL`` environment variable.

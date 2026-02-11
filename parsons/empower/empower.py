@@ -14,7 +14,7 @@ class Empower:
     """
     Instantiate class.
 
-        Args:
+    Args:
             api_key: str
                 The Empower provided API key.The Empower provided Client UUID. Not
                 required if ``EMPOWER_API_KEY`` env variable set.

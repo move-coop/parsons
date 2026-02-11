@@ -516,7 +516,7 @@ class ActionNetwork:
     # Events
     def get_events(self, limit=None, per_page=25, page=None, filter=None):
         """
-         Args:
+        Args:
         limit:
             The number of entries to return. When None, returns all entries.
         per_page
@@ -527,7 +527,7 @@ class ActionNetwork:
             The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
             When None, no filter is applied.
 
-         Returns:
+        Returns:
              A  JSON with all the events entries
         Documentation Reference:
             https://actionnetwork.org/docs/v2/events

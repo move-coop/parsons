@@ -94,7 +94,7 @@ class QuickBooksTime:
             This function allows you to call the /groups endpoint of the QuickBooksTime Time API.
             All Args are optional.
 
-            Args:
+        Args:
                 ids: Int
                     Comma separated list of one or more group ids you'd like to filter on.
 

@@ -75,7 +75,7 @@ def run_dbt_commands(
     """Executes dbt commands within a directory, optionally logs results.
 
     Parameters:
-    -----------
+    ----------
     commands : Union[str, list[str]]
         A single dbt command as a string or a list of dbt commands to
         be executed.
@@ -91,7 +91,7 @@ def run_dbt_commands(
         argument.
 
     Returns:
-    --------
+    -------
     list[Manifest]
         A list of result objects from the executed dbt commands.
 

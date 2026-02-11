@@ -15,7 +15,7 @@ class ActBlue:
     """
     Instantiate class.
 
-       Args:
+    Args:
             actblue_client_uuid: str
                 The ActBlue provided Client UUID. Not required if ``ACTBLUE_CLIENT_UUID`` env
                 variable set.

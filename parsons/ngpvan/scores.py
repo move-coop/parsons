@@ -80,7 +80,7 @@ class Scores:
         """
         Get a score update object
 
-            Args:
+        Args:
                 score_update_id : int
                         The score update id
             Returns:
@@ -152,7 +152,7 @@ class Scores:
                     * - ``score_id``
                       - The score slot id.
 
-                Example:
+        Example:
 
                 .. code-block:: python
 

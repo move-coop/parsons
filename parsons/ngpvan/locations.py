@@ -72,7 +72,7 @@ class Locations:
             zip_code: str
                 ZIP, ZIP+4, Postal Code, Post code, etc.
 
-            Returns:
+        Returns:
                 int
                     A location id.
 

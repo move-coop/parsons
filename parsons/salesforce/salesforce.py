@@ -167,7 +167,7 @@ class Salesforce:
                 `id`. Column names must match object field API names, though case and order need
                 not match. Note that custom field names end in `__c`.
 
-            Returns:
+        Returns:
                 list of dicts that have the following data:
                 * success: boolean
                 * created: boolean (if new record is created)
@@ -199,7 +199,7 @@ class Salesforce:
                 The column name in `data_table` that stores the record ID. Required even if all
                 records are new/inserted.
 
-            Returns:
+        Returns:
                 list of dicts that have the following data:
                 * success: boolean
                 * created: boolean (if new record is created)

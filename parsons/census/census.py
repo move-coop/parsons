@@ -16,7 +16,7 @@ class Census:
         """
         Instantiate Census class.
 
-           Args:
+        Args:
                 api_key: string, key for Census API access
                  (optional, can also be pulled from environment variable CENSUS_API_KEY)
 

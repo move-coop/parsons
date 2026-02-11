@@ -13,7 +13,7 @@ class Community:
     """
     Instantiate class.
 
-       Args:
+    Args:
             community_client_id: str
                 The Community provided Client ID. Not required if ``COMMUNITY_CLIENT_ID`` env
                 variable set.

@@ -9,7 +9,7 @@ class Airmeet:
     """
     Instantiate class.
 
-       Args:
+    Args:
             airmeet_uri: string
                 The URI of the Airmeet API endpoint. Not required. The default
                 is https://api-gateway.airmeet.com/prod/. You can set an

@@ -154,7 +154,7 @@ class Events:
         """Create event in a specified calendar with an associated activity. The activty will
         be assigned the same start, end time, and recurrance settings as the event.
 
-            Args:
+        Args:
                 calendar_id: str
                     The unique ID of the calendar in which you'd like to create an event
                 location_id: str

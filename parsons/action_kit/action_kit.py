@@ -1529,6 +1529,7 @@ class ActionKit:
         """
         Collect any upload errors as a list of objects from bulk_upload_table 'results' key value.
         This waits for uploads to complete, so it may take some time if you uploaded a large file.
+
         Args:
             result_array: list
                 After receiving a dict back from bulk_upload_table you may want to see if there

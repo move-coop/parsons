@@ -26,6 +26,7 @@ class Shopify:
             The Shopify access token.  Not required if ``SHOPIFY_ACCESS_TOKEN`` env
             variable set. If argument or env variable is set, password and api_key
             are ignored.
+
     Returns:
         Shopify Class
     """
@@ -56,6 +57,7 @@ class Shopify:
     def get_count(self, query_date=None, since_id=None, table_name=None):
         """
         Get the count of rows in a table.
+
         Args:
             query_date: str
                 Filter query by a date that rows were created. This filter is ignored if value
@@ -77,6 +79,7 @@ class Shopify:
     def get_orders(self, query_date=None, since_id=None, completed=True):
         """
         Get Shopify orders.
+
         Args:
             query_date: str
                 Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter
@@ -148,6 +151,7 @@ class Shopify:
                 The name of the Shopify table to query.
             count: bool
                 True if refund should be included in Table, False otherwise.
+
         Returns:
             str
         """
@@ -174,6 +178,7 @@ class Shopify:
         Args:
             query: str
                 GraphQL query.
+
         Returns:
             dict
         """
@@ -202,6 +207,7 @@ class Shopify:
                                             completed=True)
         This instantiates the class and makes the appropriate query type to Shopify's orders
         table based on which arguments are supplied.
+
         Args:
             subdomain: str
                 The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com).

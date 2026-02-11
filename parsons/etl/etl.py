@@ -369,6 +369,7 @@ class ETL:
         destination column name already exists in the table, in which case that
         value will be preferenced. This method is helpful when your input table might
         have multiple and unknown column names.
+
         Args:
             column_map: dict
                 A dictionary of columns and possible values that map to it

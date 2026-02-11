@@ -65,6 +65,7 @@ class NewmodeV1:
     def get_tools(self, params: dict[str, Any] = None) -> Table:
         """
         Get existing tools.
+
         Args:
             params:
                 Extra parameters sent to New/Mode library.
@@ -86,6 +87,7 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get specific tool.
+
         Args:
             tool_id:
                 The id of the tool to return.
@@ -124,6 +126,7 @@ class NewmodeV1:
                 matched for those coordinates.
                 - Search term: For your csv tools, this will return targets
                 matched by given valid search term.
+
         Returns:
             Targets information as table.
         """
@@ -145,6 +148,7 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get the action information for a given tool.
+
         Args:
             tool_id:
                 The id of the tool to return.
@@ -171,6 +175,7 @@ class NewmodeV1:
     ) -> str | int | None:
         """
         Run specific action with given payload.
+
         Args:
             tool_id:
                 The id of the tool to run.
@@ -200,6 +205,7 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get specific target.
+
         Args:
             target_id:
                 The id of the target to return.
@@ -244,6 +250,7 @@ class NewmodeV1:
     def get_campaigns(self, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing campaigns.
+
         Args:
             params:
                 Extra parameters sent to New/Mode library.
@@ -265,6 +272,7 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get specific campaign.
+
         Args:
             campaign_id:
                 The id of the campaign to return.
@@ -286,6 +294,7 @@ class NewmodeV1:
     def get_organizations(self, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing organizations.
+
         Args:
             params:
                 Extra parameters sent to New/Mode library.
@@ -307,6 +316,7 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get specific organization.
+
         Args:
             organization_id:
                 The id of the organization to return.
@@ -328,6 +338,7 @@ class NewmodeV1:
     def get_services(self, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing services.
+
         Args:
             params:
                 Extra parameters sent to New/Mode library.
@@ -349,6 +360,7 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get specific service.
+
         Args:
             service_id:
                 The id of the service to return.
@@ -370,6 +382,7 @@ class NewmodeV1:
     def get_outreaches(self, tool_id: int | str, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing outreaches for a given tool.
+
         Args:
             tool_id:
                 Tool to return outreaches.
@@ -393,6 +406,7 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get specific outreach.
+
         Args:
             outreach_id:
                 The id of the outreach to return.
@@ -613,6 +627,7 @@ class NewmodeV2:
         Retrieve a specific campaign by ID.
 
         In v2, a campaign is equivalent to Tools or Actions in V1.
+
         Args:
             campaign_id: str
                 The ID of the campaign to retrieve.
@@ -638,6 +653,7 @@ class NewmodeV2:
         """
         Retrieve all campaigns
         In v2, a campaign is equivalent to Tools or Actions in V1.
+
         Args:
             organization_id: str
                 ID of organization
@@ -687,6 +703,7 @@ class NewmodeV2:
                 Region (i.e. state/province abbreviation) of recipient
             params: dict
                 Query parameters to include in the request.
+
         Returns:
             Parsons Table containing recipient data.
         """

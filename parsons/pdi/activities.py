@@ -8,6 +8,7 @@ class Activities:
 
     def get_activities(self, limit: int = None):
         """Get a list of Activities.
+
         Args:
             limit: int
                 Specify limit to return.
@@ -31,6 +32,7 @@ class Activities:
     def get_activity(self, id: str):
         """
         Get a Activity by id.
+
         Args:
             id: str
                 The Activity id

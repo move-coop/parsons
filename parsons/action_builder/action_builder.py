@@ -102,6 +102,7 @@ class ActionBuilder:
             filter
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
+
         Returns:
             Parsons Table of full set of tags available in Action Builder.
         """
@@ -119,6 +120,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
+
         Returns:
             Parsons Table of data found on tag in Action Builder from searching by name.
         """
@@ -131,6 +133,7 @@ class ActionBuilder:
         """
         Load a new tag value into Action Builder. Required before applying the value to any entity
         records.
+
         Args:
             tag_name: str
                 The name of the new tag, i.e. the custom field value.
@@ -167,6 +170,7 @@ class ActionBuilder:
     def insert_entity_record(self, entity_type, data=None, campaign=None):
         """
         Load a new entity record in Action Builder of the type provided.
+
         Args:
             entity_type: str
                 The name of the record type being inserted. Required if identifiers are not
@@ -210,6 +214,7 @@ class ActionBuilder:
     def update_entity_record(self, identifier, data, campaign=None):
         """
         Update an entity record in Action Builder based on the identifier passed.
+
         Args:
             identifier: str
                 The unique identifier for a record being updated. ID strings will need to begin
@@ -253,6 +258,7 @@ class ActionBuilder:
         """
         Remove an entity record from a campaign. Records cannot be permanently deleted, but a
         record that has been removed from a campaign will not appear in the UI.
+
         Args:
             identifier: str
                 The unique identifier for the record being removed. ID strings will need to begin
@@ -275,6 +281,7 @@ class ActionBuilder:
         Add one or more tags (i.e. custom field value) to an existing entity record in Action
         Builder. The tags, along with their field and section, must already exist (except for
         date fields).
+
         Args:
             identifier: str
                 The unique identifier for a record being updated. ID strings will need to begin
@@ -318,6 +325,7 @@ class ActionBuilder:
         interact ID and that of the specific tagging. The tag ID can usually be determined from
         the tag's name, and the tagging ID can be derived if the identifier of the entity or
         connection record is supplied instead.
+
         Args:
             identifier: str
                 Optional. The unique identifier for an entity or connection record being updated.
@@ -390,6 +398,7 @@ class ActionBuilder:
         Load or update a connection record in Action Builder between two existing entity records.
         Only one connection record is allowed per pair of entities, so if the connection already
         exists, this method will update, but will otherwise create a new connection record.
+
         Args:
             identifiers: list
                 A list of two unique identifier strings for records being connected. ID strings
@@ -453,6 +462,7 @@ class ActionBuilder:
         Deactivate an existing connection record in Action Builder between two existing entity
         records. Only one connection record is allowed per pair of entities, so this can be done
         by supplying the ID for the connection record, or for the two connected entity records.
+
         Args:
             from_identifier: str
                 Unique identifier for one of the two entities with a connection.

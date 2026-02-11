@@ -194,6 +194,7 @@ class DatabaseCreateStatement:
             col_prefix: str
                 The prefix to use when the column is empty or starts with an
                 invalid character.
+
         Returns:
             str
                 The formatted column.

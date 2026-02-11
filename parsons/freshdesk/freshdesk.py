@@ -55,6 +55,7 @@ class Freshdesk:
     def _post_request(self, endpoint, data):
         """
         Send a POST request to the specified Freshdesk endpoint.
+
         Args:
             endpoint: str
                 The endpoint of the Freshdesk API to which the request is being sent.
@@ -241,6 +242,7 @@ class Freshdesk:
     ):
         """
         Create a ticket in Freshdesk.
+
         Args:
             subject: str
                 The subject of the ticket.

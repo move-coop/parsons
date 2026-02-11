@@ -15,6 +15,7 @@ class ParsonsBraintreeError(Exception):
 class Braintree:
     """
     Braintree is a payment processor.
+
     Args:
         merchant_id: str
             Braintree merchant id -- probably a 16-char alphanumeric.

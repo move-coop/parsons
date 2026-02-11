@@ -17,6 +17,7 @@ class Contacts:
     ):
         """
         Get a list of Contacts.
+
         Args:
             email: str, email address
             phone: str, phone number
@@ -247,6 +248,7 @@ class Contacts:
     def delete_contact(self, id: str):
         """
         Delete a Question by id.
+
         Args:
             id: str
                 The Question id

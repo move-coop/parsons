@@ -9,6 +9,7 @@ class AcquisitionTypes:
 
     def get_acquisition_types(self, limit: int = None):
         """Get a list of Acquisition Types.
+
         Args:
             limit: int
                 Specify limit to return.
@@ -64,6 +65,7 @@ class AcquisitionTypes:
     def get_acquisition_type(self, id: str):
         """
         Get a Acquisition Type by id.
+
         Args:
             id: str
                 The Acquisition Type id
@@ -76,6 +78,7 @@ class AcquisitionTypes:
     def delete_acquisition_type(self, id: str):
         """
         Delete a Acquisition Type by id.
+
         Args:
             id: str
                 The Acquisition Type id

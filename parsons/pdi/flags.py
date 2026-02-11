@@ -69,6 +69,7 @@ class Flags:
     def delete_flag(self, id: str):
         """
         Delete a Flag by id.
+
         Args:
             id: str
                 The Flag id

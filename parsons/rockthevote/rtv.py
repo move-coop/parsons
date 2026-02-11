@@ -272,6 +272,7 @@ class RockTheVote:
     ):
         """
         Checks state eligibility and provides state specific fields information.
+
         Args:
             lang: str
                 Required. Language. Represented by an abbreviation. 'en', 'es', etc
